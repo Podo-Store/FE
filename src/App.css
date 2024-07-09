@@ -8,13 +8,13 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 0px 136px;
-  font-family: 'Noto_Sans_KR';
+  font-family: "Noto_Sans_KR";
   background-color: #fdfaff;
 }
 
 .navbar_logo {
   font-size: 30px;
-  font-family: 'Noto_Sans_KR_Bold';
+  font-family: "Noto_Sans_KR_Bold";
 }
 
 .navbar_menu {
@@ -35,6 +35,6 @@ a {
   background-color: #fdfaff;
 }
 
-.main_footer {
-  text-align: right;
+.main_body img {
+  size: 1080px 1080px;
 }

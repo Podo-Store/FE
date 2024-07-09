@@ -1,0 +1,150 @@
+.footer {
+  margin: 0;
+  padding: 0 100px;
+  box-sizing: border-box;
+  width: 90%; /* width를 90%로 수정 */
+  flex: 100%;
+  margin: 0 auto; /* 수평 가운데 정렬 */
+}
+
+.footer .inner {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-width: 1920px;
+  height: 300px;
+  background: #ffffff;
+  border-top: 1px solid #dddddd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer .upper {
+  width: 100%;
+  max-width: 1547px;
+  height: 103px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.footer .upper .logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.footer .upper img {
+  width: 30px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.footer .upper h1 {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 29px;
+  color: #000000;
+  margin: 0;
+  margin-right: 10px;
+}
+
+.footer .upper p {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 20px;
+  display: flex;
+  align-items: center;
+  color: #333333;
+  margin: 0;
+}
+
+.footer .lower {
+  width: 100%;
+  max-width: 1547px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 30px;
+}
+
+.footer .lower .business-info {
+  font-family: "Lato";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 20px;
+  color: #000000;
+}
+
+.footer hr {
+  border: 1px solid #000000;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.footer .sitemap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px; /* div 간의 간격 설정 */
+  margin-right: 115px;
+}
+
+.footer .sitemap .sitemap-section {
+  display: flex;
+  flex-direction: row; /* 좌우로 배치 */
+}
+
+.footer .sitemap .sitemap-section strong {
+  font-weight: 600;
+}
+
+.footer .sitemap ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Lato";
+  font-style: normal;
+  font-size: 10px;
+  line-height: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #000000;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.footer .sitemap ul li {
+  margin-bottom: 5px;
+}
+
+.footer .sitemap button {
+  width: 69px;
+  height: 20px;
+  filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 30px;
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 14px;
+  color: #000000;
+  background: none;
+  margin-top: auto;
+  margin-bottom: 20px;
+}
+
+.footer .sitemap .sitemap-section .icons {
+  display: flex;
+  gap: 5px;
+  height: 20px;
+  margin-bottom: 100%;
+}

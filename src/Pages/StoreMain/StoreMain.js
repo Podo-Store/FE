@@ -1,12 +1,11 @@
-import './StoreMain.css';
-import MainNav from '../MainNav';
-import { dummy } from '../DummyData';
-import Dummy from '../../Components/Dummy';
+import "./StoreMain.css";
+import MainNav from "../MainNav";
+import { dummy } from "../DummyData";
+import Dummy from "../../Components/Dummy";
 
 function StoreMain() {
   return (
     <div className="Store_Main_">
-      <MainNav />
       <div className="app-container">
         {dummy.results.map((item) => {
           return (

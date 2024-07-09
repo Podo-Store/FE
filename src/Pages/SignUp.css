@@ -1,22 +1,38 @@
+.signUp {
+  background: #fdfaff;
+}
+
 .box {
   box-sizing: border-box;
   position: absolute;
-  width: 60%;
+  width: 80%;
   height: 800px;
   left: 50%;
   transform: translateX(-50%);
-  background: #fdfaff;
   border: 1px solid #000000;
   margin-top: 40px;
+  display: flex;
+}
+
+.left-side {
+  flex: 1;
+}
+
+.right-side {
+  position: relative;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .page {
-  top: 0;
-  bottom: 0;
+  position: absolute;
+  right: 0;
   width: 100%;
   max-width: 500px;
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translateX(-50%);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -26,45 +42,55 @@
   line-height: 0.5;
   margin: 0px;
   font-size: 21px;
-  font-weight: 500;
+  font-weight: 600;
   color: #000000;
   text-align: center;
 }
 
 .contentWrap {
-  margin-top: 0; /* 줄여서 요소들 사이의 간격을 좁힘 */
+  margin-top: 0;
   flex: 1;
+  width: 100%;
 }
 
 .inputTitle {
   font-family: "Noto Sans";
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 14px;
   line-height: 19px;
+  margin-left: 5%;
 }
 
 .inputWrap {
-  position: relative; /* 상대 위치 설정 */
+  position: relative;
   display: flex;
-  align-items: center; /* 수직 중앙 정렬 추가 */
-  padding: 8px; /* 줄여서 요소의 내부 패딩을 줄임 */
+  align-items: center;
+  padding: 8px;
   margin-top: 8px;
   height: auto;
   background-color: white;
   background: rgba(253, 250, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.7);
   border-radius: 30px;
+  width: 100%;
 }
 
 .inputWrap:focus-within {
   border: 1px solid #9e30f4;
 }
 
+.inputWrap img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
 .input {
   box-sizing: border-box;
   padding: 10px 20px;
-  width: calc(100% - 100px); /* 버튼의 너비를 고려하여 입력의 너비 조정 */
+  /* 버튼의 너비를 고려하여 입력의 너비 조정 */
+  width: calc(100% - 100px);
   outline: none;
   border: none;
   font-size: 14px;
@@ -88,7 +114,6 @@
 
 .errorMessage_resend_Wrap {
   display: flex;
-  /* 오른쪽으로 정렬 */
   justify-content: flex-end;
   text-decoration: underline #ff6767;
 }
@@ -110,19 +135,18 @@
   color: white;
 }
 
-/* 새로 추가된 클래스 */
 .insideButton {
   border: none;
   color: white;
 
-  position: absolute; /* 절대 위치 설정 */
-  right: 10px; /* 오른쪽에서 10px 간격 */
-  top: 50%; /* 위에서 50% */
-  transform: translateY(-50%); /* 수직 중앙 정렬 */
-  width: 80px; /* 너비 자동 */
-  height: 25px; /* 버튼 높이 조정 */
-  margin-left: 10px; /* 버튼과 입력 필드 사이의 간격 조정 */
-  padding: 8px 16px; /* 버튼 내부 패딩 조정 */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 80px;
+  height: 25px;
+  margin-left: 10px;
+  padding: 8px 16px;
   background: #8e7bff;
 
   font-family: "Noto Sans";

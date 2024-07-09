@@ -119,15 +119,17 @@
 }
 
 .bottomButton {
-  width: 100%;
-  height: 48px;
+  width: 236px;
+  height: 42px;
   border: none;
-  font-weight: 700;
-  background-color: #9e30f4;
+  font-weight: 500;
+  background-color: #f2d4f1;
   border-radius: 64px;
-  color: white;
+  color: black;
+  margin: 0 25%;
   margin-bottom: 16px;
   cursor: pointer;
+  font-size: 20px;
 }
 
 .bottomButton:disabled {

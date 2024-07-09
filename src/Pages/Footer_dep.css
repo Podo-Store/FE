@@ -1,0 +1,54 @@
+* {
+  width: 100%;
+  background: white;
+  padding: 100px 0px;
+  border-top: 1px solid #888;
+}
+
+.inner {
+  width: 1180px;
+  margin: 0px auto;
+}
+
+.inner .upper {
+  width: 100%;
+  border-bottom: 1px solid #777;
+  padding-bottom: 20px;
+}
+
+.inner .upper::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.inner .upper h1 {
+  float: left;
+  font: bold 24px/1 "Arial";
+  color: #666;
+}
+
+.inner .upper ul {
+  float: right;
+}
+
+.inner .upper ul li {
+  float: left;
+  margin-left: 20px;
+}
+
+.inner .upper ul li a {
+  font: bold 14px/1 "Arial";
+  color: #666;
+}
+
+.inner .lower {
+  width: 100%;
+  padding-top: 20px;
+}
+
+.inner .lower p {
+  width: 100%;
+  font: 12px/1 "Arial";
+  color: #777;
+}

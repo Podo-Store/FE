@@ -1,6 +1,8 @@
 import "./SignUp.css";
 import MainNav from "./MainNav";
 import InputField from "../Components/auth/InputField";
+import BottomBtn from "../Components/auth/BottomBtn";
+
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
@@ -320,13 +322,9 @@ function SignUp() {
               </div>
             </div>
             <div>
-              <button
-                onClick={onClickRegisterAllowButton}
-                disabled={notAllow}
-                className="bottomButton"
-              >
+              <BottomBtn onClick={onClickRegisterAllowButton} disabled={notAllow}>
                 회원가입
-              </button>
+              </BottomBtn>
             </div>
           </div>
         </div>

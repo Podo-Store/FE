@@ -1,5 +1,6 @@
 import "./SignUp.css";
 import MainNav from "./MainNav";
+import InputField from "../Components/auth/InputField";
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
@@ -219,100 +220,53 @@ function SignUp() {
               <p>이런 누추한 분이...</p>
             </div>
             <div className="contentWrap">
-              <div className="inputTitle">아이디</div>
-              <div className="inputWrap">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="5~10자의 영문 및 숫자 포함"
-                  value={id}
-                  onChange={handleId}
-                />
-              </div>
-              <div className="errorMessageWrap">
-                {!idValid && id.length > 0 ? (
-                  <div>5 ~ 10자의 영문 및 숫자를 포함해야 합니다.</div>
-                ) : idDuplicated && id.length > 0 ? (
-                  <div>중복된 아이디입니다.</div>
-                ) : (
-                  idValid &&
-                  id.length > 0 && (
-                    <div className="NerrorMessageWrap">사용 가능한 아이디입니다.</div>
-                  )
-                )}
-              </div>
+              <InputField
+                title="아이디"
+                type="text"
+                placeholder="5~10자의 영문 및 숫자 포함"
+                value={id}
+                onChange={handleId}
+                errorMessage="5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
+                validMessage="사용 가능한 아이디입니다."
+                isValid={idValid}
+                isDuplicated={idDuplicated}
+              />
 
-              <div style={{ marginTop: "10px" }} className="inputTitle">
-                비밀번호
-              </div>
-              <div className="inputWrap">
-                <input
-                  type="password"
-                  className="input"
-                  placeholder=" 5~11자의 영문, 숫자, 특수문자 포함"
-                  value={pw}
-                  onChange={handlePassword}
-                />
-              </div>
-              <div className="errorMessageWrap">
-                {!pwValid && pw.length > 0 ? (
-                  <div>5~11자의 영문, 숫자, 특수문자를 포함해야 합니다.</div>
-                ) : (
-                  pwValid &&
-                  pw.length > 0 && (
-                    <div className="NerrorMessageWrap">사용 가능한 비밀번호 입니다.</div>
-                  )
-                )}
-              </div>
+              <InputField
+                title="비밀번호"
+                type="password"
+                placeholder="5~11자의 영문, 숫자, 특수문자 포함"
+                value={pw}
+                onChange={handlePassword}
+                errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
+                validMessage="사용 가능한 비밀번호 입니다."
+                isValid={pwValid}
+              />
 
-              <div style={{ marginTop: "10px" }} className="inputTitle">
-                비밀번호 확인
-              </div>
-              <div className="inputWrap">
-                <input
-                  type="password"
-                  className="input"
-                  placeholder="비밀번호를 다시 한번 입력해주세요."
-                  value={pwcheck}
-                  onChange={PasswordCheck}
-                />
-              </div>
-              <div className="errorMessageWrap">
-                {!pwcheckValid && pwcheck.length > 0 ? (
-                  <div>비밀번호가 일치하지 않습니다.</div>
-                ) : (
-                  pwcheckValid &&
-                  pwcheck.length > 0 && (
-                    <div className="NerrorMessageWrap">비밀번호가 일치합니다.</div>
-                  )
-                )}
-              </div>
+              <InputField
+                title="비밀번호 확인"
+                type="password"
+                placeholder="비밀번호를 다시 한번 입력해주세요."
+                value={pwcheck}
+                onChange={PasswordCheck}
+                errorMessage="비밀번호가 일치하지 않습니다."
+                validMessage="비밀번호가 일치합니다."
+                isValid={pwcheckValid}
+              />
 
-              <div style={{ marginTop: "10px" }} className="inputTitle">
-                닉네임
-              </div>
-              <div className="inputWrap">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
-                  value={name}
-                  onChange={handleName}
-                />
-              </div>
-              <div className="errorMessageWrap">
-                {!nameValid && name.length > 0 ? (
-                  <div>3~8자의 한글, 영문, 숫자만 사용 가능합니다.</div>
-                ) : nameDuplicated && name.length > 0 ? (
-                  <div>중복된 닉네임입니다.</div>
-                ) : (
-                  nameValid &&
-                  name.length > 0 && (
-                    <div className="NerrorMessageWrap">사용 가능한 닉네임 입니다.</div>
-                  )
-                )}
-              </div>
+              <InputField
+                title="닉네임"
+                type="text"
+                placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
+                value={name}
+                onChange={handleName}
+                errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
+                validMessage="사용 가능한 닉네임 입니다."
+                isValid={nameValid}
+                isDuplicated={nameDuplicated}
+              />
 
+              {/* 예외 상황 존재, component 분리 X */}
               <div className="inputTitle">이메일</div>
               <div className="inputWrap">
                 <input

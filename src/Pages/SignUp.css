@@ -2,7 +2,7 @@
   background: #fdfaff;
 }
 
-.box {
+.signUp .box {
   box-sizing: border-box;
   position: absolute;
   width: 80%;
@@ -14,11 +14,11 @@
   display: flex;
 }
 
-.left-side {
+.signUp .left-side {
   flex: 1;
 }
 
-.right-side {
+.signUp .right-side {
   position: relative;
   flex: 1;
   display: flex;
@@ -26,7 +26,7 @@
   align-items: center;
 }
 
-.page {
+.signUp .page {
   position: absolute;
   right: 0;
   width: 100%;
@@ -36,9 +36,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  top: 0;
+  bottom: 0;
+  padding: 0 20px;
 }
 
-.titleWrap {
+.signUp .titleWrap {
   line-height: 0.5;
   margin: 0px;
   font-size: 21px;
@@ -47,13 +51,13 @@
   text-align: center;
 }
 
-.contentWrap {
+.signUp .contentWrap {
   margin-top: 0;
   flex: 1;
   width: 100%;
 }
 
-.inputTitle {
+.signUp .inputTitle {
   font-family: "Noto Sans";
   font-style: normal;
   font-weight: 600;
@@ -62,7 +66,7 @@
   margin-left: 5%;
 }
 
-.inputWrap {
+.signUp .inputWrap {
   position: relative;
   display: flex;
   align-items: center;
@@ -76,17 +80,17 @@
   width: 100%;
 }
 
-.inputWrap:focus-within {
+.signUp .inputWrap:focus-within {
   border: 1px solid #9e30f4;
 }
 
-.inputWrap img {
+.signUp .inputWrap img {
   width: 20px;
   height: 20px;
   margin-left: 10px;
 }
 
-.input {
+.signUp .input {
   box-sizing: border-box;
   padding: 10px 20px;
   /* 버튼의 너비를 고려하여 입력의 너비 조정 */
@@ -95,30 +99,31 @@
   border: none;
   font-size: 14px;
   font-weight: 400;
+  height: 17px;
 }
 
-.input::placeholder {
+.signUp .input::placeholder {
   color: #dadada;
 }
 
-.errorMessageWrap {
+.signUp .errorMessageWrap {
   margin-top: 8px;
   color: #ff6767;
   font-size: 12px;
   min-height: 20px;
 }
 
-.NerrorMessageWrap {
+.signUp .NerrorMessageWrap {
   color: #00c850;
 }
 
-.errorMessage_resend_Wrap {
+.signUp .errorMessage_resend_Wrap {
   display: flex;
   justify-content: flex-end;
   text-decoration: underline #ff6767;
 }
 
-.bottomButton {
+.signUp .bottomButton {
   width: 236px;
   height: 42px;
   border: none;
@@ -132,12 +137,12 @@
   font-size: 20px;
 }
 
-.bottomButton:disabled {
+.signUp .bottomButton:disabled {
   background-color: #dadada;
   color: white;
 }
 
-.insideButton {
+.signUp .insideButton {
   border: none;
   color: white;
 
@@ -162,7 +167,7 @@
   border-radius: 50px;
 }
 
-.insideButton:disabled {
+.signUp .insideButton:disabled {
   background-color: #dadada;
   color: white;
 }

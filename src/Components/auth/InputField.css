@@ -1,0 +1,59 @@
+.inputField .inputTitle {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 5%;
+}
+
+.inputField .inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-top: 8px;
+  height: auto;
+  background-color: white;
+  background: rgba(253, 250, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 30px;
+  width: 100%;
+}
+
+.inputField .inputWrap:focus-within {
+  border: 1px solid #9e30f4;
+}
+
+.inputField .inputWrap img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.inputField .input {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  /* 버튼의 너비를 고려하여 입력의 너비 조정 */
+  width: calc(100% - 100px);
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  height: 17px;
+}
+
+.inputField .input::placeholder {
+  color: #dadada;
+}
+
+.inputField .errorMessageWrap {
+  margin-top: 8px;
+  color: #ff6767;
+  font-size: 12px;
+  min-height: 20px;
+}
+
+.inputField .NerrorMessageWrap {
+  color: #00c850;
+}

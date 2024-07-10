@@ -3,6 +3,7 @@ import MainNav from "./MainNav";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
 import Page from "../Components/auth/Page";
+import RightSide from "../Components/auth/RightSide";
 
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -216,7 +217,7 @@ function SignUp() {
       <MainNav />
       <div className="box">
         <div className="left-side"></div>
-        <div className="right-side">
+        <RightSide>
           <Page>
             <div>
               <div className="titleWrap">
@@ -330,7 +331,7 @@ function SignUp() {
               </div>
             </div>
           </Page>
-        </div>
+        </RightSide>
       </div>
     </div>
   );

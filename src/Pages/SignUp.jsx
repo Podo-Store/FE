@@ -2,6 +2,7 @@ import "./SignUp.css";
 import MainNav from "./MainNav";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
+import Page from "../Components/auth/Page";
 
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -216,117 +217,119 @@ function SignUp() {
       <div className="box">
         <div className="left-side"></div>
         <div className="right-side">
-          <div className="page">
-            <div className="titleWrap">
-              <p>귀한 곳에</p>
-              <p>이런 누추한 분이...</p>
-            </div>
-            <div className="contentWrap">
-              <InputField
-                title="아이디"
-                type="text"
-                placeholder="5~10자의 영문 및 숫자 포함"
-                value={id}
-                onChange={handleId}
-                errorMessage="5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
-                validMessage="사용 가능한 아이디입니다."
-                isValid={idValid}
-                isDuplicated={idDuplicated}
-              />
-
-              <InputField
-                title="비밀번호"
-                type="password"
-                placeholder="5~11자의 영문, 숫자, 특수문자 포함"
-                value={pw}
-                onChange={handlePassword}
-                errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
-                validMessage="사용 가능한 비밀번호 입니다."
-                isValid={pwValid}
-              />
-
-              <InputField
-                title="비밀번호 확인"
-                type="password"
-                placeholder="비밀번호를 다시 한번 입력해주세요."
-                value={pwcheck}
-                onChange={PasswordCheck}
-                errorMessage="비밀번호가 일치하지 않습니다."
-                validMessage="비밀번호가 일치합니다."
-                isValid={pwcheckValid}
-              />
-
-              <InputField
-                title="닉네임"
-                type="text"
-                placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
-                value={name}
-                onChange={handleName}
-                errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
-                validMessage="사용 가능한 닉네임 입니다."
-                isValid={nameValid}
-                isDuplicated={nameDuplicated}
-              />
-
-              {/* 예외 상황 존재, component 분리 X */}
-              <div className="inputTitle">이메일</div>
-              <div className="inputWrap">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="podo@store.com"
-                  value={email}
-                  onChange={handleEmail}
-                />
-                <button onClick={emailSend} disabled={emailsendbtn} className="insideButton">
-                  인증하기
-                </button>
-              </div>
-
-              <div className="errorMessageWrap">
-                {emailDuplicated && email.length > 0 ? (
-                  <div>중복된 이메일입니다.</div>
-                ) : (
-                  emailSended && <div className="NerrorMessageWrap">메일을 보냈습니다.</div>
-                )}
-              </div>
-
-              <div style={{ marginTop: "10px" }} className="inputTitle">
-                인증 번호 입력
-              </div>
-              <div className="inputWrap">
-                <input
-                  type="text"
-                  className="input"
-                  placeholder="인증 번호 6자리 입력"
-                  value={emailCode}
-                  onChange={handleEmailCode}
-                />
-                <button
-                  onClick={onClickConfirmButton}
-                  disabled={!emailCodeConfirmBtnEnabled}
-                  className="insideButton"
-                >
-                  확인
-                </button>
-              </div>
-              <div className="errorMessage_resend_Wrap">
-                <div className="errorMessageWrap">
-                  {!pwValid && pw.length > 0 && <div>인증 번호가 일치하지 않습니다.</div>}
-                </div>
-                {emailSended ? (
-                  <div className="errorMessageWrap" onClick={emailSend}>
-                    인증 번호 다시 보내기
-                  </div>
-                ) : null}
-              </div>
-            </div>
+          <Page>
             <div>
-              <BottomBtn onClick={onClickRegisterAllowButton} disabled={notAllow}>
-                회원가입
-              </BottomBtn>
+              <div className="titleWrap">
+                <p>귀한 곳에</p>
+                <p>이런 누추한 분이...</p>
+              </div>
+              <div className="contentWrap">
+                <InputField
+                  title="아이디"
+                  type="text"
+                  placeholder="5~10자의 영문 및 숫자 포함"
+                  value={id}
+                  onChange={handleId}
+                  errorMessage="5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
+                  validMessage="사용 가능한 아이디입니다."
+                  isValid={idValid}
+                  isDuplicated={idDuplicated}
+                />
+
+                <InputField
+                  title="비밀번호"
+                  type="password"
+                  placeholder="5~11자의 영문, 숫자, 특수문자 포함"
+                  value={pw}
+                  onChange={handlePassword}
+                  errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
+                  validMessage="사용 가능한 비밀번호 입니다."
+                  isValid={pwValid}
+                />
+
+                <InputField
+                  title="비밀번호 확인"
+                  type="password"
+                  placeholder="비밀번호를 다시 한번 입력해주세요."
+                  value={pwcheck}
+                  onChange={PasswordCheck}
+                  errorMessage="비밀번호가 일치하지 않습니다."
+                  validMessage="비밀번호가 일치합니다."
+                  isValid={pwcheckValid}
+                />
+
+                <InputField
+                  title="닉네임"
+                  type="text"
+                  placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
+                  value={name}
+                  onChange={handleName}
+                  errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
+                  validMessage="사용 가능한 닉네임 입니다."
+                  isValid={nameValid}
+                  isDuplicated={nameDuplicated}
+                />
+
+                {/* 예외 상황 존재, component 분리 X */}
+                <div className="inputTitle">이메일</div>
+                <div className="inputWrap">
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="podo@store.com"
+                    value={email}
+                    onChange={handleEmail}
+                  />
+                  <button onClick={emailSend} disabled={emailsendbtn} className="insideButton">
+                    인증하기
+                  </button>
+                </div>
+
+                <div className="errorMessageWrap">
+                  {emailDuplicated && email.length > 0 ? (
+                    <div>중복된 이메일입니다.</div>
+                  ) : (
+                    emailSended && <div className="NerrorMessageWrap">메일을 보냈습니다.</div>
+                  )}
+                </div>
+
+                <div style={{ marginTop: "10px" }} className="inputTitle">
+                  인증 번호 입력
+                </div>
+                <div className="inputWrap">
+                  <input
+                    type="text"
+                    className="input"
+                    placeholder="인증 번호 6자리 입력"
+                    value={emailCode}
+                    onChange={handleEmailCode}
+                  />
+                  <button
+                    onClick={onClickConfirmButton}
+                    disabled={!emailCodeConfirmBtnEnabled}
+                    className="insideButton"
+                  >
+                    확인
+                  </button>
+                </div>
+                <div className="errorMessage_resend_Wrap">
+                  <div className="errorMessageWrap">
+                    {!pwValid && pw.length > 0 && <div>인증 번호가 일치하지 않습니다.</div>}
+                  </div>
+                  {emailSended ? (
+                    <div className="errorMessageWrap" onClick={emailSend}>
+                      인증 번호 다시 보내기
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+              <div>
+                <BottomBtn onClick={onClickRegisterAllowButton} disabled={notAllow}>
+                  회원가입
+                </BottomBtn>
+              </div>
             </div>
-          </div>
+          </Page>
         </div>
       </div>
     </div>

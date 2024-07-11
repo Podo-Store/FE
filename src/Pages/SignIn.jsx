@@ -6,6 +6,7 @@ import RightSide from "../Components/auth/RightSide";
 import Page from "../Components/auth/Page";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
+import Box from "../Components/auth/Box";
 
 const User = {
   id: "test",
@@ -48,7 +49,7 @@ function SignIn() {
   return (
     <div className="signIn">
       <MainNav />
-      <div className="box">
+      <Box>
         <div className="left-side"></div>
         <RightSide>
           <Page>
@@ -83,7 +84,7 @@ function SignIn() {
             </div>
           </Page>
         </RightSide>
-      </div>
+      </Box>
     </div>
   );
 }

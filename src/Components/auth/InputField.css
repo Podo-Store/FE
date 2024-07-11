@@ -47,6 +47,10 @@
   color: #dadada;
 }
 
+.inputField .errorMessage_resend_Wrap {
+  display: flex;
+}
+
 .inputField .errorMessageWrap {
   margin-top: 8px;
   color: #ff6767;
@@ -56,4 +60,20 @@
 
 .inputField .NerrorMessageWrap {
   color: #00c850;
+}
+
+/* 인증 번호 다시 보내기 */
+.inputField .errorMessageWrap:last-child {
+  margin-top: 8px;
+  min-height: 20px;
+
+  /* 오른쪽 정렬 */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.inputField .errorMessageWrap:last-child p {
+  color: #ff6767;
+  font-size: 12px;
+  text-decoration: underline #ff6767;
 }

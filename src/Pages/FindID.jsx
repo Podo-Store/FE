@@ -7,6 +7,11 @@ import { useState, useEffect } from "react";
 import "./FindBar.css";
 
 const FindId = () => {
+  const User = {
+    email: "podo@store.com",
+    emailCode: "123456",
+  };
+
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
 
@@ -14,7 +19,7 @@ const FindId = () => {
   const [isSendEmailBtnPressed, setIsSendEmailBtnPressed] = useState(false);
   const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
 
-  const [isRegisteredEmail, setIsRegisteredEmail] = useState(true);
+  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
   const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(true);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
 
@@ -38,11 +43,13 @@ const FindId = () => {
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
     setIsSendEmailBtnPressed(true);
 
-    // 초기화: false
-    setIsRegisteredEmail(false);
+    // 초기화: true (가입되지 않은 이메일)
+    setIsNotRegisteredEmail(true);
 
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
-    setIsRegisteredEmail(true);
+    if (email === User.email) {
+      setIsNotRegisteredEmail(false);
+    }
   };
 
   useEffect(() => {
@@ -61,17 +68,21 @@ const FindId = () => {
     setIsEmailCodeCorrect(false);
 
     // 이메일 코드 확인 API 호출, 조건문 사용
-    setIsEmailCodeCorrect(true);
+    if (email === User.email && emailCode === User.emailCode) {
+      setIsEmailCodeCorrect(true);
+    } else {
+      setIsEmailCodeCorrect(false);
+    }
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화
   useEffect(() => {
-    if (email.length > 0 && emailCode.length > 0 && isRegisteredEmail && isEmailCodeCorrect) {
+    if (email.length > 0 && emailCode.length > 0 && !isNotRegisteredEmail && isEmailCodeCorrect) {
       setNotAllFormWritten(false);
     } else {
       setNotAllFormWritten(true); // 변경된 부분
     }
-  }, [email, emailCode, isRegisteredEmail, isEmailCodeCorrect]);
+  }, [email, emailCode, isNotRegisteredEmail, isEmailCodeCorrect]);
 
   if (!showingIDPermitted)
     return (
@@ -85,7 +96,8 @@ const FindId = () => {
             setEmail(e.target.value);
           }}
           errorMessage="가입되지 않은 이메일입니다."
-          isValid={isRegisteredEmail && !isSendEmailBtnPressed}
+          // 가입되지 않은 이메일이면서 인증하기 버튼이 눌린 경우 에러 메시지 표시
+          isValid={!(isNotRegisteredEmail && isSendEmailBtnPressed)}
           additionalElement={
             <InsideBtn onClick={onClickSendEmailBtn} disabled={!sendEmailBtnEnabled}>
               인증하기
@@ -101,7 +113,7 @@ const FindId = () => {
             setEmailCode(e.target.value);
           }}
           errorMessage="인증번호가 일치하지 않습니다."
-          isValid={isEmailCodeCorrect && !isEmailCodeConfirmBtnPressed}
+          isValid={isEmailCodeCorrect && isEmailCodeConfirmBtnPressed}
           additionalElement={
             <InsideBtn
               onClick={onClickEmailCodeConfirmBtn}
@@ -110,6 +122,9 @@ const FindId = () => {
               확인
             </InsideBtn>
           }
+          resendMessageCondition={isSendEmailBtnPressed && !isNotRegisteredEmail}
+          resendMessage="인증 번호 다시 보내기"
+          resendOnClick={onClickSendEmailBtn}
         />
 
         <BottomBtn

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./FindBar.css";
 
+import FindID from "./FindID";
+
 import MainNav from "./MainNav";
 import Box from "../Components/auth/Box";
 
@@ -29,7 +31,7 @@ const Find = () => {
             </h4>
           </div>
 
-          {currentTab === TAB_NAME[0] && <p>FindID /</p>}
+          {currentTab === TAB_NAME[0] && <FindID />}
           {currentTab === TAB_NAME[1] && <p>FindPW /</p>}
         </div>
       </Box>

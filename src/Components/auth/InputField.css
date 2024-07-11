@@ -49,13 +49,14 @@
 
 .inputField .errorMessage_resend_Wrap {
   display: flex;
+  margin-top: 8px;
 }
 
 .inputField .errorMessageWrap {
-  margin-top: 8px;
   color: #ff6767;
   font-size: 12px;
   min-height: 20px;
+  width: 100%;
 }
 
 .inputField .NerrorMessageWrap {
@@ -63,17 +64,19 @@
 }
 
 /* 인증 번호 다시 보내기 */
-.inputField .errorMessageWrap:last-child {
-  margin-top: 8px;
+.inputField .resend {
   min-height: 20px;
+  text-decoration: underline #ff6767;
+
+  width: 100%;
 
   /* 오른쪽 정렬 */
   display: flex;
   justify-content: flex-end;
 }
 
-.inputField .errorMessageWrap:last-child p {
+.inputField .resend p {
   color: #ff6767;
   font-size: 12px;
-  text-decoration: underline #ff6767;
+  margin-top: 0;
 }

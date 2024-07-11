@@ -42,12 +42,12 @@ const InputField = ({
           ) : (
             isValid && value.length > 0 && <div className="NerrorMessageWrap">{validMessage}</div>
           )}
-          {resendMessageCondition ? (
-            <div className="errorMessageWrap" onClick={resendOnClick}>
-              <p>{resendMessage}</p>
-            </div>
-          ) : null}
         </div>
+        {resendMessageCondition ? (
+          <div className="resend" onClick={resendOnClick}>
+            <p>{resendMessage}</p>
+          </div>
+        ) : null}
       </div>
     </div>
   );

@@ -1,0 +1,68 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.container .tab-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  margin-top: 5%;
+  margin-bottom: 9.5rem;
+  width: 80%;
+  height: 10rem;
+}
+
+.container .tab-name {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  border-bottom: 0.5rem solid grey;
+  cursor: pointer;
+
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 27px;
+  color: #000000;
+
+  position: relative;
+}
+
+.container .tab-name.current {
+  border-bottom-color: #ead4ff;
+}
+
+/* border-bottom의 디자인 변경 */
+.container .tab-name.current::after {
+  content: "";
+  position: absolute;
+  bottom: -0.5rem; /* border 위치 조정 */
+  left: 0;
+  width: 100%;
+  height: 0.5rem; /* border 높이 */
+  /* 그림자 추가 */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.container .section-find {
+  display: flex;
+  flex-direction: column;
+  width: 72rem;
+  gap: 5.8rem;
+}
+
+.container .find-id__title {
+  text-align: center;
+}
+
+.container .section-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  font-size: 2.8rem;
+  font-weight: bold;
+}

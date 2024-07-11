@@ -5,6 +5,7 @@ import BottomBtn from "../Components/auth/BottomBtn";
 import Page from "../Components/auth/Page";
 import RightSide from "../Components/auth/RightSide";
 import Box from "../Components/auth/Box";
+import InsideBtn from "../Components/auth/InsideBtn";
 
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -282,9 +283,9 @@ function SignUp() {
                     value={email}
                     onChange={handleEmail}
                   />
-                  <button onClick={emailSend} disabled={emailsendbtn} className="insideButton">
+                  <InsideBtn onClick={emailSend} disabled={emailsendbtn}>
                     인증하기
-                  </button>
+                  </InsideBtn>
                 </div>
 
                 <div className="errorMessageWrap">
@@ -306,13 +307,9 @@ function SignUp() {
                     value={emailCode}
                     onChange={handleEmailCode}
                   />
-                  <button
-                    onClick={onClickConfirmButton}
-                    disabled={!emailCodeConfirmBtnEnabled}
-                    className="insideButton"
-                  >
+                  <InsideBtn onClick={onClickConfirmButton} disabled={!emailCodeConfirmBtnEnabled}>
                     확인
-                  </button>
+                  </InsideBtn>
                 </div>
                 <div className="errorMessage_resend_Wrap">
                   <div className="errorMessageWrap">

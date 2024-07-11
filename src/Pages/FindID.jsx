@@ -113,7 +113,7 @@ const FindId = () => {
             setEmailCode(e.target.value);
           }}
           errorMessage="인증번호가 일치하지 않습니다."
-          isValid={isEmailCodeCorrect && isEmailCodeConfirmBtnPressed}
+          isValid={!(!isEmailCodeCorrect && isEmailCodeConfirmBtnPressed)}
           additionalElement={
             <InsideBtn
               onClick={onClickEmailCodeConfirmBtn}

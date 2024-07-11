@@ -4,6 +4,7 @@ import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
 import Page from "../Components/auth/Page";
 import RightSide from "../Components/auth/RightSide";
+import Box from "../Components/auth/Box";
 
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
@@ -215,7 +216,7 @@ function SignUp() {
   return (
     <div className="signUp">
       <MainNav />
-      <div className="box">
+      <Box>
         <div className="left-side"></div>
         <RightSide>
           <Page>
@@ -332,7 +333,7 @@ function SignUp() {
             </div>
           </Page>
         </RightSide>
-      </div>
+      </Box>
     </div>
   );
 }

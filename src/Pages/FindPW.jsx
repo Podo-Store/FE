@@ -245,7 +245,7 @@ const FindPW = () => {
     );
 
   return (
-    <div className="section-find">
+    <div className="section-find" id="input">
       <InputField
         title="새로운 비밀번호"
         type="password"

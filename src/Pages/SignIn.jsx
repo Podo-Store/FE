@@ -79,7 +79,8 @@ function SignIn() {
                 </BottomBtn>
               </div>
               <div className="extraLink">
-                <Link to="/signup">아이디/비밀번호 찾기</Link> | <Link to="/signup"> 회원가입</Link>
+                <Link to="/signin/find">아이디/비밀번호 찾기</Link> |{" "}
+                <Link to="/signup"> 회원가입</Link>
               </div>
             </div>
           </Page>

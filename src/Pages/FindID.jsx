@@ -29,6 +29,9 @@ const FindID = () => {
   const navigate = useNavigate();
   const [showingIDPermitted, setShowingIDPermitted] = useState(false);
 
+  const [foundId, setFoundId] = useState("");
+  const [foundRegisteredDate, setFoundRegisteredDate] = useState("");
+
   useEffect(() => {
     const regex =
       /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -86,7 +89,7 @@ const FindID = () => {
 
   if (!showingIDPermitted)
     return (
-      <div className="section-find">
+      <div className="section-find" id="input">
         <InputField
           title="이메일"
           type="text"
@@ -129,8 +132,12 @@ const FindID = () => {
 
         <BottomBtn
           onClick={() => {
-            // 인증번호 일치 로직 검사: onClickEmailCodeConfirmBtn에서 이미 시행
+            // 인증번호 일치 로직 검사: onClickEmailCodeConfirmBtn에서 이미 시행. 별도 시행 X
             setShowingIDPermitted(true);
+
+            // 이메일에 맞는 아이디 찾기 API 호출
+            setFoundId("podostore");
+            setFoundRegisteredDate("2024.03.04");
           }}
           disabled={notAllFormWritten}
         >
@@ -138,24 +145,21 @@ const FindID = () => {
         </BottomBtn>
       </div>
     );
-  /*
+
   return (
     <div className="section-find">
-      <h4 className="find-id__title">가입하신 아이디는 다음과 같습니다</h4>
-      <div className="section-column">
-        <p>아이디</p>
-        <p>qwer1234</p>
+      <h4 className="find-id__title">이메일과 일치하는 아이디입니다.</h4>
+      <div className="innerBox">
+        <div className="section-column">
+          <p>아이디 : {foundId}</p>
+        </div>
+        <div className="section-column">
+          <p>가입날짜 : {foundRegisteredDate}</p>
+        </div>
       </div>
-      <div className="section-column">
-        <p>가입날짜</p>
-        <p>2024.03.04</p>
-      </div>
-      <Button size="large" onClick={() => navigate("/login")}>
-        로그인 하러 가기
-      </Button>
+      <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
     </div>
   );
-  */
 };
 
 export default FindID;

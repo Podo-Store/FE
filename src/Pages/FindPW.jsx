@@ -113,7 +113,7 @@ const FindPW = () => {
 
   if (!showingPwPermitted)
     return (
-      <div className="section-find">
+      <div className="section-find" id="input">
         <InputField
           title="아이디"
           type="text"

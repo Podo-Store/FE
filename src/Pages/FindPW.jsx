@@ -25,8 +25,8 @@ const FindPW = () => {
   const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
 
   const [isNotRegisteredId, setIsNotRegisteredId] = useState(true);
-  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
-  const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(true);
+  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
+  const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(false);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
 
   const [sendEmailBtnEnabled, setSendEmailBtnEnabled] = useState(false);
@@ -77,12 +77,11 @@ const FindPW = () => {
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
     setIsSendEmailBtnPressed(true);
 
-    // 초기화: true (가입되지 않은 이메일)
-    setIsNotRegisteredEmail(true);
-
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
     if (email === User.email) {
       setIsNotRegisteredEmail(false);
+    } else {
+      setIsNotRegisteredEmail(true);
     }
   };
 
@@ -98,9 +97,6 @@ const FindPW = () => {
     // 확인 버튼 눌림 -> 에러 메시지 허용
     setIsEmailCodeConfirmBtnPressed(true);
 
-    // 초기화: false
-    setIsEmailCodeCorrect(false);
-
     // 이메일 코드 확인 API 호출, 조건문 사용
     if (email === User.email && emailCode === User.emailCode) {
       setIsEmailCodeCorrect(true);
@@ -114,7 +110,7 @@ const FindPW = () => {
     if (email.length > 0 && emailCode.length > 0 && !isNotRegisteredEmail && isEmailCodeCorrect) {
       setNotAllFormWritten(false);
     } else {
-      setNotAllFormWritten(true); // 변경된 부분
+      setNotAllFormWritten(true);
     }
   }, [email, emailCode, isNotRegisteredEmail, isEmailCodeCorrect]);
 

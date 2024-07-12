@@ -20,7 +20,7 @@ const FindID = () => {
   const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
 
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
-  const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(true);
+  const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(false);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
 
   const [sendEmailBtnEnabled, setSendEmailBtnEnabled] = useState(false);
@@ -66,9 +66,6 @@ const FindID = () => {
   const onClickEmailCodeConfirmBtn = () => {
     // 확인 버튼 눌림 -> 에러 메시지 허용
     setIsEmailCodeConfirmBtnPressed(true);
-
-    // 초기화: false
-    setIsEmailCodeCorrect(false);
 
     // 이메일 코드 확인 API 호출, 조건문 사용
     if (email === User.email && emailCode === User.emailCode) {

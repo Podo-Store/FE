@@ -6,19 +6,25 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./FindBar.css";
 
-const FindID = () => {
+const FindPW = () => {
   const User = {
+    id: "podostore",
     email: "podo@store.com",
     emailCode: "123456",
   };
 
+  const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
 
+  const [idValid, setIdValid] = useState(false);
+
   // 인증하기, 확인 버튼이 클릭되지 않으면 에러 메시지를 띄우지 않음
+  const [isSendIdBtnPressed, setIsSendIdBtnPressed] = useState(false);
   const [isSendEmailBtnPressed, setIsSendEmailBtnPressed] = useState(false);
   const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
 
+  const [isNotRegisteredId, setIsNotRegisteredId] = useState(true);
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
   const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(true);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
@@ -27,8 +33,29 @@ const FindID = () => {
   const [sendEmailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
 
   const navigate = useNavigate();
-  const [showingIDPermitted, setShowingIDPermitted] = useState(false);
+  const [showingPwPermitted, setShowingPwPermitted] = useState(false);
 
+  // id
+  useEffect(() => {
+    const regex = /^[a-zA-Z0-9]{5,10}$/;
+    if (regex.test(id)) {
+      setIdValid(true);
+    } else {
+      setIdValid(false);
+    }
+  }, [id]);
+
+  const onClickIdConfirmBtn = () => {
+    setIsSendIdBtnPressed(true);
+    // 아이디 가입 여부 확인 API 호출, 조건문 사용
+    if (id === User.id) {
+      setIsNotRegisteredId(false);
+    } else {
+      setIsNotRegisteredId(true);
+    }
+  };
+
+  // email
   useEffect(() => {
     const regex =
       /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
@@ -84,9 +111,37 @@ const FindID = () => {
     }
   }, [email, emailCode, isNotRegisteredEmail, isEmailCodeCorrect]);
 
-  if (!showingIDPermitted)
+  if (!showingPwPermitted)
     return (
       <div className="section-find">
+        <InputField
+          title="아이디"
+          type="text"
+          placeholder="podostore"
+          value={id}
+          onChange={(e) => {
+            setId(e.target.value);
+          }}
+          errorMessage={
+            // 아이디 형식에 맞지 않을 경우
+            idValid === false && id.length > 0
+              ? "5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
+              : // 가입되지 않은 아이디일 경우
+              isNotRegisteredId === true && id.length > 0
+              ? "가입되지 않은 아이디입니다."
+              : ""
+          }
+          isValid={
+            idValid === false || (isNotRegisteredId === true && isSendIdBtnPressed === true)
+              ? false
+              : true
+          }
+          additionalElement={
+            <InsideBtn onClick={onClickIdConfirmBtn} disabled={!idValid}>
+              확인
+            </InsideBtn>
+          }
+        />
         <InputField
           title="이메일"
           type="text"
@@ -130,32 +185,14 @@ const FindID = () => {
         <BottomBtn
           onClick={() => {
             // 인증번호 일치 로직 검사: onClickEmailCodeConfirmBtn에서 이미 시행
-            setShowingIDPermitted(true);
+            setShowingPwPermitted(true);
           }}
           disabled={notAllFormWritten}
         >
-          아이디 찾기
+          비밀번호 재설정하기
         </BottomBtn>
       </div>
     );
-  /*
-  return (
-    <div className="section-find">
-      <h4 className="find-id__title">가입하신 아이디는 다음과 같습니다</h4>
-      <div className="section-column">
-        <p>아이디</p>
-        <p>qwer1234</p>
-      </div>
-      <div className="section-column">
-        <p>가입날짜</p>
-        <p>2024.03.04</p>
-      </div>
-      <Button size="large" onClick={() => navigate("/login")}>
-        로그인 하러 가기
-      </Button>
-    </div>
-  );
-  */
 };
 
-export default FindID;
+export default FindPW;

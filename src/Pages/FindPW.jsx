@@ -35,6 +35,13 @@ const FindPW = () => {
   const navigate = useNavigate();
   const [showingPwPermitted, setShowingPwPermitted] = useState(false);
 
+  // 결과 화면 요소
+  const [newPw, setNewPw] = useState("");
+  const [pwCheck, setPwCheck] = useState("");
+  const [pwValid, setPwValid] = useState(false);
+  const [pwCheckValid, setPwCheckValid] = useState(false);
+  const [notResetAllow, setNotResetAllow] = useState(true);
+
   // id
   useEffect(() => {
     const regex = /^[a-zA-Z0-9]{5,10}$/;
@@ -110,6 +117,49 @@ const FindPW = () => {
       setNotAllFormWritten(true); // 변경된 부분
     }
   }, [email, emailCode, isNotRegisteredEmail, isEmailCodeCorrect]);
+
+  // 결과 페이지: Line 121 ~ Line 163
+
+  // newPw
+  useEffect(() => {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,11}$/;
+    if (regex.test(newPw)) {
+      setPwValid(true);
+    } else {
+      setPwValid(false);
+    }
+  }, [newPw]);
+
+  const handleNewPassword = (e) => {
+    setNewPw(e.target.value);
+  };
+
+  // PW Check
+  useEffect(() => {
+    if (newPw === pwCheck) {
+      setPwCheckValid(true);
+    } else {
+      setPwCheckValid(false);
+    }
+  }, [newPw, pwCheck]);
+
+  const handlePasswordCheck = (e) => {
+    setPwCheck(e.target.value);
+  };
+
+  const onClickResetPwBtn = () => {
+    // 비밀번호 재설정 API 호출
+    alert("비밀번호가 재설정되었습니다.");
+    navigate("/signin");
+  };
+
+  useEffect(() => {
+    if (newPw.length > 0 && pwValid && pwCheck.length > 0 && pwCheckValid) {
+      setNotResetAllow(false);
+    } else {
+      setNotResetAllow(true);
+    }
+  }, [newPw, pwValid, pwCheck, pwCheckValid]);
 
   if (!showingPwPermitted)
     return (
@@ -193,6 +243,33 @@ const FindPW = () => {
         </BottomBtn>
       </div>
     );
+
+  return (
+    <div className="section-find">
+      <InputField
+        title="새로운 비밀번호"
+        type="password"
+        placeholder="5~11자의 영문, 숫자, 특수문자 포함"
+        value={newPw}
+        onChange={handleNewPassword}
+        errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
+        isValid={pwValid}
+      />
+      <InputField
+        title="비밀번호 확인"
+        type="password"
+        placeholder="비밀번호를 다시 한번 입력해주세요."
+        value={pwCheck}
+        onChange={handlePasswordCheck}
+        errorMessage="비밀번호가 일치하지 않습니다."
+        validMessage="비밀번호가 일치합니다."
+        isValid={pwCheckValid}
+      />
+      <BottomBtn onClick={onClickResetPwBtn} disabled={notResetAllow}>
+        비밀번호 재설정하기
+      </BottomBtn>
+    </div>
+  );
 };
 
 export default FindPW;

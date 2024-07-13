@@ -1,8 +1,9 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
-import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
+import SignUpSuccess from "./Pages/SignUpSuccess";
+import SignIn from "./Pages/SignIn";
 import FindBar from "./Pages/FindBar";
 import StoreMain from "./Pages/StoreMain/StoreMain";
 import NowPlaying from "./Pages/NowPlaying";
@@ -16,8 +17,9 @@ function Routing() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App />} />
-          <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/signup/success" element={<SignUpSuccess />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/signin/find" element={<FindBar />} />
 
           <Route path="/storemain" element={<StoreMain />} />

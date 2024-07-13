@@ -2,14 +2,3 @@ a {
   text-decoration: none;
   color: black;
 }
-
-.main_body {
-  display: flex;
-  height: 940px;
-  justify-content: center;
-  background-color: #fdfaff;
-}
-
-.main_body img {
-  size: 1080px 1080px;
-}

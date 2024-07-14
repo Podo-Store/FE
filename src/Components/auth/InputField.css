@@ -50,10 +50,12 @@
 .inputField .errorMessage_resend_Wrap {
   display: flex;
   margin-top: 8px;
+  text-decoration: none;
 }
 
 .inputField .errorMessageWrap {
   color: #ff6767;
+  text-decoration: none;
   font-size: 12px;
   min-height: 20px;
   width: 100%;

@@ -49,11 +49,14 @@
 
 .inputField .errorMessage_resend_Wrap {
   display: flex;
-  margin-top: 8px;
+  margin-bottom: 10px;
+  text-decoration: none;
+  justify-content: flex-start;
 }
 
 .inputField .errorMessageWrap {
   color: #ff6767;
+  text-decoration: none;
   font-size: 12px;
   min-height: 20px;
   width: 100%;

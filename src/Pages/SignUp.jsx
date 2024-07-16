@@ -84,7 +84,7 @@ function SignUp() {
   const checkIdDuplicated = async () => {
     // 아이디 중복 체크 API 연결, 조건문 사용
     try {
-      const response = await axios.post(`${SERVER_URL}//auth/checkUserId`, {
+      const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
         userId: id,
         check: true,
       });

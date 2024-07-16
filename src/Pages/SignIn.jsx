@@ -45,7 +45,7 @@ function SignIn() {
     // initialize
     setIsIdPwMatch(false);
     try {
-      const response = await axios.post(`${SERVER_URL}//auth/signin`, {
+      const response = await axios.post(`${SERVER_URL}auth/signin`, {
         userId: id,
         password: pw,
       });

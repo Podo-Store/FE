@@ -150,10 +150,22 @@ function SignUp() {
     }
   }, [name]);
 
-  const checkNameDuplicated = (name) => {
-    // 닉네임 중복 체크 API 연결, 조건문 사용
-    setCheckNameDuplicated(false);
-    return nameDuplicated;
+  const checkNameDuplicated = async () => {
+    // 닉네임 중복 체크 API 연결
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/checkNickname`, {
+        nickname: name,
+      });
+      if (response.data === true) {
+        setCheckNameDuplicated(false);
+      } else {
+        if (response.data.error === "닉네임 중복") {
+          setCheckIdDuplicated(true);
+        }
+      }
+    } catch (error) {
+      console.error("닉네임 오류:", error);
+    }
   };
 
   // Email
@@ -184,7 +196,7 @@ function SignUp() {
     // 이메일 인증 코드 API 연결
     setCheckEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
     try {
-      const response = await axios.post(`${SERVER_URL}//auth/mailSend`, {
+      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
         check: true,
       });
@@ -202,7 +214,7 @@ function SignUp() {
         }
       }
     } catch (error) {
-      console.error("로그인 오류:", error);
+      console.error("이메일 전송 오류:", error);
     }
   };
 
@@ -211,13 +223,21 @@ function SignUp() {
   };
 
   // 이메일 인증 확인 버튼
-  const onClickConfirmButton = () => {
-    if (email === User.email && emailCode === User.emailCode) {
-      alert("이메일 인증 완료");
-      setEmailCodeValid(true);
-    } else {
-      alert("이메일 인증 실패");
-      setEmailCodeValid(false);
+  const onClickConfirmButton = async () => {
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
+        email: email,
+        authNum: emailCode,
+      });
+      if (response.data === true) {
+        alert("이메일 인증 완료");
+        setEmailCodeValid(true);
+      } else {
+        alert("이메일 인증 실패");
+        setEmailCodeValid(false);
+      }
+    } catch (error) {
+      console.error("이메일 인증 오류:", error);
     }
   };
 

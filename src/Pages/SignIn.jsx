@@ -1,7 +1,9 @@
 import "./SignIn.css";
+import axios from "axios";
+import { SERVER_URL } from "../Components/constants/ServerURL";
 import MainNav from "./MainNav";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RightSide from "../Components/auth/RightSide";
 import Page from "../Components/auth/Page";
 import InputField from "../Components/auth/InputField";
@@ -17,9 +19,11 @@ function SignIn() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-  const [idPwMatchErrorMessage, setIdPwMatchErrorMessage] = useState(true);
+  const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
+
+  const navigate = useNavigate();
 
   const handleId = (e) => {
     setId(e.target.value);
@@ -37,12 +41,24 @@ function SignIn() {
     setPw(e.target.value);
   };
 
-  const onClickConfirmButton = () => {
-    if (id === User.id && pw === User.pw) {
-      setIdPwMatchErrorMessage(true);
-      // 로그인 완료 페이지로 이동 추가
-    } else {
-      setIdPwMatchErrorMessage(false);
+  const onClickConfirmButton = async () => {
+    // initialize
+    setIsIdPwMatch(false);
+    try {
+      const response = await axios.post(`${SERVER_URL}//auth/signin`, {
+        userId: id,
+        password: pw,
+      });
+
+      if (response.data.accessToken) {
+        setIsIdPwMatch(true);
+        navigate("/");
+      } else {
+        setIsIdPwMatch(false);
+      }
+    } catch (error) {
+      setIsIdPwMatch(false);
+      console.error("로그인 오류:", error);
     }
   };
 
@@ -70,7 +86,7 @@ function SignIn() {
                   value={pw}
                   onChange={handlePassword}
                   errorMessage="아이디 / 비밀번호 오류"
-                  isValid={idPwMatchErrorMessage}
+                  isValid={isIdPwMatch}
                 />
               </div>
               <div>

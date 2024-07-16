@@ -1,4 +1,5 @@
 import "./SignUp.css";
+import axios from "axios";
 import MainNav from "./MainNav";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
@@ -8,6 +9,7 @@ import Box from "../Components/auth/Box";
 import InsideBtn from "../Components/auth/InsideBtn";
 
 import { useEffect, useState, useCallback } from "react";
+import { SERVER_URL } from "../Components/constants/ServerURL";
 import { Link } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
 import check from "../assets/image/auth/check.svg";
@@ -30,6 +32,8 @@ function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
+
+  const [receivedEmailCode, setReceivedEmailCode] = useState("");
 
   const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
@@ -77,10 +81,23 @@ function SignUp() {
     }
   }, [id]);
 
-  const checkIdDuplicated = (id) => {
+  const checkIdDuplicated = async () => {
     // 아이디 중복 체크 API 연결, 조건문 사용
-    setCheckIdDuplicated(false);
-    return idDuplicated;
+    try {
+      const response = await axios.post(`${SERVER_URL}//auth/checkUserId`, {
+        userId: id,
+        check: true,
+      });
+      if (response.data === true) {
+        setCheckIdDuplicated(false);
+      } else {
+        if (response.data.error === "이미 존재하는 아이디") {
+          setCheckIdDuplicated(true);
+        }
+      }
+    } catch (error) {
+      console.error("아이디 오류:", error);
+    }
   };
 
   // PW
@@ -163,23 +180,30 @@ function SignUp() {
     setEmailSendBtn(true);
   }, [emailValid]);
 
-  const emailSend = () => {
-    // 만약 중복된 이메일일 경우, "중복된 이메일입니다." 메세지 표출
-    if (checkEmailDuplicated(email) == true) {
-      // 중복된 이메일입니다. 메세지 표출만 시행. 여기서는 Do nothing.
-    } else {
-      // 이메일 인증 코드 API 연결
-      setCheckEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
-      // 인증 번호 다시 보내기 활성화. 여기서는 Do nothing.
-      // 인증 번호 입력 칸의 '확인' 버튼 활성화
-      setEmailCodeConfirmBtnEnabled(true);
+  const emailSend = async () => {
+    // 이메일 인증 코드 API 연결
+    setCheckEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
+    try {
+      const response = await axios.post(`${SERVER_URL}//auth/mailSend`, {
+        email: email,
+        check: true,
+      });
+      // 응답이 숫자일 경우 (인증번호만 반환)
+      if (!isNaN(response.data)) {
+        setReceivedEmailCode(response.data);
+        // 인증 번호 다시 보내기 활성화. 여기서는 Do nothing.
+        // 인증 번호 입력 칸의 '확인' 버튼 활성화
+        setEmailCodeConfirmBtnEnabled(true);
+      } else {
+        // 응답이 JSON 형식일 경우 (오류 메시지 처리)
+        // 중복된 이메일일 경우
+        if (response.data.error === "이메일 중복") {
+          setCheckEmailDuplicated(true);
+        }
+      }
+    } catch (error) {
+      console.error("로그인 오류:", error);
     }
-  };
-
-  const checkEmailDuplicated = (email) => {
-    // 이메일 중복 체크 API 연결, 조건문 사용
-    setCheckEmailDuplicated(false);
-    return emailDuplicated;
   };
 
   const handleEmailCode = (e) => {

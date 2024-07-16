@@ -10,7 +10,7 @@ import InsideBtn from "../Components/auth/InsideBtn";
 
 import { useEffect, useState, useCallback } from "react";
 import { SERVER_URL } from "../Components/constants/ServerURL";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
 import check from "../assets/image/auth/check.svg";
 
@@ -26,6 +26,8 @@ const User = {
 };
 
 function SignUp() {
+  const navigate = useNavigate();
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwcheck, setPwCheck] = useState("");
@@ -253,6 +255,7 @@ function SignUp() {
   const onClickRegisterAllowButton = () => {
     if (idValid && pwValid && pwcheckValid && nameValid && emailValid && emailCodeValid) {
       alert("회원가입 성공");
+      navigate("/signup/success");
     } else {
       alert("회원가입 실패");
     }

@@ -14,17 +14,6 @@ import { Link, useNavigate } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
 import check from "../assets/image/auth/check.svg";
 
-const api = {
-  emailCheck: "https://example.com/api/emailCheck",
-};
-
-// 테스트 데이터
-const User = {
-  email: "podo@store.com",
-  pw: "password1234@",
-  emailCode: "123456",
-};
-
 function SignUp() {
   const navigate = useNavigate();
 
@@ -46,10 +35,10 @@ function SignUp() {
 
   const [emailsendbtn, setEmailSendBtn] = useState(true);
 
-  const [idDuplicated, setCheckIdDuplicated] = useState(false);
-  const [nameDuplicated, setCheckNameDuplicated] = useState(false);
-  const [emailDuplicated, setCheckEmailDuplicated] = useState(false);
-  const [emailSended, setCheckEmailSended] = useState(false);
+  const [idDuplicated, setIdDuplicated] = useState(false);
+  const [nameDuplicated, setNameDuplicated] = useState(false);
+  const [emailDuplicated, setEmailDuplicated] = useState(false);
+  const [emailSended, setEmailSended] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
   const [emailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
@@ -76,14 +65,12 @@ function SignUp() {
   // 아이디 중복 체크
   // 세부 주석은 emailSend 참고
   useEffect(() => {
-    if (id.length > 0 && checkIdDuplicated(id)) {
-      setCheckIdDuplicated(true);
-    } else {
-      setCheckIdDuplicated(false);
+    if (id.length > 0) {
+      checkIdDuplicated(id);
     }
   }, [id]);
 
-  const checkIdDuplicated = async () => {
+  const checkIdDuplicated = async (id) => {
     // 아이디 중복 체크 API 연결, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
@@ -91,14 +78,12 @@ function SignUp() {
         check: true,
       });
       if (response.data === true) {
-        setCheckIdDuplicated(false);
-      } else {
-        if (response.data.error === "이미 존재하는 아이디") {
-          setCheckIdDuplicated(true);
-        }
+        setIdDuplicated(false);
       }
     } catch (error) {
-      console.error("아이디 오류:", error);
+      if (error.response.data.error === "이미 존재하는 아이디") {
+        setIdDuplicated(true);
+      }
     }
   };
 
@@ -146,9 +131,9 @@ function SignUp() {
   // 닉네임 중복 체크
   useEffect(() => {
     if (name.length > 0 && checkNameDuplicated(name)) {
-      setCheckNameDuplicated(true);
+      setNameDuplicated(true);
     } else {
-      setCheckNameDuplicated(false);
+      setNameDuplicated(false);
     }
   }, [name]);
 
@@ -159,10 +144,10 @@ function SignUp() {
         nickname: name,
       });
       if (response.data === true) {
-        setCheckNameDuplicated(false);
+        setNameDuplicated(false);
       } else {
         if (response.data.error === "닉네임 중복") {
-          setCheckIdDuplicated(true);
+          setIdDuplicated(true);
         }
       }
     } catch (error) {
@@ -196,7 +181,7 @@ function SignUp() {
 
   const emailSend = async () => {
     // 이메일 인증 코드 API 연결
-    setCheckEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
+    setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
@@ -212,7 +197,7 @@ function SignUp() {
         // 응답이 JSON 형식일 경우 (오류 메시지 처리)
         // 중복된 이메일일 경우
         if (response.data.error === "이메일 중복") {
-          setCheckEmailDuplicated(true);
+          setEmailDuplicated(true);
         }
       }
     } catch (error) {

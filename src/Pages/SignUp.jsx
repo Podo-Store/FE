@@ -217,6 +217,7 @@ function SignUp() {
     }
   };
 
+  /*
   // 회원가입 버튼 활성화
   useEffect(() => {
     if (emailValid && emailCodeValid) {
@@ -225,6 +226,16 @@ function SignUp() {
       setNotAllow(true);
     }
   }, [emailValid, emailCodeValid]);
+*/
+
+  // 회원가입 버튼 활성화 (인증 번호 비활성화)
+  useEffect(() => {
+    if (emailValid) {
+      setNotAllow(false);
+    } else {
+      setNotAllow(true);
+    }
+  }, [emailValid]);
 
   const onClickRegisterAllowButton = async () => {
     try {

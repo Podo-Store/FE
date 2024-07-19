@@ -55,7 +55,7 @@ const FindID = () => {
       alert("이메일이 전송되었습니다.");
       setIsNotRegisteredEmail(false);
     } catch (error) {
-      alert("이메일이 전송에 실패했습니다.");
+      alert("이메일 전송에 실패했습니다.");
       setIsNotRegisteredEmail(true);
     }
   };

@@ -57,8 +57,13 @@ function SignIn() {
         setIsIdPwMatch(false);
       }
     } catch (error) {
-      setIsIdPwMatch(false);
-      console.error("로그인 오류:", error);
+      if (error.response.data.error === "signin error") {
+        alert("로그인 오류, 다시 시도해 주세요.");
+        // Match는 아니지만 아이디/비번 오류가 아님을 표시하기 위함
+        setIsIdPwMatch(true);
+      } else {
+        setIsIdPwMatch(false);
+      }
     }
   };
 

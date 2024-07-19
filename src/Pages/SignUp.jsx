@@ -174,6 +174,7 @@ function SignUp() {
   }, [email]);
 
   const onClickEmailSend = async () => {
+    setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
     // 이메일 인증 코드 발송 API 연결
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
@@ -187,8 +188,6 @@ function SignUp() {
       // 인증 번호 입력 칸의 '확인' 버튼 활성화
       setEmailCodeConfirmBtnEnabled(true);
       setEmailDuplicated(false);
-
-      setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
     } catch (error) {
       if (error.response.data.error === "이메일 중복") {
         setEmailDuplicated(true);
@@ -204,6 +203,7 @@ function SignUp() {
 
   // 이메일 인증 확인 버튼
   const onClickConfirmButton = async () => {
+    alert("서버로부터의 응답을 기다리고 있습니다. 잠시만 기다려 주세요.");
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
         email: email,

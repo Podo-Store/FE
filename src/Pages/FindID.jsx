@@ -41,10 +41,8 @@ const FindID = () => {
   }, [email]);
 
   const onClickSendEmailBtn = async () => {
-    // 인증하기 버튼 눌림 -> 에러 메시지 허용
-    setIsSendEmailBtnPressed(true);
-
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
+    alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
@@ -58,6 +56,8 @@ const FindID = () => {
       alert("이메일 전송에 실패했습니다.");
       setIsNotRegisteredEmail(true);
     }
+    // 인증하기 버튼 눌림 -> 에러 메시지 허용
+    setIsSendEmailBtnPressed(true);
   };
 
   useEffect(() => {
@@ -69,9 +69,6 @@ const FindID = () => {
   }, [emailCode]);
 
   const onClickEmailCodeConfirmBtn = async () => {
-    // 확인 버튼 눌림 -> 에러 메시지 허용
-    setIsEmailCodeConfirmBtnPressed(true);
-
     // 이메일 코드 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/findUserId`, {
@@ -85,8 +82,8 @@ const FindID = () => {
     } catch (error) {
       setIsEmailCodeCorrect(false);
     }
-    console.log(foundId);
-    console.log(foundRegisteredDate);
+    // 확인 버튼 눌림 -> 에러 메시지 허용
+    setIsEmailCodeConfirmBtnPressed(true);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화

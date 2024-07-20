@@ -50,7 +50,6 @@ const FindPW = () => {
   }, [id]);
 
   const onClickIdConfirmBtn = async () => {
-    setIsSendIdBtnPressed(true);
     // 아이디 가입 여부 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
@@ -63,6 +62,7 @@ const FindPW = () => {
     } catch (error) {
       setIsNotRegisteredId(true);
     }
+    setIsSendIdBtnPressed(true);
   };
 
   // email
@@ -77,10 +77,8 @@ const FindPW = () => {
   }, [email]);
 
   const onClickSendEmailBtn = async () => {
-    // 인증하기 버튼 눌림 -> 에러 메시지 허용
-    setIsSendEmailBtnPressed(true);
-
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
+    alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
@@ -94,6 +92,8 @@ const FindPW = () => {
       alert("이메일 전송에 실패했습니다.");
       setIsNotRegisteredEmail(true);
     }
+    // 인증하기 버튼 눌림 -> 에러 메시지 허용
+    setIsSendEmailBtnPressed(true);
   };
 
   useEffect(() => {
@@ -105,9 +105,6 @@ const FindPW = () => {
   }, [emailCode]);
 
   const onClickEmailCodeConfirmBtn = async () => {
-    // 확인 버튼 눌림 -> 에러 메시지 허용
-    setIsEmailCodeConfirmBtnPressed(true);
-
     // 이메일 코드 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/findPassword`, {
@@ -118,6 +115,8 @@ const FindPW = () => {
     } catch (error) {
       setIsEmailCodeCorrect(false);
     }
+    // 확인 버튼 눌림 -> 에러 메시지 허용
+    setIsEmailCodeConfirmBtnPressed(true);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화
@@ -163,13 +162,13 @@ const FindPW = () => {
     try {
       const response = await axios.post(`${SERVER_URL}auth/resetPassword`, {
         password: newPw,
-        // phoneNumber 변수 이름 수정 필요
-        phoneNumber: pwCheck,
+        confirmPassword: pwCheck,
       });
       alert("비밀번호가 재설정되었습니다.");
       navigate("/signin");
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해 주세요.");
+      console.log(error);
     }
   };
 

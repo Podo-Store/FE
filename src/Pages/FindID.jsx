@@ -80,11 +80,13 @@ const FindID = () => {
       });
       setIsEmailCodeCorrect(true);
 
-      setFoundId(response.data[0]);
-      setFoundRegisteredDate(response.data[1]);
+      setFoundId(response.data.data[0]);
+      setFoundRegisteredDate(response.data.data[1]);
     } catch (error) {
       setIsEmailCodeCorrect(false);
     }
+    console.log(foundId);
+    console.log(foundRegisteredDate);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화

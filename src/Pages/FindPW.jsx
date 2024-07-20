@@ -13,6 +13,7 @@ const FindPW = () => {
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
   const [receivedEmailCode, setReceivedEmailCode] = useState("");
+  const [receivedAccessToken, setReceivedAccessToken] = useState("");
 
   const [idValid, setIdValid] = useState(false);
 
@@ -108,11 +109,14 @@ const FindPW = () => {
     // 이메일 코드 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/findPassword`, {
+        userId: id,
         email: email,
         authNum: emailCode,
       });
+      setReceivedAccessToken(response.data.accessToken);
       setIsEmailCodeCorrect(true);
     } catch (error) {
+      console.log(error.response.data.error);
       setIsEmailCodeCorrect(false);
     }
     // 확인 버튼 눌림 -> 에러 메시지 허용
@@ -160,10 +164,19 @@ const FindPW = () => {
   const onClickResetPwBtn = async () => {
     // 비밀번호 재설정 API 호출
     try {
-      const response = await axios.post(`${SERVER_URL}auth/resetPassword`, {
-        password: newPw,
-        confirmPassword: pwCheck,
-      });
+      const response = await axios.post(
+        `${SERVER_URL}auth/resetPassword`,
+        {
+          password: newPw,
+          confirmPassword: pwCheck,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${receivedAccessToken}`,
+          },
+        }
+      );
       alert("비밀번호가 재설정되었습니다.");
       navigate("/signin");
     } catch (error) {

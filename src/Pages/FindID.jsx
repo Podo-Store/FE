@@ -5,21 +5,19 @@ import BottomBtn from "../Components/auth/BottomBtn";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./FindBar.css";
+import axios from "axios";
+import { SERVER_URL } from "../Components/constants/ServerURL";
 
 const FindID = () => {
-  const User = {
-    email: "podo@store.com",
-    emailCode: "123456",
-  };
-
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
+  const [receivedEmailCode, setReceivedEmailCode] = useState("");
 
   // 인증하기, 확인 버튼이 클릭되지 않으면 에러 메시지를 띄우지 않음
   const [isSendEmailBtnPressed, setIsSendEmailBtnPressed] = useState(false);
   const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
 
-  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
+  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
   const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(false);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
 
@@ -42,17 +40,24 @@ const FindID = () => {
     }
   }, [email]);
 
-  const onClickSendEmailBtn = () => {
+  const onClickSendEmailBtn = async () => {
+    // 이메일 가입 여부 확인 API 호출, 조건문 사용
+    alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+        email: email,
+        check: false,
+      });
+      setReceivedEmailCode(response.data);
+
+      alert("이메일이 전송되었습니다.");
+      setIsNotRegisteredEmail(false);
+    } catch (error) {
+      alert("이메일 전송에 실패했습니다.");
+      setIsNotRegisteredEmail(true);
+    }
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
     setIsSendEmailBtnPressed(true);
-
-    // 초기화: true (가입되지 않은 이메일)
-    setIsNotRegisteredEmail(true);
-
-    // 이메일 가입 여부 확인 API 호출, 조건문 사용
-    if (email === User.email) {
-      setIsNotRegisteredEmail(false);
-    }
   };
 
   useEffect(() => {
@@ -63,16 +68,22 @@ const FindID = () => {
     }
   }, [emailCode]);
 
-  const onClickEmailCodeConfirmBtn = () => {
-    // 확인 버튼 눌림 -> 에러 메시지 허용
-    setIsEmailCodeConfirmBtnPressed(true);
-
+  const onClickEmailCodeConfirmBtn = async () => {
     // 이메일 코드 확인 API 호출, 조건문 사용
-    if (email === User.email && emailCode === User.emailCode) {
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/findUserId`, {
+        email: email,
+        authNum: emailCode,
+      });
       setIsEmailCodeCorrect(true);
-    } else {
+
+      setFoundId(response.data.data[0]);
+      setFoundRegisteredDate(response.data.data[1]);
+    } catch (error) {
       setIsEmailCodeCorrect(false);
     }
+    // 확인 버튼 눌림 -> 에러 메시지 허용
+    setIsEmailCodeConfirmBtnPressed(true);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화
@@ -129,12 +140,7 @@ const FindID = () => {
 
         <BottomBtn
           onClick={() => {
-            // 인증번호 일치 로직 검사: onClickEmailCodeConfirmBtn에서 이미 시행. 별도 시행 X
             setShowingIDPermitted(true);
-
-            // 이메일에 맞는 아이디 찾기 API 호출
-            setFoundId("podostore");
-            setFoundRegisteredDate("2024.03.04");
           }}
           disabled={notAllFormWritten}
         >

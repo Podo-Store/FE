@@ -1,4 +1,5 @@
 import "./SignUp.css";
+import axios from "axios";
 import MainNav from "./MainNav";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
@@ -8,28 +9,22 @@ import Box from "../Components/auth/Box";
 import InsideBtn from "../Components/auth/InsideBtn";
 
 import { useEffect, useState, useCallback } from "react";
-import { Link } from "react-router-dom";
+import { SERVER_URL } from "../Components/constants/ServerURL";
+import { Link, useNavigate } from "react-router-dom";
 import loading from "../assets/image/auth/loading.svg";
 import check from "../assets/image/auth/check.svg";
 
-const api = {
-  emailCheck: "https://example.com/api/emailCheck",
-};
-
-// 테스트 데이터
-const User = {
-  email: "podo@store.com",
-  pw: "password1234@",
-  emailCode: "123456",
-};
-
 function SignUp() {
+  const navigate = useNavigate();
+
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwcheck, setPwCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
+
+  const [receivedEmailCode, setReceivedEmailCode] = useState("");
 
   const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
@@ -38,12 +33,12 @@ function SignUp() {
   const [emailValid, setEmailValid] = useState(false);
   const [emailCodeValid, setEmailCodeValid] = useState(false);
 
-  const [emailsendbtn, setEmailSendBtn] = useState(true);
+  const [emailSendBtn, setEmailSendBtn] = useState(false);
 
-  const [idDuplicated, setCheckIdDuplicated] = useState(false);
-  const [nameDuplicated, setCheckNameDuplicated] = useState(false);
-  const [emailDuplicated, setCheckEmailDuplicated] = useState(false);
-  const [emailSended, setCheckEmailSended] = useState(false);
+  const [idDuplicated, setIdDuplicated] = useState(false);
+  const [nameDuplicated, setNameDuplicated] = useState(false);
+  const [emailDuplicated, setEmailDuplicated] = useState(false);
+  const [emailSended, setEmailSended] = useState(false);
   const [notAllow, setNotAllow] = useState(true);
 
   const [emailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
@@ -70,17 +65,26 @@ function SignUp() {
   // 아이디 중복 체크
   // 세부 주석은 emailSend 참고
   useEffect(() => {
-    if (id.length > 0 && checkIdDuplicated(id)) {
-      setCheckIdDuplicated(true);
-    } else {
-      setCheckIdDuplicated(false);
+    if (id.length > 0) {
+      checkIdDuplicated(id);
     }
   }, [id]);
 
-  const checkIdDuplicated = (id) => {
+  const checkIdDuplicated = async (id) => {
     // 아이디 중복 체크 API 연결, 조건문 사용
-    setCheckIdDuplicated(false);
-    return idDuplicated;
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
+        userId: id,
+        check: true,
+      });
+      if (response.data === true) {
+        setIdDuplicated(false);
+      }
+    } catch (error) {
+      if (error.response.data.error === "이미 존재하는 아이디") {
+        setIdDuplicated(true);
+      }
+    }
   };
 
   // PW
@@ -126,17 +130,25 @@ function SignUp() {
 
   // 닉네임 중복 체크
   useEffect(() => {
-    if (name.length > 0 && checkNameDuplicated(name)) {
-      setCheckNameDuplicated(true);
-    } else {
-      setCheckNameDuplicated(false);
+    if (name.length > 0) {
+      checkNameDuplicated(name);
     }
   }, [name]);
 
-  const checkNameDuplicated = (name) => {
-    // 닉네임 중복 체크 API 연결, 조건문 사용
-    setCheckNameDuplicated(false);
-    return nameDuplicated;
+  const checkNameDuplicated = async () => {
+    // 닉네임 중복 체크 API 연결
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/checkNickname`, {
+        nickname: name,
+      });
+      if (response.data === true) {
+        setNameDuplicated(false);
+      }
+    } catch (error) {
+      if (error.response.data.error === "닉네임 중복") {
+        setNameDuplicated(true);
+      }
+    }
   };
 
   // Email
@@ -156,30 +168,33 @@ function SignUp() {
 
   // (이메일) 인증하기 버튼 활성화
   useEffect(() => {
-    if (emailValid) {
-      setEmailSendBtn(false);
-      return;
+    if (email.length > 0) {
+      setEmailSendBtn(true);
     }
-    setEmailSendBtn(true);
-  }, [emailValid]);
+  }, [email]);
 
-  const emailSend = () => {
-    // 만약 중복된 이메일일 경우, "중복된 이메일입니다." 메세지 표출
-    if (checkEmailDuplicated(email) == true) {
-      // 중복된 이메일입니다. 메세지 표출만 시행. 여기서는 Do nothing.
-    } else {
-      // 이메일 인증 코드 API 연결
-      setCheckEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
+  const onClickEmailSend = async () => {
+    setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
+    // 이메일 인증 코드 발송 API 연결
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+        email: email,
+        check: true,
+      });
+      // 응답이 숫자일 경우 (인증번호만 반환)
+
+      setReceivedEmailCode(response.data);
       // 인증 번호 다시 보내기 활성화. 여기서는 Do nothing.
       // 인증 번호 입력 칸의 '확인' 버튼 활성화
       setEmailCodeConfirmBtnEnabled(true);
+      setEmailDuplicated(false);
+    } catch (error) {
+      if (error.response.data.error === "이메일 중복") {
+        setEmailDuplicated(true);
+      }
+      setEmailSended(false);
+      setEmailCodeConfirmBtnEnabled(false);
     }
-  };
-
-  const checkEmailDuplicated = (email) => {
-    // 이메일 중복 체크 API 연결, 조건문 사용
-    setCheckEmailDuplicated(false);
-    return emailDuplicated;
   };
 
   const handleEmailCode = (e) => {
@@ -187,11 +202,16 @@ function SignUp() {
   };
 
   // 이메일 인증 확인 버튼
-  const onClickConfirmButton = () => {
-    if (email === User.email && emailCode === User.emailCode) {
+  const onClickConfirmButton = async () => {
+    alert("서버로부터의 응답을 기다리고 있습니다. 잠시만 기다려 주세요.");
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
+        email: email,
+        authNum: emailCode,
+      });
       alert("이메일 인증 완료");
       setEmailCodeValid(true);
-    } else {
+    } catch (error) {
       alert("이메일 인증 실패");
       setEmailCodeValid(false);
     }
@@ -206,12 +226,30 @@ function SignUp() {
     }
   }, [emailValid, emailCodeValid]);
 
-  const onClickRegisterAllowButton = () => {
+  const onClickRegisterAllowButton = async () => {
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/signup`, {
+        userId: id,
+        email: email,
+        password: pw,
+        confirmPassword: pwcheck,
+        nickname: name,
+        authNum: emailCode,
+      });
+      alert("회원가입 성공");
+      navigate("/signup/success");
+    } catch (error) {
+      alert("회원가입 실패");
+    }
+
+    /*
     if (idValid && pwValid && pwcheckValid && nameValid && emailValid && emailCodeValid) {
       alert("회원가입 성공");
+      navigate("/signup/success");
     } else {
       alert("회원가입 실패");
     }
+      */
   };
 
   return (
@@ -283,7 +321,7 @@ function SignUp() {
                     value={email}
                     onChange={handleEmail}
                   />
-                  <InsideBtn onClick={emailSend} disabled={emailsendbtn}>
+                  <InsideBtn onClick={onClickEmailSend} disabled={!emailSendBtn}>
                     인증하기
                   </InsideBtn>
                 </div>
@@ -316,7 +354,7 @@ function SignUp() {
                     {!pwValid && pw.length > 0 && <div>인증 번호가 일치하지 않습니다.</div>}
                   </div>
                   {emailSended ? (
-                    <div className="errorMessageWrap" onClick={emailSend}>
+                    <div className="errorMessageWrap" onClick={onClickEmailSend}>
                       인증 번호 다시 보내기
                     </div>
                   ) : null}

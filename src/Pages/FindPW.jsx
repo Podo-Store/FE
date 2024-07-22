@@ -5,17 +5,15 @@ import BottomBtn from "../Components/auth/BottomBtn";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./FindBar.css";
+import axios from "axios";
+import { SERVER_URL } from "../Components/constants/ServerURL";
 
 const FindPW = () => {
-  const User = {
-    id: "podostore",
-    email: "podo@store.com",
-    emailCode: "123456",
-  };
-
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
+  const [receivedEmailCode, setReceivedEmailCode] = useState("");
+  const [receivedAccessToken, setReceivedAccessToken] = useState("");
 
   const [idValid, setIdValid] = useState(false);
 
@@ -52,14 +50,20 @@ const FindPW = () => {
     }
   }, [id]);
 
-  const onClickIdConfirmBtn = () => {
-    setIsSendIdBtnPressed(true);
+  const onClickIdConfirmBtn = async () => {
     // 아이디 가입 여부 확인 API 호출, 조건문 사용
-    if (id === User.id) {
-      setIsNotRegisteredId(false);
-    } else {
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
+        userId: id,
+        check: false,
+      });
+      if (response.data === true) {
+        setIsNotRegisteredId(false);
+      }
+    } catch (error) {
       setIsNotRegisteredId(true);
     }
+    setIsSendIdBtnPressed(true);
   };
 
   // email
@@ -73,16 +77,24 @@ const FindPW = () => {
     }
   }, [email]);
 
-  const onClickSendEmailBtn = () => {
-    // 인증하기 버튼 눌림 -> 에러 메시지 허용
-    setIsSendEmailBtnPressed(true);
-
+  const onClickSendEmailBtn = async () => {
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
-    if (email === User.email) {
+    alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+        email: email,
+        check: false,
+      });
+      setReceivedEmailCode(response.data);
+
+      alert("이메일이 전송되었습니다.");
       setIsNotRegisteredEmail(false);
-    } else {
+    } catch (error) {
+      alert("이메일 전송에 실패했습니다.");
       setIsNotRegisteredEmail(true);
     }
+    // 인증하기 버튼 눌림 -> 에러 메시지 허용
+    setIsSendEmailBtnPressed(true);
   };
 
   useEffect(() => {
@@ -93,16 +105,22 @@ const FindPW = () => {
     }
   }, [emailCode]);
 
-  const onClickEmailCodeConfirmBtn = () => {
-    // 확인 버튼 눌림 -> 에러 메시지 허용
-    setIsEmailCodeConfirmBtnPressed(true);
-
+  const onClickEmailCodeConfirmBtn = async () => {
     // 이메일 코드 확인 API 호출, 조건문 사용
-    if (email === User.email && emailCode === User.emailCode) {
+    try {
+      const response = await axios.post(`${SERVER_URL}auth/findPassword`, {
+        userId: id,
+        email: email,
+        authNum: emailCode,
+      });
+      setReceivedAccessToken(response.data.accessToken);
       setIsEmailCodeCorrect(true);
-    } else {
+    } catch (error) {
+      console.log(error.response.data.error);
       setIsEmailCodeCorrect(false);
     }
+    // 확인 버튼 눌림 -> 에러 메시지 허용
+    setIsEmailCodeConfirmBtnPressed(true);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화
@@ -143,10 +161,28 @@ const FindPW = () => {
     setPwCheck(e.target.value);
   };
 
-  const onClickResetPwBtn = () => {
+  const onClickResetPwBtn = async () => {
     // 비밀번호 재설정 API 호출
-    alert("비밀번호가 재설정되었습니다.");
-    navigate("/signin");
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}auth/resetPassword`,
+        {
+          password: newPw,
+          confirmPassword: pwCheck,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${receivedAccessToken}`,
+          },
+        }
+      );
+      alert("비밀번호가 재설정되었습니다.");
+      navigate("/signin");
+    } catch (error) {
+      alert("오류가 발생했습니다. 다시 시도해 주세요.");
+      console.log(error);
+    }
   };
 
   useEffect(() => {

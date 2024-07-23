@@ -2,20 +2,17 @@ import "./SignIn.css";
 import axios from "axios";
 import { SERVER_URL } from "../Components/constants/ServerURL";
 import MainNav from "./MainNav";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import RightSide from "../Components/auth/RightSide";
 import Page from "../Components/auth/Page";
 import InputField from "../Components/auth/InputField";
 import BottomBtn from "../Components/auth/BottomBtn";
 import Box from "../Components/auth/Box";
-
-const User = {
-  id: "test",
-  pw: "123",
-};
+import AuthContext from "../contexts/AuthContext";
 
 function SignIn() {
+  const { login } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
@@ -51,6 +48,9 @@ function SignIn() {
       });
 
       if (response.data.accessToken) {
+        // accessToken을 쿠키에 저장 -> context 호출
+        login(response.data.accessToken);
+
         setIsIdPwMatch(true);
         navigate("/");
       } else {

@@ -1,14 +1,12 @@
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-
-import './MainNav.css';
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import "./MainNav.css";
+import AuthContext from "../contexts/AuthContext";
 
 function MainNav() {
-  const movePage = useNavigate();
+  const { isAuthenticated, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  function mvSignIn() {
-    movePage('/signin');
-  }
   return (
     <div className="App">
       <nav className="navbar">
@@ -33,9 +31,27 @@ function MainNav() {
           </li>
         </ul>
         <div className="navbar_login">
-          <button onClick={mvSignIn} className="signin_btn">
-            로그인
-          </button>
+          {!isAuthenticated ? (
+            <button
+              onClick={() => {
+                navigate("/signin");
+              }}
+              className="signin_btn"
+            >
+              로그인
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                // context 호출
+                logout();
+                navigate("/");
+              }}
+              className="signin_btn"
+            >
+              로그아웃
+            </button>
+          )}
         </div>
       </nav>
     </div>

@@ -47,9 +47,9 @@ function SignIn() {
         password: pw,
       });
 
-      if (response.data.accessToken) {
+      if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(response.data.accessToken);
+        login(response.data.accessToken, response.data.refreshToken);
 
         setIsIdPwMatch(true);
         navigate("/");

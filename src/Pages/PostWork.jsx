@@ -3,7 +3,7 @@ import MainNav from "./MainNav";
 import Footer from "./Footer";
 import infoBtn from "../assets/image/post/infoBtn.svg";
 import typeWriterImg from "../assets/image/post/typeWriterImg.svg";
-import React, { Component, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -22,11 +22,13 @@ const PostWork = () => {
 
   // 로그인 되어 있지 않을 경우 로그인 페이지로 이동
   // TODO: 별도 커스텀 훅으로 분리
-  const checkedAuthFlag = useRef(false);
+  const checkedAuthFlag = useRef(false); // 최초 렌더링 시에만 체크
   useEffect(() => {
     if (!isAuthenticated && !checkedAuthFlag.current) {
+      console.log(isAuthenticated);
       alert("로그인이 필요한 서비스입니다.");
       navigate("/signin");
+      console.log(isAuthenticated);
     }
     checkedAuthFlag.current = true;
   }, [isAuthenticated, navigate]);

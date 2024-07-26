@@ -1,18 +1,17 @@
 import "./SignUp.css";
 import axios from "axios";
-import MainNav from "./MainNav";
-import InputField from "../Components/auth/InputField";
-import BottomBtn from "../Components/auth/BottomBtn";
-import Page from "../Components/auth/Page";
-import RightSide from "../Components/auth/RightSide";
-import Box from "../Components/auth/Box";
-import InsideBtn from "../Components/auth/InsideBtn";
-
+import MainNav from "../MainNav";
+import InputField from "../../components/auth/InputField";
+import BottomBtn from "../../components/auth/BottomBtn";
+import Page from "../../components/auth/Page";
+import RightSide from "../../components/auth/RightSide";
+import Box from "../../components/auth/Box";
+import InsideBtn from "../../components/auth/InsideBtn";
 import { useEffect, useState, useCallback } from "react";
-import { SERVER_URL } from "../Components/constants/ServerURL";
+import { SERVER_URL } from "../../components/constants/ServerURL";
 import { Link, useNavigate } from "react-router-dom";
-import loading from "../assets/image/auth/loading.svg";
-import check from "../assets/image/auth/check.svg";
+import loading from "../../assets/image/auth/loading.svg";
+import check from "../../assets/image/auth/check.svg";
 
 function SignUp() {
   const navigate = useNavigate();

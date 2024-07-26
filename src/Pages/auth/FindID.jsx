@@ -1,12 +1,12 @@
-import InputField from "../Components/auth/InputField";
-import InsideBtn from "../Components/auth/InsideBtn";
-import BottomBtn from "../Components/auth/BottomBtn";
+import InputField from "../../components/auth/InputField";
+import InsideBtn from "../../components/auth/InsideBtn";
+import BottomBtn from "../../components/auth/BottomBtn";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./FindBar.css";
 import axios from "axios";
-import { SERVER_URL } from "../Components/constants/ServerURL";
+import { SERVER_URL } from "../../components/constants/ServerURL";
 
 const FindID = () => {
   const [email, setEmail] = useState("");

@@ -1,11 +1,11 @@
 import "./SignUpSuccess.css";
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "./MainNav";
-import RightSide from "../Components/auth/RightSide";
-import Page from "../Components/auth/Page";
-import BottomBtn from "../Components/auth/BottomBtn";
-import Box from "../Components/auth/Box";
+import MainNav from "../MainNav";
+import RightSide from "../../components/auth/RightSide";
+import Page from "../../components/auth/Page";
+import BottomBtn from "../../components/auth/BottomBtn";
+import Box from "../../components/auth/Box";
 
 function SignUpSuccess() {
   const navigate = useNavigate();

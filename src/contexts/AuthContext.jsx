@@ -1,12 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { SERVER_URL } from "../Components/constants/ServerURL";
+import { SERVER_URL } from "../components/constants/ServerURL";
+import { setupAxiosInterceptors } from "../utils/AxiosInterceptors";
 import {
   ACCESS_TOKEN_EXP_TIME,
   REFRESH_TOKEN_EXP_TIME,
-} from "../Components/constants/TokenExpireTime";
-import { setupAxiosInterceptors } from "../utils/AxiosInterceptors";
+} from "../components/constants/TokenExpireTime";
 
 const AuthContext = createContext();
 

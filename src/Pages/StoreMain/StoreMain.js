@@ -1,7 +1,7 @@
 import "./StoreMain.css";
 import MainNav from "../MainNav";
 import { dummy } from "../DummyData";
-import Dummy from "../../Components/Dummy";
+import Dummy from "../../components/Dummy";
 
 function StoreMain() {
   return (

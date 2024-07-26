@@ -1,15 +1,15 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import App from "./App";
-import SignUp from "./Pages/SignUp";
-import SignUpSuccess from "./Pages/SignUpSuccess";
-import SignIn from "./Pages/SignIn";
-import FindBar from "./Pages/FindBar";
-import StoreMain from "./Pages/StoreMain/StoreMain";
-import NowPlaying from "./Pages/NowPlaying";
-import ScriptRegist from "./Pages/ScriptRegist";
-import ApplyScript from "./Pages/ApplyScript";
-import MonthAuthor from "./Pages/MonthAuthor";
+import SignUp from "./pages/auth/SignUp";
+import SignUpSuccess from "./pages/auth/SignUpSuccess";
+import SignIn from "./pages/auth/SignIn";
+import FindBar from "./pages/auth/FindBar";
+import StoreMain from "./pages/StoreMain/StoreMain";
+import NowPlaying from "./pages/NowPlaying";
+import ScriptRegist from "./pages/ScriptRegist";
+import ApplyScript from "./pages/ApplyScript";
+import MonthAuthor from "./pages/MonthAuthor";
 import { AuthProvider } from "./contexts/AuthContext";
 
 function Routing() {

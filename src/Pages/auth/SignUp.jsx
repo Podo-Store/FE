@@ -167,7 +167,7 @@ function SignUp() {
 
   // (이메일) 인증하기 버튼 활성화
   useEffect(() => {
-    if (email.length > 0) {
+    if (emailValid && email.length > 0) {
       setEmailSendBtn(true);
     }
   }, [email]);
@@ -274,6 +274,8 @@ function SignUp() {
                   validMessage="사용 가능한 아이디입니다."
                   isValid={idValid}
                   isDuplicated={idDuplicated}
+                  // TODO: showErrorMsg 반영
+                  showErrorMsg={true}
                 />
 
                 <InputField
@@ -285,6 +287,8 @@ function SignUp() {
                   errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
                   validMessage="사용 가능한 비밀번호 입니다."
                   isValid={pwValid}
+                  // TODO: showErrorMsg 반영
+                  showErrorMsg={true}
                 />
 
                 <InputField
@@ -296,6 +300,8 @@ function SignUp() {
                   errorMessage="비밀번호가 일치하지 않습니다."
                   validMessage="비밀번호가 일치합니다."
                   isValid={pwcheckValid}
+                  // TODO: showErrorMsg 반영
+                  showErrorMsg={true}
                 />
 
                 <InputField
@@ -308,8 +314,11 @@ function SignUp() {
                   validMessage="사용 가능한 닉네임 입니다."
                   isValid={nameValid}
                   isDuplicated={nameDuplicated}
+                  // TODO: showErrorMsg 반영
+                  showErrorMsg={true}
                 />
 
+                {/* TODO: component로 모듈화 */}
                 {/* 예외 상황 존재, component 분리 X */}
                 <div className="inputTitle">이메일</div>
                 <div className="inputWrap">
@@ -326,7 +335,9 @@ function SignUp() {
                 </div>
 
                 <div className="errorMessageWrap">
-                  {emailDuplicated && email.length > 0 ? (
+                  {!emailValid && email.length > 0 ? (
+                    <div>이메일 형식이 올바르지 않습니다.</div>
+                  ) : emailDuplicated && email.length > 0 ? (
                     <div>중복된 이메일입니다.</div>
                   ) : (
                     emailSended && <div className="NerrorMessageWrap">메일을 보냈습니다.</div>
@@ -350,7 +361,9 @@ function SignUp() {
                 </div>
                 <div className="errorMessage_resend_Wrap">
                   <div className="errorMessageWrap">
-                    {!pwValid && pw.length > 0 && <div>인증 번호가 일치하지 않습니다.</div>}
+                    {!emailCodeValid && emailCode.length > 0 && (
+                      <div>인증 번호가 일치하지 않습니다.</div>
+                    )}
                   </div>
                   {emailSended ? (
                     <div className="errorMessageWrap" onClick={onClickEmailSend}>

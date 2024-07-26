@@ -14,6 +14,7 @@ const InputField = ({
   validMessage,
   isValid,
   isDuplicated,
+  showErrorMsg,
   additionalElement,
   // 선택 사항 2: 재전송
   resendMessageCondition,
@@ -35,12 +36,16 @@ const InputField = ({
       </div>
       <div className="errorMessage_resend_Wrap">
         <div className="errorMessageWrap">
-          {!isValid && value.length > 0 ? (
-            <div>{errorMessage}</div>
-          ) : isDuplicated && value.length > 0 ? (
-            <div>중복된 {title}입니다.</div>
+          {showErrorMsg ? (
+            !isValid && value.length > 0 ? (
+              <div>{errorMessage}</div>
+            ) : isDuplicated && value.length > 0 ? (
+              <div>중복된 {title}입니다.</div>
+            ) : (
+              isValid && value.length > 0 && <div className="NerrorMessageWrap">{validMessage}</div>
+            )
           ) : (
-            isValid && value.length > 0 && <div className="NerrorMessageWrap">{validMessage}</div>
+            <div> </div>
           )}
         </div>
         {resendMessageCondition ? (

@@ -114,6 +114,8 @@ const FindID = () => {
               인증하기
             </InsideBtn>
           }
+          // TODO: showErrorMsg 반영
+          showErrorMsg={true}
         />
         <InputField
           title="인증 번호"
@@ -136,6 +138,8 @@ const FindID = () => {
           resendMessageCondition={isSendEmailBtnPressed && !isNotRegisteredEmail}
           resendMessage="인증 번호 다시 보내기"
           resendOnClick={onClickSendEmailBtn}
+          // TODO: showErrorMsg 반영
+          showErrorMsg={true}
         />
 
         <BottomBtn

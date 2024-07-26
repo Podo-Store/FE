@@ -16,6 +16,7 @@ function SignIn() {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
@@ -55,15 +56,21 @@ function SignIn() {
         navigate("/");
       } else {
         setIsIdPwMatch(false);
+        setShowErrorMsg(true);
       }
     } catch (error) {
       if (error.response.data.error === "signin error") {
         alert("로그인 오류, 다시 시도해 주세요.");
-        // Match는 아니지만 아이디/비번 오류가 아님을 표시하기 위함
-        setIsIdPwMatch(true);
       } else {
-        setIsIdPwMatch(false);
       }
+      setIsIdPwMatch(false);
+      setShowErrorMsg(true);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onClickConfirmButton();
     }
   };
 
@@ -83,6 +90,7 @@ function SignIn() {
                   placeholder="podostore"
                   value={id}
                   onChange={handleId}
+                  onKeyPress={handleKeyPress}
                 />
                 <InputField
                   title="비밀번호"
@@ -90,8 +98,10 @@ function SignIn() {
                   placeholder="Lovepodo_S2"
                   value={pw}
                   onChange={handlePassword}
+                  onKeyPress={handleKeyPress}
                   errorMessage="아이디 / 비밀번호 오류"
                   isValid={isIdPwMatch}
+                  showErrorMsg={showErrorMsg}
                 />
               </div>
               <div>

@@ -16,6 +16,8 @@ const PostWork = () => {
   const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
+  const [fileSelected, setFileSelected] = useState(false);
+
   const { isAuthenticated } = useContext(AuthContext);
 
   // 로그인 되어 있지 않을 경우 로그인 페이지로 이동
@@ -34,6 +36,7 @@ const PostWork = () => {
     if (uploadedFile) {
       setFile(uploadedFile);
       setFileName(uploadedFile.name);
+      setFileSelected(true);
     }
   };
 
@@ -104,7 +107,7 @@ const PostWork = () => {
                 <div className="file-info">{fileName}</div>
               </div>
               <div className="upload-btn-div">
-                <button id="upload-btn" onClick={handleUpload}>
+                <button id="upload-btn" onClick={handleUpload} disabled={!fileSelected}>
                   작품 보내기
                 </button>
               </div>

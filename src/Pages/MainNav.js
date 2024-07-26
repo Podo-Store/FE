@@ -21,7 +21,7 @@ function MainNav() {
             <Link to="/nowplaying">지금 공연 중</Link>
           </li>
           <li>
-            <Link to="/scriptregist">작품 등록하기</Link>
+            <Link to="/post">작품 등록하기</Link>
           </li>
           <li>
             <Link to="/applyscript">희망 대본 신청하기</Link>

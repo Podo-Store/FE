@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import AuthContext from "../contexts/AuthContext";
 import { SERVER_URL } from "../components/constants/ServerURL";
+import PostWorkPopup from "./PostWorkPopup";
 
 const PostWork = () => {
   const navigate = useNavigate();
@@ -18,10 +19,15 @@ const PostWork = () => {
   const [fileName, setFileName] = useState("");
   const [fileSelected, setFileSelected] = useState(false);
 
+  // 팝업 메뉴
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+
   const { isAuthenticated } = useContext(AuthContext);
 
   // 로그인 되어 있지 않을 경우 로그인 페이지로 이동
   // TODO: 별도 커스텀 훅으로 분리
+  // TODO: 새로고침 시 버그 수정
   const checkedAuthFlag = useRef(false); // 최초 렌더링 시에만 체크
   useEffect(() => {
     if (!isAuthenticated && !checkedAuthFlag.current) {
@@ -81,6 +87,9 @@ const PostWork = () => {
 
   return (
     <div className="post-work">
+      {showPopup && (
+        <PostWorkPopup onClose={() => setShowPopup(false)} initialPosition={popupPosition} />
+      )}
       <MainNav />
       <div className="post-work-wrap">
         <div className="left-side">
@@ -93,7 +102,16 @@ const PostWork = () => {
             <div>
               <div className="upload-title">
                 <h6>작품 등록 신청</h6>
-                <img src={infoBtn} alt="infoBtn" />
+                {/* 팝업 메뉴 */}
+                <img
+                  src={infoBtn}
+                  alt="infoBtn"
+                  onClick={(event) => {
+                    setShowPopup(true);
+                    const rect = event.target.getBoundingClientRect();
+                    setPopupPosition({ x: rect.left, y: rect.bottom });
+                  }}
+                />
               </div>
               <div className="upload-content">
                 <button id="select-file" onClick={() => fileInputRef.current.click()}>

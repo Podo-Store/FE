@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import popUpClose from "../assets/image/post/postPopupClose.svg";
+import popUpClose from "../../assets/image/post/postPopupClose.svg";
 import "./PostWorkPopup.css";
 
 const PostWorkPopup = ({ onClose, initialPosition }) => {

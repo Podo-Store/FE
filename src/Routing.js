@@ -5,7 +5,7 @@ import SignUp from "./pages/auth/SignUp";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
 import FindBar from "./pages/auth/FindBar";
-import PostWork from "./pages/PostWork";
+import PostWork from "./pages/work/PostWork";
 import StoreMain from "./pages/StoreMain/StoreMain";
 import NowPlaying from "./pages/NowPlaying";
 import ScriptRegist from "./pages/ScriptRegist";

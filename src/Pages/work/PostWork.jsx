@@ -1,14 +1,14 @@
 import "./PostWork.css";
-import MainNav from "./MainNav";
-import Footer from "./Footer";
-import infoBtn from "../assets/image/post/infoBtn.svg";
-import typeWriterImg from "../assets/image/post/typeWriterImg.svg";
+import MainNav from "../MainNav";
+import Footer from "../Footer";
+import infoBtn from "../../assets/image/post/infoBtn.svg";
+import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import AuthContext from "../contexts/AuthContext";
-import { SERVER_URL } from "../components/constants/ServerURL";
+import AuthContext from "../../contexts/AuthContext";
+import { SERVER_URL } from "../../components/constants/ServerURL";
 import PostWorkPopup from "./PostWorkPopup";
 
 const PostWork = () => {

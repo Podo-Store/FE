@@ -5,6 +5,7 @@ import SignUp from "./pages/auth/SignUp";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
 import FindBar from "./pages/auth/FindBar";
+import List from "./pages/work/List";
 import PostWork from "./pages/work/PostWork";
 import StoreMain from "./pages/StoreMain/StoreMain";
 import NowPlaying from "./pages/NowPlaying";
@@ -25,6 +26,7 @@ function Routing() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signin/find" element={<FindBar />} />
 
+            <Route path="/list" element={<List />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route path="/storemain" element={<StoreMain />} />

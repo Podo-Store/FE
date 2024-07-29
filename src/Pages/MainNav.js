@@ -15,7 +15,7 @@ function MainNav() {
         </div>
         <ul className="navbar_menu">
           <li>
-            <Link to="/storemain">작품 둘러보기</Link>
+            <Link to="/list">작품 둘러보기</Link>
           </li>
           <li>
             <Link to="/nowplaying">지금 공연 중</Link>

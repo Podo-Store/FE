@@ -1,12 +1,12 @@
-import InputField from "../Components/auth/InputField";
-import InsideBtn from "../Components/auth/InsideBtn";
-import BottomBtn from "../Components/auth/BottomBtn";
+import InputField from "../../components/auth/InputField";
+import InsideBtn from "../../components/auth/InsideBtn";
+import BottomBtn from "../../components/auth/BottomBtn";
 
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./FindBar.css";
 import axios from "axios";
-import { SERVER_URL } from "../Components/constants/ServerURL";
+import { SERVER_URL } from "../../components/constants/ServerURL";
 
 const FindPW = () => {
   const [id, setId] = useState("");
@@ -223,6 +223,8 @@ const FindPW = () => {
               확인
             </InsideBtn>
           }
+          // TODO: showErrorMsg 반영
+          showErrorMsg={true}
         />
         <InputField
           title="이메일"
@@ -240,6 +242,8 @@ const FindPW = () => {
               인증하기
             </InsideBtn>
           }
+          // TODO: showErrorMsg 반영
+          showErrorMsg={true}
         />
         <InputField
           title="인증 번호"
@@ -262,6 +266,8 @@ const FindPW = () => {
           resendMessageCondition={isSendEmailBtnPressed && !isNotRegisteredEmail}
           resendMessage="인증 번호 다시 보내기"
           resendOnClick={onClickSendEmailBtn}
+          // TODO: showErrorMsg 반영
+          showErrorMsg={true}
         />
 
         <BottomBtn
@@ -286,6 +292,8 @@ const FindPW = () => {
         onChange={handleNewPassword}
         errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
         isValid={pwValid}
+        // TODO: showErrorMsg 반영
+        showErrorMsg={true}
       />
       <InputField
         title="비밀번호 확인"
@@ -296,6 +304,8 @@ const FindPW = () => {
         errorMessage="비밀번호가 일치하지 않습니다."
         validMessage="비밀번호가 일치합니다."
         isValid={pwCheckValid}
+        // TODO: showErrorMsg 반영
+        showErrorMsg={true}
       />
       <BottomBtn onClick={onClickResetPwBtn} disabled={notResetAllow}>
         비밀번호 재설정하기

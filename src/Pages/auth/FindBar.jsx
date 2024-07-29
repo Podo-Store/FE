@@ -4,8 +4,8 @@ import "./FindBar.css";
 import FindID from "./FindID";
 import FindPW from "./FindPW";
 
-import MainNav from "./MainNav";
-import Box from "../Components/auth/Box";
+import MainNav from "../MainNav";
+import Box from "../../components/auth/Box";
 
 const Find = () => {
   const TAB_NAME = ["아이디 찾기", "비밀번호 찾기"];

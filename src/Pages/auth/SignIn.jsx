@@ -1,24 +1,22 @@
 import "./SignIn.css";
 import axios from "axios";
-import { SERVER_URL } from "../Components/constants/ServerURL";
-import MainNav from "./MainNav";
-import { useState, useEffect } from "react";
+import { SERVER_URL } from "../../components/constants/ServerURL";
+import MainNav from "../MainNav";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RightSide from "../Components/auth/RightSide";
-import Page from "../Components/auth/Page";
-import InputField from "../Components/auth/InputField";
-import BottomBtn from "../Components/auth/BottomBtn";
-import Box from "../Components/auth/Box";
-
-const User = {
-  id: "test",
-  pw: "123",
-};
+import RightSide from "../../components/auth/RightSide";
+import Page from "../../components/auth/Page";
+import InputField from "../../components/auth/InputField";
+import BottomBtn from "../../components/auth/BottomBtn";
+import Box from "../../components/auth/Box";
+import AuthContext from "../../contexts/AuthContext";
 
 function SignIn() {
+  const { login } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
   const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
@@ -50,20 +48,29 @@ function SignIn() {
         password: pw,
       });
 
-      if (response.data.accessToken) {
+      if (response.data.accessToken && response.data.refreshToken) {
+        // accessToken을 쿠키에 저장 -> context 호출
+        login(response.data.accessToken, response.data.refreshToken);
+
         setIsIdPwMatch(true);
         navigate("/");
       } else {
         setIsIdPwMatch(false);
+        setShowErrorMsg(true);
       }
     } catch (error) {
       if (error.response.data.error === "signin error") {
         alert("로그인 오류, 다시 시도해 주세요.");
-        // Match는 아니지만 아이디/비번 오류가 아님을 표시하기 위함
-        setIsIdPwMatch(true);
       } else {
-        setIsIdPwMatch(false);
       }
+      setIsIdPwMatch(false);
+      setShowErrorMsg(true);
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      onClickConfirmButton();
     }
   };
 
@@ -83,6 +90,7 @@ function SignIn() {
                   placeholder="podostore"
                   value={id}
                   onChange={handleId}
+                  onKeyPress={handleKeyPress}
                 />
                 <InputField
                   title="비밀번호"
@@ -90,8 +98,10 @@ function SignIn() {
                   placeholder="Lovepodo_S2"
                   value={pw}
                   onChange={handlePassword}
+                  onKeyPress={handleKeyPress}
                   errorMessage="아이디 / 비밀번호 오류"
                   isValid={isIdPwMatch}
+                  showErrorMsg={showErrorMsg}
                 />
               </div>
               <div>

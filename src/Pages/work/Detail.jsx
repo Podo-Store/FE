@@ -12,12 +12,29 @@ import samplePDF from "./../../assets/sample.pdf";
 const Detail = ({
   title = "Archive",
   author = "서준",
-  scriptPrice = "30,000",
-  performPrice = "30,000",
+  scriptPrice = 30000,
+  performPrice = 30000,
 }) => {
+  let scriptPriceStr = scriptPrice.toLocaleString();
+  let performPriceStr = performPrice.toLocaleString();
+
   const [bottomBarStyle, setBottomBarStyle] = useState({
     position: "fixed",
   });
+  const [selectedOption, setSelectedOption] = useState("");
+  const [totalPrice, setTotalPrice] = useState(" - ");
+
+  const handleSelectOption = (event) => {
+    setSelectedOption(event.target.value);
+  };
+
+  useEffect(() => {
+    if (selectedOption === "script") {
+      setTotalPrice(scriptPriceStr);
+    } else if (selectedOption === "scriptPerform") {
+      setTotalPrice((scriptPrice + performPrice).toLocaleString());
+    }
+  }, [selectedOption]);
 
   const pdfContainerRef = useRef(null);
 
@@ -70,19 +87,19 @@ const Detail = ({
             </h1>
             <div className="detail-price">
               <img src={scriptImg} alt="script image"></img>
-              <p>대본 {scriptPrice} 원</p>
+              <p>대본 {scriptPriceStr} 원</p>
             </div>
             <div className="detail-price">
               <img src={performImg} alt="perform image"></img>
-              <p>공연권 {performPrice} 원</p>
+              <p>공연권 {performPriceStr} 원</p>
             </div>
             <h4>옵션 선택</h4>
-            <select name="" id="option">
+            <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
               <option value="" disabled selected>
                 옵션 선택
               </option>
-              <option value="">대본</option>
-              <option value="">대본 & 공연권</option>
+              <option value="script">대본</option>
+              <option value="scriptPerform">대본 & 공연권</option>
             </select>
             <div className="detail-btn-wrap">
               <button id="cart-btn">장바구니</button>
@@ -102,13 +119,13 @@ const Detail = ({
       </div>
       <div className="detail-bottom-bar" style={bottomBarStyle}>
         <h6>총 금액</h6>
-        <h3> 60,000 원</h3>
-        <select name="" id="option">
+        <h3> {totalPrice} 원</h3>
+        <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
           <option value="" disabled selected>
             옵션 선택
           </option>
-          <option value="">대본</option>
-          <option value="">대본 & 공연권</option>
+          <option value="script">대본</option>
+          <option value="scriptPerform">대본 & 공연권</option>
         </select>
         <button id="cart-btn">장바구니</button>
         <button id="purchase-btn">구매하기</button>

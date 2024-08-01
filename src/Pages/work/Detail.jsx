@@ -1,17 +1,54 @@
+import { useEffect, useState, useRef } from "react";
 import Footer from "../Footer";
 import MainNav from "../MainNav";
 import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import "./Detail.css";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+import "@react-pdf-viewer/core/lib/styles/index.css";
+import samplePDF from "./../../assets/sample.pdf";
 
-const detail = ({
+const Detail = ({
   title = "Archive",
   author = "서준",
   scriptPrice = "30,000",
   performPrice = "30,000",
-  description = "교보문고 보니까 아예 이미지로 홍보 내용을 만들어서 올렸더라구요.. 기본 정보 (발행(출시)일자, 쪽 수, ), 목차, 줄거리, 작가 정보, 수상 정보, 책 속으로 (p. 27 이렇게해서인용도하더라구요",
 }) => {
+  const [bottomBarStyle, setBottomBarStyle] = useState({
+    position: "fixed",
+  });
+
+  const pdfContainerRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const pdfContainer = pdfContainerRef.current;
+      const bottomBar = document.querySelector(".detail-bottom-bar");
+
+      if (pdfContainer && bottomBar) {
+        const pdfContainerRect = pdfContainer.getBoundingClientRect();
+        const bottomBarHeight = bottomBar.offsetHeight;
+
+        // PDF의 끝이 화면에 나타나면 bottom-bar 위치 변경
+        if (pdfContainerRect.bottom <= window.innerHeight - bottomBarHeight) {
+          setBottomBarStyle({
+            position: "relative",
+          });
+        } else {
+          setBottomBarStyle({
+            position: "fixed",
+          });
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="detail">
       <MainNav />
@@ -54,14 +91,16 @@ const detail = ({
           </div>
         </div>
 
-        <div className="detail-description">
+        <div className="detail-description" ref={pdfContainerRef}>
           <hr></hr>
 
-          <h5>{title}</h5>
-          <p>{description}</p>
+          {/* PDF 삽입 */}
+          <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
+            <Viewer fileUrl={samplePDF} />
+          </Worker>
         </div>
       </div>
-      <div className="detail-bottom-bar">
+      <div className="detail-bottom-bar" style={bottomBarStyle}>
         <h6>총 금액</h6>
         <h3> 60,000 원</h3>
         <select name="" id="option">
@@ -74,9 +113,9 @@ const detail = ({
         <button id="cart-btn">장바구니</button>
         <button id="purchase-btn">구매하기</button>
       </div>
-      <Footer />
+      <Footer className="footer" />
     </div>
   );
 };
 
-export default detail;
+export default Detail;

@@ -145,6 +145,12 @@
   justify-content: space-between;
   align-items: center;
 
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
   margin-top: 2em;
   padding: 1rem 16vw;
   gap: 1rem;

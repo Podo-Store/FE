@@ -8,21 +8,81 @@ import "./Detail.css";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import samplePDF from "./../../assets/sample.pdf";
+import { SERVER_URL } from "../../components/constants/ServerURL";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useParams } from "react-router-dom";
 
-const Detail = ({
-  title = "Archive",
-  author = "서준",
-  scriptPrice = 30000,
-  performPrice = 30000,
-}) => {
-  let scriptPriceStr = scriptPrice.toLocaleString();
-  let performPriceStr = performPrice.toLocaleString();
+const Detail = () => {
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [scriptPrice, setScriptPrice] = useState(0);
+  const [performPrice, setPerformPrice] = useState(0);
+  // 000,000 형식 추가된 가격
+  const [scriptPriceStr, setScriptPriceStr] = useState("");
+  const [performPriceStr, setPerformPriceStr] = useState("");
+
+  const [imagePath, setImagePath] = useState("");
+  const [descriptionPath, setDescriptionPath] = useState("");
 
   const [bottomBarStyle, setBottomBarStyle] = useState({
     position: "fixed",
   });
   const [selectedOption, setSelectedOption] = useState("");
   const [totalPrice, setTotalPrice] = useState(" - ");
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    setScriptPriceStr(scriptPrice.toLocaleString());
+  }, [scriptPrice]);
+
+  useEffect(() => {
+    setPerformPriceStr(performPrice.toLocaleString());
+  }, [performPrice]);
+
+  useEffect(() => {
+    const loading = async () => {
+      try {
+        let response;
+        // 로그아웃 상태
+        if (!Cookies.get("accessToken")) {
+          response = await axios.get(`${SERVER_URL}scripts/detail`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+            params: {
+              script: id,
+            },
+          });
+        } else {
+          // 로그인 상태
+          response = await axios.get(`${SERVER_URL}scripts/detail`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+            params: {
+              script: id,
+            },
+          });
+        }
+
+        setTitle(response.data.title);
+        setAuthor(response.data.writer);
+        setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
+        setPerformPrice(response.data.performPrice ?? 0); // nullish 병합 연산자 사용
+
+        setImagePath(response.data.imagePath);
+        setDescriptionPath(response.data.descriptionPath);
+      } catch (error) {
+        alert("작품 정보를 불러오는데 실패했습니다.");
+        console.log(error);
+      }
+    };
+
+    loading();
+  }, [id]);
 
   const handleSelectOption = (event) => {
     setSelectedOption(event.target.value);
@@ -75,7 +135,7 @@ const Detail = ({
             <div
               className="thumbnail-img"
               style={{
-                backgroundImage: `url(${typeWriterImg})`,
+                backgroundImage: `url(${imagePath ? imagePath : typeWriterImg})`,
               }}
             ></div>
           </div>
@@ -113,7 +173,13 @@ const Detail = ({
 
           {/* PDF 삽입 */}
           <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-            <Viewer fileUrl={samplePDF} />
+            {descriptionPath ? (
+              <Viewer fileUrl={descriptionPath} />
+            ) : (
+              <div>
+                <p>설명 로딩중... (하단은 샘플 PDF입니다)</p> <Viewer fileUrl={samplePDF} />
+              </div>
+            )}
           </Worker>
         </div>
       </div>

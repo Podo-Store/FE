@@ -3,13 +3,7 @@ import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import { useEffect, useState } from "react";
 
-const ListThumbnail = ({
-  thumbnailImg = null,
-  title = "Archive",
-  author = "서준",
-  scriptPrice = 20000,
-  performPrice = 20000,
-}) => {
+const ListThumbnail = ({ thumbnailImg, title, author, scriptPrice, performPrice, onClick }) => {
   const [scriptPriceStr, setScriptPriceStr] = useState("");
   const [performPriceStr, setPerformPriceStr] = useState("");
 
@@ -22,7 +16,7 @@ const ListThumbnail = ({
   }, [performPrice]);
 
   return (
-    <div className="list-thumbnail">
+    <div className="list-thumbnail" onClick={onClick}>
       <div
         className="thumbnail-img"
         style={{

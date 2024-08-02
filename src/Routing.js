@@ -28,7 +28,7 @@ function Routing() {
             <Route path="/signin/find" element={<FindBar />} />
 
             <Route path="/list" element={<List />} />
-            <Route path="/list/detail" element={<Detail />} />
+            <Route path="/list/detail/:id" element={<Detail />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route path="/storemain" element={<StoreMain />} />

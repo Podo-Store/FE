@@ -11,12 +11,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../components/constants/ServerURL";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const [longPlays, setLongPlays] = useState([]);
   const [shortPlays, setShortPlays] = useState([]);
+
+  const navigate = useNavigate();
 
   const handleInfoBtnClick = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -57,6 +60,11 @@ const List = () => {
     listAPI();
   }, []);
 
+  const handleThumbnailClick = (id) => {
+    navigate(`/list/detail/${id}`);
+    console.log("clicked");
+  };
+
   return (
     <div className="list">
       <MainNav />
@@ -91,6 +99,7 @@ const List = () => {
                 author={play.writer}
                 scriptPrice={play.scriptPrice}
                 performPrice={play.performancePrice}
+                onClick={() => handleThumbnailClick(play.id)}
               />
             ))}
           </div>
@@ -111,6 +120,7 @@ const List = () => {
                 author={play.writer}
                 scriptPrice={play.scriptPrice}
                 performPrice={play.performancePrice}
+                onClick={() => handleThumbnailClick(play.id)}
               />
             ))}
           </div>

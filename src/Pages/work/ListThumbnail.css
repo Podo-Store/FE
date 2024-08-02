@@ -1,3 +1,7 @@
+.list-thumbnail {
+  cursor: pointer;
+}
+
 .list-thumbnail .thumbnail-img {
   width: 80%;
   padding-bottom: 80%;

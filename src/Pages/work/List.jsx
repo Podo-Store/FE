@@ -7,11 +7,16 @@ import circleInfoBtn from "./../../assets/image/post/list/circleInfoBtn.svg";
 import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { SERVER_URL } from "../../components/constants/ServerURL";
+import Cookies from "js-cookie";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [longPlays, setLongPlays] = useState([]);
+  const [shortPlays, setShortPlays] = useState([]);
 
   const handleInfoBtnClick = (event) => {
     const rect = event.target.getBoundingClientRect();
@@ -20,6 +25,27 @@ const List = () => {
     setPopupPosition({ x, y });
     setShowPopup(true);
   };
+
+  useEffect(() => {
+    const listAPI = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}scripts`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            // TODO: 로그인 안돼있을 경우
+            // Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        });
+
+        setLongPlays(response.data.longPlay);
+        setShortPlays(response.data.shortPlay);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    listAPI();
+  }, []);
 
   return (
     <div className="list">
@@ -43,42 +69,40 @@ const List = () => {
         <div className="work-list">
           <div className="work-list-title">
             <img src={sparkles} alt="sparkles"></img>
-            {/* 컴포넌트 분리시 사용 <h5>{runtimeTitle}</h5> */}
             <h5>장편극</h5>
             <img src={sparkles} alt="sparkles"></img>
           </div>
           <div className="work-list-content">
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
+            {longPlays.map((play) => (
+              <ListThumbnail
+                key={play.id}
+                thumbnailImg={play.imagePath}
+                title={play.title}
+                author={play.writer}
+                scriptPrice={play.scriptPrice}
+                performPrice={play.performancePrice}
+              />
+            ))}
           </div>
         </div>
 
         <div className="work-list">
           <div className="work-list-title">
             <img src={sparkles} alt="sparkles"></img>
-            {/* 컴포넌트 분리시 사용 <h5>{runtimeTitle}</h5> */}
             <h5>단편극</h5>
             <img src={sparkles} alt="sparkles"></img>
           </div>
           <div className="work-list-content">
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
-            <ListThumbnail />
+            {shortPlays.map((play) => (
+              <ListThumbnail
+                key={play.id}
+                thumbnailImg={play.imagePath}
+                title={play.title}
+                author={play.writer}
+                scriptPrice={play.scriptPrice}
+                performPrice={play.performancePrice}
+              />
+            ))}
           </div>
         </div>
       </div>

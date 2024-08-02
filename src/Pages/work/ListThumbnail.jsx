@@ -1,6 +1,7 @@
 import "./ListThumbnail.css";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
+import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import { useEffect, useState } from "react";
 
 const ListThumbnail = ({ thumbnailImg, title, author, scriptPrice, performPrice, onClick }) => {
@@ -20,7 +21,7 @@ const ListThumbnail = ({ thumbnailImg, title, author, scriptPrice, performPrice,
       <div
         className="thumbnail-img"
         style={{
-          backgroundImage: `url(${thumbnailImg})`,
+          backgroundImage: `url(${thumbnailImg ? thumbnailImg : typeWriterImg})`,
         }}
       ></div>
       <div className="description">

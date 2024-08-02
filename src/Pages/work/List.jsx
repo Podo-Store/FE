@@ -62,7 +62,6 @@ const List = () => {
 
   const handleThumbnailClick = (id) => {
     navigate(`/list/detail/${id}`);
-    console.log("clicked");
   };
 
   return (

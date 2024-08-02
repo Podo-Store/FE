@@ -29,13 +29,23 @@ const List = () => {
   useEffect(() => {
     const listAPI = async () => {
       try {
-        const response = await axios.get(`${SERVER_URL}scripts`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            // TODO: 로그인 안돼있을 경우
-            // Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        });
+        let response;
+        // 로그아웃 상태
+        if (!Cookies.get("accessToken")) {
+          response = await axios.get(`${SERVER_URL}scripts`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        } else {
+          // 로그인 상태
+          response = await axios.get(`${SERVER_URL}scripts`, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          });
+        }
 
         setLongPlays(response.data.longPlay);
         setShortPlays(response.data.shortPlay);

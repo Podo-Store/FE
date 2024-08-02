@@ -27,14 +27,11 @@ const PostWork = () => {
 
   // 로그인 되어 있지 않을 경우 로그인 페이지로 이동
   // TODO: 별도 커스텀 훅으로 분리
-  // TODO: 새로고침 시 버그 수정
   const checkedAuthFlag = useRef(false); // 최초 렌더링 시에만 체크
   useEffect(() => {
-    if (!isAuthenticated && !checkedAuthFlag.current) {
-      console.log(isAuthenticated);
+    if (!Cookies.get("accessToken") && !checkedAuthFlag.current) {
       alert("로그인이 필요한 서비스입니다.");
       navigate("/signin");
-      console.log(isAuthenticated);
     }
     checkedAuthFlag.current = true;
   }, [isAuthenticated, navigate]);

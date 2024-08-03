@@ -2,20 +2,16 @@ import "./ListThumbnail.css";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
-import { useEffect, useState } from "react";
+import { formatPrice } from "../../utils/formatPrice";
 
-const ListThumbnail = ({ thumbnailImg, title, author, scriptPrice, performPrice, onClick }) => {
-  const [scriptPriceStr, setScriptPriceStr] = useState("");
-  const [performPriceStr, setPerformPriceStr] = useState("");
-
-  useEffect(() => {
-    setScriptPriceStr(scriptPrice.toLocaleString());
-  }, [scriptPrice]);
-
-  useEffect(() => {
-    setPerformPriceStr(performPrice.toLocaleString());
-  }, [performPrice]);
-
+const ListThumbnail = ({
+  thumbnailImg,
+  title,
+  author,
+  scriptPrice = 0,
+  performPrice = 0,
+  onClick,
+}) => {
   return (
     <div className="list-thumbnail" onClick={onClick}>
       <div
@@ -30,9 +26,9 @@ const ListThumbnail = ({ thumbnailImg, title, author, scriptPrice, performPrice,
         </h5>
         <div className="price">
           <img src={scriptImg} alt="script"></img>
-          <h6>{scriptPriceStr}원</h6>
+          <h6>{formatPrice(scriptPrice)}원</h6>
           <img src={performImg} alt="perform"></img>
-          <h6>{performPriceStr}원</h6>
+          <h6>{formatPrice(performPrice)}원</h6>
         </div>
       </div>
     </div>

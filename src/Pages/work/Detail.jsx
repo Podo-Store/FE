@@ -12,15 +12,13 @@ import { SERVER_URL } from "../../components/constants/ServerURL";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useParams } from "react-router-dom";
+import { formatPrice } from "../../utils/formatPrice";
 
 const Detail = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [scriptPrice, setScriptPrice] = useState(0);
   const [performPrice, setPerformPrice] = useState(0);
-  // 000,000 형식 추가된 가격
-  const [scriptPriceStr, setScriptPriceStr] = useState("");
-  const [performPriceStr, setPerformPriceStr] = useState("");
 
   const [imagePath, setImagePath] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
@@ -32,14 +30,6 @@ const Detail = () => {
   const [totalPrice, setTotalPrice] = useState(" - ");
 
   const { id } = useParams();
-
-  useEffect(() => {
-    setScriptPriceStr(scriptPrice.toLocaleString());
-  }, [scriptPrice]);
-
-  useEffect(() => {
-    setPerformPriceStr(performPrice.toLocaleString());
-  }, [performPrice]);
 
   useEffect(() => {
     const loading = async () => {
@@ -71,7 +61,7 @@ const Detail = () => {
         setTitle(response.data.title);
         setAuthor(response.data.writer);
         setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
-        setPerformPrice(response.data.performPrice ?? 0); // nullish 병합 연산자 사용
+        setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
 
         setImagePath(response.data.imagePath);
         setDescriptionPath(response.data.descriptionPath);
@@ -90,9 +80,9 @@ const Detail = () => {
 
   useEffect(() => {
     if (selectedOption === "script") {
-      setTotalPrice(scriptPriceStr);
+      setTotalPrice(formatPrice(scriptPrice));
     } else if (selectedOption === "scriptPerform") {
-      setTotalPrice((scriptPrice + performPrice).toLocaleString());
+      setTotalPrice(formatPrice(scriptPrice + performPrice));
     }
   }, [selectedOption]);
 
@@ -147,11 +137,11 @@ const Detail = () => {
             </h1>
             <div className="detail-price">
               <img src={scriptImg} alt="script image"></img>
-              <p>대본 {scriptPriceStr} 원</p>
+              <p>대본 {formatPrice(scriptPrice)} 원</p>
             </div>
             <div className="detail-price">
               <img src={performImg} alt="perform image"></img>
-              <p>공연권 {performPriceStr} 원</p>
+              <p>공연권 {formatPrice(performPrice)} 원</p>
             </div>
             <h4>옵션 선택</h4>
             <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>

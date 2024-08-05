@@ -17,18 +17,22 @@ function MainNav() {
           <li>
             <Link to="/list">작품 둘러보기</Link>
           </li>
+          {/*}
           <li>
             <Link to="/nowplaying">지금 공연 중</Link>
           </li>
+          {*/}
           <li>
             <Link to="/post">작품 등록하기</Link>
           </li>
+          {/*}
           <li>
             <Link to="/applyscript">희망 대본 신청하기</Link>
           </li>
           <li>
             <Link to="/monthauthor">이달의 작가</Link>
           </li>
+          {*/}
         </ul>
         <div className="navbar_login">
           {!isAuthenticated ? (

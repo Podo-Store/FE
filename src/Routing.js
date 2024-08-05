@@ -30,7 +30,7 @@ function Routing() {
 
             <Route path="/list" element={<List />} />
             <Route path="/list/detail/:id" element={<Detail />} />
-            <Route path="/purchase" element={<Purchase />} />
+            <Route path="/purchase/:id" element={<Purchase />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route path="/storemain" element={<StoreMain />} />

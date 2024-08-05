@@ -11,7 +11,7 @@ import samplePDF from "./../../assets/sample.pdf";
 import { SERVER_URL } from "../../components/constants/ServerURL";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
 
 const Detail = () => {
@@ -27,8 +27,10 @@ const Detail = () => {
     position: "fixed",
   });
   const [selectedOption, setSelectedOption] = useState("");
+  const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalPrice, setTotalPrice] = useState(" - ");
 
+  const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
@@ -76,6 +78,7 @@ const Detail = () => {
 
   const handleSelectOption = (event) => {
     setSelectedOption(event.target.value);
+    setIsOptionSelected(true);
   };
 
   useEffect(() => {
@@ -116,6 +119,16 @@ const Detail = () => {
     };
   }, []);
 
+  const handlePurchaseBtnClick = () => {
+    // 공연권도 선택되었을 시 true
+    const isAlsoPerform = selectedOption === "scriptPerform" ? true : false;
+    navigate(`/purchase/${id}`, {
+      state: {
+        isAlsoPerform,
+      },
+    });
+  };
+
   return (
     <div className="detail">
       <MainNav />
@@ -153,7 +166,13 @@ const Detail = () => {
             </select>
             <div className="detail-btn-wrap">
               <button id="cart-btn">장바구니</button>
-              <button id="purchase-btn">구매하기</button>
+              <button
+                id="purchase-btn"
+                onClick={handlePurchaseBtnClick}
+                disabled={!isOptionSelected}
+              >
+                구매하기
+              </button>
             </div>
           </div>
         </div>
@@ -184,7 +203,9 @@ const Detail = () => {
           <option value="scriptPerform">대본 & 공연권</option>
         </select>
         <button id="cart-btn">장바구니</button>
-        <button id="purchase-btn">구매하기</button>
+        <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>
+          구매하기
+        </button>
       </div>
       <Footer className="footer" />
     </div>

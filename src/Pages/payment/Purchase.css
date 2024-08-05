@@ -47,12 +47,13 @@
 .purchase .detail {
   width: 100%;
   margin-top: 1rem;
-  margin-left: 2rem;
+  margin-left: 1.5rem;
   padding-right: 1.5rem;
 }
 
 .purchase .detail h5 {
   margin: 0;
+  margin-left: 0.5rem;
   color: #000;
 
   font-family: "Noto Sans KR";
@@ -69,6 +70,7 @@
 
 .purchase .detail h6 {
   margin: 0;
+  margin-left: 0.5rem;
   color: #000;
 
   font-family: "Noto Sans KR";
@@ -80,6 +82,7 @@
 
 .purchase .detail p {
   margin: 0;
+  margin-left: 0.5rem;
   color: #000;
 
   font-family: "Noto Sans KR";
@@ -99,6 +102,11 @@
 
 .purchase .detail-price {
   margin-top: 1.5rem;
+  margin-left: 0.5rem;
+}
+
+.purchase .detail-price p {
+  margin: 0;
 }
 
 .purchase .purchase-side {

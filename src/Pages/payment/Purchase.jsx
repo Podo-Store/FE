@@ -45,10 +45,7 @@ const Purchase = () => {
         });
         setTitle(response.data.title);
         setAuthor(response.data.writer);
-        // TODO: 장편극 / 단편극 구분
-        //setLengthType(response.data.script ? "장편극" : "단편극");
-        setLengthType("장편극");
-
+        setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
         setScriptPrice(response.data.scriptPrice);
         setPerformPrice(response.data.performancePrice);
         setTotalPrice(response.data.totalPrice);

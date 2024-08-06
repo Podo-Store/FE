@@ -19,6 +19,7 @@ const Detail = () => {
   const [author, setAuthor] = useState("");
   const [scriptPrice, setScriptPrice] = useState(0);
   const [performPrice, setPerformPrice] = useState(0);
+  const [lengthType, setLengthType] = useState("");
 
   const [imagePath, setImagePath] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
@@ -64,7 +65,7 @@ const Detail = () => {
         setAuthor(response.data.writer);
         setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
         setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
-
+        setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
         setImagePath(response.data.imagePath);
         setDescriptionPath(response.data.descriptionPath);
       } catch (error) {
@@ -143,6 +144,7 @@ const Detail = () => {
             ></div>
           </div>
           <div className="detail-title">
+            <p># {lengthType}</p>
             <h1>
               {title}
               <br />
@@ -156,16 +158,22 @@ const Detail = () => {
               <img src={performImg} alt="perform image"></img>
               <p>공연권 {formatPrice(performPrice)} 원</p>
             </div>
-            <h4>옵션 선택</h4>
-            <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
-              <option value="" disabled selected>
-                옵션 선택
-              </option>
-              <option value="script">대본</option>
-              <option value="scriptPerform">대본 & 공연권</option>
-            </select>
+            <div className="option-select">
+              <h4>옵션 선택</h4>
+              <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
+                <option value="" disabled selected>
+                  옵션 선택
+                </option>
+                <option value="script">대본</option>
+                <option value="scriptPerform">대본 & 공연권</option>
+              </select>
+            </div>
+            <div className="total-price">
+              <h5>총 금액</h5>
+              <h5> {totalPrice} 원</h5>
+            </div>
             <div className="detail-btn-wrap">
-              <button id="cart-btn">장바구니</button>
+              {/*<button id="cart-btn">장바구니</button>*/}
               <button
                 id="purchase-btn"
                 onClick={handlePurchaseBtnClick}
@@ -194,7 +202,7 @@ const Detail = () => {
       </div>
       <div className="detail-bottom-bar" style={bottomBarStyle}>
         <h6>총 금액</h6>
-        <h3> {totalPrice} 원</h3>
+        <h3>{totalPrice} 원</h3>
         <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
           <option value="" disabled selected>
             옵션 선택
@@ -202,7 +210,7 @@ const Detail = () => {
           <option value="script">대본</option>
           <option value="scriptPerform">대본 & 공연권</option>
         </select>
-        <button id="cart-btn">장바구니</button>
+        {/* <button id="cart-btn">장바구니</button>*/}
         <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>
           구매하기
         </button>

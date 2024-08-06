@@ -85,7 +85,7 @@ const Purchase = () => {
                   <p>{formatPrice(scriptPrice)}원</p>
                   {/* 공연권이 선택됐을 경우 */}
                   {isPerformSelected ? (
-                    <div style={{ display: "flex", gap: "0.75rem" }}>
+                    <div style={{ display: "flex", gap: "0.625rem" }}>
                       <img src={performImg}></img>
                       <p>{formatPrice(performPrice)}원</p>
                     </div>
@@ -98,21 +98,16 @@ const Purchase = () => {
             <div className="purchase-summary-box">
               <h4>주문 요약</h4>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex */}
                 <p>대본 가격</p>
                 <p>{formatPrice(scriptPrice)}원</p>
               </div>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex */}
                 <p>공연권 가격</p>
-                <p>{formatPrice(performPrice)}원</p>
+                {/* 공연권이 선택됐을 경우 */}
+                {isPerformSelected ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
               </div>
               <hr></hr>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex, last-child */}
                 <p>총 금액</p>
                 <p>{formatPrice(totalPrice)}원</p>
               </div>

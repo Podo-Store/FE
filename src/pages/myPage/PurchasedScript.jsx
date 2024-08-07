@@ -14,11 +14,11 @@ const PurchasedScript = () => {
           <h3>오늘도 달콤한 하루 되세요!</h3>
           <div className="select-menu-btn">
             <h6>작품 관리</h6>
-            <img></img>
+            <img src={pencilImg}></img>
           </div>
           <div className="select-menu-btn">
             <h6>구매한 작품</h6>
-            <img></img>
+            <img src={scriptImg}></img>
           </div>
           <p>회원 정보 수정</p>
         </div>
@@ -33,7 +33,7 @@ const PurchasedScript = () => {
               <hr></hr>
               <h4>작가명작가명작가</h4>
               <div className="price-wrap">
-                <img src={pencilImg}></img>
+                <img></img>
                 <p>00,000 원</p>
               </div>
               <div className="price-wrap">

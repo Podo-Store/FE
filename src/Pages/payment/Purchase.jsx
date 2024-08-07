@@ -3,22 +3,59 @@ import MainNav from "../MainNav";
 import "./Purchase.css";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { formatPrice } from "../../utils/formatPrice";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { SERVER_URL } from "../../components/constants/ServerURL";
 
 const Purchase = () => {
-  const [title, setTitle] = useState("Archive");
-  const [author, setAuthor] = useState("서준");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
   // 장편극 / 단편극
-  const [lengthType, setLengthType] = useState("장편극");
-  const [scriptPrice, setScriptPrice] = useState(20000);
-  const [isPerformSelected, setIsPerformSelected] = useState(true);
-  const [performPrice, setPerformPrice] = useState(20000);
+  const [lengthType, setLengthType] = useState("");
+  const [scriptPrice, setScriptPrice] = useState(0);
+  const [isPerformSelected, setIsPerformSelected] = useState(false);
+  const [performPrice, setPerformPrice] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
+  const { id } = useParams();
+  const location = useLocation();
+  const { isAlsoPerform } = location.state;
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchPurchaseDetail = async () => {
+      try {
+        // TODO: 로그인 상태
+        const response = await axios.get(`${SERVER_URL}order/item`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+          params: {
+            productId: id,
+            // 대본: 항상 true
+            script: true,
+            performance: isAlsoPerform,
+          },
+        });
+        setTitle(response.data.title);
+        setAuthor(response.data.writer);
+        setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
+        setScriptPrice(response.data.scriptPrice);
+        setPerformPrice(response.data.performancePrice);
+        setTotalPrice(response.data.totalPrice);
+        setIsPerformSelected(response.data.performance);
+      } catch (error) {
+        alert("작품 정보 조회 실패");
+      }
+    };
+    fetchPurchaseDetail();
+  }, [id]);
 
   useEffect(() => {
     if (isPerformSelected) {
@@ -45,7 +82,7 @@ const Purchase = () => {
                   <p>{formatPrice(scriptPrice)}원</p>
                   {/* 공연권이 선택됐을 경우 */}
                   {isPerformSelected ? (
-                    <div style={{ display: "flex", gap: "0.75rem" }}>
+                    <div style={{ display: "flex", gap: "0.625rem" }}>
                       <img src={performImg}></img>
                       <p>{formatPrice(performPrice)}원</p>
                     </div>
@@ -58,21 +95,16 @@ const Purchase = () => {
             <div className="purchase-summary-box">
               <h4>주문 요약</h4>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex */}
                 <p>대본 가격</p>
                 <p>{formatPrice(scriptPrice)}원</p>
               </div>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex */}
                 <p>공연권 가격</p>
-                <p>{formatPrice(performPrice)}원</p>
+                {/* 공연권이 선택됐을 경우 */}
+                {isPerformSelected ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
               </div>
               <hr></hr>
               <div className="price-wrap">
-                {" "}
-                {/* display: flex, last-child */}
                 <p>총 금액</p>
                 <p>{formatPrice(totalPrice)}원</p>
               </div>

@@ -1,0 +1,27 @@
+.BottomBtn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.BottomBtn .bottomButton {
+  width: 250px;
+  height: 42px;
+  border: none;
+  background-color: #f2d4f1;
+  border-radius: 64px;
+  margin: 0 25%;
+  margin-bottom: 16px;
+  cursor: pointer;
+
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+}
+
+.BottomBtn .bottomButton:disabled {
+  background-color: #dadada;
+  color: black;
+  font-weight: 500;
+}

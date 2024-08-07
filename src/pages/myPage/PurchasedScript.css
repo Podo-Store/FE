@@ -1,0 +1,126 @@
+.purchased-script .purchased-script-wrap {
+  display: flex;
+}
+
+.purchased-script .menu-side h1 {
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.purchased-script .menu-side h3 {
+  color: #000;
+
+  /* Paragraph/Large/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 155.556% */
+}
+
+.purchased-script .select-menu-btn {
+  display: flex;
+  justify-content: space-between;
+
+  border-radius: 50px;
+  background: #fff;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.purchased-script .menu-side p {
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.purchased-script .content-side h1 {
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+  letter-spacing: -0.4px;
+}
+
+.purchased-script .content-side h3 {
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.purchased-script .content-side h3#date {
+  color: #8f8f8f;
+}
+
+.purchased-script .content-side hr {
+  border: 1px solid #8f8f8f;
+}
+
+.purchased-script .script-detail h3 {
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.purchased-script .script-detail h4 {
+  color: #000;
+
+  /* Paragraph/Large/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 155.556% */
+}
+
+.purchased-script .price-wrap p {
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.purchased-script .btn-wrap {
+  display: flex;
+}
+.purchased-script .btn-wrap button {
+  border: none;
+  border-radius: 50px;
+  background: var(--Main, #9591f2);
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+
+  /* Paragraph/Medium/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}

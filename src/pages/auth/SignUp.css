@@ -1,0 +1,88 @@
+.signUp {
+  background: #fdfaff;
+}
+
+.signUp .left-side {
+  flex: 1;
+}
+
+.signUp .titleWrap {
+  line-height: 0.5;
+  margin: 0px;
+  font-size: 21px;
+  font-weight: 600;
+  color: #000000;
+  text-align: center;
+}
+
+.signUp .contentWrap {
+  margin-top: 0;
+  flex: 1;
+  width: 100%;
+}
+
+.signUp .inputTitle {
+  font-family: "Noto Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 19px;
+  margin-left: 5%;
+}
+
+.signUp .inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  margin-top: 8px;
+  height: auto;
+  background-color: white;
+  background: rgba(253, 250, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 30px;
+  width: 100%;
+}
+
+.signUp .inputWrap:focus-within {
+  border: 1px solid #9e30f4;
+}
+
+.signUp .inputWrap img {
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
+}
+
+.signUp .input {
+  box-sizing: border-box;
+  padding: 10px 20px;
+  /* 버튼의 너비를 고려하여 입력의 너비 조정 */
+  width: calc(100% - 100px);
+  outline: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 400;
+  height: 17px;
+}
+
+.signUp .input::placeholder {
+  color: #dadada;
+}
+
+.signUp .errorMessageWrap {
+  margin-top: 8px;
+  color: #ff6767;
+  font-size: 12px;
+  min-height: 20px;
+}
+
+.signUp .NerrorMessageWrap {
+  color: #00c850;
+}
+
+.signUp .errorMessage_resend_Wrap {
+  display: flex;
+  justify-content: flex-end;
+  text-decoration: underline #ff6767;
+}

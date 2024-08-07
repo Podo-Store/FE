@@ -1,0 +1,58 @@
+.signUpSuccess {
+  background: #fdfaff;
+}
+
+.signUpSuccess .left-side {
+  flex: 1;
+}
+
+.signUpSuccess .contentWrap {
+  text-align: center;
+  margin-top: 40%;
+  flex: 1;
+  width: 100%;
+}
+
+.signUpSuccess h4 {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 29px;
+}
+
+.signUpSuccess .contentBox {
+  box-sizing: border-box;
+  width: 80%;
+  height: auto;
+
+  border: 1px solid #000000;
+  border-radius: 5px;
+
+  margin-left: 10%;
+  margin-bottom: 3rem;
+}
+
+.signUpSuccess .textBlock {
+  margin: 30px 0;
+}
+
+.signUpSuccess .textBlock:first-child {
+  margin-bottom: 30px;
+}
+
+.signUpSuccess .textBlock p {
+  margin: 0px 0;
+
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+
+  color: #000000;
+
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

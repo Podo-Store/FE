@@ -15,6 +15,7 @@ import ApplyScript from "./pages/ApplyScript";
 import MonthAuthor from "./pages/MonthAuthor";
 import { AuthProvider } from "./contexts/AuthContext";
 import Purchase from "./pages/payment/Purchase";
+import PurchasedScript from "./pages/myPage/PurchasedScript";
 
 function Routing() {
   return (
@@ -32,6 +33,8 @@ function Routing() {
             <Route path="/list/detail/:id" element={<Detail />} />
             <Route path="/purchase/:id" element={<Purchase />} />
             <Route path="/post" element={<PostWork />} />
+
+            <Route path="/mypage/purchased" element={<PurchasedScript />} />
 
             <Route path="/storemain" element={<StoreMain />} />
             <Route path="/nowplaying" element={<NowPlaying />} />

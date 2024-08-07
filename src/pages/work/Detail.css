@@ -1,0 +1,261 @@
+.detail {
+  background: #fdfaff;
+}
+
+.detail .detail-wrap {
+  margin: 0 15%;
+  margin-bottom: 5%;
+}
+
+.detail .detail-title-wrap {
+  display: flex;
+}
+
+.detail .thumbnail-img {
+  width: 25vw;
+  padding-bottom: 25vw;
+  background-size: contain;
+}
+
+.detail .detail-title {
+  margin-left: 4vw;
+  margin-right: 2vw;
+  flex-grow: 1;
+}
+
+.detail .detail-title p {
+  margin: 0;
+  margin-top: 1.9vh;
+  margin-bottom: 0.75vh;
+  color: var(--Sub-2, #3876f2);
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; /* 142.857% */
+}
+
+.detail .detail-title h1 {
+  margin: 0;
+  margin-bottom: 4.125vh;
+  color: #000;
+
+  font-family: "Noto Sans KR";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 44px;
+  letter-spacing: -0.72px;
+}
+
+.detail .detail-price {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.detail .detail-price img {
+  width: 16px;
+}
+
+.detail .detail-price p {
+  color: #000;
+  margin: 0.25rem 0;
+
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.detail .option-select {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 0;
+  margin-top: 4vh;
+  margin-bottom: 3vh;
+  margin-left: 0.4rem;
+}
+
+.detail .option-select h4 {
+  margin: 0;
+  color: #000;
+
+  font-family: "Noto Sans KR";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+/* select 공용 설정 */
+.detail .option-select select,
+.detail .detail-bottom-bar select {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+
+  text-align: center;
+
+  /* 화살표 커스텀 */
+  /* Remove default arrow */
+  appearance: none;
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+
+  /* Add custom arrow */
+  background-image: url("./../../assets/image/post/selectArrow.svg");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 1.25rem;
+}
+
+.detail .option-select select {
+  width: 82.5%;
+  height: 2.5rem;
+}
+
+.detail .total-price {
+  display: flex;
+  justify-content: space-between;
+}
+.detail .total-price h5 {
+  margin: 0;
+  margin-left: 0.4rem;
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.detail .detail-btn-wrap {
+  display: flex;
+  gap: 0.5em;
+  margin-top: 3vh;
+}
+
+.detail .detail-btn-wrap button,
+.detail .detail-bottom-bar button {
+  height: 3rem;
+
+  border-radius: 5px;
+  border: 1px solid var(--Main, #9591f2);
+
+  text-align: center;
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px;
+}
+
+.detail .detail-btn-wrap button {
+  flex: 1;
+}
+
+.detail .detail-btn-wrap button#cart-btn,
+.detail .detail-bottom-bar button#cart-btn {
+  background: #fdfaff;
+  color: #333;
+}
+
+.detail .detail-btn-wrap button#purchase-btn,
+.detail .detail-bottom-bar button#purchase-btn {
+  background: var(--Main, #9591f2);
+
+  color: #fdfaff;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.detail .detail-description hr {
+  margin: 6rem 0;
+  border: 1px solid #e2e2e2;
+}
+
+.detail .detail-bottom-bar {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  height: 6.25rem;
+
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+
+  margin-top: 2em;
+  padding: 0 16vw;
+  background: var(--puple-puple1, #f4f2ff);
+}
+
+.detail .detail-bottom-bar h6 {
+  margin: 0;
+
+  color: #939298;
+
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: -0.4px;
+
+  color: var(--grey-grey7, #3c3c3c);
+
+  /* H5/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 140% */
+  letter-spacing: -0.025rem;
+}
+
+.detail .detail-bottom-bar h3 {
+  margin: 0;
+  margin-left: 0.5rem;
+  min-width: 7vw;
+
+  color: #333;
+
+  font-family: "Noto Sans KR";
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: -0.48px;
+  text-align: right;
+
+  color: var(--ect-black, #000);
+
+  /* H4/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 2rem; /* 133.333% */
+  letter-spacing: -0.03rem;
+}
+
+.detail .detail-bottom-bar select {
+  width: 35%;
+  height: 4rem;
+
+  margin-left: auto;
+  margin-right: 1.5vw;
+}
+
+.detail .detail-bottom-bar button {
+  width: 12rem;
+  height: 4.125rem;
+}

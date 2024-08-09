@@ -1,0 +1,4 @@
+.price-texts-horizontal {
+  display: flex;
+  gap: 5px;
+}

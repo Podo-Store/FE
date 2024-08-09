@@ -20,6 +20,9 @@
   margin: 5px 0;
 }
 
+.list-thumbnail .price-wrap {
+  display: flex;
+}
 .list-thumbnail .price {
   display: flex;
   gap: 5px;

@@ -1,8 +1,6 @@
 import "./ListThumbnail.css";
-import scriptImg from "./../../assets/image/post/list/script.svg";
-import performImg from "./../../assets/image/post/list/perform.svg";
 import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
-import { formatPrice } from "../../utils/formatPrice";
+import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 
 const ListThumbnail = ({
   thumbnailImg,
@@ -24,12 +22,8 @@ const ListThumbnail = ({
         <h5>
           {title} / {author}
         </h5>
-        <div className="price">
-          <img src={scriptImg} alt="script"></img>
-          <h6>{formatPrice(scriptPrice)}원</h6>
-          <img src={performImg} alt="perform"></img>
-          <h6>{formatPrice(performPrice)}원</h6>
-        </div>
+
+        <PriceTextsHorizontal scriptPrice={scriptPrice} performPrice={performPrice} />
       </div>
     </div>
   );

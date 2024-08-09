@@ -1,8 +1,8 @@
 import Footer from "../Footer";
 import MainNav from "../MainNav";
 import "./List.css";
-import ListThumbnail from "./ListThumbnail";
-import ListPopup from "./ListPopup";
+import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
+import ListPopup from "./../../components/list/ListPopup.jsx";
 import circleInfoBtn from "./../../assets/image/post/list/circleInfoBtn.svg";
 import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";

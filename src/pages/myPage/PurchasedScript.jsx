@@ -4,8 +4,36 @@ import "./PurchasedScript.css";
 import pencilMenuImg from "../../assets/image/myPage/pencil.svg";
 import scriptMenuImg from "../../assets/image/myPage/script.svg";
 import PriceTextsVertical from "../../components/price/PriceTextsVertical";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { SERVER_URL } from "../../components/constants/ServerURL";
+import Cookies from "js-cookie";
 
 const PurchasedScript = () => {
+  const [nickname, setNickname] = useState("");
+  const [scriptList, setScriptList] = useState([]);
+
+  useEffect(() => {
+    const fetchPurchasedScript = async () => {
+      try {
+        const response = await axios.get(`${SERVER_URL}profile/orderItems`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        });
+        setNickname(response.data.nickname);
+
+        const orders = response.data.orderList || [];
+        // 중첩된 orderItem 배열을 하나의 script 배열로 평탄화
+        const scripts = orders.flatMap((order) => order.orderItem);
+        setScriptList(scripts);
+      } catch (error) {}
+    };
+
+    fetchPurchasedScript();
+  }, []);
+
   return (
     <div className="purchased-script">
       <MainNav />
@@ -25,34 +53,33 @@ const PurchasedScript = () => {
         </div>
         <div className="content-side">
           <h1>구매한 작품들을 볼 수 있어요!</h1>
-          <h3 id="date">YYYY.MM.DD.</h3>
-          <hr></hr>
-          <div className="script">
-            <div className="script-thumbnail"></div>
-            <div className="script-detail">
-              <h3 id="title">Archive</h3>
+          {scriptList.map((script) => (
+            <div key={script.id}>
+              <h3 id="date">{script.createdAt}</h3>
               <hr></hr>
-              <h4>작가명작가명작가</h4>
-              <PriceTextsVertical scriptPrice={10000} performPrice={10000} />
-              <div className="btn-wrap">
-                <button>공연권 신청</button>
-                <button>대본 받기</button>
+              <div className="script">
+                <div
+                  className="script-thumbnail"
+                  style={{
+                    backgroundImage: `url(${script.imagePath})`,
+                  }}
+                ></div>
+                <div className="script-detail">
+                  <h3 id="title">{script.title || "제목 없음"}</h3>
+                  <hr></hr>
+                  <h4>{script.writer || "작가 정보 없음"}</h4>
+                  <PriceTextsVertical
+                    scriptPrice={script.scriptPrice || 0}
+                    performPrice={script.performancePrice || 0}
+                  />
+                  <div className="btn-wrap">
+                    <button>공연권 신청</button>
+                    <button>대본 받기</button>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="script">
-            <div className="script-thumbnail"></div>
-            <div className="script-detail">
-              <h3 id="title">Archive</h3>
-              <hr></hr>
-              <h4>작가명작가명작가</h4>
-              <PriceTextsVertical scriptPrice={10000} performPrice={10000} />
-              <div className="btn-wrap">
-                <button>공연권 신청</button>
-                <button>대본 받기</button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       <Footer />

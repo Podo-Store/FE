@@ -2,6 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import "./MainNav.css";
 import AuthContext from "../contexts/AuthContext";
+import navLogo from "../assets/image/navBar/navLogo.svg";
+import navTitle from "../assets/image/navBar/navTitle.svg";
+import cart from "../assets/image/navBar/cart.svg";
+import person from "../assets/image/navBar/person.svg";
 
 function MainNav() {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -10,9 +14,10 @@ function MainNav() {
   return (
     <div className="App">
       <nav className="navbar">
-        <div className="navbar_logo">
-          <Link to="/">포도상점</Link>
-        </div>
+        <Link to="/" className="navbar_logo">
+          <img src={navLogo} alt="logo" />
+          <img src={navTitle} alt="포도상점"></img>
+        </Link>
         <ul className="navbar_menu">
           <li>
             <Link to="/list">작품 둘러보기</Link>
@@ -35,6 +40,14 @@ function MainNav() {
           {*/}
         </ul>
         <div className="navbar_login">
+          <img src={cart} alt="cart" />
+          <img
+            src={person}
+            alt="myPage"
+            onClick={() => {
+              navigate("/mypage/purchased");
+            }}
+          />
           {!isAuthenticated ? (
             <button
               onClick={() => {

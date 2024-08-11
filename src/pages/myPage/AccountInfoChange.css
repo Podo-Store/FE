@@ -93,7 +93,7 @@
 
 .account-info-change .btn-wrap {
   display: flex;
-  margin-top: 1vh;
+  margin-top: 0.75rem;
   margin-left: 1.75rem;
   gap: 1rem;
 }
@@ -124,7 +124,7 @@
 }
 
 .account-info-change .complete-btn-wrap {
-  margin-top: 1.5vh;
+  margin-top: 1.125rem;
   display: flex;
   justify-content: flex-end;
 }

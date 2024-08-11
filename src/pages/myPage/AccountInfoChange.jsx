@@ -4,9 +4,12 @@ import Footer from "../Footer";
 import MainNav from "../MainNav";
 import InputField from "./../../components/auth/InputField.jsx";
 import "./AccountInfoChange.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { SERVER_URL } from "../../components/constants/ServerURL.js";
 
 const AccountInfoChange = () => {
-  const [changeShowPermission, setChangeShowPermission] = useState(true);
+  const [changeShowPermission, setChangeShowPermission] = useState(false);
   const [typedPassword, setTypedPassword] = useState("");
 
   const [id, setId] = useState("");
@@ -19,7 +22,50 @@ const AccountInfoChange = () => {
   const [pwCheckValid, setPwCheckValid] = useState(false);
   const [nickNameValid, setNickNameValid] = useState(false);
 
-  const [isCompleteBtnClicked, setIsCompleteBtnClicked] = useState(false);
+  const [hasCompleteBtnClicked, setHasCompleteBtnClicked] = useState(false);
+
+  const handleInputBtn = async () => {
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}profile/confirm`,
+        {
+          password: typedPassword,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+      if (response.data === true) {
+        setChangeShowPermission(true);
+        fetchAccountInfo();
+      }
+    } catch (error) {
+      if (error.response.data.error === "비밀번호 불일치") {
+        alert("비밀번호가 일치하지 않습니다.");
+      } else {
+        alert("오류가 발생했습니다.");
+      }
+    }
+  };
+
+  const fetchAccountInfo = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile/account`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      setId(response.data.userId);
+      setNickName(response.data.nickname);
+      setEmail(response.data.email);
+    } catch (error) {
+      alert("회원 정보 조회 실패");
+    }
+  };
 
   useEffect(() => {
     const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,11}$/;
@@ -76,7 +122,9 @@ const AccountInfoChange = () => {
                     }}
                   ></InputField>
                   {/* TODO: InsideBtn 대신 해당 컴포넌트 분리 및 사용 */}
-                  <button className="input-btn">입력</button>
+                  <button className="input-btn" onClick={handleInputBtn}>
+                    입력
+                  </button>
                 </div>
               </div>
             ) : (
@@ -89,13 +137,13 @@ const AccountInfoChange = () => {
                   placeholder="podostore"
                   value={id}
                   errorMessage=" "
-                  readonly={true}
+                  readOnly={true}
                 />
 
                 <InputField
                   title="비밀번호"
                   type="password"
-                  placeholder="5~11자의 영문, 숫자, 특수문자 포함"
+                  placeholder="5~11자 영문, 숫자, 특수문자"
                   value={pw}
                   onChange={(event) => {
                     setPw(event.target.value);
@@ -103,12 +151,12 @@ const AccountInfoChange = () => {
                   errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
                   validMessage="사용 가능한 비밀번호 입니다."
                   isValid={pwValid}
-                  showErrorMsg={isCompleteBtnClicked}
+                  showErrorMsg={hasCompleteBtnClicked}
                 />
                 <InputField
                   title="비밀번호 확인"
                   type="password"
-                  placeholder="비밀번호를 다시 한번 입력해주세요."
+                  placeholder="비밀번호 재입력"
                   value={pwCheck}
                   onChange={(event) => {
                     setPwCheck(event.target.value);
@@ -116,12 +164,12 @@ const AccountInfoChange = () => {
                   errorMessage="비밀번호가 일치하지 않습니다."
                   validMessage="비밀번호가 일치합니다."
                   isValid={pwCheckValid}
-                  showErrorMsg={isCompleteBtnClicked}
+                  showErrorMsg={hasCompleteBtnClicked}
                 />
                 <InputField
                   title="닉네임"
                   type="text"
-                  placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
+                  placeholder="3~8자의 한글, 영문, 숫자"
                   value={nickName}
                   onChange={(event) => {
                     setNickName(event.target.value);
@@ -131,14 +179,14 @@ const AccountInfoChange = () => {
                   isValid={nickNameValid}
                   // TODO: API 연결 후 '닉네임 중복' 받을 경우 true로 변경
                   isDuplicated={false}
-                  showErrorMsg={isCompleteBtnClicked}
+                  showErrorMsg={hasCompleteBtnClicked}
                 />
                 <InputField
                   title="이메일"
                   type="text"
                   placeholder="podo@store.com"
                   value={email}
-                  readonly={true}
+                  readOnly={true}
                 />
 
                 <div className="btn-wrap">

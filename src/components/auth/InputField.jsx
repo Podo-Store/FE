@@ -10,7 +10,7 @@ const InputField = ({
   value,
   onChange,
   // 선택 사항
-  readonly = false,
+  readOnly = false,
 
   errorMessage,
   validMessage,
@@ -33,7 +33,7 @@ const InputField = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          readonly={readonly}
+          readOnly={readOnly}
         />
         {additionalElement}
       </div>

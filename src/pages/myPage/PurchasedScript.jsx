@@ -8,6 +8,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../components/constants/ServerURL";
 import Cookies from "js-cookie";
+import MyPageMenu from "../../components/myPage/MyPageMenu";
 
 const PurchasedScript = () => {
   const [nickname, setNickname] = useState("");
@@ -34,19 +35,7 @@ const PurchasedScript = () => {
     <div className="purchased-script">
       <MainNav />
       <div className="purchased-script-wrap">
-        <div className="menu-side">
-          <h1>알맹이 {nickname} 님,</h1>
-          <h3>오늘도 달콤한 하루 되세요!</h3>
-          <div className="select-menu-btn">
-            <h6>구매한 작품</h6>
-            <img src={scriptMenuImg}></img>
-          </div>
-          <div className="select-menu-btn">
-            <h6>작품 관리</h6>
-            <img src={pencilMenuImg}></img>
-          </div>
-          <p>회원 정보 수정</p>
-        </div>
+        <MyPageMenu nickname={nickname} currentPage="0" />
         <div className="content-side">
           <h1>구매한 작품들을 볼 수 있어요!</h1>
           {scriptList.map((order, index) => (

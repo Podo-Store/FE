@@ -12,7 +12,11 @@
   flex: 2;
 }
 
-.account-info-change .content-side h1 {
+.account-info-change .content-side-inside {
+  display: inline-block;
+}
+
+.account-info-change .content-side-inside h1 {
   margin: 0;
   margin-bottom: 9vh;
 
@@ -24,7 +28,7 @@
   line-height: normal;
 }
 
-.account-info-change .content-side h6 {
+.account-info-change .content-side-inside h6 {
   margin: 0;
   margin-bottom: 1.25vh;
   color: #000;
@@ -85,4 +89,63 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 142.857% */
+}
+
+.account-info-change .btn-wrap {
+  display: flex;
+  margin-top: 1vh;
+  margin-left: 1.75rem;
+  gap: 1rem;
+}
+
+.account-info-change .btn-wrap button {
+  border: none;
+  border-radius: 30px;
+  width: 6.5rem;
+  height: 2.125rem;
+
+  color: #fff;
+  text-align: center;
+
+  /* Paragraph/Medium/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.5rem; /* 150% */
+}
+
+.account-info-change .btn-wrap button:nth-of-type(1) {
+  background: #d9d9d9;
+}
+
+.account-info-change .btn-wrap button:nth-of-type(2) {
+  background: #9591f2;
+}
+
+.account-info-change .complete-btn-wrap {
+  margin-top: 1.5vh;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.account-info-change .complete-btn-wrap button#complete-btn {
+  transform: translateX(1rem);
+
+  width: 8.4375rem;
+  height: 2.5rem;
+
+  border: none;
+  border-radius: 50px;
+  background: var(--Main, #9591f2);
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+
+  /* Paragraph/Small/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
 }

@@ -22,6 +22,8 @@ const AccountInfoChange = () => {
   const [pwCheckValid, setPwCheckValid] = useState(false);
   const [nickNameValid, setNickNameValid] = useState(false);
 
+  const [isDuplicatedNickname, setIsDuplicatedNickname] = useState(false);
+
   const [hasCompleteBtnClicked, setHasCompleteBtnClicked] = useState(false);
 
   const handleInputBtn = async () => {
@@ -100,6 +102,46 @@ const AccountInfoChange = () => {
    * nickname: 보여줌
    * email: 보여줌, 수정 불가
    */
+
+  const handleCompleteBtn = async () => {
+    // initialize
+    setHasCompleteBtnClicked(false);
+    if (!pwValid || !pwCheckValid || !nickNameValid) {
+      setHasCompleteBtnClicked(true);
+    } else {
+      try {
+        const response = await axios.post(
+          `${SERVER_URL}profile/update`,
+          {
+            password: pw,
+            confirmPassword: pwCheck,
+            nickname: nickName,
+            email: email,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${Cookies.get("accessToken")}`,
+            },
+          }
+        );
+        if (response.data === true) {
+          alert("회원 정보 수정이 완료되었습니다.");
+          window.location.reload();
+        }
+      } catch (error) {
+        // 중복 닉네임 처리
+        if (error.response.data.error === "이미 존재하는 닉네임") {
+          setIsDuplicatedNickname(true);
+          // 오류 메시지 표시
+          setHasCompleteBtnClicked(true);
+        } else {
+          alert(error.response.data.error);
+        }
+      }
+    }
+  };
+
   return (
     <div className="account-info-change">
       <MainNav />
@@ -177,8 +219,7 @@ const AccountInfoChange = () => {
                   errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
                   validMessage="사용 가능한 닉네임 입니다."
                   isValid={nickNameValid}
-                  // TODO: API 연결 후 '닉네임 중복' 받을 경우 true로 변경
-                  isDuplicated={false}
+                  isDuplicated={isDuplicatedNickname}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
                 <InputField
@@ -190,11 +231,20 @@ const AccountInfoChange = () => {
                 />
 
                 <div className="btn-wrap">
-                  <button>취소</button>
+                  <button
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    취소
+                  </button>
+                  {/* TODO: 계정 삭제 기능 추가 */}
                   <button>계정 삭제</button>
                 </div>
                 <div className="complete-btn-wrap">
-                  <button id="complete-btn">수정 완료</button>
+                  <button id="complete-btn" onClick={handleCompleteBtn}>
+                    수정 완료
+                  </button>
                 </div>
               </div>
             )}

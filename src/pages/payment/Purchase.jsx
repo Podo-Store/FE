@@ -11,6 +11,7 @@ import Cookies from "js-cookie";
 import { SERVER_URL } from "../../components/constants/ServerURL";
 
 const Purchase = () => {
+  const [thumbnailImg, setThumbnailImg] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   // 장편극 / 단편극
@@ -23,7 +24,7 @@ const Purchase = () => {
 
   const { id } = useParams();
   const location = useLocation();
-  const { isAlsoPerform } = location.state;
+  const { isAlsoPerform } = location.state || {};
 
   const navigate = useNavigate();
 
@@ -43,6 +44,7 @@ const Purchase = () => {
             performance: isAlsoPerform,
           },
         });
+        setThumbnailImg(response.data.imagePath);
         setTitle(response.data.title);
         setAuthor(response.data.writer);
         setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
@@ -54,6 +56,7 @@ const Purchase = () => {
         alert("작품 정보 조회 실패");
       }
     };
+
     fetchPurchaseDetail();
   }, [id]);
 
@@ -63,6 +66,39 @@ const Purchase = () => {
     }
   }, [isPerformSelected]);
 
+  // 버튼 클릭 시 post message
+  const handlePurchaseBtn = async () => {
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}order/item`,
+        {
+          orderItem: [
+            {
+              productId: id,
+              script: true, // 대본권, 항상 true
+              scriptPrice: scriptPrice,
+              performance: isPerformSelected,
+              performancePrice: performPrice,
+            },
+          ],
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+
+      if (response.data === true) {
+        alert("결제가 완료되었습니다.");
+        navigate("/purchase/success");
+      }
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  };
+
   return (
     <div className="purchase">
       <MainNav />
@@ -71,7 +107,7 @@ const Purchase = () => {
         <div className="purchase-flex">
           <div className="list-side">
             <div className="purchase-list">
-              <div className="thumbnail"></div>
+              <div className="thumbnail" style={{ backgroundImage: `url(${thumbnailImg})` }}></div>
               <div className="detail">
                 <h5>{title}</h5>
                 <hr></hr>
@@ -109,13 +145,7 @@ const Purchase = () => {
                 <p>{formatPrice(totalPrice)}원</p>
               </div>
             </div>
-            <button
-              className="purchase-btn"
-              onClick={() => {
-                alert("결제가 완료되었습니다.");
-                navigate("/purchase/success");
-              }}
-            >
+            <button className="purchase-btn" onClick={handlePurchaseBtn}>
               결제하기
             </button>
           </div>

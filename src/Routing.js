@@ -16,6 +16,7 @@ import MonthAuthor from "./pages/MonthAuthor";
 import { AuthProvider } from "./contexts/AuthContext";
 import Purchase from "./pages/payment/Purchase";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
+import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
 
 function Routing() {
   return (
@@ -32,6 +33,7 @@ function Routing() {
             <Route path="/list" element={<List />} />
             <Route path="/list/detail/:id" element={<Detail />} />
             <Route path="/purchase/:id" element={<Purchase />} />
+            <Route path="/purchase/success" element={<PurchaseSuccess />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route path="/mypage/purchased" element={<PurchasedScript />} />

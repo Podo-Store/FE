@@ -18,16 +18,12 @@ const PurchasedScript = () => {
       try {
         const response = await axios.get(`${SERVER_URL}profile/orderItems`, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/json",
             Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         });
         setNickname(response.data.nickname);
-
-        const orders = response.data.orderList || [];
-        // 중첩된 orderItem 배열을 하나의 script 배열로 평탄화
-        const scripts = orders.flatMap((order) => order.orderItem);
-        setScriptList(scripts);
+        setScriptList(response.data.orderList);
       } catch (error) {}
     };
 
@@ -39,7 +35,7 @@ const PurchasedScript = () => {
       <MainNav />
       <div className="purchased-script-wrap">
         <div className="menu-side">
-          <h1>알맹이 000 님,</h1>
+          <h1>알맹이 {nickname} 님,</h1>
           <h3>오늘도 달콤한 하루 되세요!</h3>
           <div className="select-menu-btn">
             <h6>구매한 작품</h6>
@@ -53,31 +49,35 @@ const PurchasedScript = () => {
         </div>
         <div className="content-side">
           <h1>구매한 작품들을 볼 수 있어요!</h1>
-          {scriptList.map((script) => (
-            <div key={script.id}>
-              <h3 id="date">{script.createdAt}</h3>
+          {scriptList.map((order, index) => (
+            <div key={index}>
+              <h3 id="date">{order.createdAt}</h3>
               <hr></hr>
-              <div className="script">
-                <div
-                  className="script-thumbnail"
-                  style={{
-                    backgroundImage: `url(${script.imagePath})`,
-                  }}
-                ></div>
-                <div className="script-detail">
-                  <h3 id="title">{script.title || "제목 없음"}</h3>
-                  <hr></hr>
-                  <h4>{script.writer || "작가 정보 없음"}</h4>
-                  <PriceTextsVertical
-                    scriptPrice={script.scriptPrice || 0}
-                    performPrice={script.performancePrice || 0}
-                  />
-                  <div className="btn-wrap">
-                    <button>공연권 신청</button>
-                    <button>대본 받기</button>
+              {order.orderItem.map((script) => (
+                <div key={script.id}>
+                  <div className="script">
+                    <div
+                      className="script-thumbnail"
+                      style={{
+                        backgroundImage: `url(${script.imagePath || "default_image_url_here"})`,
+                      }}
+                    ></div>
+                    <div className="script-detail">
+                      <h3 id="title">{script.title || "제목 없음"}</h3>
+                      <hr></hr>
+                      <h4>{script.writer || "작가 정보 없음"}</h4>
+                      <PriceTextsVertical
+                        scriptPrice={script.scriptPrice || 0}
+                        performPrice={script.performancePrice || 0}
+                      />
+                      <div className="btn-wrap">
+                        <button>공연권 신청</button>
+                        <button>대본 받기</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
           ))}
         </div>

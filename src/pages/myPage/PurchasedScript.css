@@ -5,6 +5,7 @@
 .purchased-script .purchased-script-wrap {
   display: flex;
   margin: 8vh 17.5%;
+  min-height: 80vh;
 }
 
 .purchased-script .content-side {

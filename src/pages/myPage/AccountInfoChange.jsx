@@ -4,14 +4,19 @@ import Footer from "../Footer";
 import MainNav from "../MainNav";
 import InputField from "./../../components/auth/InputField.jsx";
 import "./AccountInfoChange.css";
+import "./AccountInfoChange_delete.css";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { SERVER_URL } from "../../components/constants/ServerURL.js";
+import check from "../../assets/image/myPage/check.svg";
+import { useNavigate } from "react-router-dom";
 
 const AccountInfoChange = () => {
+  // 회원 정보 수정 진입
   const [changeShowPermission, setChangeShowPermission] = useState(false);
   const [typedPassword, setTypedPassword] = useState("");
 
+  // 회원 정보 수정
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
@@ -25,6 +30,12 @@ const AccountInfoChange = () => {
   const [isDuplicatedNickname, setIsDuplicatedNickname] = useState(false);
 
   const [hasCompleteBtnClicked, setHasCompleteBtnClicked] = useState(false);
+
+  // 계정 삭제
+  const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
+  const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleInputBtn = async () => {
     try {
@@ -142,6 +153,12 @@ const AccountInfoChange = () => {
     }
   };
 
+  // 회원 탈퇴
+  const handleDeleteAccountConfirmBtn = async () => {
+    // TODO: API 추가
+    setIsAccountSuccessfullyDeleted(true);
+  };
+
   return (
     <div className="account-info-change">
       <MainNav />
@@ -167,6 +184,50 @@ const AccountInfoChange = () => {
                   <button className="input-btn" onClick={handleInputBtn}>
                     입력
                   </button>
+                </div>
+              </div>
+            ) : isAccountSuccessfullyDeleted ? (
+              <div>
+                {/* 계정 삭제 성공 페이지 */}
+                <div className="delete-complete-wrap">
+                  {/* flex, translate 사용, 배경 하얀색으로 img 배치 */}
+                  <div className="delete-complete-box">
+                    <p>계정 삭제가 완료되었습니다.</p>
+                    <p>그동안 포도상점을 이용해주셔서 진심으로 감사합니다.</p>
+                    <p>더욱 성장하는 포도상점이 되겠습니다.</p>
+                  </div>
+                  <img src={check} alt="check"></img>
+                </div>
+                <button
+                  className="main-page-btn"
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                >
+                  메인 페이지
+                </button>
+              </div>
+            ) : isDeleteAccountBtnClicked ? (
+              <div>
+                {/* 계정 삭제 페이지 */}
+                <h6>잠깐! 정말 떠나실 건가요...?</h6>
+                <div className="delete-wrap">
+                  <p>아래 내용을 확인해주세요.</p>
+                  <ul>
+                    <li>등록한 작품 및 구매한 작품에 대한 기록이 사라져요.</li>
+                    <li>프로필, 희망 대본 신청 내역이 모두 사라져요.</li>
+                    <li>구매 작품에 대한 문의사항 및 후기는 삭제되지 않아요.</li>
+                  </ul>
+                </div>
+                <div className="btn-wrap btn-second-wrap">
+                  <button
+                    onClick={() => {
+                      window.location.reload();
+                    }}
+                  >
+                    취소
+                  </button>
+                  <button onClick={handleDeleteAccountConfirmBtn}>회원 탈퇴</button>
                 </div>
               </div>
             ) : (
@@ -238,8 +299,13 @@ const AccountInfoChange = () => {
                   >
                     취소
                   </button>
-                  {/* TODO: 계정 삭제 기능 추가 */}
-                  <button>계정 삭제</button>
+                  <button
+                    onClick={() => {
+                      setIsDeleteAccountBtnClicked(true);
+                    }}
+                  >
+                    회원 탈퇴
+                  </button>
                 </div>
                 <div className="complete-btn-wrap">
                   <button id="complete-btn" onClick={handleCompleteBtn}>

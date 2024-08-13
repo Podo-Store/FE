@@ -10,6 +10,8 @@ const InputField = ({
   value,
   onChange,
   // 선택 사항
+  readOnly = false,
+
   errorMessage,
   validMessage,
   isValid,
@@ -31,29 +33,33 @@ const InputField = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          readOnly={readOnly}
         />
         {additionalElement}
       </div>
-      <div className="errorMessage_resend_Wrap">
-        <div className="errorMessageWrap">
-          {showErrorMsg ? (
-            !isValid && value.length > 0 ? (
-              <div>{errorMessage}</div>
-            ) : isDuplicated && value.length > 0 ? (
-              <div>중복된 {title}입니다.</div>
+      {errorMessage ? (
+        <div className="errorMessage_resend_Wrap">
+          <div className="errorMessageWrap">
+            {showErrorMsg ? (
+              !isValid && value.length > 0 ? (
+                <div>{errorMessage}</div>
+              ) : isDuplicated && value.length > 0 ? (
+                <div>중복된 {title}입니다.</div>
+              ) : (
+                isValid &&
+                value.length > 0 && <div className="NerrorMessageWrap">{validMessage}</div>
+              )
             ) : (
-              isValid && value.length > 0 && <div className="NerrorMessageWrap">{validMessage}</div>
-            )
-          ) : (
-            <div> </div>
-          )}
-        </div>
-        {resendMessageCondition ? (
-          <div className="resend" onClick={resendOnClick}>
-            <p>{resendMessage}</p>
+              <div> </div>
+            )}
           </div>
-        ) : null}
-      </div>
+          {resendMessageCondition ? (
+            <div className="resend" onClick={resendOnClick}>
+              <p>{resendMessage}</p>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 };

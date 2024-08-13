@@ -1,15 +1,12 @@
-import "./SignIn.css";
 import axios from "axios";
-import { SERVER_URL } from "../../components/constants/ServerURL";
-import MainNav from "../MainNav";
 import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import RightSide from "../../components/auth/RightSide";
-import Page from "../../components/auth/Page";
-import InputField from "../../components/auth/InputField";
-import BottomBtn from "../../components/auth/BottomBtn";
-import Box from "../../components/auth/Box";
+
+import MainNav from "../MainNav";
+import { InputField, BottomBtn, Box, Page, RightSide } from "../../components/auth";
+import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "../../contexts/AuthContext";
+import "./SignIn.css";
 
 function SignIn() {
   const { login } = useContext(AuthContext);

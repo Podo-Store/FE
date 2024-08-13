@@ -1,0 +1,151 @@
+.account-info-change {
+  background: #fdfaff;
+}
+
+.account-info-change .account-info-change-wrap {
+  display: flex;
+  margin: 8vh 17.5%;
+  min-height: 80vh;
+}
+
+.account-info-change .content-side {
+  flex: 2;
+}
+
+.account-info-change .content-side-inside {
+  display: inline-block;
+}
+
+.account-info-change .content-side-inside h1 {
+  margin: 0;
+  margin-bottom: 9vh;
+
+  color: #000;
+  font-family: "Noto Sans";
+  font-size: 21px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.account-info-change .content-side-inside h6 {
+  margin: 0;
+  margin-bottom: 1.25vh;
+  color: #000;
+
+  /* Paragraph/Medium/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.account-info-change .inputField-wrap {
+  display: flex;
+  align-items: center;
+}
+
+.account-info-change .inputField {
+  width: 18.5vw;
+}
+
+.account-info-change .input-btn {
+  margin-top: 8px;
+  margin-left: 1.75rem;
+
+  width: 5rem;
+  height: 2.5rem;
+  color: #fff;
+  text-align: center;
+
+  /* Paragraph/Small/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
+
+  border: none;
+  border-radius: 50px;
+  background: var(--Sub-2, #3876f2);
+  box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.account-info-change .unregister-btn {
+  display: flex;
+  align-items: center;
+
+  margin-top: 10vh;
+}
+
+.account-info-change .unregister-btn p {
+  margin: 0;
+  color: var(--grey-grey7, #3c3c3c);
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.account-info-change .btn-wrap {
+  display: flex;
+  margin-top: 0.75rem;
+  margin-left: 1.75rem;
+  gap: 1rem;
+}
+
+.account-info-change .btn-wrap button {
+  border: none;
+  border-radius: 30px;
+  width: 6.5rem;
+  height: 2.125rem;
+
+  color: #fff;
+  text-align: center;
+
+  /* Paragraph/Medium/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.5rem; /* 150% */
+}
+
+.account-info-change .btn-wrap button:nth-of-type(1) {
+  background: #d9d9d9;
+}
+
+.account-info-change .btn-wrap button:nth-of-type(2) {
+  background: #9591f2;
+}
+
+.account-info-change .complete-btn-wrap {
+  margin-top: 1.125rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.account-info-change .complete-btn-wrap button#complete-btn {
+  transform: translateX(1rem);
+
+  width: 8.4375rem;
+  height: 2.5rem;
+
+  border: none;
+  border-radius: 50px;
+  background: var(--Main, #9591f2);
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+
+  color: #fff;
+
+  /* Paragraph/Small/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
+}

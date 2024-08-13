@@ -1,0 +1,90 @@
+.account-info-change .delete-wrap {
+  margin-top: 2.5vh;
+  padding: 1.5rem;
+
+  border-radius: 20px;
+  border: 2px dashed var(--Main, #9591f2);
+}
+
+.account-info-change .delete-wrap p {
+  margin: 0;
+  margin-bottom: 1.5rem;
+  color: #000;
+
+  /* Paragraph/Small/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 142.857% */
+}
+
+.account-info-change .delete-wrap ul {
+  padding-left: 25px;
+}
+
+.account-info-change .delete-wrap li {
+  margin-bottom: 0.75rem;
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.account-info-change .btn-second-wrap {
+  display: flex;
+  justify-content: flex-end;
+
+  margin-top: 2rem;
+}
+
+/* 변경 완료 */
+
+.account-info-change .delete-complete-wrap {
+  display: flex;
+  align-items: start;
+}
+
+.account-info-change .delete-complete-box {
+  padding: 2.75rem 1.75rem;
+
+  border-radius: 1.25rem;
+  border: 2px dashed var(--Main, #9591f2);
+}
+
+.account-info-change .delete-complete-wrap img {
+  background: #fdfaff;
+  transform: translate(-26.25rem, -1.5rem);
+}
+
+.account-info-change .delete-complete-box p {
+  margin: 0;
+  text-align: center;
+}
+
+.account-info-change .main-page-btn {
+  margin-top: 2.5rem;
+  margin-left: 6vw;
+
+  width: 31.25rem;
+  height: 3.75rem;
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 1.875rem;
+  background: var(--Main, #9591f2);
+
+  color: #fff;
+
+  /* H5/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem; /* 140% */
+  letter-spacing: -0.025rem;
+}

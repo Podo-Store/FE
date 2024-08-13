@@ -12,13 +12,16 @@ const ContractStatus = {
 const PurchasedScriptBtn = ({ contractStatus, id }) => {
   const onClickRequestBtn = async () => {
     try {
-      const response = await axios.post(`${SERVER_URL}profile/mailSend`, {
-        id: id,
-        headers: {
-          "Content-Type": "multipart/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await axios.post(
+        `${SERVER_URL}profile/mailSend`,
+        { id: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
       if (response.data === true) {
         alert("메일이 발송되었습니다.");
         window.location.reload();
@@ -30,11 +33,13 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
 
   const onClickOpenContract = async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}profile.contract`, {
-        id: id,
+      const response = await axios.get(`${SERVER_URL}profile/contract`, {
         headers: {
           "Content-Type": "multipart/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+        params: {
+          id: id,
         },
       });
       window.open(response.data);

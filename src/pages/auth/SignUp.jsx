@@ -162,7 +162,7 @@ function SignUp() {
     if (emailValid && email.length > 0) {
       setEmailSendBtn(true);
     }
-  }, [email]);
+  }, [email, emailValid]);
 
   const onClickEmailSend = async () => {
     setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
@@ -196,7 +196,7 @@ function SignUp() {
   const onClickConfirmButton = async () => {
     alert("서버로부터의 응답을 기다리고 있습니다. 잠시만 기다려 주세요.");
     try {
-      const response = await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
+      await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
         email: email,
         authNum: emailCode,
       });
@@ -219,7 +219,7 @@ function SignUp() {
 
   const onClickRegisterAllowButton = async () => {
     try {
-      const response = await axios.post(`${SERVER_URL}auth/signup`, {
+      await axios.post(`${SERVER_URL}auth/signup`, {
         userId: id,
         email: email,
         password: pw,

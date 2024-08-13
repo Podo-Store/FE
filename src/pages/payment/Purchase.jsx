@@ -9,6 +9,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { SERVER_URL } from "../../constants/ServerURL";
+import { useRequest } from "../../hooks/useRequest";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -28,43 +29,39 @@ const Purchase = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchPurchaseDetail = async () => {
-      try {
-        // TODO: 로그인 상태
-        const response = await axios.get(`${SERVER_URL}order/item`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-          params: {
-            productId: id,
-            // 대본: 항상 true
-            script: true,
-            performance: isAlsoPerform,
-          },
-        });
-        setThumbnailImg(response.data.imagePath);
-        setTitle(response.data.title);
-        setAuthor(response.data.writer);
-        setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
-        setScriptPrice(response.data.scriptPrice);
-        setPerformPrice(response.data.performancePrice);
-        setTotalPrice(response.data.totalPrice);
-        setIsPerformSelected(response.data.performance);
-      } catch (error) {
-        alert("작품 정보 조회 실패");
-      }
-    };
-
-    fetchPurchaseDetail();
-  }, [id]);
+  useRequest(async () => {
+    try {
+      // TODO: 로그인 상태
+      const response = await axios.get(`${SERVER_URL}order/item`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+        params: {
+          productId: id,
+          // 대본: 항상 true
+          script: true,
+          performance: isAlsoPerform,
+        },
+      });
+      setThumbnailImg(response.data.imagePath);
+      setTitle(response.data.title);
+      setAuthor(response.data.writer);
+      setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
+      setScriptPrice(response.data.scriptPrice);
+      setPerformPrice(response.data.performancePrice);
+      setTotalPrice(response.data.totalPrice);
+      setIsPerformSelected(response.data.performance);
+    } catch (error) {
+      alert("작품 정보 조회 실패");
+    }
+  });
 
   useEffect(() => {
     if (isPerformSelected) {
       setTotalPrice(scriptPrice + performPrice);
     }
-  }, [isPerformSelected]);
+  }, [isPerformSelected, scriptPrice, performPrice]);
 
   // 버튼 클릭 시 post message
   const handlePurchaseBtn = async () => {
@@ -114,12 +111,12 @@ const Purchase = () => {
                 <h6>{author}</h6>
                 <p id="tag"># {lengthType}</p>
                 <div className="detail-price">
-                  <img src={scriptImg}></img>
+                  <img src={scriptImg} alt="script"></img>
                   <p>{formatPrice(scriptPrice)}원</p>
                   {/* 공연권이 선택됐을 경우 */}
                   {isPerformSelected ? (
                     <div style={{ display: "flex", gap: "0.625rem" }}>
-                      <img src={performImg}></img>
+                      <img src={performImg} alt="perform"></img>
                       <p>{formatPrice(performPrice)}원</p>
                     </div>
                   ) : null}

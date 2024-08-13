@@ -7,11 +7,12 @@ import circleInfoBtn from "./../../assets/image/post/list/circleInfoBtn.svg";
 import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL.js";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useRequest } from "../../hooks/useRequest.js";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -29,36 +30,32 @@ const List = () => {
     setShowPopup(true);
   };
 
-  useEffect(() => {
-    const listAPI = async () => {
-      try {
-        let response;
-        // 로그아웃 상태
-        if (!Cookies.get("accessToken")) {
-          response = await axios.get(`${SERVER_URL}scripts`, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          });
-        } else {
-          // 로그인 상태
-          response = await axios.get(`${SERVER_URL}scripts`, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-          });
-        }
-
-        setLongPlays(response.data.longPlay);
-        setShortPlays(response.data.shortPlay);
-      } catch (error) {
-        console.error(error);
+  useRequest(async () => {
+    try {
+      let response;
+      // 로그아웃 상태
+      if (!Cookies.get("accessToken")) {
+        response = await axios.get(`${SERVER_URL}scripts`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+      } else {
+        // 로그인 상태
+        response = await axios.get(`${SERVER_URL}scripts`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        });
       }
-    };
 
-    listAPI();
-  }, []);
+      setLongPlays(response.data.longPlay);
+      setShortPlays(response.data.shortPlay);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 
   const handleThumbnailClick = (id) => {
     navigate(`/list/detail/${id}`);

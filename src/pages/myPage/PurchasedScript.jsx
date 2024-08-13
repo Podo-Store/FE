@@ -4,32 +4,29 @@ import "./PurchasedScript.css";
 import pencilMenuImg from "../../assets/image/myPage/pencil.svg";
 import scriptMenuImg from "../../assets/image/myPage/script.svg";
 import PriceTextsVertical from "../../components/price/PriceTextsVertical";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
+import { useRequest } from "../../hooks/useRequest";
 
 const PurchasedScript = () => {
   const [nickname, setNickname] = useState("");
   const [scriptList, setScriptList] = useState([]);
 
-  useEffect(() => {
-    const fetchPurchasedScript = async () => {
-      try {
-        const response = await axios.get(`${SERVER_URL}profile/orderItems`, {
-          headers: {
-            "Content-Type": "multipart/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        });
-        setNickname(response.data.nickname);
-        setScriptList(response.data.orderList);
-      } catch (error) {}
-    };
-
-    fetchPurchasedScript();
-  }, []);
+  useRequest(async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile/orderItems`, {
+        headers: {
+          "Content-Type": "multipart/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      setNickname(response.data.nickname);
+      setScriptList(response.data.orderList);
+    } catch (error) {}
+  });
 
   return (
     <div className="purchased-script">

@@ -13,6 +13,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
+import { useRequest } from "../../hooks/useRequest";
 
 const Detail = () => {
   const [title, setTitle] = useState("");
@@ -34,48 +35,44 @@ const Detail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  useEffect(() => {
-    const loading = async () => {
-      try {
-        let response;
-        // 로그아웃 상태
-        if (!Cookies.get("accessToken")) {
-          response = await axios.get(`${SERVER_URL}scripts/detail`, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-            params: {
-              script: id,
-            },
-          });
-        } else {
-          // 로그인 상태
-          response = await axios.get(`${SERVER_URL}scripts/detail`, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-            params: {
-              script: id,
-            },
-          });
-        }
-
-        setTitle(response.data.title);
-        setAuthor(response.data.writer);
-        setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
-        setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
-        setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
-        setImagePath(response.data.imagePath);
-        setDescriptionPath(response.data.descriptionPath);
-      } catch (error) {
-        alert("작품 정보를 불러오는데 실패했습니다.");
-        console.log(error);
+  useRequest(async () => {
+    try {
+      let response;
+      // 로그아웃 상태
+      if (!Cookies.get("accessToken")) {
+        response = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          params: {
+            script: id,
+          },
+        });
+      } else {
+        // 로그인 상태
+        response = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+          params: {
+            script: id,
+          },
+        });
       }
-    };
 
-    loading();
-  }, [id]);
+      setTitle(response.data.title);
+      setAuthor(response.data.writer);
+      setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
+      setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
+      setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
+      setImagePath(response.data.imagePath);
+      setDescriptionPath(response.data.descriptionPath);
+    } catch (error) {
+      alert("작품 정보를 불러오는데 실패했습니다.");
+      console.log(error);
+    }
+  });
 
   const handleSelectOption = (event) => {
     setSelectedOption(event.target.value);
@@ -88,7 +85,7 @@ const Detail = () => {
     } else if (selectedOption === "scriptPerform") {
       setTotalPrice(formatPrice(scriptPrice + performPrice));
     }
-  }, [selectedOption]);
+  }, [selectedOption, scriptPrice, performPrice]);
 
   const pdfContainerRef = useRef(null);
 
@@ -151,11 +148,11 @@ const Detail = () => {
               {author}
             </h1>
             <div className="detail-price">
-              <img src={scriptImg} alt="script image"></img>
+              <img src={scriptImg} alt="script"></img>
               <p>대본 {formatPrice(scriptPrice)} 원</p>
             </div>
             <div className="detail-price">
-              <img src={performImg} alt="perform image"></img>
+              <img src={performImg} alt="perform"></img>
               <p>공연권 {formatPrice(performPrice)} 원</p>
             </div>
             <div className="option-select">

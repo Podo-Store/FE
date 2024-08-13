@@ -3,11 +3,10 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 import infoBtn from "../../assets/image/post/infoBtn.svg";
 import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import AuthContext from "../../contexts/AuthContext";
 import { SERVER_URL } from "../../constants/ServerURL";
 import PostWorkPopup from "./PostWorkPopup";
 
@@ -22,19 +21,6 @@ const PostWork = () => {
   // 팝업 메뉴
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-
-  const { isAuthenticated } = useContext(AuthContext);
-
-  // 로그인 되어 있지 않을 경우 로그인 페이지로 이동
-  // TODO: 별도 커스텀 훅으로 분리
-  const checkedAuthFlag = useRef(false); // 최초 렌더링 시에만 체크
-  useEffect(() => {
-    if (!Cookies.get("accessToken") && !checkedAuthFlag.current) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/signin");
-    }
-    checkedAuthFlag.current = true;
-  }, [isAuthenticated, navigate]);
 
   const handleFileSelect = (event) => {
     const uploadedFile = event.target.files[0];

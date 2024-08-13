@@ -1,7 +1,7 @@
 import PriceTextsVertical from "./../price/PriceTextsVertical.jsx";
 import "./ScriptContent.css";
 
-const ScriptContent = ({ order, index, children }) => {
+const ScriptContent = ({ order, index, Button }) => {
   const [dateParse] = new Date(order.createdAt).toISOString().split("T");
 
   return (
@@ -25,7 +25,8 @@ const ScriptContent = ({ order, index, children }) => {
                 scriptPrice={script.scriptPrice || 0}
                 performPrice={script.performancePrice || 0}
               />
-              {children}
+              {/* Button: props */}
+              <Button contractStatus={script.contractStatus} id={script.id} />
             </div>
           </div>
         </div>

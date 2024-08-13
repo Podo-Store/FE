@@ -1,7 +1,6 @@
 import Footer from "../Footer";
 import MainNav from "../MainNav";
 import "./PurchasedScript.css";
-import PriceTextsVertical from "../../components/price/PriceTextsVertical";
 import React, { useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL";
@@ -9,6 +8,7 @@ import Cookies from "js-cookie";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import { useRequest } from "../../hooks/useRequest";
 import ScriptContent from "../../components/myPage/ScriptContent";
+import PurchasedScriptBtn from "../../components/myPage/PurchasedScriptBtn";
 
 const PurchasedScript = () => {
   const [nickname, setNickname] = useState("");
@@ -35,12 +35,7 @@ const PurchasedScript = () => {
         <div className="content-side">
           <h1>구매한 작품들을 볼 수 있어요!</h1>
           {scriptList.map((order, index) => (
-            <ScriptContent order={order} index={index}>
-              <div className="btn-wrap">
-                <button>공연권 신청</button>
-                <button>대본 받기</button>
-              </div>
-            </ScriptContent>
+            <ScriptContent order={order} index={index} Button={PurchasedScriptBtn} />
           ))}
         </div>
       </div>

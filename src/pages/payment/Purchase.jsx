@@ -61,7 +61,7 @@ const Purchase = () => {
     if (isPerformSelected) {
       setTotalPrice(scriptPrice + performPrice);
     }
-  }, [isPerformSelected]);
+  }, [isPerformSelected, scriptPrice, performPrice]);
 
   // 버튼 클릭 시 post message
   const handlePurchaseBtn = async () => {
@@ -111,12 +111,12 @@ const Purchase = () => {
                 <h6>{author}</h6>
                 <p id="tag"># {lengthType}</p>
                 <div className="detail-price">
-                  <img src={scriptImg}></img>
+                  <img src={scriptImg} alt="script"></img>
                   <p>{formatPrice(scriptPrice)}원</p>
                   {/* 공연권이 선택됐을 경우 */}
                   {isPerformSelected ? (
                     <div style={{ display: "flex", gap: "0.625rem" }}>
-                      <img src={performImg}></img>
+                      <img src={performImg} alt="perform"></img>
                       <p>{formatPrice(performPrice)}원</p>
                     </div>
                   ) : null}

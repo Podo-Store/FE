@@ -99,7 +99,7 @@ const AccountInfoChange = () => {
     } else {
       setPwCheckValid(false);
     }
-  }, [pwCheck]);
+  }, [pw, pwCheck]);
 
   useEffect(() => {
     const regex = /^[가-힣a-zA-Z0-9]{3,8}$/;

@@ -16,11 +16,11 @@ const MyPageMenu = ({ nickname, currentPage }) => {
         }}
       >
         <h6>구매한 작품</h6>
-        <img src={scriptMenuImg}></img>
+        <img src={scriptMenuImg} alt="scriptMenu"></img>
       </div>
       <div className={currentPage === "1" ? "select-menu-btn selected" : "select-menu-btn"}>
         <h6>작품 관리</h6>
-        <img src={pencilMenuImg}></img>
+        <img src={pencilMenuImg} alt="pencilMenu"></img>
       </div>
       <p
         onClick={() => {

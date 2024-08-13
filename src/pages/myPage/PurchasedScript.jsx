@@ -1,10 +1,8 @@
 import Footer from "../Footer";
 import MainNav from "../MainNav";
 import "./PurchasedScript.css";
-import pencilMenuImg from "../../assets/image/myPage/pencil.svg";
-import scriptMenuImg from "../../assets/image/myPage/script.svg";
 import PriceTextsVertical from "../../components/price/PriceTextsVertical";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";

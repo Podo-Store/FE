@@ -28,6 +28,21 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
     }
   };
 
+  const onClickOpenContract = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile.contract`, {
+        id: id,
+        headers: {
+          "Content-Type": "multipart/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      window.open(response.data);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  };
+
   return (
     <div className="btn-wrap">
       {
@@ -43,7 +58,9 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
           ),
           // TODO: 계약서 열람 API 연결
           [ContractStatus.COMPLETE]: (
-            <button style={{ backgroundColor: "#D9ADCD" }}>계약서 열람</button>
+            <button style={{ backgroundColor: "#D9ADCD" }} onClick={onClickOpenContract}>
+              계약서 열람
+            </button>
           ),
         }[contractStatus]
       }

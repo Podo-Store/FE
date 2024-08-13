@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "../components/constants/ServerURL";
+import { SERVER_URL } from "../constants/ServerURL";
 
 /**
  * Axios 응답 인터셉터를 생성하는 함수

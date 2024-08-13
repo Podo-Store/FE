@@ -1,17 +1,15 @@
-import "./SignUp.css";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import MainNav from "../MainNav";
-import InputField from "../../components/auth/InputField";
-import BottomBtn from "../../components/auth/BottomBtn";
-import Page from "../../components/auth/Page";
-import RightSide from "../../components/auth/RightSide";
-import Box from "../../components/auth/Box";
-import InsideBtn from "../../components/auth/InsideBtn";
-import { useEffect, useState, useCallback } from "react";
-import { SERVER_URL } from "../../components/constants/ServerURL";
-import { Link, useNavigate } from "react-router-dom";
+import { InputField, BottomBtn, Box, InsideBtn, Page, RightSide } from "../../components/auth";
+import { SERVER_URL } from "../../constants/ServerURL";
+import { PW_REGEX } from "../../constants/passwordRegex";
 import loading from "../../assets/image/auth/loading.svg";
 import check from "../../assets/image/auth/check.svg";
+
+import "./SignUp.css";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -41,11 +39,6 @@ function SignUp() {
   const [notAllow, setNotAllow] = useState(true);
 
   const [emailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
-  // 이메일 인증
-  const [formValue, setFormValue] = useState({ email: "" });
-  const [isGetCode, setIsGetCode] = useState(false);
-  const [isTimer, setIsTimer] = useState(false);
-  const [count, setCount] = useState(0);
 
   // ID
   useEffect(() => {
@@ -88,8 +81,7 @@ function SignUp() {
 
   // PW
   useEffect(() => {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,11}$/;
-    if (regex.test(pw)) {
+    if (PW_REGEX.test(pw)) {
       setPwValid(true);
     } else {
       setPwValid(false);

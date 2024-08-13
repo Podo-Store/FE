@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { formatPrice } from "../../utils/formatPrice";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { SERVER_URL } from "../../components/constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");

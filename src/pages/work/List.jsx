@@ -9,7 +9,7 @@ import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../../components/constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL.js";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 

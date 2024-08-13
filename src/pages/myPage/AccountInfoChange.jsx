@@ -1,15 +1,20 @@
-import { useEffect, useState } from "react";
-import MyPageMenu from "../../components/myPage/MyPageMenu";
-import Footer from "../Footer";
-import MainNav from "../MainNav";
-import InputField from "./../../components/auth/InputField.jsx";
-import "./AccountInfoChange.css";
-import "./AccountInfoChange_delete.css";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { SERVER_URL } from "../../components/constants/ServerURL.js";
-import check from "../../assets/image/myPage/check.svg";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import MainNav from "../MainNav";
+import Footer from "../Footer";
+import MyPageMenu from "../../components/myPage/MyPageMenu";
+import InputField from "./../../components/auth/InputField";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+import { PW_REGEX } from "../../constants/passwordRegex";
+
+import check from "../../assets/image/myPage/check.svg";
+
+import "./AccountInfoChange.css";
+import "./AccountInfoChange_delete.css";
 
 const AccountInfoChange = () => {
   // 회원 정보 수정 진입
@@ -81,8 +86,7 @@ const AccountInfoChange = () => {
   };
 
   useEffect(() => {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,11}$/;
-    if (regex.test(pw)) {
+    if (PW_REGEX.test(pw)) {
       setPwValid(true);
     } else {
       setPwValid(false);

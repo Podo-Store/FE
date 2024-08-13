@@ -8,7 +8,7 @@ import "./Detail.css";
 import { Worker, Viewer } from "@react-pdf-viewer/core";
 import "@react-pdf-viewer/core/lib/styles/index.css";
 import samplePDF from "./../../assets/sample.pdf";
-import { SERVER_URL } from "../../components/constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";

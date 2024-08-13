@@ -6,7 +6,7 @@ import scriptMenuImg from "../../assets/image/myPage/script.svg";
 import PriceTextsVertical from "../../components/price/PriceTextsVertical";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { SERVER_URL } from "../../components/constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 

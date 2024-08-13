@@ -8,7 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import AuthContext from "../../contexts/AuthContext";
-import { SERVER_URL } from "../../components/constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL";
 import PostWorkPopup from "./PostWorkPopup";
 
 const PostWork = () => {

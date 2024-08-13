@@ -8,6 +8,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import { useRequest } from "../../hooks/useRequest";
+import ScriptContent from "../../components/myPage/ScriptContent";
 
 const PurchasedScript = () => {
   const [nickname, setNickname] = useState("");
@@ -34,35 +35,12 @@ const PurchasedScript = () => {
         <div className="content-side">
           <h1>구매한 작품들을 볼 수 있어요!</h1>
           {scriptList.map((order, index) => (
-            <div key={index}>
-              <h3 id="date">{order.createdAt}</h3>
-              <hr></hr>
-              {order.orderItem.map((script) => (
-                <div key={script.id}>
-                  <div className="script">
-                    <div
-                      className="script-thumbnail"
-                      style={{
-                        backgroundImage: `url(${script.imagePath || "default_image_url_here"})`,
-                      }}
-                    ></div>
-                    <div className="script-detail">
-                      <h3 id="title">{script.title || "제목 없음"}</h3>
-                      <hr></hr>
-                      <h4>{script.writer || "작가 정보 없음"}</h4>
-                      <PriceTextsVertical
-                        scriptPrice={script.scriptPrice || 0}
-                        performPrice={script.performancePrice || 0}
-                      />
-                      <div className="btn-wrap">
-                        <button>공연권 신청</button>
-                        <button>대본 받기</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ScriptContent order={order} index={index}>
+              <div className="btn-wrap">
+                <button>공연권 신청</button>
+                <button>대본 받기</button>
+              </div>
+            </ScriptContent>
           ))}
         </div>
       </div>

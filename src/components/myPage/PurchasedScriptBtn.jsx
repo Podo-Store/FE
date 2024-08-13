@@ -47,7 +47,7 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
           ),
         }[contractStatus]
       }
-      ;<button>대본 받기</button>
+      <button>대본 받기</button>
     </div>
   );
 };

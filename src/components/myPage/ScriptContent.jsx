@@ -2,13 +2,11 @@ import PriceTextsVertical from "./../price/PriceTextsVertical.jsx";
 import "./ScriptContent.css";
 
 const ScriptContent = ({ order, index, Button }) => {
-  const [dateParse] = new Date(order.createdAt).toISOString().split("T");
-
   return (
     <div key={index} className="script-content">
-      <h3 id="date">{dateParse}</h3>
+      <h3 id="date">{order.date}</h3>
       <hr></hr>
-      {order.orderItem.map((script) => (
+      {order.orders.map((script) => (
         <div key={script.id}>
           <div className="script">
             <div

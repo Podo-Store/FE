@@ -1,0 +1,67 @@
+.script-content h3 {
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.script-content h3#date {
+  color: #8f8f8f;
+  margin: 0;
+}
+
+.script-content h3#title {
+  margin-bottom: 0.5vh;
+}
+
+.script-content hr {
+  border: 1px solid #8f8f8f;
+  margin: 0;
+}
+
+.script-content .script {
+  display: flex;
+  margin-top: 2vh;
+  margin-bottom: 1.75rem;
+}
+
+.script-content .script-thumbnail {
+  width: 10rem;
+  padding-bottom: 10rem;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #d9d9d9;
+  background-size: contain;
+}
+
+.script-content .script-detail {
+  margin-left: 1.5rem;
+  width: 100%;
+}
+
+.script-content .script-detail h3 {
+  margin: 0;
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 155.556% */
+}
+
+.script-content .script-detail h4 {
+  margin: 0;
+  margin-bottom: 1vh;
+  color: #000;
+
+  /* Paragraph/Large/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 155.556% */
+}

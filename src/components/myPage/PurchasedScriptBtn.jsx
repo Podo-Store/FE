@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
+import "./PurchasedScriptBtn.css";
 
 const ContractStatus = {
   NON_SALE: 0,
@@ -49,7 +50,7 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
   };
 
   return (
-    <div className="btn-wrap">
+    <div className="purchased-script-btn">
       {
         {
           [ContractStatus.NON_SALE]: null,

@@ -29,6 +29,7 @@
 
 .script-content .script-thumbnail {
   width: 10rem;
+  height: 0;
   padding-bottom: 10rem;
   flex-shrink: 0;
   border-radius: 20px;
@@ -43,6 +44,8 @@
 
 .script-content .script-detail h3 {
   margin: 0;
+  margin-top: 0.75vh;
+  margin-left: 0.125rem;
   color: #000;
 
   /* Paragraph/Large/Bold */
@@ -56,6 +59,7 @@
 .script-content .script-detail h4 {
   margin: 0;
   margin-bottom: 1vh;
+  margin-left: 0.125rem;
   color: #000;
 
   /* Paragraph/Large/Medium */

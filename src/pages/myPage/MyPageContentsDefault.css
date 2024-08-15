@@ -1,19 +1,19 @@
-.purchased-script {
+.myPage-contents-default {
   background: #fdfaff;
 }
 
-.purchased-script .purchased-script-wrap {
+.myPage-contents-default .myPage-contents-default-wrap {
   display: flex;
   margin: 8vh 17.5%;
   min-height: 80vh;
 }
 
-.purchased-script .content-side {
+.myPage-contents-default .content-side {
   flex: 2;
 }
 
-.purchased-script .content-side h1 {
-  margin-bottom: 3vh;
+.myPage-contents-default .content-side h1 {
+  margin-bottom: 6.5vh;
 
   color: #000;
 

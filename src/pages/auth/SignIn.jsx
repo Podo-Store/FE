@@ -47,7 +47,7 @@ function SignIn() {
 
       if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(response.data.accessToken, response.data.refreshToken);
+        login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
 
         setIsIdPwMatch(true);
         navigate("/");

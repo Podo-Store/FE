@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import { useRequest } from "../../hooks/useRequest";
 import Footer from "../Footer";
@@ -9,9 +9,11 @@ import Cookies from "js-cookie";
 import ScriptContent from "../../components/myPage/ScriptContent";
 import "./MyPageContentsDefault.css";
 import ScriptManageBtn from "../../components/myPage/ScriptManageBtn";
+import AuthContext from "../../contexts/AuthContext";
 
 const ScriptManage = () => {
   const [productList, setProductList] = useState([]);
+  const { userNickname } = useContext(AuthContext);
 
   useRequest(async () => {
     try {
@@ -31,7 +33,7 @@ const ScriptManage = () => {
     <div className="myPage-contents-default">
       <MainNav />
       <div className="myPage-contents-default-wrap">
-        <MyPageMenu nickname="nickname" currentPage="1" />
+        <MyPageMenu nickname={userNickname} currentPage="1" />
         <div className="content-side">
           <h1>등록한 작품들을 관리할 수 있어요!</h1>
           {productList.map((order, index) => (

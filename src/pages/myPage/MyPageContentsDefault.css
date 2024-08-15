@@ -1,0 +1,27 @@
+.myPage-contents-default {
+  background: #fdfaff;
+}
+
+.myPage-contents-default .myPage-contents-default-wrap {
+  display: flex;
+  margin: 8vh 17.5%;
+  min-height: 80vh;
+}
+
+.myPage-contents-default .content-side {
+  flex: 2;
+}
+
+.myPage-contents-default .content-side h1 {
+  margin-bottom: 6.5vh;
+
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+  letter-spacing: -0.4px;
+}

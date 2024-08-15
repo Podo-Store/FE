@@ -9,6 +9,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userNickname, setUserNickname] = useState("username");
 
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
@@ -18,15 +19,17 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = (accessToken, refreshToken) => {
+  const login = (accessToken, refreshToken, userNickname) => {
     Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
     Cookies.set("refreshToken", refreshToken, { expires: REFRESH_TOKEN_EXP_TIME });
+    setUserNickname(userNickname);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
+    setUserNickname("username");
     setIsAuthenticated(false);
   };
 
@@ -62,7 +65,9 @@ export const AuthProvider = ({ children }) => {
   setupAxiosInterceptors(refreshAccessToken);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, refreshAccessToken }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, userNickname, login, logout, refreshAccessToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

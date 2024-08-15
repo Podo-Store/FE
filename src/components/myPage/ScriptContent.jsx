@@ -1,12 +1,14 @@
 import PriceTextsVertical from "./../price/PriceTextsVertical.jsx";
 import "./ScriptContent.css";
 
-const ScriptContent = ({ order, index, Button }) => {
+const ScriptContent = ({ order, index, currentPage = "0", Button }) => {
+  const items = currentPage === "0" ? order.orders || [] : order.products || [];
+
   return (
     <div key={index} className="script-content">
       <h3 id="date">{order.date}</h3>
       <hr></hr>
-      {order.orders.map((script) => (
+      {items.map((script) => (
         <div key={script.id}>
           <div className="script">
             <div
@@ -24,7 +26,15 @@ const ScriptContent = ({ order, index, Button }) => {
                 performPrice={script.performancePrice || 0}
               />
               {/* Button: props */}
-              <Button contractStatus={script.contractStatus} id={script.id} />
+              {currentPage === "0" ? (
+                <Button contractStatus={script.contractStatus} id={script.id} />
+              ) : (
+                <Button
+                  scriptSale={script.script}
+                  performSale={script.performance}
+                  id={script.id}
+                />
+              )}
             </div>
           </div>
         </div>

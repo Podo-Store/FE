@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
@@ -15,6 +15,7 @@ import check from "../../assets/image/myPage/check.svg";
 
 import "./AccountInfoChange.css";
 import "./AccountInfoChange_delete.css";
+import AuthContext from "../../contexts/AuthContext";
 
 const AccountInfoChange = () => {
   // 회원 정보 수정 진입
@@ -40,6 +41,7 @@ const AccountInfoChange = () => {
   const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
   const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
 
+  const { userNickname } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleInputBtn = async () => {
@@ -167,7 +169,7 @@ const AccountInfoChange = () => {
     <div className="account-info-change">
       <MainNav />
       <div className="account-info-change-wrap">
-        <MyPageMenu nickname="nickname" currentPage="2" />
+        <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side">
           <div className="content-side-inside">
             <h1>회원 정보 수정</h1>

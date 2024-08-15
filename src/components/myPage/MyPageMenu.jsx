@@ -18,7 +18,12 @@ const MyPageMenu = ({ nickname, currentPage }) => {
         <h6>구매한 작품</h6>
         <img src={scriptMenuImg} alt="scriptMenu"></img>
       </div>
-      <div className={currentPage === "1" ? "select-menu-btn selected" : "select-menu-btn"}>
+      <div
+        className={currentPage === "1" ? "select-menu-btn selected" : "select-menu-btn"}
+        onClick={() => {
+          navigate("/mypage/scriptmanage");
+        }}
+      >
         <h6>작품 관리</h6>
         <img src={pencilMenuImg} alt="pencilMenu"></img>
       </div>

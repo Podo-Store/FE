@@ -1,6 +1,7 @@
 import axios from "axios";
 import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
+import "./PurchasedScriptBtn.css";
 
 const ContractStatus = {
   NON_SALE: 0,
@@ -12,13 +13,16 @@ const ContractStatus = {
 const PurchasedScriptBtn = ({ contractStatus, id }) => {
   const onClickRequestBtn = async () => {
     try {
-      const response = await axios.post(`${SERVER_URL}profile/mailSend`, {
-        id: id,
-        headers: {
-          "Content-Type": "multipart/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await axios.post(
+        `${SERVER_URL}profile/mailSend`,
+        { id: id },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
       if (response.data === true) {
         alert("메일이 발송되었습니다.");
         window.location.reload();
@@ -28,8 +32,25 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
     }
   };
 
+  const onClickOpenContract = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile/contract`, {
+        headers: {
+          "Content-Type": "multipart/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+        params: {
+          id: id,
+        },
+      });
+      window.open(response.data);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  };
+
   return (
-    <div className="btn-wrap">
+    <div className="purchased-script-btn">
       {
         {
           [ContractStatus.NON_SALE]: null,
@@ -43,7 +64,9 @@ const PurchasedScriptBtn = ({ contractStatus, id }) => {
           ),
           // TODO: 계약서 열람 API 연결
           [ContractStatus.COMPLETE]: (
-            <button style={{ backgroundColor: "#D9ADCD" }}>계약서 열람</button>
+            <button style={{ backgroundColor: "#D9ADCD" }} onClick={onClickOpenContract}>
+              계약서 열람
+            </button>
           ),
         }[contractStatus]
       }

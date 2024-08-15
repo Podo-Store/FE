@@ -46,7 +46,7 @@
 
 .account-info-change .delete-complete-wrap {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .account-info-change .delete-complete-box {

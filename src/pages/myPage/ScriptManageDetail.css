@@ -1,0 +1,106 @@
+.script-manage-detail {
+  background-color: #fdfaff;
+}
+
+.script-manage-detail .script-manage-detail-wrap {
+  margin: 8vh 17.5%;
+}
+
+.script-manage-detail .go-back {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 1vh;
+}
+
+.script-manage-detail .go-back img {
+  height: 15px;
+}
+
+.script-manage-detail .go-back h6 {
+  margin: 0;
+  color: #000;
+  font-family: "Noto Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.script-manage-detail h1 {
+  margin: 0;
+  margin-bottom: 4vh;
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+}
+
+.script-manage-detail p {
+  margin: 0;
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.script-manage-detail p#title {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.script-manage-detail hr {
+  margin: 2.5vh 0;
+  border: 1px solid #8f8f8f;
+}
+
+.script-manage-detail .script-info-wrap {
+  margin: 0 25vw;
+}
+
+.script-manage-detail .script-info {
+  display: flex;
+}
+
+.script-manage-detail .script-info-thumbnail {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  width: 11rem;
+  height: 11rem;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #d9d9d9;
+  background-size: contain;
+}
+
+.script-manage-detail .script-info-thumbnail p {
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  text-decoration-line: underline;
+}
+
+.script-manage-detail .script-info-detail-price {
+  display: flex;
+  gap: 2em;
+}
+
+.script-manage-detail .script-description {
+  border-radius: 30px;
+  border: 1px dashed var(--Main, #6a39c0);
+  filter: blur(0.25px);
+}
+
+.script-manage-detail p#find {
+  color: #3876f2;
+  text-decoration-line: underline;
+}

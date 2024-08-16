@@ -1,6 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import "./ScriptManageBtn.css";
 
 const ScriptManageBtn = ({ scriptSale = false, performSale = false, id }) => {
+  const navigate = useNavigate();
+
+  const onClickDetail = () => {
+    navigate(`/mypage/scriptmanage/detail/${id}`);
+  };
+
   return (
     <div className="script-manage-btn">
       <div className="sale-status">
@@ -15,7 +22,9 @@ const ScriptManageBtn = ({ scriptSale = false, performSale = false, id }) => {
           <button className="sale-status-disabled">공연권 판매 중지</button>
         )}
       </div>
-      <button id="detail">작품 관리</button>
+      <button id="detail" onClick={onClickDetail}>
+        작품 관리
+      </button>
     </div>
   );
 };

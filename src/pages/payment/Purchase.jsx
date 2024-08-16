@@ -17,15 +17,18 @@ const Purchase = () => {
   const [author, setAuthor] = useState("");
   // 장편극 / 단편극
   const [lengthType, setLengthType] = useState("");
+
+  const [buyScript, setBuyScript] = useState(false);
+  const [buyPerform, setBuyPerform] = useState(false);
+
   const [scriptPrice, setScriptPrice] = useState(0);
-  const [isPerformSelected, setIsPerformSelected] = useState(false);
   const [performPrice, setPerformPrice] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
   const { id } = useParams();
   const location = useLocation();
-  const { isAlsoPerform } = location.state || {};
+  const { isScriptSelected = false, isPerformSelected = false } = location.state || {};
 
   const navigate = useNavigate();
 
@@ -39,9 +42,8 @@ const Purchase = () => {
         },
         params: {
           productId: id,
-          // 대본: 항상 true
-          script: true,
-          performance: isAlsoPerform,
+          script: isScriptSelected,
+          performance: isPerformSelected,
         },
       });
       setThumbnailImg(response.data.imagePath);
@@ -51,17 +53,30 @@ const Purchase = () => {
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
       setTotalPrice(response.data.totalPrice);
-      setIsPerformSelected(response.data.performance);
     } catch (error) {
-      alert("작품 정보 조회 실패");
+      if (error.response.data.error === "본인 작품 구매 불가") {
+        alert("본인이 작성한 작품은 구매할 수 없습니다.");
+        navigate(-1);
+      } else {
+        alert(error.response.data.error);
+      }
     }
   });
 
   useEffect(() => {
+    if (isScriptSelected) {
+      setBuyScript(true);
+    }
     if (isPerformSelected) {
+      setBuyPerform(true);
+    }
+  }, [isScriptSelected, isPerformSelected]);
+
+  useEffect(() => {
+    if (buyScript && buyPerform) {
       setTotalPrice(scriptPrice + performPrice);
     }
-  }, [isPerformSelected, scriptPrice, performPrice]);
+  }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
   // 버튼 클릭 시 post message
   const handlePurchaseBtn = async () => {
@@ -72,9 +87,9 @@ const Purchase = () => {
           orderItem: [
             {
               productId: id,
-              script: true, // 대본권, 항상 true
+              script: buyScript,
               scriptPrice: scriptPrice,
-              performance: isPerformSelected,
+              performance: buyPerform,
               performancePrice: performPrice,
             },
           ],
@@ -111,10 +126,13 @@ const Purchase = () => {
                 <h6>{author}</h6>
                 <p id="tag"># {lengthType}</p>
                 <div className="detail-price">
-                  <img src={scriptImg} alt="script"></img>
-                  <p>{formatPrice(scriptPrice)}원</p>
-                  {/* 공연권이 선택됐을 경우 */}
-                  {isPerformSelected ? (
+                  {buyScript ? (
+                    <div>
+                      <img src={scriptImg} alt="script"></img>
+                      <p>{formatPrice(scriptPrice)}원</p>
+                    </div>
+                  ) : null}
+                  {buyPerform ? (
                     <div style={{ display: "flex", gap: "0.625rem" }}>
                       <img src={performImg} alt="perform"></img>
                       <p>{formatPrice(performPrice)}원</p>
@@ -129,12 +147,11 @@ const Purchase = () => {
               <h4>주문 요약</h4>
               <div className="price-wrap">
                 <p>대본 가격</p>
-                <p>{formatPrice(scriptPrice)}원</p>
+                {buyScript ? <p>{formatPrice(scriptPrice)}원</p> : <p> - 원</p>}
               </div>
               <div className="price-wrap">
                 <p>공연권 가격</p>
-                {/* 공연권이 선택됐을 경우 */}
-                {isPerformSelected ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
+                {buyPerform ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
               </div>
               <hr></hr>
               <div className="price-wrap">

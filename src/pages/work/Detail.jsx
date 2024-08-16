@@ -18,12 +18,19 @@ import { useRequest } from "../../hooks/useRequest";
 const Detail = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+
+  const [sellingScript, setSellingScript] = useState(false);
+  const [sellingPerform, setSellingPerform] = useState(false);
+
   const [scriptPrice, setScriptPrice] = useState(0);
   const [performPrice, setPerformPrice] = useState(0);
   const [lengthType, setLengthType] = useState("");
 
   const [imagePath, setImagePath] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
+
+  // 기존 대본 구매 이력
+  const [hasBoughtScript, setHasBoughtScript] = useState(false);
 
   const [bottomBarStyle, setBottomBarStyle] = useState({
     position: "fixed",
@@ -63,14 +70,16 @@ const Detail = () => {
 
       setTitle(response.data.title);
       setAuthor(response.data.writer);
+      setSellingScript(response.data.script);
+      setSellingPerform(response.data.performance);
       setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
       setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
       setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
       setImagePath(response.data.imagePath);
       setDescriptionPath(response.data.descriptionPath);
+      setHasBoughtScript(response.data.buyScript);
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
-      console.log(error);
     }
   });
 
@@ -119,10 +128,20 @@ const Detail = () => {
 
   const handlePurchaseBtnClick = () => {
     // 공연권도 선택되었을 시 true
-    const isAlsoPerform = selectedOption === "scriptPerform" ? true : false;
+    let isScriptSelected = false;
+    let isPerformSelected = false;
+    if (selectedOption === "script") {
+      isScriptSelected = true;
+    } else if (selectedOption === "perform") {
+      isPerformSelected = true;
+    } else if (selectedOption === "scriptPerform") {
+      isScriptSelected = true;
+      isPerformSelected = true;
+    }
     navigate(`/purchase/${id}`, {
       state: {
-        isAlsoPerform,
+        isScriptSelected,
+        isPerformSelected,
       },
     });
   };
@@ -161,8 +180,13 @@ const Detail = () => {
                 <option value="" disabled selected>
                   옵션 선택
                 </option>
-                <option value="script">대본</option>
-                <option value="scriptPerform">대본 & 공연권</option>
+                {!hasBoughtScript && sellingScript ? <option value="script">대본</option> : null}
+                {!hasBoughtScript && sellingScript && sellingPerform ? (
+                  <option value="scriptPerform">대본 & 공연권</option>
+                ) : null}
+                {hasBoughtScript && sellingPerform ? (
+                  <option value="perform">공연권 구매</option>
+                ) : null}
               </select>
             </div>
             <div className="total-price">
@@ -204,8 +228,9 @@ const Detail = () => {
           <option value="" disabled selected>
             옵션 선택
           </option>
-          <option value="script">대본</option>
-          <option value="scriptPerform">대본 & 공연권</option>
+          {!hasBoughtScript ? <option value="script">대본</option> : null}
+          {!hasBoughtScript ? <option value="scriptPerform">대본 & 공연권</option> : null}
+          {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
         </select>
         {/* <button id="cart-btn">장바구니</button>*/}
         <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>

@@ -1,0 +1,21 @@
+.select {
+  width: 100%;
+
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+
+  text-align: center;
+
+  /* 화살표 커스텀 */
+  /* Remove default arrow */
+  appearance: none;
+  -webkit-appearance: none; /* Safari */
+  -moz-appearance: none; /* Firefox */
+
+  /* Add custom arrow */
+  background-image: url("./../../assets/image/post/selectArrow.svg");
+  background-repeat: no-repeat;
+  background-position: right 20px center;
+  background-size: 1.25rem;
+}

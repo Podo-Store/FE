@@ -1,0 +1,208 @@
+.script-manage-detail {
+  background-color: #fdfaff;
+}
+
+.script-manage-detail .script-manage-detail-wrap {
+  margin: 8vh 17.5%;
+}
+
+.script-manage-detail .go-back {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 1vh;
+}
+
+.script-manage-detail .go-back img {
+  height: 15px;
+}
+
+.script-manage-detail .go-back h6 {
+  margin: 0;
+  color: #000;
+  font-family: "Noto Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.script-manage-detail h1 {
+  margin: 0;
+  margin-bottom: 4vh;
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+}
+
+.script-manage-detail p {
+  margin: 0;
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.script-manage-detail p#title {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.script-manage-detail hr {
+  margin: 2.5vh 0;
+  border: 1px solid #8f8f8f;
+}
+
+.script-manage-detail .script-info-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.script-manage-detail .script-info {
+  display: flex;
+  margin: 0;
+}
+
+.script-manage-detail .script-info-thumbnail {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+
+  margin-top: 0.8rem;
+  width: 12.5rem;
+  height: 12.5rem;
+  flex-shrink: 0;
+  border-radius: 20px;
+  background: #d9d9d9;
+  background-size: contain;
+}
+
+.script-manage-detail .script-info-thumbnail p {
+  margin-bottom: 0.5rem;
+  margin-right: 0.5rem;
+  text-decoration-line: underline;
+}
+
+.script-manage-detail .script-info-detail {
+  margin-left: 1.5rem;
+}
+
+.script-manage-detail .script-info-detail-price {
+  display: flex;
+  margin-top: 0.25rem;
+  gap: 1.5em;
+}
+
+.script-manage-detail .script-info-detail p {
+  margin: 0.125rem 0;
+  margin-left: 1.5rem;
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; /* 142.857% */
+}
+
+.script-manage-detail .script-info-detail Select {
+  height: 2rem;
+}
+.script-manage-detail .description-wrap > p {
+  margin-top: 1.5rem;
+  margin-left: 1.5rem;
+}
+
+.script-manage-detail .script-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: 38rem;
+  border-radius: 30px;
+  border: 1px dashed var(--Main, #6a39c0);
+  filter: blur(0.25px);
+}
+
+.script-manage-detail .script-description p:nth-of-type(1) {
+  margin: 0;
+  margin-top: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.script-manage-detail .script-description p#pdf {
+  margin: 0;
+  transform: translateY(-0.5rem);
+
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+}
+
+.script-manage-detail .script-description p#find {
+  margin-top: 1.25rem;
+  margin-bottom: 2rem;
+  color: #3876f2;
+  text-decoration-line: underline;
+}
+
+.script-manage-detail .bottom-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 8vh;
+}
+
+.script-manage-detail .bottom-wrap p#delete {
+  margin-left: 1rem;
+  text-decoration-line: underline;
+}
+
+.script-manage-detail .btn-wrap {
+  display: flex;
+  gap: 1rem;
+}
+
+.script-manage-detail .btn-wrap button {
+  width: 8.4375rem;
+  height: 2.5rem;
+
+  border: 0;
+  border-radius: 30px;
+
+  color: #fff;
+  text-align: center;
+
+  /* Paragraph/Medium/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 150% */
+}
+
+.script-manage-detail .btn-wrap button#cancel {
+  background: #d9d9d9;
+}
+
+.script-manage-detail .btn-wrap button#modify {
+  background: var(--Main, #6a39c0);
+}

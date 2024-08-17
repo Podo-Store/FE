@@ -27,7 +27,11 @@ const ScriptContent = ({ order, index, currentPage = "0", Button }) => {
               />
               {/* Button: props */}
               {currentPage === "0" ? (
-                <Button contractStatus={script.contractStatus} id={script.id} />
+                <Button
+                  contractStatus={script.contractStatus}
+                  id={script.id}
+                  title={script.title}
+                />
               ) : (
                 <Button
                   scriptSale={script.script}

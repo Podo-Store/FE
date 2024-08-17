@@ -15,6 +15,7 @@ import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
+import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 
 function Routing() {
   return (
@@ -44,6 +45,10 @@ function Routing() {
             <Route
               path="/mypage/scriptmanage"
               element={<ProtectedRoute element={<ScriptManage />} />}
+            />
+            <Route
+              path="/mypage/scriptmanage/detail/:id"
+              element={<ProtectedRoute element={<ScriptManageDetail />} />}
             />
             <Route
               path="/mypage/infochange"

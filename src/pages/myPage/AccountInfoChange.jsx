@@ -161,8 +161,18 @@ const AccountInfoChange = () => {
 
   // 회원 탈퇴
   const handleDeleteAccountConfirmBtn = async () => {
-    // TODO: API 추가
-    setIsAccountSuccessfullyDeleted(true);
+    try {
+      await axios.delete(`${SERVER_URL}auth/delete`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      alert("계정이 성공적으로 삭제되었습니다.");
+      setIsAccountSuccessfullyDeleted(true);
+    } catch (error) {
+      alert("회원 탈퇴 실패");
+    }
   };
 
   return (

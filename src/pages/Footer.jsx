@@ -1,5 +1,5 @@
 import "./Footer.css";
-import logo from "../assets/image/footer/logo.png";
+import logo from "../assets/image/footer/new_logo.svg";
 import instagramIcon from "../assets/image/footer/instagramIcon.svg";
 import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
 import XIcon from "../assets/image/footer/XIcon.svg";
@@ -8,19 +8,16 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Footer() {
-  const movePage = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="footer">
-      <div className="inner">
-        <div className="upper">
-          <div className="logo-title">
-            <img src={logo} alt="navLogo" style={{ display: "inline-block" }} />
-            <h1>포도상점</h1>
-          </div>
+      <div className="footer-inner">
+        <div className="footer-upper">
+          <img src={logo} alt="navLogo" />
           <p>Copyright © 2024 포도상점. Powered by 포도상점</p>
         </div>
-        <div className="lower">
+        <div className="footer-lower">
           <div className="business-info">
             <p>사업자 번호 : 111-11-111111</p>
             <p>연락처 : 010-0000-0000</p>
@@ -29,107 +26,44 @@ function Footer() {
 
           <div className="sitemap">
             <div className="sitemap-section">
-              <ul>
-                <li>
-                  <strong>마이페이지</strong>
-                </li>
-                <li>
-                  <a href="#">좋아한 작품</a>
-                </li>
-                <li>
-                  <a href="#">구매한 작품</a>
-                </li>
-                <li>
-                  <a href="#">등록한 작품</a>
-                </li>
-                <li>
-                  <a href="#">Q&A</a>
-                </li>
-              </ul>
-
               <hr />
 
-              <ul>
-                <li>
-                  <strong>
-                    <a href="#">장바구니</a>
-                  </strong>
+              <ul id="menu">
+                <li
+                  onClick={() => {
+                    navigate("/list");
+                  }}
+                >
+                  작품 둘러보기
+                </li>
+                <li
+                  onClick={() => {
+                    navigate("/post");
+                  }}
+                >
+                  작품 등록하기
                 </li>
               </ul>
-
-              <hr style={{ marginRight: "10px" }} />
-
-              <ul>
-                <strong>
-                  <li>
-                    <a href="#">작품 둘러보기</a>
-                  </li>
-                  <li>
-                    <a href="#">지금 공연 중</a>
-                  </li>
-                  <li>
-                    <a href="#">작품 등록하기</a>
-                  </li>
-                  <li>
-                    <a href="#">희망 대본 신청 게시판</a>
-                  </li>
-                </strong>
-              </ul>
             </div>
-
-            <div className="sitemap-section"></div>
-
             <div className="sitemap-section">
-              <ul>
+              <ul id="question">
                 <li>개인정보처리방침</li>
                 <li>
                   <button>문의하기</button>
                 </li>
               </ul>
-              <hr style={{ marginRight: "10px" }} />
-              <ul>
-                <li>About us</li>
-                <li>
-                  <strong>Front </strong>서준 @
-                </li>
-                <li>
-                  <strong>Back </strong>김정윤 @
-                </li>
-                <li>
-                  <strong>Marketing </strong>정지원 @
-                </li>
-                <li>
-                  <strong>Design </strong>이인호 @
-                </li>
-              </ul>
-            </div>
-
-            <div className="sitemap-section">
-              <hr style={{ marginRight: "10px" }} />
+              <hr />
               <ul>
                 <li>Follow us</li>
-                <li className="icons">
-                  <img
-                    onClick={() => {
-                      movePage("/instagram");
-                    }}
-                    src={instagramIcon}
-                    alt="instagramIcon"
-                  />
-                  <img
-                    onClick={() => {
-                      movePage("/youtube");
-                    }}
-                    src={youtubeIcon}
-                    alt="youtubeIcon"
-                  />
-                  <img
-                    onClick={() => {
-                      movePage("/X");
-                    }}
-                    src={XIcon}
-                    alt="XIcon"
-                  />
+                <li id="icons">
+                  <a
+                    href="https://www.instagram.com/podosangjeom"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <img src={instagramIcon} alt="instagramIcon" />
+                    <p>@podosangjeom</p>
+                  </a>
                 </li>
               </ul>
             </div>

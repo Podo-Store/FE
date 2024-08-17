@@ -1,70 +1,57 @@
 .footer {
   margin: 0;
-  padding: 0 100px;
+  padding: 0 15vw;
   box-sizing: border-box;
+
   width: 100%;
+  height: 18rem;
   flex: 100%;
   background: #ffffff;
 }
 
-.footer .inner {
-  box-sizing: border-box;
-  position: relative;
-  width: 100%;
-  max-width: 1920px;
-  height: 300px;
-  border-top: 1px solid #dddddd;
+.footer .footer-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  box-sizing: border-box;
+  position: relative;
+
+  width: 100%;
+  max-width: 1920px;
+  padding-bottom: 2.5vh;
+
+  border-top: 1px solid #dddddd;
 }
 
-.footer .upper {
-  width: 100%;
-  max-width: 1547px;
-  height: 103px;
+.footer .footer-upper {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 10px;
+
+  width: 100%;
+  margin-top: 3rem;
 }
 
-.footer .upper .logo-title {
-  display: flex;
-  align-items: center;
+.footer .footer-upper img {
+  width: 9.625rem;
+  height: 3.1885rem;
 }
 
-.footer .upper img {
-  width: 30px;
-  height: 40px;
-  margin-right: 10px;
-}
-
-.footer .upper h1 {
-  font-family: "Noto Sans KR";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 29px;
-  color: #000000;
+.footer .footer-upper p {
   margin: 0;
-  margin-right: 10px;
-}
 
-.footer .upper p {
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
   line-height: 20px;
-  display: flex;
-  align-items: center;
+
   color: #333333;
-  margin: 0;
 }
 
-.footer .lower {
+.footer .footer-lower {
   width: 100%;
   max-width: 1547px;
   display: flex;
@@ -73,7 +60,9 @@
   margin-top: 30px;
 }
 
-.footer .lower .business-info {
+.footer .footer-lower .business-info p {
+  margin: 0;
+
   font-family: "Lato";
   font-style: normal;
   font-weight: 400;
@@ -83,67 +72,100 @@
 }
 
 .footer hr {
-  border: 1px solid #000000;
+  height: 140px;
   margin-left: 30px;
-  margin-right: 30px;
+  margin-right: 10px;
+
+  border: 1px solid #000000;
 }
 
 .footer .sitemap {
   display: flex;
   flex-wrap: wrap;
-  gap: 40px; /* div 간의 간격 설정 */
+  gap: 10vw;
   margin-right: 115px;
 }
 
 .footer .sitemap .sitemap-section {
   display: flex;
-  flex-direction: row; /* 좌우로 배치 */
-}
-
-.footer .sitemap .sitemap-section strong {
-  font-weight: 600;
+  flex-direction: row;
 }
 
 .footer .sitemap ul {
   list-style: none;
+
   margin: 0;
   padding: 0;
-  font-family: "Lato";
-  font-style: normal;
-  font-size: 10px;
-  line-height: 25px;
+}
+
+.footer .sitemap ul#menu {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  color: #000000;
+  justify-content: center;
+
+  margin-bottom: 2rem;
+}
+
+.footer .sitemap ul#question {
+  display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  align-items: flex-start;
 }
 
 .footer .sitemap ul li {
   margin-bottom: 5px;
+
+  color: #000;
+  font-family: Lato;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 27.86px; /* 278.6% */
+}
+
+.footer .sitemap ul#menu li {
+  color: #000;
+  font-family: Lato;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 25px; /* 250% */
+  letter-spacing: -0.1em;
 }
 
 .footer .sitemap button {
   width: 69px;
   height: 20px;
+
+  background: none;
+  margin-top: auto;
+  margin-bottom: 20px;
+
   filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
   border: 1px solid rgba(0, 0, 0, 0.8);
   border-radius: 30px;
+
   font-family: "Noto Sans KR";
   font-style: normal;
   font-weight: 700;
   font-size: 10px;
   line-height: 14px;
   color: #000000;
-  background: none;
-  margin-top: auto;
-  margin-bottom: 20px;
 }
 
-.footer .sitemap .sitemap-section .icons {
+.footer .sitemap .sitemap-section li#icons a {
   display: flex;
-  gap: 5px;
-  height: 20px;
-  margin-bottom: 100%;
+  gap: 0.4rem;
+}
+
+.footer .sitemap .sitemap-section li#icons a p {
+  margin: 0;
+
+  color: #000;
+  font-family: Lato;
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; /* 200% */
 }

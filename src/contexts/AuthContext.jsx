@@ -9,7 +9,10 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userNickname, setUserNickname] = useState("username");
+  const [userNickname, setUserNickname] = useState(() => {
+    // 페이지 로드 시 로컬 스토리지에서 유저 닉네임을 불러옴
+    return localStorage.getItem("userNickname") || "username";
+  });
 
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
@@ -22,14 +25,20 @@ export const AuthProvider = ({ children }) => {
   const login = (accessToken, refreshToken, userNickname) => {
     Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
     Cookies.set("refreshToken", refreshToken, { expires: REFRESH_TOKEN_EXP_TIME });
+
     setUserNickname(userNickname);
+    localStorage.setItem("userNickname", userNickname);
+
     setIsAuthenticated(true);
   };
 
   const logout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
+
     setUserNickname("username");
+    localStorage.removeItem("userNickname");
+
     setIsAuthenticated(false);
   };
 

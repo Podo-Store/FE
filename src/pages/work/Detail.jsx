@@ -14,6 +14,7 @@ import Cookies from "js-cookie";
 import { useNavigate, useParams } from "react-router-dom";
 import { formatPrice } from "../../utils/formatPrice";
 import { useRequest } from "../../hooks/useRequest";
+import Select from "../../components/select/Select";
 
 const Detail = () => {
   const [title, setTitle] = useState("");
@@ -176,7 +177,7 @@ const Detail = () => {
             </div>
             <div className="option-select">
               <h4>옵션 선택</h4>
-              <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
+              <Select value={selectedOption} onChange={handleSelectOption}>
                 <option value="" disabled selected>
                   옵션 선택
                 </option>
@@ -187,7 +188,7 @@ const Detail = () => {
                 {hasBoughtScript && sellingPerform ? (
                   <option value="perform">공연권 구매</option>
                 ) : null}
-              </select>
+              </Select>
             </div>
             <div className="total-price">
               <h5>총 금액</h5>

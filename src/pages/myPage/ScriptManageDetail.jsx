@@ -1,11 +1,17 @@
-import { InputField } from "../../components/auth";
 import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
 import downloadImg from "../../assets/image/myPage/download.svg";
 import "./ScriptManageDetail.css";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
+import RectInputField from "../../components/inputField/RectInputField";
+import { useState } from "react";
+import Select from "../../components/select/Select";
 
 const ScriptManageDetail = () => {
+  const [title, setTitle] = useState("");
+  const [scriptPrice, setScriptPrice] = useState("");
+  const [performPrice, setPerformPrice] = useState("");
+
   return (
     <div className="script-manage-detail">
       <MainNav />
@@ -23,27 +29,59 @@ const ScriptManageDetail = () => {
               <p>대표 이미지 수정하기</p>
             </div>
             <div className="script-info-detail">
-              <InputField title="작품 제목" type="text" placeholder="podo_store" />
+              <RectInputField
+                title="작품 제목"
+                type="text"
+                placeholder="podo_store"
+                value={title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+              />
               <div className="script-info-detail-price">
-                <InputField title="대본 가격 (원)" type="text" placeholder="00,000" />
-                <InputField title="공연권 가격 (원)" type="text" placeholder="00,000" />
+                <RectInputField
+                  title="대본 가격 (원)"
+                  type="text"
+                  placeholder="00,000"
+                  value={scriptPrice}
+                  onChange={(e) => {
+                    setScriptPrice(e.target.value);
+                  }}
+                />
+                <RectInputField
+                  title="공연권 가격 (원)"
+                  type="text"
+                  placeholder="00,000"
+                  value={performPrice}
+                  onChange={(e) => {
+                    setPerformPrice(e.target.value);
+                  }}
+                />
               </div>
               <p>상태 변경하기</p>
-              <select name="" id="option">
-                <option value="script">판매 중지</option>
-                <option value="scriptPerform">판매중</option>
-              </select>
+              <Select>
+                <option value="notSale">대본&공연권 모두 판매 중지</option>
+                <option value="scriptSale">대본만 판매</option>
+                <option value="performSale">공연권만 판매</option>
+                <option value="scriptPerformSale">대본&공연권 모두 판매</option>
+              </Select>
             </div>
           </div>
-          <p>작품 설명</p>
-          <div className="script-description">
-            <p>파일을 마우스로 끌어오세요.</p>
-            <img src={downloadImg} alt="download"></img>
-            <p id="find">내 PC에서 찾기</p>
-          </div>
-          <div className="btn-wrap">
-            <button>취소하기</button>
-            <button>수정하기</button>
+          <div className="description-wrap">
+            <p>작품 설명</p>
+            <div className="script-description">
+              <p>파일을 마우스로 끌어오세요.</p>
+              <img src={downloadImg} alt="download" />
+              <p id="pdf">PDF</p>
+              <p id="find">내 PC에서 찾기</p>
+            </div>
+            <div className="bottom-wrap">
+              <p id="delete">작품 삭제</p>
+              <div className="btn-wrap">
+                <button id="cancel">취소하기</button>
+                <button id="modify">수정하기</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -17,7 +17,7 @@ const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
   const [scriptPrice, setScriptPrice] = useState("");
   const [performPrice, setPerformPrice] = useState("");
-  const [thumbnailImg, setThumbnailImg] = useState("");
+  const [thumbnailImg, setThumbnailImg] = useState(null);
 
   const [saleScriptStatus, setSaleScriptStatus] = useState(false);
   const [salePerformStatus, setSalePerformStatus] = useState(false);
@@ -42,7 +42,8 @@ const ScriptManageDetail = () => {
       setTitle(response.data.title);
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
-      setThumbnailImg(response.data.imagePath);
+      // TODO: 이미지 형식 API 반영
+      //setThumbnailImg(response.data.imagePath);
       setSaleScriptStatus(response.data.script);
       setSalePerformStatus(response.data.performance);
       setUploadedFile(response.data.descriptionPath);
@@ -71,6 +72,17 @@ const ScriptManageDetail = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  const onClickChangeThumbnailImg = () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.onchange = (e) => {
+      const file = e.target.files[0];
+      setThumbnailImg(file);
+    };
+    fileInput.click();
+  };
+
   const onClickModifyBtn = async () => {
     // select -> state: 비동기 문제 발생, ∴ 변수에 할당
     let updatedSaleScriptStatus = false;
@@ -94,9 +106,11 @@ const ScriptManageDetail = () => {
       formData.append("performance", updatedSalePerformStatus);
       formData.append("scriptPrice", scriptPrice);
       formData.append("performancePrice", performPrice);
-      formData.append("scriptImage", thumbnailImg);
+      if (thumbnailImg) {
+        formData.append("scriptImage", thumbnailImg);
+      }
       if (uploadedFile) {
-        formData.append("description", uploadedFile); // 파일을 FormData에 추가
+        formData.append("description", uploadedFile);
       }
 
       await axios.post(`${SERVER_URL}profile/detail`, formData, {
@@ -105,6 +119,9 @@ const ScriptManageDetail = () => {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
+
+      alert("수정이 완료되었습니다.");
+      navigate("/mypage/scriptmanage");
     } catch (error) {
       if (error.response.data.error === "ScriptImage file type is not jpg") {
         alert("이미지 파일은 jpg 형식만 업로드 가능합니다.");
@@ -140,7 +157,8 @@ const ScriptManageDetail = () => {
               className="script-info-thumbnail"
               style={{ backgroundImage: `url(${thumbnailImg ? thumbnailImg : null})` }}
             >
-              <p>대표 이미지 수정하기</p>
+              {/* TODO: ㄴ이미지 업로드 시 미리보기 */}
+              <p onClick={onClickChangeThumbnailImg}>대표 이미지 수정하기</p>
             </div>
             <div className="script-info-detail">
               <RectInputField

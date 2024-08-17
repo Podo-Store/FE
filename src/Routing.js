@@ -46,7 +46,10 @@ function Routing() {
               path="/mypage/scriptmanage"
               element={<ProtectedRoute element={<ScriptManage />} />}
             />
-            <Route path="/mypage/scriptmanage/detail/:id" element={<ScriptManageDetail />} />
+            <Route
+              path="/mypage/scriptmanage/detail/:id"
+              element={<ProtectedRoute element={<ScriptManageDetail />} />}
+            />
             <Route
               path="/mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}

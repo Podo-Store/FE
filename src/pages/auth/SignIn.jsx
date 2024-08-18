@@ -65,11 +65,24 @@ function SignIn() {
     }
   };
 
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+  const handleKeyDown = (event) => {
+    if (!idPwNull && event.key === "Enter") {
+      // form 기본 기능 막기
+      event.preventDefault();
       onClickConfirmButton();
     }
   };
+
+  // Enter키 적용
+  // 컴포넌트가 마운트될 때 document에 이벤트 리스너 추가
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+
+    // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [id, pw, handleKeyDown]); // id와 pw가 변경될 때마다 리스너가 다시 설정됨
 
   return (
     <div className="signIn">
@@ -78,7 +91,9 @@ function SignIn() {
         <div className="left-side"></div>
         <RightSide>
           <Page>
-            <div>
+            <form onKeyDown={handleKeyDown}>
+              {" "}
+              {/* Form 요소로 감싸 enter키 로직 사용*/}
               <div className="titleWrap">로그인 하려고요?</div>
               <div className="contentWrap">
                 <InputField
@@ -87,7 +102,6 @@ function SignIn() {
                   placeholder="podostore"
                   value={id}
                   onChange={handleId}
-                  onKeyPress={handleKeyPress}
                 />
                 <InputField
                   title="비밀번호"
@@ -95,7 +109,6 @@ function SignIn() {
                   placeholder="Lovepodo_S2"
                   value={pw}
                   onChange={handlePassword}
-                  onKeyPress={handleKeyPress}
                   errorMessage="아이디 / 비밀번호 오류"
                   isValid={isIdPwMatch}
                   showErrorMsg={showErrorMsg}
@@ -110,7 +123,7 @@ function SignIn() {
                 <Link to="/signin/find">아이디/비밀번호 찾기</Link> |{" "}
                 <Link to="/signup"> 회원가입</Link>
               </div>
-            </div>
+            </form>
           </Page>
         </RightSide>
       </Box>

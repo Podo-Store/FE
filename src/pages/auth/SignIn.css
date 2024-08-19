@@ -1,20 +1,7 @@
 .signIn .signIn-wrap {
-  height: 100svh;
-}
-
-.signIn .box {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  width: 28.375rem;
-  height: 34.3125rem;
-  flex-shrink: 0;
-
-  margin: 22.5vh 0;
-
-  border-radius: 1.875rem;
-  border: 3px solid var(--Main, #6a39c0);
+  justify-content: center;
+  height: 100vh;
 }
 
 .signIn .box form {
@@ -46,7 +33,7 @@
   justify-content: center;
   gap: 1rem;
 
-  margin-top: 4.5vh;
+  margin-top: 6vh;
 }
 
 .signIn .extraLink p {

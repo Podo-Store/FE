@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
@@ -78,7 +78,7 @@ function SignIn() {
     <div className="signIn">
       <MainNav />
       <div className="signIn-wrap">
-        <div className="box">
+        <Box>
           <form onSubmit={onClickConfirmButton}>
             {/* Form 요소에 onSubmit을 사용 */}
             <div className="titleWrap">로그인</div>
@@ -133,7 +133,7 @@ function SignIn() {
               </p>
             </div>
           </form>
-        </div>
+        </Box>
       </div>
       <Footer />
     </div>

@@ -3,20 +3,22 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
-import { InputField, BottomBtn, Box, InsideBtn, Page, RightSide } from "../../components/auth";
+import { BottomBtn, Box, InsideBtn, Form } from "../../components/auth";
 import { SERVER_URL } from "../../constants/ServerURL";
 import { PW_REGEX } from "../../constants/passwordRegex";
-import loading from "../../assets/image/auth/loading.svg";
-import check from "../../assets/image/auth/check.svg";
 
 import "./SignUp.css";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
+import Footer from "../Footer";
 
 function SignUp() {
   const navigate = useNavigate();
 
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
-  const [pwcheck, setPwCheck] = useState("");
+  const [pwCheck, setPwCheck] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [emailCode, setEmailCode] = useState("");
@@ -25,7 +27,7 @@ function SignUp() {
 
   const [idValid, setIdValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
-  const [pwcheckValid, setPwCheckValid] = useState(false);
+  const [pwCheckValid, setPwCheckValid] = useState(false);
   const [nameValid, setNameValid] = useState(false);
   const [emailValid, setEmailValid] = useState(false);
   const [emailCodeValid, setEmailCodeValid] = useState(false);
@@ -36,7 +38,16 @@ function SignUp() {
   const [nameDuplicated, setNameDuplicated] = useState(false);
   const [emailDuplicated, setEmailDuplicated] = useState(false);
   const [emailSended, setEmailSended] = useState(false);
-  const [notAllow, setNotAllow] = useState(true);
+
+  // showErrorMsg
+  const [showIdErrorMsg, setShowIdErrorMsg] = useState(false);
+  const [showPwErrorMsg, setShowPwErrorMsg] = useState(false);
+  const [showPwCheckErrorMsg, setShowPwCheckErrorMsg] = useState(false);
+  const [showNameErrorMsg, setShowNameErrorMsg] = useState(false);
+  const [showEmailErrorMsg, setShowEmailErrorMsg] = useState(false);
+  const [showEmailCodeErrorMsg, setShowEmailCodeErrorMsg] = useState(false);
+
+  const [notRegisterAllow, setNotRegisterAllow] = useState(true);
 
   const [emailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
 
@@ -50,15 +61,14 @@ function SignUp() {
     }
   }, [id]);
 
-  const handleId = (e) => {
-    setId(e.target.value);
-  };
-
   // 아이디 중복 체크
   // 세부 주석은 emailSend 참고
   useEffect(() => {
     if (id.length > 0) {
+      setShowIdErrorMsg(true);
       checkIdDuplicated(id);
+    } else {
+      setShowIdErrorMsg(false);
     }
   }, [id]);
 
@@ -81,6 +91,12 @@ function SignUp() {
 
   // PW
   useEffect(() => {
+    if (pw.length > 0) {
+      setShowPwErrorMsg(true);
+    } else {
+      setShowPwErrorMsg(false);
+    }
+
     if (PW_REGEX.test(pw)) {
       setPwValid(true);
     } else {
@@ -88,22 +104,20 @@ function SignUp() {
     }
   }, [pw]);
 
-  const handlePassword = (e) => {
-    setPw(e.target.value);
-  };
-
   // PW Check
   useEffect(() => {
-    if (pw === pwcheck) {
+    if (pwCheck.length > 0) {
+      setShowPwCheckErrorMsg(true);
+    } else {
+      setShowPwCheckErrorMsg(false);
+    }
+
+    if (pw === pwCheck) {
       setPwCheckValid(true);
     } else {
       setPwCheckValid(false);
     }
-  }, [pw, pwcheck]);
-
-  const PasswordCheck = (e) => {
-    setPwCheck(e.target.value);
-  };
+  }, [pw, pwCheck]);
 
   // Name
   useEffect(() => {
@@ -115,14 +129,13 @@ function SignUp() {
     }
   }, [name]);
 
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
   // 닉네임 중복 체크
   useEffect(() => {
     if (name.length > 0) {
+      setShowNameErrorMsg(true);
       checkNameDuplicated(name);
+    } else {
+      setShowNameErrorMsg(false);
     }
   }, [name]);
 
@@ -138,12 +151,20 @@ function SignUp() {
     } catch (error) {
       if (error.response.data.error === "닉네임 중복") {
         setNameDuplicated(true);
+      } else {
+        alert("오류가 발생했습니다.");
       }
     }
   };
 
   // Email
   useEffect(() => {
+    if (email.length > 0) {
+      setShowEmailErrorMsg(true);
+    } else {
+      setShowEmailErrorMsg(false);
+    }
+
     const regex =
       /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(email)) {
@@ -153,10 +174,6 @@ function SignUp() {
     }
   }, [email]);
 
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
   // (이메일) 인증하기 버튼 활성화
   useEffect(() => {
     if (emailValid && email.length > 0) {
@@ -165,7 +182,7 @@ function SignUp() {
   }, [email, emailValid]);
 
   const onClickEmailSend = async () => {
-    setEmailSended(true); // -> 메일을 보냈습니다. 메세지 표출
+    alert("이메일을 발송하는 중입니다...");
     // 이메일 인증 코드 발송 API 연결
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
@@ -179,6 +196,8 @@ function SignUp() {
       // 인증 번호 입력 칸의 '확인' 버튼 활성화
       setEmailCodeConfirmBtnEnabled(true);
       setEmailDuplicated(false);
+
+      setEmailSended(true);
     } catch (error) {
       if (error.response.data.error === "이메일 중복") {
         setEmailDuplicated(true);
@@ -188,12 +207,9 @@ function SignUp() {
     }
   };
 
-  const handleEmailCode = (e) => {
-    setEmailCode(e.target.value);
-  };
-
   // 이메일 인증 확인 버튼
   const onClickConfirmButton = async () => {
+    setShowEmailCodeErrorMsg(true);
     alert("서버로부터의 응답을 기다리고 있습니다. 잠시만 기다려 주세요.");
     try {
       await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
@@ -211,9 +227,9 @@ function SignUp() {
   // 회원가입 버튼 활성화
   useEffect(() => {
     if (emailValid && emailCodeValid) {
-      setNotAllow(false);
+      setNotRegisterAllow(false);
     } else {
-      setNotAllow(true);
+      setNotRegisterAllow(true);
     }
   }, [emailValid, emailCodeValid]);
 
@@ -223,7 +239,7 @@ function SignUp() {
         userId: id,
         email: email,
         password: pw,
-        confirmPassword: pwcheck,
+        confirmPassword: pwCheck,
         nickname: name,
         authNum: emailCode,
       });
@@ -232,147 +248,143 @@ function SignUp() {
     } catch (error) {
       alert("회원가입 실패");
     }
-
-    /*
-    if (idValid && pwValid && pwcheckValid && nameValid && emailValid && emailCodeValid) {
-      alert("회원가입 성공");
-      navigate("/signup/success");
-    } else {
-      alert("회원가입 실패");
-    }
-      */
   };
 
   return (
     <div className="signUp">
       <MainNav />
-      <Box>
-        <div className="left-side"></div>
-        <RightSide>
-          <Page>
-            <div>
-              <div className="titleWrap">
-                <p>귀한 곳에</p>
-                <p>이런 누추한 분이...</p>
-              </div>
-              <div className="contentWrap">
-                <InputField
-                  title="아이디"
-                  type="text"
-                  placeholder="5~10자의 영문 및 숫자 포함"
-                  value={id}
-                  onChange={handleId}
-                  errorMessage="5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
-                  validMessage="사용 가능한 아이디입니다."
-                  isValid={idValid}
-                  isDuplicated={idDuplicated}
-                  // TODO: showErrorMsg 반영
-                  showErrorMsg={true}
-                />
+      <div className="signUp-wrap">
+        <Box>
+          <Form>
+            <h1 className="titleWrap">회원가입</h1>
+            <div className="contentWrap">
+              <AuthInputField
+                title="아이디"
+                type="text"
+                placeholder="5~10자의 영문 및 숫자 포함"
+                value={id}
+                onChange={(event) => {
+                  setId(event.target.value);
+                  if (id.length > 0) {
+                    setShowIdErrorMsg(true);
+                  }
+                }}
+                errorMessage="5 ~ 10자의 영문 및 숫자를 포함해야 합니다."
+                validMessage="사용 가능한 아이디입니다."
+                isValid={idValid}
+                isDuplicated={idDuplicated}
+                showErrorMsg={showIdErrorMsg}
+              />
 
-                <InputField
-                  title="비밀번호"
-                  type="password"
-                  placeholder="5~11자의 영문, 숫자, 특수문자 포함"
-                  value={pw}
-                  onChange={handlePassword}
-                  errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
-                  validMessage="사용 가능한 비밀번호 입니다."
-                  isValid={pwValid}
-                  // TODO: showErrorMsg 반영
-                  showErrorMsg={true}
-                />
+              <AuthPwInputField
+                title="비밀번호"
+                placeholder="5~11자의 영문, 숫자, 특수문자 포함"
+                value={pw}
+                onChange={(event) => {
+                  setPw(event.target.value);
+                }}
+                errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
+                validMessage="사용 가능한 비밀번호 입니다."
+                isValid={pwValid}
+                showErrorMsg={showPwErrorMsg}
+              />
 
-                <InputField
-                  title="비밀번호 확인"
-                  type="password"
-                  placeholder="비밀번호를 다시 한번 입력해주세요."
-                  value={pwcheck}
-                  onChange={PasswordCheck}
-                  errorMessage="비밀번호가 일치하지 않습니다."
-                  validMessage="비밀번호가 일치합니다."
-                  isValid={pwcheckValid}
-                  // TODO: showErrorMsg 반영
-                  showErrorMsg={true}
-                />
+              <AuthPwInputField
+                title="비밀번호 확인"
+                placeholder="비밀번호를 다시 한번 입력해주세요."
+                value={pwCheck}
+                onChange={(event) => {
+                  setPwCheck(event.target.value);
+                }}
+                errorMessage="비밀번호가 일치하지 않습니다."
+                validMessage="비밀번호가 일치합니다."
+                isValid={pwCheckValid}
+                showErrorMsg={showPwCheckErrorMsg}
+              />
 
-                <InputField
-                  title="닉네임"
-                  type="text"
-                  placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
-                  value={name}
-                  onChange={handleName}
-                  errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
-                  validMessage="사용 가능한 닉네임 입니다."
-                  isValid={nameValid}
-                  isDuplicated={nameDuplicated}
-                  // TODO: showErrorMsg 반영
-                  showErrorMsg={true}
-                />
+              <AuthInputField
+                title="닉네임"
+                type="text"
+                placeholder="3~8자의 한글, 영문, 숫자 사용 가능"
+                value={name}
+                onChange={(event) => {
+                  setName(event.target.value);
+                }}
+                errorMessage="3~8자의 한글, 영문, 숫자만 사용 가능합니다."
+                validMessage="사용 가능한 닉네임 입니다."
+                isValid={nameValid}
+                isDuplicated={nameDuplicated}
+                showErrorMsg={showNameErrorMsg}
+              />
 
-                {/* TODO: component로 모듈화 */}
-                {/* 예외 상황 존재, component 분리 X */}
-                <div className="inputTitle">이메일</div>
-                <div className="inputWrap">
-                  <input
-                    type="text"
-                    className="input"
-                    placeholder="podo@store.com"
-                    value={email}
-                    onChange={handleEmail}
-                  />
-                  <InsideBtn onClick={onClickEmailSend} disabled={!emailSendBtn}>
-                    인증하기
-                  </InsideBtn>
-                </div>
-
-                <div className="errorMessageWrap">
-                  {!emailValid && email.length > 0 ? (
-                    <div>이메일 형식이 올바르지 않습니다.</div>
+              <AuthSideBtnInputField
+                title="이메일"
+                type="text"
+                placeholder="podo@store.com"
+                value={email}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                }}
+                errorMessageCustomFlag={true}
+                sideBtnTitle="인증"
+                sideBtnOnClick={onClickEmailSend}
+                sideBtnDisabled={!emailSendBtn}
+              />
+              <div className="error-message-wrap">
+                {/* showErrorMsg가 true일 때만 렌더링, 없을 경우에도 공간 확보 */}
+                {showEmailErrorMsg ? (
+                  !emailValid && email.length > 0 ? (
+                    <p>이메일 형식이 올바르지 않습니다.</p>
                   ) : emailDuplicated && email.length > 0 ? (
-                    <div>중복된 이메일입니다.</div>
+                    <p>중복된 이메일입니다.</p>
+                  ) : emailSended ? (
+                    <p id="validMessage">메일을 보냈습니다.</p>
                   ) : (
-                    emailSended && <div className="NerrorMessageWrap">메일을 보냈습니다.</div>
-                  )}
-                </div>
-
-                <div style={{ marginTop: "10px" }} className="inputTitle">
-                  인증 번호 입력
-                </div>
-                <div className="inputWrap">
-                  <input
-                    type="text"
-                    className="input"
-                    placeholder="인증 번호 6자리 입력"
-                    value={emailCode}
-                    onChange={handleEmailCode}
-                  />
-                  <InsideBtn onClick={onClickConfirmButton} disabled={!emailCodeConfirmBtnEnabled}>
-                    확인
-                  </InsideBtn>
-                </div>
-                <div className="errorMessage_resend_Wrap">
-                  <div className="errorMessageWrap">
-                    {!emailCodeValid && emailCode.length > 0 && (
-                      <div>인증 번호가 일치하지 않습니다.</div>
-                    )}
-                  </div>
-                  {emailSended ? (
-                    <div className="errorMessageWrap" onClick={onClickEmailSend}>
-                      인증 번호 다시 보내기
-                    </div>
-                  ) : null}
-                </div>
+                    <p> </p>
+                  )
+                ) : (
+                  <p> </p>
+                )}
               </div>
-              <div>
-                <BottomBtn onClick={onClickRegisterAllowButton} disabled={notAllow}>
-                  회원가입
-                </BottomBtn>
+
+              <AuthSideBtnInputField
+                title="인증번호 확인"
+                type="text"
+                placeholder="인증번호 6자리 입력"
+                value={emailCode}
+                onChange={(event) => {
+                  setEmailCode(event.target.value);
+                }}
+                errorMessageCustomFlag={true}
+                sideBtnTitle="확인"
+                sideBtnOnClick={onClickConfirmButton}
+                sideBtnDisabled={!emailCodeConfirmBtnEnabled}
+              />
+              <div className="error-message-wrap">
+                {/* showErrorMsg가 true일 때만 렌더링, 없을 경우에도 공간 확보 */}
+                {showEmailCodeErrorMsg ? (
+                  !emailCodeValid && emailCode.length > 0 ? (
+                    <p>인증 번호가 일치하지 않습니다.</p>
+                  ) : emailCodeValid && emailCode.length > 0 ? (
+                    <p id="validMessage">인증 번호가 일치합니다.</p>
+                  ) : null
+                ) : (
+                  <p> </p>
+                )}
+                <p id="resend" onClick={onClickEmailSend}>
+                  {emailSended ? "인증 번호 다시 보내기" : " "}
+                </p>
               </div>
             </div>
-          </Page>
-        </RightSide>
-      </Box>
+            <div className="bottom-btn-wrap">
+              <BottomBtn onClick={onClickRegisterAllowButton} disabled={notRegisterAllow}>
+                회원가입
+              </BottomBtn>
+            </div>
+          </Form>
+        </Box>
+      </div>
+      <Footer />
     </div>
   );
 }

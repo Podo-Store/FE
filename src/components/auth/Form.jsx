@@ -5,7 +5,9 @@ const Form = ({ children, onSubmit }) => {
     // form 기본 기능 막기
     event.preventDefault();
     // 가져온 onSubmit 함수 실행
-    onSubmit();
+    if (onSubmit) {
+      onSubmit();
+    }
   };
   return (
     <form className="auth-form" onSubmit={onSubmitDefault}>

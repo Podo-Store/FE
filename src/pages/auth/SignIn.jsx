@@ -5,14 +5,13 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 import { BottomBtn, Box, Form } from "../../components/auth";
-import AuthInputField from "../../components/inputField/AuthInputField";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "../../contexts/AuthContext";
 
-import invisible from "../../assets/image/auth/invisible.svg";
-
 import "./SignIn.css";
+import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -23,8 +22,6 @@ function SignIn() {
   const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
-
-  const [toggleInvisible, setToggleInvisible] = useState(true);
 
   const navigate = useNavigate();
 
@@ -87,21 +84,11 @@ function SignIn() {
                 value={id}
                 onChange={handleId}
               />
-              <AuthInputField
+              <AuthPwInputField
                 title="비밀번호"
-                type={toggleInvisible ? "password" : "text"}
                 placeholder="Lovepodo_S2"
                 value={pw}
                 onChange={handlePassword}
-                rightElement={
-                  <img
-                    src={invisible}
-                    alt="invisible"
-                    onClick={() => {
-                      setToggleInvisible(!toggleInvisible);
-                    }}
-                  />
-                }
                 errorMessage="아이디 / 비밀번호 오류"
                 isValid={isIdPwMatch}
                 showErrorMsg={showErrorMsg}

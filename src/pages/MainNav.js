@@ -43,16 +43,8 @@ function MainNav() {
           </li>
           {*/}
         </ul>
-        <div className="navbar_login">
-          {/*<img src={cart} alt="cart" />*/}
-          <img
-            src={person}
-            alt="myPage"
-            onClick={() => {
-              navigate("/mypage/purchased");
-            }}
-          />
-          {!isAuthenticated ? (
+        {!isAuthenticated ? (
+          <div className="navbar_login">
             <button
               onClick={() => {
                 navigate("/signin");
@@ -61,7 +53,17 @@ function MainNav() {
             >
               로그인
             </button>
-          ) : (
+          </div>
+        ) : (
+          <div className="navbar_login">
+            {/*<img src={cart} alt="cart" />*/}
+            <img
+              src={person}
+              alt="myPage"
+              onClick={() => {
+                navigate("/mypage/purchased");
+              }}
+            />
             <button
               onClick={() => {
                 // context 호출
@@ -72,8 +74,8 @@ function MainNav() {
             >
               로그아웃
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </nav>
     </div>
   );

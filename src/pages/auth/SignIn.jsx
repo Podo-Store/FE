@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
-import { InputField, BottomBtn, Box, Page, RightSide } from "../../components/auth";
+import { BottomBtn, Box, Form } from "../../components/auth";
 import AuthInputField from "../../components/inputField/AuthInputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
@@ -44,10 +44,7 @@ function SignIn() {
     setPw(e.target.value);
   };
 
-  const onClickConfirmButton = async (event) => {
-    // form 기본 기능 막기
-    event.preventDefault();
-
+  const onClickConfirmButton = async () => {
     // initialize
     setIsIdPwMatch(false);
     try {
@@ -79,7 +76,7 @@ function SignIn() {
       <MainNav />
       <div className="signIn-wrap">
         <Box>
-          <form onSubmit={onClickConfirmButton}>
+          <Form onSubmit={onClickConfirmButton}>
             {/* Form 요소에 onSubmit을 사용 */}
             <div className="titleWrap">로그인</div>
             <div className="contentWrap">
@@ -132,7 +129,7 @@ function SignIn() {
                 회원가입
               </p>
             </div>
-          </form>
+          </Form>
         </Box>
       </div>
       <Footer />

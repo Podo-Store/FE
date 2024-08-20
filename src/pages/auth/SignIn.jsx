@@ -107,7 +107,7 @@ function SignIn() {
               >
                 아이디/비밀번호 찾기
               </p>
-              <p>|</p>
+              <p id="bar">|</p>
               <p
                 onClick={() => {
                   navigate("/signup");

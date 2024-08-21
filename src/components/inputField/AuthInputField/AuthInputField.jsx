@@ -15,6 +15,8 @@ const AuthInputField = ({
   isDuplicated,
   validMessage,
 
+  onBlur,
+
   // 커스텀 에러 메시지: AuthInputField를 사용한 component에서 error 메시지 정의
   errorMessageCustomFlag = false,
 }) => {
@@ -29,6 +31,7 @@ const AuthInputField = ({
           placeholder={placeholder}
           value={value}
           onChange={onChange}
+          onBlur={onBlur}
         />
         {rightElement ? <div className="right-element">{rightElement}</div> : null}
       </div>

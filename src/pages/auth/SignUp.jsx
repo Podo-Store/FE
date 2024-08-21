@@ -54,22 +54,17 @@ function SignUp() {
 
   // ID
   useEffect(() => {
+    if (id.length > 0) {
+      setShowIdErrorMsg(true);
+    } else {
+      setShowIdErrorMsg(false);
+    }
+
     const regex = /^[a-zA-Z0-9]{5,10}$/;
     if (regex.test(id)) {
       setIdValid(true);
     } else {
       setIdValid(false);
-    }
-  }, [id]);
-
-  // 아이디 중복 체크
-  // 세부 주석은 emailSend 참고
-  useEffect(() => {
-    if (id.length > 0) {
-      setShowIdErrorMsg(true);
-      checkIdDuplicated(id);
-    } else {
-      setShowIdErrorMsg(false);
     }
   }, [id]);
 
@@ -107,36 +102,32 @@ function SignUp() {
 
   // PW Check
   useEffect(() => {
-    if (pwCheck.length > 0) {
-      setShowPwCheckErrorMsg(true);
-    } else {
-      setShowPwCheckErrorMsg(false);
-    }
-
     if (pw === pwCheck) {
       setPwCheckValid(true);
     } else {
       setPwCheckValid(false);
     }
+
+    if (pwCheck.length > 0) {
+      setShowPwCheckErrorMsg(true);
+    } else {
+      setShowPwCheckErrorMsg(false);
+    }
   }, [pw, pwCheck]);
 
   // Name
   useEffect(() => {
+    if (name.length > 0) {
+      setShowNameErrorMsg(true);
+    } else {
+      setShowNameErrorMsg(false);
+    }
+
     const regex = /^[가-힣a-zA-Z0-9]{3,8}$/;
     if (regex.test(name)) {
       setNameValid(true);
     } else {
       setNameValid(false);
-    }
-  }, [name]);
-
-  // 닉네임 중복 체크
-  useEffect(() => {
-    if (name.length > 0) {
-      setShowNameErrorMsg(true);
-      checkNameDuplicated(name);
-    } else {
-      setShowNameErrorMsg(false);
     }
   }, [name]);
 
@@ -183,7 +174,6 @@ function SignUp() {
   }, [email, emailValid]);
 
   const onClickEmailSend = async () => {
-    alert("이메일을 발송하는 중입니다...");
     // 이메일 인증 코드 발송 API 연결
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
@@ -211,7 +201,6 @@ function SignUp() {
   // 이메일 인증 확인 버튼
   const onClickConfirmButton = async () => {
     setShowEmailCodeErrorMsg(true);
-    alert("서버로부터의 응답을 기다리고 있습니다. 잠시만 기다려 주세요.");
     try {
       await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
         email: email,
@@ -275,6 +264,9 @@ function SignUp() {
                 isValid={idValid}
                 isDuplicated={idDuplicated}
                 showErrorMsg={showIdErrorMsg}
+                onBlur={() => {
+                  checkIdDuplicated(id);
+                }}
               />
 
               <AuthPwInputField
@@ -316,6 +308,9 @@ function SignUp() {
                 isValid={nameValid}
                 isDuplicated={nameDuplicated}
                 showErrorMsg={showNameErrorMsg}
+                onBlur={() => {
+                  checkNameDuplicated(name);
+                }}
               />
 
               <AuthSideBtnInputField

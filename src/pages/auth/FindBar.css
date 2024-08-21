@@ -75,37 +75,51 @@
 }
 
 /* 결과 페이지 */
+.find .find-id-title {
+  text-align: center;
+
+  color: #000;
+
+  /* Paragraph/Large/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.75rem; /* 155.556% */
+}
+
 .find .innerBox {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 3vh;
 
-  box-sizing: border-box;
-  padding: 2rem 4rem;
+  margin-top: 2.5vh;
   margin-bottom: 2.5rem;
+  padding: 4.2vh 2vw;
 
-  background: rgba(253, 250, 255, 0.7);
   border: 1px solid rgba(0, 0, 0, 0.7);
   border-radius: 30px;
 }
 
-.find .find-id__title {
-  font-family: "Noto Sans";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 19px;
-  margin-left: 5%;
+.find .section-column {
+  display: flex;
+  gap: 1.5rem;
 }
 
-.find .section-column {
-  font-family: "Noto Sans";
+.find .section-column p {
+  color: #000;
+
+  /* H5/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
+  line-height: 1.75rem;
+  letter-spacing: -0.025rem;
+}
 
-  color: #000000;
+.find .section-column p#title {
+  font-weight: 700;
 }

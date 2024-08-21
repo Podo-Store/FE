@@ -28,11 +28,12 @@ const FindID = () => {
   const [sendEmailBtnEnabled, setSendEmailBtnEnabled] = useState(false);
   const [sendEmailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
 
-  const navigate = useNavigate();
   const [showingIDPermitted, setShowingIDPermitted] = useState(false);
 
   const [foundId, setFoundId] = useState("");
   const [foundRegisteredDate, setFoundRegisteredDate] = useState("");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const regex =
@@ -182,13 +183,15 @@ const FindID = () => {
 
   return (
     <div className="section-find">
-      <h4 className="find-id__title">이메일과 일치하는 아이디입니다.</h4>
+      <h4 className="find-id-title">이메일과 일치하는 아이디입니다.</h4>
       <div className="innerBox">
         <div className="section-column">
-          <p>아이디 : {foundId}</p>
+          <p id="title">아이디</p>
+          <p>{foundId}</p>
         </div>
         <div className="section-column">
-          <p>가입날짜 : {foundRegisteredDate}</p>
+          <p id="title">가입일</p>
+          <p>{foundRegisteredDate}</p>
         </div>
       </div>
       <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>

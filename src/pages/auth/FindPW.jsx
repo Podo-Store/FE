@@ -1,16 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import InputField from "../../components/auth/InputField";
-import InsideBtn from "../../components/auth/InsideBtn";
-import BottomBtn from "../../components/auth/BottomBtn";
 import ResetPW from "./ResetPW";
+import BottomBtn from "../../components/auth/BottomBtn";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./FindBar.css";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
 const FindPW = () => {
   const [id, setId] = useState("");
@@ -31,7 +29,8 @@ const FindPW = () => {
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
 
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
-  const [showingPwPermitted, setShowingPwPermitted] = useState(false);
+  // TODO: 테스트용. false로 변경
+  const [resetPwPermitted, setResetPwPermitted] = useState(true);
 
   // showErrorMsg
   const [showIdErrorMsg, setShowIdErrorMsg] = useState(false);
@@ -156,7 +155,7 @@ const FindPW = () => {
     }
   }, [email, emailCode, isNotRegisteredEmail, emailCodeValid]);
 
-  return !showingPwPermitted ? (
+  return !resetPwPermitted ? (
     <div className="section-find" id="input">
       <AuthInputField
         title="아이디"
@@ -249,7 +248,7 @@ const FindPW = () => {
       <BottomBtn
         onClick={() => {
           // 인증번호 일치 로직 검사: onClickEmailCodeConfirmBtn에서 이미 시행
-          setShowingPwPermitted(true);
+          setResetPwPermitted(true);
         }}
         disabled={notAllFormWritten}
       >

@@ -123,3 +123,7 @@
 .find .section-column p#title {
   font-weight: 700;
 }
+
+.find .reset-pw-margin {
+  height: 2.5vh;
+}

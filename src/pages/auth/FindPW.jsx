@@ -1,13 +1,16 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
+
 import InputField from "../../components/auth/InputField";
 import InsideBtn from "../../components/auth/InsideBtn";
 import BottomBtn from "../../components/auth/BottomBtn";
-
-import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import "./FindBar.css";
-import axios from "axios";
-import { SERVER_URL } from "../../constants/ServerURL";
 import ResetPW from "./ResetPW";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
+import "./FindBar.css";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
 const FindPW = () => {
   const [id, setId] = useState("");
@@ -17,24 +20,33 @@ const FindPW = () => {
   const [receivedAccessToken, setReceivedAccessToken] = useState("");
 
   const [idValid, setIdValid] = useState(false);
+  const [emailValid, setEmailValid] = useState(false);
+  const [emailCodeValid, setEmailCodeValid] = useState(false);
 
-  // 인증하기, 확인 버튼이 클릭되지 않으면 에러 메시지를 띄우지 않음
-  const [isSendIdBtnPressed, setIsSendIdBtnPressed] = useState(false);
-  const [isSendEmailBtnPressed, setIsSendEmailBtnPressed] = useState(false);
-  const [isEmailCodeConfirmBtnPressed, setIsEmailCodeConfirmBtnPressed] = useState(false);
-
-  const [isNotRegisteredId, setIsNotRegisteredId] = useState(true);
-  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
-  const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(false);
-  const [notAllFormWritten, setNotAllFormWritten] = useState(true);
-
+  const [emailSended, setEmailSended] = useState(false);
   const [sendEmailBtnEnabled, setSendEmailBtnEnabled] = useState(false);
   const [sendEmailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
 
+  const [isNotRegisteredId, setIsNotRegisteredId] = useState(true);
+  const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
+
+  const [notAllFormWritten, setNotAllFormWritten] = useState(true);
   const [showingPwPermitted, setShowingPwPermitted] = useState(false);
+
+  // showErrorMsg
+  const [showIdErrorMsg, setShowIdErrorMsg] = useState(false);
+  const [showRegisteredIdMsg, setShowRegisteredIdMsg] = useState(false);
+  const [showEmailErrorMsg, setShowEmailErrorMsg] = useState(false);
+  const [showEmailCodeErrorMsg, setShowEmailCodeErrorMsg] = useState(false);
 
   // id
   useEffect(() => {
+    if (id.length > 0) {
+      setShowIdErrorMsg(true);
+    } else {
+      setShowIdErrorMsg(false);
+    }
+
     const regex = /^[a-zA-Z0-9]{5,10}$/;
     if (regex.test(id)) {
       setIdValid(true);
@@ -44,6 +56,8 @@ const FindPW = () => {
   }, [id]);
 
   const onClickIdConfirmBtn = async () => {
+    // initialize
+    setShowRegisteredIdMsg(false);
     // 아이디 가입 여부 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
@@ -56,23 +70,37 @@ const FindPW = () => {
     } catch (error) {
       setIsNotRegisteredId(true);
     }
-    setIsSendIdBtnPressed(true);
+    setShowRegisteredIdMsg(true);
   };
 
   // email
   useEffect(() => {
+    if (email.length > 0) {
+      setShowEmailErrorMsg(true);
+    } else {
+      setShowEmailErrorMsg(false);
+    }
+
     const regex =
       /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(email)) {
+      setEmailValid(true);
+    } else {
+      setEmailValid(false);
+    }
+  }, [email]);
+
+  // (이메일) 인증하기 버튼 활성화
+  useEffect(() => {
+    if (emailValid && email.length > 0) {
       setSendEmailBtnEnabled(true);
     } else {
       setSendEmailBtnEnabled(false);
     }
-  }, [email]);
+  }, [email, emailValid]);
 
   const onClickSendEmailBtn = async () => {
     // 이메일 가입 여부 확인 API 호출, 조건문 사용
-    alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
@@ -81,13 +109,17 @@ const FindPW = () => {
       setReceivedEmailCode(response.data);
 
       alert("이메일이 전송되었습니다.");
+      setEmailSended(true);
       setIsNotRegisteredEmail(false);
     } catch (error) {
-      alert("이메일 전송에 실패했습니다.");
-      setIsNotRegisteredEmail(true);
+      if (error.response.data === "이메일 유효성 검사 실패") {
+        setEmailValid(false);
+      } else if (error.response.data === "사용자 정보 없음") {
+        setIsNotRegisteredEmail(true);
+      }
     }
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
-    setIsSendEmailBtnPressed(true);
+    setShowEmailErrorMsg(true);
   };
 
   useEffect(() => {
@@ -107,27 +139,26 @@ const FindPW = () => {
         authNum: emailCode,
       });
       setReceivedAccessToken(response.data.accessToken);
-      setIsEmailCodeCorrect(true);
+      setEmailCodeValid(true);
     } catch (error) {
-      console.log(error.response.data.error);
-      setIsEmailCodeCorrect(false);
+      setEmailCodeValid(false);
     }
     // 확인 버튼 눌림 -> 에러 메시지 허용
-    setIsEmailCodeConfirmBtnPressed(true);
+    setShowEmailCodeErrorMsg(true);
   };
 
   // 모든 폼이 작성되고, 인증이 완료되면 버튼 활성화
   useEffect(() => {
-    if (email.length > 0 && emailCode.length > 0 && !isNotRegisteredEmail && isEmailCodeCorrect) {
+    if (email.length > 0 && emailCode.length > 0 && !isNotRegisteredEmail && emailCodeValid) {
       setNotAllFormWritten(false);
     } else {
       setNotAllFormWritten(true);
     }
-  }, [email, emailCode, isNotRegisteredEmail, isEmailCodeCorrect]);
+  }, [email, emailCode, isNotRegisteredEmail, emailCodeValid]);
 
   return !showingPwPermitted ? (
     <div className="section-find" id="input">
-      <InputField
+      <AuthInputField
         title="아이디"
         type="text"
         placeholder="podostore"
@@ -142,64 +173,78 @@ const FindPW = () => {
             : // 가입되지 않은 아이디일 경우
             isNotRegisteredId === true && id.length > 0
             ? "가입되지 않은 아이디입니다."
-            : ""
+            : " "
         }
+        validMessage={showRegisteredIdMsg ? "올바른 아이디입니다." : " "}
         isValid={
-          idValid === false || (isNotRegisteredId === true && isSendIdBtnPressed === true)
+          idValid === false || (isNotRegisteredId === true && showRegisteredIdMsg === true)
             ? false
             : true
         }
-        additionalElement={
-          <InsideBtn onClick={onClickIdConfirmBtn} disabled={!idValid}>
-            확인
-          </InsideBtn>
-        }
-        // TODO: showErrorMsg 반영
-        showErrorMsg={true}
+        showErrorMsg={showIdErrorMsg}
+        onBlur={() => {
+          onClickIdConfirmBtn();
+        }}
       />
-      <InputField
+
+      <AuthSideBtnInputField
         title="이메일"
         type="text"
         placeholder="podo@store.com"
         value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
+        onChange={(event) => {
+          setEmail(event.target.value);
         }}
-        errorMessage="가입되지 않은 이메일입니다."
-        // 가입되지 않은 이메일이면서 인증하기 버튼이 눌린 경우 에러 메시지 표시
-        isValid={!(isNotRegisteredEmail && isSendEmailBtnPressed)}
-        additionalElement={
-          <InsideBtn onClick={onClickSendEmailBtn} disabled={!sendEmailBtnEnabled}>
-            인증하기
-          </InsideBtn>
-        }
-        // TODO: showErrorMsg 반영
-        showErrorMsg={true}
+        errorMessageCustomFlag={true}
+        sideBtnTitle="인증"
+        sideBtnOnClick={onClickSendEmailBtn}
+        sideBtnDisabled={!sendEmailBtnEnabled}
       />
-      <InputField
-        title="인증 번호"
+      <div className="error-message-wrap">
+        {/* showErrorMsg가 true일 때만 렌더링, 없을 경우에도 공간 확보 */}
+        {showEmailErrorMsg ? (
+          !emailValid && email.length > 0 ? (
+            <p>이메일 형식이 올바르지 않습니다.</p>
+          ) : isNotRegisteredEmail && email.length > 0 ? (
+            <p>가입되지 않은 이메일입니다.</p>
+          ) : emailSended ? (
+            <p id="validMessage">메일을 보냈습니다.</p>
+          ) : (
+            <p> </p>
+          )
+        ) : (
+          <p> </p>
+        )}
+      </div>
+
+      <AuthSideBtnInputField
+        title="인증번호 확인"
         type="text"
-        placeholder="123456"
+        placeholder="인증번호 6자리 입력"
         value={emailCode}
-        onChange={(e) => {
-          setEmailCode(e.target.value);
+        onChange={(event) => {
+          setEmailCode(event.target.value);
         }}
-        errorMessage="인증번호가 일치하지 않습니다."
-        isValid={!(!isEmailCodeCorrect && isEmailCodeConfirmBtnPressed)}
-        additionalElement={
-          <InsideBtn
-            onClick={onClickEmailCodeConfirmBtn}
-            disabled={!sendEmailCodeConfirmBtnEnabled}
-          >
-            확인
-          </InsideBtn>
-        }
-        resendMessageCondition={isSendEmailBtnPressed && !isNotRegisteredEmail}
-        resendMessage="인증 번호 다시 보내기"
-        resendOnClick={onClickSendEmailBtn}
-        // TODO: showErrorMsg 반영
-        showErrorMsg={true}
+        errorMessageCustomFlag={true}
+        sideBtnTitle="확인"
+        sideBtnOnClick={onClickEmailCodeConfirmBtn}
+        sideBtnDisabled={!sendEmailCodeConfirmBtnEnabled}
       />
+      <div className="error-message-wrap">
+        {/* showErrorMsg가 true일 때만 렌더링, 없을 경우에도 공간 확보 */}
+        {showEmailCodeErrorMsg ? (
+          !emailCodeValid && emailCode.length > 0 ? (
+            <p>인증 번호가 일치하지 않습니다.</p>
+          ) : emailCodeValid && emailCode.length > 0 ? (
+            <p id="validMessage">인증 번호가 일치합니다.</p>
+          ) : null
+        ) : (
+          <p> </p>
+        )}
+        <p id="resend" onClick={onClickSendEmailBtn}>
+          {emailSended ? "인증 번호 다시 보내기" : " "}
+        </p>
+      </div>
 
       <BottomBtn
         onClick={() => {

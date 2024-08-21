@@ -169,6 +169,7 @@ const FindID = () => {
         </div>
 
         <BottomBtn
+          id="findID-btn"
           onClick={() => {
             setShowingIDPermitted(true);
           }}

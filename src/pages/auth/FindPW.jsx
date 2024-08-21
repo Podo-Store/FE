@@ -29,8 +29,7 @@ const FindPW = () => {
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
 
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
-  // TODO: 테스트용. false로 변경
-  const [resetPwPermitted, setResetPwPermitted] = useState(true);
+  const [resetPwPermitted, setResetPwPermitted] = useState(false);
 
   // showErrorMsg
   const [showIdErrorMsg, setShowIdErrorMsg] = useState(false);

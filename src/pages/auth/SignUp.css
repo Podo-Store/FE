@@ -72,26 +72,6 @@
   color: #dadada;
 }
 
-.signUp .error-message-wrap {
-  display: flex;
-  justify-content: space-between;
-}
-
-.signUp .error-message-wrap p {
-  margin: 0.75vh 0;
-  color: var(--red, #ff3b3b);
-  font-size: 12px;
-  min-height: 20px;
-}
-
-.signUp .error-message-wrap p#validMessage {
-  color: var(--green, #00c850);
-}
-
-.signUp .error-message-wrap p#resend {
-  text-decoration: underline;
-}
-
 .signUp .bottom-btn-wrap {
   margin-top: 2vh;
   margin-bottom: calc(2vh + 20px);

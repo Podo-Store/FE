@@ -8,6 +8,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import { PW_REGEX } from "../../constants/passwordRegex";
 
 import "./SignUp.css";
+import "./ErrorMessageWrap.css";
 import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
 import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";

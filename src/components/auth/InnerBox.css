@@ -1,0 +1,14 @@
+.innerBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3vh;
+
+  margin-top: 2.5vh;
+  margin-bottom: 2.5rem;
+  padding: 4.2vh 2vw;
+
+  border: 1px solid rgba(0, 0, 0, 0.7);
+  border-radius: 30px;
+}

@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BottomBtn } from "../../components/auth";
 import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
 import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+import InnerBox from "./../../components/auth/InnerBox.jsx";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -20,6 +21,9 @@ const ResetPW = (receivedAccessToken) => {
 
   const [showNewPwErrorMsg, setShowNewPwErrorMsg] = useState(false);
   const [showPwCheckErrorMsg, setShowPwCheckErrorMsg] = useState(false);
+
+  // 비밀번호 변경 완료
+  const [resetPwCompleted, setResetPwCompleted] = useState(false);
 
   const navigate = useNavigate();
 
@@ -70,11 +74,11 @@ const ResetPW = (receivedAccessToken) => {
           },
         }
       );
-      alert("비밀번호가 재설정되었습니다.");
-      navigate("/signin");
+
+      // 비밀번호 변경 완료 페이지
+      setResetPwCompleted(true);
     } catch (error) {
       alert("오류가 발생했습니다. 다시 시도해 주세요.");
-      console.log(error);
     }
   };
 
@@ -86,7 +90,7 @@ const ResetPW = (receivedAccessToken) => {
     }
   }, [newPw, pwValid, pwCheck, pwCheckValid]);
 
-  return (
+  return !resetPwCompleted ? (
     <div className="section-find">
       <AuthPwInputField
         title="비밀번호"
@@ -116,6 +120,14 @@ const ResetPW = (receivedAccessToken) => {
       <BottomBtn onClick={onClickResetPwBtn} disabled={notResetAllow}>
         비밀번호 재설정하기
       </BottomBtn>
+    </div>
+  ) : (
+    <div className="section-find">
+      <InnerBox>
+        <h2 id="complete">비밀번호가 변경되었습니다.</h2>
+      </InnerBox>
+      <div className="reset-pw-margin"></div>
+      <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
     </div>
   );
 };

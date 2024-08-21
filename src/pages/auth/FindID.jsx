@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
 import BottomBtn from "../../components/auth/BottomBtn";
+import InnerBox from "./../../components/auth/InnerBox.jsx";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -184,7 +185,7 @@ const FindID = () => {
   return (
     <div className="section-find">
       <h4 className="find-id-title">이메일과 일치하는 아이디입니다.</h4>
-      <div className="innerBox">
+      <InnerBox>
         <div className="section-column">
           <p id="title">아이디</p>
           <p>{foundId}</p>
@@ -193,7 +194,7 @@ const FindID = () => {
           <p id="title">가입일</p>
           <p>{foundRegisteredDate}</p>
         </div>
-      </div>
+      </InnerBox>
       <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
     </div>
   );

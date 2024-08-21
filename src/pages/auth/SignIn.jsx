@@ -1,12 +1,17 @@
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
-import { InputField, BottomBtn, Box, Page, RightSide } from "../../components/auth";
+import Footer from "../Footer";
+import { BottomBtn, Box, Form } from "../../components/auth";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+
 import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "../../contexts/AuthContext";
+
 import "./SignIn.css";
+import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -53,67 +58,68 @@ function SignIn() {
         navigate("/");
       } else {
         setIsIdPwMatch(false);
-        setShowErrorMsg(true);
       }
     } catch (error) {
       if (error.response.data.error === "signin error") {
         alert("로그인 오류, 다시 시도해 주세요.");
-      } else {
       }
       setIsIdPwMatch(false);
-      setShowErrorMsg(true);
     }
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      onClickConfirmButton();
-    }
+    setShowErrorMsg(true);
   };
 
   return (
     <div className="signIn">
       <MainNav />
-      <Box>
-        <div className="left-side"></div>
-        <RightSide>
-          <Page>
-            <div>
-              <div className="titleWrap">로그인 하려고요?</div>
-              <div className="contentWrap">
-                <InputField
-                  title="아이디"
-                  type="text"
-                  placeholder="podostore"
-                  value={id}
-                  onChange={handleId}
-                  onKeyPress={handleKeyPress}
-                />
-                <InputField
-                  title="비밀번호"
-                  type="password"
-                  placeholder="Lovepodo_S2"
-                  value={pw}
-                  onChange={handlePassword}
-                  onKeyPress={handleKeyPress}
-                  errorMessage="아이디 / 비밀번호 오류"
-                  isValid={isIdPwMatch}
-                  showErrorMsg={showErrorMsg}
-                />
-              </div>
-              <div>
-                <BottomBtn onClick={onClickConfirmButton} disabled={idPwNull}>
-                  로그인
-                </BottomBtn>
-              </div>
-              <div className="extraLink">
-                <Link to="/signin/find">아이디/비밀번호 찾기</Link> |{" "}
-                <Link to="/signup"> 회원가입</Link>
-              </div>
+      <div className="signIn-wrap">
+        <Box>
+          <Form onSubmit={onClickConfirmButton}>
+            {/* Form 요소에 onSubmit을 사용 */}
+            <div className="titleWrap">로그인</div>
+            <div className="contentWrap">
+              <AuthInputField
+                title="아이디"
+                type="text"
+                placeholder="podostore"
+                value={id}
+                onChange={handleId}
+              />
+              <AuthPwInputField
+                title="비밀번호"
+                placeholder="Lovepodo_S2"
+                value={pw}
+                onChange={handlePassword}
+                errorMessage="아이디 / 비밀번호 오류"
+                isValid={isIdPwMatch}
+                showErrorMsg={showErrorMsg}
+              />
             </div>
-          </Page>
-        </RightSide>
-      </Box>
+            <div>
+              <BottomBtn type="submit" disabled={idPwNull}>
+                로그인
+              </BottomBtn>
+            </div>
+            <div className="extraLink">
+              <p
+                onClick={() => {
+                  navigate("/signin/find");
+                }}
+              >
+                아이디/비밀번호 찾기
+              </p>
+              <p id="bar">|</p>
+              <p
+                onClick={() => {
+                  navigate("/signup");
+                }}
+              >
+                회원가입
+              </p>
+            </div>
+          </Form>
+        </Box>
+      </div>
+      <Footer />
     </div>
   );
 }

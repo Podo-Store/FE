@@ -1,97 +1,127 @@
-.container {
+.find .find-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
 
-.container .tab-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.find .tab-nav-wrap {
+  display: flex;
+  flex-direction: column;
   justify-items: center;
-  margin-top: 5%;
-  margin-bottom: 5rem;
-  width: 80%;
-  height: 10rem;
+  align-items: center;
+
+  margin: 16vh 0;
 }
 
-.container .tab-name {
+.find .tab-nav {
   display: grid;
-  place-items: center;
+  grid-template-columns: 1fr 1fr;
+
+  margin-bottom: 5rem;
+  width: 66.5rem;
+  height: 3.75rem;
+  align-self: stretch;
+}
+.find .tab-name {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+
   width: 100%;
-  border-bottom: 0.5rem solid grey;
+
+  border-bottom: 0.0625rem solid #000000;
   cursor: pointer;
 
-  font-family: "Noto Sans";
+  color: #000;
+
+  /* H5/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 500;
-  font-size: 20px;
-  line-height: 27px;
-  color: #000000;
+  line-height: 1.75rem; /* 140% */
 
   position: relative;
 }
 
-.container .tab-name.current {
-  border-bottom-color: #ead4ff;
+.find .tab-name.current {
+  /* 0.3125 / 2 = 0.15625 */
+  border-bottom: 0.15625rem solid #caabff;
 }
 
 /* border-bottom의 디자인 변경 */
-.container .tab-name.current::after {
+.find .tab-name.current::after {
   content: "";
   position: absolute;
-  bottom: -0.5rem; /* border 위치 조정 */
+  bottom: -0.25rem; /* border 위치 조정 */
   left: 0;
   width: 100%;
-  height: 0.5rem; /* border 높이 */
+  height: 0.15625rem;
+  background-color: #caabff;
   /* 그림자 추가 */
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* FindID/PW 부분 */
-.container .section-find {
+.find .section-find {
   display: flex;
   flex-direction: column;
   width: 35%;
 }
 
-/* 입력창 gap */
-#input {
-  gap: 2.5rem;
+.find .BottomBtn#findID-btn {
+  margin-top: 2vh;
 }
 
 /* 결과 페이지 */
-.container .innerBox {
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+.find .find-id-title {
+  text-align: center;
 
-  box-sizing: border-box;
-  padding: 2rem 4rem;
-  margin-bottom: 2.5rem;
+  color: #000;
 
-  background: rgba(253, 250, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.7);
-  border-radius: 30px;
-}
-
-.container .find-id__title {
-  font-family: "Noto Sans";
+  /* Paragraph/Large/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
   font-style: normal;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 19px;
-  margin-left: 5%;
+  font-weight: 500;
+  line-height: 1.75rem; /* 155.556% */
 }
 
-.container .section-column {
-  font-family: "Noto Sans";
+.find .section-column {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.find .section-column p {
+  color: #000;
+
+  /* H5/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 27px;
+  line-height: 1.75rem;
+  letter-spacing: -0.025rem;
+}
 
-  color: #000000;
+.find .section-column p#title {
+  font-weight: 700;
+}
+
+.find .reset-pw-margin {
+  height: 2.5vh;
+}
+
+.find .section-find h2#complete {
+  margin: 1.75vh 0;
+  color: #000;
+
+  /* H5/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 140% */
+  letter-spacing: -0.025rem;
 }

@@ -20,7 +20,9 @@ function MainNav() {
         </Link>
         <ul className="navbar_menu">
           <li>
-            <Link to="/list">작품 둘러보기</Link>
+            <Link to="/list" className="li">
+              작품 둘러보기
+            </Link>
           </li>
           {/*}
           <li>
@@ -28,7 +30,9 @@ function MainNav() {
           </li>
           {*/}
           <li>
-            <Link to="/post">작품 등록하기</Link>
+            <Link to="/post" className="li">
+              작품 등록하기
+            </Link>
           </li>
           {/*}
           <li>
@@ -39,16 +43,8 @@ function MainNav() {
           </li>
           {*/}
         </ul>
-        <div className="navbar_login">
-          <img src={cart} alt="cart" />
-          <img
-            src={person}
-            alt="myPage"
-            onClick={() => {
-              navigate("/mypage/purchased");
-            }}
-          />
-          {!isAuthenticated ? (
+        {!isAuthenticated ? (
+          <div className="navbar_login">
             <button
               onClick={() => {
                 navigate("/signin");
@@ -57,7 +53,17 @@ function MainNav() {
             >
               로그인
             </button>
-          ) : (
+          </div>
+        ) : (
+          <div className="navbar_login">
+            {/*<img src={cart} alt="cart" />*/}
+            <img
+              src={person}
+              alt="myPage"
+              onClick={() => {
+                navigate("/mypage/purchased");
+              }}
+            />
             <button
               onClick={() => {
                 // context 호출
@@ -68,8 +74,8 @@ function MainNav() {
             >
               로그아웃
             </button>
-          )}
-        </div>
+          </div>
+        )}
       </nav>
     </div>
   );

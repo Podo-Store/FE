@@ -17,5 +17,6 @@ li,
 input,
 button,
 label {
+  margin: 0;
   letter-spacing: -0.05em;
 }

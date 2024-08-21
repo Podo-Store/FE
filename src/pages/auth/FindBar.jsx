@@ -1,21 +1,22 @@
 import { useState } from "react";
-import "./FindBar.css";
+
+import MainNav from "../MainNav";
+import Footer from "../Footer";
 
 import FindID from "./FindID";
 import FindPW from "./FindPW";
 
-import MainNav from "../MainNav";
-import Box from "../../components/auth/Box";
+import "./FindBar.css";
 
 const Find = () => {
   const TAB_NAME = ["아이디 찾기", "비밀번호 찾기"];
   const [currentTab, setCurrentTab] = useState(TAB_NAME[0]);
 
   return (
-    <div>
+    <div className="find">
       <MainNav />
-      <Box id="box">
-        <div className="container">
+      <div className="find-content">
+        <div className="tab-nav-wrap">
           <div className="tab-nav">
             <h4
               className={`tab-name ${TAB_NAME[0] === currentTab ? "current" : ""}`}
@@ -35,7 +36,8 @@ const Find = () => {
           {currentTab === TAB_NAME[0] && <FindID />}
           {currentTab === TAB_NAME[1] && <FindPW />}
         </div>
-      </Box>
+      </div>
+      <Footer />
     </div>
   );
 };

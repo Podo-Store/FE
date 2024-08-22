@@ -282,8 +282,9 @@ function SignUp() {
                 showErrorMsg={showPwErrorMsg}
               />
 
-              <AuthPwInputField
+              <AuthInputField
                 title="비밀번호 확인"
+                type="password"
                 placeholder="비밀번호를 다시 한번 입력해주세요."
                 value={pwCheck}
                 onChange={(event) => {

@@ -9,6 +9,8 @@ import Footer from "../Footer";
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import InputField from "./../../components/auth/InputField";
 import EnterForm from "../../components/EnterForm";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+import AuthPWInputField from "./../../components/inputField/AuthInputField/AuthPwInputField.jsx";
 
 import AuthContext from "../../contexts/AuthContext";
 
@@ -249,7 +251,7 @@ const AccountInfoChange = () => {
             ) : (
               <EnterForm onSubmit={onClickCompleteBtn}>
                 {/* 수정 페이지 */}
-                <InputField
+                <AuthInputField
                   title="아이디"
                   type="text"
                   className="input"
@@ -259,9 +261,8 @@ const AccountInfoChange = () => {
                   readOnly={true}
                 />
 
-                <InputField
+                <AuthPWInputField
                   title="비밀번호"
-                  type="password"
                   placeholder="5~11자 영문, 숫자, 특수문자"
                   value={pw}
                   onChange={(event) => {
@@ -272,7 +273,7 @@ const AccountInfoChange = () => {
                   isValid={pwValid}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="비밀번호 확인"
                   type="password"
                   placeholder="비밀번호 재입력"
@@ -285,7 +286,7 @@ const AccountInfoChange = () => {
                   isValid={pwCheckValid}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="닉네임"
                   type="text"
                   placeholder="3~8자의 한글, 영문, 숫자"
@@ -299,7 +300,7 @@ const AccountInfoChange = () => {
                   isDuplicated={isDuplicatedNickname}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="이메일"
                   type="text"
                   placeholder="podo@store.com"

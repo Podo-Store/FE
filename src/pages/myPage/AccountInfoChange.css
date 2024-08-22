@@ -13,7 +13,7 @@
 }
 
 .account-info-change .content-side-inside {
-  display: inline-block;
+  width: 45%;
 }
 
 .account-info-change .content-side-inside h1 {

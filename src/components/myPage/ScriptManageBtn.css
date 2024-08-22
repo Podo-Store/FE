@@ -1,4 +1,4 @@
-.script-manage-btn {
+.script-manage-btn .script-manage-flex {
   display: flex;
   justify-content: space-between;
 
@@ -51,4 +51,8 @@
   font-style: normal;
   font-weight: 700;
   line-height: 24px; /* 150% */
+}
+
+.script-manage-btn button#detail:disabled {
+  background: var(--grey4, #bababa);
 }

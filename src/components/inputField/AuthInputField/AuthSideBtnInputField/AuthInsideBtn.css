@@ -11,6 +11,8 @@
   border-radius: 0.5625rem;
   background: var(--Main, #6a39c0);
 
+  cursor: pointer;
+
   color: #fff;
 
   /* Paragraph/Medium/Meidium */
@@ -22,6 +24,7 @@
 }
 
 .AuthInsideBtn .insideButton:disabled {
+  cursor: default;
   background-color: #dadada;
   color: white;
 }

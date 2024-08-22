@@ -1,14 +1,21 @@
-import "./PostWork.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import MainNav from "../MainNav";
 import Footer from "../Footer";
+
+import PostWorkPopup from "./PostWorkPopup";
+
+//import { refreshAccessToken } from "./../../contexts/AuthContext";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
 import infoBtn from "../../assets/image/post/infoBtn.svg";
 import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
-import React, { useRef, useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { SERVER_URL } from "../../constants/ServerURL";
-import PostWorkPopup from "./PostWorkPopup";
+
+import "./PostWork.css";
 
 const PostWork = () => {
   const navigate = useNavigate();
@@ -22,7 +29,7 @@ const PostWork = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
-  const handleFileSelect = (event) => {
+  const onClickFileSelect = (event) => {
     const uploadedFile = event.target.files[0];
     if (uploadedFile) {
       setFile(uploadedFile);
@@ -31,7 +38,7 @@ const PostWork = () => {
     }
   };
 
-  const handleUpload = async () => {
+  const onClickUpload = async () => {
     if (!file) {
       alert("파일을 선택해주세요.");
       return;
@@ -63,7 +70,12 @@ const PostWork = () => {
           alert(error.response.data.error);
         }
       } else {
-        alert("업로드 과정 중 문제가 발생했습니다.");
+        if (!Cookies.get("accessToken")) {
+          alert("로그인이 필요한 서비스입니다.");
+          navigate("/signin");
+        } else {
+          alert("업로드 과정 중 문제가 발생했습니다.");
+        }
       }
     }
   };
@@ -104,13 +116,13 @@ const PostWork = () => {
                   type="file"
                   ref={fileInputRef}
                   style={{ display: "none" }}
-                  onChange={handleFileSelect}
+                  onChange={onClickFileSelect}
                   accept="application/pdf"
                 />
                 <div className="file-info">{fileName}</div>
               </div>
               <div className="upload-btn-div">
-                <button id="upload-btn" onClick={handleUpload} disabled={!fileSelected}>
+                <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
                   작품 보내기
                 </button>
               </div>

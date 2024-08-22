@@ -36,7 +36,7 @@ function Routing() {
               path="/purchase/success"
               element={<ProtectedRoute element={<PurchaseSuccess />} />}
             />
-            <Route path="/post" element={<ProtectedRoute element={<PostWork />} />} />
+            <Route path="/post" element={<PostWork />} />
 
             <Route
               path="/mypage/purchased"

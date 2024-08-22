@@ -2,9 +2,9 @@ import "./SignUpSuccess.css";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
-import Form from "../../components/auth/Form";
 import BottomBtn from "../../components/auth/BottomBtn";
 import Box from "../../components/auth/Box";
+import RectangleForm from "../../components/auth/RectangleForm";
 
 function SignUpSuccess() {
   const navigate = useNavigate();
@@ -14,10 +14,10 @@ function SignUpSuccess() {
       <MainNav />
       <div className="signUp-success-wrap">
         <Box>
-          <Form>
+          <RectangleForm>
             <h1>회원가입 완료</h1>
             <BottomBtn onClick={() => navigate("/")}>메인 페이지</BottomBtn>
-          </Form>
+          </RectangleForm>
         </Box>
       </div>
     </div>

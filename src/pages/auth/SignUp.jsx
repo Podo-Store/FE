@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
-import { BottomBtn, Box, InsideBtn, Form } from "../../components/auth";
+import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import { SERVER_URL } from "../../constants/ServerURL";
 import { PW_REGEX } from "../../constants/passwordRegex";
 
@@ -245,7 +245,7 @@ function SignUp() {
       <MainNav />
       <div className="signUp-wrap">
         <Box>
-          <Form>
+          <RectangleForm>
             <h1 className="titleWrap">회원가입</h1>
             <div className="contentWrap">
               <AuthInputField
@@ -377,7 +377,7 @@ function SignUp() {
                 회원가입
               </BottomBtn>
             </div>
-          </Form>
+          </RectangleForm>
         </Box>
       </div>
       <Footer />

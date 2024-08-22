@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
-import { BottomBtn, Box, Form } from "../../components/auth";
+import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
@@ -73,7 +73,7 @@ function SignIn() {
       <MainNav />
       <div className="signIn-wrap">
         <Box>
-          <Form onSubmit={onClickConfirmButton}>
+          <RectangleForm onSubmit={onClickConfirmButton}>
             {/* Form 요소에 onSubmit을 사용 */}
             <div className="titleWrap">로그인</div>
             <div className="contentWrap">
@@ -116,7 +116,7 @@ function SignIn() {
                 회원가입
               </p>
             </div>
-          </Form>
+          </RectangleForm>
         </Box>
       </div>
       <Footer />

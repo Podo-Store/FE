@@ -1,28 +1,41 @@
-import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
-import downloadImg from "../../assets/image/myPage/download.svg";
-import "./ScriptManageDetail.css";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useCallback, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
+import { useNavigate, useParams } from "react-router-dom";
+
 import MainNav from "../MainNav";
 import Footer from "../Footer";
+
 import RectInputField from "../../components/inputField/RectInputField";
-import { useCallback, useEffect, useState } from "react";
 import Select from "../../components/select/Select";
-import { useNavigate, useParams } from "react-router-dom";
-import { useDropzone } from "react-dropzone";
+
 import { useRequest } from "../../hooks/useRequest";
-import axios from "axios";
+
 import { SERVER_URL } from "../../constants/ServerURL";
-import Cookies from "js-cookie";
+
+import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
+import downloadImg from "../../assets/image/myPage/download.svg";
+
+import "./ScriptManageDetail.css";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
   const [scriptPrice, setScriptPrice] = useState("");
   const [performPrice, setPerformPrice] = useState("");
-  const [thumbnailImg, setThumbnailImg] = useState(null);
+  // getThumbnailImgUrl: API 요청으로부터 받아온 이미지 URL
+  const [getThumbnailImgUrl, setGetThumbnailImgUrl] = useState("");
+  // imgFile: 입력받은 이미지 파일, imgUrl: 입력받은 이미지 파일 -> URL
+  const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] = useState(null);
+  const [InputtedThumbnailImgUrl, setInputtedThumbnailImgUrl] = useState("");
 
   const [saleScriptStatus, setSaleScriptStatus] = useState(false);
   const [salePerformStatus, setSalePerformStatus] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
 
+  // API 요청으로부터 받아온 설명 파일
+  const [getFileUrl, setGetFileUrl] = useState(null);
+  // 업로드된 설명 파일
   const [uploadedFile, setUploadedFile] = useState(null);
 
   const navigate = useNavigate();
@@ -42,11 +55,10 @@ const ScriptManageDetail = () => {
       setTitle(response.data.title);
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
-      // TODO: 이미지 형식 API 반영
-      //setThumbnailImg(response.data.imagePath);
+      setGetThumbnailImgUrl(response.data.imagePath);
       setSaleScriptStatus(response.data.script);
       setSalePerformStatus(response.data.performance);
-      setUploadedFile(response.data.descriptionPath);
+      setGetFileUrl(response.data.descriptionPath);
     } catch (error) {
       alert(error.response.data.error || "예상치 못한 오류가 발생했습니다.");
     }
@@ -72,13 +84,18 @@ const ScriptManageDetail = () => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
+  // 사진을 선택했을 경우
   const onClickChangeThumbnailImg = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
     fileInput.accept = "image/*";
     fileInput.onchange = (e) => {
       const file = e.target.files[0];
-      setThumbnailImg(file);
+      if (file) {
+        const imgUrl = URL.createObjectURL(file);
+        setInputtedThumbnailImgUrl(imgUrl);
+      }
+      setInputtedThumbnailImgFile(file);
     };
     fileInput.click();
   };
@@ -97,7 +114,7 @@ const ScriptManageDetail = () => {
       updatedSalePerformStatus = true;
     }
 
-    // API 요청
+    // API POST 요청
     try {
       const formData = new FormData();
       formData.append("id", id);
@@ -106,11 +123,21 @@ const ScriptManageDetail = () => {
       formData.append("performance", updatedSalePerformStatus);
       formData.append("scriptPrice", scriptPrice);
       formData.append("performancePrice", performPrice);
-      if (thumbnailImg) {
-        formData.append("scriptImage", thumbnailImg);
+
+      if (InputtedThumbnailImgFile) {
+        // 이미지를 변경한 경우
+        formData.append("scriptImage", InputtedThumbnailImgFile);
+      } else {
+        // 이미지 변경하지 않은 경우
+        formData.append("imagePath", getThumbnailImgUrl);
       }
+
       if (uploadedFile) {
+        // 설명 파일을 변경한 경우
         formData.append("description", uploadedFile);
+      } else {
+        // 설명 파일을 변경하지 않은 경우
+        formData.append("descriptionPath", getFileUrl);
       }
 
       await axios.post(`${SERVER_URL}profile/detail`, formData, {
@@ -155,9 +182,13 @@ const ScriptManageDetail = () => {
           <div className="script-info">
             <div
               className="script-info-thumbnail"
-              style={{ backgroundImage: `url(${thumbnailImg ? thumbnailImg : null})` }}
+              style={{
+                backgroundImage: `url(${
+                  InputtedThumbnailImgFile ? InputtedThumbnailImgUrl : getThumbnailImgUrl
+                })`,
+              }}
             >
-              {/* TODO: ㄴ이미지 업로드 시 미리보기 */}
+              {/* ㄴ 이미지 input이 있을 경우 그 file의 url로, 아닐 경우 서버에서 받아온 url */}
               <p onClick={onClickChangeThumbnailImg}>대표 이미지 수정하기</p>
             </div>
             <div className="script-info-detail">

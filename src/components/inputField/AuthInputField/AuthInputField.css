@@ -19,6 +19,7 @@
 .auth-input-field .input-wrap {
   display: flex;
   align-items: center;
+  width: 23.0625rem;
   height: 3.75rem;
 
   border-radius: 5px;

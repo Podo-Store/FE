@@ -21,8 +21,11 @@ import check from "../../assets/image/myPage/check.svg";
 
 import "./AccountInfoChange.css";
 import "./AccountInfoChange_delete.css";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
 
 const AccountInfoChange = () => {
+  let page;
+
   // 회원 정보 수정 진입
   const [changeShowPermission, setChangeShowPermission] = useState(false);
   const [typedPassword, setTypedPassword] = useState("");
@@ -191,17 +194,16 @@ const AccountInfoChange = () => {
                 {/* 진입 페이지 */}
                 <h6>회원 정보 수정을 위해서 비밀번호를 다시 한번 입력해주세요.</h6>
                 <div className="inputField-wrap">
-                  <InputField
+                  <AuthSideBtnInputField
                     type="password"
                     placeholder="비밀번호 입력"
                     value={typedPassword}
                     onChange={(event) => {
                       setTypedPassword(event.target.value);
                     }}
-                  ></InputField>
-                  <button className="input-btn" onClick={onClickInputBtn}>
-                    입력
-                  </button>
+                    sideBtnTitle="입력"
+                    sideBtnOnClick={onClickInputBtn}
+                  ></AuthSideBtnInputField>
                 </div>
               </EnterForm>
             ) : isAccountSuccessfullyDeleted ? (

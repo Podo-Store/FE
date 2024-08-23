@@ -46,32 +46,6 @@
   align-items: center;
 }
 
-.account-info-change .inputField {
-  width: 18.5vw;
-}
-
-.account-info-change .input-btn {
-  margin-top: 8px;
-  margin-left: 1.75rem;
-
-  width: 5rem;
-  height: 2.5rem;
-  color: #fff;
-  text-align: center;
-
-  /* Paragraph/Small/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 142.857% */
-
-  border: none;
-  border-radius: 50px;
-  background: var(--Sub-2, #3876f2);
-  box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.15);
-}
-
 .account-info-change .unregister-btn {
   display: flex;
   align-items: center;

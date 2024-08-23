@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 
 import ResetPW from "./ResetPW";
 import BottomBtn from "../../components/auth/BottomBtn";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+import { AuthInputField, AuthSideBtnInputField } from "../../components/inputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 

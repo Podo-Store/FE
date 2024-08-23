@@ -8,14 +8,13 @@ import Footer from "../Footer";
 
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import EnterForm from "../../components/EnterForm";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
-import AuthPWInputField from "./../../components/inputField/AuthInputField/AuthPwInputField.jsx";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
+import { AuthInputField, AuthSideBtnInputField } from "../../components/inputField";
+import AuthPWInputField from "../../components/inputField/auth/AuthPwInputField.jsx";
 
 import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
-import { PW_REGEX } from "../../constants/passwordRegex";
+import { PW_REGEX, NAME_REGEX } from "../../constants/regex";
 
 import check from "../../assets/image/myPage/check.svg";
 
@@ -109,8 +108,7 @@ const AccountInfoChange = () => {
   }, [pw, pwCheck]);
 
   useEffect(() => {
-    const regex = /^[가-힣a-zA-Z0-9]{3,8}$/;
-    if (regex.test(nickName)) {
+    if (NAME_REGEX.test(nickName)) {
       setNickNameValid(true);
     } else {
       setNickNameValid(false);

@@ -3,16 +3,20 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
+import Footer from "../Footer";
+
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
+import {
+  AuthInputField,
+  AuthPwInputField,
+  AuthSideBtnInputField,
+} from "../../components/inputField";
+
 import { SERVER_URL } from "../../constants/ServerURL";
-import { PW_REGEX } from "../../constants/passwordRegex";
+import { ID_REGEX, PW_REGEX, NAME_REGEX, EMAIL_REGEX } from "../../constants/regex";
 
 import "./SignUp.css";
 import "./ErrorMessageWrap.css";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
-import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
-import Footer from "../Footer";
 
 function SignUp() {
   const navigate = useNavigate();
@@ -60,8 +64,7 @@ function SignUp() {
       setShowIdErrorMsg(false);
     }
 
-    const regex = /^[a-zA-Z0-9]{5,10}$/;
-    if (regex.test(id)) {
+    if (ID_REGEX.test(id)) {
       setIdValid(true);
     } else {
       setIdValid(false);
@@ -123,8 +126,7 @@ function SignUp() {
       setShowNameErrorMsg(false);
     }
 
-    const regex = /^[가-힣a-zA-Z0-9]{3,8}$/;
-    if (regex.test(name)) {
+    if (NAME_REGEX.test(name)) {
       setNameValid(true);
     } else {
       setNameValid(false);
@@ -157,9 +159,7 @@ function SignUp() {
       setShowEmailErrorMsg(false);
     }
 
-    const regex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (regex.test(email)) {
+    if (EMAIL_REGEX.test(email)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);

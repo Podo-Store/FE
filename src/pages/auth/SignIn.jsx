@@ -4,14 +4,15 @@ import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
-import { BottomBtn, Box, RectangleForm } from "../../components/auth";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
-import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "../../contexts/AuthContext";
 
+import { BottomBtn, Box, RectangleForm } from "../../components/auth";
+import { AuthInputField, AuthPwInputField } from "../../components/inputField";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
 import "./SignIn.css";
-import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
 
 function SignIn() {
   const { login } = useContext(AuthContext);

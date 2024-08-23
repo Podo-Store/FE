@@ -21,19 +21,28 @@ const ScriptContent = ({ order, index, currentPage = "0", Button }) => {
               <h3 id="title">{script.title || "제목 없음"}</h3>
               <hr></hr>
               <h4>{script.writer || "작가 정보 없음"}</h4>
-              <PriceTextsVertical
-                scriptPrice={script.scriptPrice || 0}
-                performPrice={script.performancePrice || 0}
-              />
+              {/* 작품 관리 페이지에서 심사 중인 작품일 경우: */}
+              {currentPage === "1" && !script.checked ? (
+                <div className="margin-43_4px"></div>
+              ) : (
+                <PriceTextsVertical
+                  scriptPrice={script.scriptPrice || 0}
+                  performPrice={script.performancePrice || 0}
+                />
+              )}
               {/* Button: props */}
               {currentPage === "0" ? (
+                // 구매한 작품 페이지 PurchasedScriptBtn.jsx
                 <Button
                   contractStatus={script.contractStatus}
                   id={script.id}
                   title={script.title}
                 />
               ) : (
+                // 작품 관리 페이지 ScriptManageBtn.jsx
+                // checked - false: 심사 중, true: 심사 완료
                 <Button
+                  reviewCompleted={script.checked}
                   scriptSale={script.script}
                   performSale={script.performance}
                   id={script.id}

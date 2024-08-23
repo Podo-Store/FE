@@ -1,20 +1,27 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import { useEffect, useState, useRef } from "react";
-import Footer from "../Footer";
+import { useNavigate, useParams } from "react-router-dom";
+import { Worker, Viewer } from "@react-pdf-viewer/core";
+
 import MainNav from "../MainNav";
+import Footer from "../Footer";
+
+import Select from "../../components/select/Select";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import { formatPrice } from "../../utils/formatPrice";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
 import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
-import "./Detail.css";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
-import "@react-pdf-viewer/core/lib/styles/index.css";
 import samplePDF from "./../../assets/sample.pdf";
-import { SERVER_URL } from "../../constants/ServerURL";
-import axios from "axios";
-import Cookies from "js-cookie";
-import { useNavigate, useParams } from "react-router-dom";
-import { formatPrice } from "../../utils/formatPrice";
-import { useRequest } from "../../hooks/useRequest";
-import Select from "../../components/select/Select";
+
+import "./Detail.css";
+import "@react-pdf-viewer/core/lib/styles/index.css";
 
 const Detail = () => {
   const [title, setTitle] = useState("");
@@ -39,6 +46,10 @@ const Detail = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalPrice, setTotalPrice] = useState(" - ");
+
+  // 스크롤 시 bottom-bar visibility 변경
+  const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
+  const detailBtnWrapRef = useRef(null);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -98,6 +109,29 @@ const Detail = () => {
   }, [selectedOption, scriptPrice, performPrice]);
 
   const pdfContainerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDetailBtnVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        // detail-btn-wrap 섹션이 10% 이상 보이면 상태 변경
+        threshold: 0.1,
+      }
+    );
+
+    if (detailBtnWrapRef.current) {
+      observer.observe(detailBtnWrapRef.current);
+    }
+
+    return () => {
+      if (detailBtnWrapRef.current) {
+        observer.unobserve(detailBtnWrapRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -194,7 +228,7 @@ const Detail = () => {
               <h5>총 금액</h5>
               <h5> {totalPrice} 원</h5>
             </div>
-            <div className="detail-btn-wrap">
+            <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
               {/*<button id="cart-btn">장바구니</button>*/}
               <button
                 id="purchase-btn"
@@ -222,22 +256,24 @@ const Detail = () => {
           </Worker>
         </div>
       </div>
-      <div className="detail-bottom-bar" style={bottomBarStyle}>
-        <h6>총 금액</h6>
-        <h3>{totalPrice} 원</h3>
-        <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
-          <option value="" disabled selected>
-            옵션 선택
-          </option>
-          {!hasBoughtScript ? <option value="script">대본</option> : null}
-          {!hasBoughtScript ? <option value="scriptPerform">대본 & 공연권</option> : null}
-          {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
-        </select>
-        {/* <button id="cart-btn">장바구니</button>*/}
-        <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>
-          구매하기
-        </button>
-      </div>
+      {!isDetailBtnVisible && (
+        <div className="detail-bottom-bar" style={bottomBarStyle}>
+          <h6>총 금액</h6>
+          <h3>{totalPrice} 원</h3>
+          <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
+            <option value="" disabled selected>
+              옵션 선택
+            </option>
+            {!hasBoughtScript ? <option value="script">대본</option> : null}
+            {!hasBoughtScript ? <option value="scriptPerform">대본 & 공연권</option> : null}
+            {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
+          </select>
+          {/* <button id="cart-btn">장바구니</button>*/}
+          <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>
+            구매하기
+          </button>
+        </div>
+      )}
       <Footer className="footer" />
     </div>
   );

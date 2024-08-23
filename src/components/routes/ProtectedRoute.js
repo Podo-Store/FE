@@ -10,8 +10,10 @@ const ProtectedRoute = ({ element }) => {
   const checkedAuthFlag = useRef(false); // 최초 렌더링 시에만 체크
   useEffect(() => {
     if (!Cookies.get("accessToken") && !checkedAuthFlag.current) {
-      alert("로그인이 필요한 서비스입니다.");
-      navigate("/signin");
+      if (!AuthContext.refreshAccessToken()) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/signin");
+      }
     }
     checkedAuthFlag.current = true;
   }, [isAuthenticated, navigate]);

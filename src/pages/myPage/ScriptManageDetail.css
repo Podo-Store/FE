@@ -91,6 +91,8 @@
   margin-bottom: 0.5rem;
   margin-right: 0.5rem;
   text-decoration-line: underline;
+
+  cursor: pointer;
 }
 
 .script-manage-detail .script-info-detail {

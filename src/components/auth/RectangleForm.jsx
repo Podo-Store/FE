@@ -1,6 +1,6 @@
-import "./Form.css";
+import "./RectangleForm.css";
 
-const Form = ({ children, onSubmit }) => {
+const RectangleForm = ({ children, onSubmit }) => {
   const onSubmitDefault = (event) => {
     // form 기본 기능 막기
     event.preventDefault();
@@ -16,4 +16,4 @@ const Form = ({ children, onSubmit }) => {
   );
 };
 
-export default Form;
+export default RectangleForm;

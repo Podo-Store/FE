@@ -5,8 +5,14 @@ import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
+
 import MyPageMenu from "../../components/myPage/MyPageMenu";
-import InputField from "./../../components/auth/InputField";
+import EnterForm from "../../components/EnterForm";
+import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
+import AuthPWInputField from "./../../components/inputField/AuthInputField/AuthPwInputField.jsx";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
+
+import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 import { PW_REGEX } from "../../constants/passwordRegex";
@@ -15,7 +21,6 @@ import check from "../../assets/image/myPage/check.svg";
 
 import "./AccountInfoChange.css";
 import "./AccountInfoChange_delete.css";
-import AuthContext from "../../contexts/AuthContext";
 
 const AccountInfoChange = () => {
   // 회원 정보 수정 진입
@@ -44,7 +49,7 @@ const AccountInfoChange = () => {
   const { userNickname } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleInputBtn = async () => {
+  const onClickInputBtn = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}profile/confirm`,
@@ -111,23 +116,22 @@ const AccountInfoChange = () => {
       setNickNameValid(false);
     }
   }, [nickName]);
-  /*
-   * 미리 띄워줘야 할 정보 구분
-   * id: 보여줌, 수정 불가
-   * pw: 공란, text ? password? 일단 password로
-   * pwCheck: 공란, password
-   * nickname: 보여줌
-   * email: 보여줌, 수정 불가
-   */
 
-  const handleCompleteBtn = async () => {
+  const onClickCompleteBtn = async () => {
     // initialize
     setHasCompleteBtnClicked(false);
     if (!pwValid || !pwCheckValid || !nickNameValid) {
       setHasCompleteBtnClicked(true);
+      if (!pwValid) {
+        alert("비밀번호를 확인해주세요.");
+      } else if (!pwCheckValid) {
+        alert("재입력된 비밀번호를 확인해주세요.");
+      } else if (!nickNameValid) {
+        alert("닉네임을 확인해주세요.");
+      }
     } else {
       try {
-        const response = await axios.post(
+        await axios.post(
           `${SERVER_URL}profile/update`,
           {
             password: pw,
@@ -142,10 +146,9 @@ const AccountInfoChange = () => {
             },
           }
         );
-        if (response.data === true) {
-          alert("회원 정보 수정이 완료되었습니다.");
-          window.location.reload();
-        }
+
+        alert("회원 정보 수정이 완료되었습니다.");
+        window.location.reload();
       } catch (error) {
         // 중복 닉네임 처리
         if (error.response.data.error === "이미 존재하는 닉네임") {
@@ -160,7 +163,7 @@ const AccountInfoChange = () => {
   };
 
   // 회원 탈퇴
-  const handleDeleteAccountConfirmBtn = async () => {
+  const onClickDeleteAccountConfirm = async () => {
     try {
       await axios.delete(`${SERVER_URL}auth/delete`, {
         headers: {
@@ -184,24 +187,22 @@ const AccountInfoChange = () => {
           <div className="content-side-inside">
             <h1>회원 정보 수정</h1>
             {!changeShowPermission ? (
-              <div>
+              <EnterForm onSubmit={onClickInputBtn}>
                 {/* 진입 페이지 */}
                 <h6>회원 정보 수정을 위해서 비밀번호를 다시 한번 입력해주세요.</h6>
                 <div className="inputField-wrap">
-                  <InputField
+                  <AuthSideBtnInputField
                     type="password"
                     placeholder="비밀번호 입력"
                     value={typedPassword}
                     onChange={(event) => {
                       setTypedPassword(event.target.value);
                     }}
-                  ></InputField>
-                  {/* TODO: InsideBtn 대신 해당 컴포넌트 분리 및 사용 */}
-                  <button className="input-btn" onClick={handleInputBtn}>
-                    입력
-                  </button>
+                    sideBtnTitle="입력"
+                    sideBtnOnClick={onClickInputBtn}
+                  ></AuthSideBtnInputField>
                 </div>
-              </div>
+              </EnterForm>
             ) : isAccountSuccessfullyDeleted ? (
               <div>
                 {/* 계정 삭제 성공 페이지 */}
@@ -243,13 +244,13 @@ const AccountInfoChange = () => {
                   >
                     취소
                   </button>
-                  <button onClick={handleDeleteAccountConfirmBtn}>회원 탈퇴</button>
+                  <button onClick={onClickDeleteAccountConfirm}>회원 탈퇴</button>
                 </div>
               </div>
             ) : (
-              <div className="change-page">
+              <EnterForm onSubmit={onClickCompleteBtn}>
                 {/* 수정 페이지 */}
-                <InputField
+                <AuthInputField
                   title="아이디"
                   type="text"
                   className="input"
@@ -259,9 +260,8 @@ const AccountInfoChange = () => {
                   readOnly={true}
                 />
 
-                <InputField
+                <AuthPWInputField
                   title="비밀번호"
-                  type="password"
                   placeholder="5~11자 영문, 숫자, 특수문자"
                   value={pw}
                   onChange={(event) => {
@@ -272,7 +272,7 @@ const AccountInfoChange = () => {
                   isValid={pwValid}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="비밀번호 확인"
                   type="password"
                   placeholder="비밀번호 재입력"
@@ -285,7 +285,7 @@ const AccountInfoChange = () => {
                   isValid={pwCheckValid}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="닉네임"
                   type="text"
                   placeholder="3~8자의 한글, 영문, 숫자"
@@ -299,7 +299,7 @@ const AccountInfoChange = () => {
                   isDuplicated={isDuplicatedNickname}
                   showErrorMsg={hasCompleteBtnClicked}
                 />
-                <InputField
+                <AuthInputField
                   title="이메일"
                   type="text"
                   placeholder="podo@store.com"
@@ -324,11 +324,11 @@ const AccountInfoChange = () => {
                   </button>
                 </div>
                 <div className="complete-btn-wrap">
-                  <button id="complete-btn" onClick={handleCompleteBtn}>
+                  <button id="complete-btn" type="submit" onClick={onClickCompleteBtn}>
                     수정 완료
                   </button>
                 </div>
-              </div>
+              </EnterForm>
             )}
           </div>
         </div>

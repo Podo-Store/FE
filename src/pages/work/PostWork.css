@@ -27,11 +27,15 @@
   height: 70vh;
 }
 
-.post-work .title {
+.post-work .title h1 {
+  color: #000;
+
+  /* H1/Bold */
   font-family: "Noto Sans KR";
+  font-size: 2.25rem;
   font-style: normal;
-  font-weight: 600;
-  line-height: 0.75;
+  font-weight: 700;
+  line-height: 2.75rem; /* 122.222% */
 }
 
 .post-work .upload-title {

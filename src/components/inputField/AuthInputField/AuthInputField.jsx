@@ -7,6 +7,7 @@ const AuthInputField = ({
   value,
   onChange,
   // 추가 요소
+  readOnly = false,
   rightElement,
 
   errorMessage,
@@ -32,6 +33,7 @@ const AuthInputField = ({
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          readOnly={readOnly}
         />
         {rightElement ? <div className="right-element">{rightElement}</div> : null}
       </div>

@@ -1,15 +1,21 @@
-import { useContext, useState } from "react";
-import MyPageMenu from "../../components/myPage/MyPageMenu";
-import { useRequest } from "../../hooks/useRequest";
-import Footer from "../Footer";
-import MainNav from "../MainNav";
 import axios from "axios";
-import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
-import ScriptContent from "../../components/myPage/ScriptContent";
-import "./MyPageContentsDefault.css";
-import ScriptManageBtn from "../../components/myPage/ScriptManageBtn";
+import { useContext, useState } from "react";
+
+import { useRequest } from "../../hooks/useRequest";
+
 import AuthContext from "../../contexts/AuthContext";
+
+import MainNav from "../MainNav";
+import Footer from "../Footer";
+
+import MyPageMenu from "../../components/myPage/MyPageMenu";
+import ScriptContent from "../../components/myPage/ScriptContent";
+import ScriptManageBtn from "../../components/myPage/ScriptManageBtn";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
+import "./MyPageContentsDefault.css";
 
 const ScriptManage = () => {
   const [productList, setProductList] = useState([]);

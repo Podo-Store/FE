@@ -100,6 +100,7 @@
   background: #fff;
 
   text-align: center;
+  cursor: pointer;
 
   /* 화살표 커스텀 */
   /* Remove default arrow */
@@ -148,6 +149,8 @@
 
   border-radius: 5px;
   border: 1px solid var(--Main, #9591f2);
+
+  cursor: pointer;
 
   text-align: center;
   font-family: "Noto Sans KR";

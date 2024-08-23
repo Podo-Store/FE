@@ -125,6 +125,8 @@
 }
 
 .footer .sitemap ul#menu li {
+  cursor: pointer;
+
   color: #000;
   font-family: Lato;
   font-size: 10px;

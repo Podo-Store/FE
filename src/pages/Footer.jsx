@@ -1,14 +1,20 @@
-import "./Footer.css";
+import { useNavigate } from "react-router-dom";
+
 import logo from "../assets/image/footer/new_logo.svg";
 import instagramIcon from "../assets/image/footer/instagramIcon.svg";
 import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
 import XIcon from "../assets/image/footer/XIcon.svg";
 
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import "./Footer.css";
 
 function Footer() {
   const navigate = useNavigate();
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+    });
+  };
 
   return (
     <div className="footer">
@@ -32,6 +38,7 @@ function Footer() {
                 <li
                   onClick={() => {
                     navigate("/list");
+                    scrollToTop();
                   }}
                 >
                   작품 둘러보기
@@ -39,6 +46,7 @@ function Footer() {
                 <li
                   onClick={() => {
                     navigate("/post");
+                    scrollToTop();
                   }}
                 >
                   작품 등록하기

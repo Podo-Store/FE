@@ -7,10 +7,10 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import MyPageMenu from "../../components/myPage/MyPageMenu";
-import InputField from "./../../components/auth/InputField";
 import EnterForm from "../../components/EnterForm";
 import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 import AuthPWInputField from "./../../components/inputField/AuthInputField/AuthPwInputField.jsx";
+import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
 
 import AuthContext from "../../contexts/AuthContext";
 
@@ -21,11 +21,8 @@ import check from "../../assets/image/myPage/check.svg";
 
 import "./AccountInfoChange.css";
 import "./AccountInfoChange_delete.css";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
 
 const AccountInfoChange = () => {
-  let page;
-
   // 회원 정보 수정 진입
   const [changeShowPermission, setChangeShowPermission] = useState(false);
   const [typedPassword, setTypedPassword] = useState("");

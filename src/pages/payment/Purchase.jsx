@@ -1,16 +1,23 @@
-import Footer from "../Footer";
-import MainNav from "../MainNav";
-import "./Purchase.css";
-import scriptImg from "./../../assets/image/post/list/script.svg";
-import performImg from "./../../assets/image/post/list/perform.svg";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { formatPrice } from "../../utils/formatPrice";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { SERVER_URL } from "../../constants/ServerURL";
-import { useRequest } from "../../hooks/useRequest";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+
+import MainNav from "../MainNav";
+import Footer from "../Footer";
+
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import { formatPrice } from "../../utils/formatPrice";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
+import scriptImg from "./../../assets/image/post/list/script.svg";
+import performImg from "./../../assets/image/post/list/perform.svg";
+
+import "./Purchase.css";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -35,7 +42,6 @@ const Purchase = () => {
 
   useRequest(async () => {
     try {
-      // TODO: 로그인 상태
       const response = await axios.get(`${SERVER_URL}order/item`, {
         headers: {
           "Content-Type": "application/json",
@@ -80,7 +86,7 @@ const Purchase = () => {
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
   // 버튼 클릭 시 post message
-  const handlePurchaseBtn = async () => {
+  const onClickPurchase = async () => {
     try {
       const response = await axios.post(
         `${SERVER_URL}order/item`,
@@ -105,7 +111,15 @@ const Purchase = () => {
 
       if (response.data === true) {
         alert("결제가 완료되었습니다.");
-        navigate("/purchase/success");
+        navigate("/purchase/success", {
+          state: {
+            buyScript,
+            scriptPrice,
+            buyPerform,
+            performPrice,
+            totalPrice,
+          },
+        });
       }
     } catch (error) {
       alert(error.response.data.error);
@@ -145,13 +159,14 @@ const Purchase = () => {
           </div>
           <div className="purchase-side">
             <PurchaseSummaryBox
+              title="주문 요약"
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}
               performPrice={performPrice}
               totalPrice={totalPrice}
             />
-            <button className="purchase-btn" onClick={handlePurchaseBtn}>
+            <button className="purchase-btn" onClick={onClickPurchase}>
               결제하기
             </button>
           </div>

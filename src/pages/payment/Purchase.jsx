@@ -10,6 +10,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { SERVER_URL } from "../../constants/ServerURL";
 import { useRequest } from "../../hooks/useRequest";
+import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -127,7 +128,7 @@ const Purchase = () => {
                 <p id="tag"># {lengthType}</p>
                 <div className="detail-price">
                   {buyScript ? (
-                    <div>
+                    <div className="price-wrap">
                       <img src={scriptImg} alt="script"></img>
                       <p>{formatPrice(scriptPrice)}원</p>
                     </div>
@@ -143,22 +144,13 @@ const Purchase = () => {
             </div>
           </div>
           <div className="purchase-side">
-            <div className="purchase-summary-box">
-              <h4>주문 요약</h4>
-              <div className="price-wrap">
-                <p>대본 가격</p>
-                {buyScript ? <p>{formatPrice(scriptPrice)}원</p> : <p> - 원</p>}
-              </div>
-              <div className="price-wrap">
-                <p>공연권 가격</p>
-                {buyPerform ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
-              </div>
-              <hr></hr>
-              <div className="price-wrap">
-                <p>총 금액</p>
-                <p>{formatPrice(totalPrice)}원</p>
-              </div>
-            </div>
+            <PurchaseSummaryBox
+              buyScript={buyScript}
+              scriptPrice={scriptPrice}
+              buyPerform={buyPerform}
+              performPrice={performPrice}
+              totalPrice={totalPrice}
+            />
             <button className="purchase-btn" onClick={handlePurchaseBtn}>
               결제하기
             </button>

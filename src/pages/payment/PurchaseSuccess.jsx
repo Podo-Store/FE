@@ -10,7 +10,8 @@ import "./PurchaseSuccess.css";
 const PurchaseSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { buyScript, scriptPrice, buyPerform, performPrice, totalPrice } = location.state;
+  const { orderDate, orderNumber, buyScript, scriptPrice, buyPerform, performPrice, totalPrice } =
+    location.state || {};
 
   return (
     <div className="PurchaseSuccess">
@@ -20,10 +21,10 @@ const PurchaseSuccess = () => {
         <div className="purchase-success-content">
           <h1>대본 구매가 완료되었습니다.</h1>
           <div className="p-wrap">
-            <p>&nbsp;YYYY. MM. DD. HH:MM:SS</p>
+            <p>&nbsp;{orderDate}</p>
             <div className="order-num">
               <p>주문 번호</p>
-              <p>XX</p>
+              <p>{orderNumber}</p>
             </div>
           </div>
           <div className="purchase-summary">

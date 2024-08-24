@@ -85,7 +85,7 @@ const Purchase = () => {
     }
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
-  // 버튼 클릭 시 post message
+  // 버튼 클릭 시 post 요청
   const onClickPurchase = async () => {
     try {
       const response = await axios.post(
@@ -95,9 +95,7 @@ const Purchase = () => {
             {
               productId: id,
               script: buyScript,
-              scriptPrice: scriptPrice,
               performance: buyPerform,
-              performancePrice: performPrice,
             },
           ],
         },
@@ -109,18 +107,21 @@ const Purchase = () => {
         }
       );
 
-      if (response.data === true) {
-        alert("결제가 완료되었습니다.");
-        navigate("/purchase/success", {
-          state: {
-            buyScript,
-            scriptPrice,
-            buyPerform,
-            performPrice,
-            totalPrice,
-          },
-        });
-      }
+      // 싀바거 이게 문제였냐??
+      const orderData = response.data[0];
+
+      alert("결제가 완료되었습니다.");
+      navigate("/purchase/success", {
+        state: {
+          orderDate: orderData.orderDate,
+          orderNumber: orderData.orderNum,
+          buyScript,
+          scriptPrice,
+          buyPerform,
+          performPrice,
+          totalPrice,
+        },
+      });
     } catch (error) {
       alert(error.response.data.error);
     }

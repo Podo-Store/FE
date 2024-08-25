@@ -76,13 +76,8 @@ const List = () => {
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
       <div className="list-wrap">
         <div className="title">
-          <h5>작품 둘러보기</h5>
-          <img
-            src={circleInfoBtn}
-            alt="info btn"
-            onClick={onClickInfoBtn}
-            style={{ cursor: "pointer" }}
-          />
+          <h1>작품 둘러보기</h1>
+          <img src={circleInfoBtn} alt="info btn" onClick={onClickInfoBtn} />
         </div>
         <div className="banner-wrap">
           <div className="banner"></div>

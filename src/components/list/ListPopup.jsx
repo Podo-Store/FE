@@ -1,7 +1,9 @@
 import React, { useEffect } from "react";
-import "./ListPopup.css";
+
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
+
+import "./ListPopup.css";
 
 const ListPopup = ({ onClose, position }) => {
   useEffect(() => {

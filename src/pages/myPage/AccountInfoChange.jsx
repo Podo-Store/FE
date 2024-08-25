@@ -163,7 +163,7 @@ const AccountInfoChange = () => {
   // 회원 탈퇴
   const onClickDeleteAccountConfirm = async () => {
     try {
-      await axios.delete(`${SERVER_URL}auth/delete`, {
+      await axios.delete(`${SERVER_URL}profile/delete`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,

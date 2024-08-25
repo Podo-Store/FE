@@ -19,6 +19,8 @@
 
 .script-manage-detail .go-back h6 {
   margin: 0;
+  cursor: pointer;
+
   color: #000;
   font-family: "Noto Sans";
   font-size: 15px;
@@ -176,6 +178,8 @@
 .script-manage-detail .bottom-wrap p#delete {
   margin-left: 1rem;
   text-decoration-line: underline;
+
+  cursor: pointer;
 }
 
 .script-manage-detail .btn-wrap {
@@ -189,6 +193,8 @@
 
   border: 0;
   border-radius: 30px;
+
+  cursor: pointer;
 
   color: #fff;
   text-align: center;

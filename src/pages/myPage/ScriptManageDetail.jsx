@@ -162,6 +162,27 @@ const ScriptManageDetail = () => {
     }
   };
 
+  const onClickDelete = async () => {
+    try {
+      await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      alert("작품이 삭제되었습니다.");
+      navigate("/mypage/scriptmanage");
+    } catch (error) {
+      if (error.response.data.error === "작가가 아님") {
+        alert("작가 본인이 쓴 작품만 삭제할 수 있습니다.");
+      } else if (error.response.data.error === "심사 중") {
+        alert("심사 중인 작품입니다.");
+      } else {
+        alert(error.response.data.error);
+      }
+    }
+  };
+
   return (
     <div className="script-manage-detail">
       <MainNav />
@@ -260,7 +281,9 @@ const ScriptManageDetail = () => {
               <p id="find">내 PC에서 찾기</p>
             </div>
             <div className="bottom-wrap">
-              <p id="delete">작품 삭제</p>
+              <p id="delete" onClick={onClickDelete}>
+                작품 삭제
+              </p>
               <div className="btn-wrap">
                 <button
                   id="cancel"

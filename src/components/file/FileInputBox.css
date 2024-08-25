@@ -1,0 +1,63 @@
+.file-input-box > p {
+  margin-top: 1.5rem;
+  margin-left: 1.5rem;
+
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
+}
+
+.file-input-box .input-box-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 30px;
+  border: 2px dashed var(--Main, #6a39c0);
+  filter: blur(0.25px);
+
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-input-box .input-box-content p {
+  color: #000;
+
+  /* Paragraph/Small/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; /* 142.857% */
+}
+
+.file-input-box .input-box-content p:nth-of-type(1) {
+  margin: 0;
+  margin-top: 1.75rem;
+  margin-bottom: 1%;
+}
+
+.file-input-box .input-box-content image {
+  width: 2.5rem;
+  cursor: pointer;
+}
+
+.file-input-box .input-box-content p#pdf {
+  margin: 0;
+  transform: translateY(-0.75rem);
+
+  font-weight: 400;
+}
+
+.file-input-box .input-box-content p#find {
+  margin-top: 0.75rem;
+  margin-bottom: 2rem;
+  color: #3876f2;
+  text-decoration-line: underline;
+}

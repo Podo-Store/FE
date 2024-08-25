@@ -53,7 +53,7 @@ const PostWorkPopup = ({ onClose, initialPosition }) => {
   return (
     <div
       ref={popupRef}
-      className="popup"
+      className="post-popup"
       style={{
         top: `${position.y}px`,
         left: `${position.x}px`,
@@ -64,25 +64,22 @@ const PostWorkPopup = ({ onClose, initialPosition }) => {
       <img src={popUpClose} alt="" className="close-button" onClick={onClose}></img>
       <div className="popup-content">
         <p>
-          작품 등록 신청 가능 파일 형식은
-          <br />
-          다음과 같습니다.
-          <br />
-          {"->"} PDF
+          작품 등록은 PDF 형식으로만 가능합니다.
           <br />
           <br />
-          신청 후 심사가 완료되면 등록되어 있는
+          신청 후 심사가 완료되면
           <br />
-          이메일로 결과가 발송됩니다. <br />
+          등록되어 있는 이메일로 결과가 발송됩니다. <br />
           <br />
           심사에 통과되시면 마이 페이지의
-          <br /> '등록한 작품들을 관리할 수 있어요!'
           <br />
-          페이지에서 만나보실 수 있습니다. <br />
+          '작품 관리' 페이지에서 만나보실 수 있습니다.
           <br />
-          심사는 표절, 중복 등 다양한 방면에서 <br />
-          진행되며 포도상점은 건강한 공연 생태계 <br />
-          조성을 위해 항상 노력하고 있습니다. <br />
+          <br />
+          심사는 표절, 중복 등 다양한 방면에서 진행되며
+          <br />
+          포도상점은 건강한 공연 생태계 조성을 위해 <br />
+          항상 노력하고 있습니다. <br />
           <br />
           감사합니다.
         </p>

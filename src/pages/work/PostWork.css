@@ -4,15 +4,16 @@
 
 .post-work .post-work-wrap {
   display: flex;
-  margin: 0 15%;
+  margin: 0 16%;
+  height: 93vh;
 }
 
 .post-work .left-side {
-  flex: 1;
+  flex: 0.85;
 }
 
 .post-work .right-side {
-  flex: 1;
+  flex: 1.15;
 
   background-size: contain;
 }
@@ -22,9 +23,10 @@
   flex-direction: column;
   justify-content: space-between;
 
-  margin: 15vh 0;
-  margin-right: 5%;
-  height: 70vh;
+  margin-top: 15vh;
+  margin-right: 3.5%;
+
+  height: 83.5%;
 }
 
 .post-work .title h1 {
@@ -40,75 +42,48 @@
 
 .post-work .upload-title {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+
+  margin-bottom: 2%;
 }
 
 .post-work .upload-title h6 {
   color: #000;
-  margin: 0;
 
+  /* H5/Bold */
   font-family: "Noto Sans KR";
-  font-size: 16px;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
-  letter-spacing: -1px;
+  line-height: 1.75rem; /* 140% */
 }
 
 .post-work .upload-title img {
-  width: 2em;
-  margin-right: 5%;
+  width: 1.75rem;
   cursor: pointer;
-}
-
-.post-work .upload-content {
-  display: flex;
-  justify-content: space-between;
-  margin: 2% 0;
-  margin-bottom: 4%;
-}
-
-.post-work .inside-field button {
-  width: auto;
-  border: none;
-  cursor: pointer;
-
-  border-radius: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-}
-
-.post-work .inside-field button#select-file {
-  padding: 10px 15px;
-  background: var(--Sub-2, #3876f2);
-}
-
-.post-work .file-info {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: auto;
-  background-color: white;
-  background: rgba(253, 250, 255, 0.7);
-  border: 1px solid rgba(0, 0, 0, 0.7);
-  width: 77%;
-
-  border-radius: 30px;
-  background: var(--ect-white, #fff);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  padding-left: 3%;
-}
-
-.post-work .inside-field .upload-btn-div {
-  display: flex;
-  justify-content: flex-end;
 }
 
 .post-work .inside-field button#upload-btn {
+  width: 100%;
+  height: 3.125rem;
+
+  margin-top: 4%;
   padding: 10px 25px;
-  background: var(--Sub-2, #9591f2);
+
+  border: none;
+  border-radius: 1.875rem;
+  background: var(--Main, #6a39c0);
+
+  color: #fff;
+  text-align: center;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
 }
 
 .post-work .inside-field button#upload-btn:disabled {

@@ -1,7 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import MainNav from "../MainNav";
@@ -16,9 +15,9 @@ import { useRequest } from "../../hooks/useRequest";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
-import downloadImg from "../../assets/image/myPage/download.svg";
 
 import "./ScriptManageDetail.css";
+import FileInputBox from "../../components/file/FileInputBox";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -80,14 +79,6 @@ const ScriptManageDetail = () => {
       setSelectedOption("notSale");
     }
   }, [saleScriptStatus, salePerformStatus]);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    // 첫 번째 파일만 처리
-    const file = acceptedFiles[0];
-    setUploadedFile(file);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   // 사진을 선택했을 경우
   const onClickChangeThumbnailImg = () => {
@@ -266,29 +257,14 @@ const ScriptManageDetail = () => {
             </div>
           </div>
           <div className="description-wrap">
-            <p>작품 설명</p>
-            <div
-              className="script-description"
-              {...getRootProps()}
-              style={{
-                border: "2px dashed #007bff",
-                padding: "20px",
-                textAlign: "center",
-                cursor: "pointer",
+            <FileInputBox
+              title="작품 설명"
+              onFileUpload={(file) => {
+                setUploadedFile(file);
               }}
-            >
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>파일을 여기에 드롭하세요...</p>
-              ) : uploadedFile ? (
-                <p>업로드된 파일: {uploadedFile.name}</p>
-              ) : (
-                <p>파일을 마우스로 끌어오세요.</p>
-              )}
-              <img src={downloadImg} alt="download" />
-              <p id="pdf">PDF</p>
-              <p id="find">내 PC에서 찾기</p>
-            </div>
+              style={{ width: "38rem" }}
+            />
+
             <div className="bottom-wrap">
               <p id="delete" onClick={onClickDelete}>
                 작품 삭제

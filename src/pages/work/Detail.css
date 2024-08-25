@@ -1,9 +1,5 @@
-.detail {
-  background: #fdfaff;
-}
-
 .detail .detail-wrap {
-  margin: 0 15%;
+  margin: 6.5vh 16.5%;
   margin-bottom: 5%;
 }
 
@@ -12,21 +8,24 @@
 }
 
 .detail .thumbnail-img {
-  width: 25vw;
-  padding-bottom: 25vw;
+  width: 29.125rem;
+  padding-bottom: 29.125rem;
   background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .detail .detail-title {
-  margin-left: 4vw;
-  margin-right: 2vw;
-  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin-left: 3.5vw;
+  width: 27vw;
 }
 
 .detail .detail-title p {
-  margin: 0;
-  margin-top: 1.9vh;
-  margin-bottom: 0.75vh;
+  margin-top: 1rem;
   color: var(--Sub-2, #3876f2);
 
   /* Paragraph/Small/Regular */
@@ -39,35 +38,59 @@
 
 .detail .detail-title h1 {
   margin: 0;
-  margin-bottom: 4.125vh;
+  margin-bottom: 4.75vh;
   color: #000;
 
+  /* H1/Regular */
   font-family: "Noto Sans KR";
-  font-size: 36px;
+  font-size: 2.25rem;
   font-style: normal;
   font-weight: 400;
-  line-height: 44px;
-  letter-spacing: -0.72px;
+  line-height: 2.75rem; /* 122.222% */
 }
 
 .detail .detail-price {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+
+  width: 10.1875rem;
+
+  margin-left: 0.3rem;
+}
+
+.detail .detail-price img#script {
+  width: 0.875rem;
+  height: 1.2rem;
+
+  margin-top: 0.44rem;
+}
+
+.detail .detail-price img#perform {
+  width: 1.0625rem;
+  height: 1.0625rem;
+
+  margin-top: 0.44rem;
+}
+
+.detail .detail-price .price {
+  display: flex;
+  align-items: center;
   gap: 0.75rem;
 }
 
-.detail .detail-price img {
-  width: 16px;
-}
-
 .detail .detail-price p {
-  color: #000;
   margin: 0.25rem 0;
 
+  color: #000;
+
+  /* Paragraph/Large/Medium */
   font-family: "Noto Sans KR";
-  font-size: 16px;
+  font-size: 1.125rem;
   font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
+  font-weight: 500;
+  line-height: 1.75rem; /* 155.556% */
 }
 
 .detail .option-select {
@@ -76,20 +99,20 @@
   justify-content: space-between;
 
   margin: 0;
-  margin-top: 4vh;
-  margin-bottom: 3vh;
-  margin-left: 0.4rem;
+  margin-top: 1.6875rem;
+  margin-bottom: 2.025rem;
+  margin-left: 0.75rem;
 }
 
 .detail .option-select h4 {
-  margin: 0;
   color: #000;
 
+  /* Paragraph/Large/Bold */
   font-family: "Noto Sans KR";
-  font-size: 17px;
+  font-size: 1.125rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 28px;
+  line-height: 1.75rem; /* 155.556% */
 }
 
 /* select 공용 설정 */
@@ -116,7 +139,7 @@
 }
 
 .detail .option-select select {
-  width: 82.5%;
+  width: 80%;
   height: 2.5rem;
 }
 
@@ -125,22 +148,20 @@
   justify-content: space-between;
 }
 .detail .total-price h5 {
-  margin: 0;
-  margin-left: 0.4rem;
   color: #000;
 
-  /* Paragraph/Large/Bold */
+  /* H2/Bold */
   font-family: "Noto Sans KR";
-  font-size: 18px;
+  font-size: 2rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 28px; /* 155.556% */
+  line-height: 2.5rem; /* 125% */
 }
 
 .detail .detail-btn-wrap {
   display: flex;
   gap: 0.5em;
-  margin-top: 3vh;
+  margin-top: 1.35rem;
 }
 
 .detail .detail-btn-wrap button,
@@ -164,11 +185,13 @@
   flex: 1;
 }
 
+/*
 .detail .detail-btn-wrap button#cart-btn,
 .detail .detail-bottom-bar button#cart-btn {
   background: #fdfaff;
   color: #333;
 }
+  */
 
 .detail .detail-btn-wrap button#purchase-btn,
 .detail .detail-bottom-bar button#purchase-btn {
@@ -178,14 +201,18 @@
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
 }
 
+.detail .detail-btn-wrap button#purchase-btn {
+  height: 3.75rem;
+}
+
 .detail .detail-description hr {
-  margin: 6rem 0;
+  margin: 12.5vh 0;
   border: 1px solid #e2e2e2;
 }
 
 .detail .detail-bottom-bar {
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
 
   height: 6.25rem;
@@ -197,8 +224,15 @@
   z-index: 1000;
 
   margin-top: 2em;
-  padding: 0 16vw;
+  padding-left: 19.5vw;
+  padding-right: 17vw;
   background: var(--puple-puple1, #f4f2ff);
+}
+
+.detail .bottom-bar-left,
+.detail .bottom-bar-right {
+  display: flex;
+  align-items: center;
 }
 
 .detail .detail-bottom-bar h6 {
@@ -213,7 +247,7 @@
   line-height: 28px;
   letter-spacing: -0.4px;
 
-  color: var(--grey-grey7, #3c3c3c);
+  color: var(--grey6, #3c3c3c);
 
   /* H5/Regular */
   font-family: "Noto Sans KR";
@@ -227,7 +261,7 @@
 .detail .detail-bottom-bar h3 {
   margin: 0;
   margin-left: 0.5rem;
-  min-width: 7vw;
+  min-width: 7rem;
 
   color: #333;
 
@@ -250,9 +284,13 @@
   letter-spacing: -0.03rem;
 }
 
+.detail .bottom-bar-right {
+  flex-grow: 1;
+}
+
 .detail .detail-bottom-bar select {
-  width: 35%;
-  height: 4rem;
+  width: 28.75rem;
+  height: 4.125rem;
 
   margin-left: auto;
   margin-right: 1.5vw;

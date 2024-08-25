@@ -204,44 +204,54 @@ const Detail = () => {
             ></div>
           </div>
           <div className="detail-title">
-            <p># {lengthType}</p>
-            <h1>
-              {title}
-              <br />
-              {author}
-            </h1>
-            <div className="detail-price">
-              <img src={scriptImg} alt="script"></img>
-              <p>대본 {formatPrice(scriptPrice)} 원</p>
+            <div>
+              <p># {lengthType}</p>
+              <h1>
+                {title}
+                <br />
+                {author}
+              </h1>
             </div>
-            <div className="detail-price">
-              <img src={performImg} alt="perform"></img>
-              <p>공연권 {formatPrice(performPrice)} 원</p>
-            </div>
-            <div className="option-select">
-              <h4>옵션 선택</h4>
-              <Select value={selectedOption} onChange={onChangeSelectOption}>
-                <option value="" disabled selected>
-                  옵션 선택
-                </option>
-                {!hasBoughtScript && sellingScript ? <option value="script">대본</option> : null}
-                {!hasBoughtScript && sellingScript && sellingPerform ? (
-                  <option value="scriptPerform">대본 & 공연권</option>
-                ) : null}
-                {hasBoughtScript && sellingPerform ? (
-                  <option value="perform">공연권 구매</option>
-                ) : null}
-              </Select>
-            </div>
-            <div className="total-price">
-              <h5>총 금액</h5>
-              <h5> {totalPrice} 원</h5>
-            </div>
-            <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
-              {/*<button id="cart-btn">장바구니</button>*/}
-              <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
-                구매하기
-              </button>
+            <div>
+              <div className="detail-price">
+                <div className="price">
+                  <img id="script" src={scriptImg} alt="script"></img>
+                  <p>대본</p>
+                </div>
+                <p>{formatPrice(scriptPrice)} 원</p>
+              </div>
+              <div className="detail-price">
+                <div className="price">
+                  <img id="perform" src={performImg} alt="perform"></img>
+                  <p>공연권</p>
+                </div>
+                <p>{formatPrice(performPrice)} 원</p>
+              </div>
+              <div className="option-select">
+                <h4>옵션 선택</h4>
+                <Select value={selectedOption} onChange={onChangeSelectOption}>
+                  <option value="" disabled selected>
+                    옵션 선택
+                  </option>
+                  {!hasBoughtScript && sellingScript ? <option value="script">대본</option> : null}
+                  {!hasBoughtScript && sellingScript && sellingPerform ? (
+                    <option value="scriptPerform">대본 & 공연권</option>
+                  ) : null}
+                  {hasBoughtScript && sellingPerform ? (
+                    <option value="perform">공연권 구매</option>
+                  ) : null}
+                </Select>
+              </div>
+              <div className="total-price">
+                <h5>총 금액</h5>
+                <h5> {totalPrice} 원</h5>
+              </div>
+              <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
+                {/*<button id="cart-btn">장바구니</button>*/}
+                <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
+                  구매하기
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -263,23 +273,27 @@ const Detail = () => {
       </div>
       {!isDetailBtnVisible && (
         <div className="detail-bottom-bar" style={bottomBarStyle}>
-          <h6>총 금액</h6>
-          <h3>{totalPrice} 원</h3>
-          <select name="" id="option" value={selectedOption} onChange={onChangeSelectOption}>
-            <option value="" disabled selected>
-              옵션 선택
-            </option>
-            {!hasBoughtScript ? <option value="script">대본</option> : null}
-            {!hasBoughtScript ? <option value="scriptPerform">대본 & 공연권</option> : null}
-            {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
-          </select>
-          {/* <button id="cart-btn">장바구니</button>*/}
-          <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
-            구매하기
-          </button>
+          <div className="bottom-bar-left">
+            <h6>총 금액</h6>
+            <h3>{totalPrice} 원</h3>
+          </div>
+          <div className="bottom-bar-right">
+            <select name="" id="option" value={selectedOption} onChange={onChangeSelectOption}>
+              <option value="" disabled selected>
+                옵션 선택
+              </option>
+              {!hasBoughtScript ? <option value="script">대본</option> : null}
+              {!hasBoughtScript ? <option value="scriptPerform">대본 & 공연권</option> : null}
+              {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
+            </select>
+            {/* <button id="cart-btn">장바구니</button>*/}
+            <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
+              구매하기
+            </button>
+          </div>
         </div>
       )}
-      <Footer className="footer" />
+      <Footer />
     </div>
   );
 };

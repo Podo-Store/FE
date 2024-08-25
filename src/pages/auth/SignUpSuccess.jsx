@@ -1,10 +1,13 @@
-import "./SignUpSuccess.css";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
+import Footer from "../Footer";
+
 import BottomBtn from "../../components/auth/BottomBtn";
 import Box from "../../components/auth/Box";
 import RectangleForm from "../../components/auth/RectangleForm";
+
+import "./SignUpSuccess.css";
 
 function SignUpSuccess() {
   const navigate = useNavigate();
@@ -16,10 +19,11 @@ function SignUpSuccess() {
         <Box>
           <RectangleForm>
             <h1>회원가입 완료</h1>
-            <BottomBtn onClick={() => navigate("/")}>메인 페이지</BottomBtn>
+            <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
           </RectangleForm>
         </Box>
       </div>
+      <Footer />
     </div>
   );
 }

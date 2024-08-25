@@ -1,0 +1,31 @@
+.Not-Found .not-found {
+  padding: 15vh 0;
+  background: #fdfaff;
+  text-align: center;
+}
+
+.Not-Found .not-found h1 {
+  color: var(--Main, #6a39c0);
+
+  /* BIG */
+  font-family: "Noto Sans KR";
+  font-size: 8rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 8.75rem; /* 109.375% */
+  letter-spacing: -0.0001em;
+}
+
+.Not-Found .not-found p {
+  margin-top: 1.5rem;
+  margin-bottom: 45vh;
+
+  color: var(--grey6, #777);
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
+}

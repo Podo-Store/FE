@@ -16,6 +16,7 @@ import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
+import NotFound from "./NotFound";
 
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 
@@ -63,6 +64,9 @@ function Routing() {
 
             {/* 테스트용 routing */}
             <Route path="/test/loading" element={<Loading />} />
+            <Route path="/test/404" element={<NotFound />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

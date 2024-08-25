@@ -4,10 +4,10 @@ import "./PurchaseSummaryBox.css";
 const PurchaseSummaryBox = ({
   title,
   buyScript,
-  scriptPrice,
+  scriptPrice = 0,
   buyPerform,
-  performPrice,
-  totalPrice,
+  performPrice = 0,
+  totalPrice = 0,
 }) => {
   return (
     <div className="purchase-summary-box">

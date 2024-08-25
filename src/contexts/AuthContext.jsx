@@ -61,11 +61,9 @@ export const AuthProvider = ({ children }) => {
         }
       );
       const { accessToken } = response.data;
-      console.log("New accessToken received:", accessToken); // 로그 추가
       Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
       return accessToken;
     } catch (error) {
-      console.error("Failed to refresh access token:", error); // 로그 추가
       logout();
 
       return null;

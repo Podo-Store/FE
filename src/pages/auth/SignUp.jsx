@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import Loading from "../Loading";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import {
   AuthInputField,
@@ -55,6 +56,9 @@ function SignUp() {
   const [notRegisterAllow, setNotRegisterAllow] = useState(true);
 
   const [emailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
+
+  // 로딩
+  const [isLoading, setIsLoading] = useState(false);
 
   // ID
   useEffect(() => {
@@ -224,6 +228,7 @@ function SignUp() {
   }, [emailValid, emailCodeValid]);
 
   const onClickRegisterAllowButton = async () => {
+    setIsLoading(true);
     try {
       await axios.post(`${SERVER_URL}auth/signup`, {
         userId: id,
@@ -237,8 +242,14 @@ function SignUp() {
       navigate("/signup/success");
     } catch (error) {
       alert("회원가입 실패");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="signUp">

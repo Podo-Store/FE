@@ -10,6 +10,7 @@ import MyPageMenu from "../../components/myPage/MyPageMenu";
 import EnterForm from "../../components/EnterForm";
 import { AuthInputField, AuthSideBtnInputField } from "../../components/inputField";
 import AuthPWInputField from "../../components/inputField/auth/AuthPwInputField.jsx";
+import PartialLoading from "../../components/loading/PartialLoading.jsx";
 
 import AuthContext from "../../contexts/AuthContext";
 
@@ -45,6 +46,8 @@ const AccountInfoChange = () => {
   const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
   const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { userNickname } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -76,6 +79,7 @@ const AccountInfoChange = () => {
   };
 
   const fetchAccountInfo = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${SERVER_URL}profile/account`, {
         headers: {
@@ -89,6 +93,7 @@ const AccountInfoChange = () => {
     } catch (error) {
       alert("회원 정보 조회 실패");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -245,6 +250,8 @@ const AccountInfoChange = () => {
                   <button onClick={onClickDeleteAccountConfirm}>회원 탈퇴</button>
                 </div>
               </div>
+            ) : isLoading ? (
+              <PartialLoading />
             ) : (
               <EnterForm onSubmit={onClickCompleteBtn}>
                 {/* 수정 페이지 */}

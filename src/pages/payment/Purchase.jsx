@@ -6,6 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import Loading from "../Loading";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -34,6 +35,8 @@ const Purchase = () => {
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { id } = useParams();
   const location = useLocation();
   const { isScriptSelected = false, isPerformSelected = false } = location.state || {};
@@ -41,6 +44,7 @@ const Purchase = () => {
   const navigate = useNavigate();
 
   useRequest(async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${SERVER_URL}order/item`, {
         headers: {
@@ -68,6 +72,7 @@ const Purchase = () => {
         alert(error.response.data.error);
       }
     }
+    setIsLoading(false);
   });
 
   useEffect(() => {
@@ -126,6 +131,10 @@ const Purchase = () => {
       alert(error.response.data.error);
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="purchase">

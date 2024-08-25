@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import Loading from "../Loading";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
 
@@ -38,11 +39,14 @@ const ScriptManageDetail = () => {
   // 업로드된 설명 파일
   const [uploadedFile, setUploadedFile] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
   useRequest(async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${SERVER_URL}profile/detail`, {
         headers: {
           "Content-Type": "application/json",
@@ -62,6 +66,7 @@ const ScriptManageDetail = () => {
     } catch (error) {
       alert(error.response.data.error || "예상치 못한 오류가 발생했습니다.");
     }
+    setIsLoading(false);
   });
 
   useEffect(() => {
@@ -182,6 +187,10 @@ const ScriptManageDetail = () => {
       }
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="script-manage-detail">

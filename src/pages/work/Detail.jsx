@@ -7,6 +7,7 @@ import { Worker, Viewer } from "@react-pdf-viewer/core";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import Loading from "../Loading";
 import Select from "../../components/select/Select";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -47,6 +48,8 @@ const Detail = () => {
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalPrice, setTotalPrice] = useState(" - ");
 
+  const [isLoading, setIsLoading] = useState(false);
+
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
@@ -56,6 +59,7 @@ const Detail = () => {
 
   useRequest(async () => {
     try {
+      setIsLoading(true);
       let response;
       // 로그아웃 상태
       if (!Cookies.get("accessToken")) {
@@ -93,9 +97,10 @@ const Detail = () => {
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
     }
+    setIsLoading(false);
   });
 
-  const handleSelectOption = (event) => {
+  const onChangeSelectOption = (event) => {
     setSelectedOption(event.target.value);
     setIsOptionSelected(true);
   };
@@ -161,7 +166,7 @@ const Detail = () => {
     };
   }, []);
 
-  const handlePurchaseBtnClick = () => {
+  const onClickPurchase = () => {
     // 공연권도 선택되었을 시 true
     let isScriptSelected = false;
     let isPerformSelected = false;
@@ -180,6 +185,10 @@ const Detail = () => {
       },
     });
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="detail">
@@ -211,7 +220,7 @@ const Detail = () => {
             </div>
             <div className="option-select">
               <h4>옵션 선택</h4>
-              <Select value={selectedOption} onChange={handleSelectOption}>
+              <Select value={selectedOption} onChange={onChangeSelectOption}>
                 <option value="" disabled selected>
                   옵션 선택
                 </option>
@@ -230,11 +239,7 @@ const Detail = () => {
             </div>
             <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
               {/*<button id="cart-btn">장바구니</button>*/}
-              <button
-                id="purchase-btn"
-                onClick={handlePurchaseBtnClick}
-                disabled={!isOptionSelected}
-              >
+              <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
                 구매하기
               </button>
             </div>
@@ -260,7 +265,7 @@ const Detail = () => {
         <div className="detail-bottom-bar" style={bottomBarStyle}>
           <h6>총 금액</h6>
           <h3>{totalPrice} 원</h3>
-          <select name="" id="option" value={selectedOption} onChange={handleSelectOption}>
+          <select name="" id="option" value={selectedOption} onChange={onChangeSelectOption}>
             <option value="" disabled selected>
               옵션 선택
             </option>
@@ -269,7 +274,7 @@ const Detail = () => {
             {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
           </select>
           {/* <button id="cart-btn">장바구니</button>*/}
-          <button id="purchase-btn" onClick={handlePurchaseBtnClick} disabled={!isOptionSelected}>
+          <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
             구매하기
           </button>
         </div>

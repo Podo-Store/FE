@@ -13,6 +13,7 @@ import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./SignIn.css";
+import Loading from "../Loading";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -23,6 +24,8 @@ function SignIn() {
   const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -44,7 +47,9 @@ function SignIn() {
 
   const onClickConfirmButton = async () => {
     // initialize
+    setIsLoading(true);
     setIsIdPwMatch(false);
+
     try {
       const response = await axios.post(`${SERVER_URL}auth/signin`, {
         userId: id,
@@ -67,7 +72,12 @@ function SignIn() {
       setIsIdPwMatch(false);
     }
     setShowErrorMsg(true);
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="signIn">

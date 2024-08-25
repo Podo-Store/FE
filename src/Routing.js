@@ -11,6 +11,7 @@ import Detail from "./pages/work/Detail";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
+import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
@@ -43,6 +44,7 @@ function Routing() {
               path="/purchase/success"
               element={<ProtectedRoute element={<PurchaseSuccess />} />}
             />
+            <Route path="/purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route

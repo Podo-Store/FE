@@ -67,10 +67,10 @@ const Purchase = () => {
     } catch (error) {
       if (error.response.data.error === "본인 작품 구매 불가") {
         alert("본인이 작성한 작품은 구매할 수 없습니다.");
-        navigate(-1);
       } else {
         alert(error.response.data.error);
       }
+      navigate("/purchase/abort");
     }
     setIsLoading(false);
   });

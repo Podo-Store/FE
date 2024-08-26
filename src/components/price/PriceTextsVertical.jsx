@@ -1,4 +1,3 @@
-import "./PriceTextsVertical.css";
 import PriceText from "./PriceText";
 
 const PriceTextsHorizontal = ({ scriptPrice, performPrice }) => {

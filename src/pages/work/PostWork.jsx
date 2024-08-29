@@ -12,7 +12,7 @@ import PostWorkPopup from "./PostWorkPopup";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import infoBtn from "../../assets/image/post/circleInfoBtn.svg";
+import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
 
 import "./PostWork.css";

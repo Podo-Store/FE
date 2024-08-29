@@ -14,7 +14,7 @@ import { useRequest } from "../../hooks/useRequest.js";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
-import circleInfoBtn from "./../../assets/image/post/circleInfoBtn.svg";
+import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";

@@ -42,10 +42,13 @@
   width: 100%;
 }
 
-.script-content .script-detail h3 {
+.script-content .script-detail div#title {
   margin-top: 1vh;
-  margin-left: 0.125rem;
   margin-bottom: 0.5vh;
+}
+
+.script-content .script-detail h3 {
+  margin-left: 0.125rem;
 
   color: #000;
 
@@ -55,6 +58,14 @@
   font-style: normal;
   font-weight: 700;
   line-height: 28px; /* 155.556% */
+}
+
+.script-content .script-detail img#title-info {
+  width: 1.1875rem;
+  height: 1.1875rem;
+  margin-left: 0.5rem;
+
+  cursor: pointer;
 }
 
 .script-content .script-detail h4 {

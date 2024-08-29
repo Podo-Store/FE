@@ -5,6 +5,10 @@ import performImg from "./../../assets/image/post/list/perform.svg";
 
 import "./PriceText.css";
 
+/**
+ * @param type - "script" or "perform"
+ * @param value - price
+ */
 const PriceText = ({ type, value }) => {
   return (
     <div className="price-text">

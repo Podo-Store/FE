@@ -9,8 +9,6 @@
 }
 
 .myPage-contents-default .content-side h1 {
-  margin-bottom: 8.88vh;
-
   color: #000;
 
   /* H4/Bold */
@@ -19,4 +17,8 @@
   font-style: normal;
   font-weight: 700;
   line-height: 2rem; /* 133.333% */
+}
+
+.myPage-contents-default .content-side .m-bottom-8-88vh {
+  margin-bottom: 8.88vh;
 }

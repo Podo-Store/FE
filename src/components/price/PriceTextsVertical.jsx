@@ -1,6 +1,6 @@
 import PriceText from "./PriceText";
 
-const PriceTextsHorizontal = ({ scriptPrice, performPrice }) => {
+const PriceTextsVertical = ({ scriptPrice, performPrice }) => {
   return (
     <div className="price-texts-vertical">
       <PriceText type="script" value={scriptPrice}></PriceText>
@@ -9,4 +9,4 @@ const PriceTextsHorizontal = ({ scriptPrice, performPrice }) => {
   );
 };
 
-export default PriceTextsHorizontal;
+export default PriceTextsVertical;

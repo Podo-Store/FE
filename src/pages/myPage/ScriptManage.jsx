@@ -2,17 +2,15 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 
-import { useRequest } from "../../hooks/useRequest";
-
-import AuthContext from "../../contexts/AuthContext";
-
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import { MyPageMenu, ScriptContent, ScriptManageBtn } from "../../components/myPage";
 import PartialLoading from "../../components/loading/PartialLoading";
-import MyPageMenu from "../../components/myPage/MyPageMenu";
-import ScriptContent from "../../components/myPage/ScriptContent";
-import ScriptManageBtn from "../../components/myPage/ScriptManageBtn";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -46,6 +44,7 @@ const ScriptManage = () => {
         <MyPageMenu nickname={userNickname} currentPage="1" />
         <div className="content-side">
           <h1>등록한 작품들을 관리할 수 있어요!</h1>
+          <div className="m-bottom-8-88vh"></div>
           {isLoading ? (
             <PartialLoading />
           ) : (

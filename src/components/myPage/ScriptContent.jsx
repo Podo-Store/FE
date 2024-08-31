@@ -90,11 +90,10 @@ const ScriptContent = ({
                   // PurchasedScriptBtn.jsx
                   <Button
                     purchaseStatus={[script.script, script.performance]}
-                    isScriptPurchased={script.script}
-                    isPerformPurchased={script.performance}
                     id={script.id}
                     title={script.title}
                     productId={script.productId}
+                    buyPerformance={script.buyPerformance}
                   />
                 ) : (
                   // PurchasedPerformBtn.jsx

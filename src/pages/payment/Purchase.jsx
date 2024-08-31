@@ -143,29 +143,61 @@ const Purchase = () => {
         <h4 id="title">결제</h4>
         <div className="purchase-flex">
           <div className="list-side">
-            <div className="purchase-list">
-              <div className="thumbnail" style={{ backgroundImage: `url(${thumbnailImg})` }}></div>
-              <div className="detail">
-                <h5>{title}</h5>
-                <hr></hr>
-                <h6>{author}</h6>
-                <p id="tag"># {lengthType}</p>
-                <div className="detail-price">
-                  {buyScript ? (
-                    <div className="price-wrap">
-                      <img src={scriptImg} alt="script"></img>
-                      <p>{formatPrice(scriptPrice)}원</p>
+            {buyScript ? (
+              <div className="content">
+                <h4 id="subtitle">대본</h4>
+                <div className="purchase-list">
+                  <div
+                    className="thumbnail"
+                    style={{ backgroundImage: `url(${thumbnailImg})` }}
+                  ></div>
+                  <div className="detail">
+                    <h5>{title}</h5>
+                    <hr></hr>
+                    <h6>{author}</h6>
+                    {/*<p id="tag"># {lengthType}</p>*/}
+                    <div className="detail-price">
+                      <div className="price-wrap">
+                        <img
+                          src={scriptImg}
+                          alt="script"
+                          style={{ width: "0.75rem", height: "0.9375rem" }}
+                        ></img>
+                        <p>{formatPrice(scriptPrice)}원</p>
+                      </div>
                     </div>
-                  ) : null}
-                  {buyPerform ? (
-                    <div style={{ display: "flex", gap: "0.625rem" }}>
-                      <img src={performImg} alt="perform"></img>
-                      <p>{formatPrice(performPrice)}원</p>
-                    </div>
-                  ) : null}
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : null}
+            <hr id="script-perform" />
+            {buyPerform ? (
+              <div className="content">
+                <h4 id="subtitle">공연권</h4>
+                <div className="purchase-list">
+                  <div
+                    className="thumbnail"
+                    style={{ backgroundImage: `url(${thumbnailImg})` }}
+                  ></div>
+                  <div className="detail">
+                    <h5>{title}</h5>
+                    <hr></hr>
+                    <h6>{author}</h6>
+                    {/*<p id="tag"># {lengthType}</p>*/}
+                    <div className="detail-price">
+                      <div className="price-wrap">
+                        <img
+                          src={performImg}
+                          alt="perform"
+                          style={{ width: "1.24994rem", height: "1.24325rem" }}
+                        ></img>
+                        <p>{formatPrice(performPrice)}원</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
           <div className="purchase-side">
             <PurchaseSummaryBox

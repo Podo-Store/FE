@@ -69,6 +69,8 @@
   color: #fff;
   text-align: center;
 
+  cursor: pointer;
+
   /* Paragraph/Large/Bold */
   font-family: "Noto Sans KR";
   font-size: 1.125rem;

@@ -1,9 +1,5 @@
-.purchase {
-  background: #fdfaff;
-}
-
 .purchase .purchase-wrap {
-  margin: 0 15%;
+  margin: 6.66vh 16.5%;
   min-height: 80vh;
 }
 .purchase .purchase-wrap h4 {
@@ -15,11 +11,18 @@
   font-style: normal;
   font-weight: 700;
   line-height: 28px; /* 140% */
-  letter-spacing: -0.4px;
 }
 
-.purchase .purchase-wrap h4#title {
-  margin: 8vh 0;
+.purchase .purchase-wrap h4#subtitle {
+  margin-bottom: 1.25rem;
+  color: #000;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
 }
 
 .purchase .purchase-flex {
@@ -27,7 +30,31 @@
 }
 
 .purchase .list-side {
-  flex: 2.5;
+  flex: 2;
+  padding-right: 2.5rem;
+}
+
+.purchase .list-side hr#script-perform {
+  width: 100%;
+
+  margin-top: 5vh;
+  margin-bottom: 1.5vh;
+
+  border: 0.1rem dashed var(--Main, #6a39c0);
+  border-radius: 10px;
+
+  border-image: repeating-linear-gradient(
+      to right,
+      var(--Main, #6a39c0) 0,
+      var(--Main, #6a39c0) 10px,
+      transparent 10px,
+      transparent 15px
+    )
+    1;
+}
+
+.purchase .list-side .content {
+  margin-top: 3.5vh;
 }
 
 .purchase .purchase-list {
@@ -36,8 +63,8 @@
 }
 
 .purchase .thumbnail {
-  width: 24%;
-  padding-bottom: 24%;
+  width: 12.3125rem;
+  height: 12.3125rem;
   flex-shrink: 0;
 
   border-radius: 20px;
@@ -66,7 +93,7 @@
 
 .purchase .detail hr {
   width: 100%;
-  border: 1px solid #8f8f8f;
+  border: 1px solid var(--purple8, #caabff);
 }
 
 .purchase .detail h6 {
@@ -102,54 +129,18 @@
 }
 
 .purchase .detail-price {
-  margin-top: 1.5rem;
+  margin-top: 0.5rem;
   margin-left: 0.5rem;
 }
 
-.purchase .detail-price p {
-  margin: 0;
+.purchase .detail-price .price-wrap {
+  display: flex;
+  align-items: center;
 }
 
 .purchase .purchase-side {
   flex: 1;
-}
-
-.purchase .purchase-summary-box {
-  border-radius: 42px;
-  border: 1px solid #fff;
-  background: var(--puple-puple1, #f4f2ff);
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(5px);
-
-  padding: 2rem 2rem 1rem;
-}
-
-.purchase .price-wrap {
-  display: flex;
-  gap: 1rem;
-  padding-left: 1rem;
-}
-
-.purchase .price-wrap p {
-  margin: 0;
-  margin-top: 0.5rem;
-  color: #000;
-
-  font-family: "Noto Sans KR";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
-}
-
-.purchase .price-wrap p:last-child {
-  /* 오른쪽 정렬 */
-  margin-left: auto;
-}
-
-.purchase .price-wrap:last-child p {
-  font-size: 18px;
-  line-height: 28px;
+  margin-top: 7vh;
 }
 
 .purchase .purchase-btn {
@@ -159,9 +150,9 @@
 
   border: 0;
   border-radius: 30px;
-  background: #d9d9d9;
+  background: var(--Main);
 
-  color: #000;
+  color: #ffffff;
   text-align: center;
 
   font-family: "Noto Sans KR";

@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       const response = await axios.post(
-        `${SERVER_URL}/auth/newToken`,
+        `${SERVER_URL}auth/newToken`,
         {},
         {
           headers: {

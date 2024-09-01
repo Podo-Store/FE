@@ -1,12 +1,12 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useCallback, useEffect, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import Loading from "../Loading";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
 
@@ -15,9 +15,9 @@ import { useRequest } from "../../hooks/useRequest";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
-import downloadImg from "../../assets/image/myPage/download.svg";
 
 import "./ScriptManageDetail.css";
+import FileInputBox from "../../components/file/FileInputBox";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -38,11 +38,14 @@ const ScriptManageDetail = () => {
   // 업로드된 설명 파일
   const [uploadedFile, setUploadedFile] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
   useRequest(async () => {
     try {
+      setIsLoading(true);
       const response = await axios.get(`${SERVER_URL}profile/detail`, {
         headers: {
           "Content-Type": "application/json",
@@ -62,6 +65,7 @@ const ScriptManageDetail = () => {
     } catch (error) {
       alert(error.response.data.error || "예상치 못한 오류가 발생했습니다.");
     }
+    setIsLoading(false);
   });
 
   useEffect(() => {
@@ -75,14 +79,6 @@ const ScriptManageDetail = () => {
       setSelectedOption("notSale");
     }
   }, [saleScriptStatus, salePerformStatus]);
-
-  const onDrop = useCallback((acceptedFiles) => {
-    // 첫 번째 파일만 처리
-    const file = acceptedFiles[0];
-    setUploadedFile(file);
-  }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   // 사진을 선택했을 경우
   const onClickChangeThumbnailImg = () => {
@@ -162,6 +158,31 @@ const ScriptManageDetail = () => {
     }
   };
 
+  const onClickDelete = async () => {
+    try {
+      await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+      alert("작품이 삭제되었습니다.");
+      navigate("/mypage/scriptmanage");
+    } catch (error) {
+      if (error.response.data.error === "작가가 아님") {
+        alert("작가 본인이 쓴 작품만 삭제할 수 있습니다.");
+      } else if (error.response.data.error === "심사 중") {
+        alert("심사 중인 작품입니다.");
+      } else {
+        alert(error.response.data.error);
+      }
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="script-manage-detail">
       <MainNav />
@@ -236,31 +257,18 @@ const ScriptManageDetail = () => {
             </div>
           </div>
           <div className="description-wrap">
-            <p>작품 설명</p>
-            <div
-              className="script-description"
-              {...getRootProps()}
-              style={{
-                border: "2px dashed #007bff",
-                padding: "20px",
-                textAlign: "center",
-                cursor: "pointer",
+            <FileInputBox
+              title="작품 설명"
+              onFileUpload={(file) => {
+                setUploadedFile(file);
               }}
-            >
-              <input {...getInputProps()} />
-              {isDragActive ? (
-                <p>파일을 여기에 드롭하세요...</p>
-              ) : uploadedFile ? (
-                <p>업로드된 파일: {uploadedFile.name}</p>
-              ) : (
-                <p>파일을 마우스로 끌어오세요.</p>
-              )}
-              <img src={downloadImg} alt="download" />
-              <p id="pdf">PDF</p>
-              <p id="find">내 PC에서 찾기</p>
-            </div>
+              style={{ width: "38rem" }}
+            />
+
             <div className="bottom-wrap">
-              <p id="delete">작품 삭제</p>
+              <p id="delete" onClick={onClickDelete}>
+                작품 삭제
+              </p>
               <div className="btn-wrap">
                 <button
                   id="cancel"

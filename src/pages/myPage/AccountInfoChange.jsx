@@ -8,14 +8,14 @@ import Footer from "../Footer";
 
 import MyPageMenu from "../../components/myPage/MyPageMenu";
 import EnterForm from "../../components/EnterForm";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
-import AuthPWInputField from "./../../components/inputField/AuthInputField/AuthPwInputField.jsx";
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField.jsx";
+import { AuthInputField, AuthSideBtnInputField } from "../../components/inputField";
+import AuthPWInputField from "../../components/inputField/auth/AuthPwInputField.jsx";
+import PartialLoading from "../../components/loading/PartialLoading.jsx";
 
 import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
-import { PW_REGEX } from "../../constants/passwordRegex";
+import { PW_REGEX, NAME_REGEX } from "../../constants/regex";
 
 import check from "../../assets/image/myPage/check.svg";
 
@@ -45,6 +45,8 @@ const AccountInfoChange = () => {
   // 계정 삭제
   const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
   const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const { userNickname } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -77,6 +79,7 @@ const AccountInfoChange = () => {
   };
 
   const fetchAccountInfo = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${SERVER_URL}profile/account`, {
         headers: {
@@ -90,6 +93,7 @@ const AccountInfoChange = () => {
     } catch (error) {
       alert("회원 정보 조회 실패");
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -109,8 +113,7 @@ const AccountInfoChange = () => {
   }, [pw, pwCheck]);
 
   useEffect(() => {
-    const regex = /^[가-힣a-zA-Z0-9]{3,8}$/;
-    if (regex.test(nickName)) {
+    if (NAME_REGEX.test(nickName)) {
       setNickNameValid(true);
     } else {
       setNickNameValid(false);
@@ -165,7 +168,7 @@ const AccountInfoChange = () => {
   // 회원 탈퇴
   const onClickDeleteAccountConfirm = async () => {
     try {
-      await axios.delete(`${SERVER_URL}auth/delete`, {
+      await axios.delete(`${SERVER_URL}profile/delete`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -247,6 +250,8 @@ const AccountInfoChange = () => {
                   <button onClick={onClickDeleteAccountConfirm}>회원 탈퇴</button>
                 </div>
               </div>
+            ) : isLoading ? (
+              <PartialLoading />
             ) : (
               <EnterForm onSubmit={onClickCompleteBtn}>
                 {/* 수정 페이지 */}

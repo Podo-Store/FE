@@ -12,10 +12,11 @@ import PostWorkPopup from "./PostWorkPopup";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import infoBtn from "../../assets/image/post/infoBtn.svg";
+import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
 
 import "./PostWork.css";
+import FileInputBox from "../../components/file/FileInputBox";
 
 const PostWork = () => {
   const navigate = useNavigate();
@@ -28,15 +29,6 @@ const PostWork = () => {
   // 팝업 메뉴
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
-
-  const onClickFileSelect = (event) => {
-    const uploadedFile = event.target.files[0];
-    if (uploadedFile) {
-      setFile(uploadedFile);
-      setFileName(uploadedFile.name);
-      setFileSelected(true);
-    }
-  };
 
   const onClickUpload = async () => {
     if (!file) {
@@ -108,24 +100,20 @@ const PostWork = () => {
                   }}
                 />
               </div>
-              <div className="upload-content">
-                <button id="select-file" onClick={() => fileInputRef.current.click()}>
-                  파일 선택
-                </button>
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={onClickFileSelect}
-                  accept="application/pdf"
-                />
-                <div className="file-info">{fileName}</div>
-              </div>
-              <div className="upload-btn-div">
-                <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
-                  작품 보내기
-                </button>
-              </div>
+
+              <FileInputBox
+                onFileUpload={(file) => {
+                  if (file) {
+                    setFile(file);
+                    setFileName(file.name);
+                    setFileSelected(true);
+                  }
+                }}
+              />
+
+              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
+                작품 보내기
+              </button>
             </div>
           </div>
         </div>

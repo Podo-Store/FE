@@ -1,10 +1,12 @@
-.popup {
+.post-popup {
   /* jsx 코드에 style 정의된 상태 */
   position: absolute;
-  width: 293px;
+  width: 23.75rem;
+  height: 23rem;
+  flex-shrink: 0;
   cursor: move;
 
-  background: #f4f2ff;
+  background: #fff;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -12,7 +14,7 @@
   z-index: 1000;
 }
 
-.popup .close-button {
+.post-popup .close-button {
   position: absolute;
   top: 3%;
   right: 3%;
@@ -21,13 +23,15 @@
   cursor: pointer;
 }
 
-.popup .popup-content {
+.post-popup .popup-content p {
+  color: #000;
+
+  /* Paragraph/Small/Regular */
   font-family: "Noto Sans KR";
+  font-size: 0.875rem;
   font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: #000000;
+  font-weight: 400;
+  line-height: 1.25rem; /* 142.857% */
 
   margin: 15px;
 }

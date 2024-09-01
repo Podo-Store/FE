@@ -1,0 +1,64 @@
+.purchase-abort .purchase-abort-wrap {
+  margin: 0 15%;
+  min-height: 90vh;
+}
+
+.purchase-abort .purchase-abort-wrap h5 {
+  margin-bottom: 1vh;
+
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 140% */
+}
+
+.purchase-abort .purchase-abort-wrap h5#title {
+  margin: 7vh 0;
+}
+
+.purchase-abort .purchase-abort-content {
+  margin-top: 20vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.purchase-abort .purchase-abort-content p {
+  margin-top: 0.1vh;
+
+  color: var(--grey4, #bababa);
+
+  /* Paragraph/Large/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 155.556% */
+}
+
+.purchase-abort .purchase-abort-content button {
+  margin-top: 4.5vh;
+
+  width: 12.1875rem;
+  height: 2.8125rem;
+
+  border: none;
+  border-radius: 1.875rem;
+  background-color: var(--Main, #6a39c0);
+
+  color: #fff;
+
+  cursor: pointer;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
+}

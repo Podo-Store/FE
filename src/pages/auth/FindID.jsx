@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthSideBtnInputField from "../../components/inputField/AuthInputField/AuthSideBtnInputField/AuthSideBtnInputField";
+import AuthSideBtnInputField from "../../components/inputField/auth/sideBtn/AuthSideBtnInputField.jsx";
 import BottomBtn from "../../components/auth/BottomBtn";
 import InnerBox from "./../../components/auth/InnerBox.jsx";
 

@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
-import { BottomBtn, Box, RectangleForm } from "../../components/auth";
-import AuthInputField from "../../components/inputField/AuthInputField/AuthInputField";
 
-import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "../../contexts/AuthContext";
 
+import { BottomBtn, Box, RectangleForm } from "../../components/auth";
+import { AuthInputField, AuthPwInputField } from "../../components/inputField";
+
+import { SERVER_URL } from "../../constants/ServerURL";
+
 import "./SignIn.css";
-import AuthPwInputField from "../../components/inputField/AuthInputField/AuthPwInputField";
+import Loading from "../Loading";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -22,6 +24,8 @@ function SignIn() {
   const [isIdPwMatch, setIsIdPwMatch] = useState(true);
 
   const [idPwNull, setIdPwNull] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -43,7 +47,9 @@ function SignIn() {
 
   const onClickConfirmButton = async () => {
     // initialize
+    setIsLoading(true);
     setIsIdPwMatch(false);
+
     try {
       const response = await axios.post(`${SERVER_URL}auth/signin`, {
         userId: id,
@@ -66,7 +72,12 @@ function SignIn() {
       setIsIdPwMatch(false);
     }
     setShowErrorMsg(true);
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className="signIn">

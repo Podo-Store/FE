@@ -1,18 +1,25 @@
-import Footer from "../Footer";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import MainNav from "../MainNav";
-import "./List.css";
+import Footer from "../Footer";
+
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
-import circleInfoBtn from "./../../assets/image/post/list/circleInfoBtn.svg";
+import PartialLoading from "../../components/loading/PartialLoading.jsx";
+
+import { useRequest } from "../../hooks/useRequest.js";
+
+import { SERVER_URL } from "../../constants/ServerURL.js";
+
+import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
-import { useState } from "react";
-import axios from "axios";
-import { SERVER_URL } from "../../constants/ServerURL.js";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
-import { useRequest } from "../../hooks/useRequest.js";
+
+import "./List.css";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -20,9 +27,11 @@ const List = () => {
   const [longPlays, setLongPlays] = useState([]);
   const [shortPlays, setShortPlays] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleInfoBtnClick = (event) => {
+  const onClickInfoBtn = (event) => {
     const rect = event.target.getBoundingClientRect();
     const x = rect.left + window.scrollX;
     const y = rect.top + window.scrollY;
@@ -32,6 +41,7 @@ const List = () => {
 
   useRequest(async () => {
     try {
+      setIsLoading(true);
       let response;
       // 로그아웃 상태
       if (!Cookies.get("accessToken")) {
@@ -52,12 +62,11 @@ const List = () => {
 
       setLongPlays(response.data.longPlay);
       setShortPlays(response.data.shortPlay);
-    } catch (error) {
-      console.error(error);
-    }
+    } catch (error) {}
+    setIsLoading(false);
   });
 
-  const handleThumbnailClick = (id) => {
+  const onClickThumbnail = (id) => {
     navigate(`/list/detail/${id}`);
   };
 
@@ -67,13 +76,8 @@ const List = () => {
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
       <div className="list-wrap">
         <div className="title">
-          <h5>작품 둘러보기</h5>
-          <img
-            src={circleInfoBtn}
-            alt="info btn"
-            onClick={handleInfoBtnClick}
-            style={{ cursor: "pointer" }}
-          />
+          <h1>작품 둘러보기</h1>
+          <img src={circleInfoBtn} alt="info btn" onClick={onClickInfoBtn} />
         </div>
         <div className="banner-wrap">
           <div className="banner"></div>
@@ -87,17 +91,21 @@ const List = () => {
             <img src={sparkles} alt="sparkles"></img>
           </div>
           <div className="work-list-content">
-            {longPlays.map((play) => (
-              <ListThumbnail
-                key={play.id}
-                thumbnailImg={play.imagePath}
-                title={play.title}
-                author={play.writer}
-                scriptPrice={play.scriptPrice}
-                performPrice={play.performancePrice}
-                onClick={() => handleThumbnailClick(play.id)}
-              />
-            ))}
+            {isLoading ? (
+              <PartialLoading />
+            ) : (
+              longPlays.map((play) => (
+                <ListThumbnail
+                  key={play.id}
+                  thumbnailImg={play.imagePath}
+                  title={play.title}
+                  author={play.writer}
+                  scriptPrice={play.scriptPrice}
+                  performPrice={play.performancePrice}
+                  onClick={() => onClickThumbnail(play.id)}
+                />
+              ))
+            )}
           </div>
         </div>
 
@@ -108,17 +116,21 @@ const List = () => {
             <img src={sparkles} alt="sparkles"></img>
           </div>
           <div className="work-list-content">
-            {shortPlays.map((play) => (
-              <ListThumbnail
-                key={play.id}
-                thumbnailImg={play.imagePath}
-                title={play.title}
-                author={play.writer}
-                scriptPrice={play.scriptPrice}
-                performPrice={play.performancePrice}
-                onClick={() => handleThumbnailClick(play.id)}
-              />
-            ))}
+            {isLoading ? (
+              <PartialLoading />
+            ) : (
+              shortPlays.map((play) => (
+                <ListThumbnail
+                  key={play.id}
+                  thumbnailImg={play.imagePath}
+                  title={play.title}
+                  author={play.writer}
+                  scriptPrice={play.scriptPrice}
+                  performPrice={play.performancePrice}
+                  onClick={() => onClickThumbnail(play.id)}
+                />
+              ))
+            )}
           </div>
         </div>
       </div>

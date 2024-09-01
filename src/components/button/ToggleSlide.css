@@ -1,0 +1,100 @@
+.toggle-slide {
+  position: relative;
+  width: 12.3125rem;
+  height: 2.75rem;
+
+  padding: 2px;
+
+  border-radius: 2.5rem;
+  background: var(--grey-grey-3, #e2e2e2);
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.toggle-slide .toggle-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 6.8125rem;
+  height: 2.75rem;
+
+  padding: 8px 12px;
+
+  border-radius: 2.5rem;
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.25);
+  cursor: pointer;
+
+  background-color: var(--Main, #6a39c0);
+  transition: all 0.2s ease;
+
+  position: absolute;
+  left: 6.095rem;
+
+  color: var(--light-text-color, #fff);
+  text-align: center;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 140% */
+}
+
+.toggle-slide .script {
+  background-color: var(--Main, #6a39c0);
+  left: 2px;
+}
+
+.toggle-slide .toggle-labels {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 1rem;
+  pointer-events: none;
+}
+
+.toggle-slide .toggle-labels span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex: 1;
+
+  opacity: 0;
+  transition: opacity 0.2s ease 0.1s; /* 0.1s delay with 0.2s transition */
+
+  color: var(--light-text-color, #fff);
+  text-align: center;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 140% */
+}
+
+.toggle-slide .toggle-labels span:first-child {
+  opacity: 1;
+  transform: translate(-0.6rem, -0.1rem);
+}
+
+.toggle-slide .toggle-labels span:last-child {
+  opacity: 1;
+  transform: translate(-1.1rem, -0.1rem);
+}
+
+.toggle-slide .toggle-labels span:first-child:empty,
+.toggle-slide .toggle-labels span:last-child:empty {
+  opacity: 0;
+  transition-delay: 0.1s; /* Apply delay only when empty */
+}

@@ -1,0 +1,80 @@
+.PurchaseSuccess .purchase-success {
+  margin: 0 15%;
+  min-height: 80vh;
+}
+
+.PurchaseSuccess .purchase-success h1 {
+  margin-bottom: 1vh;
+
+  color: #000;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 140% */
+}
+
+.PurchaseSuccess .purchase-success h1#title {
+  margin: 7vh 0;
+}
+
+.PurchaseSuccess .purchase-success-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.PurchaseSuccess .p-wrap p {
+  color: var(--grey4, #bababa);
+
+  /* Paragraph/Large/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.75rem; /* 155.556% */
+}
+
+.PurchaseSuccess .p-wrap p:last-child {
+  margin-bottom: 3vh;
+}
+
+.PurchaseSuccess .order-num {
+  display: flex;
+  justify-content: space-between;
+}
+
+.PurchaseSuccess .purchase-summary {
+  width: 25.8125rem;
+}
+
+.PurchaseSuccess .purchase-success .btn-wrap {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 4.5vh;
+}
+
+.PurchaseSuccess .purchase-success .btn-wrap button {
+  width: 12.1875rem;
+  height: 2.8125rem;
+  flex-shrink: 0;
+
+  border: none;
+  border-radius: 1.875rem;
+  background: var(--Main, #6a39c0);
+
+  color: #fff;
+  text-align: center;
+
+  cursor: pointer;
+
+  /* Paragraph/Large/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
+}

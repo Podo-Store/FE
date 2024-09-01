@@ -7,7 +7,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
   const navigate = useNavigate();
   return (
     <div className="myPage-menu-side">
-      <h1>알맹이 {nickname} 님,</h1>
+      <h1>{nickname} 님,</h1>
       <h3>오늘도 달콤한 하루 되세요!</h3>
       <div
         className={currentPage === "0" ? "select-menu-btn selected" : "select-menu-btn"}

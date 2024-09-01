@@ -1,10 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
+
 import mainVideo from "../assets/video/idle.mp4";
 import changeVideo from "../assets/video/change.mp4";
 
 import "./Main.css";
 
-const Main = ({ video1, video2 }) => {
+const Main = () => {
   const [currentVideo, setCurrentVideo] = useState(mainVideo);
   const [videoSwitch, setVideoSwitch] = useState(false);
 

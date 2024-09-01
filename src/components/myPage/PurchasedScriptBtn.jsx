@@ -1,52 +1,80 @@
 import axios from "axios";
-import { SERVER_URL } from "../../constants/ServerURL";
 import Cookies from "js-cookie";
-import "./PurchasedScriptBtn.css";
+import { useNavigate } from "react-router-dom";
 
-const ContractStatus = {
-  NON_SALE: 0,
-  REQUEST: 1,
-  PROCESSING: 2,
-  COMPLETE: 3,
+import { SERVER_URL } from "../../constants/ServerURL";
+
+import "./PurchasedPerformBtn";
+
+const PurchaseStatus = {
+  NON_PURCHASED: 0,
+  SCRIPT_ONLY: 1,
+  SCRIPT_PERFORM_BOTH: 2,
 };
 
-const PurchasedScriptBtn = ({ contractStatus, id, title }) => {
-  const onClickRequestBtn = async () => {
-    try {
-      const response = await axios.post(
-        `${SERVER_URL}profile/mailSend`,
-        { id: id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      );
-      if (response.data === true) {
-        alert("메일이 발송되었습니다.");
-        window.location.reload();
-      }
-    } catch (error) {
-      alert(error.response.data.error);
-    }
-  };
+const BuyPerformance = {
+  NON_SALE: 0,
+  CONTRACT_REQUIRED: 1,
+  CONTRACT_PROCEEDING: 2,
+  PURCHASE_POSSIBLE: 3,
+};
 
-  const onClickOpenContract = async () => {
-    try {
-      const response = await axios.get(`${SERVER_URL}profile/contract`, {
-        headers: {
-          "Content-Type": "multipart/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-        params: {
-          id: id,
-        },
-      });
-      window.open(response.data);
-    } catch (error) {
-      alert(error.response.data.error);
+// TODO: 안쓰는거 삭제
+
+/**
+ * 구매한 대본 페이지 버튼 component
+ * @param {number} id - 구매 내역의 id
+ * @param {number} productId - 작품의 개별 id
+ * @param {Object} purchaseStatus - 대본 / 공연권을 구매했는지 여부
+ * @param {boolean} purchaseStatus[0] - 대본
+ * @param {boolean} purchaseStatus[1] - 공연권
+ * @param {number} buyPerformance - 0: 구매 불가, 1: 계약 필요, 2: 구매 가능 아이콘 추가
+ * @returns
+ */
+const PurchasedScriptBtn = ({
+  // purchaseStatus[0 / 1]: 대본 / 공연권을 구매했는지 여부
+  purchaseStatus,
+  isScriptPurchased,
+  isPerformPurchased,
+  id,
+  title,
+  productId,
+  buyPerformance,
+}) => {
+  const navigate = useNavigate();
+
+  let purchaseStatusNum;
+  // Check if purchaseStatus is defined and is an array with at least 2 elements
+  if (Array.isArray(purchaseStatus) && purchaseStatus.length >= 2) {
+    if (purchaseStatus[0] === false && purchaseStatus[1] === false) {
+      purchaseStatusNum = PurchaseStatus.NON_PURCHASED;
+    } else if (purchaseStatus[0] === true && purchaseStatus[1] === false) {
+      purchaseStatusNum = PurchaseStatus.SCRIPT_ONLY;
+    } else {
+      purchaseStatusNum = PurchaseStatus.SCRIPT_PERFORM_BOTH;
     }
+  } else {
+    // Handle the case where purchaseStatus is not defined or not an array
+    purchaseStatusNum = PurchaseStatus.NON_PURCHASED;
+  }
+
+  /*
+  if (isScriptPurchased === false && isPerformPurchased === false) {
+    purchaseStatusNum = PurchaseStatus.NON_PURCHASED;
+  } else if (isScriptPurchased === true && isPerformPurchased === false) {
+    purchaseStatusNum = PurchaseStatus.SCRIPT_ONLY;
+  } else {
+    purchaseStatusNum = PurchaseStatus.SCRIPT_PERFORM_BOTH;
+  }
+    */
+
+  const onClickPurchasePerform = async () => {
+    navigate(`/purchase/${productId}`, {
+      state: {
+        isScriptSelected: false,
+        isPerformSelected: true,
+      },
+    });
   };
 
   const onClickDownloadScript = async () => {
@@ -77,25 +105,88 @@ const PurchasedScriptBtn = ({ contractStatus, id, title }) => {
   return (
     <div className="purchased-script-btn">
       {
+        /*
         {
-          [ContractStatus.NON_SALE]: null,
-          [ContractStatus.REQUEST]: (
-            <button style={{ backgroundColor: "#3876F2" }} onClick={onClickRequestBtn}>
-              공연권 신청
+          [PurchaseStatus.NON_PURCHASED]: null,
+          [PurchaseStatus.SCRIPT_ONLY]: (
+            <button
+              style={{
+                backgroundColor: "#ffffff",
+                border: "3px solid var(--Main, #6A39C0)",
+                color: "var(--Main, #6A39C0)",
+              }}
+              onClick={onClickPurchasePerform}
+            >
+              공연권 구매
             </button>
           ),
-          [ContractStatus.PROCESSING]: (
-            <button style={{ backgroundColor: "#BABABA" }}>계약 중</button>
-          ),
-          // TODO: 계약서 열람 API 연결
-          [ContractStatus.COMPLETE]: (
-            <button style={{ backgroundColor: "#D9ADCD" }} onClick={onClickOpenContract}>
-              계약서 열람
+          [PurchaseStatus.SCRIPT_PERFORM_BOTH]: (
+            // disabled 상태
+            <button style={{ backgroundColor: "var(--grey4, #BABABA)", cursor: "default" }}>
+              공연권 구매
             </button>
           ),
-        }[contractStatus]
+        }[purchaseStatusNum]
+      }{
+        */
+        {
+          [BuyPerformance.NON_SALE]: null,
+          // [BuyPerformance.CONTRACT_REQUIRED]: (
+          //   // disabled 상태
+          //   <button style={{ backgroundColor: "var(--grey4, #BABABA)", cursor: "default" }}>
+          //     공연권 구매
+          //   </button>
+          // ),
+          // [BuyPerformance.CONTRACT_PROCEEDING]: (
+          //   // disabled 상태
+          //   <button style={{ backgroundColor: "var(--grey4, #BABABA)", cursor: "default" }}>
+          //     공연권 구매
+          //   </button>
+          // ),
+          [BuyPerformance.CONTRACT_REQUIRED]: (
+            // enabled 상태
+            <button
+              style={{
+                backgroundColor: "#ffffff",
+                border: "3px solid var(--Main, #6A39C0)",
+                color: "var(--Main, #6A39C0)",
+              }}
+              onClick={onClickPurchasePerform}
+            >
+              공연권 구매
+            </button>
+          ),
+          [BuyPerformance.CONTRACT_PROCEEDING]: (
+            // enabled 상태
+            <button
+              style={{
+                backgroundColor: "#ffffff",
+                border: "3px solid var(--Main, #6A39C0)",
+                color: "var(--Main, #6A39C0)",
+              }}
+              onClick={onClickPurchasePerform}
+            >
+              공연권 구매
+            </button>
+          ),
+          [BuyPerformance.PURCHASE_POSSIBLE]: (
+            // enabled 상태
+            <button
+              style={{
+                backgroundColor: "#ffffff",
+                border: "3px solid var(--Main, #6A39C0)",
+                color: "var(--Main, #6A39C0)",
+              }}
+              onClick={onClickPurchasePerform}
+            >
+              공연권 구매
+            </button>
+          ),
+        }[buyPerformance]
       }
-      <button onClick={onClickDownloadScript}>대본 받기</button>
+      <button style={{ backgroundColor: "var(--Main, #6A39C0)" }} onClick={onClickDownloadScript}>
+        대본 받기
+      </button>
     </div>
   );
 };

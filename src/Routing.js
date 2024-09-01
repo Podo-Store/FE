@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
+
 import SignUp from "./pages/auth/SignUp";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
@@ -9,12 +10,16 @@ import List from "./pages/work/List";
 import Detail from "./pages/work/Detail";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
-import PurchasedScript from "./pages/myPage/PurchasedScript";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
-import AccountInfoChange from "./pages/myPage/AccountInfoChange";
+import Abort from "./pages/payment/Abort";
+import PurchasedScript from "./pages/myPage/PurchasedScript";
 import ScriptManage from "./pages/myPage/ScriptManage";
-import ProtectedRoute from "./components/routes/ProtectedRoute";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
+import AccountInfoChange from "./pages/myPage/AccountInfoChange";
+import Loading from "./pages/Loading";
+import NotFound from "./NotFound";
+
+import ProtectedRoute from "./components/routes/ProtectedRoute";
 
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -39,6 +44,7 @@ function Routing() {
               path="/purchase/success"
               element={<ProtectedRoute element={<PurchaseSuccess />} />}
             />
+            <Route path="/purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
             <Route path="/post" element={<PostWork />} />
 
             <Route
@@ -57,6 +63,12 @@ function Routing() {
               path="/mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}
             />
+
+            {/* 테스트용 routing */}
+            <Route path="/test/loading" element={<Loading />} />
+            <Route path="/test/404" element={<NotFound />} />
+
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

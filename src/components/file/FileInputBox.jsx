@@ -22,6 +22,12 @@ const FileInputBox = ({ title, onFileUpload, style }) => {
 
       // 첫 번째 파일만 처리
       const file = acceptedFiles[0];
+
+      if (file.type !== "application/pdf") {
+        alert("PDF 파일만 업로드할 수 있습니다.");
+        return;
+      }
+
       setUploadedFile(file);
       // 상위 component 전달
       onFileUpload(file);
@@ -29,7 +35,10 @@ const FileInputBox = ({ title, onFileUpload, style }) => {
     [onFileUpload, navigate]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "application/pdf",
+  });
 
   const handleClick = (e) => {
     if (!Cookies.get("accessToken")) {

@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./PurchasedPerformBtn.css";
+import "./PurchasedScriptBtn.css";
 
 const ContractStatus = {
   NON_SALE: 0,

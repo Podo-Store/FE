@@ -17,7 +17,7 @@ import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
-import NotFound from "./NotFound";
+import NotFound from "./pages/NotFound";
 
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 

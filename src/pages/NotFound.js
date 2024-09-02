@@ -1,5 +1,5 @@
-import MainNav from "./pages/MainNav";
-import Footer from "./pages/Footer";
+import MainNav from "./MainNav";
+import Footer from "./Footer";
 
 import "./NotFound.css";
 

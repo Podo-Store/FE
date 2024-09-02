@@ -8,7 +8,7 @@ import "./ListPopup.css";
 const ListPopup = ({ onClose, position }) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest(".list-popup")) {
+      if (!event.target.closest(".list-popup") && !event.target.closest(".info-button")) {
         onClose();
       }
     };

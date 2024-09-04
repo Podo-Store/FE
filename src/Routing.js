@@ -64,11 +64,11 @@ function Routing() {
               element={<ProtectedRoute element={<AccountInfoChange />} />}
             />
 
+            <Route path="*" element={<NotFound />} />
+
             {/* 테스트용 routing */}
             <Route path="/test/loading" element={<Loading />} />
             <Route path="/test/404" element={<NotFound />} />
-
-            <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

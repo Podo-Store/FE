@@ -17,3 +17,7 @@
 .a-items-center {
   align-items: center;
 }
+
+.min-height {
+  min-height: 90vh;
+}

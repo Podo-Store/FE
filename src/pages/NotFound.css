@@ -4,6 +4,8 @@
 }
 
 .Not-Found .not-found h1 {
+  margin-bottom: 1.5rem;
+
   color: var(--Main, #6a39c0);
 
   /* BIG */
@@ -16,9 +18,6 @@
 }
 
 .Not-Found .not-found p {
-  margin-top: 1.5rem;
-  margin-bottom: 45vh;
-
   color: var(--grey6, #777);
 
   /* Paragraph/Large/Bold */

@@ -80,7 +80,7 @@ const List = () => {
     <div className="list">
       <MainNav />
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
-      <div className="list-wrap">
+      <div className="min-height list-wrap">
         <div className="title">
           <h1>작품 둘러보기</h1>
           <img

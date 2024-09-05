@@ -4,6 +4,7 @@ import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 
 import "./ListPopup.css";
+import "./../../styles/text.css";
 
 const ListPopup = ({ onClose, position }) => {
   useEffect(() => {
@@ -29,12 +30,17 @@ const ListPopup = ({ onClose, position }) => {
       }}
     >
       <div>
-        <img src={scriptImg} alt="대본권 가격" />
-        <p>대본권 가격</p>
+        <img id="script" src={scriptImg} alt="대본권 가격" />
+        <p className="p-xs-regular">대본권 가격</p>
       </div>
       <div>
-        <img src={performImg} alt="공연권 가격" />
-        <p>공연권 가격</p>
+        <img
+          id="perform"
+          src={performImg}
+          alt="공연권 가격"
+          style={{ width: "0.9375rem", height: "0.9375rem" }}
+        />
+        <p className="p-xs-regular">공연권 가격</p>
       </div>
     </div>
   );

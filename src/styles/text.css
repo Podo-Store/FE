@@ -9,14 +9,22 @@
 }
 
 .p-xs-regular {
-  color: #000;
-
   /* Paragraph/XS/Regular */
   font-family: "Noto Sans KR";
   font-size: 0.625rem;
   font-style: normal;
   font-weight: 400;
   line-height: 0.875rem; /* 140% */
+}
+
+.p-xs-under {
+  /* Paragraph/XS/Under */
+  font-family: "Noto Sans KR";
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem; /* 140% */
+  text-decoration-line: underline;
 }
 
 .p-small-medium {
@@ -39,8 +47,16 @@
   text-align: center;
 }
 
+.c-black {
+  color: #000;
+}
+
 .c-main {
   color: var(--Main, #9e30f4);
+}
+
+.c-grey4 {
+  color: var(--grey4, #bababa);
 }
 
 .c-grey {

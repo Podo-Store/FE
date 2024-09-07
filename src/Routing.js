@@ -18,6 +18,7 @@ import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
+import SignUpDefault from "./pages/auth/SignUpDefault";
 
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 
@@ -32,7 +33,7 @@ function Routing() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signup" element={<SignUpDefault />} />
             <Route path="/signup/success" element={<SignUpSuccess />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signin/find" element={<FindBar />} />
@@ -69,6 +70,7 @@ function Routing() {
             {/* 테스트용 routing */}
             <Route path="/test/loading" element={<Loading />} />
             <Route path="/test/404" element={<NotFound />} />
+            <Route path="/test/signup" element={<SignUpDefault />} />
           </Routes>
         </AuthProvider>
       </BrowserRouter>

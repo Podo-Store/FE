@@ -2,22 +2,39 @@
   display: flex;
 }
 
+.f-dir-column {
+  display: flex;
+  flex-direction: column;
+}
+
 .j-content-center {
+  display: flex;
   justify-content: center;
 }
 
 .j-content-end {
+  display: flex;
   justify-content: flex-end;
 }
 
 .j-content-between {
+  display: flex;
   justify-content: space-between;
 }
 
 .a-items-center {
+  display: flex;
   align-items: center;
 }
 
 .min-height {
   min-height: 90vh;
+}
+
+.c-default {
+  cursor: default;
+}
+
+.c-pointer {
+  cursor: pointer;
 }

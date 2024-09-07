@@ -1,6 +1,9 @@
-import AuthInputField from "./AuthInputField";
-import invisible from "../../../assets/image/auth/invisible.svg";
 import { useState } from "react";
+
+import AuthInputField from "./AuthInputField";
+
+import invisible from "../../../assets/image/auth/invisible.svg";
+import visible from "../../../assets/image/auth/visible.svg";
 
 const AuthPwInputField = ({
   title,
@@ -12,29 +15,34 @@ const AuthPwInputField = ({
   showErrorMsg,
   isValid,
   validMessage,
+
+  // 커스텀 에러 메시지: AuthInputField를 사용한 component에서 error 메시지 정의
+  errorMessageCustomFlag = false,
 }) => {
-  const [toggleInvisible, setToggleInvisible] = useState(true);
+  const [toggleVisibility, setToggleInvisible] = useState(true);
 
   return (
     <AuthInputField
       title={title}
-      type={toggleInvisible ? "password" : "text"}
+      type={toggleVisibility ? "password" : "text"}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
       rightElement={
         <img
-          src={invisible}
-          alt="invisible"
+          src={toggleVisibility ? invisible : visible}
+          alt="visibility toggle"
           onClick={() => {
-            setToggleInvisible(!toggleInvisible);
+            setToggleInvisible(!toggleVisibility);
           }}
+          style={!toggleVisibility ? { transform: "translate(0.1rem, 0)" } : {}}
         />
       }
       errorMessage={errorMessage}
       validMessage={validMessage}
       isValid={isValid}
       showErrorMsg={showErrorMsg}
+      errorMessageCustomFlag={errorMessageCustomFlag}
     />
   );
 };

@@ -1,0 +1,24 @@
+.checkbox-container {
+  padding-top: 1.75rem;
+}
+
+.checkbox-container .checkbox-item {
+  margin-bottom: 10px;
+}
+
+.checkbox-container .checkbox-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.31rem;
+}
+
+.checkbox-container hr {
+  margin: 0;
+  margin-top: 0.47rem;
+  margin-bottom: 0.53rem;
+  border: 0.5px solid var(--purple8, #caabff);
+}
+
+.checkbox-container p#open {
+  margin-left: 0.31rem;
+}

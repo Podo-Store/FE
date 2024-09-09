@@ -6,6 +6,7 @@ import BottomBtn from "../../components/auth/BottomBtn";
 import { AuthInputField, AuthSideBtnInputField } from "../../components/inputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
+import { ID_REGEX, EMAIL_REGEX } from "./../../constants/regex.js";
 
 import "./FindBar.css";
 
@@ -20,6 +21,8 @@ const FindPW = () => {
   const [emailValid, setEmailValid] = useState(false);
   const [emailCodeValid, setEmailCodeValid] = useState(false);
 
+  const [emailSendBtnClicked, setEmailSendBtnClicked] = useState(false);
+  const [emailCheckErrorMsg, setEmailCheckErrorMsg] = useState("");
   const [emailSended, setEmailSended] = useState(false);
   const [sendEmailBtnEnabled, setSendEmailBtnEnabled] = useState(false);
   const [sendEmailCodeConfirmBtnEnabled, setEmailCodeConfirmBtnEnabled] = useState(false);
@@ -44,8 +47,7 @@ const FindPW = () => {
       setShowIdErrorMsg(false);
     }
 
-    const regex = /^[a-zA-Z0-9]{5,10}$/;
-    if (regex.test(id)) {
+    if (ID_REGEX.test(id)) {
       setIdValid(true);
     } else {
       setIdValid(false);
@@ -78,9 +80,7 @@ const FindPW = () => {
       setShowEmailErrorMsg(false);
     }
 
-    const regex =
-      /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
-    if (regex.test(email)) {
+    if (EMAIL_REGEX.test(email)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);
@@ -97,7 +97,12 @@ const FindPW = () => {
   }, [email, emailValid]);
 
   const onClickSendEmailBtn = async () => {
-    // 이메일 가입 여부 확인 API 호출, 조건문 사용
+    // initialize
+    setEmailSendBtnClicked(false);
+
+    setEmailSendBtnClicked(true);
+    setEmailCheckErrorMsg("이메일을 전송중입니다.");
+    // 이메일 가입 여부 확인 API 호출
     try {
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
@@ -115,6 +120,7 @@ const FindPW = () => {
         setIsNotRegisteredEmail(true);
       }
     }
+    setEmailCheckErrorMsg("가입되지 않은 이메일입니다.");
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
     setShowEmailErrorMsg(true);
   };
@@ -131,9 +137,9 @@ const FindPW = () => {
     // 이메일 코드 확인 API 호출, 조건문 사용
     try {
       const response = await axios.post(`${SERVER_URL}auth/findPassword`, {
-        userId: id,
         email: email,
         authNum: emailCode,
+        userId: id,
       });
       setReceivedAccessToken(response.data.accessToken);
       setEmailCodeValid(true);
@@ -191,6 +197,8 @@ const FindPW = () => {
         value={email}
         onChange={(event) => {
           setEmail(event.target.value);
+          // 이메일 재입력 시, 에러 메시지 초기화
+          setEmailSendBtnClicked(false);
         }}
         errorMessageCustomFlag={true}
         sideBtnTitle="인증"
@@ -202,8 +210,9 @@ const FindPW = () => {
         {showEmailErrorMsg ? (
           !emailValid && email.length > 0 ? (
             <p>이메일 형식이 올바르지 않습니다.</p>
-          ) : isNotRegisteredEmail && email.length > 0 ? (
-            <p>가입되지 않은 이메일입니다.</p>
+          ) : isNotRegisteredEmail && email.length > 0 && emailSendBtnClicked ? (
+            // "가입되지 않은 이메일입니다.", "이메일을 전송중입니다."
+            <p>{emailCheckErrorMsg}</p>
           ) : emailSended ? (
             <p id="validMessage">메일을 보냈습니다.</p>
           ) : (

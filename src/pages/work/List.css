@@ -17,26 +17,26 @@
 .list .list-wrap .title {
   display: flex;
 
-  margin-top: 6vh;
-  margin-bottom: 4.5vh;
+  margin-top: 6.667vh;
+  margin-bottom: 6.389vh;
 }
 
 .list .list-wrap .title h1 {
   color: #000;
 
-  /* H1/Bold */
+  /* H5/Bold */
   font-family: "Noto Sans KR";
-  font-size: 2.25rem;
+  font-size: 1.25rem;
   font-style: normal;
   font-weight: 700;
-  line-height: 2.75rem; /* 122.222% */
+  line-height: 1.75rem; /* 140% */
 }
 
 .list .list-wrap .title img {
   margin-left: 10px;
 
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 1.75rem;
+  height: 1.75rem;
 
   cursor: pointer;
 }
@@ -81,8 +81,8 @@
   display: flex;
   justify-content: flex-start;
 
-  margin-top: 5vh;
-  margin-bottom: 2vh;
+  margin-top: 4.393vh;
+  margin-bottom: 2.552vh;
   margin-left: 2.5rem;
 }
 

@@ -6,10 +6,11 @@ import { BottomBtn, InnerBox } from "../../components/auth";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 
 import { SERVER_URL } from "../../constants/ServerURL";
+import { PW_REGEX } from "./../../constants/regex.js";
 
 import "./FindBar.css";
 
-const ResetPW = (receivedAccessToken) => {
+const ResetPW = ({ receivedAccessToken }) => {
   // 결과 화면 요소
   const [newPw, setNewPw] = useState("");
   const [pwCheck, setPwCheck] = useState("");
@@ -33,8 +34,7 @@ const ResetPW = (receivedAccessToken) => {
       setShowNewPwErrorMsg(false);
     }
 
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{5,11}$/;
-    if (regex.test(newPw)) {
+    if (PW_REGEX.test(newPw)) {
       setPwValid(true);
     } else {
       setPwValid(false);

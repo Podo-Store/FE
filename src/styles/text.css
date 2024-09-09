@@ -1,0 +1,68 @@
+.h2-medium {
+  color: #000;
+
+  /* H2/Medium */
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px; /* 125% */
+}
+
+.p-xs-regular {
+  /* Paragraph/XS/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem; /* 140% */
+}
+
+.p-xs-under {
+  /* Paragraph/XS/Under */
+  font-family: "Noto Sans KR";
+  font-size: 0.625rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.875rem; /* 140% */
+  text-decoration-line: underline;
+}
+
+.p-small-medium {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+}
+
+.p-medium-medium {
+  /* Paragraph/Medium/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+}
+
+.t-align-center {
+  text-align: center;
+}
+
+.c-black {
+  color: #000;
+}
+
+.c-main {
+  color: var(--Main, #9e30f4);
+}
+
+.c-grey4 {
+  color: var(--grey4, #bababa);
+}
+
+.c-grey {
+  color: var(--grey6, #777);
+}
+
+.c-red {
+  color: #ff0000;
+}

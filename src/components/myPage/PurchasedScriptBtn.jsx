@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./PurchasedPerformBtn";
+import "./PurchasedScriptBtn";
 
 const PurchaseStatus = {
   NON_PURCHASED: 0,

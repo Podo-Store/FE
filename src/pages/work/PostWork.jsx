@@ -7,6 +7,7 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import PostWorkPopup from "./PostWorkPopup";
+import FileInputBox from "../../components/file/FileInputBox";
 
 //import { refreshAccessToken } from "./../../contexts/AuthContext";
 
@@ -16,7 +17,6 @@ import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
 
 import "./PostWork.css";
-import FileInputBox from "../../components/file/FileInputBox";
 
 const PostWork = () => {
   const navigate = useNavigate();

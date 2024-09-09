@@ -32,6 +32,12 @@ const List = () => {
   const navigate = useNavigate();
 
   const onClickInfoBtn = (event) => {
+    // 팝업이 열려 있을 경우 닫기
+    if (showPopup) {
+      setShowPopup(false);
+      return;
+    }
+
     const rect = event.target.getBoundingClientRect();
     const x = rect.left + window.scrollX;
     const y = rect.top + window.scrollY;
@@ -74,10 +80,15 @@ const List = () => {
     <div className="list">
       <MainNav />
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
-      <div className="list-wrap">
+      <div className="min-height list-wrap">
         <div className="title">
           <h1>작품 둘러보기</h1>
-          <img src={circleInfoBtn} alt="info btn" onClick={onClickInfoBtn} />
+          <img
+            src={circleInfoBtn}
+            alt="info btn"
+            className="info-button"
+            onClick={onClickInfoBtn}
+          />
         </div>
         <div className="banner-wrap">
           <div className="banner"></div>

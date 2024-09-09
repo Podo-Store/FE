@@ -43,6 +43,14 @@
   line-height: 24px; /* 150% */
 }
 
+.p-large-bold {
+  font-family: "Noto Sans KR";
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
+}
+
 .t-align-center {
   text-align: center;
 }
@@ -65,4 +73,8 @@
 
 .c-red {
   color: #ff0000;
+}
+
+.c-white {
+  color: #ffffff;
 }

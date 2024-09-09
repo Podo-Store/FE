@@ -11,6 +11,7 @@ import {
   PurchasedScriptBtn,
   PurchasedPerformBtn,
 } from "../../components/myPage";
+import NullScriptContent from "../../components/myPage/NullScriptContent";
 import ToggleSlide from "../../components/button/ToggleSlide";
 import PartialLoading from "../../components/loading/PartialLoading";
 
@@ -33,6 +34,9 @@ const PurchasedScript = () => {
 
   const [toggle, setToggle] = useState(false);
 
+  const [isScriptListNull, setIsScriptListNull] = useState(false);
+  const [isPerformListNull, setIsPerformListNull] = useState(false);
+
   useRequest(async () => {
     setIsLoading(true);
     try {
@@ -42,6 +46,10 @@ const PurchasedScript = () => {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
+
+      if (response.data.orderList.length === 0) {
+        setIsScriptListNull(true);
+      }
       setScriptList(response.data.orderList);
 
       const response2 = await axios.get(`${SERVER_URL}profile/orderPerformances`, {
@@ -50,6 +58,10 @@ const PurchasedScript = () => {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
+
+      if (response2.data.orderList.length === 0) {
+        setIsPerformListNull(true);
+      }
       setPerformList(response2.data.orderList);
     } catch (error) {}
     setIsLoading(false);
@@ -61,7 +73,7 @@ const PurchasedScript = () => {
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="0" />
         <div className="content-side">
-          <div className="d-flex j-content-between a-items-center">
+          <div className="d-flex j-content-between a-items-start">
             <h1>구매한 작품들을 볼 수 있어요!</h1>
             <ToggleSlide
               toggle={toggle}
@@ -70,20 +82,27 @@ const PurchasedScript = () => {
               }}
             />
           </div>
+
           <div className="m-bottom-8-88vh"></div>
+
           {isLoading ? (
             <PartialLoading />
           ) : !toggle ? (
-            scriptList.map((order, index) => (
-              <ScriptContent
-                order={order}
-                index={index}
-                currentPage="0"
-                Button={PurchasedScriptBtn}
-                currentTogglePage="0"
-              />
-            ))
-          ) : (
+            !isScriptListNull ? (
+              scriptList.map((order, index) => (
+                <ScriptContent
+                  order={order}
+                  index={index}
+                  currentPage="0"
+                  Button={PurchasedScriptBtn}
+                  currentTogglePage="0"
+                />
+              ))
+            ) : (
+              // 구매한 작품이 없을 때
+              <NullScriptContent currentPage={0} />
+            )
+          ) : !isPerformListNull ? (
             performList.map((order, index) => (
               <ScriptContent
                 order={order}
@@ -93,6 +112,9 @@ const PurchasedScript = () => {
                 currentTogglePage="1"
               />
             ))
+          ) : (
+            // 구매한 공연권이 없을 때
+            <NullScriptContent currentPage={0} />
           )}
         </div>
       </div>

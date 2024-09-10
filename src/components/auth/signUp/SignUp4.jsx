@@ -133,10 +133,20 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
 
   useEffect(() => {
     const handleKeyDown = (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault();
-        setUserInfo({ ...userInfo, email: email, emailCode: emailCode });
-        onClickRegisterAllowButton();
+      if (
+        emailChecker.format &&
+        !emailDuplicated &&
+        emailCodeChecker.match &&
+        checkBoxCondition.age &&
+        checkBoxCondition.collectAndUse &&
+        checkBoxCondition.handOver &&
+        checkBoxCondition.policy
+      ) {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          setUserInfo({ ...userInfo, email: email, emailCode: emailCode });
+          onClickRegisterAllowButton();
+        }
       }
     };
 
@@ -207,7 +217,8 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
         sideBtnDisabled={!emailSended}
         timerStartControl={timerStartCondition}
         timerResetControl={timerResetCondition}
-        timerStopControl={emailCodeChecker.match}
+        timerPauseControl={emailCodeChecker.match}
+        timerStopControl={emailDuplicated}
         setTimerValue={setTimerValue}
       />
 

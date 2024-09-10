@@ -12,6 +12,8 @@ import "./../../../../styles/utilities.css";
  * 추가 props 설명
  * @param {*} timerStartControl - Timer start condition: true일 때
  * @param {*} timerResetControl - Timer reset condition: true일 때
+ * @param {*} timerPauseControl - 일시정지
+ * @param {*} timerStopControl - 정지, 초기화
  * @param {*} setTimerValue - Timer callback function
  * @returns
  */
@@ -37,7 +39,9 @@ const AuthSideBtnTimerInputField = ({
   // 타이머 control
   timerStartControl,
   timerResetControl,
+  timerPauseControl,
   timerStopControl,
+
   // 타이머 callback function
   setTimerValue,
 }) => {
@@ -70,10 +74,19 @@ const AuthSideBtnTimerInputField = ({
   }, [timerResetControl]);
 
   useEffect(() => {
-    if (timerStopControl) {
+    if (timerPauseControl) {
       // 타이머 일시 정지
       clearInterval(timerId);
       setTimerId(null); // 타이머 ID 초기화
+    }
+  }, [timerPauseControl, timerId]);
+
+  useEffect(() => {
+    if (timerStopControl) {
+      // 타이머 정지
+      clearInterval(timerId);
+      setTimerId(null); // 타이머 ID 초기화
+      setTimeLeft(300); // 타이머 초기화
     }
   }, [timerStopControl, timerId]);
 

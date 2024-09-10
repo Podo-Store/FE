@@ -5,7 +5,12 @@ import { useContext, useState } from "react";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import { MyPageMenu, ScriptContent, ScriptManageBtn } from "../../components/myPage";
+import {
+  MyPageMenu,
+  ScriptContent,
+  ScriptManageBtn,
+  NullScriptContent,
+} from "../../components/myPage";
 import PartialLoading from "../../components/loading/PartialLoading";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -15,7 +20,6 @@ import AuthContext from "../../contexts/AuthContext";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./MyPageContentsDefault.css";
-import NullScriptContent from "../../components/myPage/NullScriptContent";
 
 const ScriptManage = () => {
   const [productList, setProductList] = useState([]);

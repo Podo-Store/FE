@@ -10,8 +10,8 @@ import {
   ScriptContent,
   PurchasedScriptBtn,
   PurchasedPerformBtn,
+  NullScriptContent,
 } from "../../components/myPage";
-import NullScriptContent from "../../components/myPage/NullScriptContent";
 import ToggleSlide from "../../components/button/ToggleSlide";
 import PartialLoading from "../../components/loading/PartialLoading";
 

@@ -35,6 +35,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
   });
 
   useEffect(() => {
+    /*
     const checker = {
       show: pw.length > 0,
       alphabet: PW_ALPHABET_REGEX.test(pw),
@@ -42,8 +43,17 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
       special: PW_SPECIAL_REGEX.test(pw),
       length: PW_LENGTH_REGEX.test(pw),
     };
-
     setPwChecker(checker);
+    */
+
+    setPwChecker((prevPwChecker) => ({
+      // 기존 show가 true면 그대로 유지
+      show: prevPwChecker.show || pw.length > 0,
+      alphabet: PW_ALPHABET_REGEX.test(pw),
+      number: PW_NUMBER_REGEX.test(pw),
+      special: PW_SPECIAL_REGEX.test(pw),
+      length: PW_LENGTH_REGEX.test(pw),
+    }));
   }, [pw]);
 
   useEffect(() => {
@@ -75,6 +85,9 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
       <AuthPwInputField
         placeholder="비밀번호를 입력해주세요."
         value={pw}
+        onClick={() => {
+          setPwChecker({ ...pwChecker, show: true });
+        }}
         onChange={(event) => {
           setPw(event.target.value);
           if (pw.length > 0) {

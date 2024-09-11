@@ -227,7 +227,7 @@ const ScriptManageDetail = () => {
                   }}
                 />
                 <RectInputField
-                  type="text"
+                  type="number"
                   placeholder="대본 가격을 숫자로 입력해주세요."
                   value={scriptPrice}
                   onChange={(e) => {
@@ -235,7 +235,7 @@ const ScriptManageDetail = () => {
                   }}
                 />
                 <RectInputField
-                  type="text"
+                  type="number"
                   placeholder="공연권 가격을 숫자로 입력해주세요."
                   value={performPrice}
                   onChange={(e) => {

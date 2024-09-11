@@ -43,6 +43,15 @@
   line-height: 24px; /* 150% */
 }
 
+.p-medium-bold {
+  /* Paragraph/Medium/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.5rem; /* 150% */
+}
+
 .p-large-bold {
   font-family: "Noto Sans KR";
   font-size: 1.125rem;

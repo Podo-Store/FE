@@ -4,8 +4,6 @@
 }
 
 .rect-input-field label {
-  margin-bottom: 0.25rem;
-
   color: #000;
 
   /* H5/Regular */
@@ -17,12 +15,12 @@
 }
 
 .rect-input-field input {
+  width: 25.75rem;
   height: 2.5rem;
   padding-left: 1.25rem;
 
   border-radius: 5px;
   border: 0.5px solid #000;
-  background: var(--grey3);
 
   color: #000;
 

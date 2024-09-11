@@ -1,9 +1,5 @@
-.script-manage-detail {
-  background-color: #fdfaff;
-}
-
 .script-manage-detail .script-manage-detail-wrap {
-  margin: 8vh 17.5%;
+  margin: 3.426vh 16.5%;
 }
 
 .script-manage-detail .go-back {
@@ -42,7 +38,7 @@
   line-height: 28px; /* 140% */
 }
 
-.script-manage-detail p {
+.script-manage-detail > p {
   margin: 0;
   color: #000;
 
@@ -60,8 +56,10 @@
 }
 
 .script-manage-detail hr {
-  margin: 2.5vh 0;
-  border: 1px solid #8f8f8f;
+  margin: 0;
+  margin-top: 0.31rem;
+
+  border: 1px solid #b489ff;
 }
 
 .script-manage-detail .script-info-wrap {
@@ -80,63 +78,52 @@
   justify-content: flex-end;
   align-items: flex-end;
 
-  margin-top: 0.8rem;
-  width: 12.5rem;
-  height: 12.5rem;
-  flex-shrink: 0;
+  margin-top: 3.241vh;
+  width: 12.3125rem;
+  height: 12.3125rem;
   border-radius: 20px;
   background: #d9d9d9;
   background-size: contain;
 }
 
 .script-manage-detail .script-info-thumbnail p {
-  margin-bottom: 0.5rem;
-  margin-right: 0.5rem;
-  text-decoration-line: underline;
-
-  cursor: pointer;
+  margin-bottom: 1.06rem;
+  margin-right: 1.19rem;
 }
 
 .script-manage-detail .script-info-detail {
-  margin-left: 1.5rem;
-}
-
-.script-manage-detail .script-info-detail-price {
-  display: flex;
-  margin-top: 0.25rem;
-  gap: 1.5em;
+  margin-top: 3.241vh;
+  margin-left: 1.25rem;
 }
 
 .script-manage-detail .script-info-detail p {
-  margin: 0.125rem 0;
-  margin-left: 1.5rem;
-  color: #000;
+  margin: 0;
+  margin-bottom: 0.61rem;
+}
 
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
+.script-manage-detail div#info-input {
+  gap: 1.02rem;
+}
+
+.script-manage-detail div#select-wrap {
+  gap: 1.25rem;
+  margin-top: 2.13vh;
+}
+
+.script-manage-detail div#select {
+  width: 19rem;
 }
 
 .script-manage-detail .script-info-detail Select {
-  height: 2rem;
+  height: 2.125rem;
 }
 
 .script-manage-detail .bottom-wrap {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 
   margin-top: 8vh;
-}
-
-.script-manage-detail .bottom-wrap p#delete {
-  margin-left: 1rem;
-  text-decoration-line: underline;
-
-  cursor: pointer;
 }
 
 .script-manage-detail .btn-wrap {
@@ -170,4 +157,22 @@
 
 .script-manage-detail .btn-wrap button#modify {
   background: var(--Main, #6a39c0);
+}
+
+.script-manage-detail p#delete {
+  margin-top: 7.407vh;
+  color: #000;
+
+  /* Paragraph/Small/Under */
+  font-family: "Noto Sans KR";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 142.857% */
+  text-decoration-line: underline;
+
+  margin-left: 1rem;
+  text-decoration-line: underline;
+
+  cursor: pointer;
 }

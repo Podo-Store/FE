@@ -21,7 +21,7 @@
   flex-direction: column;
   justify-content: space-between;
 
-  margin-top: 15vh;
+  margin-top: 16.111vh;
   margin-right: 3.5%;
 
   height: 83.5%;
@@ -67,6 +67,7 @@
   height: 3.125rem;
 
   margin-top: 4%;
+  margin-bottom: 8vh;
   padding: 10px 25px;
 
   border: none;

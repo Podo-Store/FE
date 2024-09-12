@@ -13,8 +13,8 @@ import FileInputBox from "../../components/file/FileInputBox";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
-import typeWriterImg from "../../assets/image/post/typeWriterImg.svg";
+//import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
+import postProcess from "../../assets/image/post/postProcess.png";
 
 import "./PostWork.css";
 
@@ -90,6 +90,7 @@ const PostWork = () => {
               <div className="upload-title">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
+                {/*
                 <img
                   src={infoBtn}
                   alt="infoBtn"
@@ -99,6 +100,7 @@ const PostWork = () => {
                     setPopupPosition({ x: rect.left, y: rect.bottom });
                   }}
                 />
+                */}
               </div>
 
               <FileInputBox
@@ -120,7 +122,7 @@ const PostWork = () => {
         <div
           className="right-side"
           style={{
-            backgroundImage: `url(${typeWriterImg})`,
+            backgroundImage: `url(${postProcess})`,
           }}
         ></div>
       </div>

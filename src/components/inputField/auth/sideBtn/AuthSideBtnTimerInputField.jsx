@@ -126,10 +126,15 @@ const AuthSideBtnTimerInputField = ({
                 className="p-medium-medium c-main c-default"
                 style={{ transform: "translate(-4.5rem, 0.5rem)" }}
               >
-                {timerVisible ? formatTime(timeLeft) : null}
+                {timerStartControl && timerVisible ? formatTime(timeLeft) : null}
               </p>
             ) : (
-              <p className="p-medium-medium">d</p>
+              <p
+                className="p-medium-medium c-white c-default"
+                style={{ transform: "translate(-4.5rem, 0.5rem)" }}
+              >
+                {"d "}
+              </p>
             )}
           </div>
         }

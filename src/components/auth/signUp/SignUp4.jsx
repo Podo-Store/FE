@@ -34,6 +34,7 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
   const [timerValue, setTimerValue] = useState(0);
   const [timerStartCondition, setTimerStartCondition] = useState(false);
   const [timerResetCondition, setTimerResetCondition] = useState(false);
+  const [timerStopCondition, setTimerStopCondition] = useState(false); // 타이머 정지 상태
 
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     age: false,
@@ -55,27 +56,30 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
   }, [email]);
 
   const onClickEmailSend = async () => {
-    // initialize
     setEmailSended(false);
-    setTimerResetCondition(true);
+    setEmailDuplicated(false);
+    setTimerResetCondition(true); // 타이머 리셋
+    setTimerResetCondition(false); // 리셋 후 타이머 상태 초기화
+    setTimerStartCondition(true); // 타이머 시작
 
-    // 타이머 시작
-    setTimerStartCondition(true);
+    setTimerStopCondition(false); // 정지 상태 해제
 
-    // 이메일 인증 코드 발송 API 연결
+    setEmailSended(true);
+
+    // 이메일 발송 API 호출
     try {
-      setEmailSended(true);
       const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
         check: true,
       });
+
       setReceivedEmailCode(response.data);
       setEmailSended(true);
-
-      setEmailDuplicated(false);
     } catch (error) {
       if (error.response.data.error === "이메일 중복") {
         setEmailDuplicated(true);
+        setTimerResetCondition(true); // 타이머 리셋
+        setTimerStopCondition(true); // 중복 시 타이머 정지
       }
       setEmailSended(false);
     }
@@ -218,7 +222,7 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
         timerStartControl={timerStartCondition}
         timerResetControl={timerResetCondition}
         timerPauseControl={emailCodeChecker.match}
-        timerStopControl={emailDuplicated}
+        timerStopControl={timerStopCondition}
         setTimerValue={setTimerValue}
       />
 

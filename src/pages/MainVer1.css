@@ -1,3 +1,13 @@
 .main-ver-1 {
-  min-height: 90vh;
+  min-height: 110vh;
+
+  background-image: url(./../assets/image/Landing1.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  transform: translateY(-0.1rem);
+}
+
+.main-ver-1 img {
+  width: 98.5vw;
 }

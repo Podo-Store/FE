@@ -1,11 +1,9 @@
-import mainImg from "./../assets/image/mainImgV1.png";
-
 import "./MainVer1.css";
 
 const MainVer1 = () => {
   return (
     <div className="d-flex j-content-center a-items-center main-ver-1">
-      <img src={mainImg} alt="mainImg"></img>
+      {/*<img src={mainImg} alt="mainImg"></img>*/}
     </div>
   );
 };

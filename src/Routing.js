@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 
-import SignUp from "./pages/auth/SignUp";
+import SignUpDefault from "./pages/auth/SignUpDefault";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
 import FindBar from "./pages/auth/FindBar";
@@ -18,7 +18,6 @@ import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
-import SignUpDefault from "./pages/auth/SignUpDefault";
 
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 

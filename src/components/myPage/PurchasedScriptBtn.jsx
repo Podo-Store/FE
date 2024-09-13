@@ -78,6 +78,7 @@ const PurchasedScriptBtn = ({
   };
 
   const onClickDownloadScript = async () => {
+    alert("대본 다운로드 중...");
     try {
       const response = await axios.get(`${SERVER_URL}profile/download`, {
         headers: {

@@ -59,7 +59,14 @@
 
 .myPage-menu-side .selected {
   border: 5px solid var(--Main, #6a39c0);
-  transform: translate(-5px, 0);
+}
+
+.myPage-menu-side .purchased {
+  transform: translateY(-5px);
+}
+
+.myPage-menu-side .script-manage {
+  transform: translateY(5px);
 }
 
 .myPage-menu-side p {

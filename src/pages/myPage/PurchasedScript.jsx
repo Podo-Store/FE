@@ -83,7 +83,7 @@ const PurchasedScript = () => {
             />
           </div>
 
-          <div className="m-bottom-8-88vh"></div>
+          <div style={{ height: "1.75vh" }}></div>
 
           {isLoading ? (
             <PartialLoading />

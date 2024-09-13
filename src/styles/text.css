@@ -27,11 +27,37 @@
   text-decoration-line: underline;
 }
 
+.p-small-under {
+  /* Paragraph/Small/Under */
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.25rem; /* 142.857% */
+  text-decoration-line: underline;
+}
+
 .p-small-medium {
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 142.857% */
+}
+
+.p-small-bold {
+  /* Paragraph/Small/Bold */
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.25rem; /* 142.857% */
+}
+
+.p-medium-regular {
+  /* Paragraph/Medium/Regular */
+  font-family: "Noto Sans KR";
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5rem; /* 150% */
 }
 
 .p-medium-medium {

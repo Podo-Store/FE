@@ -13,10 +13,10 @@
 
   /* H4/Bold */
   font-family: "Noto Sans KR";
-  font-size: 1.5rem;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 2rem; /* 133.333% */
+  line-height: 32px; /* 133.333% */
 }
 
 .myPage-contents-default .content-side .m-bottom-8-88vh {

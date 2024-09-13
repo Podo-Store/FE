@@ -55,8 +55,7 @@ const ScriptManage = () => {
         <div className="content-side">
           <h1>등록한 작품들을 관리할 수 있어요!</h1>
 
-          <div style={{ height: "16px" }}></div>
-          <div className="m-bottom-8-88vh"></div>
+          <div style={{ height: "3.889vh" }}></div>
 
           {isLoading ? (
             <PartialLoading />

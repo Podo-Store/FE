@@ -2,19 +2,19 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
-import { AuthInputField, AuthPwInputField } from "../../components/inputField";
-import EnterForm from "../../components/EnterForm";
-import PartialLoading from "../../components/loading/PartialLoading";
+import { AuthInputField, AuthPwInputField } from "../../../components/inputField";
+import EnterForm from "../../../components/EnterForm";
+import PartialLoading from "../../../components/loading/PartialLoading";
 import {
   PWErrorMessages,
   PWCheckErrorMessages,
   NameErrorMessages,
-} from "../../components/auth/signUp";
-import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+} from "../../../components/auth/signUp";
+import SmallOnOffBtn from "../../../components/button/SmallOnOffBtn";
 
-import { useRequest } from "../../hooks/useRequest";
+import { useRequest } from "../../../hooks/useRequest";
 
-import { SERVER_URL } from "../../constants/ServerURL";
+import { SERVER_URL } from "../../../constants/ServerURL";
 import {
   PW_ALPHABET_REGEX,
   PW_NUMBER_REGEX,
@@ -22,7 +22,7 @@ import {
   PW_LENGTH_REGEX,
   NAME_FORMAT_REGEX,
   NAME_LENGTH_REGEX,
-} from "../../constants/regex";
+} from "../../../constants/regex";
 
 import "./AccountInfoChangeMain.css";
 

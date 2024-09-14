@@ -2,14 +2,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
-import { ErrorMessage } from "../../components/auth/signUp";
-import { AuthPwInputField } from "../../components/inputField";
-import EnterForm from "../../components/EnterForm";
+import { ErrorMessage } from "../../../components/auth/signUp";
+import { AuthPwInputField } from "../../../components/inputField";
+import EnterForm from "../../../components/EnterForm";
 
-import { SERVER_URL } from "../../constants/ServerURL";
+import { SERVER_URL } from "../../../constants/ServerURL";
 
 import "./AccountInfoChangeEnter.css";
-import "./../../styles/text.css";
+import "./../../../styles/text.css";
 
 const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
   const [typedPassword, setTypedPassword] = useState("");

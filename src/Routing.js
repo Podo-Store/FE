@@ -15,7 +15,7 @@ import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
-import AccountInfoChange from "./pages/myPage/AccountInfoChange";
+import AccountInfoChange from "./pages/myPage/AccountInfoChange/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 

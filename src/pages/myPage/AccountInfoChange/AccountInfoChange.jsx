@@ -1,18 +1,18 @@
 import { useContext, useState } from "react";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
+import MainNav from "../../MainNav.jsx";
+import Footer from "../../Footer.jsx";
 
 import AccountInfoChangeEnter from "./AccountInfoChangeEnter.jsx";
 import AccountInfoChangeMain from "./AccountInfoChangeMain.jsx";
-import AccountDelete from "./AccountDelete.jsx";
-import AccountDeleteSuccess from "./AccountDeleteSuccess.jsx";
-import MyPageMenu from "../../components/myPage/MyPageMenu";
+import AccountDelete from "../AccountDelete/AccountDelete.jsx";
+import AccountDeleteSuccess from "../AccountDelete/AccountDeleteSuccess.jsx";
+import MyPageMenu from "../../../components/myPage/MyPageMenu.jsx";
 
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from "../../../contexts/AuthContext.jsx";
 
 import "./AccountInfoChange.css";
-import "./../../styles/utilities.css";
+import "./../../../styles/utilities.css";
 
 const AccountInfoChange = () => {
   // 회원 정보 수정 진입

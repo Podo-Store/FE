@@ -1,9 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../../components/button/SmallOnOffBtn";
 
-import { SERVER_URL } from "../../constants/ServerURL";
+import { SERVER_URL } from "../../../constants/ServerURL";
 
 import "./AccountDelete.css";
 

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-import check from "../../assets/image/myPage/check.svg";
+import check from "../../../assets/image/myPage/check.svg";
 
 import "./AccountDeleteSuccess.css";
 

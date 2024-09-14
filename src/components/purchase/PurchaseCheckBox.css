@@ -1,0 +1,13 @@
+.purchase-checkbox {
+  gap: 0.87rem;
+  margin-top: 1.12rem;
+}
+
+.purchase-checkbox div#checkbox-content {
+  gap: 0.62rem;
+}
+
+.purchase-checkbox div#checkbox-content img#checkbox {
+  width: 20px;
+  height: 20px;
+}

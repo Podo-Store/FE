@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
-import Popup from "./SignUp4Popup/Popup";
+import Popup from "../../popup/Popup.jsx";
 
 import unChecked from "../../../assets/image/auth/signUp/checkbox/unChecked.svg";
 import checked from "../../../assets/image/auth/signUp/checkbox/checked.svg";
 
-import { COLLECT_AND_USE, HAND_OVER, POLICY } from "./SignUp4Popup/DetailTexts.js";
+import {
+  COLLECT_AND_USE,
+  HAND_OVER,
+  POLICY,
+} from "../../../constants/PopupTexts/SignUp4DetailTexts.js";
 
 import "./SignUpCheckBox.css";
 import "./../../../styles/colors.css";
@@ -138,6 +142,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
                   title: item.name,
                   detail: item.detail,
                   setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
+                  page: 0,
                 })}
             </div>
           ) : null}

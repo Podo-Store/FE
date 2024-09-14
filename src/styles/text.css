@@ -1,11 +1,18 @@
 .h2-medium {
-  color: #000;
-
   /* H2/Medium */
   font-size: 32px;
   font-style: normal;
   font-weight: 500;
   line-height: 40px; /* 125% */
+}
+
+.h5-bold {
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
 }
 
 .p-xs-regular {

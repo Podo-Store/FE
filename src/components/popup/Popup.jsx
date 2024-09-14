@@ -15,7 +15,9 @@ const Popup = ({ title, detail, setShowPopup, page = 0 }) => {
       style={
         page === 0
           ? { width: "28.375rem", height: "45.875rem", transform: "translateY(-50vh)" }
-          : { width: "25.8125rem", height: "20.8125rem", transform: "translate(-240px, 1.5rem)" }
+          : page === 1
+          ? { width: "28.375rem", height: "45.875rem", transform: "translate(-240px, -15rem)" }
+          : { width: "25.8125rem", height: "20.8125rem", transform: "translate(-240px, -15rem)" }
       }
     >
       <div className="j-content-between">
@@ -35,7 +37,7 @@ const Popup = ({ title, detail, setShowPopup, page = 0 }) => {
       <div
         id="content-wrap"
         style={
-          page === 0
+          page === 0 || page === 1
             ? { width: "25.375rem", height: "40rem" }
             : { width: "23.0625rem", height: "14rem" }
         }

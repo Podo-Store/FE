@@ -2,7 +2,10 @@ import React, { useState } from "react";
 
 import Popup from "../popup/Popup.jsx";
 
-import { REFUND_NOTE } from "../../constants/PopupTexts/PurchaseDetailTexts.js";
+import {
+  PURCHASE_AGREEMENT,
+  REFUND_POLICY,
+} from "../../constants/PopupTexts/PurchaseDetailTexts.js";
 
 import checked from "./../../assets/image/auth/signUp/checkbox/checked.svg";
 import unChecked from "./../../assets/image/auth/signUp/checkbox/unChecked.svg";
@@ -19,7 +22,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
       checked: false,
       key: "purchaseAgreement",
       popup: <Popup />,
-      detail: "구매 조건에 대한 세부 내용입니다.",
+      detail: PURCHASE_AGREEMENT,
     },
     {
       id: 2,
@@ -27,7 +30,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
       checked: false,
       key: "refundPolicy",
       popup: <Popup />,
-      detail: REFUND_NOTE,
+      detail: REFUND_POLICY,
     },
   ]);
 
@@ -76,7 +79,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
                 title: item.name,
                 detail: item.detail,
                 setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
-                page: 1,
+                page: item.id === 1 ? 1 : 2,
               })}
             </div>
           )}

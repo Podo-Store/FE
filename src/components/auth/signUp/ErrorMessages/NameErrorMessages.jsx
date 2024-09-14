@@ -14,7 +14,12 @@ const NameErrorMessages = ({ nameChecker, nameDuplicated }) => {
           <CheckerMessage checkedFlag={nameChecker.length} message="3 ~ 8자만 가능해요." />
         </div>
       ) : null}
-      {nameDuplicated ? <ErrorMessage message="중복된 닉네임입니다." /> : null}
+      {nameDuplicated ? (
+        <div>
+          <div style={{ height: "0.5rem" }}></div>
+          <ErrorMessage message="중복된 닉네임입니다." />
+        </div>
+      ) : null}
     </div>
   );
 };

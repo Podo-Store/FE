@@ -46,6 +46,8 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     equal: false,
   });
 
+  // prevName: 수정 전 닉네임(placeholder)
+  const [prevName, setPrevName] = useState("");
   const [name, setName] = useState("");
   const [nameChecker, setNameChecker] = useState({
     show: false,
@@ -110,8 +112,8 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           },
         });
         setId(response.data.userId);
-        setName(response.data.nickname);
         setEmail(response.data.email);
+        setPrevName(response.data.nickname);
       } catch (error) {
         alert("회원 정보 조회 실패");
       }
@@ -140,25 +142,53 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   };
 
   const onClickCompleteBtn = async () => {
-    if (!pwCheck.alphabet && !pwCheck.number && !pwCheck.special && !pwCheck.length) {
-      alert("비밀번호를 확인해주세요.");
+    // 모든 필드가 공란일 경우
+    if (!pw && !pwCheck && !name) {
+      window.location.reload();
       return;
-    } else if (!pwCheckChecker.equal) {
-      alert("재입력된 비밀번호를 확인해주세요.");
+    }
+
+    // 비밀번호만 입력된 경우
+    if (pw && !pwCheck) {
+      alert("비밀번호 확인란을 입력해주세요.");
       return;
-    } else if (!nameChecker.format && !nameChecker.length) {
-      alert("닉네임을 확인해주세요.");
+    }
+
+    // 비밀번호 확인만 입력된 경우
+    if (!pw && pwCheck) {
+      alert("비밀번호를 입력해주세요.");
       return;
+    }
+
+    // 비밀번호 입력 시, 유효성 검사
+    if (pw || pwCheck) {
+      if (
+        !pwChecker.alphabet ||
+        !pwChecker.number ||
+        !pwChecker.special ||
+        !pwChecker.length ||
+        !pwCheckChecker.equal
+      ) {
+        alert("비밀번호를 확인해주세요.");
+        return;
+      }
+    }
+
+    // 닉네임 입력 시, 유효성 검사
+    if (name) {
+      if (!nameChecker.format || !nameChecker.length) {
+        alert("닉네임을 확인해주세요.");
+        return;
+      }
     }
 
     try {
       await axios.post(
         `${SERVER_URL}profile/update`,
         {
-          password: pw,
-          confirmPassword: pwCheck,
-          nickname: name,
-          email: email,
+          password: pw || "",
+          confirmPassword: pwCheck || "",
+          nickname: name || "",
         },
         {
           headers: {
@@ -246,7 +276,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
         <div id="margin"></div>
 
         <AuthInputField
-          placeholder="닉네임을 입력해주세요."
+          placeholder={prevName}
           value={name}
           onChange={(event) => {
             setName(event.target.value);

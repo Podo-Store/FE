@@ -36,6 +36,7 @@ const AuthInputField = ({
           onClick={onClick}
           onBlur={onBlur}
           readOnly={readOnly}
+          style={readOnly ? { border: "1px solid #000000" } : null}
         />
         {rightElement ? <div className="right-element">{rightElement}</div> : null}
       </div>

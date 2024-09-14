@@ -225,8 +225,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
         <AuthInputField
           type="text"
           className="input"
-          placeholder="저장된 아이디"
-          value={id}
+          placeholder={id}
           errorMessageCustomFlag={true}
           readOnly={true}
         />
@@ -235,8 +234,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
 
         <AuthInputField
           type="text"
-          placeholder="저장된 이메일"
-          value={email}
+          placeholder={email}
           readOnly={true}
           errorMessageCustomFlag={true}
         />

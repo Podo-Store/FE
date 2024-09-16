@@ -29,6 +29,7 @@ const FindPW = () => {
 
   const [isNotRegisteredId, setIsNotRegisteredId] = useState(true);
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(true);
+  const [idEmailNotMatch, setIdEmailNotMatch] = useState(false);
 
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
   const [resetPwPermitted, setResetPwPermitted] = useState(false);
@@ -104,9 +105,9 @@ const FindPW = () => {
     setEmailCheckErrorMsg("이메일을 전송중입니다.");
     // 이메일 가입 여부 확인 API 호출
     try {
-      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+      const response = await axios.post(`${SERVER_URL}auth/find/mailSend`, {
         email: email,
-        check: false,
+        flag: true,
       });
       setReceivedEmailCode(response.data);
 
@@ -118,6 +119,8 @@ const FindPW = () => {
         setEmailValid(false);
       } else if (error.response.data === "사용자 정보 없음") {
         setIsNotRegisteredEmail(true);
+      } else if (error.response.data === "아이디와 이메일의 정보가 일치하지 않습니다.") {
+        setIdEmailNotMatch(true);
       }
     }
     setEmailCheckErrorMsg("가입되지 않은 이메일입니다.");
@@ -213,6 +216,8 @@ const FindPW = () => {
           ) : isNotRegisteredEmail && email.length > 0 && emailSendBtnClicked ? (
             // "가입되지 않은 이메일입니다.", "이메일을 전송중입니다."
             <p>{emailCheckErrorMsg}</p>
+          ) : idEmailNotMatch && email.length > 0 ? (
+            <p>아이디와 이메일의 정보가 일치하지 않습니다.</p>
           ) : emailSended ? (
             <p id="validMessage">메일을 보냈습니다.</p>
           ) : (

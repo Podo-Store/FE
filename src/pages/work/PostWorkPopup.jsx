@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import popUpClose from "../../assets/image/button/PopupClose.svg";
+
+import closeBtn from "../../assets/image/button/CloseBtn.svg";
+
 import "./PostWorkPopup.css";
 
 const PostWorkPopup = ({ onClose, initialPosition }) => {
@@ -61,7 +63,7 @@ const PostWorkPopup = ({ onClose, initialPosition }) => {
       }}
       onMouseDown={handleMouseDown}
     >
-      <img src={popUpClose} alt="" className="close-button" onClick={onClose}></img>
+      <img src={closeBtn} alt="" className="close-button" onClick={onClose}></img>
       <div className="popup-content">
         <p>
           작품 등록은 PDF 형식으로만 가능합니다.

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Popup from "../../popup/Popup.jsx";
+import PolicyPopup from "../../popup/PolicyPopup.jsx";
 
 import unChecked from "../../../assets/image/auth/signUp/checkbox/unChecked.svg";
 import checked from "../../../assets/image/auth/signUp/checkbox/checked.svg";
@@ -23,7 +23,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
       name: "개인정보 수집 · 이용 동의",
       checked: false,
       key: "collectAndUse",
-      popup: <Popup />,
+      popup: <PolicyPopup />,
       detail: COLLECT_AND_USE,
     },
     {
@@ -31,7 +31,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
       name: "개인정보 제3자 제공 동의",
       checked: false,
       key: "handOver",
-      popup: <Popup />,
+      popup: <PolicyPopup />,
       detail: HAND_OVER,
     },
     {
@@ -39,7 +39,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
       name: "이용약관 동의",
       checked: false,
       key: "policy",
-      popup: <Popup />,
+      popup: <PolicyPopup />,
       detail: POLICY,
     },
   ]);

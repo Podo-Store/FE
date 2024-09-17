@@ -1,4 +1,4 @@
-import popupClose from "../../assets/image/button/PopupClose.svg";
+import closeBtn from "../../assets/image/button/CloseBtn.svg";
 
 import "./ScriptContentPopUp.css";
 import "./../../styles/utilities.css";
@@ -7,7 +7,7 @@ const ScriptContentPopUp = ({ onClose }) => {
   return (
     <div className="script-content-popup">
       <div className="d-flex j-content-end">
-        <img src={popupClose} alt="" className="close-button" onClick={onClose}></img>
+        <img src={closeBtn} alt="" className="close-button" onClick={onClose}></img>
       </div>
       <div className="d-flex j-content-center">
         <p>

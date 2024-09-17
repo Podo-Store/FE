@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Popup from "../popup/Popup.jsx";
+import PolicyPopup from "../popup/PolicyPopup.jsx";
 
 import {
   PURCHASE_AGREEMENT,
@@ -21,7 +21,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
       name: "구매 조건 확인 및 결제 진행 동의",
       checked: false,
       key: "purchaseAgreement",
-      popup: <Popup />,
+      popup: <PolicyPopup />,
       detail: PURCHASE_AGREEMENT,
     },
     {
@@ -29,7 +29,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
       name: "환불 유의사항",
       checked: false,
       key: "refundPolicy",
-      popup: <Popup />,
+      popup: <PolicyPopup />,
       detail: REFUND_POLICY,
     },
   ]);

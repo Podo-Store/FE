@@ -1,6 +1,6 @@
-import PopupClose from "./../../assets/image/button/PopupClose.svg";
+import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 
-import "./Popup.css";
+import "./PolicyPopup.css";
 
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
@@ -8,7 +8,7 @@ import "./../../styles/utilities.css";
 /**
  * @param {number} page - 0: "회원가입 페이지", 1: "구매 페이지"
  */
-const Popup = ({ title, detail, setShowPopup, page = 0 }) => {
+const PolicyPopup = ({ title, detail, setShowPopup, page = 0 }) => {
   return (
     <div
       className="popup"
@@ -27,7 +27,7 @@ const Popup = ({ title, detail, setShowPopup, page = 0 }) => {
         <img
           className="c-pointer"
           id="close-btn"
-          src={PopupClose}
+          src={CloseBtn}
           alt="close"
           onClick={() => {
             setShowPopup(false);
@@ -58,4 +58,4 @@ const Popup = ({ title, detail, setShowPopup, page = 0 }) => {
   );
 };
 
-export default Popup;
+export default PolicyPopup;

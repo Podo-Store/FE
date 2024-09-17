@@ -1,6 +1,6 @@
 import PerformInputField from "./PerformInputField";
 
-import closeBtn from "../../../assets/image/button/PopupClose.svg";
+import closeBtn from "../../../assets/image/button/CloseBtn.svg";
 
 /**
  * @param {Object} props - Component properties

@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
@@ -7,6 +8,10 @@ import Footer from "../Footer";
 import GoBack from "../../components/button/GoBack";
 import { PerformInputField, PerformDateInputField } from "../../components/inputField";
 import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp";
+import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+import InfoPopup from "../../components/popup/InfoPopup";
+
+import { USER_INFO, PERFORM_DATE } from "../../constants/PopupTexts/PerformInfoTexts";
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
@@ -16,6 +21,13 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 const PerformanceInfo = () => {
+  const navigate = useNavigate();
+
+  const [showPopup, setShowPopup] = useState({
+    userInfo: false,
+    performDate: false,
+  });
+
   const [dates, setDates] = useState([""]);
   const [inputFields, setInputFields] = useState([0]); // 입력 필드 관리
   const [dateChecker, setDateChecker] = useState([
@@ -145,7 +157,23 @@ const PerformanceInfo = () => {
 
           <div className="a-items-center" id="info">
             <p className="p-medium-bold">신청자 정보</p>
-            <img className="c-pointer" src={circleInfoBtn} alt="circleInfoBtn" />
+            <img
+              className="c-pointer"
+              id="popup-btn1"
+              src={circleInfoBtn}
+              alt="circleInfoBtn"
+              onClick={() => {
+                setShowPopup({ ...showPopup, userInfo: !showPopup.userInfo });
+              }}
+            />
+            {showPopup.userInfo ? (
+              <InfoPopup
+                message={USER_INFO}
+                onClose={() => setShowPopup({ ...showPopup, userInfo: false })}
+                style={{ transform: "translate(6.75rem, 1rem)" }}
+                buttonId="popup-btn1"
+              />
+            ) : null}
           </div>
 
           <PerformInputField placeholder="홍길동" readOnly={true} />
@@ -154,10 +182,26 @@ const PerformanceInfo = () => {
           <div id="margin"></div>
           <PerformInputField placeholder="서울특별시" readOnly={true} />
 
-          <div className="j-content-between a-items-center" id="days">
+          <div className="j-content-between a-items-center width-629" id="days">
             <div className="a-items-center" id="days-left">
               <p className="p-medium-bold">공연 예상 일자</p>
-              <img className="c-pointer" src={circleInfoBtn} alt="circleInfoBtn" />
+              <img
+                className="c-pointer"
+                id="popup-btn2"
+                src={circleInfoBtn}
+                alt="circleInfoBtn"
+                onClick={() => {
+                  setShowPopup({ ...showPopup, performDate: !showPopup.performDate });
+                }}
+              />
+              {showPopup.performDate ? (
+                <InfoPopup
+                  message={PERFORM_DATE}
+                  onClose={() => setShowPopup({ ...showPopup, performDate: false })}
+                  style={{ transform: "translate(8rem, 2rem)" }}
+                  buttonId="popup-btn2"
+                />
+              ) : null}
             </div>
             <p className="p-small-regular">{inputFields.length}/10</p>
           </div>
@@ -189,7 +233,7 @@ const PerformanceInfo = () => {
             </div>
           ))}
 
-          <div className="j-content-center" id="circle-add-btn">
+          <div className="j-content-center width-629" id="circle-add-btn">
             <img
               src={circleAddBtn}
               alt="add"
@@ -200,6 +244,17 @@ const PerformanceInfo = () => {
                 setDateChecker([...dateChecker, false]);
               }}
             />
+          </div>
+
+          <div className="j-content-end width-629" id="btn">
+            <SmallOnOffBtn
+              text="취소하기"
+              color="white"
+              onClick={() => {
+                navigate("/mypage/purchased");
+              }}
+            />
+            <SmallOnOffBtn text="신청하기" color="purple" />
           </div>
         </div>
       </div>

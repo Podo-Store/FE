@@ -1,3 +1,7 @@
+.width-629 {
+  width: 629px;
+}
+
 .perform-info {
   margin: 3.426vh 16.5%;
 }
@@ -73,8 +77,6 @@
 }
 .perform-info .script div#days {
   margin-top: 2.593vh;
-
-  width: 39.3125rem;
 }
 
 .perform-info .script div#days-left {
@@ -89,7 +91,11 @@
 }
 
 .perform-info .script div#circle-add-btn {
-  width: 629px;
-
   margin-top: 0.88rem;
+}
+
+.perform-info .script div#btn {
+  gap: 0.94rem;
+
+  margin-top: 3.796vh;
 }

@@ -6,6 +6,15 @@
   line-height: 40px; /* 125% */
 }
 
+.h4-bold {
+  /* H4/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 133.333% */
+}
+
 .h5-bold {
   /* H5/Bold */
   font-family: "Noto Sans KR";
@@ -83,6 +92,15 @@
   font-style: normal;
   font-weight: 700;
   line-height: 1.5rem; /* 150% */
+}
+
+.p-large-medium {
+  /* Paragraph/Large/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 155.556% */
 }
 
 .p-large-bold {

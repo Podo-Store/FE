@@ -10,12 +10,11 @@ import Loading from "../Loading";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
 import FileInputBox from "../../components/file/FileInputBox";
+import GoBack from "../../components/button/GoBack";
 
 import { useRequest } from "../../hooks/useRequest";
 
 import { SERVER_URL } from "../../constants/ServerURL";
-
-import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
 
 import "./ScriptManageDetail.css";
 import "./../../styles/text.css";
@@ -188,15 +187,8 @@ const ScriptManageDetail = () => {
     <div className="script-manage-detail">
       <MainNav />
       <div className="script-manage-detail-wrap">
-        <div
-          className="go-back"
-          onClick={() => {
-            navigate("/mypage/scriptmanage");
-          }}
-        >
-          <img src={goBackArrowImg} alt="go back"></img>
-          <h6>뒤로가기</h6>
-        </div>
+        <GoBack url="/mypage/scriptmanage" />
+
         <h1>등록한 작품들을 관리할 수 있어요!</h1>
         <p id="title">작품 상세 페이지 수정</p>
         <hr />

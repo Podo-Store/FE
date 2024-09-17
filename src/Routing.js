@@ -13,6 +13,7 @@ import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
 import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
+import PerformanceInfo from "./pages/myPage/PerformanceInfo";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
@@ -50,6 +51,10 @@ function Routing() {
             <Route
               path="/mypage/purchased"
               element={<ProtectedRoute element={<PurchasedScript />} />}
+            />
+            <Route
+              path="/mypage/purchased/performance-info/:id"
+              element={<ProtectedRoute element={<PerformanceInfo />} />}
             />
             <Route
               path="/mypage/scriptmanage"

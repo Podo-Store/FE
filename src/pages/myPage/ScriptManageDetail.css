@@ -2,29 +2,6 @@
   margin: 3.426vh 16.5%;
 }
 
-.script-manage-detail .go-back {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-bottom: 1vh;
-}
-
-.script-manage-detail .go-back img {
-  height: 15px;
-}
-
-.script-manage-detail .go-back h6 {
-  margin: 0;
-  cursor: pointer;
-
-  color: #000;
-  font-family: "Noto Sans";
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-}
-
 .script-manage-detail h1 {
   margin: 0;
   margin-bottom: 4vh;

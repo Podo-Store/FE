@@ -1,0 +1,95 @@
+.perform-info {
+  margin: 3.426vh 16.5%;
+}
+
+.perform-info h4 {
+  margin-top: 1.296vh;
+  margin-bottom: 4.259vh;
+}
+
+.perform-info hr {
+  border: 1px solid #b489ff;
+}
+
+.perform-info .script {
+  margin-top: 2vh;
+  margin-left: 16vw;
+  margin-bottom: 1.75rem;
+}
+
+.perform-info .script-thumbnail {
+  padding-bottom: 12.3125rem;
+
+  width: 12.3125rem;
+  height: 0;
+
+  border-radius: 20px;
+  background: #d9d9d9;
+  background-size: contain;
+}
+
+.perform-info .script-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  margin-left: 2rem;
+  width: 21.458vw;
+}
+
+.perform-info .script-detail div#title {
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
+}
+
+.perform-info .script-detail hr {
+  width: 25.75025rem;
+}
+
+.perform-info .script-detail p#title {
+  margin-left: 0.125rem;
+}
+
+.perform-info .script-detail p#author {
+  margin-top: 0.5vh;
+  margin-left: 0.125rem;
+  margin-bottom: 1.5vh;
+}
+
+.perform-info .script div#info {
+  gap: 4px;
+
+  margin-top: 2.5vh;
+  margin-bottom: 0.926vh;
+}
+
+.perform-info .script div#info img {
+  width: 19px;
+  height: 19px;
+}
+
+.perform-info .script div#margin {
+  height: 1rem;
+}
+.perform-info .script div#days {
+  margin-top: 2.593vh;
+
+  width: 39.3125rem;
+}
+
+.perform-info .script div#days-left {
+  gap: 4px;
+
+  margin-bottom: 0.69rem;
+}
+
+.perform-info .script div#days-left img {
+  width: 19px;
+  height: 19px;
+}
+
+.perform-info .script div#circle-add-btn {
+  width: 629px;
+
+  margin-top: 0.88rem;
+}

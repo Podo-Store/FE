@@ -1,0 +1,19 @@
+.go-back {
+  gap: 0.3rem;
+  margin-bottom: 1vh;
+}
+
+.go-back img {
+  height: 15px;
+}
+
+.go-back h6 {
+  margin: 0;
+
+  color: #000;
+  font-family: "Noto Sans";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}

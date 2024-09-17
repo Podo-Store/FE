@@ -58,6 +58,7 @@ const FindID = () => {
       const response = await axios.post(`${SERVER_URL}auth/find/mailSend`, {
         email: email,
         flag: false,
+        userId: "",
       });
       setReceivedEmailCode(response.data);
 

@@ -108,6 +108,7 @@ const FindPW = () => {
       const response = await axios.post(`${SERVER_URL}auth/find/mailSend`, {
         email: email,
         flag: true,
+        userId: id,
       });
       setReceivedEmailCode(response.data);
 
@@ -115,6 +116,7 @@ const FindPW = () => {
       setEmailSended(true);
       setIsNotRegisteredEmail(false);
     } catch (error) {
+      console.log(error.response.data.error);
       if (error.response.data === "이메일 유효성 검사 실패") {
         setEmailValid(false);
       } else if (error.response.data === "사용자 정보 없음") {
@@ -122,8 +124,8 @@ const FindPW = () => {
       } else if (error.response.data === "아이디와 이메일의 정보가 일치하지 않습니다.") {
         setIdEmailNotMatch(true);
       }
+      setEmailCheckErrorMsg("가입되지 않은 이메일입니다.");
     }
-    setEmailCheckErrorMsg("가입되지 않은 이메일입니다.");
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
     setShowEmailErrorMsg(true);
   };

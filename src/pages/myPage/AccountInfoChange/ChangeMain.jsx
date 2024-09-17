@@ -24,7 +24,7 @@ import {
   NAME_LENGTH_REGEX,
 } from "../../../constants/regex";
 
-import "./AccountInfoChangeMain.css";
+import "./ChangeMain.css";
 
 const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   // 회원 정보 수정

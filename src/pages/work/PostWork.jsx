@@ -14,7 +14,7 @@ import FileInputBox from "../../components/file/FileInputBox";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 //import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
-import postProcess from "../../assets/image/post/postProcess.png";
+import postingProcess from "../../assets/image/post/postingProcess.png";
 
 import "./PostWork.css";
 
@@ -122,7 +122,7 @@ const PostWork = () => {
         <div
           className="right-side"
           style={{
-            backgroundImage: `url(${postProcess})`,
+            backgroundImage: `url(${postingProcess})`,
           }}
         ></div>
       </div>

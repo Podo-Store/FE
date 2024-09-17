@@ -3,8 +3,8 @@ import { useContext, useState } from "react";
 import MainNav from "../MainNav.jsx";
 import Footer from "../Footer.jsx";
 
-import AccountInfoChangeEnter from "./AccountInfoChange/AccountInfoChangeEnter.jsx";
-import AccountInfoChangeMain from "./AccountInfoChange/AccountInfoChangeMain.jsx";
+import AccountInfoChangeEnter from "./AccountInfoChange/ChangeEnter.jsx";
+import AccountInfoChangeMain from "./AccountInfoChange/ChangeMain.jsx";
 import AccountDelete from "./AccountDelete/AccountDelete.jsx";
 import AccountDeleteSuccess from "./AccountDelete/AccountDeleteSuccess.jsx";
 import MyPageMenu from "../../components/myPage/MyPageMenu.jsx";

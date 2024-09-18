@@ -24,7 +24,7 @@ const PerformInputField = ({
       rightElement={rightElement}
       readOnly={readOnly}
       errorMessageCustomFlag="true"
-      style={{ width: "39.3125rem" }}
+      style={{ width: "39.3125rem", height: "42px" }}
     />
   );
 };

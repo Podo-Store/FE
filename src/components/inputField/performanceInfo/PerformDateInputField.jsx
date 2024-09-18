@@ -4,7 +4,7 @@ import closeBtn from "../../../assets/image/button/CloseBtn.svg";
 
 /**
  * @param {Object} props - Component properties
- * @param {boolean} props.onDelete - 삭제 버튼 표시 (기존에 입력됐었던 양식의 경우 수정 불가) 및 삭제 기능 callback 함수
+ * @param {function} [props.onDelete] - 삭제 버튼 표시 (기존에 입력됐었던 양식의 경우 수정 불가) 및 삭제 기능 callback 함수
  * @returns
  */
 const PerformDateInputField = ({ placeholder, value, onChange, onClick, onBlur, onDelete }) => {

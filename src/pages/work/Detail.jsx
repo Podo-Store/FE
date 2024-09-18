@@ -1,8 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
@@ -16,13 +16,15 @@ import { formatPrice } from "../../utils/formatPrice";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
+import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import samplePDF from "./../../assets/sample.pdf";
 
 import "./Detail.css";
-import "@react-pdf-viewer/core/lib/styles/index.css";
+
+// THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Detail = () => {
   const [title, setTitle] = useState("");
@@ -36,6 +38,7 @@ const Detail = () => {
   const [lengthType, setLengthType] = useState("");
 
   const [imagePath, setImagePath] = useState("");
+  const [preview, setPreview] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
 
   // 기존 대본 구매 이력
@@ -54,6 +57,8 @@ const Detail = () => {
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
 
+  const [numPages, setNumPages] = useState(null); // 페이지 수를 저장하는 상태 추가
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -65,7 +70,7 @@ const Detail = () => {
       if (!Cookies.get("accessToken")) {
         response = await axios.get(`${SERVER_URL}scripts/detail`, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
           },
           params: {
             script: id,
@@ -75,7 +80,7 @@ const Detail = () => {
         // 로그인 상태
         response = await axios.get(`${SERVER_URL}scripts/detail`, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
           params: {
@@ -92,6 +97,7 @@ const Detail = () => {
       setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
       setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
       setImagePath(response.data.imagePath);
+      setPreview(response.data.preview);
       setDescriptionPath(response.data.descriptionPath);
       setHasBoughtScript(response.data.buyScript);
     } catch (error) {
@@ -186,6 +192,10 @@ const Detail = () => {
     });
   };
 
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages); // PDF가 로드된 후 총 페이지 수 설정
+  };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -258,15 +268,11 @@ const Detail = () => {
           <hr></hr>
 
           {/* PDF 삽입 */}
-          <Worker workerUrl={`https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js`}>
-            {descriptionPath ? (
-              <Viewer fileUrl={descriptionPath} />
-            ) : (
-              <div>
-                <p>설명 로딩중... (하단은 샘플 PDF입니다)</p> <Viewer fileUrl={samplePDF} />
-              </div>
-            )}
-          </Worker>
+          <Document file={descriptionPath || samplePDF} onLoadSuccess={onDocumentLoadSuccess}>
+            {Array.from(new Array(numPages), (el, index) => (
+              <Page key={index} pageNumber={index + 1} width={1000} />
+            ))}
+          </Document>
         </div>
       </div>
       {!isDetailBtnVisible && (

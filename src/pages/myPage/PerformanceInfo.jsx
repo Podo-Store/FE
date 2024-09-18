@@ -17,6 +17,7 @@ import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
 
 import "./PerformanceInfo.css";
+import "./PerformanceTop.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -126,7 +127,7 @@ const PerformanceInfo = () => {
   return (
     <div>
       <MainNav />
-      <div className="min-height perform-info">
+      <div className="min-height perform-info perform-top">
         <GoBack url="/mypage/purchased" />
         <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
 

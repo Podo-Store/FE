@@ -14,6 +14,7 @@ import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
 import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
 import PerformanceInfo from "./pages/myPage/PerformanceInfo";
+import PerformanceRefund from "./pages/myPage/PerformanceRefund";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
@@ -55,6 +56,10 @@ function Routing() {
             <Route
               path="/mypage/purchased/performance-info/:id"
               element={<ProtectedRoute element={<PerformanceInfo />} />}
+            />
+            <Route
+              path="/mypage/purchased/performance-refund/:id"
+              element={<ProtectedRoute element={<PerformanceRefund />} />}
             />
             <Route
               path="/mypage/scriptmanage"

@@ -3,12 +3,12 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 /**
- *
- * @param {string} text - 표시 글자
- * @param onClick - onClick
- * @param type - type
- * @param {string} color - "white", "grey" or "gray", "purple"
- * @param {boolean} disabled - in "purple", disabled
+ * @param {Object} props - Component properties
+ * @param {string} props.text - 표시 글자
+ * @param {function} props.onClick - onClick
+ * @param {string} props.color - "white", "grey" or "gray", "purple"
+ * @param {string} [props.type] - type: "submit", etc.
+ * @param {boolean} [props.disabled] - in "purple", disabled
  * @returns
  */
 const SmallOnOffBtn = ({ text, onClick, type, color, disabled = false }) => {

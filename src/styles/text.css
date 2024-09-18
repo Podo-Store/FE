@@ -33,6 +33,15 @@
   line-height: 0.875rem; /* 140% */
 }
 
+.p-xs-medium {
+  /* Paragraph/XS/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 14px; /* 140% */
+}
+
 .p-xs-under {
   /* Paragraph/XS/Under */
   font-family: "Noto Sans KR";

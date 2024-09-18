@@ -8,6 +8,7 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import Loading from "../Loading";
+import Preview from "../../components/detail/Preview";
 import Select from "../../components/select/Select";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -22,11 +23,13 @@ import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import samplePDF from "./../../assets/sample.pdf";
 
 import "./Detail.css";
+import "./../../styles/text.css";
+import "./../../styles/utilities.css";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-const Detail = () => {
+const Detail = ({ testFlag = 1 }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
 
@@ -38,7 +41,7 @@ const Detail = () => {
   const [lengthType, setLengthType] = useState("");
 
   const [imagePath, setImagePath] = useState("");
-  const [preview, setPreview] = useState("");
+  const [filePath, setFilePath] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
 
   // 기존 대본 구매 이력
@@ -95,9 +98,9 @@ const Detail = () => {
       setSellingPerform(response.data.performance);
       setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
       setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
-      setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
+      setLengthType(response.data.playType);
       setImagePath(response.data.imagePath);
-      setPreview(response.data.preview);
+      setFilePath(response.data.filePath);
       setDescriptionPath(response.data.descriptionPath);
       setHasBoughtScript(response.data.buyScript);
     } catch (error) {
@@ -122,13 +125,14 @@ const Detail = () => {
   const pdfContainerRef = useRef(null);
 
   useEffect(() => {
+    if (!numPages) return; // PDF가 로드되지 않았으면 IntersectionObserver 설정 중지
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsDetailBtnVisible(entry.isIntersecting);
       },
       {
         root: null,
-        // detail-btn-wrap 섹션이 10% 이상 보이면 상태 변경
         threshold: 0.1,
       }
     );
@@ -142,9 +146,11 @@ const Detail = () => {
         observer.unobserve(detailBtnWrapRef.current);
       }
     };
-  }, []);
+  }, [numPages]); // numPages가 설정된 후에만 IntersectionObserver 작동
 
   useEffect(() => {
+    if (!numPages) return; // PDF가 로드되지 않았으면 스크롤 이벤트 중지
+
     const handleScroll = () => {
       const pdfContainer = pdfContainerRef.current;
       const bottomBar = document.querySelector(".detail-bottom-bar");
@@ -153,7 +159,6 @@ const Detail = () => {
         const pdfContainerRect = pdfContainer.getBoundingClientRect();
         const bottomBarHeight = bottomBar.offsetHeight;
 
-        // PDF의 끝이 화면에 나타나면 bottom-bar 위치 변경
         if (pdfContainerRect.bottom <= window.innerHeight - bottomBarHeight) {
           setBottomBarStyle({
             position: "relative",
@@ -170,7 +175,7 @@ const Detail = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [numPages]); // numPages가 설정된 후에만 스크롤 이벤트 적용
 
   const onClickPurchase = () => {
     // 공연권도 선택되었을 시 true
@@ -203,8 +208,8 @@ const Detail = () => {
   return (
     <div className="detail">
       <MainNav />
-      <div className="detail-wrap">
-        <div className="detail-title-wrap">
+      <div className="f-dir-column a-items-center detail-wrap">
+        <div className="d-flex">
           <div className="detail-thumbnail-wrap">
             <div
               className="thumbnail-img"
@@ -215,7 +220,7 @@ const Detail = () => {
           </div>
           <div className="detail-title">
             <div>
-              <p># {lengthType}</p>
+              <p># {lengthType === 2 ? "단편극" : "장편극"}</p>
               <h1>
                 {title}
                 <br />
@@ -266,13 +271,23 @@ const Detail = () => {
 
         <div className="detail-description" ref={pdfContainerRef}>
           <hr></hr>
+          <p className="p-large-bold" id="preview-title">
+            미리보기
+          </p>
+          <Preview pdf={filePath} lengthType={lengthType} testFlag={testFlag} />
 
-          {/* PDF 삽입 */}
-          <Document file={descriptionPath || samplePDF} onLoadSuccess={onDocumentLoadSuccess}>
-            {Array.from(new Array(numPages), (el, index) => (
-              <Page key={index} pageNumber={index + 1} width={1000} />
-            ))}
-          </Document>
+          <div className="j-content-center">
+            {/* PDF 삽입 */}
+            <Document
+              file={descriptionPath || samplePDF}
+              onLoadSuccess={onDocumentLoadSuccess}
+              options={{ cMapUrl: "cmaps/", cMapPacked: true }}
+            >
+              {Array.from(new Array(numPages), (el, index) => (
+                <Page key={index} renderMode="canvas" pageNumber={index + 1} width={1000} />
+              ))}
+            </Document>
+          </div>
         </div>
       </div>
       {!isDetailBtnVisible && (

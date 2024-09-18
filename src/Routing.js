@@ -40,7 +40,10 @@ function Routing() {
             <Route path="/signin/find" element={<FindBar />} />
 
             <Route path="/list" element={<List />} />
-            <Route path="/list/detail/:id" element={<Detail />} />
+            {/*<Route path="/list/detail/:id" element={<Detail />} />*/}
+            <Route path="/list/detail/:id" element={<Detail testFlag={1} />} />
+            <Route path="/list/detail/v2/:id" element={<Detail testFlag={0} />} />
+
             <Route path="/purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
             <Route
               path="/purchase/success"

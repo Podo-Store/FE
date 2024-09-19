@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 
-import SignUp from "./pages/auth/SignUp";
+import SignUpDefault from "./pages/auth/SignUpDefault";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
 import FindBar from "./pages/auth/FindBar";
@@ -13,12 +13,13 @@ import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
 import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
+import PerformanceInfo from "./pages/myPage/PerformanceInfo";
+import PerformanceRefund from "./pages/myPage/PerformanceRefund";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
-import SignUpDefault from "./pages/auth/SignUpDefault";
 
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 
@@ -39,7 +40,10 @@ function Routing() {
             <Route path="/signin/find" element={<FindBar />} />
 
             <Route path="/list" element={<List />} />
-            <Route path="/list/detail/:id" element={<Detail />} />
+            {/*<Route path="/list/detail/:id" element={<Detail />} />*/}
+            <Route path="/list/detail/:id" element={<Detail testFlag={1} />} />
+            <Route path="/list/detail/v2/:id" element={<Detail testFlag={0} />} />
+
             <Route path="/purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
             <Route
               path="/purchase/success"
@@ -51,6 +55,14 @@ function Routing() {
             <Route
               path="/mypage/purchased"
               element={<ProtectedRoute element={<PurchasedScript />} />}
+            />
+            <Route
+              path="/mypage/purchased/performance-info/:id"
+              element={<ProtectedRoute element={<PerformanceInfo />} />}
+            />
+            <Route
+              path="/mypage/purchased/performance-refund/:id"
+              element={<ProtectedRoute element={<PerformanceRefund />} />}
             />
             <Route
               path="/mypage/scriptmanage"

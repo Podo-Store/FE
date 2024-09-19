@@ -19,6 +19,9 @@ import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 
 import "./Purchase.css";
+import "./../../styles/utilities.css";
+import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
+import OnOffBtn from "../../components/button/OnOffBtn";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -34,6 +37,11 @@ const Purchase = () => {
   const [performPrice, setPerformPrice] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
+
+  const [checkBoxCondition, setCheckBoxCondition] = useState({
+    purchaseAgreement: false,
+    refundPolicy: false,
+  });
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -202,15 +210,24 @@ const Purchase = () => {
           <div className="purchase-side">
             <PurchaseSummaryBox
               title="주문 요약"
+              page={0}
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}
               performPrice={performPrice}
               totalPrice={totalPrice}
             />
-            <button className="purchase-btn" onClick={onClickPurchase}>
-              결제하기
-            </button>
+
+            <PurchaseCheckBox setCheckBoxCondition={setCheckBoxCondition} />
+
+            <div style={{ marginTop: "1rem" }}></div>
+
+            <OnOffBtn
+              text="결제하기"
+              onClick={onClickPurchase}
+              disabled={!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)}
+              style={{ width: "25.8125rem" }}
+            />
           </div>
         </div>
       </div>

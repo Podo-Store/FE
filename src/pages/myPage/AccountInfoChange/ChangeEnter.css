@@ -1,0 +1,31 @@
+.info-change-enter h6 {
+  margin: 0;
+  margin-top: 4.167vh;
+  margin-bottom: 3.333vh;
+
+  color: #000;
+
+  /* Paragraph/Medium/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 150% */
+}
+
+.info-change-enter div#enter-input {
+  gap: 1.19rem;
+}
+
+.info-change-enter div#enter-input button {
+  width: 4.875rem;
+  height: 3.75rem;
+
+  border-radius: 0.625rem;
+  background: var(--Main, #6a39c0);
+  box-shadow: 3px 3px 20px 0px rgba(0, 0, 0, 0.15);
+}
+
+.info-change-enter div#error-wrap {
+  margin-top: 12px;
+}

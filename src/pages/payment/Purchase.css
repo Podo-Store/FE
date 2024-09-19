@@ -1,5 +1,5 @@
 .purchase .purchase-wrap {
-  margin: 6.66vh 16.5%;
+  margin: 6.66vh 15vw;
   min-height: 80vh;
 }
 .purchase .purchase-wrap h4 {
@@ -141,25 +141,4 @@
 .purchase .purchase-side {
   flex: 1;
   margin-top: 7vh;
-}
-
-.purchase .purchase-btn {
-  width: 100%;
-  margin-top: 1rem;
-  padding: 0.4rem 0;
-
-  border: 0;
-  border-radius: 30px;
-  background: var(--Main);
-
-  color: #ffffff;
-  text-align: center;
-
-  font-family: "Noto Sans KR";
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 28px;
-
-  cursor: pointer;
 }

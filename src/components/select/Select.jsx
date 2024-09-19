@@ -1,8 +1,15 @@
 import "./Select.css";
 
-const Select = ({ value, onChange, children }) => {
+const Select = ({ value, onChange, style, children }) => {
   return (
-    <select className="select" name="" id="option" value={value} onChange={onChange}>
+    <select
+      className="select"
+      name=""
+      id="option"
+      value={value}
+      onChange={onChange}
+      style={{ ...style }}
+    >
       {children}
     </select>
   );

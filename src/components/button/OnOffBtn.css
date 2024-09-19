@@ -1,0 +1,15 @@
+.on-off-btn {
+  width: 12.1875rem;
+  height: 3rem;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 1.875rem;
+  background: var(--purple-purple-4-main, #6a39c0);
+}
+
+.on-off-btn:disabled {
+  cursor: default;
+  background-color: #dadada;
+}

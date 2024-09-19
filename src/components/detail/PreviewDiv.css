@@ -1,0 +1,48 @@
+.preview div#selected-page {
+  padding: 67px 0;
+
+  background: var(--grey6, #777);
+
+  position: relative;
+}
+
+.preview div#selected-page img#close-btn {
+  width: 40px;
+  height: 40px;
+
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.preview div#background-page-wrap {
+  position: absolute;
+  top: 98px;
+  bottom: 98px;
+  width: 674px;
+  z-index: 10; /* 페이지보다 뒤에 위치 */
+}
+
+.preview div#background-page {
+  width: 50%;
+  height: 100%;
+  background: var(--grey-grey-4, #bababa);
+}
+
+.preview div#selected-page div#page {
+  z-index: 50;
+
+  gap: 135px;
+}
+
+.preview div#selected-page div#page img {
+  width: 50px;
+  height: 50px;
+}
+
+.preview div#selected-page div#page div h3#select-page {
+  position: absolute;
+
+  right: 25px;
+  bottom: 21px;
+}

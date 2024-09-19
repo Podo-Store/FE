@@ -8,7 +8,7 @@ import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 
 import "./FileInputBox.css";
 
-const FileInputBox = ({ title, onFileUpload, style }) => {
+const FileInputBox = ({ title, onFileUpload, style, titleStyle }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const navigate = useNavigate();
 
@@ -51,7 +51,7 @@ const FileInputBox = ({ title, onFileUpload, style }) => {
 
   return (
     <div className="file-input-box">
-      {title ? <p>{title}</p> : null}
+      {title ? <p style={{ ...titleStyle }}>{title}</p> : null}
       <div
         className="input-box-content"
         {...getRootProps({ onClick: handleClick })} // handleClick 함수를 getRootProps에 전달

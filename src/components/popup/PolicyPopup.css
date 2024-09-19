@@ -1,0 +1,72 @@
+.popup {
+  width: 28.375rem;
+  height: 45.875rem;
+
+  padding-top: 1.5rem;
+  padding-left: 1.5rem;
+
+  position: absolute;
+
+  border-radius: 0.3125rem;
+  border: 0.5px solid var(--grey7, #3c3c3c);
+  background: #fff;
+
+  z-index: 1000;
+}
+
+.popup div#title {
+  height: 2.4375rem;
+
+  padding: 0 0.44rem;
+  margin-bottom: 0.5rem;
+
+  border-radius: 0.3125rem;
+  border: 0.3px solid rgba(0, 0, 0, 0.7);
+  opacity: 0.7;
+  background: #f5f5f5;
+}
+
+.popup img#close-btn {
+  transform: translate(-1rem, -0.7rem);
+}
+
+.popup div#content-wrap {
+  width: 25.375rem;
+  height: 40rem;
+
+  padding: 1.12rem 0;
+  padding-left: 1.44rem;
+
+  border-radius: 0.3125rem;
+  border: 0.3px solid rgba(0, 0, 0, 0.7);
+  opacity: 0.7;
+  background: #f5f5f5;
+}
+
+.popup div#content {
+  margin-right: 0.66rem;
+  padding-right: 1rem;
+  /* 스크롤 추가 */
+  max-height: 40rem;
+  overflow-y: auto;
+}
+
+/* Webkit 기반 브라우저용 스크롤바 커스텀 */
+.popup div#content::-webkit-scrollbar {
+  width: 5px; /* 스크롤바 너비 */
+}
+
+.popup div#content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.popup div#content::-webkit-scrollbar-thumb {
+  background-color: #888; /* 스크롤바 색상 */
+  border-radius: 10px;
+  border: 2px solid transparent; /* 스크롤바와 트랙 사이의 간격 */
+  transform: translateX(-0.5rem);
+}
+
+.popup div#content::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* 스크롤바에 마우스를 올렸을 때 색상 */
+}

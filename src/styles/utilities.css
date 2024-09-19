@@ -22,9 +22,24 @@
   justify-content: space-between;
 }
 
+.a-items-start {
+  display: flex;
+  align-items: flex-start;
+}
+
 .a-items-center {
   display: flex;
   align-items: center;
+}
+
+.f-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.p-relative {
+  position: relative;
 }
 
 .min-height {
@@ -37,4 +52,11 @@
 
 .c-pointer {
   cursor: pointer;
+}
+
+.no-drag {
+  user-select: none;
+  -webkit-user-drag: none; /* 웹킷 기반 브라우저 (크롬, 사파리)에서 드래그 금지 */
+  -moz-user-select: none; /* 파이어폭스에서 드래그 금지 */
+  -ms-user-select: none; /* 구형 인터넷 익스플로러에서 드래그 금지 */
 }

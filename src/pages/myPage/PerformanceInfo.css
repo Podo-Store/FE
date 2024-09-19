@@ -1,0 +1,43 @@
+.width-629 {
+  width: 629px;
+}
+
+.perform-info .script div#info {
+  gap: 4px;
+
+  margin-top: 2.5vh;
+  margin-bottom: 0.926vh;
+}
+
+.perform-info .script div#info img {
+  width: 19px;
+  height: 19px;
+}
+
+.perform-info .script div#margin {
+  height: 1rem;
+}
+.perform-info .script div#days {
+  margin-top: 2.593vh;
+}
+
+.perform-info .script div#days-left {
+  gap: 4px;
+
+  margin-bottom: 0.69rem;
+}
+
+.perform-info .script div#days-left img {
+  width: 19px;
+  height: 19px;
+}
+
+.perform-info .script div#circle-add-btn {
+  margin-top: 0.88rem;
+}
+
+.perform-info .script div#btn {
+  gap: 0.94rem;
+
+  margin-top: 3.796vh;
+}

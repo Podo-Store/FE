@@ -12,6 +12,8 @@ import "./../../../../styles/utilities.css";
  * 추가 props 설명
  * @param {*} timerStartControl - Timer start condition: true일 때
  * @param {*} timerResetControl - Timer reset condition: true일 때
+ * @param {*} timerPauseControl - 일시정지
+ * @param {*} timerStopControl - 정지, 초기화
  * @param {*} setTimerValue - Timer callback function
  * @returns
  */
@@ -37,27 +39,35 @@ const AuthSideBtnTimerInputField = ({
   // 타이머 control
   timerStartControl,
   timerResetControl,
+  timerPauseControl,
   timerStopControl,
+
   // 타이머 callback function
   setTimerValue,
 }) => {
   const [timerId, setTimerId] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
+  const [timerVisible, setTimerVisible] = useState(false);
 
+  // 타이머가 시작해야 하는 조건: timerStartControl이 true일 때
   useEffect(() => {
-    // 타이머가 시작해야 하는 조건: timerStartControl이 true일 때
-    if (timerStartControl && timeLeft > 0) {
-      const timerId = setInterval(() => {
+    if (timerStartControl && timeLeft > 0 && !timerStopControl) {
+      // timerStopControl 추가
+      setTimerVisible(true);
+      const id = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
 
-      setTimerId(timerId);
+      setTimerId(id);
 
-      return () => clearInterval(timerId); // 메모리 누수를 방지하기 위해 타이머를 정리
-    } else if (timeLeft === 0) {
-      setTimeLeft(0); // 타이머가 0일 때 멈추도록 설정
+      return () => clearInterval(id); // 타이머가 재설정될 때 이전 타이머 정리
     }
-  }, [timerStartControl, timeLeft]);
+
+    if (timeLeft === 0) {
+      setTimerVisible(false);
+      setTimerId(null);
+    }
+  }, [timerStartControl, timeLeft, timerStopControl]);
 
   useEffect(() => {
     setTimerValue(timeLeft);
@@ -70,10 +80,19 @@ const AuthSideBtnTimerInputField = ({
   }, [timerResetControl]);
 
   useEffect(() => {
-    if (timerStopControl) {
+    if (timerPauseControl) {
       // 타이머 일시 정지
       clearInterval(timerId);
       setTimerId(null); // 타이머 ID 초기화
+    }
+  }, [timerPauseControl, timerId]);
+
+  useEffect(() => {
+    if (timerStopControl && timerId) {
+      // 타이머 정지
+      clearInterval(timerId);
+      setTimerId(null); // 타이머 ID 초기화
+      setTimeLeft(300); // 타이머 초기화
     }
   }, [timerStopControl, timerId]);
 
@@ -107,10 +126,15 @@ const AuthSideBtnTimerInputField = ({
                 className="p-medium-medium c-main c-default"
                 style={{ transform: "translate(-4.5rem, 0.5rem)" }}
               >
-                {formatTime(timeLeft)}
+                {timerStartControl && timerVisible ? formatTime(timeLeft) : null}
               </p>
             ) : (
-              <p className="p-medium-medium">d</p>
+              <p
+                className="p-medium-medium c-white c-default"
+                style={{ transform: "translate(-4.5rem, 0.5rem)" }}
+              >
+                {"d "}
+              </p>
             )}
           </div>
         }

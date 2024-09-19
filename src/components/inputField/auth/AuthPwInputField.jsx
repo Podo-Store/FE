@@ -11,6 +11,7 @@ const AuthPwInputField = ({
   value,
   onChange,
   // 추가 요소
+  onClick,
   errorMessage,
   showErrorMsg,
   isValid,
@@ -28,6 +29,7 @@ const AuthPwInputField = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onClick={onClick}
       rightElement={
         <img
           src={toggleVisibility ? invisible : visible}

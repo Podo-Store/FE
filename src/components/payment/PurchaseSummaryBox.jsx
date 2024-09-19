@@ -1,8 +1,14 @@
 import { formatPrice } from "../../utils/formatPrice";
-import "./PurchaseSummaryBox.css";
 
+import "./PurchaseSummaryBox.css";
+import "./../../styles/text.css";
+
+/**
+ * @param {number} page - 0: 구매 페이지, 1: 구매 완료 페이지
+ */
 const PurchaseSummaryBox = ({
   title,
+  page,
   buyScript,
   scriptPrice = 0,
   buyPerform,
@@ -11,7 +17,12 @@ const PurchaseSummaryBox = ({
 }) => {
   return (
     <div className="purchase-summary-box">
-      <h4>{title}</h4>
+      {page === 0 ? (
+        <h4 className="p-large-bold">{title}</h4>
+      ) : (
+        <h4 className="h5-bold">{title}</h4>
+      )}
+      <div style={{ height: "1.08rem" }}></div>
       <div className="price-wrap">
         <p>대본 가격</p>
         {buyScript ? <p>{formatPrice(scriptPrice)}원</p> : <p> - 원</p>}

@@ -1,0 +1,54 @@
+.delete-complete {
+  margin-top: 6.667vh;
+}
+
+.delete-complete .delete-complete-wrap {
+  display: flex;
+  align-items: flex-start;
+}
+
+.delete-complete .delete-complete-box {
+  padding: 2.69rem 1.69rem;
+
+  border-radius: 1.25rem;
+  border: 2px dashed var(--Main, #9591f2);
+}
+
+.delete-complete .delete-complete-wrap img {
+  background: #fdfaff;
+  transform: translate(-26.25rem, -1.5rem);
+}
+
+.delete-complete .delete-complete-box p {
+  margin: 0;
+  text-align: center;
+
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.delete-complete .main-page-btn {
+  margin-top: 2.5rem;
+
+  width: 27rem;
+  height: 3rem;
+
+  border: none;
+  border-radius: 1.875rem;
+  background: var(--Main, #9591f2);
+
+  cursor: pointer;
+
+  color: #fff;
+
+  /* H5/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.75rem; /* 140% */
+}

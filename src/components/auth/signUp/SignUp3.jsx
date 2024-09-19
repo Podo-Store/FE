@@ -2,18 +2,12 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { AuthInputField } from "../../inputField";
-import {
-  Selector,
-  CheckerMessage,
-  ErrorMessage,
-  PreviousButton,
-  NextPurpleButton,
-  NextGreyButton,
-} from ".";
+import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
 
 import { NAME_FORMAT_REGEX, NAME_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
 import Form from "../Form";
+import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
 
 const SignUp3 = ({
   onPrevious,
@@ -35,19 +29,30 @@ const SignUp3 = ({
   const [hasClickedInputFlag, setHasClickedInputFlag] = useState(false);
 
   useEffect(() => {
+    /*
     const checker = {
       show: name.length > 0,
       format: NAME_FORMAT_REGEX.test(name),
       length: NAME_LENGTH_REGEX.test(name),
     };
-
     setNameChecker(checker);
+    */
+    setNameChecker((prevNameChecker) => ({
+      // 기존 show가 true면 그대로 유지
+      show: prevNameChecker.show || name.length > 0,
+      format: NAME_FORMAT_REGEX.test(name),
+      length: NAME_LENGTH_REGEX.test(name),
+    }));
+    // 길이가 0일 경우 format 체크를 해제
+    if (name.length === 0) {
+      setNameChecker({ ...nameChecker, format: false });
+    }
 
     // name이 바뀔 때, 만약 '입력을 위해' 클릭이 된 상황일 경우 중복 체크를 해제
     if (hasClickedInputFlag) {
       setNameDuplicated(false);
     }
-  }, [name, hasClickedInputFlag]);
+  }, [name, nameChecker, hasClickedInputFlag]);
 
   const checkNameDuplicated = async (name) => {
     // 닉네임 중복 체크 API 연결
@@ -67,12 +72,16 @@ const SignUp3 = ({
     }
   };
 
+  const saveNameStatus = () => {
+    setDuplicatedStatus({ ...duplicatedStatus, name: nameDuplicated });
+    setUserInfo({ ...userInfo, name: name });
+  };
+
   return (
     <Form
       onSubmit={() => {
         if (nameChecker.format && nameChecker.length && !nameDuplicated) {
-          setDuplicatedStatus({ ...duplicatedStatus, name: nameDuplicated });
-          setUserInfo({ ...userInfo, name: name });
+          saveNameStatus();
           onNext();
         }
       }}
@@ -87,6 +96,7 @@ const SignUp3 = ({
         }}
         errorMessageCustomFlag="true"
         onClick={() => {
+          setNameChecker({ ...nameChecker, show: true });
           setHasClickedInputFlag(true);
         }}
         onBlur={() => {
@@ -94,32 +104,20 @@ const SignUp3 = ({
           checkNameDuplicated(name);
         }}
       />
-      <div className="f-dir-column" id="error-wrap">
-        {nameChecker.show ? (
-          <div className="f-dir-column" id="error-wrap">
-            <CheckerMessage
-              checkedFlag={nameChecker.format}
-              message="한글, 영어, 숫자만 사용 가능해요."
-            />
-            <CheckerMessage checkedFlag={nameChecker.length} message="3 ~ 8자만 가능해요." />
-          </div>
-        ) : null}
-        {nameDuplicated ? <ErrorMessage message="중복된 닉네임입니다." /> : null}
-      </div>
+
+      <NameErrorMessages nameChecker={nameChecker} nameDuplicated={nameDuplicated} />
 
       <div className="j-content-between">
         <PreviousButton
           onPrevious={() => {
-            setDuplicatedStatus({ ...duplicatedStatus, name: nameDuplicated });
-            setUserInfo({ ...userInfo, name: name });
+            saveNameStatus();
             onPrevious();
           }}
         />
         {nameChecker.format && nameChecker.length && !nameDuplicated ? (
           <NextPurpleButton
             onNext={() => {
-              setDuplicatedStatus({ ...duplicatedStatus, name: nameDuplicated });
-              setUserInfo({ ...userInfo, name: name });
+              saveNameStatus();
               onNext();
             }}
           />

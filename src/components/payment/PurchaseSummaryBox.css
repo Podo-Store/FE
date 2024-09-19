@@ -1,28 +1,28 @@
 .purchase-summary-box {
   border-radius: 42px;
   border: 1px solid #fff;
-  background: var(--puple-puple1, #f4f2ff);
+  background: var(--purple-purple-10, #f5f0ff);
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(5px);
 
-  padding: 2rem 2rem 1rem;
+  padding-top: 23px;
+  padding-left: 28.47px;
+  padding-bottom: 21.69px;
 }
 
-.purchase-summary-box h4 {
-  color: #000;
-
-  /* H5/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 140% */
+.purchase-summary-box hr {
+  margin-top: 0.77rem;
+  margin-right: 12.94px;
+  margin-bottom: 0.95rem;
+  background: #caabff;
 }
 
 .purchase-summary-box .price-wrap {
   display: flex;
   gap: 1rem;
+
   padding-left: 1rem;
+  margin-right: 27px;
 }
 
 .purchase-summary-box .price-wrap p {

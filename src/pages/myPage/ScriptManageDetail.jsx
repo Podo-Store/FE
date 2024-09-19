@@ -9,15 +9,15 @@ import Footer from "../Footer";
 import Loading from "../Loading";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
+import FileInputBox from "../../components/file/FileInputBox";
+import GoBack from "../../components/button/GoBack";
 
 import { useRequest } from "../../hooks/useRequest";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
-
 import "./ScriptManageDetail.css";
-import FileInputBox from "../../components/file/FileInputBox";
+import "./../../styles/text.css";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -187,15 +187,8 @@ const ScriptManageDetail = () => {
     <div className="script-manage-detail">
       <MainNav />
       <div className="script-manage-detail-wrap">
-        <div
-          className="go-back"
-          onClick={() => {
-            navigate("/mypage/scriptmanage");
-          }}
-        >
-          <img src={goBackArrowImg} alt="go back"></img>
-          <h6>뒤로가기</h6>
-        </div>
+        <GoBack url="/mypage/scriptmanage" />
+
         <h1>등록한 작품들을 관리할 수 있어요!</h1>
         <p id="title">작품 상세 페이지 수정</p>
         <hr />
@@ -210,49 +203,65 @@ const ScriptManageDetail = () => {
               }}
             >
               {/* ㄴ 이미지 input이 있을 경우 그 file의 url로, 아닐 경우 서버에서 받아온 url */}
-              <p onClick={onClickChangeThumbnailImg}>대표 이미지 수정하기</p>
+              <p className="p-xs-under c-pointer" onClick={onClickChangeThumbnailImg}>
+                대표 이미지 수정하기
+              </p>
             </div>
             <div className="script-info-detail">
-              <RectInputField
-                title="작품 제목"
-                type="text"
-                placeholder="podo_store"
-                value={title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-              />
-              <div className="script-info-detail-price">
+              <p className="p-medium-bold">작품 정보</p>
+              <div className="f-dir-column" id="info-input">
                 <RectInputField
-                  title="대본 가격 (원)"
                   type="text"
-                  placeholder="00,000"
+                  placeholder="작품 제목을 입력해주세요."
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                  }}
+                />
+                <RectInputField
+                  type="number"
+                  placeholder="대본 가격을 숫자로 입력해주세요."
                   value={scriptPrice}
                   onChange={(e) => {
                     setScriptPrice(e.target.value);
                   }}
                 />
                 <RectInputField
-                  title="공연권 가격 (원)"
-                  type="text"
-                  placeholder="00,000"
+                  type="number"
+                  placeholder="공연권 가격을 숫자로 입력해주세요."
                   value={performPrice}
                   onChange={(e) => {
                     setPerformPrice(e.target.value);
                   }}
                 />
               </div>
-              <p>상태 변경하기</p>
+            </div>
+          </div>
+          <div className="d-flex" id="select-wrap">
+            <div id="select">
+              <p className="p-medium-bold">대본 판매 상태</p>
               <Select
-                value={selectedOption}
+                value={saleScriptStatus ? "scriptSale" : "notSale"}
                 onChange={(event) => {
-                  setSelectedOption(event.target.value);
+                  setSaleScriptStatus(event.target.value === "scriptSale");
                 }}
+                style={{ height: "2.125rem" }}
               >
-                <option value="notSale">대본&공연권 모두 판매 중지</option>
-                <option value="scriptSale">대본만 판매</option>
-                <option value="performSale">공연권만 판매</option>
-                <option value="scriptPerformSale">대본&공연권 모두 판매</option>
+                <option value="notSale">판매 중지</option>
+                <option value="scriptSale">판매</option>
+              </Select>
+            </div>
+            <div id="select">
+              <p className="p-medium-bold">공연권 판매 상태</p>
+              <Select
+                value={salePerformStatus ? "performSale" : "notSale"}
+                onChange={(event) => {
+                  setSalePerformStatus(event.target.value === "performSale");
+                }}
+                style={{ height: "2.125rem" }}
+              >
+                <option value="notSale">판매 중지</option>
+                <option value="performSale">판매</option>
               </Select>
             </div>
           </div>
@@ -262,13 +271,19 @@ const ScriptManageDetail = () => {
               onFileUpload={(file) => {
                 setUploadedFile(file);
               }}
-              style={{ width: "38rem" }}
+              style={{ width: "39.3125rem" }}
+              titleStyle={{
+                margin: "0",
+                marginTop: "2.222vh",
+                marginBottom: "0.63rem",
+                fontSize: "1rem",
+                fontStyle: "normal",
+                fontWeight: "700",
+                lineHeight: "1.5rem",
+              }}
             />
 
             <div className="bottom-wrap">
-              <p id="delete" onClick={onClickDelete}>
-                작품 삭제
-              </p>
               <div className="btn-wrap">
                 <button
                   id="cancel"
@@ -282,6 +297,11 @@ const ScriptManageDetail = () => {
                   수정하기
                 </button>
               </div>
+            </div>
+            <div className="j-content-end">
+              <p id="delete" onClick={onClickDelete}>
+                작품 삭제
+              </p>
             </div>
           </div>
         </div>

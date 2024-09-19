@@ -1,14 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { AuthPwInputField } from "../../inputField";
-import {
-  Selector,
-  CheckerMessage,
-  ErrorMessage,
-  PreviousButton,
-  NextPurpleButton,
-  NextGreyButton,
-} from ".";
+import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
 
 import {
   PW_ALPHABET_REGEX,
@@ -17,6 +10,8 @@ import {
   PW_LENGTH_REGEX,
 } from "../../../constants/regex";
 import Form from "../Form";
+import PWErrorMessages from "./ErrorMessages/PWErrorMessages";
+import PWCheckErrorMessages from "./ErrorMessages/PWCheckErrorMessages";
 
 const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
   const [pw, setPw] = useState(userInfo.pw);
@@ -35,6 +30,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
   });
 
   useEffect(() => {
+    /*
     const checker = {
       show: pw.length > 0,
       alphabet: PW_ALPHABET_REGEX.test(pw),
@@ -42,8 +38,17 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
       special: PW_SPECIAL_REGEX.test(pw),
       length: PW_LENGTH_REGEX.test(pw),
     };
-
     setPwChecker(checker);
+    */
+
+    setPwChecker((prevPwChecker) => ({
+      // 기존 show가 true면 그대로 유지
+      show: prevPwChecker.show || pw.length > 0,
+      alphabet: PW_ALPHABET_REGEX.test(pw),
+      number: PW_NUMBER_REGEX.test(pw),
+      special: PW_SPECIAL_REGEX.test(pw),
+      length: PW_LENGTH_REGEX.test(pw),
+    }));
   }, [pw]);
 
   useEffect(() => {
@@ -75,6 +80,9 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
       <AuthPwInputField
         placeholder="비밀번호를 입력해주세요."
         value={pw}
+        onClick={() => {
+          setPwChecker({ ...pwChecker, show: true });
+        }}
         onChange={(event) => {
           setPw(event.target.value);
           if (pw.length > 0) {
@@ -83,26 +91,8 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         }}
         errorMessageCustomFlag="true"
       />
-      <div className="f-dir-column" id="error-wrap">
-        {pwChecker.show ? (
-          <div className="f-dir-column" id="error-wrap">
-            <CheckerMessage
-              checkedFlag={pwChecker.alphabet}
-              message="영어 대, 소문자를 각 하나 이상 포함해야 해요."
-            />
-            <CheckerMessage
-              checkedFlag={pwChecker.number}
-              message="숫자를 하나 이상 포함해야 해요."
-            />
-            <CheckerMessage
-              checkedFlag={pwChecker.special}
-              message="특수기호(@$!%*#?&)를 하나 이상 포함해야 해요."
-            />
-            <CheckerMessage checkedFlag={pwChecker.length} message="5 ~ 11자만 가능해요." />
-          </div>
-        ) : null}
-      </div>
 
+      <PWErrorMessages pwChecker={pwChecker} />
       {pwChecker.show ? <div style={{ height: "1.81rem" }}></div> : null}
 
       <AuthPwInputField
@@ -116,11 +106,8 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         }}
         errorMessageCustomFlag="true"
       />
-      {pwCheckChecker.show && !pwCheckChecker.equal ? (
-        <div id="error-wrap">
-          <ErrorMessage message="비밀번호가 일치하지 않습니다." />
-        </div>
-      ) : null}
+
+      <PWCheckErrorMessages pwCheckChecker={pwCheckChecker} />
 
       <div className="j-content-between">
         <PreviousButton

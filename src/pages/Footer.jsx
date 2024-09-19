@@ -2,10 +2,12 @@ import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/image/footer/new_logo.svg";
 import instagramIcon from "../assets/image/footer/instagramIcon.svg";
-import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
-import XIcon from "../assets/image/footer/XIcon.svg";
+import mail from "../assets/image/footer/mail.svg";
+// import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
+// import XIcon from "../assets/image/footer/XIcon.svg";
 
 import "./Footer.css";
+import "./../styles/utilities.css";
 
 function Footer() {
   const navigate = useNavigate();
@@ -56,13 +58,13 @@ function Footer() {
             <div className="sitemap-section">
               <ul id="question">
                 <li>개인정보처리방침</li>
-                <li>
+                {/*<li>
                   <button>문의하기</button>
-                </li>
+                </li>*/}
               </ul>
               <hr />
               <ul>
-                <li>Follow us</li>
+                <li>Follow us.</li>
                 <li id="icons">
                   <a
                     href="https://www.instagram.com/podosangjeom"
@@ -72,6 +74,12 @@ function Footer() {
                     <img src={instagramIcon} alt="instagramIcon" />
                     <p>@podosangjeom</p>
                   </a>
+                </li>
+                <div style={{ height: "12px" }}></div>
+                <li>Contact.</li>
+                <li className="d-flex" id="contact">
+                  <img src={mail} alt="contact" />
+                  <p>podostore1111@gmail.com</p>
                 </li>
               </ul>
             </div>

@@ -30,6 +30,7 @@ const PurchaseSuccess = () => {
           <div className="purchase-summary">
             <PurchaseSummaryBox
               title="결제 상품"
+              page={1}
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}

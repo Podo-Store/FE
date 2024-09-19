@@ -23,6 +23,8 @@ const FindID = () => {
 
   const [isNotCorrectEmailFormat, setIsNotCorrectEmailFormat] = useState(false);
   const [isNotRegisteredEmail, setIsNotRegisteredEmail] = useState(false);
+  const [idEmailNotMatch, setIdEmailNotMatch] = useState(false);
+
   const [isEmailCodeCorrect, setIsEmailCodeCorrect] = useState(false);
   const [notAllFormWritten, setNotAllFormWritten] = useState(true);
 
@@ -53,9 +55,10 @@ const FindID = () => {
 
     alert("이메일 전송 중입니다. 잠시만 기다려주세요.");
     try {
-      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+      const response = await axios.post(`${SERVER_URL}auth/find/mailSend`, {
         email: email,
-        check: false,
+        flag: false,
+        userId: "",
       });
       setReceivedEmailCode(response.data);
 
@@ -66,6 +69,8 @@ const FindID = () => {
         setIsNotCorrectEmailFormat(true);
       } else if (error.response.data === "사용자 정보 없음") {
         setIsNotRegisteredEmail(true);
+      } else if (error.response.data === "아이디와 이메일의 정보가 일치하지 않습니다.") {
+        setIdEmailNotMatch(true);
       }
     }
     // 인증하기 버튼 눌림 -> 에러 메시지 허용
@@ -131,6 +136,8 @@ const FindID = () => {
               <p>이메일 형식이 올바르지 않습니다.</p>
             ) : isNotRegisteredEmail && email.length > 0 ? (
               <p>가입되지 않은 이메일입니다.</p>
+            ) : idEmailNotMatch && email.length > 0 ? (
+              <p>아이디와 이메일의 정보가 일치하지 않습니다.</p>
             ) : emailSended ? (
               <p id="validMessage">메일을 보냈습니다.</p>
             ) : (

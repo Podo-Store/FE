@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 
 import { AuthInputField } from "../../inputField";
 import { Selector, CheckerMessage, ErrorMessage, NextGreyButton, NextPurpleButton } from ".";
+import Form from "../Form";
 
 import { ID_FORMAT_REGEX, ID_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
-import Form from "../Form";
 
 const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   const [id, setId] = useState(userInfo.id);
@@ -18,14 +18,22 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   const [idDuplicated, setIdDuplicated] = useState(false);
 
   useEffect(() => {
-    // useState 배열로 관리할 때 아래와 같이 사용
-    const newIdChecker = {
-      show: id.length > 0,
+    /*
+        // legacy code: id에 값이 있을 때만 오류 메시지 표시
+      const newIdChecker = {
+        show: id.length > 0,
+        format: ID_FORMAT_REGEX.test(id),
+        length: ID_LENGTH_REGEX.test(id),
+      };
+      setIdChecker(newIdChecker);
+      */
+
+    setIdChecker((prevIdChecker) => ({
+      // 기존 show가 true면 그대로 유지
+      show: prevIdChecker.show || id.length > 0,
       format: ID_FORMAT_REGEX.test(id),
       length: ID_LENGTH_REGEX.test(id),
-    };
-
-    setIdChecker(newIdChecker);
+    }));
 
     // 에러 메시지 초기화
     setIdDuplicated(false);
@@ -61,6 +69,9 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
       <AuthInputField
         placeholder="아이디를 입력해주세요."
         value={id}
+        onClick={() => {
+          setIdChecker({ ...idChecker, show: true });
+        }}
         onChange={(event) => {
           setId(event.target.value);
         }}

@@ -3,10 +3,6 @@
   margin-bottom: 5%;
 }
 
-.detail .detail-title-wrap {
-  display: flex;
-}
-
 .detail .thumbnail-img {
   width: 29.125rem;
   padding-bottom: 29.125rem;
@@ -225,6 +221,16 @@
   padding-left: 19.5vw;
   padding-right: 17vw;
   background: var(--puple-puple1, #f4f2ff);
+}
+
+.detail .detail-description hr {
+  margin: 0;
+  margin-top: 12.87vh;
+  margin-bottom: 2.593vh;
+}
+
+.detail .detail-description p#preview-title {
+  margin-bottom: 2.593vh;
 }
 
 .detail .bottom-bar-left,

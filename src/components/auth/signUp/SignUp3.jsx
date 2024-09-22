@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { AuthInputField } from "../../inputField";
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
+import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
+import Form from "../Form";
+import { AuthInputField } from "../../inputField";
 
 import { NAME_FORMAT_REGEX, NAME_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
-import Form from "../Form";
-import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
 
 const SignUp3 = ({
   onPrevious,
@@ -52,7 +52,8 @@ const SignUp3 = ({
     if (hasClickedInputFlag) {
       setNameDuplicated(false);
     }
-  }, [name, nameChecker, hasClickedInputFlag]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, hasClickedInputFlag]);
 
   const checkNameDuplicated = async (name) => {
     // 닉네임 중복 체크 API 연결

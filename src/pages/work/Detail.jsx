@@ -293,8 +293,10 @@ const Detail = ({ testFlag = 1 }) => {
       {!isDetailBtnVisible && (
         <div className="detail-bottom-bar" style={bottomBarStyle}>
           <div className="bottom-bar-left">
-            <h6>총 금액</h6>
-            <h3>{totalPrice} 원</h3>
+            <h5 className="h5-regular c-grey">총 금액</h5>
+            <h4 className="h4-bold" id="bottom-total-price">
+              {totalPrice} 원
+            </h4>
           </div>
           <div className="bottom-bar-right">
             <select name="" id="option" value={selectedOption} onChange={onChangeSelectOption}>

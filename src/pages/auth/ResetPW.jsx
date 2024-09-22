@@ -3,20 +3,36 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomBtn, InnerBox } from "../../components/auth";
-import { AuthInputField, AuthPwInputField } from "../../components/inputField";
+import { PWCheckErrorMessages, PWErrorMessages } from "../../components/auth/signUp/index.js";
+import { AuthPwInputField } from "../../components/inputField";
 
+import {
+  PW_ALPHABET_REGEX,
+  PW_NUMBER_REGEX,
+  PW_SPECIAL_REGEX,
+  PW_LENGTH_REGEX,
+} from "../../constants/regex";
 import { SERVER_URL } from "../../constants/ServerURL";
-import { PW_REGEX } from "./../../constants/regex.js";
 
 import "./FindBar.css";
 
 const ResetPW = ({ receivedAccessToken }) => {
   // 결과 화면 요소
-  const [newPw, setNewPw] = useState("");
+  const [pw, setPw] = useState("");
+  const [pwChecker, setPwChecker] = useState({
+    show: false,
+    alphabet: false,
+    number: false,
+    special: false,
+    length: false,
+  });
   const [pwCheck, setPwCheck] = useState("");
-  const [pwValid, setPwValid] = useState(false);
-  const [pwCheckValid, setPwCheckValid] = useState(false);
-  const [notResetAllow, setNotResetAllow] = useState(true);
+  const [pwCheckChecker, setPwCheckChecker] = useState({
+    show: false,
+    equal: false,
+  });
+
+  const [resetAllow, setResetAllow] = useState(true);
 
   const [showNewPwErrorMsg, setShowNewPwErrorMsg] = useState(false);
   const [showPwCheckErrorMsg, setShowPwCheckErrorMsg] = useState(false);
@@ -26,35 +42,25 @@ const ResetPW = ({ receivedAccessToken }) => {
 
   const navigate = useNavigate();
 
-  // newPw
   useEffect(() => {
-    if (newPw.length > 0) {
-      setShowNewPwErrorMsg(true);
-    } else {
-      setShowNewPwErrorMsg(false);
-    }
+    const checker = {
+      show: pw.length > 0,
+      alphabet: PW_ALPHABET_REGEX.test(pw),
+      number: PW_NUMBER_REGEX.test(pw),
+      special: PW_SPECIAL_REGEX.test(pw),
+      length: PW_LENGTH_REGEX.test(pw),
+    };
+    setPwChecker(checker);
+  }, [pw]);
 
-    if (PW_REGEX.test(newPw)) {
-      setPwValid(true);
-    } else {
-      setPwValid(false);
-    }
-  }, [newPw]);
-
-  // PW Check
   useEffect(() => {
-    if (pwCheck.length > 0) {
-      setShowPwCheckErrorMsg(true);
-    } else {
-      setShowPwCheckErrorMsg(false);
-    }
+    const checker = {
+      show: pwCheck.length > 0,
+      equal: pw === pwCheck,
+    };
 
-    if (newPw === pwCheck) {
-      setPwCheckValid(true);
-    } else {
-      setPwCheckValid(false);
-    }
-  }, [newPw, pwCheck]);
+    setPwCheckChecker(checker);
+  }, [pw, pwCheck]);
 
   const onClickResetPwBtn = async () => {
     // 비밀번호 재설정 API 호출
@@ -62,7 +68,7 @@ const ResetPW = ({ receivedAccessToken }) => {
       await axios.post(
         `${SERVER_URL}auth/resetPassword`,
         {
-          password: newPw,
+          password: pw,
           confirmPassword: pwCheck,
         },
         {
@@ -81,51 +87,69 @@ const ResetPW = ({ receivedAccessToken }) => {
   };
 
   useEffect(() => {
-    if (newPw.length > 0 && pwValid && pwCheck.length > 0 && pwCheckValid) {
-      setNotResetAllow(false);
+    if (
+      pwChecker.alphabet &&
+      pwChecker.number &&
+      pwChecker.special &&
+      pwChecker.length &&
+      pwCheckChecker.equal
+    ) {
+      setResetAllow(true);
     } else {
-      setNotResetAllow(true);
+      setResetAllow(false);
     }
-  }, [newPw, pwValid, pwCheck, pwCheckValid]);
+  }, [pwChecker, pwCheckChecker]);
 
   return !resetPwCompleted ? (
     <div className="section-find">
-      <AuthPwInputField
-        title="비밀번호"
-        placeholder="5~11자의 영문, 숫자, 특수문자 포함"
-        value={newPw}
-        onChange={(event) => {
-          setNewPw(event.target.value);
-        }}
-        errorMessage="5~11자의 영문, 숫자, 특수문자를 포함해야 합니다."
-        isValid={pwValid}
-        showErrorMsg={showNewPwErrorMsg}
-      />
-      <AuthInputField
-        title="비밀번호 확인"
-        type="password"
-        placeholder="비밀번호를 다시 한번 입력해주세요."
-        value={pwCheck}
-        onChange={(event) => {
-          setPwCheck(event.target.value);
-        }}
-        errorMessage="비밀번호가 일치하지 않습니다."
-        validMessage="비밀번호가 일치합니다."
-        isValid={pwCheckValid}
-        showErrorMsg={showPwCheckErrorMsg}
-      />
-      <div className="reset-pw-margin"></div>
-      <BottomBtn onClick={onClickResetPwBtn} disabled={notResetAllow}>
-        비밀번호 재설정하기
-      </BottomBtn>
+      <div id="input-field">
+        <AuthPwInputField
+          placeholder="비밀번호를 입력해주세요."
+          value={pw}
+          onClick={() => {
+            setPwChecker({ ...pwChecker, show: true });
+          }}
+          onChange={(event) => {
+            setPw(event.target.value);
+            if (pw.length > 0) {
+              setPwChecker({ ...pwChecker, show: true });
+            }
+          }}
+          errorMessageCustomFlag="true"
+        />
+
+        <PWErrorMessages pwChecker={pwChecker} />
+        <div style={{ height: "1rem" }}></div>
+
+        <AuthPwInputField
+          placeholder="비밀번호를 다시 한 번 입력해주세요."
+          value={pwCheck}
+          onChange={(event) => {
+            setPwCheck(event.target.value);
+            if (pw.length > 0) {
+              setPwCheckChecker({ ...pwCheckChecker, show: true });
+            }
+          }}
+          errorMessageCustomFlag="true"
+        />
+
+        <PWCheckErrorMessages pwCheckChecker={pwCheckChecker} />
+        <div style={{ height: "5.556vh" }}></div>
+        <BottomBtn onClick={onClickResetPwBtn} disabled={!resetAllow}>
+          비밀번호 재설정하기
+        </BottomBtn>
+      </div>
     </div>
   ) : (
     <div className="section-find">
-      <InnerBox>
-        <h2 id="complete">비밀번호가 변경되었습니다.</h2>
-      </InnerBox>
-      <div className="reset-pw-margin"></div>
-      <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
+      <div className="f-dir-column" id="founded">
+        <InnerBox>
+          <h5 className="h5-regular t-align-center" id="complete">
+            비밀번호가 변경되었습니다.
+          </h5>
+        </InnerBox>
+        <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
+      </div>
     </div>
   );
 };

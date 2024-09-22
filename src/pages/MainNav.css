@@ -3,8 +3,9 @@
   justify-content: space-between;
   align-items: center;
 
-  height: 70px;
-  padding: 0px 4vw;
+  height: 6.481vh;
+  padding-left: 4.583vw;
+  padding-right: 2.292vw;
   font-family: "Noto_Sans_KR";
   background-color: #ffffff;
 
@@ -18,6 +19,7 @@
 
 .navbar .navbar_logo {
   display: flex;
+  align-items: center;
   gap: 1.5rem;
 }
 
@@ -28,6 +30,9 @@
 }
 
 .navbar .navbar_menu li {
+  display: flex;
+  align-items: center;
+
   padding: 8px 30px;
 }
 
@@ -36,26 +41,32 @@
 
   /* H5/Regular */
   font-family: "Noto Sans KR";
-  font-size: 20px;
+  font-size: 1.852vh;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 140% */
+  line-height: 2.593vh; /* 140% */
 }
 
 .navbar .navbar_login {
   display: flex;
-  gap: 2.5vw;
+  align-items: center;
+
+  position: relative;
 }
 
 .navbar .navbar_login img {
+  height: 2.593vh;
+
+  position: absolute;
+  left: -4vw;
   cursor: pointer;
 }
 
 .navbar .signin_btn {
   border-radius: 30px;
-  border: 3px solid var(--Main, #6a39c0);
-  width: 7.5vw;
-  height: 2.75rem;
+  border: 2px solid var(--Main, #6a39c0);
+  width: 13.889vh;
+  height: 4.074vh;
   background-color: #fdfaff;
 
   cursor: pointer;
@@ -64,8 +75,8 @@
 
   /* Paragraph/Large/Regular */
   font-family: "Noto Sans KR";
-  font-size: 18px;
+  font-size: 1.667vh;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 155.556% */
+  line-height: 2.593vh; /* 155.556% */
 }

@@ -21,7 +21,7 @@ import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 
-import ProtectedRoute from "./components/routes/ProtectedRoute";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 import { AuthProvider } from "./contexts/AuthContext";
 

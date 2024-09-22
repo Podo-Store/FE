@@ -2,7 +2,7 @@ import Cookies from "js-cookie";
 import { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../contexts/AuthContext.jsx";
+import AuthContext from "../contexts/AuthContext.jsx";
 
 const ProtectedRoute = ({ element }) => {
   const { isAuthenticated, refreshAccessToken } = useContext(AuthContext);

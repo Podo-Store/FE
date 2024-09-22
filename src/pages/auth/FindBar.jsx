@@ -7,6 +7,7 @@ import FindID from "./FindID";
 import FindPW from "./FindPW";
 
 import "./FindBar.css";
+import "./../../styles/utilities.css";
 
 const Find = () => {
   const TAB_NAME = ["아이디 찾기", "비밀번호 찾기"];
@@ -15,8 +16,8 @@ const Find = () => {
   return (
     <div className="find">
       <MainNav />
-      <div className="find-content">
-        <div className="tab-nav-wrap">
+      <div className="f-dir-column a-items-center find-content">
+        <div className="f-center f-dir-column tab-nav-wrap">
           <div className="tab-nav">
             <h4
               className={`tab-name ${TAB_NAME[0] === currentTab ? "current" : ""}`}

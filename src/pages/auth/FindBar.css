@@ -1,16 +1,8 @@
 .find .find-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   width: 100%;
 }
 
 .find .tab-nav-wrap {
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-
   margin: 16vh 0;
 }
 
@@ -18,7 +10,6 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 
-  margin-bottom: 5rem;
   width: 66.5rem;
   height: 3.75rem;
   align-self: stretch;
@@ -67,27 +58,18 @@
 .find .section-find {
   display: flex;
   flex-direction: column;
-  width: 35%;
+  align-items: center;
 }
 
-.find .BottomBtn#findID-btn {
-  margin-top: 2vh;
+.find .section-find div#input-field {
+  margin-top: 10.139vh;
+}
+
+.find div#founded {
+  margin-top: 63.5px;
 }
 
 /* 결과 페이지 */
-.find .find-id-title {
-  text-align: center;
-
-  color: #000;
-
-  /* Paragraph/Large/Medium */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.75rem; /* 155.556% */
-}
-
 .find .section-column {
   display: flex;
   gap: 1.5rem;

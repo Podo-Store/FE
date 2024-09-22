@@ -10,11 +10,12 @@ import "./../../../../styles/utilities.css";
 /**
  * AuthSideBtnInputField + Timer
  * 추가 props 설명
- * @param {*} timerStartControl - Timer start condition: true일 때
- * @param {*} timerResetControl - Timer reset condition: true일 때
- * @param {*} timerPauseControl - 일시정지
- * @param {*} timerStopControl - 정지, 초기화
- * @param {*} setTimerValue - Timer callback function
+ * @param {*} props
+ * @param {boolean} props.timerStartControl - Timer start condition: true일 때
+ * @param {boolean} props.timerResetControl - Timer reset condition: true일 때
+ * @param {boolean} props.timerPauseControl - 일시정지
+ * @param {boolean} props.timerStopControl - 정지, 초기화
+ * @param {function} props.setTimerValue - Timer callback function
  * @returns
  */
 const AuthSideBtnTimerInputField = ({
@@ -23,80 +24,58 @@ const AuthSideBtnTimerInputField = ({
   placeholder,
   value,
   onChange,
-  // 추가 요소
   errorMessage,
   showErrorMsg,
   isValid,
   isDuplicated,
   validMessage,
-
   errorMessageCustomFlag,
-
   sideBtnTitle,
   sideBtnOnClick,
   sideBtnDisabled,
-
-  // 타이머 control
-  timerStartControl,
-  timerResetControl,
-  timerPauseControl,
-  timerStopControl,
-
-  // 타이머 callback function
+  timerStart, // 타이머 시작 제어
+  timerStop, // 타이머 정지 제어
+  timerReset,
   setTimerValue,
 }) => {
   const [timerId, setTimerId] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
   const [timerVisible, setTimerVisible] = useState(false);
 
-  // 타이머가 시작해야 하는 조건: timerStartControl이 true일 때
   useEffect(() => {
-    if (timerStartControl && timeLeft > 0 && !timerStopControl) {
-      // timerStopControl 추가
+    if (timerStart && !timerStop && timeLeft > 0) {
       setTimerVisible(true);
       const id = setInterval(() => {
         setTimeLeft((prevTime) => prevTime - 1);
       }, 1000);
-
       setTimerId(id);
 
-      return () => clearInterval(id); // 타이머가 재설정될 때 이전 타이머 정리
+      return () => clearInterval(id);
     }
 
-    if (timeLeft === 0) {
+    if (timeLeft === 0 || timerStop) {
+      clearInterval(timerId);
       setTimerVisible(false);
-      setTimerId(null);
+      setTimeLeft(300); // 초기화
     }
-  }, [timerStartControl, timeLeft, timerStopControl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerStart, timerStop, timeLeft]);
 
   useEffect(() => {
-    setTimerValue(timeLeft);
+    if (timerReset) {
+      clearInterval(timerId);
+      setTimeLeft(300); // 타이머를 300초로 초기화
+      setTimerVisible(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [timerReset]);
+
+  useEffect(() => {
+    if (setTimerValue && timeLeft >= 0) {
+      setTimerValue(timeLeft);
+    }
   }, [timeLeft, setTimerValue]);
 
-  useEffect(() => {
-    if (timerResetControl) {
-      setTimeLeft(300);
-    }
-  }, [timerResetControl]);
-
-  useEffect(() => {
-    if (timerPauseControl) {
-      // 타이머 일시 정지
-      clearInterval(timerId);
-      setTimerId(null); // 타이머 ID 초기화
-    }
-  }, [timerPauseControl, timerId]);
-
-  useEffect(() => {
-    if (timerStopControl && timerId) {
-      // 타이머 정지
-      clearInterval(timerId);
-      setTimerId(null); // 타이머 ID 초기화
-      setTimeLeft(300); // 타이머 초기화
-    }
-  }, [timerStopControl, timerId]);
-
-  // 시간을 분:초 형식으로 변환하는 함수
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
@@ -121,12 +100,12 @@ const AuthSideBtnTimerInputField = ({
               onClick={sideBtnOnClick}
               disabled={sideBtnDisabled}
             />
-            {timerStartControl ? (
+            {timerStart ? (
               <p
-                className="p-medium-medium c-main c-default"
+                className={"p-medium-medium c-main c-default" + (timerVisible ? "" : " c-white")}
                 style={{ transform: "translate(-4.5rem, 0.5rem)" }}
               >
-                {timerStartControl && timerVisible ? formatTime(timeLeft) : null}
+                {timerVisible ? formatTime(timeLeft) : "."}
               </p>
             ) : (
               <p

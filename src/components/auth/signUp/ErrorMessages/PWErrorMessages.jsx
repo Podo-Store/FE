@@ -4,7 +4,7 @@ import "./AuthErrorMessages.css";
 
 const PWErrorMessages = ({ pwChecker }) => {
   return pwChecker.show ? (
-    <div className="f-dir-column auth-error-messages" id="error-wrap">
+    <div className="f-dir-column auth-error-messages">
       <div className="f-dir-column" id="error-wrap">
         <CheckerMessage
           checkedFlag={pwChecker.alphabet}

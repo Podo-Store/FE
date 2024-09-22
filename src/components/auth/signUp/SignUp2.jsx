@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 
-import { AuthPwInputField } from "../../inputField";
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
+import PWCheckErrorMessages from "./ErrorMessages/PWCheckErrorMessages";
+import PWErrorMessages from "./ErrorMessages/PWErrorMessages";
+import Form from "../Form";
+import { AuthPwInputField } from "../../inputField";
 
 import {
   PW_ALPHABET_REGEX,
@@ -9,9 +12,6 @@ import {
   PW_SPECIAL_REGEX,
   PW_LENGTH_REGEX,
 } from "../../../constants/regex";
-import Form from "../Form";
-import PWErrorMessages from "./ErrorMessages/PWErrorMessages";
-import PWCheckErrorMessages from "./ErrorMessages/PWCheckErrorMessages";
 
 const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
   const [pw, setPw] = useState(userInfo.pw);
@@ -93,7 +93,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
       />
 
       <PWErrorMessages pwChecker={pwChecker} />
-      {pwChecker.show ? <div style={{ height: "1.81rem" }}></div> : null}
+      <div style={{ height: "1rem" }}></div>
 
       <AuthPwInputField
         placeholder="비밀번호를 다시 한 번 입력해주세요."

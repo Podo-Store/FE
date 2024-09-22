@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import { Box, RectangleForm } from "../../components/auth";
+import { Box } from "../../components/auth";
 import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../components/auth/signUp";
 import Loading from "../Loading";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./SignUpDefault.css";
+import "../../components/auth/signUp/ErrorMessages/AuthErrorMessages.css";
 import "../../styles/text.css";
 import "../../styles/utilities.css";
 

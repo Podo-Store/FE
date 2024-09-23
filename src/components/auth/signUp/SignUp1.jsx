@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { AuthInputField } from "../../inputField";
 import { Selector, CheckerMessage, ErrorMessage, NextGreyButton, NextPurpleButton } from ".";
 import Form from "../Form";
+import { AuthInputField } from "../../inputField";
 
 import { ID_FORMAT_REGEX, ID_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
@@ -16,6 +16,8 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
     length: false,
   });
   const [idDuplicated, setIdDuplicated] = useState(false);
+  // enter 키 입력 시 중복 체크를 위한 flag: 중복 체크를 했는지 여부
+  const [hasIdDuplicateChecked, setHasIdDuplicateChecked] = useState(false);
 
   useEffect(() => {
     /*
@@ -34,13 +36,12 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
       format: ID_FORMAT_REGEX.test(id),
       length: ID_LENGTH_REGEX.test(id),
     }));
-
-    // 에러 메시지 초기화
-    setIdDuplicated(false);
   }, [id]);
 
   const checkIdDuplicated = async (id) => {
-    // 아이디 중복 체크 API 연결, 조건문 사용
+    // initialize
+    setHasIdDuplicateChecked(false);
+
     try {
       const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
         userId: id,
@@ -50,21 +51,26 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
         setIdDuplicated(false);
       }
     } catch (error) {
-      if (error.response.data.error === "이미 존재하는 아이디") {
-        setIdDuplicated(true);
-      }
+      setIdDuplicated(true);
+    } finally {
+      setHasIdDuplicateChecked(true);
     }
   };
 
+  useEffect(() => {
+    if (hasIdDuplicateChecked && idChecker.format && idChecker.length && !idDuplicated) {
+      setUserInfo({ ...userInfo, id: id });
+      onNext();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasIdDuplicateChecked]); // hasIdDuplicateChecked 상태가 변경될 때 실행
+
+  const onClickNext = async () => {
+    await checkIdDuplicated(id); // 중복 체크 실행
+  };
+
   return (
-    <Form
-      onSubmit={() => {
-        if (idChecker.format && idChecker.length && !idDuplicated) {
-          setUserInfo({ ...userInfo, id: id });
-          onNext();
-        }
-      }}
-    >
+    <Form onSubmit={onClickNext}>
       <Selector index={1} />
       <AuthInputField
         placeholder="아이디를 입력해주세요."
@@ -73,15 +79,18 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
           setIdChecker({ ...idChecker, show: true });
         }}
         onChange={(event) => {
+          setIdDuplicated(false);
+          setHasIdDuplicateChecked(false);
           setId(event.target.value);
         }}
         errorMessageCustomFlag="true"
         onBlur={() => {
           checkIdDuplicated(id);
+          setIdChecker({ ...idChecker, show: false });
         }}
       />
 
-      <div className="f-dir-column" id="error-wrap">
+      <div className="f-dir-column">
         {idChecker.show ? (
           <div className="f-dir-column" id="error-wrap">
             <CheckerMessage
@@ -91,16 +100,15 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
             <CheckerMessage checkedFlag={idChecker.length} message="5 ~ 10자만 가능해요." />
           </div>
         ) : null}
-        {idDuplicated ? <ErrorMessage message="중복된 아이디입니다." /> : null}
+        {idDuplicated ? (
+          <div id="error-wrap">
+            <ErrorMessage message="중복된 아이디입니다." />
+          </div>
+        ) : null}
       </div>
       <div className="j-content-end">
         {idChecker.format && idChecker.length && !idDuplicated ? (
-          <NextPurpleButton
-            onNext={() => {
-              setUserInfo({ ...userInfo, id: id });
-              onNext();
-            }}
-          />
+          <NextPurpleButton onNext={onClickNext} />
         ) : (
           <NextGreyButton />
         )}

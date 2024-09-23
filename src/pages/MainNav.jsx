@@ -5,7 +5,7 @@ import AuthContext from "../contexts/AuthContext";
 
 import navLogo from "../assets/image/navBar/navLogo.svg";
 import navTitle from "../assets/image/navBar/navTitle.svg";
-import cart from "../assets/image/navBar/cart.svg";
+// import cart from "../assets/image/navBar/cart.svg";
 import person from "../assets/image/navBar/person.svg";
 
 import "./MainNav.css";
@@ -34,8 +34,8 @@ function MainNav() {
             handleLinkClick(event, "/");
           }}
         >
-          <img src={navLogo} alt="logo" />
-          <img src={navTitle} alt="포도상점"></img>
+          <img src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
+          <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
         </Link>
         <ul className="navbar_menu">
           <li>

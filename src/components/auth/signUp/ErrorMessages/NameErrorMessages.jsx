@@ -4,7 +4,7 @@ import "./AuthErrorMessages.css";
 
 const NameErrorMessages = ({ nameChecker, nameDuplicated }) => {
   return (
-    <div className="f-dir-column auth-error-messages" id="error-wrap">
+    <div className="f-dir-column auth-error-messages">
       {nameChecker.show ? (
         <div className="f-dir-column" id="error-wrap">
           <CheckerMessage

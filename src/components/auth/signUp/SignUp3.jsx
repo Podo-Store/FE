@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { AuthInputField } from "../../inputField";
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
+import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
+import Form from "../Form";
+import { AuthInputField } from "../../inputField";
 
 import { NAME_FORMAT_REGEX, NAME_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
-import Form from "../Form";
-import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
 
 const SignUp3 = ({
   onPrevious,
@@ -27,6 +27,9 @@ const SignUp3 = ({
 
   // 중복 체크 저장 불가 버그 해결을 위한 flag
   const [hasClickedInputFlag, setHasClickedInputFlag] = useState(false);
+
+  // enter 키 입력 시 중복 체크를 위한 flag: 중복 체크를 했는지 여부
+  const [hasNameDuplicateChecked, setHasNameDuplicateChecked] = useState(false);
 
   useEffect(() => {
     /*
@@ -52,10 +55,14 @@ const SignUp3 = ({
     if (hasClickedInputFlag) {
       setNameDuplicated(false);
     }
-  }, [name, nameChecker, hasClickedInputFlag]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, hasClickedInputFlag]);
 
   const checkNameDuplicated = async (name) => {
-    // 닉네임 중복 체크 API 연결
+    // initialize
+    setHasNameDuplicateChecked(false);
+
+    // 닉네임 중복 체크 API
     try {
       const response = await axios.post(`${SERVER_URL}auth/checkNickname`, {
         nickname: name,
@@ -69,6 +76,8 @@ const SignUp3 = ({
       } else {
         alert("오류가 발생했습니다.");
       }
+    } finally {
+      setHasNameDuplicateChecked(true);
     }
   };
 
@@ -77,21 +86,27 @@ const SignUp3 = ({
     setUserInfo({ ...userInfo, name: name });
   };
 
+  useEffect(() => {
+    if (hasNameDuplicateChecked && nameChecker.format && nameChecker.length && !nameDuplicated) {
+      saveNameStatus();
+      onNext();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasNameDuplicateChecked]); // hasIdDuplicateChecked 상태가 변경될 때 실행
+
+  const onClickNext = async () => {
+    await checkNameDuplicated(name); // 중복 체크 실행
+  };
+
   return (
-    <Form
-      onSubmit={() => {
-        if (nameChecker.format && nameChecker.length && !nameDuplicated) {
-          saveNameStatus();
-          onNext();
-        }
-      }}
-    >
+    <Form onSubmit={onClickNext}>
       <Selector index={3} />
 
       <AuthInputField
         placeholder="닉네임을 입력해주세요."
         value={name}
         onChange={(event) => {
+          setHasNameDuplicateChecked(false);
           setName(event.target.value);
         }}
         errorMessageCustomFlag="true"
@@ -115,12 +130,7 @@ const SignUp3 = ({
           }}
         />
         {nameChecker.format && nameChecker.length && !nameDuplicated ? (
-          <NextPurpleButton
-            onNext={() => {
-              saveNameStatus();
-              onNext();
-            }}
-          />
+          <NextPurpleButton onNext={onClickNext} />
         ) : (
           <NextGreyButton />
         )}

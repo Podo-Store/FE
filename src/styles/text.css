@@ -21,6 +21,14 @@
   line-height: 32px; /* 133.333% */
 }
 
+.h5-regular {
+  /* H5/Regular */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 140% */
+}
+
 .h5-bold {
   /* H5/Bold */
   font-size: 20px;

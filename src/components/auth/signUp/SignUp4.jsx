@@ -8,6 +8,7 @@ import BottomBtn from "../BottomBtn";
 
 import { EMAIL_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
+import EmailCodeErrorMessages from "./ErrorMessages/EmailCodeErrorMessages";
 
 /**
  *
@@ -20,8 +21,7 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
     format: false,
   });
   const [emailDuplicated, setEmailDuplicated] = useState(false);
-  // receivedEmailCode: 현재 작동 X
-  const [receivedEmailCode, setReceivedEmailCode] = useState("");
+
   const [emailSended, setEmailSended] = useState(false);
 
   const [emailCode, setEmailCode] = useState(userInfo.emailCode);
@@ -30,12 +30,6 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
     match: false,
   });
 
-  // 타이머 관련 state
-  const [timerValue, setTimerValue] = useState(0);
-  const [timerStartCondition, setTimerStartCondition] = useState(false);
-  const [timerResetCondition, setTimerResetCondition] = useState(false);
-  const [timerStopCondition, setTimerStopCondition] = useState(false); // 타이머 정지 상태
-
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     age: false,
     collectAndUse: false,
@@ -43,66 +37,48 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
     policy: false,
   });
 
+  const [timerReset, setTimerReset] = useState(false);
+
   useEffect(() => {
     const checker = {
       show: email.length > 0,
       format: EMAIL_REGEX.test(email),
     };
-
     setEmailChecker(checker);
-
-    // 에러 메시지 초기화
     setEmailDuplicated(false);
   }, [email]);
 
   const onClickEmailSend = async () => {
+    // initialize
     setEmailSended(false);
     setEmailDuplicated(false);
-    setTimerResetCondition(true); // 타이머 리셋
-    setTimerResetCondition(false); // 리셋 후 타이머 상태 초기화
-    setTimerStartCondition(true); // 타이머 시작
-
-    setTimerStopCondition(false); // 정지 상태 해제
+    setEmailCodeChecker({ show: false, match: false });
 
     setEmailSended(true);
+    // 타이머 리셋
+    setTimerReset(true);
+    setTimeout(() => setTimerReset(false), 100); // 타이머 리셋 상태를 빠르게 해제
 
     // 이메일 발송 API 호출
     try {
-      const response = await axios.post(`${SERVER_URL}auth/mailSend`, {
+      await axios.post(`${SERVER_URL}auth/mailSend`, {
         email: email,
-        check: true,
       });
 
-      setReceivedEmailCode(response.data);
       setEmailSended(true);
     } catch (error) {
       if (error.response.data.error === "이메일 중복") {
         setEmailDuplicated(true);
-        setTimerResetCondition(true); // 타이머 리셋
-        setTimerStopCondition(true); // 중복 시 타이머 정지
+      } else {
+        alert("이메일 전송에 실패했습니다.");
       }
       setEmailSended(false);
     }
   };
 
-  useEffect(() => {
-    const checker = {
-      show: emailCode.length > 0,
-      match: false,
-    };
-
-    setEmailCodeChecker(checker);
-
-    // 에러 메시지 초기화
-    setEmailCodeChecker({ show: false, match: false });
-  }, [emailCode]);
-
   const onClickConfirmButton = async () => {
-    /*
-    if (receivedEmailCode !== emailCode) {
-      setEmailCodeChecker({ show: true, match: false });
-      return;
-    }*/
+    // initialize
+    setEmailCodeChecker({ show: false, match: false });
 
     try {
       await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
@@ -114,26 +90,6 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
       setEmailCodeChecker({ show: true, match: false });
     }
   };
-
-  // 타이머 종료 후 상태를 false로 설정
-  useEffect(() => {
-    if (timerStartCondition === 0) {
-      setTimerStartCondition(false);
-    }
-  }, [timerStartCondition]);
-
-  // 타이머가 리셋된 후 상태를 false로 다시 설정
-  useEffect(() => {
-    if (timerResetCondition) {
-      setTimerResetCondition(false); // 타이머 리셋 후 상태 초기화
-    }
-  }, [timerResetCondition]);
-
-  useEffect(() => {
-    if (timerValue === 0) {
-      setEmailSended(false);
-    }
-  }, [timerValue]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -154,10 +110,8 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
       }
     };
 
-    // keydown 이벤트 리스너 추가
     document.addEventListener("keydown", handleKeyDown);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -194,62 +148,49 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
         ) : null}
         {emailChecker.show ? (
           <div className="f-dir-column" id="error">
-            {!emailChecker.format ? (
-              <ErrorMessage
-                show={emailChecker.show && !emailChecker.format}
-                message="올바른 이메일 형식이 아닙니다."
+            {!emailSended ? (
+              <CheckerMessage
+                checkedFlag={emailChecker.format}
+                message="올바른 이메일 형식을 포함해야 해요."
               />
             ) : null}
             {emailDuplicated ? (
-              <ErrorMessage show={emailDuplicated} message="이미 사용 중인 이메일입니다." />
+              <ErrorMessage show={emailDuplicated} message="중복된 이메일입니다." />
             ) : null}
           </div>
         ) : null}
       </div>
 
-      {emailChecker.show ? <div style={{ height: "1.81rem" }}></div> : null}
+      <div style={{ height: "1rem" }}></div>
 
       <AuthSideBtnTimerInputField
         placeholder="인증번호를 입력해주세요."
         value={emailCode}
         onChange={(event) => {
+          setEmailCodeChecker({ show: false, match: false });
           setEmailCode(event.target.value);
         }}
         errorMessageCustomFlag="true"
         sideBtnTitle="확인"
         sideBtnOnClick={onClickConfirmButton}
         sideBtnDisabled={!emailSended}
-        timerStartControl={timerStartCondition}
-        timerResetControl={timerResetCondition}
-        timerPauseControl={emailCodeChecker.match}
-        timerStopControl={timerStopCondition}
-        setTimerValue={setTimerValue}
+        timerStart={emailSended} // 이메일 발송 여부로 타이머 시작 제어
+        timerStop={emailCodeChecker.match || emailDuplicated} // 인증번호 일치 여부 또는 이메일 중복 여부로 타이머 정지 제어
+        timerReset={timerReset}
+        setTimerValue={(value) => {
+          if (value === 0) setEmailSended(false); // 타이머가 0이 되면 이메일 발송 상태 해제
+        }}
       />
 
-      <div className="f-dir-column" id="error-wrap">
-        <div className="j-content-between">
-          {emailCodeChecker.show ? (
-            emailCodeChecker.match ? (
-              <CheckerMessage checkedFlag={true} message="인증이 완료되었습니다." />
-            ) : (
-              <ErrorMessage show={emailCodeChecker.match} message="인증번호가 정확하지 않습니다." />
-            )
-          ) : (
-            // default 상태 빈 문자
-            <p></p>
-          )}
-          {emailSended ? (
-            <p className="p-xs-under c-grey4 c-pointer" onClick={onClickEmailSend}>
-              메일 다시 보내기
-            </p>
-          ) : null}
-        </div>
-      </div>
+      <EmailCodeErrorMessages
+        emailCodeChecker={emailCodeChecker}
+        emailSended={emailSended}
+        onClickEmailSend={onClickEmailSend}
+      />
 
       <SignUpCheckBox setCheckBoxCondition={setCheckBoxCondition} />
 
       <div style={{ height: "1.94rem" }}></div>
-      {/* email이 올바르고, emailCode가 일치하며, 모든 체크박스가 체크되어 있을 때 버튼 활성화 */}
 
       <BottomBtn
         onClick={() => {

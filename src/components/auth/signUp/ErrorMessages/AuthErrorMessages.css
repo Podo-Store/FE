@@ -1,5 +1,14 @@
-.auth-error-messages div#error-wrap {
+div#error-wrap {
   gap: 0.5rem;
 
-  margin-top: 0.69rem;
+  margin-top: 11px;
+}
+
+div#error {
+  gap: 0.31rem;
+}
+
+div#error img {
+  width: 1.25rem;
+  height: 1.25rem;
 }

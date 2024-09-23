@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import PostWorkPopup from "./PostWorkPopup";
 import FileInputBox from "../../components/file/FileInputBox";
 
 //import { refreshAccessToken } from "./../../contexts/AuthContext";
@@ -25,10 +24,6 @@ const PostWork = () => {
   const [file, setFile] = useState(null);
   const [fileName, setFileName] = useState("");
   const [fileSelected, setFileSelected] = useState(false);
-
-  // 팝업 메뉴
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
 
   const onClickUpload = async () => {
     if (!file) {
@@ -74,9 +69,6 @@ const PostWork = () => {
 
   return (
     <div className="post-work">
-      {showPopup && (
-        <PostWorkPopup onClose={() => setShowPopup(false)} initialPosition={popupPosition} />
-      )}
       <MainNav />
       <div className="post-work-wrap">
         <div className="left-side">

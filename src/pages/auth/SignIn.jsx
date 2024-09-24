@@ -10,7 +10,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 
-import { SERVER_URL } from "../../constants/ServerURL";
+import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import "./SignIn.css";
 import Loading from "../Loading";
@@ -58,7 +58,11 @@ function SignIn() {
 
       if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
+        login(
+          response.data.accessToken,
+          response.data.refreshToken,
+          response.data.nickname
+        );
 
         setIsIdPwMatch(true);
         navigate("/");

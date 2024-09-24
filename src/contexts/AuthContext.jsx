@@ -1,9 +1,12 @@
 import React, { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
-import { SERVER_URL } from "../constants/ServerURL";
+import { SERVER_URL } from "../constants/ServerURL.js";
 import { setupAxiosInterceptors } from "../utils/AxiosInterceptors";
-import { ACCESS_TOKEN_EXP_TIME, REFRESH_TOKEN_EXP_TIME } from "../constants/TokenExpireTime";
+import {
+  ACCESS_TOKEN_EXP_TIME,
+  REFRESH_TOKEN_EXP_TIME,
+} from "../constants/TokenExpireTime";
 
 const AuthContext = createContext();
 
@@ -24,7 +27,9 @@ export const AuthProvider = ({ children }) => {
 
   const login = (accessToken, refreshToken, userNickname) => {
     Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
-    Cookies.set("refreshToken", refreshToken, { expires: REFRESH_TOKEN_EXP_TIME });
+    Cookies.set("refreshToken", refreshToken, {
+      expires: REFRESH_TOKEN_EXP_TIME,
+    });
 
     setUserNickname(userNickname);
     localStorage.setItem("userNickname", userNickname);
@@ -61,7 +66,9 @@ export const AuthProvider = ({ children }) => {
         }
       );
       const { accessToken } = response.data;
-      Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
+      Cookies.set("accessToken", accessToken, {
+        expires: ACCESS_TOKEN_EXP_TIME,
+      });
       return accessToken;
     } catch (error) {
       logout();
@@ -75,7 +82,13 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, userNickname, login, logout, refreshAccessToken }}
+      value={{
+        isAuthenticated,
+        userNickname,
+        login,
+        logout,
+        refreshAccessToken,
+      }}
     >
       {children}
     </AuthContext.Provider>

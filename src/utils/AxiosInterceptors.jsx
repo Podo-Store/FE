@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SERVER_URL } from "../constants/ServerURL";
+import { SERVER_URL } from "../constants/ServerURL.js";
 
 /**
  * Axios 응답 인터셉터를 생성하는 함수
@@ -25,7 +25,9 @@ const createAxiosResponseInterceptor = (instance, refreshAccessToken) => {
         const newAccessToken = await refreshAccessToken();
         if (newAccessToken) {
           // 새로운 엑세스 토큰을 헤더에 설정
-          axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+          axios.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${newAccessToken}`;
           originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
           // 기존 요청을 새로운 토큰으로 재시도

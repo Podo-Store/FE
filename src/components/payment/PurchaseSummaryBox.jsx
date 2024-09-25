@@ -4,6 +4,7 @@ import "./PurchaseSummaryBox.css";
 import "./../../styles/text.css";
 
 /**
+ * @param {Object} props - Component properties
  * @param {number} page - 0: 구매 페이지, 1: 구매 완료 페이지
  */
 const PurchaseSummaryBox = ({
@@ -13,6 +14,7 @@ const PurchaseSummaryBox = ({
   scriptPrice = 0,
   buyPerform,
   performPrice = 0,
+  performAmount = 1,
   totalPrice = 0,
 }) => {
   return (
@@ -29,12 +31,12 @@ const PurchaseSummaryBox = ({
       </div>
       <div className="price-wrap">
         <p>공연권 가격</p>
-        {buyPerform ? <p>{formatPrice(performPrice)}원</p> : <p> - 원</p>}
+        {buyPerform ? <p>{formatPrice(performPrice * performAmount)}원</p> : <p> - 원</p>}
       </div>
       <hr></hr>
       <div className="price-wrap">
         <p>총 금액</p>
-        <p>{formatPrice(totalPrice)}원</p>
+        <p>{formatPrice(scriptPrice + performPrice * performAmount)}원</p>
       </div>
     </div>
   );

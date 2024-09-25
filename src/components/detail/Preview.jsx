@@ -3,6 +3,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 
 import Modal from "./Modal";
 import PreviewDiv from "./PreviewDiv";
+import PartialLoading from "../loading/PartialLoading";
 
 import samplePDF from "./../../assets/sample.pdf";
 
@@ -40,6 +41,7 @@ const Preview = ({ pdf, lengthType, testFlag }) => {
           file={pdf || samplePDF}
           onLoadSuccess={onDocumentLoadSuccess}
           options={{ cMapUrl: "cmaps/", cMapPacked: true }}
+          loading={<PartialLoading />}
         >
           {/* 썸네일로 상위 5개 페이지 표시 */}
           {numPages && (

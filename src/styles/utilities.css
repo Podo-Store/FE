@@ -32,6 +32,11 @@
   align-items: center;
 }
 
+.a-items-end {
+  display: flex;
+  align-items: flex-end;
+}
+
 .f-center {
   display: flex;
   justify-content: center;

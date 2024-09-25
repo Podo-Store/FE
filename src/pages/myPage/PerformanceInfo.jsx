@@ -171,7 +171,7 @@ const PerformanceInfo = () => {
               <InfoPopup
                 message={USER_INFO}
                 onClose={() => setShowPopup({ ...showPopup, userInfo: false })}
-                style={{ transform: "translate(6.75rem, 1rem)" }}
+                style={{ padding: "0.5rem 0.62rem", transform: "translate(6.75rem, 1rem)" }}
                 buttonId="popup-btn1"
               />
             ) : null}
@@ -199,7 +199,7 @@ const PerformanceInfo = () => {
                 <InfoPopup
                   message={PERFORM_DATE}
                   onClose={() => setShowPopup({ ...showPopup, performDate: false })}
-                  style={{ transform: "translate(8rem, 2rem)" }}
+                  style={{ padding: "0.5rem 0.62rem", transform: "translate(8rem, 2rem)" }}
                   buttonId="popup-btn2"
                 />
               ) : null}

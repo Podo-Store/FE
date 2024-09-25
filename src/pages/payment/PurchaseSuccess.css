@@ -4,7 +4,7 @@
 }
 
 .PurchaseSuccess .purchase-success h1 {
-  margin-bottom: 1vh;
+  margin-bottom: 1.759vh;
 
   color: #000;
 
@@ -16,14 +16,12 @@
   line-height: 1.75rem; /* 140% */
 }
 
-.PurchaseSuccess .purchase-success h1#title {
-  margin: 7vh 0;
-}
-
 .PurchaseSuccess .purchase-success-content {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  margin-top: 18.519vh;
 }
 
 .PurchaseSuccess .p-wrap p {
@@ -38,7 +36,7 @@
 }
 
 .PurchaseSuccess .p-wrap p:last-child {
-  margin-bottom: 3vh;
+  margin-bottom: 3.704vh;
 }
 
 .PurchaseSuccess .order-num {
@@ -54,27 +52,5 @@
   display: flex;
   justify-content: space-between;
 
-  margin-top: 4.5vh;
-}
-
-.PurchaseSuccess .purchase-success .btn-wrap button {
-  width: 12.1875rem;
-  height: 2.8125rem;
-  flex-shrink: 0;
-
-  border: none;
-  border-radius: 1.875rem;
-  background: var(--Main, #6a39c0);
-
-  color: #fff;
-  text-align: center;
-
-  cursor: pointer;
-
-  /* Paragraph/Large/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 155.556% */
+  margin-top: 4.352vh;
 }

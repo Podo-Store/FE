@@ -1,48 +1,62 @@
 .detail .detail-wrap {
-  margin: 6.5vh 16.5%;
+  margin: 6.5vh 18.5%;
   margin-bottom: 5%;
 }
 
 .detail .thumbnail-img {
-  width: 29.125rem;
-  padding-bottom: 29.125rem;
+  width: 24.271vw;
+  padding-bottom: 24.271vw;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
 .detail .detail-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  margin-left: 3.5vw;
-  width: 27vw;
-}
-
-.detail .detail-title p {
-  margin-top: 1rem;
-  color: var(--Sub-2, #3876f2);
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
+  margin-left: 3.125vw;
+  width: 100%;
 }
 
 .detail .detail-title h1 {
-  margin: 0;
-  margin-bottom: 4.75vh;
-  color: #000;
+  margin-top: 11px;
+}
 
-  /* H1/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 2.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 2.75rem; /* 122.222% */
+.detail .detail-title hr#detail-hr-1 {
+  margin: 0;
+
+  width: calc(100% + 3.519vh);
+
+  border: 1px solid #caabff;
+  transform: translateX(-3.519vh);
+}
+
+.detail .detail-title hr#detail-hr-1:nth-of-type(1) {
+  margin-top: 21px;
+  margin-bottom: 22px;
+}
+
+.detail .detail-title hr#detail-hr-1:last-child {
+  margin-top: 24px;
+}
+
+.detail hr#detail-hr-2 {
+  width: calc(100% + 2.315vh - 31px);
+
+  border: 1px solid var(--grey-grey-5, #9e9e9e);
+  transform: translateX(-2.315vh);
+}
+
+.detail hr#detail-hr-2:nth-of-type(2) {
+  margin: 0;
+  margin-bottom: 20px;
+}
+
+.detail hr#detail-hr-2:nth-of-type(3) {
+  margin: 0;
+  margin-bottom: 30px;
+}
+
+.detail .detail-title hr#detail-hr-3 {
+  border: 1px solid var(--grey-grey-3, #e2e2e2);
 }
 
 .detail .detail-price {
@@ -54,27 +68,17 @@
   margin-left: 0.3rem;
 }
 
-.detail .detail-price img#script {
-  width: 0.875rem;
-  height: 1.2rem;
-
-  margin-top: 0.44rem;
+.detail img#script {
+  width: 14px;
+  height: 17px;
 }
 
-.detail .detail-price img#perform {
-  width: 1.0625rem;
-  height: 1.0625rem;
-
-  margin-top: 0.44rem;
+.detail img#perform {
+  width: 17px;
+  height: 17px;
 }
 
-.detail .detail-price .price {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.detail .detail-price p {
+.detail .detail-price .price > p {
   margin: 0.25rem 0;
 
   color: #000;
@@ -87,26 +91,87 @@
   line-height: 1.75rem; /* 155.556% */
 }
 
-.detail .option-select {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  margin: 0;
-  margin-top: 1.6875rem;
-  margin-bottom: 2.025rem;
-  margin-left: 0.75rem;
+.detail div#detail-amount-wrap {
+  margin-left: 60px;
+  margin-right: 79px;
 }
 
-.detail .option-select h4 {
-  color: #000;
+.detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) {
+  margin-top: 20px;
+  margin-bottom: 14px;
+}
 
-  /* Paragraph/Large/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 155.556% */
+.detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) div#detail-amount-title {
+  gap: 13px;
+}
+
+.detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) div#detail-amount-price {
+  gap: 31px;
+}
+
+.detail
+  div#detail-amount-wrap
+  div#detail-amount:nth-of-type(1)
+  div#detail-amount-price
+  p:nth-of-type(1) {
+  margin-right: 10px;
+}
+
+.detail div#detail-amount-wrap div#detail-amount:nth-of-type(2) {
+  margin-top: 11px;
+  margin-bottom: 18px;
+}
+
+.detail div#detail-amount-wrap div#detail-amount:nth-of-type(2) div#detail-amount-title {
+  gap: 10px;
+}
+
+.detail
+  div#detail-amount-wrap
+  div#detail-amount:nth-of-type(2)
+  div#detail-amount-price
+  p:nth-of-type(1) {
+  margin: 0 10px;
+}
+
+.detail div#detail-amount-wrap div#detail-amount div#detail-amount-price p#price {
+  margin: 0;
+  margin-left: 27px;
+
+  min-width: 84px;
+  text-align: right;
+}
+
+.detail div#total-price {
+  margin-right: 55px;
+}
+
+.detail div#total-price-won {
+  gap: 7px;
+}
+
+.detail .detail-price .price {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  text-align: center;
+}
+
+.detail .detail-price .price img#info-btn {
+  width: 16px;
+  height: 16px;
+
+  opacity: 0.2;
+
+  margin-top: 0.25rem;
+}
+
+.detail .option-select {
+  margin: 0;
+  margin-top: 26px;
+  margin-bottom: 23px;
+  margin-right: 55px;
 }
 
 /* select 공용 설정 */
@@ -133,29 +198,14 @@
 }
 
 .detail .option-select select {
-  width: 80%;
-  height: 2.5rem;
-}
-
-.detail .total-price {
-  display: flex;
-  justify-content: space-between;
-}
-.detail .total-price h5 {
-  color: #000;
-
-  /* H2/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 2rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 2.5rem; /* 125% */
+  width: 100%;
+  height: 48px;
 }
 
 .detail .detail-btn-wrap {
   display: flex;
   gap: 0.5em;
-  margin-top: 1.35rem;
+  margin-top: 32px;
 }
 
 .detail .detail-btn-wrap button,
@@ -177,6 +227,7 @@
 
 .detail .detail-btn-wrap button {
   flex: 1;
+  margin-right: 55px;
 }
 
 /*
@@ -225,11 +276,14 @@
 
 .detail .detail-description hr {
   margin: 0;
-  margin-top: 12.87vh;
+  margin-top: 12.5vh;
   margin-bottom: 2.593vh;
+
+  border-color: #caabff;
 }
 
 .detail .detail-description p#preview-title {
+  margin-left: 1.852vh;
   margin-bottom: 2.593vh;
 }
 

@@ -1,3 +1,11 @@
+.h1-bold {
+  /* H1/Bold */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 44px; /* 122.222% */
+}
+
 .h2-medium {
   /* H2/Medium */
   font-size: 32px;
@@ -10,6 +18,14 @@
   font-size: 28px;
   font-style: normal;
   font-weight: 400;
+  line-height: 36px; /* 128.571% */
+}
+
+.h3-bold {
+  /* H3/Bold */
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
   line-height: 36px; /* 128.571% */
 }
 
@@ -155,8 +171,13 @@
   color: var(--grey4, #bababa);
 }
 
-.c-grey {
+.c-grey,
+.c-grey6 {
   color: var(--grey6, #777);
+}
+
+.c-grey7 {
+  color: var(--grey7, #3c3c3c);
 }
 
 .c-red {
@@ -165,4 +186,8 @@
 
 .c-white {
   color: #ffffff;
+}
+
+.t-align-center {
+  text-align: center;
 }

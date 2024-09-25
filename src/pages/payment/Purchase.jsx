@@ -6,29 +6,33 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import Loading from "../Loading";
+import OnOffBtn from "../../components/button/OnOffBtn";
+import AmountChange from "../../components/detail/AmountChange";
+import { AuthInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
+import InfoPopup from "../../components/popup/InfoPopup";
+import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
+import Loading from "../Loading";
 
 import { useRequest } from "../../hooks/useRequest";
 
 import { formatPrice } from "../../utils/formatPrice";
 
+import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
 
+import circleGreyWarning from "../../assets/image/circleGreyWarning.svg";
+import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 
 import "./Purchase.css";
 import "./../../styles/utilities.css";
-import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
-import OnOffBtn from "../../components/button/OnOffBtn";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  // 장편극 / 단편극
-  const [lengthType, setLengthType] = useState("");
 
   const [buyScript, setBuyScript] = useState(false);
   const [buyPerform, setBuyPerform] = useState(false);
@@ -38,18 +42,37 @@ const Purchase = () => {
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
+  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] = useState(1);
+
+  // 공연권 거래 시
+  const [showPopup, setShowPopup] = useState(false);
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     purchaseAgreement: false,
     refundPolicy: false,
   });
+  const [buttonEnabled, setButtonEnabled] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
-  const { isScriptSelected = false, isPerformSelected = false } = location.state || {};
+  const {
+    isScriptSelected = false,
+    isPerformSelected = false,
+    originalPerformPrice,
+    // 0: 공연권 구매 X, 1: 구매 개수
+    purchasePerformAmount = 0,
+  } = location.state || {};
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setModifiedPurchasePerformAmount(purchasePerformAmount);
+  }, [purchasePerformAmount]);
 
   useRequest(async () => {
     setIsLoading(true);
@@ -62,13 +85,12 @@ const Purchase = () => {
         params: {
           productId: id,
           script: isScriptSelected,
-          performance: isPerformSelected,
+          performanceAmount: isPerformSelected ? purchasePerformAmount : 0,
         },
       });
       setThumbnailImg(response.data.imagePath);
       setTitle(response.data.title);
       setAuthor(response.data.writer);
-      setLengthType(response.data.playType === 1 ? "장편극" : "단편극");
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
       setTotalPrice(response.data.totalPrice);
@@ -98,29 +120,45 @@ const Purchase = () => {
     }
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
-  // 버튼 클릭 시 post 요청
+  useEffect(() => {
+    if (!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)) {
+      return;
+    }
+    if (isPerformSelected && !(name.length > 0 && phone.length > 0 && address.length > 0)) {
+      return;
+    }
+
+    setButtonEnabled(true);
+  }, [checkBoxCondition, name, phone, address, isPerformSelected]);
+
   const onClickPurchase = async () => {
     try {
-      const response = await axios.post(
-        `${SERVER_URL}order/item`,
-        {
-          orderItem: [
-            {
-              productId: id,
-              script: buyScript,
-              performance: buyPerform,
-            },
-          ],
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+      const requestBody = {
+        orderItem: [
+          {
+            productId: id,
+            script: buyScript,
+            performanceAmount: buyPerform ? modifiedPurchasePerformAmount : 0,
           },
-        }
-      );
+        ],
+      };
 
-      // 싀바거 이게 문제였냐??
+      // Include applicant only if performance rights are being purchased
+      if (buyPerform) {
+        requestBody.applicant = {
+          name,
+          phoneNumber: phone,
+          address,
+        };
+      }
+
+      const response = await axios.post(`${SERVER_URL}order/item`, requestBody, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
+
       const orderData = response.data[0];
 
       alert("결제가 완료되었습니다.");
@@ -132,11 +170,12 @@ const Purchase = () => {
           scriptPrice,
           buyPerform,
           performPrice,
-          totalPrice,
+          performAmount: modifiedPurchasePerformAmount,
         },
       });
     } catch (error) {
-      alert(error.response.data.error);
+      console.error("Error response:", error.response);
+      alert(error.response?.data?.error || "결제 요청 중 문제가 발생했습니다.");
     }
   };
 
@@ -166,11 +205,7 @@ const Purchase = () => {
                     {/*<p id="tag"># {lengthType}</p>*/}
                     <div className="detail-price">
                       <div className="price-wrap">
-                        <img
-                          src={scriptImg}
-                          alt="script"
-                          style={{ width: "0.75rem", height: "0.9375rem" }}
-                        ></img>
+                        <img src={scriptImg} alt="script"></img>
                         <p>{formatPrice(scriptPrice)}원</p>
                       </div>
                     </div>
@@ -187,20 +222,25 @@ const Purchase = () => {
                     className="thumbnail"
                     style={{ backgroundImage: `url(${thumbnailImg})` }}
                   ></div>
-                  <div className="detail">
-                    <h5>{title}</h5>
-                    <hr></hr>
-                    <h6>{author}</h6>
-                    {/*<p id="tag"># {lengthType}</p>*/}
-                    <div className="detail-price">
-                      <div className="price-wrap">
-                        <img
-                          src={performImg}
-                          alt="perform"
-                          style={{ width: "1.24994rem", height: "1.24325rem" }}
-                        ></img>
-                        <p>{formatPrice(performPrice)}원</p>
+                  <div className="f-dir-column j-content-between detail">
+                    <div>
+                      <h5>{title}</h5>
+                      <hr></hr>
+                      <h6>{author}</h6>
+                      {/*<p id="tag"># {lengthType}</p>*/}
+                      <div className="detail-price">
+                        <div className="price-wrap">
+                          <img src={performImg} alt="perform"></img>
+                          <p>{formatPrice(originalPerformPrice)}원</p>
+                        </div>
                       </div>
+                    </div>
+                    <div className="j-content-end">
+                      <AmountChange
+                        performPrice={performPrice}
+                        purchasePerformAmount={modifiedPurchasePerformAmount}
+                        setPurchasePerformAmount={setModifiedPurchasePerformAmount}
+                      />
                     </div>
                   </div>
                 </div>
@@ -214,9 +254,59 @@ const Purchase = () => {
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}
-              performPrice={performPrice}
+              performPrice={originalPerformPrice}
+              performAmount={modifiedPurchasePerformAmount}
               totalPrice={totalPrice}
             />
+
+            {isPerformSelected ? (
+              <div id="user-info-wrap">
+                <hr id="user-info-hr" />
+
+                <div className="a-items-center" id="user-info">
+                  <p className="p-medium-bold" id="user-info-title">
+                    신청자 정보
+                  </p>
+                  <img
+                    src={circleInfoBtn}
+                    alt="circleInfoBtn"
+                    className="c-pointer"
+                    id="popup-btn"
+                    onClick={() => {
+                      setShowPopup(!showPopup);
+                    }}
+                  />
+                  {showPopup ? (
+                    <InfoPopup
+                      message={PURCHASE_TEXT}
+                      onClose={() => {
+                        setShowPopup(!showPopup);
+                      }}
+                      style={{ padding: "8px 10px", transform: "translate(6.5rem, -2rem)" }}
+                      buttonId="popup-btn"
+                    />
+                  ) : null}
+                </div>
+
+                <div className="f-dir-column" id="input-wrap">
+                  <AuthInputField
+                    placeholder="신청자 성함을 입력해주세요."
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                  <AuthInputField
+                    placeholder="신청자 연락처를 입력해주세요."
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                  <AuthInputField
+                    placeholder="신청자 주소를 입력해주세요."
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                </div>
+              </div>
+            ) : null}
 
             <PurchaseCheckBox setCheckBoxCondition={setCheckBoxCondition} />
 
@@ -225,9 +315,20 @@ const Purchase = () => {
             <OnOffBtn
               text="결제하기"
               onClick={onClickPurchase}
-              disabled={!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)}
+              disabled={!buttonEnabled}
               style={{ width: "25.8125rem" }}
             />
+
+            {isScriptSelected ? (
+              <div className="j-content-center" id="refund-wrap">
+                <img src={circleGreyWarning} alt="warning"></img>
+                <div className="d-flex" id="refund">
+                  <p id="p-1">대본은</p>
+                  <p id="p-2">청약철회 불가</p>
+                  <p id="p-1">상품입니다.</p>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

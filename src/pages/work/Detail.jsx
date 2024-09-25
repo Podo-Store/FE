@@ -8,7 +8,9 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import Loading from "../Loading";
+import AmountChange from "../../components/detail/AmountChange";
 import Preview from "../../components/detail/Preview";
+import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
 
@@ -28,7 +30,6 @@ import samplePDF from "./../../assets/sample.pdf";
 import "./Detail.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import AmountChange from "../../components/detail/AmountChange";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -354,6 +355,7 @@ const Detail = () => {
               file={descriptionPath || samplePDF}
               onLoadSuccess={onDocumentLoadSuccess}
               options={{ cMapUrl: "cmaps/", cMapPacked: true }}
+              loading={<PartialLoading />}
             >
               {Array.from(new Array(numPages), (el, index) => (
                 <Page key={index} renderMode="canvas" pageNumber={index + 1} width={1000} />

@@ -3,29 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import OnOffBtn from "../../components/button/OnOffBtn";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 
+import formatDate2 from "../../utils/formatDate2";
+
 import "./PurchaseSuccess.css";
-import OnOffBtn from "../../components/button/OnOffBtn";
-
-const parseDate = (dateString) => {
-  // 원래 문자열에서 T와 초 이하 부분 제거
-  let formattedString = dateString.split(".")[0];
-
-  // Date 객체로 변환
-  let dateObj = new Date(formattedString);
-
-  // 년, 월, 일, 시, 분, 초 가져오기
-  let year = dateObj.getFullYear();
-  let month = String(dateObj.getMonth() + 1).padStart(2, "0"); // 월은 0부터 시작하므로 +1 필요
-  let day = String(dateObj.getDate()).padStart(2, "0");
-  let hours = String(dateObj.getHours()).padStart(2, "0");
-  let minutes = String(dateObj.getMinutes()).padStart(2, "0");
-  let seconds = String(dateObj.getSeconds()).padStart(2, "0");
-
-  // 원하는 형식으로 문자열 생성
-  return `${year}. ${month}. ${day}. ${hours}:${minutes}:${seconds}`;
-};
 
 const PurchaseSuccess = () => {
   const navigate = useNavigate();
@@ -40,7 +23,7 @@ const PurchaseSuccess = () => {
     performAmount,
   } = location.state || {};
 
-  const formattedOrderDate = orderDate ? parseDate(orderDate) : "";
+  const formattedOrderDate = orderDate ? formatDate2(orderDate) : "";
 
   return (
     <div className="PurchaseSuccess">

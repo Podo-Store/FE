@@ -97,7 +97,7 @@ const ScriptContent = ({
                   />
                 ) : (
                   // PurchasedPerformBtn.jsx
-                  <Button id={script.id} title={script.title} />
+                  <Button id={script.id} possibleAmount={script.performanceAmount} />
                 )
               ) : currentPage === "1" && !script.delete ? (
                 // 작품 관리 페이지 ScriptManageBtn.jsx

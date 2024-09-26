@@ -1,7 +1,4 @@
 .purchased-script-btn {
-  display: flex;
-  justify-content: flex-end;
-
   gap: 1rem;
 }
 .purchased-script-btn button {
@@ -26,4 +23,16 @@
 
 .purchased-script-btn button#purchased-perform {
   background: var(--Main, #6a39c0);
+}
+
+.purchased-script-btn p#refund-btn {
+  color: #000;
+
+  /* 12 under */
+  font-family: "Noto Sans KR";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+  text-decoration-line: underline;
 }

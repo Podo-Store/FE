@@ -100,7 +100,6 @@ const Purchase = () => {
       } else {
         alert(error.response.data.error);
       }
-      navigate("/purchase/abort");
     }
     setIsLoading(false);
   });
@@ -174,8 +173,8 @@ const Purchase = () => {
         },
       });
     } catch (error) {
-      console.error("Error response:", error.response);
       alert(error.response?.data?.error || "결제 요청 중 문제가 발생했습니다.");
+      navigate("/purchase/abort");
     }
   };
 

@@ -93,7 +93,6 @@ const PerformanceRefund = () => {
         {
           orderItemId: id,
           refundAmount: currentAmount,
-          refundPrice: currentAmount * singlePrice,
           reason,
         },
         {

@@ -14,7 +14,7 @@ const PurchaseSummaryBox = ({
   scriptPrice = 0,
   buyPerform,
   performPrice = 0,
-  performAmount = 1,
+  performAmount = 0,
   totalPrice = 0,
 }) => {
   return (
@@ -36,7 +36,12 @@ const PurchaseSummaryBox = ({
       <hr></hr>
       <div className="price-wrap">
         <p>총 금액</p>
-        <p>{formatPrice(scriptPrice + performPrice * performAmount)}원</p>
+        <p>
+          {formatPrice(
+            (buyScript ? scriptPrice : 0) + (buyPerform ? performPrice * performAmount : 0)
+          )}
+          원
+        </p>
       </div>
     </div>
   );

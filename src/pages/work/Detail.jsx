@@ -123,8 +123,10 @@ const Detail = () => {
       setTotalPrice(formatPrice(scriptPrice));
     } else if (selectedOption === "perform") {
       setTotalPrice(formatPrice(purchasePerformAmount * performPrice));
-    } else {
+    } else if (selectedOption === "scriptPerform") {
       setTotalPrice(formatPrice(scriptPrice + purchasePerformAmount * performPrice));
+    } else {
+      setTotalPrice(" - ");
     }
   }, [selectedOption, scriptPrice, performPrice, purchasePerformAmount]);
 

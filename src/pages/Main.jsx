@@ -42,7 +42,6 @@ const Main = () => {
         ref={videoRef}
         src={currentVideo}
         autoPlay
-        muted
         loop={currentVideo === mainVideo}
         onEnded={handleVideoEnd}
         onClick={handleVideoClick} // 비디오 클릭 이벤트 처리

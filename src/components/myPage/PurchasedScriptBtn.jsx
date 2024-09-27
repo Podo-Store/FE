@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./PurchasedScriptBtn";
+import "./PurchasedScriptBtn.css";
+import "./../../styles/utilities.css";
 
 const PurchaseStatus = {
   NON_PURCHASED: 0,
@@ -104,7 +105,7 @@ const PurchasedScriptBtn = ({
   };
 
   return (
-    <div className="purchased-script-btn">
+    <div className="j-content-end purchased-script-btn">
       {
         /*
         {

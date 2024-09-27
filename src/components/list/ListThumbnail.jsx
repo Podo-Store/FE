@@ -1,6 +1,7 @@
-import "./ListThumbnail.css";
-import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
+import ThumbnailImg from "../thumbnail/ThumbnailImg";
+
+import "./ListThumbnail.css";
 
 function TruncatedText({ text, maxLength }) {
   // maxLength보다 길면 텍스트를 자르고 "..."을 추가
@@ -20,12 +21,7 @@ const ListThumbnail = ({
 
   return (
     <div className="list-thumbnail" onClick={onClick}>
-      <div
-        className="thumbnail-img"
-        style={{
-          backgroundImage: `url(${thumbnailImg ? thumbnailImg : typeWriterImg})`,
-        }}
-      ></div>
+      <ThumbnailImg imagePath={thumbnailImg} />
       <div className="description">
         <h5>{title}</h5>
         <h5 id="author">{author}</h5>

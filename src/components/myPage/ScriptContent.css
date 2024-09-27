@@ -13,7 +13,7 @@
 }
 
 .script-content hr {
-  border: 1px solid #8f8f8f;
+  border: 1px solid #b489ff;
   margin: 0;
 }
 
@@ -21,16 +21,6 @@
   display: flex;
   margin-top: 2vh;
   margin-bottom: 1.75rem;
-}
-
-.script-content .script-thumbnail {
-  width: 12.3125rem;
-  height: 0;
-  padding-bottom: 12.3125rem;
-  flex-shrink: 0;
-  border-radius: 20px;
-  background: #d9d9d9;
-  background-size: contain;
 }
 
 .script-content .script-detail {

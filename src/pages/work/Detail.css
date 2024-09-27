@@ -3,14 +3,6 @@
   margin-bottom: 5%;
 }
 
-.detail .thumbnail-img {
-  width: 24.271vw;
-  padding-bottom: 24.271vw;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .detail .detail-title {
   margin-left: 3.125vw;
   width: 100%;

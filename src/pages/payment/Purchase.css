@@ -62,18 +62,6 @@
   margin-bottom: 1rem;
 }
 
-.purchase .thumbnail {
-  width: 12.3125rem;
-  height: 12.3125rem;
-  flex-shrink: 0;
-
-  border-radius: 20px;
-  background: #d9d9d9;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
 .purchase .detail {
   width: 100%;
   margin-top: 1rem;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import ScriptContentPopup from "./ScriptContentPopUp.jsx";
 import PriceText from "../price/PriceText.jsx";
 import PriceTextsVertical from "../price/PriceTextsVertical.jsx";
+import ThumbnailImg from "../thumbnail/ThumbnailImg.jsx";
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 
@@ -40,12 +41,7 @@ const ScriptContent = ({
       {items.map((script) => (
         <div key={script.id}>
           <div className="script">
-            <div
-              className="script-thumbnail"
-              style={{
-                backgroundImage: `url(${script.imagePath || "default_image_url_here"})`,
-              }}
-            ></div>
+            <ThumbnailImg imagePath={script.imagePath}></ThumbnailImg>
             <div className="script-detail">
               <div className="script-tag">
                 <div className="d-flex a-items-center" id="title">
@@ -97,7 +93,7 @@ const ScriptContent = ({
                   />
                 ) : (
                   // PurchasedPerformBtn.jsx
-                  <Button id={script.id} title={script.title} />
+                  <Button id={script.id} possibleAmount={script.performanceAmount} />
                 )
               ) : currentPage === "1" && !script.delete ? (
                 // 작품 관리 페이지 ScriptManageBtn.jsx

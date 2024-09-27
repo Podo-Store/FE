@@ -15,6 +15,7 @@ import { USER_INFO, PERFORM_DATE } from "../../constants/PopupTexts/PerformInfoT
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
+import defaultThumbnail from "../../assets/image/defaultThumbnail.svg";
 
 import "./PerformanceInfo.css";
 import "./PerformanceTop.css";

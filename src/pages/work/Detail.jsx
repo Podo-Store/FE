@@ -13,6 +13,7 @@ import Preview from "../../components/detail/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -24,7 +25,6 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
-import typeWriterImg from "./../../assets/image/post/vintageTypeWriter.svg";
 import samplePDF from "./../../assets/sample.pdf";
 
 import "./Detail.css";
@@ -123,8 +123,10 @@ const Detail = () => {
       setTotalPrice(formatPrice(scriptPrice));
     } else if (selectedOption === "perform") {
       setTotalPrice(formatPrice(purchasePerformAmount * performPrice));
-    } else {
+    } else if (selectedOption === "scriptPerform") {
       setTotalPrice(formatPrice(scriptPrice + purchasePerformAmount * performPrice));
+    } else {
+      setTotalPrice(" - ");
     }
   }, [selectedOption, scriptPrice, performPrice, purchasePerformAmount]);
 
@@ -219,12 +221,10 @@ const Detail = () => {
       <div className="detail-wrap">
         <div className="d-flex">
           <div className="detail-thumbnail-wrap">
-            <div
-              className="thumbnail-img"
-              style={{
-                backgroundImage: `url(${imagePath ? imagePath : typeWriterImg})`,
-              }}
-            ></div>
+            <ThumbnailImg
+              style={{ width: "24.271vw", height: "0", paddingBottom: "24.271vw" }}
+              imagePath={imagePath}
+            />
           </div>
           <div className="f-dir-column j-content-between detail-title">
             <div>

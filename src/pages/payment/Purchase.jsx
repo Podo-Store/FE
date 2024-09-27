@@ -12,6 +12,7 @@ import { AuthInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 import Loading from "../Loading";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -93,14 +94,13 @@ const Purchase = () => {
       setAuthor(response.data.writer);
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
-      setTotalPrice(response.data.totalPrice);
     } catch (error) {
       if (error.response.data.error === "본인 작품 구매 불가") {
         alert("본인이 작성한 작품은 구매할 수 없습니다.");
+        navigate(-1);
       } else {
         alert(error.response.data.error);
       }
-      navigate("/purchase/abort");
     }
     setIsLoading(false);
   });
@@ -174,8 +174,8 @@ const Purchase = () => {
         },
       });
     } catch (error) {
-      console.error("Error response:", error.response);
       alert(error.response?.data?.error || "결제 요청 중 문제가 발생했습니다.");
+      navigate("/purchase/abort");
     }
   };
 
@@ -194,10 +194,7 @@ const Purchase = () => {
               <div className="content">
                 <h4 id="subtitle">대본</h4>
                 <div className="purchase-list">
-                  <div
-                    className="thumbnail"
-                    style={{ backgroundImage: `url(${thumbnailImg})` }}
-                  ></div>
+                  <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
                     <h5>{title}</h5>
                     <hr></hr>
@@ -218,10 +215,7 @@ const Purchase = () => {
               <div className="content">
                 <h4 id="subtitle">공연권</h4>
                 <div className="purchase-list">
-                  <div
-                    className="thumbnail"
-                    style={{ backgroundImage: `url(${thumbnailImg})` }}
-                  ></div>
+                  <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="f-dir-column j-content-between detail">
                     <div>
                       <h5>{title}</h5>

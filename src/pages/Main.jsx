@@ -41,7 +41,6 @@ const Main = () => {
       <video
         ref={videoRef}
         src={currentVideo}
-        autoPlay
         loop={currentVideo === mainVideo}
         onEnded={handleVideoEnd}
         onClick={handleVideoClick} // 비디오 클릭 이벤트 처리

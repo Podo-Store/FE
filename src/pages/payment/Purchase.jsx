@@ -12,6 +12,7 @@ import { AuthInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 import Loading from "../Loading";
 
 import { useRequest } from "../../hooks/useRequest";
@@ -193,10 +194,7 @@ const Purchase = () => {
               <div className="content">
                 <h4 id="subtitle">대본</h4>
                 <div className="purchase-list">
-                  <div
-                    className="thumbnail"
-                    style={{ backgroundImage: `url(${thumbnailImg})` }}
-                  ></div>
+                  <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
                     <h5>{title}</h5>
                     <hr></hr>
@@ -217,10 +215,7 @@ const Purchase = () => {
               <div className="content">
                 <h4 id="subtitle">공연권</h4>
                 <div className="purchase-list">
-                  <div
-                    className="thumbnail"
-                    style={{ backgroundImage: `url(${thumbnailImg})` }}
-                  ></div>
+                  <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="f-dir-column j-content-between detail">
                     <div>
                       <h5>{title}</h5>

@@ -56,11 +56,6 @@
   align-items: flex-end;
 
   margin-top: 3.241vh;
-  width: 12.3125rem;
-  height: 12.3125rem;
-  border-radius: 20px;
-  background: #d9d9d9;
-  background-size: contain;
 }
 
 .script-manage-detail .script-info-thumbnail p {

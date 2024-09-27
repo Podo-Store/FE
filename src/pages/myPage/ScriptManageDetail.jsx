@@ -7,10 +7,11 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import Loading from "../Loading";
+import GoBack from "../../components/button/GoBack";
+import FileInputBox from "../../components/file/FileInputBox";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
-import FileInputBox from "../../components/file/FileInputBox";
-import GoBack from "../../components/button/GoBack";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -194,19 +195,15 @@ const ScriptManageDetail = () => {
         <hr />
         <div className="script-info-wrap">
           <div className="script-info">
-            <div
+            <ThumbnailImg
               className="script-info-thumbnail"
-              style={{
-                backgroundImage: `url(${
-                  InputtedThumbnailImgFile ? InputtedThumbnailImgUrl : getThumbnailImgUrl
-                })`,
-              }}
+              imagePath={InputtedThumbnailImgFile ? InputtedThumbnailImgUrl : getThumbnailImgUrl}
             >
               {/* ㄴ 이미지 input이 있을 경우 그 file의 url로, 아닐 경우 서버에서 받아온 url */}
               <p className="p-xs-under c-pointer" onClick={onClickChangeThumbnailImg}>
                 대표 이미지 수정하기
               </p>
-            </div>
+            </ThumbnailImg>
             <div className="script-info-detail">
               <p className="p-medium-bold">작품 정보</p>
               <div className="f-dir-column" id="info-input">

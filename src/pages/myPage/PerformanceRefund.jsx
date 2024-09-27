@@ -10,6 +10,7 @@ import GoBack from "../../components/button/GoBack";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import { PerformInputField } from "../../components/inputField";
 import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -27,6 +28,7 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 const PerformanceRefund = () => {
+  const [thumbnail, setThumbnail] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [singlePrice, setSinglePrice] = useState(0);
@@ -60,6 +62,7 @@ const PerformanceRefund = () => {
         },
       });
 
+      setThumbnail(response.data.scriptImage);
       setTitle(response.data.title);
       setAuthor(response.data.writer);
       setSinglePrice(response.data.performancePrice);
@@ -120,12 +123,7 @@ const PerformanceRefund = () => {
         <hr />
         <div className="script">
           <div className="d-flex">
-            <div
-              className="script-thumbnail"
-              style={{
-                backgroundImage: `url(${"default_image_url_here"})`,
-              }}
-            ></div>
+            <ThumbnailImg imagePath={thumbnail} />
             <div className="script-detail">
               <div className="script-tag">
                 <div className="d-flex a-items-center" id="title">

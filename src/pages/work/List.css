@@ -61,6 +61,9 @@
 }
 
 .list .list-wrap .banner-wrap img {
+  width: 30px;
+  height: 28.876px;
+
   position: absolute;
   top: 50%;
   width: 50px;
@@ -79,11 +82,14 @@
 
 .list .list-wrap .work-list-title {
   display: flex;
-  justify-content: flex-start;
 
   margin-top: 4.393vh;
   margin-bottom: 2.552vh;
   margin-left: 2.5rem;
+}
+
+.list .list-wrap .work-list-title #title {
+  width: 100%;
 }
 
 .list .list-wrap .work-list-content {

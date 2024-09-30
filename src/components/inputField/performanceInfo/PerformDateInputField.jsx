@@ -7,7 +7,15 @@ import closeBtn from "../../../assets/image/button/CloseBtn.svg";
  * @param {function} [props.onDelete] - 삭제 버튼 표시 (기존에 입력됐었던 양식의 경우 수정 불가) 및 삭제 기능 callback 함수
  * @returns
  */
-const PerformDateInputField = ({ placeholder, value, onChange, onClick, onBlur, onDelete }) => {
+const PerformDateInputField = ({
+  placeholder,
+  value,
+  onChange,
+  onClick,
+  onBlur,
+  onDelete,
+  readOnly,
+}) => {
   // onChange를 그대로 거치지 않고, formatDateTime을 거쳐서 onChange로 넘김
   const formatDateTime = (event) => {
     let inputValue = event.target.value.replace(/\D/g, ""); // 숫자만 남기기
@@ -50,6 +58,7 @@ const PerformDateInputField = ({ placeholder, value, onChange, onClick, onBlur, 
       onClick={onClick}
       onBlur={onBlur}
       onKeyDown={onKeyDown}
+      readOnly={readOnly}
       rightElement={onDelete ? <img src={closeBtn} alt="delete" onClick={onDelete} /> : null}
       maxLength="16"
     />

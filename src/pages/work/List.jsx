@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
+import SmallOnOffBtn from "./../../components/button/SmallOnOffBtn.jsx";
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
 import PartialLoading from "../../components/loading/PartialLoading.jsx";
@@ -20,6 +21,7 @@ import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
 
 import "./List.css";
+import "./../../styles/utilities.css";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -96,10 +98,17 @@ const List = () => {
           <img src={rightBtn} alt="banner right btn" />
         </div>
         <div className="work-list">
-          <div className="work-list-title">
-            <img src={sparkles} alt="sparkles"></img>
-            <h5>장편극</h5>
-            <img src={sparkles} alt="sparkles"></img>
+          <div className="j-content-between work-list-title">
+            <div className="a-items-center" id="title">
+              <img src={sparkles} alt="sparkles"></img>
+              <h5>장편극</h5>
+              <img src={sparkles} alt="sparkles"></img>
+            </div>
+            <SmallOnOffBtn
+              text="더보기"
+              color="white"
+              style={{ width: "121px", height: "auto", padding: "3px 0" }}
+            />
           </div>
           <div className="work-list-content">
             {isLoading ? (
@@ -121,10 +130,17 @@ const List = () => {
         </div>
 
         <div className="work-list">
-          <div className="work-list-title">
-            <img src={sparkles} alt="sparkles"></img>
-            <h5>단편극</h5>
-            <img src={sparkles} alt="sparkles"></img>
+          <div className="j-content-between work-list-title">
+            <div className="a-items-center" id="title">
+              <img src={sparkles} alt="sparkles"></img>
+              <h5>단편극</h5>
+              <img src={sparkles} alt="sparkles"></img>
+            </div>
+            <SmallOnOffBtn
+              text="더보기"
+              color="white"
+              style={{ width: "121px", height: "auto", padding: "3px 0" }}
+            />
           </div>
           <div className="work-list-content">
             {isLoading ? (

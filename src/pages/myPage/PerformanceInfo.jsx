@@ -1,6 +1,8 @@
+import axios from "axios";
 import dayjs from "dayjs";
+import Cookies from "js-cookie";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
@@ -10,12 +12,17 @@ import { PerformInputField, PerformDateInputField } from "../../components/input
 import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp";
 import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
 import InfoPopup from "../../components/popup/InfoPopup";
+import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import formatDateCutSec from "../../utils/formatDateCutSec";
 
 import { USER_INFO, PERFORM_DATE } from "../../constants/PopupTexts/PerformInfoTexts";
+import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
-import defaultThumbnail from "../../assets/image/defaultThumbnail.svg";
 
 import "./PerformanceInfo.css";
 import "./PerformanceTop.css";
@@ -23,7 +30,15 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 const PerformanceInfo = () => {
+  const [thumbnail, setThumbnail] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [applicantInfo, setApplicantInfo] = useState({});
+  const [fetchedDates, setFetchedDates] = useState([]);
+  const [performAmount, setPerformAmount] = useState(0);
+
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const [showPopup, setShowPopup] = useState({
     userInfo: false,
@@ -38,6 +53,29 @@ const PerformanceInfo = () => {
       format: false,
     },
   ]);
+
+  useRequest(async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile/apply`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+        params: {
+          id,
+        },
+      });
+
+      setThumbnail(response.data.imagePath);
+      setTitle(response.data.title);
+      setAuthor(response.data.writer);
+      setApplicantInfo(response.data.applicant);
+      setFetchedDates(response.data.performanceDate);
+      setPerformAmount(response.data.performanceAmount);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  });
 
   const onDateChange = (index, newDate) => {
     const newDates = [...dates];
@@ -125,6 +163,53 @@ const PerformanceInfo = () => {
     setDateChecker(newDateChecker);
   };
 
+  const onClickAddField = () => {
+    // 현재: performAmount가 전체 공연권 수
+    if (inputFields.length >= performAmount - fetchedDates.length) {
+      return;
+    }
+    // 필드 추가될 때마다 설정
+    setInputFields([...inputFields, inputFields.length]);
+    setDateChecker([...dateChecker, false]);
+  };
+
+  const onClickApply = async () => {
+    // 날짜가 유효하지 않을 경우
+    if (dates.length === 0 || dates.every((date) => !checkDateFormat(date))) {
+      alert("날짜를 올바르게 입력해주세요.");
+      return;
+    }
+
+    // 날짜가 하나라도 비어있을 경우
+    for (const date of dates) {
+      if (!date || date.trim() === "") {
+        alert("날짜를 올바르게 입력해주세요.");
+        return;
+      }
+    }
+
+    const localDates = dates.map((date) => ({ date: dayjs(date).format("YYYY-MM-DDTHH:mm:ss") }));
+    try {
+      await axios.post(
+        `${SERVER_URL}profile/apply`,
+        {
+          orderItemId: id,
+          performanceDate: localDates,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+      alert("신청이 완료되었습니다.");
+      navigate("/mypage/purchased");
+    } catch (error) {
+      alert(error.response.data.error || "오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
   return (
     <div>
       <MainNav />
@@ -136,22 +221,17 @@ const PerformanceInfo = () => {
         <hr />
         <div className="script">
           <div className="d-flex">
-            <div
-              className="script-thumbnail"
-              style={{
-                backgroundImage: `url(${"default_image_url_here"})`,
-              }}
-            ></div>
+            <ThumbnailImg imagePath={thumbnail} />
             <div className="script-detail">
               <div className="script-tag">
                 <div className="d-flex a-items-center" id="title">
                   <p className="p-large-bold" id="title">
-                    Archive
+                    {title}
                   </p>
                 </div>
                 <hr></hr>
                 <p className="p-large-medium" id="author">
-                  작가명작가명작가
+                  {author}
                 </p>
               </div>
             </div>
@@ -178,11 +258,11 @@ const PerformanceInfo = () => {
             ) : null}
           </div>
 
-          <PerformInputField placeholder="홍길동" readOnly={true} />
+          <PerformInputField placeholder={applicantInfo.name} readOnly={true} />
           <div id="margin"></div>
-          <PerformInputField placeholder="010-1234-5678" readOnly={true} />
+          <PerformInputField placeholder={applicantInfo.phoneNumber} readOnly={true} />
           <div id="margin"></div>
-          <PerformInputField placeholder="서울특별시" readOnly={true} />
+          <PerformInputField placeholder={applicantInfo.address} readOnly={true} />
 
           <div className="j-content-between a-items-center width-629" id="days">
             <div className="a-items-center" id="days-left">
@@ -205,8 +285,34 @@ const PerformanceInfo = () => {
                 />
               ) : null}
             </div>
-            <p className="p-small-regular">{inputFields.length}/10</p>
+            <p className="p-small-regular">
+              {fetchedDates.length + inputFields.length}/{performAmount}
+            </p>
           </div>
+
+          {/*
+           * fetchedDates 형식:
+           * [
+           *  {
+           *    "date": "2024-09-05T18:00:00"
+           *  },
+           *  {
+           *    "date": "2024-09-01T15:39:50"
+           *  },
+           *  {
+           *    "date": "2024-10-01T15:39:50"
+           *  }
+           * ]
+           */}
+          {fetchedDates.map((dateObject, index) => (
+            <div key={index}>
+              <PerformDateInputField
+                placeholder={formatDateCutSec(dateObject.date)}
+                readOnly={true}
+              />
+              <div id="margin"></div>
+            </div>
+          ))}
 
           {inputFields.map((_, index) => (
             <div key={index}>
@@ -218,7 +324,7 @@ const PerformanceInfo = () => {
                 onBlur={() => onBlurDateInput(index)}
                 onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
               />
-              <div id="margin"></div>
+              <div style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}></div>
               {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
               {dateChecker[index]?.show && (
                 <CheckerMessage
@@ -227,25 +333,16 @@ const PerformanceInfo = () => {
                 />
               )}
               {isDateOverOneYear(dates[index]) ? (
-                <div>
-                  <div style={{ height: "0.5rem" }}></div>
+                <div style={{ marginTop: "5px" }}>
                   <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
                 </div>
               ) : null}
+              <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
             </div>
           ))}
 
           <div className="j-content-center width-629" id="circle-add-btn">
-            <img
-              src={circleAddBtn}
-              alt="add"
-              className="c-pointer"
-              onClick={() => {
-                // 필드 추가될 때마다 설정
-                setInputFields([...inputFields, inputFields.length]);
-                setDateChecker([...dateChecker, false]);
-              }}
-            />
+            <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
           </div>
 
           <div className="j-content-end width-629" id="btn">
@@ -256,7 +353,7 @@ const PerformanceInfo = () => {
                 navigate("/mypage/purchased");
               }}
             />
-            <SmallOnOffBtn text="신청하기" color="purple" />
+            <SmallOnOffBtn text="신청하기" color="purple" onClick={onClickApply} />
           </div>
         </div>
       </div>

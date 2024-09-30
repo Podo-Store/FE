@@ -1,7 +1,7 @@
 .preview div#selected-page {
   padding: 67px 0;
 
-  background: var(--grey6, #777);
+  background: var(--grey-grey-5, #9E9E9E);
 
   position: relative;
 }

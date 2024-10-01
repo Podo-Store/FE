@@ -151,6 +151,7 @@ const Detail = () => {
 
     return () => {
       if (detailBtnWrapRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(detailBtnWrapRef.current);
       }
     };
@@ -201,7 +202,6 @@ const Detail = () => {
       state: {
         isScriptSelected,
         isPerformSelected,
-        originalPerformPrice: performPrice,
         purchasePerformAmount,
       },
     });

@@ -40,6 +40,8 @@ const Purchase = () => {
 
   const [scriptPrice, setScriptPrice] = useState(0);
   const [performPrice, setPerformPrice] = useState(0);
+  // 공연권 개당 가격
+  const [performPricePerAmount, setPerformPricePerAmount] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
@@ -64,8 +66,7 @@ const Purchase = () => {
   const {
     isScriptSelected = false,
     isPerformSelected = false,
-    originalPerformPrice,
-    // 0: 공연권 구매 X, 1: 구매 개수
+    // 0: 공연권 구매 X, 1~: 구매 개수
     purchasePerformAmount = 0,
   } = location.state || {};
 
@@ -93,7 +94,8 @@ const Purchase = () => {
       setTitle(response.data.title);
       setAuthor(response.data.writer);
       setScriptPrice(response.data.scriptPrice);
-      setPerformPrice(response.data.performancePrice);
+      setPerformPrice(response.data.performanceTotalPrice);
+      setPerformPricePerAmount(response.data.performancePrice);
     } catch (error) {
       if (error.response.data.error === "본인 작품 구매 불가") {
         alert("본인이 작성한 작품은 구매할 수 없습니다.");
@@ -225,7 +227,7 @@ const Purchase = () => {
                       <div className="detail-price">
                         <div className="price-wrap">
                           <img src={performImg} alt="perform"></img>
-                          <p>{formatPrice(originalPerformPrice)}원</p>
+                          <p>{formatPrice(performPricePerAmount)}원</p>
                         </div>
                       </div>
                     </div>
@@ -248,7 +250,7 @@ const Purchase = () => {
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}
-              performPrice={originalPerformPrice}
+              performPrice={performPricePerAmount}
               performAmount={modifiedPurchasePerformAmount}
               totalPrice={totalPrice}
             />

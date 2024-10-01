@@ -40,7 +40,7 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
             />
             <div className="p-relative">
               <Page renderMode="canvas" pageNumber={selectedPage} width={609} />
-              <h3 className="h3-regular" id="select-page">
+              <h3 className="p-small-regular" id="select-page">
                 {selectedPage}
               </h3>
             </div>

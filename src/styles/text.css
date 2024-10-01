@@ -15,10 +15,11 @@
 }
 
 .h3-regular {
-  font-size: 20px;
+  /* H3/Regular */
+  font-size: 28px;
   font-style: normal;
   font-weight: 400;
-  line-height: 28px; /* 128.571% */
+  line-height: 36px; /* 128.571% */
 }
 
 .h3-bold {
@@ -88,6 +89,7 @@
 }
 
 .p-small-regular {
+  /* Paragraph/Small/Regular */
   font-size: 0.875rem;
   font-style: normal;
   font-weight: 400;
@@ -95,6 +97,7 @@
 }
 
 .p-small-medium {
+  /* Paragraph/Small/Medium */
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
@@ -134,6 +137,7 @@
 }
 
 .p-large-regular {
+  /* Paragraph/Large/Regular */
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
@@ -149,6 +153,7 @@
 }
 
 .p-large-bold {
+  /* Paragraph/Large/Bold */
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 700;

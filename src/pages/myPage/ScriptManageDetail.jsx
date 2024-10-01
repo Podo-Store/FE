@@ -205,7 +205,7 @@ const ScriptManageDetail = () => {
               </p>
             </ThumbnailImg>
             <div className="script-info-detail">
-              <p className="p-medium-bold">작품 정보</p>
+              <p className="p-medium-bold">작품 정보*</p>
               <div className="f-dir-column" id="info-input">
                 <RectInputField
                   type="text"

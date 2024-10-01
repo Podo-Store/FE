@@ -1,7 +1,7 @@
 .preview div#selected-page {
   padding: 67px 0;
 
-  background: var(--grey6, #777);
+  background: var(--grey-grey-5, #9E9E9E);
 
   position: relative;
 }
@@ -32,7 +32,7 @@
 .preview div#selected-page div#page {
   z-index: 50;
 
-  gap: 135px;
+  gap: 163px;
 }
 
 .preview div#selected-page div#page img {

@@ -54,6 +54,15 @@
   line-height: 28px; /* 140% */
 }
 
+.h5-medium {
+  /* H5/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 140% */
+}
+
 .p-xs-regular {
   /* Paragraph/XS/Regular */
   font-size: 0.625rem;

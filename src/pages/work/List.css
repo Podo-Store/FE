@@ -2,18 +2,6 @@
   margin: 0 16%;
 }
 
-.list .list-wrap h5 {
-  margin: 0;
-  color: #000;
-
-  font-family: "Noto Sans KR";
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 28px;
-  letter-spacing: -0.4px;
-}
-
 .list .list-wrap .title {
   display: flex;
 
@@ -89,7 +77,14 @@
 }
 
 .list .list-wrap .work-list-title #title {
+  gap: 8px;
+
   width: 100%;
+}
+
+.list .list-wrap .work-list-title #title img {
+  width: 30px;
+  height: 28.876px;
 }
 
 .list .list-wrap .work-list-content {

@@ -8,7 +8,7 @@ import Footer from "../Footer";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
 import AmountChange from "../../components/detail/AmountChange";
-import { AuthInputField } from "../../components/inputField";
+import { AuthInputField, AuthPhoneInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -50,8 +50,11 @@ const Purchase = () => {
   // 공연권 거래 시
   const [showPopup, setShowPopup] = useState(false);
   const [name, setName] = useState("");
+  const [nameValid, setNameValid] = useState(false);
   const [phone, setPhone] = useState("");
+  const [phoneValid, setPhoneValid] = useState(false);
   const [address, setAddress] = useState("");
+  const [addressValid, setAddressValid] = useState(false);
 
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     purchaseAgreement: false,
@@ -71,6 +74,30 @@ const Purchase = () => {
   } = location.state || {};
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (name.length > 0 && name.trim() !== "") {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (phone.length > 0 && phone.trim() !== "") {
+      setPhoneValid(true);
+    } else {
+      setPhoneValid(false);
+    }
+  }, [phone]);
+
+  useEffect(() => {
+    if (address.length > 0 && address.trim() !== "") {
+      setAddressValid(true);
+    } else {
+      setAddressValid(false);
+    }
+  }, [address]);
 
   useEffect(() => {
     setModifiedPurchasePerformAmount(purchasePerformAmount);
@@ -134,6 +161,11 @@ const Purchase = () => {
   }, [checkBoxCondition, name, phone, address, isPerformSelected]);
 
   const onClickPurchase = async () => {
+    if (!nameValid || !phoneValid || !addressValid) {
+      alert("신청자 정보를 다시 확인해주세요.");
+      return;
+    }
+
     try {
       const requestBody = {
         orderItem: [
@@ -290,7 +322,7 @@ const Purchase = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  <AuthInputField
+                  <AuthPhoneInputField
                     placeholder="신청자 연락처를 입력해주세요."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}

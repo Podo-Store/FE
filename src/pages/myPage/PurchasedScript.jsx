@@ -63,7 +63,9 @@ const PurchasedScript = () => {
         setIsPerformListNull(true);
       }
       setPerformList(response2.data.orderList);
-    } catch (error) {}
+    } catch (error) {
+      alert(error);
+    }
     setIsLoading(false);
   });
 

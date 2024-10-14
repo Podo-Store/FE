@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import App from "./App";
 
-import UserInfoPolicy from "./pages/footer/UserInfoPolicy";
+import PolicyBar from "./pages/footer/PolicyBar";
 import SignUpDefault from "./pages/auth/SignUpDefault";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
@@ -35,7 +35,7 @@ function Routing() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/policy" element={<UserInfoPolicy />} />
+            <Route path="/policy/:id" element={<PolicyBar />} />
 
             <Route path="/signup" element={<SignUpDefault />} />
             <Route path="/signup/success" element={<SignUpSuccess />} />

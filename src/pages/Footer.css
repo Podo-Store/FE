@@ -113,12 +113,10 @@
 .footer .sitemap ul#question {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
 }
 
 .footer .sitemap ul li {
-  margin-top: 5px;
+  cursor: pointer;
 
   color: #000;
   font-family: Lato;
@@ -165,7 +163,7 @@
 }
 
 .footer .sitemap .sitemap-section li#icons a p {
-  margin: 0;
+  margin: 5px 0;
 
   color: #000;
   font-family: Lato;

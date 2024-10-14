@@ -10,7 +10,7 @@ import "./AccountDelete.css";
 const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
   const onClickDeleteAccountConfirm = async () => {
     try {
-      await axios.delete(`${SERVER_URL}profile/delete`, {
+      await axios.delete(`${SERVER_URL}profile/deleteUser`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,

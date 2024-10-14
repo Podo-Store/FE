@@ -45,20 +45,21 @@ const SignUpDefault = () => {
   };
 
   // 회원가입 완료 버튼 클릭 시
-  const onClickRegisterAllowButton = async () => {
+  const onClickRegisterAllowButton = async (email, emailCode) => {
     setIsLoading(true);
     try {
       await axios.post(`${SERVER_URL}auth/signup`, {
         userId: userInfo.id,
-        email: userInfo.email,
         password: userInfo.pw,
         confirmPassword: userInfo.pwCheck,
         nickname: userInfo.name,
-        authNum: userInfo.emailCode,
+        email: userInfo.email || email,
+        authNum: userInfo.emailCode || emailCode,
       });
       navigate("/signup/success");
     } catch (error) {
       alert(error.response.data.error);
+      console.log(userInfo);
     } finally {
       setIsLoading(false);
     }

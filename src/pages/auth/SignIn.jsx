@@ -5,15 +5,16 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import AuthContext from "../../contexts/AuthContext";
-
+import Loading from "../Loading";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
+
+import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import "./SignIn.css";
-import Loading from "../Loading";
+import "./../../styles/utilities.css";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -58,11 +59,7 @@ function SignIn() {
 
       if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(
-          response.data.accessToken,
-          response.data.refreshToken,
-          response.data.nickname
-        );
+        login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
 
         setIsIdPwMatch(true);
         navigate("/");
@@ -115,13 +112,23 @@ function SignIn() {
               </BottomBtn>
             </div>
             <div className="extraLink">
-              <p
-                onClick={() => {
-                  navigate("/signin/find");
-                }}
-              >
-                아이디/비밀번호 찾기
-              </p>
+              <div className="d-flex">
+                <p
+                  onClick={() => {
+                    navigate("/signin/find/0");
+                  }}
+                >
+                  아이디
+                </p>
+                <p>&nbsp;/&nbsp;</p>
+                <p
+                  onClick={() => {
+                    navigate("/signin/find/1");
+                  }}
+                >
+                  비밀번호 찾기
+                </p>
+              </div>
               <p id="bar">|</p>
               <p
                 onClick={() => {

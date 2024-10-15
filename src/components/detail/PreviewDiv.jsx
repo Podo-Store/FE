@@ -6,7 +6,7 @@ import "./PreviewDiv.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
-const PreviewDiv = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
+const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage }) => {
   return (
     <div>
       <hr id="selected-page-hr" />

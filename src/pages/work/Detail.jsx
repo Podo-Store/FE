@@ -46,7 +46,6 @@ const Detail = () => {
   const [lengthType, setLengthType] = useState("");
 
   const [imagePath, setImagePath] = useState("");
-  const [filePath, setFilePath] = useState("");
   const [descriptionPath, setDescriptionPath] = useState("");
 
   // 기존 대본 구매 이력
@@ -71,8 +70,8 @@ const Detail = () => {
 
   const [numPages, setNumPages] = useState(null); // 페이지 수를 저장하는 상태 추가
 
-  const navigate = useNavigate();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useRequest(async () => {
     try {
@@ -99,7 +98,6 @@ const Detail = () => {
       setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
       setLengthType(response.data.playType);
       setImagePath(response.data.imagePath);
-      setFilePath(response.data.filePath);
       setDescriptionPath(response.data.descriptionPath);
       setHasBoughtScript(response.data.buyScript);
     } catch (error) {
@@ -347,7 +345,7 @@ const Detail = () => {
           <p className="p-large-bold" id="preview-title">
             미리보기
           </p>
-          <Preview pdf={filePath} lengthType={lengthType} />
+          <Preview id={id} lengthType={lengthType} />
 
           <div className="j-content-center">
             {/* PDF 삽입 */}

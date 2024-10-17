@@ -217,6 +217,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   return (
     <EnterForm onSubmit={onClickCompleteBtn}>
       <div className="info-change-main">
+        <h1>회원 정보 수정</h1>
         <p id="limit">아이디와 이메일은 수정이 불가합니다.</p>
         <p id="limit">문의가 있으시면 포도상점 메일로 문의해주세요.</p>
         <div style={{ marginBottom: "4.722vh" }}></div>

@@ -48,6 +48,7 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
     <EnterForm onSubmit={onClickInputBtn}>
       <div className="info-change-enter">
         {/* 진입 페이지 */}
+        <h1>회원 정보 수정</h1>
         <h6>회원 정보 수정을 위해서 비밀번호를 다시 한 번 입력해주세요.</h6>
         <div className="a-items-center" id="enter-input">
           <AuthPwInputField

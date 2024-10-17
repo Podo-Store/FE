@@ -159,19 +159,38 @@ const List = () => {
    */
   const renderListThumbnail = (sliceFlag, plays) => {
     const playsToShow = sliceFlag ? plays.slice(0, 10) : plays;
-    return playsToShow.map((play) => (
-      <ListThumbnail
-        key={play.id}
-        thumbnailImg={play.imagePath}
-        title={play.title}
-        author={play.writer}
-        scriptPrice={play.scriptPrice}
-        performPrice={play.performancePrice}
-        onClick={() => {
-          navigate(`/list/detail/${play.id}`);
-        }}
-      />
-    ));
+    // return playsToShow.map((play) => (
+    //   <ListThumbnail
+    //     key={play.id}
+    //     thumbnailImg={play.imagePath}
+    //     title={play.title}
+    //     author={play.writer}
+    //     scriptPrice={play.scriptPrice}
+    //     performPrice={play.performancePrice}
+    //     onClick={() => {
+    //       navigate(`/list/detail/${play.id}`);
+    //     }}
+    //   />
+    // ));
+    return (
+      playsToShow && playsToShow.length > 0 ? (
+        playsToShow.map((play) => (
+          <ListThumbnail
+            key={play.id}
+            thumbnailImg={play.imagePath}
+            title={play.title}
+            author={play.writer}
+            scriptPrice={play.scriptPrice}
+            performPrice={play.performancePrice}
+            onClick={() => {
+              navigate(`/list/detail/${play.id}`);
+            }}
+          />
+        ))
+      ) : (
+        <div>No plays available</div> // playsToShow가 없을 경우 표시할 메시지
+      )
+    );
   };
 
   return (

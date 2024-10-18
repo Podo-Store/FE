@@ -101,6 +101,7 @@ const Preview = ({ id, lengthType }) => {
           {/* 썸네일로 상위 5개 페이지 표시 */}
           {numPages && (
             <div className="j-content-between">
+              /*
               {Array.from(new Array(Math.min(numPages, 5)), (_, index) => (
                 <div
                   key={index + 1}
@@ -126,6 +127,11 @@ const Preview = ({ id, lengthType }) => {
                       {numPages - 5} +
                     </p>
                   ) : null}
+                  <img 
+                    src={require('./../../assets/image/glass.svg').default} 
+                    alt="Preview Glass"
+                    className="thumbnail-image"
+                 />
                 </div>
               ))}
             </div>

@@ -1,29 +1,6 @@
-/* .preview div#thumbnail-content {
-  margin: 0 10px;
-} */
-
-/* 호버 추가 */
 .preview div#thumbnail-content {
   margin: 0 10px;
-  position: relative; /* 위치 상대적으로 설정 */
 }
-
-.preview .thumbnail-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.preview div#thumbnail-content:hover .thumbnail-image {
-  display: flex; 
-}
-
-/**/
 
 .preview .content-disabled {
   position: relative;

@@ -35,8 +35,8 @@
 
 .preview hr#selected-page-hr {
   margin: 0;
-  margin-top: 4.537vh;
-  margin-bottom: 3.704vh;
+  margin-top: 3.705vh;
+  margin-bottom: 3.705vh;
 
   border: 1px solid var(--purple-purple-8-line, #caabff);
 }

@@ -247,7 +247,9 @@ const Purchase = () => {
                 </div>
               </div>
             ) : null}
-            <hr id="script-perform" />
+
+            {buyScript && buyPerform ? <hr id="script-perform" /> : null}
+
             {buyPerform ? (
               <div className="content">
                 <h4 id="subtitle">공연권</h4>

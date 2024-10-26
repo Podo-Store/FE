@@ -5,7 +5,7 @@ import "./AmountChange.css";
 
 const AmountChange = ({ purchasePerformAmount, setPurchasePerformAmount }) => {
   return (
-    <div className="a-items-center amount-change">
+    <div className="j-content-center a-items-center amount-change">
       <img
         src={circleSubBtn}
         alt="minus"

@@ -14,6 +14,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import "./SignIn.css";
+import "./../../styles/utilities.css";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -110,13 +111,23 @@ function SignIn() {
               </BottomBtn>
             </div>
             <div className="extraLink">
-              <p
-                onClick={() => {
-                  navigate("/signin/find");
-                }}
-              >
-                아이디/비밀번호 찾기
-              </p>
+              <div className="d-flex">
+                <p
+                  onClick={() => {
+                    navigate("/signin/find/0");
+                  }}
+                >
+                  아이디
+                </p>
+                <p>&nbsp;/&nbsp;</p>
+                <p
+                  onClick={() => {
+                    navigate("/signin/find/1");
+                  }}
+                >
+                  비밀번호 찾기
+                </p>
+              </div>
               <p id="bar">|</p>
               <p
                 onClick={() => {

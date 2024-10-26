@@ -1,0 +1,7 @@
+.policy-bar div#policy-box {
+  margin-top: 51.5px;
+  padding: 1px 0;
+
+  width: 66.5rem;
+  border: 1px solid var(--grey-grey7, #3c3c3c);
+}

@@ -19,7 +19,7 @@ function SignUpSuccess() {
         <Box>
           <RectangleForm>
             <h1>회원가입 완료</h1>
-            <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
+            <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
           </RectangleForm>
         </Box>
       </div>

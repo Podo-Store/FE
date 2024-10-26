@@ -1,37 +1,49 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import SmallOnOffBtn from "./../../components/button/SmallOnOffBtn.jsx";
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
-import PartialLoading from "../../components/loading/PartialLoading.jsx";
+import TruncatedListContent from "../../components/list/TruncatedListContent.jsx";
 
 import { useRequest } from "../../hooks/useRequest.js";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
-import sparkles from "./../../assets/image/post/list/sparkles.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
 
 import "./List.css";
+import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+import AllListContent from "../../components/list/AllListContent.jsx";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
+  const [truncatedLongPlays, setTruncatedLongPlays] = useState([]);
   const [longPlays, setLongPlays] = useState([]);
+  const [truncatedShortPlays, setTruncatedShortPlays] = useState([]);
   const [shortPlays, setShortPlays] = useState([]);
+
+  const [showTruncatedLongPlays, setShowTruncatedLongPlays] = useState(true);
+  const [showAllLongPlays, setShowAllLongPlays] = useState(false);
+  const [showTruncatedShortPlays, setShowTruncatedShortPlays] = useState(true);
+  const [showAllShortPlays, setShowAllShortPlays] = useState(false);
+  // 무한스크롤 페이지
+  const [page, setPage] = useState(0);
+  // 이후 페이지가 있는지 여부
+  const [hasMorePage, setHasMorePage] = useState(true);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const observerTarget = useRef(null);
 
   const onClickInfoBtn = (event) => {
     // 팝업이 열려 있을 경우 닫기
@@ -50,32 +62,116 @@ const List = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      let response;
-      // 로그아웃 상태
-      if (!Cookies.get("accessToken")) {
-        response = await axios.get(`${SERVER_URL}scripts`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-      } else {
-        // 로그인 상태
-        response = await axios.get(`${SERVER_URL}scripts`, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        });
-      }
+      const response = await axios.get(`${SERVER_URL}scripts`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: Cookies.get("accessToken")
+            ? `Bearer ${Cookies.get("accessToken")}`
+            : undefined,
+        },
+      });
 
-      setLongPlays(response.data.longPlay);
-      setShortPlays(response.data.shortPlay);
-    } catch (error) {}
-    setIsLoading(false);
+      setTruncatedLongPlays(response.data.longPlay);
+      setTruncatedShortPlays(response.data.shortPlay);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
   });
 
-  const onClickThumbnail = (id) => {
-    navigate(`/list/detail/${id}`);
+  useEffect(() => {
+    if (!showAllLongPlays) {
+      return;
+    }
+
+    fetchPlays("long");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, showAllLongPlays]);
+
+  useEffect(() => {
+    if (!showAllShortPlays) {
+      return;
+    }
+
+    fetchPlays("short");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, showAllShortPlays]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting && hasMorePage && !isLoading) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    });
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
+    }
+
+    return () => {
+      if (observerTarget.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [hasMorePage, isLoading]);
+
+  /**
+   * @param {string} playType - "long" or "short"
+   */
+  const fetchPlays = async (playType) => {
+    try {
+      setIsLoading(true);
+      const response = await axios.get(`${SERVER_URL}scripts/${playType}`, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: Cookies.get("accessToken")
+            ? `Bearer ${Cookies.get("accessToken")}`
+            : undefined,
+        },
+        params: {
+          page: page,
+        },
+      });
+
+      if (response.data.length > 0) {
+        if (playType === "long") {
+          setLongPlays((prevPlays) => [...prevPlays, ...response.data]);
+        } else {
+          setShortPlays((prevPlays) => [...prevPlays, ...response.data]);
+        }
+      } else {
+        setHasMorePage(false);
+      }
+    } catch (error) {
+      alert(error.response.data.error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  /**
+   * ListThumbnail component 렌더링
+   * @param {boolean} sliceFlag - slicing flag, 해당 조건 true시 10개씩 노출
+   * @param {Array<object>} plays - longPlays or shortPlays
+   * @returns ListThumbnail component []
+   */
+  const renderListThumbnail = (sliceFlag, plays) => {
+    const playsToShow = sliceFlag ? plays.slice(0, 10) : plays;
+    return playsToShow.map((play) => (
+      <ListThumbnail
+        key={play.id}
+        thumbnailImg={play.imagePath}
+        title={play.title}
+        author={play.writer}
+        scriptPrice={play.scriptPrice}
+        performPrice={play.performancePrice}
+        onClick={() => {
+          navigate(`/list/detail/${play.id}`);
+        }}
+      />
+    ));
   };
 
   return (
@@ -97,69 +193,54 @@ const List = () => {
           <img src={leftBtn} alt="banner left btn" />
           <img src={rightBtn} alt="banner right btn" />
         </div>
-        <div className="work-list">
-          <div className="j-content-between work-list-title">
-            <div className="a-items-center" id="title">
-              <img src={sparkles} alt="sparkles"></img>
-              <h5>장편극</h5>
-              <img src={sparkles} alt="sparkles"></img>
-            </div>
-            <SmallOnOffBtn
-              text="더보기"
-              color="white"
-              style={{ width: "121px", height: "auto", padding: "3px 0" }}
-            />
-          </div>
-          <div className="work-list-content">
-            {isLoading ? (
-              <PartialLoading />
-            ) : (
-              longPlays.map((play) => (
-                <ListThumbnail
-                  key={play.id}
-                  thumbnailImg={play.imagePath}
-                  title={play.title}
-                  author={play.writer}
-                  scriptPrice={play.scriptPrice}
-                  performPrice={play.performancePrice}
-                  onClick={() => onClickThumbnail(play.id)}
-                />
-              ))
-            )}
-          </div>
-        </div>
 
-        <div className="work-list">
-          <div className="j-content-between work-list-title">
-            <div className="a-items-center" id="title">
-              <img src={sparkles} alt="sparkles"></img>
-              <h5>단편극</h5>
-              <img src={sparkles} alt="sparkles"></img>
-            </div>
-            <SmallOnOffBtn
-              text="더보기"
-              color="white"
-              style={{ width: "121px", height: "auto", padding: "3px 0" }}
-            />
-          </div>
-          <div className="work-list-content">
-            {isLoading ? (
-              <PartialLoading />
-            ) : (
-              shortPlays.map((play) => (
-                <ListThumbnail
-                  key={play.id}
-                  thumbnailImg={play.imagePath}
-                  title={play.title}
-                  author={play.writer}
-                  scriptPrice={play.scriptPrice}
-                  performPrice={play.performancePrice}
-                  onClick={() => onClickThumbnail(play.id)}
-                />
-              ))
-            )}
-          </div>
-        </div>
+        {showTruncatedLongPlays ? (
+          // 장편극 10개
+          <TruncatedListContent
+            playType="장편극"
+            plays={truncatedLongPlays}
+            showAllPlays={showAllLongPlays}
+            setShowAllPlays={setShowAllLongPlays}
+            setShowTruncatedShortPlays={setShowTruncatedShortPlays}
+            setShowTruncatedLongPlays={setShowTruncatedLongPlays}
+            renderListThumbnail={renderListThumbnail}
+            isLoading={isLoading}
+          />
+        ) : null}
+
+        {showAllLongPlays ? (
+          // 장편극 전체
+          <AllListContent
+            plays={longPlays}
+            renderListThumbnail={renderListThumbnail}
+            isLoading={isLoading}
+            observerTarget={observerTarget}
+          />
+        ) : null}
+
+        {showTruncatedShortPlays ? (
+          // 단편극 10개
+          <TruncatedListContent
+            playType="단편극"
+            plays={truncatedShortPlays}
+            showAllPlays={showAllShortPlays}
+            setShowAllPlays={setShowAllShortPlays}
+            setShowTruncatedShortPlays={setShowTruncatedShortPlays}
+            setShowTruncatedLongPlays={setShowTruncatedLongPlays}
+            renderListThumbnail={renderListThumbnail}
+            isLoading={isLoading}
+          />
+        ) : null}
+
+        {showAllShortPlays ? (
+          // 단편극 전체
+          <AllListContent
+            plays={shortPlays}
+            renderListThumbnail={renderListThumbnail}
+            isLoading={isLoading}
+            observerTarget={observerTarget}
+          />
+        ) : null}
       </div>
       <Footer />
     </div>

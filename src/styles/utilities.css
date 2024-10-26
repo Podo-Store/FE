@@ -7,6 +7,11 @@
   flex-direction: column;
 }
 
+.j-content-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
 .j-content-center {
   display: flex;
   justify-content: center;

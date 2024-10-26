@@ -21,6 +21,7 @@ const PurchaseSuccess = () => {
     buyPerform,
     performPrice,
     performAmount,
+    scriptTitle,
   } = location.state || {};
 
   const formattedOrderDate = orderDate ? formatDate2(orderDate) : "";
@@ -47,6 +48,7 @@ const PurchaseSuccess = () => {
               buyPerform={buyPerform}
               performPrice={performPrice}
               performAmount={performAmount}
+              scriptTitle={scriptTitle}
             />
             <div className="btn-wrap">
               <OnOffBtn

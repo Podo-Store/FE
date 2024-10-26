@@ -188,7 +188,7 @@ const FindID = () => {
           <p>{formatDate(foundRegisteredDate)}</p>
         </div>
       </InnerBox>
-      <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
+      <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
     </div>
   );
 };

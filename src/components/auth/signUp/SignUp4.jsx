@@ -195,7 +195,8 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
       <BottomBtn
         onClick={() => {
           setUserInfo({ ...userInfo, email: email, emailCode: emailCode });
-          onClickRegisterAllowButton();
+          // 비동기 처리 이슈, parameter로 전달
+          onClickRegisterAllowButton(email, emailCode);
         }}
         disabled={
           !(

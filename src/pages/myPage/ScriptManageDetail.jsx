@@ -8,6 +8,7 @@ import Footer from "../Footer";
 
 import Loading from "../Loading";
 import GoBack from "../../components/button/GoBack";
+import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import FileInputBox from "../../components/file/FileInputBox";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
@@ -22,8 +23,8 @@ import "./../../styles/text.css";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
-  const [scriptPrice, setScriptPrice] = useState("");
-  const [performPrice, setPerformPrice] = useState("");
+  const [scriptPrice, setScriptPrice] = useState("0");
+  const [performPrice, setPerformPrice] = useState("0");
   // getThumbnailImgUrl: API 요청으로부터 받아온 이미지 URL
   const [getThumbnailImgUrl, setGetThumbnailImgUrl] = useState("");
   // imgFile: 입력받은 이미지 파일, imgUrl: 입력받은 이미지 파일 -> URL
@@ -38,6 +39,9 @@ const ScriptManageDetail = () => {
   const [getFileUrl, setGetFileUrl] = useState(null);
   // 업로드된 설명 파일
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  // 삭제하기 클릭 시 경고 박스
+  const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -159,7 +163,7 @@ const ScriptManageDetail = () => {
     }
   };
 
-  const onClickDelete = async () => {
+  const onClickDeleteConfirm = async () => {
     try {
       await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
         headers: {
@@ -215,7 +219,9 @@ const ScriptManageDetail = () => {
                     setTitle(e.target.value);
                   }}
                 />
-                <RectInputField
+
+                {/* 가격 0원으로 고정 */}
+                {/* <RectInputField
                   type="number"
                   placeholder="대본 가격을 숫자로 입력해주세요."
                   value={scriptPrice}
@@ -230,6 +236,18 @@ const ScriptManageDetail = () => {
                   onChange={(e) => {
                     setPerformPrice(e.target.value);
                   }}
+                /> */}
+                <RectInputField
+                  type="number"
+                  placeholder="대본 가격을 숫자로 입력해주세요."
+                  value={scriptPrice}
+                  readOnly={true}
+                />
+                <RectInputField
+                  type="number"
+                  placeholder="공연권 가격을 숫자로 입력해주세요."
+                  value={performPrice}
+                  readOnly={true}
                 />
               </div>
             </div>
@@ -282,24 +300,39 @@ const ScriptManageDetail = () => {
 
             <div className="bottom-wrap">
               <div className="btn-wrap">
-                <button
-                  id="cancel"
-                  onClick={() => {
-                    navigate("/mypage/scriptmanage");
-                  }}
-                >
-                  취소하기
-                </button>
-                <button id="modify" onClick={onClickModifyBtn}>
-                  수정하기
-                </button>
+                <SmallOnOffBtn
+                  text="취소하기"
+                  color="white"
+                  onClick={() => navigate("/mypage/scriptmanage")}
+                />
+                <SmallOnOffBtn text="수정하기" color="purple" onClick={onClickModifyBtn} />
               </div>
             </div>
             <div className="j-content-end">
-              <p id="delete" onClick={onClickDelete}>
+              <p
+                id="delete"
+                onClick={() => {
+                  setShowDeleteAlertBox(true);
+                }}
+              >
                 작품 삭제
               </p>
             </div>
+            {showDeleteAlertBox ? (
+              <div id="delete-alert-box" className="f-dir-column j-content-between a-items-center">
+                <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
+                <div id="btn-wrap" className="d-flex">
+                  <SmallOnOffBtn text="삭제하기" color="grey" onClick={onClickDeleteConfirm} />
+                  <SmallOnOffBtn
+                    text="취소하기"
+                    color="purple"
+                    onClick={() => {
+                      setShowDeleteAlertBox(false);
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

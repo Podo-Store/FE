@@ -1,4 +1,6 @@
 .script-manage-detail .script-manage-detail-wrap {
+  position: relative;
+
   margin: 3.426vh 16.5%;
 }
 
@@ -103,34 +105,6 @@
   gap: 1rem;
 }
 
-.script-manage-detail .btn-wrap button {
-  width: 8.4375rem;
-  height: 2.5rem;
-
-  border: 0;
-  border-radius: 30px;
-
-  cursor: pointer;
-
-  color: #fff;
-  text-align: center;
-
-  /* Paragraph/Medium/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px; /* 150% */
-}
-
-.script-manage-detail .btn-wrap button#cancel {
-  background: #d9d9d9;
-}
-
-.script-manage-detail .btn-wrap button#modify {
-  background: var(--Main, #6a39c0);
-}
-
 .script-manage-detail p#delete {
   margin-top: 7.407vh;
   color: #000;
@@ -147,4 +121,27 @@
   text-decoration-line: underline;
 
   cursor: pointer;
+}
+
+.script-manage-detail .script-manage-detail-wrap div#delete-alert-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 350px;
+  height: 235px;
+
+  border-radius: 20px;
+  background: var(--grey-grey-1, #fbfbfb);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+}
+
+.script-manage-detail .script-manage-detail-wrap div#delete-alert-box p {
+  margin-top: 42px;
+}
+
+.script-manage-detail .script-manage-detail-wrap div#delete-alert-box div#btn-wrap {
+  gap: 15px;
+  padding-bottom: 31px;
 }

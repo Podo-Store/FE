@@ -8,6 +8,7 @@ import Footer from "../Footer";
 
 import Loading from "../Loading";
 import GoBack from "../../components/button/GoBack";
+import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import FileInputBox from "../../components/file/FileInputBox";
 import RectInputField from "../../components/inputField/RectInputField";
 import Select from "../../components/select/Select";
@@ -38,6 +39,9 @@ const ScriptManageDetail = () => {
   const [getFileUrl, setGetFileUrl] = useState(null);
   // 업로드된 설명 파일
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  // 삭제하기 클릭 시 경고 박스
+  const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -159,7 +163,7 @@ const ScriptManageDetail = () => {
     }
   };
 
-  const onClickDelete = async () => {
+  const onClickDeleteConfirm = async () => {
     try {
       await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
         headers: {
@@ -296,24 +300,39 @@ const ScriptManageDetail = () => {
 
             <div className="bottom-wrap">
               <div className="btn-wrap">
-                <button
-                  id="cancel"
-                  onClick={() => {
-                    navigate("/mypage/scriptmanage");
-                  }}
-                >
-                  취소하기
-                </button>
-                <button id="modify" onClick={onClickModifyBtn}>
-                  수정하기
-                </button>
+                <SmallOnOffBtn
+                  text="취소하기"
+                  color="white"
+                  onClick={() => navigate("/mypage/scriptmanage")}
+                />
+                <SmallOnOffBtn text="수정하기" color="purple" onClick={onClickModifyBtn} />
               </div>
             </div>
             <div className="j-content-end">
-              <p id="delete" onClick={onClickDelete}>
+              <p
+                id="delete"
+                onClick={() => {
+                  setShowDeleteAlertBox(true);
+                }}
+              >
                 작품 삭제
               </p>
             </div>
+            {showDeleteAlertBox ? (
+              <div id="delete-alert-box" className="f-dir-column j-content-between a-items-center">
+                <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
+                <div id="btn-wrap" className="d-flex">
+                  <SmallOnOffBtn text="삭제하기" color="grey" onClick={onClickDeleteConfirm} />
+                  <SmallOnOffBtn
+                    text="취소하기"
+                    color="purple"
+                    onClick={() => {
+                      setShowDeleteAlertBox(false);
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       </div>

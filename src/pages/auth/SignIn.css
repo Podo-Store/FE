@@ -4,8 +4,8 @@
 }
 
 .signIn .titleWrap {
-  margin-top: 3vh;
-  margin-bottom: 2vh;
+  margin-top: 3.056vh;
+  margin-bottom: 2.685vh;
 
   color: #000;
   font-family: "Noto Sans KR";
@@ -20,15 +20,15 @@
 .signIn .contentWrap {
   display: flex;
   flex-direction: column;
-  gap: 1.75vh;
+  gap: 2.778vh;
 }
 
 .signIn .extraLink {
   display: flex;
   justify-content: center;
-  gap: 1rem;
-
-  margin: 6vh 0;
+  gap: 7px;
+  margin-top: 37.5px;
+  margin-bottom: 41.5px;
 }
 
 .signIn .extraLink p {
@@ -37,7 +37,7 @@
 
   /* Paragraph/Small/Regular */
   font-family: "Noto Sans KR";
-  font-size: 0.875rem;
+  font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 1.25rem; /* 142.857% */

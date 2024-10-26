@@ -69,7 +69,7 @@
   transform: translate(-5px, 5px);
 }
 
-.myPage-menu-side p {
+.myPage-menu-side > p {
   margin-top: 4.5vh;
   color: #000;
   text-decoration: underline;
@@ -82,4 +82,26 @@
   font-style: normal;
   font-weight: 400;
   line-height: 20px; /* 142.857% */
+}
+
+.myPage-menu-side #grey-rectangle {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid var(--grey-grey-6, #777);
+  width: 75%;
+
+  margin-top: 42.315vh;
+  padding: 9px 0;
+}
+
+.myPage-menu-side #grey-rectangle img {
+  width: 19px;
+  height: 19px;
+  margin-left: 18px;
+}
+
+.myPage-menu-side #grey-rectangle p {
+  margin-left: 15px;
+  margin-bottom: 3px;
 }

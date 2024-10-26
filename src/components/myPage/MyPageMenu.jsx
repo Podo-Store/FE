@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 
 import scriptMenuImg from "./../../assets/image/myPage/script.svg";
 import pencilMenuImg from "./../../assets/image/myPage/pencil.svg";
+import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg";
 
 import "./MyPageMenu.css";
+import "./../../styles/text.css";
 
 const MyPageMenu = ({ nickname, currentPage }) => {
   const navigate = useNavigate();
@@ -38,6 +40,15 @@ const MyPageMenu = ({ nickname, currentPage }) => {
       >
         회원 정보 수정
       </p>
+
+      {currentPage === "0" ? (
+        <div id="grey-rectangle">
+          <img src={circleGreyWarning} alt="warn" className="warning-img" />
+          <p className="p-medium-regular c-grey">
+            대본과 공연권은 구매시점으로부터<br></br>1년 이내만 사용 가능해요.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };

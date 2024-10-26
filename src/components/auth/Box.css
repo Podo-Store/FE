@@ -8,7 +8,8 @@
   flex-direction: column;
   align-items: center;
 
-  width: 31.25rem;
+  width: 500px;
+  height: 477px;
   flex-shrink: 0;
 
   border-radius: 1.875rem;

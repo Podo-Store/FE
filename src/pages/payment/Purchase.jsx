@@ -22,7 +22,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import circleGreyWarning from "../../assets/image/circleGreyWarning.svg";
+import circleGreyWarning from "../../assets/image/myPage/circleGreyWarning.svg";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";

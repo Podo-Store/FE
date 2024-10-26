@@ -1,5 +1,7 @@
 .myPage-menu-side {
-  flex: 1;
+  margin-right: 6.719vw;
+  width: 15.885vw;
+  min-width: 244px;
 }
 
 .myPage-menu-side h1 {
@@ -33,10 +35,9 @@
 
   margin-top: 1.75vh;
   margin-bottom: 2.25vh;
-  width: 60%;
   height: 3.88313rem;
-  padding-left: 1.75rem;
-  padding-right: 1rem;
+  padding-left: 28.24px;
+  padding-right: 30.5px;
 
   cursor: pointer;
 
@@ -59,14 +60,16 @@
 
 .myPage-menu-side .selected {
   border: 5px solid var(--Main, #6a39c0);
+  padding-left: 23.24px;
+  padding-right: 25.5px;
 }
 
 .myPage-menu-side .purchased {
-  transform: translate(-5px, -5px);
+  transform: translate(0, -5px);
 }
 
 .myPage-menu-side .script-manage {
-  transform: translate(-5px, 5px);
+  transform: translate(0, 5px);
 }
 
 .myPage-menu-side > p {
@@ -89,19 +92,22 @@
   align-items: center;
   border-radius: 10px;
   border: 1px solid var(--grey-grey-6, #777);
-  width: 75%;
 
   margin-top: 42.315vh;
   padding: 9px 0;
 }
 
 .myPage-menu-side #grey-rectangle img {
-  width: 19px;
-  height: 19px;
-  margin-left: 18px;
+  margin-left: 0.938vw;
+  width: 0.99vw;
+  height: 0.99vw;
+  min-width: 15.2px;
+  min-height: 15.2px;
 }
 
 .myPage-menu-side #grey-rectangle p {
-  margin-left: 15px;
+  margin-left: 0.781vw;
   margin-bottom: 3px;
+
+  font-size: clamp(13px, 0.833vw, 16px);
 }

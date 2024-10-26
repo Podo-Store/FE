@@ -174,6 +174,21 @@ const List = () => {
     ));
   };
 
+  // 더보기 클릭 시 뒤로가기 매핑: 새로고침
+  useEffect(() => {
+    const handlePopState = () => {
+      if (showAllLongPlays || showAllShortPlays) {
+        window.location.reload();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [showAllLongPlays, showAllShortPlays]);
+
   return (
     <div className="list">
       <MainNav />

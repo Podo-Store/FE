@@ -150,6 +150,11 @@
   text-align: center;
 }
 
+.detail .detail-price .price div#info-wrap {
+  position: relative;
+  width: 13.021vw;
+}
+
 .detail .detail-price .price img#info-btn {
   width: 16px;
   height: 16px;

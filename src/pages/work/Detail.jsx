@@ -242,25 +242,30 @@ const Detail = () => {
                 <div className="price">
                   <img id="perform" src={performImg} alt="perform"></img>
                   <p>공연권 {formatPrice(performPrice)} 원</p>
-                  <img
-                    className="c-pointer"
-                    id="info-btn"
-                    src={circleInfoBtn}
-                    alt="info"
-                    onClick={() => {
-                      setShowPopup(true);
-                    }}
-                  ></img>
-                  {showPopup ? (
-                    <InfoPopup
-                      message={DETAIL_TEXT}
-                      onClose={() => {
+                  <div className="j-content-start" id="info-wrap">
+                    <img
+                      className="c-pointer"
+                      id="info-btn"
+                      src={circleInfoBtn}
+                      alt="info"
+                      onClick={() => {
                         setShowPopup(!showPopup);
                       }}
-                      style={{ padding: "11px", transform: "translate(12.5rem, -0.8rem)" }}
-                      buttonId="info-btn"
-                    />
-                  ) : null}
+                    ></img>
+                    {showPopup ? (
+                      <InfoPopup
+                        message={DETAIL_TEXT}
+                        onClose={() => {
+                          setShowPopup(!showPopup);
+                        }}
+                        style={{
+                          padding: "11px",
+                          transform: "translate(20px, calc(-100% + 19px))",
+                        }}
+                        buttonId="info-btn"
+                      />
+                    ) : null}
+                  </div>
                 </div>
               </div>
               <div className="option-select">

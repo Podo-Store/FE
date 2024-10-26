@@ -62,11 +62,11 @@
 }
 
 .myPage-menu-side .purchased {
-  transform: translateY(-5px);
+  transform: translate(-5px, -5px);
 }
 
 .myPage-menu-side .script-manage {
-  transform: translateY(5px);
+  transform: translate(-5px, 5px);
 }
 
 .myPage-menu-side p {

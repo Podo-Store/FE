@@ -14,7 +14,7 @@ import "./PurchaseCheckBox.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
-const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
+const PurchaseCheckBox = ({ setCheckBoxCondition, isPerformSelected }) => {
   const [items, setItems] = useState([
     {
       id: 1,
@@ -80,6 +80,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition }) => {
                 detail: item.detail,
                 setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
                 page: item.id === 1 ? 1 : 2,
+                isPerformSelected,
               })}
             </div>
           )}

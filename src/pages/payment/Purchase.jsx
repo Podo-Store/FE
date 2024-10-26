@@ -341,7 +341,10 @@ const Purchase = () => {
               </div>
             ) : null}
 
-            <PurchaseCheckBox setCheckBoxCondition={setCheckBoxCondition} />
+            <PurchaseCheckBox
+              setCheckBoxCondition={setCheckBoxCondition}
+              isPerformSelected={isPerformSelected}
+            />
 
             <div style={{ marginTop: "1rem" }}></div>
 

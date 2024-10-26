@@ -1,4 +1,4 @@
-import SmallOnOffBtn from "../SmallOnOffBtn";
+import SmallOnOffBtn from "../RoundBtn_135_40";
 
 /**
  * 더보기 버튼

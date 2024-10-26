@@ -9,7 +9,7 @@ import Footer from "../Footer";
 import GoBack from "../../components/button/GoBack";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import { PerformInputField } from "../../components/inputField";
-import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";

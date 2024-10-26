@@ -126,6 +126,15 @@ const Preview = ({ id, lengthType }) => {
                       {numPages - 5} +
                     </p>
                   ) : null}
+
+                  {/* 미리보기 돋보기 */}
+                  {index + 1 <= showThreshold ? (
+                    <img
+                      src={require("./../../assets/image/glass.svg").default}
+                      alt="Preview Glass"
+                      id="preview-glass"
+                    />
+                  ) : null}
                 </div>
               ))}
             </div>

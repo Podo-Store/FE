@@ -1,5 +1,20 @@
 .preview div#thumbnail-content {
   margin: 0 10px;
+  position: relative; /* 위치 상대적으로 설정 */
+}
+
+.preview #preview-glass {
+  position: absolute;
+  top: 16.5px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: scaleY(111%);
+  display: none;
+}
+
+.preview div#thumbnail-content:hover #preview-glass {
+  display: flex;
 }
 
 .preview .content-disabled {

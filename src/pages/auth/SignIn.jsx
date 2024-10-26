@@ -15,6 +15,8 @@ import { SERVER_URL } from "../../constants/ServerURL.js";
 import "./SignIn.css";
 import Loading from "../Loading";
 
+import errorImage from "../../assets/image/myPage/AiOutlineExclamationCircle.svg";
+
 function SignIn() {
   const { login } = useContext(AuthContext);
   const [id, setId] = useState("");
@@ -93,21 +95,25 @@ function SignIn() {
             <div className="titleWrap">로그인</div>
             <div className="contentWrap">
               <AuthInputField
-                title="아이디"
                 type="text"
-                placeholder="podostore"
+                placeholder="아이디를 입력해주세요."
                 value={id}
                 onChange={handleId}
               />
               <AuthPwInputField
-                title="비밀번호"
-                placeholder="Lovepodo_S2"
+                placeholder="비밀번호를 입력해주세요."
                 value={pw}
                 onChange={handlePassword}
-                errorMessage="아이디 / 비밀번호 오류"
+                errorMessage="아이디 혹은 비밀번호가 일치하지 않습니다."
                 isValid={isIdPwMatch}
                 showErrorMsg={showErrorMsg}
               />
+            </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <img src={errorImage} alt="error" className="error" />
+              <span className="error-message">
+                {"아이디 혹은 비밀번호가 일치하지 않습니다."}
+              </span>
             </div>
             <div>
               <BottomBtn type="submit" disabled={idPwNull}>

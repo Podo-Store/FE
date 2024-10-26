@@ -140,13 +140,13 @@ const Preview = ({ id, lengthType }) => {
             </div>
           )}
 
-          {/* modal 대신 div로 선택한 페이지 보여주기 */}
           {selectedPage && (
             <PreviewDiv
               Page={Page}
               showThreshold={showThreshold}
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
+              numPages={numPages}
             />
           )}
         </Document>

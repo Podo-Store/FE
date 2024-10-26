@@ -5,17 +5,15 @@ import { useNavigate } from "react-router-dom";
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
-import AuthContext from "../../contexts/AuthContext";
-
+import Loading from "../Loading";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
+
+import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import "./SignIn.css";
-import Loading from "../Loading";
-
-import errorImage from "../../assets/image/myPage/AiOutlineExclamationCircle.svg";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -60,11 +58,7 @@ function SignIn() {
 
       if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(
-          response.data.accessToken,
-          response.data.refreshToken,
-          response.data.nickname
-        );
+        login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
 
         setIsIdPwMatch(true);
         navigate("/");
@@ -109,12 +103,7 @@ function SignIn() {
                 showErrorMsg={showErrorMsg}
               />
             </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
-              <img src={errorImage} alt="error" className="error" />
-              <span className="error-message">
-                {"아이디 혹은 비밀번호가 일치하지 않습니다."}
-              </span>
-            </div>
+
             <div>
               <BottomBtn type="submit" disabled={idPwNull}>
                 로그인

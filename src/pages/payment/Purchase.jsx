@@ -205,6 +205,7 @@ const Purchase = () => {
           buyPerform,
           performPrice,
           performAmount: modifiedPurchasePerformAmount,
+          scriptTitle: orderData.title,
         },
       });
     } catch (error) {

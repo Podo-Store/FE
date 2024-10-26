@@ -202,9 +202,6 @@ const PerformanceRefund = () => {
           <hr />
           <div className="j-content-between a-items-center">
             <p className="p-medium-bold">환불 사유</p>
-            <p className="p-xs-medium">
-              {currentLength} / {MAX_LENGTH}
-            </p>
           </div>
           <div style={{ height: "0.63rem" }} />
           <PerformInputField
@@ -221,6 +218,11 @@ const PerformanceRefund = () => {
                 setReason(event.target.value);
               }
             }}
+            rightElement={
+              <p className="p-xs-medium c-default" id="length">
+                {currentLength} / {MAX_LENGTH}
+              </p>
+            }
           />
 
           <div className="j-content-end" id="btn">

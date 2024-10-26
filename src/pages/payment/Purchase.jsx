@@ -161,7 +161,7 @@ const Purchase = () => {
   }, [checkBoxCondition, name, phone, address, isPerformSelected]);
 
   const onClickPurchase = async () => {
-    if (!nameValid || !phoneValid || !addressValid) {
+    if (buyPerform && (!nameValid || !phoneValid || !addressValid)) {
       alert("신청자 정보를 다시 확인해주세요.");
       return;
     }
@@ -184,6 +184,8 @@ const Purchase = () => {
           phoneNumber: phone,
           address,
         };
+      } else {
+        requestBody.applicant = undefined;
       }
 
       const response = await axios.post(`${SERVER_URL}order/item`, requestBody, {
@@ -205,6 +207,7 @@ const Purchase = () => {
           buyPerform,
           performPrice,
           performAmount: modifiedPurchasePerformAmount,
+          scriptTitle: orderData.title,
         },
       });
     } catch (error) {
@@ -244,7 +247,9 @@ const Purchase = () => {
                 </div>
               </div>
             ) : null}
-            <hr id="script-perform" />
+
+            {buyScript && buyPerform ? <hr id="script-perform" /> : null}
+
             {buyPerform ? (
               <div className="content">
                 <h4 id="subtitle">공연권</h4>

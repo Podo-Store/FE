@@ -10,7 +10,7 @@ import {
   PWCheckErrorMessages,
   NameErrorMessages,
 } from "../../../components/auth/signUp";
-import SmallOnOffBtn from "../../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { useRequest } from "../../../hooks/useRequest";
 

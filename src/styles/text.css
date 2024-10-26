@@ -88,6 +88,15 @@
   text-decoration-line: underline;
 }
 
+.p-xs-bold {
+  /* Paragraph/XS/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 14px; /* 140% */
+}
+
 .p-small-under {
   /* Paragraph/Small/Under */
   font-size: 0.875rem;

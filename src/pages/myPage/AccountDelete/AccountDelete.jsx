@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import SmallOnOffBtn from "../../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { SERVER_URL } from "../../../constants/ServerURL";
 

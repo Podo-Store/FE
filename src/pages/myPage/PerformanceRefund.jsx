@@ -156,8 +156,8 @@ const PerformanceRefund = () => {
               <p className="p-medium-bold c-grey">구매한 공연권 수량 및 금액</p>
               <div className="j-content-end">
                 <p className="p-large-medium c-grey">{orderedAmount}</p>
-                <div style={{ width: "2.69rem" }} />
-                <p className="p-large-medium c-grey">{formatPrice(orderedPrice)}원</p>
+                <div className="price-default-left" />
+                <p className="p-large-medium c-grey price-default">{formatPrice(orderedPrice)}원</p>
               </div>
             </div>
             <hr />
@@ -165,34 +165,43 @@ const PerformanceRefund = () => {
               <p className="p-medium-bold c-grey">환불 가능한 공연권 수량 및 금액</p>
               <div className="j-content-end">
                 <p className="p-large-medium c-grey">{refundPossibleAmount}</p>
-                <div style={{ width: "2.69rem" }} />
-                <p className="p-large-medium c-grey">{formatPrice(refundPossiblePrice)}원</p>
+                <div className="price-default-left" />
+                <p className="p-large-medium c-grey price-default">
+                  {formatPrice(refundPossiblePrice)}원
+                </p>
               </div>
             </div>
             <hr />
             <div className="j-content-between a-items-center detail-content" id="total">
               <p className="p-medium-bold">환불 예정 공연권 수량 및 금액</p>
               <div className="j-content-end a-items-center">
-                <div className="j-content-between a-items-center" id="total-amount">
-                  <img
-                    className="c-pointer"
-                    src={minusBtn}
-                    alt="minusBtn"
-                    onClick={() => {
-                      changeAmount(-1);
-                    }}
-                  />
-                  <p className="p-large-medium">{currentAmount}</p>
-                  <img
-                    className="c-pointer"
-                    src={plusBtn}
-                    alt="plusBtn"
-                    onClick={() => {
-                      changeAmount(1);
-                    }}
-                  />
-                </div>
-                <p className="p-large-medium" id="total-price">
+                {refundPossibleAmount !== 1 ? (
+                  <div className="j-content-between a-items-center" id="total-amount">
+                    <img
+                      className="c-pointer"
+                      src={minusBtn}
+                      alt="minusBtn"
+                      onClick={() => {
+                        changeAmount(-1);
+                      }}
+                    />
+                    <p className="p-large-medium t-align-center">{currentAmount}</p>
+                    <img
+                      className="c-pointer"
+                      src={plusBtn}
+                      alt="plusBtn"
+                      onClick={() => {
+                        changeAmount(1);
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div className="d-flex">
+                    <p className="p-large-medium">{currentAmount}</p>
+                    <div className="price-default-left" />
+                  </div>
+                )}
+                <p className="p-large-medium price-default">
                   {formatPrice(singlePrice * currentAmount)}원
                 </p>
               </div>

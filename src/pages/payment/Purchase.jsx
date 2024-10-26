@@ -315,7 +315,7 @@ const Purchase = () => {
                       onClose={() => {
                         setShowPopup(!showPopup);
                       }}
-                      style={{ padding: "8px 10px", transform: "translate(6.5rem, -2rem)" }}
+                      style={{ padding: "8px 10px" }}
                       buttonId="popup-btn"
                     />
                   ) : null}

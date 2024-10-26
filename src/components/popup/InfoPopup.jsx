@@ -4,10 +4,10 @@ import "./InfoPopup.css";
 import "./../../styles/text.css";
 
 /**
- *
+ * 사용 시, 부모 요소 및 자매(sibling) 요소에 position: relative;를 설정해야 함.
  * @param {Object} props - Component properties
  * @param {function} props.onClose: 팝업을 닫을 때 호출할 함수
- * @param props.style - padding, transform 사용 권장
+ * @param props.style - padding, left 사용 권장.
  * @param {string} props.buttonId: 팝업을 띄우는 버튼의 id (e.g. "popup-btn2")
  * @returns
  */

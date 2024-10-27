@@ -1,10 +1,55 @@
-.main-ver-1 {
-  min-height: 110vh;
-  background-image: url(./../assets/image/Landing1.png);
-  background-size: contain;
-  background-repeat: no-repeat;
-  transform: translateY(-0.1rem);
+.background-container div#title {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
 }
-.main-ver-1 img {
-  width: 98.5vw;
+
+.background-container div#purple-rectangle{
+  width: 20px;
+height: 130px;
+flex-shrink: 0;
+background: var(--purple-purple-4-main, #6A39C0);
+}
+
+.background-container h1 {
+  color: var(--ect-black, #000);
+
+  font-family: "Hakgyoansim Allimjang" !important;
+  font-size: 64px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 70px; /* 109.375% */
+  letter-spacing: 0px;
+  display: flex;
+  justify-content: center;  /* 수평 중앙 정렬 */
+  align-items: center; 
+}
+
+.background-container img{
+  width: 80px;
+height: 26px;
+flex-shrink: 0;
+display: block;  /* 이미지가 한 줄 전체를 차지하게 함 */
+  margin-left: auto;
+  margin-right: auto;
+margin-bottom: 5vh;
+animation: moveArrow 1.5s infinite ease-in-out;
+}
+
+@keyframes moveArrow {
+  0% {
+    transform: translateY(0); /* 시작 위치 */
+  }
+  50% {
+    transform: translateY(15px); /* 아래로 15px 이동 */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+  }
+}
+
+.resized-image{
+  width: auto; /* 이미지 비율 유지 */
+  height: 1080px; /* 이미지 비율을 유지하며 높이 자동 설정 */
+  max-width: 1920px;
 }

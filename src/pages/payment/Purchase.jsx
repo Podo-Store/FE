@@ -315,7 +315,7 @@ const Purchase = () => {
                       onClose={() => {
                         setShowPopup(!showPopup);
                       }}
-                      style={{ padding: "8px 10px", transform: "translate(6.5rem, -2rem)" }}
+                      style={{ padding: "8px 10px" }}
                       buttonId="popup-btn"
                     />
                   ) : null}
@@ -341,7 +341,10 @@ const Purchase = () => {
               </div>
             ) : null}
 
-            <PurchaseCheckBox setCheckBoxCondition={setCheckBoxCondition} />
+            <PurchaseCheckBox
+              setCheckBoxCondition={setCheckBoxCondition}
+              isPerformSelected={isPerformSelected}
+            />
 
             <div style={{ marginTop: "1rem" }}></div>
 

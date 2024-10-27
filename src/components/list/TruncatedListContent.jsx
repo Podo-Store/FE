@@ -36,6 +36,9 @@ const TruncatedListContent = ({
             setShowTruncatedShortPlays(false);
             setShowTruncatedLongPlays(false);
             setShowAllPlays(true);
+
+            // 더보기 버튼 클릭 시 stack에 추가
+            window.history.pushState(null, document.title, window.location.href);
           }}
         />
       </div>

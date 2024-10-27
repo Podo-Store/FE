@@ -161,12 +161,14 @@
 }
 
 .purchase div#user-info {
+  position: relative;
   gap: 2px;
 
   margin-bottom: 10px;
 }
 
 .purchase div#user-info img {
+  position: relative;
   width: 19px;
   height: 19px;
 }

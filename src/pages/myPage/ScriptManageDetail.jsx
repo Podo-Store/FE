@@ -305,7 +305,12 @@ const ScriptManageDetail = () => {
                   color="white"
                   onClick={() => navigate("/mypage/scriptmanage")}
                 />
-                <SmallOnOffBtn text="수정하기" color="purple" onClick={onClickModifyBtn} />
+                <SmallOnOffBtn
+                  text="수정하기"
+                  color="purple"
+                  disabled={title === "" || scriptPrice === "" || performPrice === ""}
+                  onClick={onClickModifyBtn}
+                />
               </div>
             </div>
             <div className="j-content-end">

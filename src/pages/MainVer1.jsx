@@ -1,7 +1,10 @@
-import "./MainVer1.css";
+import React, { useEffect, useState } from "react";
+
 import firstImage from "../assets/image/LangPageDownArrow.svg";
 import secondImage from "../assets/image/Landing1.png";
-import React, { useEffect, useState } from "react";
+
+import "./MainVer1.css";
+
 
 const MainVer1 = () => {
   const [hasScrolled, setHasScrolled] = useState(false); // 스크롤 상태 관리

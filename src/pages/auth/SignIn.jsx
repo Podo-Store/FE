@@ -7,6 +7,7 @@ import Footer from "../Footer";
 
 import Loading from "../Loading";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
+import { ErrorMessage } from "../../components/auth/signUp/index.js";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 
 import AuthContext from "../../contexts/AuthContext";
@@ -35,6 +36,7 @@ function SignIn() {
   };
 
   useEffect(() => {
+    setShowErrorMsg(false);
     if (id === "" || pw === "") {
       setIdPwNull(true);
     } else {
@@ -99,11 +101,20 @@ function SignIn() {
                 placeholder="비밀번호를 입력해주세요."
                 value={pw}
                 onChange={handlePassword}
-                errorMessage="아이디 혹은 비밀번호가 일치하지 않습니다."
-                isValid={isIdPwMatch}
-                showErrorMsg={showErrorMsg}
+                errorMessageCustomFlag="true"
               />
             </div>
+
+            {showErrorMsg && !isIdPwMatch ? (
+              <div id="error-wrap">
+                <ErrorMessage message="아이디 혹은 비밀번호가 일치하지 않습니다." />
+              </div>
+            ) : (
+              <div id="error-wrap">
+                <p>&nbsp;</p>
+              </div>
+            )}
+            <div style={{ height: "32px" }}></div>
 
             <div>
               <BottomBtn type="submit" disabled={idPwNull}>

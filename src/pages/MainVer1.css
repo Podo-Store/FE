@@ -1,22 +1,3 @@
-
-
-.background-container{
-  height: 93.519vh;
-  background-image: url(./../assets/image/landingPageBackground.png);
-  background-color: #fff;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center 36.019vh;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.background-container div#a1 {
-  height: 26px;
-}
-
 .background-container div#title {
   display: flex;
   justify-content: center;
@@ -72,7 +53,3 @@ animation: moveArrow 1.5s infinite ease-in-out;
   height: 1080px; /* 이미지 비율을 유지하며 높이 자동 설정 */
   max-width: 1920px;
 }
-
-
-
-

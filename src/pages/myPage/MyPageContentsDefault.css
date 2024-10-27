@@ -17,6 +17,7 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px; /* 133.333% */
+  letter-spacing: -2px;
 }
 
 .myPage-contents-default .content-side .m-bottom-8-88vh {

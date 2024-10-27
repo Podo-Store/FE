@@ -52,8 +52,26 @@ display: block;  /* 이미지가 한 줄 전체를 차지하게 함 */
   margin-left: auto;
   margin-right: auto;
 margin-bottom: 5vh;
+animation: moveArrow 1.5s infinite ease-in-out;
 }
 
+@keyframes moveArrow {
+  0% {
+    transform: translateY(0); /* 시작 위치 */
+  }
+  50% {
+    transform: translateY(15px); /* 아래로 15px 이동 */
+  }
+  100% {
+    transform: translateY(0); /* 원래 위치로 돌아옴 */
+  }
+}
+
+.resized-image{
+  width: auto; /* 이미지 비율 유지 */
+  height: 1080px; /* 이미지 비율을 유지하며 높이 자동 설정 */
+  max-width: 1920px;
+}
 
 
 

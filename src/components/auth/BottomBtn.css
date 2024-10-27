@@ -29,5 +29,5 @@
 .BottomBtn .bottomButton:disabled {
   cursor: default;
   background-color: #dadada;
-  color: black;
+  color: #fff;
 }

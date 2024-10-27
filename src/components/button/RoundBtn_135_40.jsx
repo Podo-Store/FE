@@ -1,4 +1,4 @@
-import "./SmallOnOffBtn.css";
+import "./RoundBtn_135_40.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -12,7 +12,7 @@ import "./../../styles/utilities.css";
  * @param {Object} [props.style] - additional style
  * @returns
  */
-const SmallOnOffBtn = ({ text, onClick, type, color, disabled = false, style }) => {
+const RoundBtn_135_40 = ({ text, onClick, type, color, disabled = false, style }) => {
   return color === "white" ? (
     <button
       className="c-pointer p-medium-bold c-main small-on-off-btn"
@@ -25,26 +25,26 @@ const SmallOnOffBtn = ({ text, onClick, type, color, disabled = false, style }) 
     </button>
   ) : color === "grey" || color === "gray" ? (
     <button
-      className="c-pointer small-on-off-btn"
+      className="c-pointer p-medium-bold c-white small-on-off-btn"
       id="grey"
       onClick={onClick}
       type={type}
       style={{ ...style }}
     >
-      <p className="p-medium-bold c-white">{text}</p>
+      {text}
     </button>
   ) : (
     <button
-      className="c-pointer small-on-off-btn"
+      className="c-pointer p-medium-bold c-white small-on-off-btn"
       id="purple"
       onClick={onClick}
       type={type}
       disabled={disabled}
       style={{ ...style }}
     >
-      <p className="p-medium-bold c-white">{text}</p>
+      {text}
     </button>
   );
 };
 
-export default SmallOnOffBtn;
+export default RoundBtn_135_40;

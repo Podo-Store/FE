@@ -54,6 +54,15 @@
   line-height: 28px; /* 140% */
 }
 
+.h5-medium {
+  /* H5/Medium */
+  font-family: "Noto Sans KR";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 140% */
+}
+
 .p-xs-regular {
   /* Paragraph/XS/Regular */
   font-size: 0.625rem;
@@ -77,6 +86,15 @@
   font-weight: 400;
   line-height: 0.875rem; /* 140% */
   text-decoration-line: underline;
+}
+
+.p-xs-bold {
+  /* Paragraph/XS/Bold */
+  font-family: "Noto Sans KR";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 14px; /* 140% */
 }
 
 .p-small-under {
@@ -162,6 +180,10 @@
 
 .t-align-center {
   text-align: center;
+}
+
+.t-align-right {
+  text-align: right;
 }
 
 .c-black {

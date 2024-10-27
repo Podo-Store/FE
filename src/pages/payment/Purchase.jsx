@@ -8,7 +8,7 @@ import Footer from "../Footer";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
 import AmountChange from "../../components/detail/AmountChange";
-import { AuthInputField } from "../../components/inputField";
+import { AuthInputField, AuthPhoneInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -40,6 +40,8 @@ const Purchase = () => {
 
   const [scriptPrice, setScriptPrice] = useState(0);
   const [performPrice, setPerformPrice] = useState(0);
+  // 공연권 개당 가격
+  const [performPricePerAmount, setPerformPricePerAmount] = useState(0);
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
@@ -48,8 +50,11 @@ const Purchase = () => {
   // 공연권 거래 시
   const [showPopup, setShowPopup] = useState(false);
   const [name, setName] = useState("");
+  const [nameValid, setNameValid] = useState(false);
   const [phone, setPhone] = useState("");
+  const [phoneValid, setPhoneValid] = useState(false);
   const [address, setAddress] = useState("");
+  const [addressValid, setAddressValid] = useState(false);
 
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     purchaseAgreement: false,
@@ -64,12 +69,35 @@ const Purchase = () => {
   const {
     isScriptSelected = false,
     isPerformSelected = false,
-    originalPerformPrice,
-    // 0: 공연권 구매 X, 1: 구매 개수
+    // 0: 공연권 구매 X, 1~: 구매 개수
     purchasePerformAmount = 0,
   } = location.state || {};
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (name.length > 0 && name.trim() !== "") {
+      setNameValid(true);
+    } else {
+      setNameValid(false);
+    }
+  }, [name]);
+
+  useEffect(() => {
+    if (phone.length > 0 && phone.trim() !== "") {
+      setPhoneValid(true);
+    } else {
+      setPhoneValid(false);
+    }
+  }, [phone]);
+
+  useEffect(() => {
+    if (address.length > 0 && address.trim() !== "") {
+      setAddressValid(true);
+    } else {
+      setAddressValid(false);
+    }
+  }, [address]);
 
   useEffect(() => {
     setModifiedPurchasePerformAmount(purchasePerformAmount);
@@ -93,7 +121,8 @@ const Purchase = () => {
       setTitle(response.data.title);
       setAuthor(response.data.writer);
       setScriptPrice(response.data.scriptPrice);
-      setPerformPrice(response.data.performancePrice);
+      setPerformPrice(response.data.performanceTotalPrice);
+      setPerformPricePerAmount(response.data.performancePrice);
     } catch (error) {
       if (error.response.data.error === "본인 작품 구매 불가") {
         alert("본인이 작성한 작품은 구매할 수 없습니다.");
@@ -132,6 +161,11 @@ const Purchase = () => {
   }, [checkBoxCondition, name, phone, address, isPerformSelected]);
 
   const onClickPurchase = async () => {
+    if (buyPerform && (!nameValid || !phoneValid || !addressValid)) {
+      alert("신청자 정보를 다시 확인해주세요.");
+      return;
+    }
+
     try {
       const requestBody = {
         orderItem: [
@@ -150,6 +184,8 @@ const Purchase = () => {
           phoneNumber: phone,
           address,
         };
+      } else {
+        requestBody.applicant = undefined;
       }
 
       const response = await axios.post(`${SERVER_URL}order/item`, requestBody, {
@@ -171,6 +207,7 @@ const Purchase = () => {
           buyPerform,
           performPrice,
           performAmount: modifiedPurchasePerformAmount,
+          scriptTitle: orderData.title,
         },
       });
     } catch (error) {
@@ -210,7 +247,9 @@ const Purchase = () => {
                 </div>
               </div>
             ) : null}
-            <hr id="script-perform" />
+
+            {buyScript && buyPerform ? <hr id="script-perform" /> : null}
+
             {buyPerform ? (
               <div className="content">
                 <h4 id="subtitle">공연권</h4>
@@ -225,7 +264,7 @@ const Purchase = () => {
                       <div className="detail-price">
                         <div className="price-wrap">
                           <img src={performImg} alt="perform"></img>
-                          <p>{formatPrice(originalPerformPrice)}원</p>
+                          <p>{formatPrice(performPricePerAmount)}원</p>
                         </div>
                       </div>
                     </div>
@@ -248,7 +287,7 @@ const Purchase = () => {
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={buyPerform}
-              performPrice={originalPerformPrice}
+              performPrice={performPricePerAmount}
               performAmount={modifiedPurchasePerformAmount}
               totalPrice={totalPrice}
             />
@@ -288,7 +327,7 @@ const Purchase = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  <AuthInputField
+                  <AuthPhoneInputField
                     placeholder="신청자 연락처를 입력해주세요."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}

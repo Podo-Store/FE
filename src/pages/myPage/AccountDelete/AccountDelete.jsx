@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-import SmallOnOffBtn from "../../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { SERVER_URL } from "../../../constants/ServerURL";
 
@@ -10,7 +10,7 @@ import "./AccountDelete.css";
 const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
   const onClickDeleteAccountConfirm = async () => {
     try {
-      await axios.delete(`${SERVER_URL}profile/delete`, {
+      await axios.delete(`${SERVER_URL}profile/deleteUser`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
@@ -25,6 +25,7 @@ const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
 
   return (
     <div className="account-delete">
+      <h1>계정 삭제</h1>
       <p className="p-medium-regular" id="title">
         잠깐! 정말 떠나실 건가요...?
       </p>

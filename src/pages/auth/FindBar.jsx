@@ -1,46 +1,31 @@
-import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import FindID from "./FindID";
 import FindPW from "./FindPW";
+import ToggleBar from "../../components/toggleBar/ToggleBar";
 
 import "./FindBar.css";
 import "./../../styles/utilities.css";
 
-const Find = () => {
-  const TAB_NAME = ["아이디 찾기", "비밀번호 찾기"];
-  const [currentTab, setCurrentTab] = useState(TAB_NAME[0]);
+const FindBar = () => {
+  const { id } = useParams();
 
   return (
     <div className="find">
       <MainNav />
-      <div className="f-dir-column a-items-center find-content">
-        <div className="f-center f-dir-column tab-nav-wrap">
-          <div className="tab-nav">
-            <h4
-              className={`tab-name ${TAB_NAME[0] === currentTab ? "current" : ""}`}
-              onClick={() => setCurrentTab(TAB_NAME[0])}
-            >
-              {TAB_NAME[0]}
-            </h4>
-
-            <h4
-              className={`tab-name ${TAB_NAME[1] === currentTab ? "current" : ""}`}
-              onClick={() => setCurrentTab(TAB_NAME[1])}
-            >
-              {TAB_NAME[1]}
-            </h4>
-          </div>
-
-          {currentTab === TAB_NAME[0] && <FindID />}
-          {currentTab === TAB_NAME[1] && <FindPW />}
-        </div>
-      </div>
+      <ToggleBar
+        defaultRoute={id}
+        firstName="아이디 찾기"
+        firstComponent={<FindID />}
+        secondName="비밀번호 찾기"
+        secondComponent={<FindPW />}
+      />
       <Footer />
     </div>
   );
 };
 
-export default Find;
+export default FindBar;

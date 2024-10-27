@@ -31,7 +31,6 @@ const AccountInfoChange = () => {
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side">
           <div className="content-side-inside">
-            <h1>회원 정보 수정</h1>
             {!changeShowPermission ? (
               /* 회원 정보 수정 진입 페이지 */
               <AccountInfoChangeEnter setChangeShowPermission={setChangeShowPermission} />

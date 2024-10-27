@@ -1,6 +1,6 @@
 import "./RectInputField.css";
 
-const RectInputField = ({ title, type, placeholder, value, onChange }) => {
+const RectInputField = ({ title, type, placeholder, value, onChange, readOnly = false }) => {
   return (
     <div className="rect-input-field">
       <label for={title}>{title}</label>
@@ -11,6 +11,7 @@ const RectInputField = ({ title, type, placeholder, value, onChange }) => {
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        readOnly={readOnly}
       />
     </div>
   );

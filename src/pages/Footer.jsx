@@ -7,6 +7,7 @@ import mail from "../assets/image/footer/mail.svg";
 // import XIcon from "../assets/image/footer/XIcon.svg";
 
 import "./Footer.css";
+import "./../styles/text.css";
 import "./../styles/utilities.css";
 
 function Footer() {
@@ -27,8 +28,8 @@ function Footer() {
         </div>
         <div className="footer-lower">
           <div className="business-info">
-            <p>사업자 번호 : 111-11-111111</p>
-            <p>연락처 : 010-0000-0000</p>
+            {/*<p>사업자 번호 : 111-11-111111</p>*/}
+            <p>연락처 : 010-5251-5830</p>
             <p>대표 : 서준</p>
           </div>
 
@@ -57,7 +58,24 @@ function Footer() {
             </div>
             <div className="sitemap-section">
               <ul id="question">
-                <li>개인정보처리방침</li>
+                <li
+                  className="p-xs-regular"
+                  onClick={() => {
+                    navigate("/policy/0");
+                    scrollToTop();
+                  }}
+                >
+                  개인정보처리방침
+                </li>
+                <li
+                  className="p-xs-regular t-align-right"
+                  onClick={() => {
+                    navigate("/policy/1");
+                    scrollToTop();
+                  }}
+                >
+                  이용약관
+                </li>
                 {/*<li>
                   <button>문의하기</button>
                 </li>*/}

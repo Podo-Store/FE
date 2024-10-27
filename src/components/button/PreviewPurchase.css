@@ -1,0 +1,10 @@
+.preview-purchase-btn {
+  width: 81px;
+  height: 24px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 30px;
+  background-color: var(--Main, #6a39c0);
+}

@@ -8,6 +8,7 @@ const AccountDeleteSuccess = () => {
   const navigate = useNavigate();
   return (
     <div className="delete-complete">
+      <h1>계정 삭제</h1>
       <div className="delete-complete-wrap">
         <div className="delete-complete-box">
           <p>계정 삭제가 완료되었습니다.</p>

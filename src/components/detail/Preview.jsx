@@ -1,9 +1,15 @@
-import { useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
-import Modal from "./Modal";
+//import Modal from "./Modal";
 import PreviewDiv from "./PreviewDiv";
 import PartialLoading from "../loading/PartialLoading";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import { SERVER_URL } from "../../constants/ServerURL";
 
 import samplePDF from "./../../assets/sample.pdf";
 
@@ -16,15 +22,60 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 /**
  * @param {object} props
- * @param {string} props.pdf - PDF 파일 경로
+ * @param {string} props.id - 대본 id
  * @param {number} props.lengthType - 1: 장편극, 2: 단편극
  */
-const Preview = ({ pdf, lengthType, testFlag }) => {
+const Preview = ({ id, lengthType }) => {
+  const [pdfData, setPdfData] = useState(null);
   const [selectedPage, setSelectedPage] = useState(null);
   const [numPages, setNumPages] = useState(null);
 
+  const [isLoading, setIsLoading] = useState(false);
+
+  const previousPdfDataRef = useRef(null);
+
   // 단편극: 1장까지만, 장편극: 3장까지만
   const showThreshold = lengthType === 2 ? 1 : 3;
+
+  useRequest(async () => {
+    try {
+      setIsLoading(true);
+
+      // 로그인 상태에 따른 헤더 설정
+      let headers = { "Content-Type": "multipart/form-data" };
+      if (Cookies.get("accessToken")) {
+        headers = { ...headers, Authorization: `Bearer ${Cookies.get("accessToken")}` };
+      }
+      const response = await axios.get(`${SERVER_URL}scripts/preview`, {
+        headers: headers,
+        params: {
+          script: id,
+        },
+        responseType: "blob",
+      });
+
+      // 이전 Blob URL 해제
+      if (previousPdfDataRef.current) {
+        URL.revokeObjectURL(previousPdfDataRef.current);
+      }
+
+      // Blob URL 생성
+      const blob = new Blob([response.data], { type: "application/pdf" });
+      const blobUrl = URL.createObjectURL(blob);
+      setPdfData(blobUrl);
+      previousPdfDataRef.current = blobUrl;
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+
+    // 컴포넌트 언마운트 시 Blob URL 해제
+    return () => {
+      if (previousPdfDataRef.current) {
+        URL.revokeObjectURL(previousPdfDataRef.current);
+      }
+    };
+  });
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
@@ -34,11 +85,15 @@ const Preview = ({ pdf, lengthType, testFlag }) => {
     setSelectedPage(pageNumber);
   };
 
+  if (isLoading) {
+    return <PartialLoading />;
+  }
+
   return (
     <div className="preview">
-      {pdf ? (
+      {pdfData ? (
         <Document
-          file={pdf || samplePDF}
+          file={pdfData || samplePDF}
           onLoadSuccess={onDocumentLoadSuccess}
           options={{ cMapUrl: "cmaps/", cMapPacked: true }}
           loading={<PartialLoading />}
@@ -71,29 +126,29 @@ const Preview = ({ pdf, lengthType, testFlag }) => {
                       {numPages - 5} +
                     </p>
                   ) : null}
+
+                  {/* 미리보기 돋보기 */}
+                  {index + 1 <= showThreshold ? (
+                    <img
+                      src={require("./../../assets/image/glass.svg").default}
+                      alt="Preview Glass"
+                      id="preview-glass"
+                    />
+                  ) : null}
                 </div>
               ))}
             </div>
           )}
 
-          {selectedPage &&
-            (testFlag === 0 ? (
-              // modal로 선택한 페이지 보여주기
-              <Modal
-                Page={Page}
-                showThreshold={showThreshold}
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
-            ) : (
-              // modal 대신 div로 선택한 페이지 보여주기
-              <PreviewDiv
-                Page={Page}
-                showThreshold={showThreshold}
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
-            ))}
+          {selectedPage && (
+            <PreviewDiv
+              Page={Page}
+              showThreshold={showThreshold}
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+              numPages={numPages}
+            />
+          )}
         </Document>
       ) : (
         <p>PDF 파일을 로드할 수 없습니다.</p>

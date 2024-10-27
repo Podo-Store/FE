@@ -62,14 +62,14 @@
 }
 
 .myPage-menu-side .purchased {
-  transform: translateY(-5px);
+  transform: translate(-5px, -5px);
 }
 
 .myPage-menu-side .script-manage {
-  transform: translateY(5px);
+  transform: translate(-5px, 5px);
 }
 
-.myPage-menu-side p {
+.myPage-menu-side > p {
   margin-top: 4.5vh;
   color: #000;
   text-decoration: underline;
@@ -84,34 +84,24 @@
   line-height: 20px; /* 142.857% */
 }
 
-#grey-rectangle {
+.myPage-menu-side #grey-rectangle {
   display: flex;
   align-items: center;
   border-radius: 10px;
   border: 1px solid var(--grey-grey-6, #777);
-  width: 305px;
-  height: 66px;
-  flex-shrink: 0;
+  width: 75%;
+
   margin-top: 42.315vh;
-  padding: 0.5rem;
-  background-color: #f5f5f5;
+  padding: 9px 0;
 }
 
-#grey-rectangle img {
+.myPage-menu-side #grey-rectangle img {
   width: 19px;
   height: 19px;
-  flex-shrink: 0;
   margin-left: 18px;
 }
 
-#grey-rectangle h8 {
-  color: var(--grey-grey-6, #777);
-  font-family: "Noto Sans KR";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  width: 240px;
-  height: 48px;
+.myPage-menu-side #grey-rectangle p {
   margin-left: 15px;
   margin-bottom: 3px;
 }

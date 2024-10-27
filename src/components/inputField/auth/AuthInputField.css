@@ -59,8 +59,6 @@
 
   display: flex;
   align-items: center;
-
-  cursor: pointer;
 }
 
 .auth-input-field .error-message-wrap p {

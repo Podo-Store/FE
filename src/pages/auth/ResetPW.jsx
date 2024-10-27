@@ -148,7 +148,7 @@ const ResetPW = ({ receivedAccessToken }) => {
             비밀번호가 변경되었습니다.
           </h5>
         </InnerBox>
-        <BottomBtn onClick={() => navigate("/signin")}>로그인 하러 가기</BottomBtn>
+        <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
       </div>
     </div>
   );

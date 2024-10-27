@@ -1,3 +1,16 @@
+/* PerformanceRefund 가격 공통 class */
+.perform-refund .price-default {
+  margin-left: 4px;
+
+  min-width: 84px;
+  text-align: right;
+}
+
+.perform-refund .price-default-left {
+  width: calc(20px + 0.56rem);
+}
+
+/* PerformanceRefund css */
 .perform-refund .script > hr {
   margin-top: 2.5vh;
 }
@@ -36,11 +49,12 @@
   gap: 0.56rem;
 }
 
-.perform-refund div#detail div#total p#total-price {
-  margin-left: 4px;
+.perform-refund div#detail div#total div#total-amount p {
+  min-width: 18px;
+}
 
-  min-width: 84px;
-  text-align: right;
+.perform-refund p#length {
+  transform: translateX(10px);
 }
 
 .perform-refund .script > hr:nth-of-type(2) {

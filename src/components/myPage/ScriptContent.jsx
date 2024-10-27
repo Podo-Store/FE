@@ -12,11 +12,12 @@ import "./../../styles/utilities.css";
 
 /**
  * 구매한 작품 페이지, 작품 관리 페이지의 상품 란,
- * @param {order} order - List.map(order, index)
- * @param {index} index - List.map(order, index)
- * @param {string} currentPage - 구매한 작품: "0", 작품 관리: "1"
- * @param {component} Button - 페이지에 사용할 Button component. e.g. PurchasedScriptBtn.jsx
- * @param {string} currentTogglePage - PurchasedScript의 토글 버튼. 대본: "0", 공연권: "1"
+ * @param {Object} props - Component properties
+ * @param {order} props.order - List.map(order, index)
+ * @param {index} props.index - List.map(order, index)
+ * @param {string} props.currentPage - 구매한 작품: "0", 작품 관리: "1"
+ * @param {component} props.Button - 페이지에 사용할 Button component. e.g. PurchasedScriptBtn.jsx
+ * @param {string} props.currentTogglePage - PurchasedScript의 토글 버튼. 대본: "0", 공연권: "1"
  */
 const ScriptContent = ({
   order,
@@ -73,6 +74,7 @@ const ScriptContent = ({
                     <PriceText type="perform" value={script.performancePrice || 0} />
                   ) : null
                 ) : (
+                  // 작품 관리 페이지
                   <PriceTextsVertical
                     scriptPrice={script.scriptPrice || 0}
                     performPrice={script.performancePrice || 0}

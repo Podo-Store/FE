@@ -10,7 +10,7 @@ import Footer from "../Footer";
 import GoBack from "../../components/button/GoBack";
 import { PerformInputField, PerformDateInputField } from "../../components/inputField";
 import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp";
-import SmallOnOffBtn from "../../components/button/SmallOnOffBtn";
+import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import InfoPopup from "../../components/popup/InfoPopup";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 

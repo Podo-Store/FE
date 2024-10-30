@@ -1,7 +1,7 @@
 import axios from "axios";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import MainNav from "../MainNav";
@@ -210,6 +210,13 @@ const PerformanceInfo = () => {
     }
   };
 
+  // 모든 날짜들에 대해 유효성 검사
+  const isApplyDisabled = useMemo(() => {
+    if (inputFields.length === 0) return true;
+
+    return dates.length === 0 || dates.some((date) => !checkDateFormat(date));
+  }, [dates, inputFields.length]);
+
   return (
     <div>
       <MainNav />
@@ -359,7 +366,12 @@ const PerformanceInfo = () => {
                 navigate("/mypage/purchased");
               }}
             />
-            <SmallOnOffBtn text="신청하기" color="purple" onClick={onClickApply} />
+            <SmallOnOffBtn
+              text="신청하기"
+              color="purple"
+              disabled={isApplyDisabled}
+              onClick={onClickApply}
+            />
           </div>
         </div>
       </div>

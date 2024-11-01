@@ -37,8 +37,11 @@
   filter: blur(1px);
 }
 
-.preview p#page-number {
-  transform: translate(4.5rem, 0.5rem);
+.preview div#thumbnail-content p#page-number {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  /* transform: translate(4.5rem, -1rem); */
 }
 
 .preview p#last-number {

@@ -64,7 +64,7 @@
 
 .navbar .signin_btn {
   border-radius: 30px;
-  border: 2px solid var(--Main, #6a39c0);
+  border: 2.5px solid var(--Main, #6a39c0);
   width: 13.889vh;
   height: 4.074vh;
   background-color: #fdfaff;
@@ -77,6 +77,6 @@
   font-family: "Noto Sans KR";
   font-size: 1.667vh;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 2.593vh; /* 155.556% */
 }

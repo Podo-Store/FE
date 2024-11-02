@@ -9,11 +9,10 @@
 
 .preview #preview-glass {
   position: absolute;
-  top: 16.5px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  transform: scaleY(111%);
   display: none;
 }
 

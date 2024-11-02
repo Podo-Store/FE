@@ -74,6 +74,8 @@
   border-radius: 1.875rem;
   background: var(--Main, #6a39c0);
 
+  cursor: pointer;
+
   color: #fff;
   text-align: center;
 

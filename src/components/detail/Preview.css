@@ -1,3 +1,7 @@
+.preview div#preview-pdf {
+  gap: 1.042vw;
+}
+
 .preview div#thumbnail-content {
   margin: 0 10px;
   position: relative; /* 위치 상대적으로 설정 */

@@ -100,7 +100,7 @@ const Preview = ({ id, lengthType }) => {
         >
           {/* 썸네일로 상위 5개 페이지 표시 */}
           {numPages && (
-            <div className="j-content-between">
+            <div className="j-content-start" id="preview-pdf">
               {Array.from(new Array(Math.min(numPages, 5)), (_, index) => (
                 <div
                   key={index + 1}

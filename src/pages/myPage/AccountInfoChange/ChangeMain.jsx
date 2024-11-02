@@ -141,6 +141,33 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     }
   };
 
+  const onChangeDisableCondition = () => {
+    // 모든 필드가 공란일 경우
+    if (!pw && !pwCheck && !name) {
+      return true;
+    }
+
+    if (pw || pwCheck) {
+      if (
+        !pwChecker.alphabet ||
+        !pwChecker.number ||
+        !pwChecker.special ||
+        !pwChecker.length ||
+        !pwCheckChecker.equal
+      ) {
+        return true;
+      }
+    }
+
+    if (name) {
+      if (!nameChecker.format || !nameChecker.length) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   const onClickCompleteBtn = async () => {
     // 모든 필드가 공란일 경우
     if (!pw && !pwCheck && !name) {
@@ -304,6 +331,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           <SmallOnOffBtn
             text="수정 완료"
             type="submit"
+            disabled={onChangeDisableCondition()}
             onClick={onClickCompleteBtn}
             color="purple"
           />

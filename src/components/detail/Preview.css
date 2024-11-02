@@ -1,3 +1,7 @@
+.preview div#preview-pdf {
+  gap: 1.042vw;
+}
+
 .preview div#thumbnail-content {
   margin: 0 10px;
   position: relative; /* 위치 상대적으로 설정 */
@@ -5,11 +9,10 @@
 
 .preview #preview-glass {
   position: absolute;
-  top: 16.5px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  transform: scaleY(111%);
   display: none;
 }
 
@@ -37,8 +40,11 @@
   filter: blur(1px);
 }
 
-.preview p#page-number {
-  transform: translate(4.5rem, 0.5rem);
+.preview div#thumbnail-content p#page-number {
+  position: absolute;
+  bottom: 10px;
+  right: 15px;
+  /* transform: translate(4.5rem, -1rem); */
 }
 
 .preview p#last-number {

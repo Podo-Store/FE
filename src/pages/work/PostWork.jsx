@@ -74,9 +74,9 @@ const PostWork = () => {
         <div className="left-side">
           <div className="inside-field">
             <div className="title">
-              <h1>느닷없이</h1>
-              <h1>글이</h1>
-              <h1>쓰고 싶어졌다</h1>
+              <h1>자신만의</h1>
+              <h1>작품을</h1>
+              <h1>등록해주세요!</h1>
             </div>
             <div>
               <div className="upload-title">
@@ -105,7 +105,11 @@ const PostWork = () => {
                 }}
               />
 
-              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
+              <button
+                id="upload-btn"
+                onClick={onClickUpload}
+                disabled={!fileSelected}
+              >
                 작품 보내기
               </button>
             </div>

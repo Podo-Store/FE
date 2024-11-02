@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 import { AuthInputField, AuthPwInputField } from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
 import PartialLoading from "../../../components/loading/PartialLoading";
-import {
-  PWErrorMessages,
-  PWCheckErrorMessages,
-  NameErrorMessages,
-} from "../../../components/auth/signUp";
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { useRequest } from "../../../hooks/useRequest";
@@ -61,27 +56,28 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
 
   useEffect(() => {
     const checker = {
-      show: pw.length > 0,
+      ...pwChecker,
       alphabet: PW_ALPHABET_REGEX.test(pw),
       number: PW_NUMBER_REGEX.test(pw),
       special: PW_SPECIAL_REGEX.test(pw),
       length: PW_LENGTH_REGEX.test(pw),
     };
     setPwChecker(checker);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pw]);
 
   useEffect(() => {
     const checker = {
-      show: pwCheck.length > 0,
+      ...pwCheckChecker,
       equal: pw === pwCheck,
     };
-
     setPwCheckChecker(checker);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pw, pwCheck]);
 
   useEffect(() => {
     const checker = {
-      show: name.length > 0,
+      ...nameChecker,
       format: NAME_FORMAT_REGEX.test(name),
       length: NAME_LENGTH_REGEX.test(name),
     };
@@ -97,7 +93,6 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
       setNameDuplicated(false);
     }
 
-    // warning 메시지 무시할 것.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, hasClickedNameInputFlag]);
 
@@ -270,7 +265,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
         <div id="margin"></div>
 
         <AuthPwInputField
-          placeholder="비밀번호"
+          placeholder="새로운 비밀번호를 입력해주세요."
           value={pw}
           onClick={() => {
             setPwChecker({ ...pwChecker, show: true });
@@ -278,10 +273,23 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           onChange={(event) => {
             setPw(event.target.value);
           }}
-          errorMessageCustomFlag={true}
+          onBlur={() => {
+            setPwChecker({ ...pwChecker, show: false });
+          }}
+          checkerShowFlag={pwChecker.show}
+          checkerMessages={[
+            {
+              checkedFlag: pwChecker.alphabet,
+              message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
+            },
+            { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+            {
+              checkedFlag: pwChecker.special,
+              message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",
+            },
+            { checkedFlag: pwChecker.length, message: "5 ~ 11자만 가능해요." },
+          ]}
         />
-
-        <PWErrorMessages pwChecker={pwChecker} />
 
         <div id="margin"></div>
 
@@ -294,31 +302,35 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
               setPwCheckChecker({ ...pwCheckChecker, show: true });
             }
           }}
-          errorMessageCustomFlag="true"
+          errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
+          errorMessage="비밀번호가 일치하지 않습니다."
         />
-
-        <PWCheckErrorMessages pwCheckChecker={pwCheckChecker} />
 
         <div id="margin"></div>
 
         <AuthInputField
           placeholder={prevName}
           value={name}
-          onChange={(event) => {
-            setName(event.target.value);
-          }}
-          errorMessageCustomFlag="true"
           onClick={() => {
             setNameChecker({ ...nameChecker, show: true });
             setHasClickedNameInputFlag(true);
           }}
+          onChange={(event) => {
+            setName(event.target.value);
+          }}
           onBlur={() => {
+            setNameChecker({ ...nameChecker, show: false });
             setHasClickedNameInputFlag(false);
             checkNameDuplicated(name);
           }}
+          checkerShowFlag={nameChecker.show}
+          checkerMessages={[
+            { checkedFlag: nameChecker.format, message: "한글, 영어, 숫자만 사용 가능해요." },
+            { checkedFlag: nameChecker.length, message: "3 ~ 8자만 가능해요." },
+          ]}
+          errorFlag={nameDuplicated}
+          errorMessage="중복된 닉네임입니다."
         />
-
-        <NameErrorMessages nameChecker={nameChecker} nameDuplicated={nameDuplicated} />
 
         <div className="j-content-end" id="btn-wrap">
           <SmallOnOffBtn

@@ -7,7 +7,6 @@ import Footer from "../Footer";
 
 import Loading from "../Loading";
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
-import { ErrorMessage } from "../../components/auth/signUp/index.js";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 
 import AuthContext from "../../contexts/AuthContext";
@@ -31,10 +30,6 @@ function SignIn() {
 
   const navigate = useNavigate();
 
-  const handleId = (e) => {
-    setId(e.target.value);
-  };
-
   useEffect(() => {
     setShowErrorMsg(false);
     if (id === "" || pw === "") {
@@ -43,10 +38,6 @@ function SignIn() {
       setIdPwNull(false);
     }
   }, [id, pw]);
-
-  const handlePassword = (e) => {
-    setPw(e.target.value);
-  };
 
   const onClickConfirmButton = async () => {
     // initialize
@@ -95,25 +86,21 @@ function SignIn() {
                 type="text"
                 placeholder="아이디를 입력해주세요."
                 value={id}
-                onChange={handleId}
+                onChange={(event) => {
+                  setId(event.target.value);
+                }}
               />
               <AuthPwInputField
                 placeholder="비밀번호를 입력해주세요."
                 value={pw}
-                onChange={handlePassword}
-                errorMessageCustomFlag="true"
+                onChange={(event) => {
+                  setPw(event.target.value);
+                }}
+                errorFlag={showErrorMsg && !isIdPwMatch}
+                errorMessage="아이디 혹은 비밀번호가 일치하지 않습니다."
               />
             </div>
 
-            {showErrorMsg && !isIdPwMatch ? (
-              <div id="error-wrap">
-                <ErrorMessage message="아이디 혹은 비밀번호가 일치하지 않습니다." />
-              </div>
-            ) : (
-              <div id="error-wrap">
-                <p>&nbsp;</p>
-              </div>
-            )}
             <div style={{ height: "32px" }}></div>
 
             <div>

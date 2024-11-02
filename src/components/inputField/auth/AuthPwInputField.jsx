@@ -12,10 +12,13 @@ const AuthPwInputField = ({
   onChange,
   // 추가 요소
   onClick,
+  onBlur,
+
+  checkerShowFlag,
+  checkerMessages,
+
+  errorFlag,
   errorMessage,
-  showErrorMsg,
-  isValid,
-  validMessage,
 
   // 커스텀 에러 메시지: AuthInputField를 사용한 component에서 error 메시지 정의
   errorMessageCustomFlag = false,
@@ -30,6 +33,7 @@ const AuthPwInputField = ({
       value={value}
       onChange={onChange}
       onClick={onClick}
+      onBlur={onBlur}
       rightElement={
         <img
           src={toggleVisibility ? invisible : visible}
@@ -40,11 +44,11 @@ const AuthPwInputField = ({
           style={!toggleVisibility ? { transform: "translate(0.1rem, 0)" } : {}}
         />
       }
-      errorMessage={errorMessage}
-      validMessage={validMessage}
-      isValid={isValid}
-      showErrorMsg={showErrorMsg}
       errorMessageCustomFlag={errorMessageCustomFlag}
+      checkerShowFlag={checkerShowFlag}
+      checkerMessages={checkerMessages}
+      errorFlag={errorFlag}
+      errorMessage={errorMessage}
     />
   );
 };

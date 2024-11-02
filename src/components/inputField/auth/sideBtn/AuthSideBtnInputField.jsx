@@ -8,11 +8,14 @@ const AuthSideBtnInputField = ({
   value,
   onChange,
   // 추가 요소
+  onClick,
+  onBlur,
+
+  checkerShowFlag,
+  checkerMessages,
+
+  errorFlag,
   errorMessage,
-  showErrorMsg,
-  isValid,
-  isDuplicated,
-  validMessage,
 
   errorMessageCustomFlag,
 
@@ -28,15 +31,16 @@ const AuthSideBtnInputField = ({
       placeholder={placeholder}
       value={value}
       onChange={onChange}
+      onClick={onClick}
+      onBlur={onBlur}
       rightElement={
         <AuthInsideBtn title={sideBtnTitle} onClick={sideBtnOnClick} disabled={sideBtnDisabled} />
       }
-      errorMessage={errorMessage}
-      isValid={isValid}
-      isDuplicated={isDuplicated}
-      validMessage={validMessage}
-      showErrorMsg={showErrorMsg}
       errorMessageCustomFlag={errorMessageCustomFlag}
+      checkerShowFlag={checkerShowFlag}
+      checkerMessages={checkerMessages}
+      errorFlag={errorFlag}
+      errorMessage={errorMessage}
     />
   );
 };

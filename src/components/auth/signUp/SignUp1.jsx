@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { Selector, CheckerMessage, ErrorMessage, NextGreyButton, NextPurpleButton } from ".";
+import { Selector, NextGreyButton, NextPurpleButton } from ".";
 import Form from "../Form";
 import { AuthInputField } from "../../inputField";
 
@@ -32,7 +32,7 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
 
     setIdChecker((prevIdChecker) => ({
       // 기존 show가 true면 그대로 유지
-      show: prevIdChecker.show || id.length > 0,
+      ...prevIdChecker,
       format: ID_FORMAT_REGEX.test(id),
       length: ID_LENGTH_REGEX.test(id),
     }));
@@ -83,29 +83,19 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
           setHasIdDuplicateChecked(false);
           setId(event.target.value);
         }}
-        errorMessageCustomFlag="true"
         onBlur={() => {
           checkIdDuplicated(id);
           setIdChecker({ ...idChecker, show: false });
         }}
+        checkerShowFlag={idChecker.show}
+        checkerMessages={[
+          { checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." },
+          { checkedFlag: idChecker.length, message: "5 ~ 10자만 가능해요." },
+        ]}
+        errorFlag={idDuplicated}
+        errorMessage="중복된 아이디입니다."
       />
 
-      <div className="f-dir-column">
-        {idChecker.show ? (
-          <div className="f-dir-column" id="error-wrap">
-            <CheckerMessage
-              checkedFlag={idChecker.format}
-              message="영어와 숫자를 반드시 포함해야 해요."
-            />
-            <CheckerMessage checkedFlag={idChecker.length} message="5 ~ 10자만 가능해요." />
-          </div>
-        ) : null}
-        {idDuplicated ? (
-          <div id="error-wrap">
-            <ErrorMessage message="중복된 아이디입니다." />
-          </div>
-        ) : null}
-      </div>
       <div className="j-content-end">
         {idChecker.format && idChecker.length && !idDuplicated ? (
           <NextPurpleButton onNext={onClickNext} />

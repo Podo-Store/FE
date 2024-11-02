@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
-import PWCheckErrorMessages from "./ErrorMessages/PWCheckErrorMessages";
-import PWErrorMessages from "./ErrorMessages/PWErrorMessages";
 import Form from "../Form";
 import { AuthPwInputField } from "../../inputField";
 
@@ -42,8 +40,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
     */
 
     setPwChecker((prevPwChecker) => ({
-      // 기존 show가 true면 그대로 유지
-      show: prevPwChecker.show || pw.length > 0,
+      ...prevPwChecker,
       alphabet: PW_ALPHABET_REGEX.test(pw),
       number: PW_NUMBER_REGEX.test(pw),
       special: PW_SPECIAL_REGEX.test(pw),
@@ -85,14 +82,25 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         }}
         onChange={(event) => {
           setPw(event.target.value);
-          if (pw.length > 0) {
-            setPwChecker({ ...pwChecker, show: true });
-          }
         }}
-        errorMessageCustomFlag="true"
+        onBlur={() => {
+          setPwChecker({ ...pwChecker, show: false });
+        }}
+        checkerShowFlag={pwChecker.show}
+        checkerMessages={[
+          {
+            checkedFlag: pwChecker.alphabet,
+            message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
+          },
+          { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+          {
+            checkedFlag: pwChecker.special,
+            message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",
+          },
+          { checkedFlag: pwChecker.length, message: "5 ~ 11자만 가능해요." },
+        ]}
       />
 
-      <PWErrorMessages pwChecker={pwChecker} />
       <div style={{ height: "1rem" }}></div>
 
       <AuthPwInputField
@@ -104,10 +112,9 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
             setPwCheckChecker({ ...pwCheckChecker, show: true });
           }
         }}
-        errorMessageCustomFlag="true"
+        errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
+        errorMessage="비밀번호가 일치하지 않습니다."
       />
-
-      <PWCheckErrorMessages pwCheckChecker={pwCheckChecker} />
 
       <div className="j-content-between">
         <PreviousButton

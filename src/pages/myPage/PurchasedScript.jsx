@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import MainNav from "../MainNav";
 import Footer from "../Footer";
@@ -37,6 +37,32 @@ const PurchasedScript = () => {
   const [isScriptListNull, setIsScriptListNull] = useState(false);
   const [isPerformListNull, setIsPerformListNull] = useState(false);
 
+  // MyPageMenu 스크롤 제어
+  const footerRef = useRef(null);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      if (footerRef.current) {
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        observer.unobserve(footerRef.current);
+      }
+    };
+  }, []);
+
+  // API 요청
   useRequest(async () => {
     setIsLoading(true);
     try {
@@ -72,8 +98,11 @@ const PurchasedScript = () => {
   return (
     <div className="myPage-contents-default">
       <MainNav />
-      <div className="myPage-contents-default-wrap">
-        <MyPageMenu nickname={userNickname} currentPage="0" />
+      <div
+        className="myPage-contents-default-wrap"
+        style={{ margin: "0 16.5%", marginTop: "6.66vh" }}
+      >
+        <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">
           <div className="d-flex j-content-between a-items-start">
             <h1>구매한 작품들을 볼 수 있어요!</h1>
@@ -120,6 +149,7 @@ const PurchasedScript = () => {
           )}
         </div>
       </div>
+      <div ref={footerRef} style={{ height: "6.66vh" }}></div>
       <Footer />
     </div>
   );

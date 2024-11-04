@@ -57,7 +57,7 @@
   }
 }
 .resized-image {
-  width: auto; /* 이미지 비율 유지 */
-  height: 1080px; /* 이미지 비율을 유지하며 높이 자동 설정 */
+  width: 100vw;
+  height: auto; /* 이미지 비율을 유지하며 높이 자동 설정 */
   max-width: 1920px;
 }

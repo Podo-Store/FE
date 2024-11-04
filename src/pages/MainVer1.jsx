@@ -1,14 +1,15 @@
+import React, { useEffect, useState } from "react";
+
 import firstImage from "../assets/image/LangPageDownArrow.svg";
 import secondImage from "../assets/image/Landing1.png";
 
 import "./MainVer1.css";
 
-import React, { useEffect, useState } from "react";
-
 const MainVer1 = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const targetScroll = 1080;
+  // 100vh만큼 스크롤 변경
+  const targetScroll = window.innerHeight;
 
   const smoothScrollTo = (target) => {
     setIsAnimating(true); // 애니메이션 시작

@@ -1,49 +1,64 @@
-import React, { useEffect, useState } from "react";
-
 import firstImage from "../assets/image/LangPageDownArrow.svg";
 import secondImage from "../assets/image/Landing1.png";
 
 import "./MainVer1.css";
 
+import React, { useEffect, useState } from "react";
 
 const MainVer1 = () => {
-  const [hasScrolled, setHasScrolled] = useState(false); // 스크롤 상태 관리
-  const [lastScrollY, setLastScrollY] = useState(0); // 마지막 스크롤 위치 저장
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const targetScroll = 1080;
 
-  const scrollHandler = () => {
+  const smoothScrollTo = (target) => {
+    setIsAnimating(true); // 애니메이션 시작
+    const startY = window.scrollY;
+    const distance = target - startY;
+    const duration = 600;
+    let startTime = null;
+
+    const animateScroll = (currentTime) => {
+      if (!startTime) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const easing = progress * (2 - progress); // 가속 및 감속 효과
+
+      window.scrollTo(0, startY + distance * easing);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateScroll);
+      } else {
+        setIsAnimating(false); // 애니메이션이 끝난 후 다시 스크롤 가능
+      }
+    };
+
+    requestAnimationFrame(animateScroll);
+  };
+
+  const wheelHandler = (event) => {
+    if (isAnimating) return; // 애니메이션 중에는 이벤트 무시
+
     const scrollY = window.scrollY;
 
-    // 아래로 스크롤할 때, 초기 상태에서만 1080까지 자동 스크롤
-    if (!hasScrolled && scrollY > lastScrollY && scrollY < 1080) {
-      window.scrollTo({
-        top: 1080,
-        left: 0,
-        behavior: "smooth",
-      });
-      setHasScrolled(true); // 스크롤 완료 후 상태 변경
+    // 아래로 스크롤: deltaY가 양수일 때
+    if (!hasScrolled && event.deltaY > 0 && scrollY < targetScroll) {
+      smoothScrollTo(targetScroll);
+      setHasScrolled(true);
     }
-    // 위로 스크롤 시작 시 확 위로 올라가도록 설정
-    else if (hasScrolled && scrollY < lastScrollY) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
-      setHasScrolled(false); // 상태 초기화
+    // 위로 스크롤: deltaY가 음수일 때
+    else if (hasScrolled && event.deltaY < 0 && scrollY > 0) {
+      smoothScrollTo(0);
+      setHasScrolled(false);
     }
-
-    // 마지막 스크롤 위치 업데이트
-    setLastScrollY(scrollY);
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("wheel", wheelHandler);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
-      window.removeEventListener("scroll", scrollHandler);
+      window.removeEventListener("wheel", wheelHandler);
     };
-  }, [hasScrolled, lastScrollY]); // `hasScrolled`와 `lastScrollY`가 변경될 때마다 useEffect 실행
+  }, [hasScrolled, isAnimating]);
 
   return (
     <div>

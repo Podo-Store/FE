@@ -1,5 +1,12 @@
 .myPage-menu-side {
+  position: relative;
+
   margin-right: 6.719vw;
+  width: 15.885vw;
+  min-width: 244px;
+}
+
+.myPage-menu-inside {
   width: 15.885vw;
   min-width: 244px;
 }
@@ -72,7 +79,7 @@
   transform: translate(0, 5px);
 }
 
-.myPage-menu-side > p {
+.myPage-menu-side .myPage-menu-inside > p {
   margin-top: 4.5vh;
   color: #000;
   text-decoration: underline;

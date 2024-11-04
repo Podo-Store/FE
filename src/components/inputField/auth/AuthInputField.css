@@ -61,13 +61,17 @@
   align-items: center;
 }
 
-.auth-input-field .error-message-wrap p {
-  margin: 0.75vh 0;
-  color: var(--red, #ff3b3b);
-  font-size: 12px;
-  min-height: 20px;
+.auth-input-field div#error-wrap {
+  gap: 0.5rem;
+
+  margin-top: 11px;
 }
 
-.auth-input-field .error-message-wrap p#validMessage {
-  color: var(--green, #00c850);
+.auth-input-field div#error {
+  gap: 0.31rem;
+}
+
+.auth-input-field div#error img {
+  width: 1.25rem;
+  height: 1.25rem;
 }

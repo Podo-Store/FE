@@ -2,6 +2,9 @@ import { CheckerMessage, ErrorMessage } from "..";
 
 import "./AuthErrorMessages.css";
 
+/**
+ * @deprecated since 24.11.02; AuthInputField에서 checkerMessages를 사용하도록 변경
+ */
 const NameErrorMessages = ({ nameChecker, nameDuplicated }) => {
   return (
     <div className="f-dir-column auth-error-messages">

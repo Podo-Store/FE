@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ResetPW from "./ResetPW";
 import BottomBtn from "../../components/auth/BottomBtn";
 import EmailCodeErrorMessages from "../../components/auth/signUp/ErrorMessages/EmailCodeErrorMessages.jsx";
-import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp/index.js";
+import { CheckerMessage } from "../../components/auth/signUp/index.js";
 import {
   AuthInputField,
   AuthSideBtnInputField,
@@ -148,62 +148,49 @@ const FindPW = () => {
             setIsRegisteredId({ show: false, registered: false });
             setId(event.target.value);
           }}
-          errorMessageCustomFlag="true"
           onBlur={() => {
             checkIsRegisteredId();
             setIdChecker({ ...idChecker, show: false });
           }}
+          checkerShowFlag={idChecker.show}
+          checkerMessages={[
+            { checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." },
+            { checkedFlag: idChecker.length, message: "5 ~ 10자만 가능해요." },
+          ]}
+          errorFlag={isRegisteredId.show && !isRegisteredId.registered}
+          errorMessage="가입되지 않은 아이디입니다."
         />
 
-        <div className="f-dir-column">
-          {idChecker.show ? (
-            <div className="f-dir-column" id="error-wrap">
-              <CheckerMessage
-                checkedFlag={idChecker.format}
-                message="영어와 숫자를 반드시 포함해야 해요."
-              />
-              <CheckerMessage checkedFlag={idChecker.length} message="5 ~ 10자만 가능해요." />
-            </div>
-          ) : null}
-          {isRegisteredId.show && !isRegisteredId.registered ? (
-            <div id="error-wrap">
-              <ErrorMessage message="가입되지 않은 아이디입니다." />
-            </div>
-          ) : null}
-        </div>
-
-        <div style={{ height: "1rem" }}></div>
+        <div style={{ height: "30px" }}></div>
 
         <AuthSideBtnInputField
-          type="text"
           placeholder="이메일을 입력해주세요."
           value={email}
-          onChange={(e) => {
-            setIsEmailMatchToId({ show: false, match: false });
-            setEmail(e.target.value);
+          onClick={() => {
+            setEmailChecker({ ...emailChecker, show: true });
           }}
-          errorMessageCustomFlag={true}
+          onChange={(event) => {
+            setIsEmailMatchToId({ show: false, match: false });
+            setEmail(event.target.value);
+          }}
+          onBlur={() => {
+            setEmailChecker({ ...emailChecker, show: false });
+          }}
           sideBtnTitle="인증"
           sideBtnOnClick={onClickEmailSend}
-          sideBtnDisabled={!(emailChecker.show && emailChecker.format)}
+          sideBtnDisabled={!emailChecker.format}
+          checkerShowFlag={emailChecker.show}
+          checkerMessages={[
+            { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+          ]}
+          errorFlag={isEmailMatchToId.show && !isEmailMatchToId.match}
+          errorMessage="등록된 이메일과 다릅니다."
         />
 
+        {/* 메일 전송 메시지: 별도로 지정 */}
         <div className="f-dir-column" id="error-wrap">
-          {emailSended ? (
+          {emailSended && emailCode.length === 0 ? (
             <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
-          ) : null}
-          {emailChecker.show ? (
-            <div className="f-dir-column" id="error">
-              {!emailSended ? (
-                <CheckerMessage
-                  checkedFlag={emailChecker.format}
-                  message="올바른 이메일 형식을 포함해야 해요."
-                />
-              ) : null}
-              {isEmailMatchToId.show && !isEmailMatchToId.match ? (
-                <ErrorMessage message="등록된 이메일과 다릅니다." />
-              ) : null}
-            </div>
           ) : null}
         </div>
 

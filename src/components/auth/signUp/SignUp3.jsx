@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
-import NameErrorMessages from "./ErrorMessages/NameErrorMessages";
 import Form from "../Form";
 import { AuthInputField } from "../../inputField";
 
@@ -41,8 +40,7 @@ const SignUp3 = ({
     setNameChecker(checker);
     */
     setNameChecker((prevNameChecker) => ({
-      // 기존 show가 true면 그대로 유지
-      show: prevNameChecker.show || name.length > 0,
+      ...prevNameChecker,
       format: NAME_FORMAT_REGEX.test(name),
       length: NAME_LENGTH_REGEX.test(name),
     }));
@@ -105,22 +103,27 @@ const SignUp3 = ({
       <AuthInputField
         placeholder="닉네임을 입력해주세요."
         value={name}
-        onChange={(event) => {
-          setHasNameDuplicateChecked(false);
-          setName(event.target.value);
-        }}
-        errorMessageCustomFlag="true"
         onClick={() => {
           setNameChecker({ ...nameChecker, show: true });
           setHasClickedInputFlag(true);
         }}
+        onChange={(event) => {
+          setHasNameDuplicateChecked(false);
+          setName(event.target.value);
+        }}
         onBlur={() => {
+          setNameChecker({ ...nameChecker, show: false });
           setHasClickedInputFlag(false);
           checkNameDuplicated(name);
         }}
+        checkerShowFlag={nameChecker.show}
+        checkerMessages={[
+          { checkedFlag: nameChecker.format, message: "한글, 영어, 숫자만 사용 가능해요." },
+          { checkedFlag: nameChecker.length, message: "3 ~ 8자만 가능해요." },
+        ]}
+        errorFlag={nameDuplicated}
+        errorMessage="중복된 닉네임입니다."
       />
-
-      <NameErrorMessages nameChecker={nameChecker} nameDuplicated={nameDuplicated} />
 
       <div className="j-content-between">
         <PreviousButton

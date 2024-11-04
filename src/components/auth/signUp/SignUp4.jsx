@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 import { AuthSideBtnInputField, AuthSideBtnTimerInputField } from "../../inputField";
-import { Selector, ErrorMessage, PreviousButton, CheckerMessage } from ".";
+import { Selector, PreviousButton, CheckerMessage } from ".";
 import SignUpCheckBox from "./SignUpCheckBox";
 import BottomBtn from "../BottomBtn";
 
@@ -40,12 +40,9 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
   const [timerReset, setTimerReset] = useState(false);
 
   useEffect(() => {
-    const checker = {
-      show: email.length > 0,
-      format: EMAIL_REGEX.test(email),
-    };
-    setEmailChecker(checker);
+    setEmailChecker({ ...emailChecker, format: EMAIL_REGEX.test(email) });
     setEmailDuplicated(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
   const onClickEmailSend = async () => {
@@ -134,30 +131,29 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
       <AuthSideBtnInputField
         placeholder="이메일을 입력해주세요."
         value={email}
+        onClick={() => {
+          setEmailChecker({ ...emailChecker, show: true });
+        }}
         onChange={(event) => {
           setEmail(event.target.value);
         }}
-        errorMessageCustomFlag="true"
+        onBlur={() => {
+          setEmailChecker({ ...emailChecker, show: false });
+        }}
         sideBtnTitle="인증"
         sideBtnOnClick={onClickEmailSend}
-        sideBtnDisabled={!(emailChecker.show && emailChecker.format)}
+        sideBtnDisabled={!emailChecker.format}
+        checkerShowFlag={emailChecker.show}
+        checkerMessages={[
+          { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+        ]}
+        errorFlag={emailDuplicated}
+        errorMessage="중복된 이메일입니다."
       />
+      {/* 메일 전송 메시지: 별도로 지정 */}
       <div className="f-dir-column" id="error-wrap">
-        {emailSended ? (
+        {emailSended && emailCode.length === 0 ? (
           <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
-        ) : null}
-        {emailChecker.show ? (
-          <div className="f-dir-column" id="error">
-            {!emailSended ? (
-              <CheckerMessage
-                checkedFlag={emailChecker.format}
-                message="올바른 이메일 형식을 포함해야 해요."
-              />
-            ) : null}
-            {emailDuplicated ? (
-              <ErrorMessage show={emailDuplicated} message="중복된 이메일입니다." />
-            ) : null}
-          </div>
         ) : null}
       </div>
 
@@ -170,7 +166,7 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
           setEmailCodeChecker({ show: false, match: false });
           setEmailCode(event.target.value);
         }}
-        errorMessageCustomFlag="true"
+        errorMessageCustomFlag="true" // 이메일 인증 관련 메시지 커스텀
         sideBtnTitle="확인"
         sideBtnOnClick={onClickConfirmButton}
         sideBtnDisabled={!emailSended}
@@ -181,7 +177,7 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
           if (value === 0) setEmailSended(false); // 타이머가 0이 되면 이메일 발송 상태 해제
         }}
       />
-
+      {/* 메일 인증 메시지 */}
       <EmailCodeErrorMessages
         emailCodeChecker={emailCodeChecker}
         emailSended={emailSended}

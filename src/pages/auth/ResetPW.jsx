@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { BottomBtn, InnerBox } from "../../components/auth";
-import { PWCheckErrorMessages, PWErrorMessages } from "../../components/auth/signUp/index.js";
 import { AuthPwInputField } from "../../components/inputField";
 
 import {
@@ -33,9 +32,6 @@ const ResetPW = ({ receivedAccessToken }) => {
   });
 
   const [resetAllow, setResetAllow] = useState(true);
-
-  const [showNewPwErrorMsg, setShowNewPwErrorMsg] = useState(false);
-  const [showPwCheckErrorMsg, setShowPwCheckErrorMsg] = useState(false);
 
   // 비밀번호 변경 완료
   const [resetPwCompleted, setResetPwCompleted] = useState(false);
@@ -104,22 +100,32 @@ const ResetPW = ({ receivedAccessToken }) => {
     <div className="section-find">
       <div id="input-field">
         <AuthPwInputField
-          placeholder="비밀번호를 입력해주세요."
+          placeholder="새로운 비밀번호를 입력해주세요."
           value={pw}
           onClick={() => {
             setPwChecker({ ...pwChecker, show: true });
           }}
           onChange={(event) => {
             setPw(event.target.value);
-            if (pw.length > 0) {
-              setPwChecker({ ...pwChecker, show: true });
-            }
           }}
-          errorMessageCustomFlag="true"
+          onBlur={() => {
+            setPwChecker({ ...pwChecker, show: false });
+          }}
+          checkerShowFlag={pwChecker.show}
+          checkerMessages={[
+            {
+              checkedFlag: pwChecker.alphabet,
+              message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
+            },
+            { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+            {
+              checkedFlag: pwChecker.special,
+              message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",
+            },
+            { checkedFlag: pwChecker.length, message: "5 ~ 11자만 가능해요." },
+          ]}
         />
-
-        <PWErrorMessages pwChecker={pwChecker} />
-        <div style={{ height: "1rem" }}></div>
+        <div style={{ height: "30px" }}></div>
 
         <AuthPwInputField
           placeholder="비밀번호를 다시 한 번 입력해주세요."
@@ -130,10 +136,9 @@ const ResetPW = ({ receivedAccessToken }) => {
               setPwCheckChecker({ ...pwCheckChecker, show: true });
             }
           }}
-          errorMessageCustomFlag="true"
+          errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
+          errorMessage="비밀번호가 일치하지 않습니다."
         />
-
-        <PWCheckErrorMessages pwCheckChecker={pwCheckChecker} />
         <div style={{ height: "5.556vh" }}></div>
         <BottomBtn onClick={onClickResetPwBtn} disabled={!resetAllow}>
           비밀번호 재설정하기

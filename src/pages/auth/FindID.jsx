@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import BottomBtn from "../../components/auth/BottomBtn";
 import InnerBox from "./../../components/auth/InnerBox.jsx";
 import EmailCodeErrorMessages from "../../components/auth/signUp/ErrorMessages/EmailCodeErrorMessages.jsx";
-import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp/index.js";
+import { CheckerMessage } from "../../components/auth/signUp/index.js";
 import { AuthSideBtnInputField, AuthSideBtnTimerInputField } from "../../components/inputField";
 
 import { EMAIL_REGEX } from "../../constants/regex";
@@ -103,35 +103,33 @@ const FindID = () => {
       <div className="section-find" id="input">
         <div id="input-field">
           <AuthSideBtnInputField
-            type="text"
             placeholder="이메일을 입력해주세요."
             value={email}
-            onChange={(e) => {
-              setIsRegisteredEmail({ show: false, registered: false });
-              setEmail(e.target.value);
+            onClick={() => {
+              setEmailChecker({ ...emailChecker, show: true });
             }}
-            errorMessageCustomFlag={true}
+            onChange={(event) => {
+              setIsRegisteredEmail({ show: false, registered: false });
+              setEmail(event.target.value);
+            }}
+            onBlur={() => {
+              setEmailChecker({ ...emailChecker, show: false });
+            }}
             sideBtnTitle="인증"
             sideBtnOnClick={onClickEmailSend}
-            sideBtnDisabled={!(emailChecker.show && emailChecker.format)}
+            sideBtnDisabled={!emailChecker.format}
+            checkerShowFlag={emailChecker.show}
+            checkerMessages={[
+              { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+            ]}
+            errorFlag={isRegisteredEmail.show}
+            errorMessage="가입되지 않은 이메일입니다."
           />
 
+          {/* 메일 전송 메시지: 별도로 지정 */}
           <div className="f-dir-column" id="error-wrap">
-            {emailSended ? (
+            {emailSended && emailCode.length === 0 ? (
               <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
-            ) : null}
-            {emailChecker.show ? (
-              <div className="f-dir-column" id="error">
-                {!emailSended ? (
-                  <CheckerMessage
-                    checkedFlag={emailChecker.format}
-                    message="올바른 이메일 형식을 포함해야 해요."
-                  />
-                ) : null}
-                {isRegisteredEmail.show ? (
-                  <ErrorMessage message="가입되지 않은 이메일입니다." />
-                ) : null}
-              </div>
             ) : null}
           </div>
 

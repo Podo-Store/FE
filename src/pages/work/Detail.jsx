@@ -351,6 +351,7 @@ const Detail = () => {
             미리보기
           </p>
           <Preview id={id} lengthType={lengthType} />
+          <hr></hr>
 
           <div className="j-content-center">
             {/* PDF 삽입 */}

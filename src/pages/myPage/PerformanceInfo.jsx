@@ -214,7 +214,11 @@ const PerformanceInfo = () => {
   const isApplyDisabled = useMemo(() => {
     if (inputFields.length === 0) return true;
 
-    return dates.length === 0 || dates.some((date) => !checkDateFormat(date));
+    return (
+      dates.length === 0 ||
+      dates.some((date) => !checkDateFormat(date)) ||
+      dates.some((date) => isDateOverOneYear(date))
+    );
   }, [dates, inputFields.length]);
 
   return (
@@ -317,6 +321,7 @@ const PerformanceInfo = () => {
            *  }
            * ]
            */}
+          {/* fetchedDates: 이미 예약된 날짜들 */}
           {fetchedDates.map((dateObject, index) => (
             <div key={index}>
               <PerformDateInputField
@@ -327,6 +332,7 @@ const PerformanceInfo = () => {
             </div>
           ))}
 
+          {/* inputFields: 새로 날짜 추가 */}
           {inputFields.map((_, index) => (
             <div key={index}>
               <PerformDateInputField

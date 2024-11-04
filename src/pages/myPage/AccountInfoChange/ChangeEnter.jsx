@@ -2,7 +2,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
-import { ErrorMessage } from "../../../components/auth/signUp";
 import { AuthPwInputField } from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
 
@@ -56,8 +55,11 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
             placeholder="비밀번호를 입력해주세요."
             value={typedPassword}
             onChange={(event) => {
+              setShowPwValid(false);
               setTypedPassword(event.target.value);
             }}
+            errorFlag={showPwValid && !pwValid}
+            errorMessage="비밀번호가 일치하지 않습니다."
           ></AuthPwInputField>
           <button
             className="p-small-bold c-white t-align-center c-pointer"
@@ -65,11 +67,6 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
           >
             입력
           </button>
-        </div>
-        <div className="f-dir-column" id="error-wrap">
-          {showPwValid && !pwValid ? (
-            <ErrorMessage message="비밀번호가 일치하지 않습니다." />
-          ) : null}
         </div>
       </div>
     </EnterForm>

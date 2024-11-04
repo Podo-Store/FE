@@ -1,13 +1,23 @@
-.preview div#preview-pdf {
-  gap: 1.042vw;
+.preview {
+  width: 95vw;
+  transform: translateX(-15%);
+}
+
+.preview div#wrap {
+  /* 페이지 너비 * 5 + gap * 4 */
+  width: calc(210px * 5 + 10px * 4);
 }
 
 .preview div#thumbnail-content {
+  position: relative;
+
   margin: 0 10px;
-  position: relative; /* 위치 상대적으로 설정 */
 }
 
 .preview #preview-glass {
+  width: 100%;
+  height: 100%;
+
   position: absolute;
   top: 0;
   left: 0;
@@ -37,7 +47,7 @@
 }
 
 .preview .content-disabled div#blur {
-  filter: blur(1px);
+  filter: blur(4px);
 }
 
 .preview div#thumbnail-content p#page-number {

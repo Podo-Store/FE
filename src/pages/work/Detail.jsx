@@ -38,6 +38,7 @@ const Detail = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
 
+  // 판매자가 설정한 대본, 공연권 판매 여부
   const [sellingScript, setSellingScript] = useState(false);
   const [sellingPerform, setSellingPerform] = useState(false);
 
@@ -49,7 +50,7 @@ const Detail = () => {
   const [descriptionPath, setDescriptionPath] = useState("");
 
   // 기존 대본 구매 이력
-  const [hasBoughtScript, setHasBoughtScript] = useState(false);
+  const [buyStatus, setBuyStatus] = useState(0);
 
   const [bottomBarStyle, setBottomBarStyle] = useState({
     position: "fixed",
@@ -92,6 +93,7 @@ const Detail = () => {
 
       setTitle(response.data.title);
       setAuthor(response.data.writer);
+      // 판매자가 설정한 대본, 공연권 판매 여부
       setSellingScript(response.data.script);
       setSellingPerform(response.data.performance);
       setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
@@ -99,7 +101,7 @@ const Detail = () => {
       setLengthType(response.data.playType);
       setImagePath(response.data.imagePath);
       setDescriptionPath(response.data.descriptionPath);
-      setHasBoughtScript(response.data.buyScript);
+      setBuyStatus(response.data.buyStatus);
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
     }
@@ -273,12 +275,14 @@ const Detail = () => {
                   <option value="" disabled selected>
                     옵션 선택
                   </option>
-                  {!hasBoughtScript && sellingScript ? <option value="script">대본</option> : null}
-                  {!hasBoughtScript && sellingScript && sellingPerform ? (
+                  {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
+                    <option value="script">대본</option>
+                  ) : null}
+                  {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
                     <option value="scriptPerform">대본 + 공연권</option>
                   ) : null}
-                  {hasBoughtScript && sellingPerform ? (
-                    <option value="perform">공연권 구매</option>
+                  {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
+                    <option value="perform">공연권</option>
                   ) : null}
                 </Select>
               </div>
@@ -356,10 +360,11 @@ const Detail = () => {
           <div className="j-content-center">
             {/* PDF 삽입 */}
             <Document
-              file={descriptionPath || samplePDF}
+              file={descriptionPath}
               onLoadSuccess={onDocumentLoadSuccess}
               options={{ cMapUrl: "cmaps/", cMapPacked: true }}
               loading={<PartialLoading />}
+              noData=""
             >
               {Array.from(new Array(numPages), (el, index) => (
                 <Page key={index} renderMode="canvas" pageNumber={index + 1} width={1000} />
@@ -386,9 +391,15 @@ const Detail = () => {
               <option value="" disabled selected>
                 옵션 선택
               </option>
-              {!hasBoughtScript ? <option value="script">대본</option> : null}
-              {!hasBoughtScript ? <option value="scriptPerform">대본 + 공연권</option> : null}
-              {hasBoughtScript ? <option value="perform">공연권 구매</option> : null}
+              {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
+                <option value="script">대본</option>
+              ) : null}
+              {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
+                <option value="scriptPerform">대본 + 공연권</option>
+              ) : null}
+              {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
+                <option value="perform">공연권</option>
+              ) : null}
             </select>
             {/* <button id="cart-btn">장바구니</button>*/}
             <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>

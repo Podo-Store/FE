@@ -360,10 +360,11 @@ const Detail = () => {
           <div className="j-content-center">
             {/* PDF 삽입 */}
             <Document
-              file={descriptionPath || samplePDF}
+              file={descriptionPath}
               onLoadSuccess={onDocumentLoadSuccess}
               options={{ cMapUrl: "cmaps/", cMapPacked: true }}
               loading={<PartialLoading />}
+              noData=""
             >
               {Array.from(new Array(numPages), (el, index) => (
                 <Page key={index} renderMode="canvas" pageNumber={index + 1} width={1000} />

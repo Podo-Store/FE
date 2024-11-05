@@ -24,6 +24,8 @@ function Footer() {
       <div className="footer-inner">
         <div className="footer-upper">
           <img src={logo} alt="navLogo" />
+          <div style={{ height: "10px" }}></div>
+          <p>포도상점은 저작권의 당사자가 아닌 대리중개업체입니다.</p>
           <p>Copyright © 2024 포도상점. Powered by 포도상점</p>
         </div>
         <div className="footer-lower">

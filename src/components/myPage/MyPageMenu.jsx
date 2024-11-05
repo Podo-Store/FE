@@ -6,6 +6,7 @@ import scriptMenuImg from "./../../assets/image/myPage/script.svg";
 
 import "./MyPageMenu.css";
 import "./../../styles/text.css";
+import "./../../styles/utilities.css";
 
 /**
  *
@@ -20,45 +21,48 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
   return (
     <div className="myPage-menu-side">
       <div
-        className="myPage-menu-inside"
+        className="f-dir-column j-content-between myPage-menu-inside"
         style={
-          currentPage === "0"
+          currentPage === "0" || currentPage === "1"
             ? isFooterVisible
               ? { position: "absolute", bottom: "2vh" }
               : { position: "fixed" }
             : null
         }
       >
-        <h1>{nickname} 님,</h1>
-        <h3>오늘도 달콤한 하루 되세요!</h3>
-        <div
-          className={currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"}
-          onClick={() => {
-            navigate("/mypage/purchased");
-          }}
-        >
-          <h6>구매한 작품</h6>
-          <img src={scriptMenuImg} alt="scriptMenu"></img>
+        <div className="myPage-menu-inside-content">
+          <h1>{nickname} 님,</h1>
+          <h3>오늘도 달콤한 하루 되세요!</h3>
+          <div
+            className={
+              currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"
+            }
+            onClick={() => {
+              navigate("/mypage/purchased");
+            }}
+          >
+            <h6>구매한 작품</h6>
+            <img src={scriptMenuImg} alt="scriptMenu"></img>
+          </div>
+          <div
+            className={
+              currentPage === "1" ? "select-menu-btn selected script-manage" : "select-menu-btn"
+            }
+            onClick={() => {
+              navigate("/mypage/scriptmanage");
+            }}
+          >
+            <h6>작품 관리</h6>
+            <img src={pencilMenuImg} alt="pencilMenu"></img>
+          </div>
+          <p
+            onClick={() => {
+              navigate("/mypage/infochange");
+            }}
+          >
+            회원 정보 수정
+          </p>
         </div>
-        <div
-          className={
-            currentPage === "1" ? "select-menu-btn selected script-manage" : "select-menu-btn"
-          }
-          onClick={() => {
-            navigate("/mypage/scriptmanage");
-          }}
-        >
-          <h6>작품 관리</h6>
-          <img src={pencilMenuImg} alt="pencilMenu"></img>
-        </div>
-        <p
-          onClick={() => {
-            navigate("/mypage/infochange");
-          }}
-        >
-          회원 정보 수정
-        </p>
-
         {currentPage === "0" ? (
           <div id="grey-rectangle">
             <img src={circleGreyWarning} alt="warn" className="warning-img" />

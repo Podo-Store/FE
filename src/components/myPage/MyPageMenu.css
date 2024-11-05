@@ -9,6 +9,7 @@
 .myPage-menu-inside {
   width: 15.885vw;
   min-width: 244px;
+  height: 80vh;
 }
 
 .myPage-menu-side h1 {
@@ -79,7 +80,7 @@
   transform: translate(0, 5px);
 }
 
-.myPage-menu-side .myPage-menu-inside > p {
+.myPage-menu-side .myPage-menu-inside .myPage-menu-inside-content > p {
   margin-top: 4.5vh;
   color: #000;
   text-decoration: underline;
@@ -100,7 +101,6 @@
   border-radius: 10px;
   border: 1px solid var(--grey-grey-6, #777);
 
-  margin-top: 42.315vh;
   padding: 9px 0;
 }
 

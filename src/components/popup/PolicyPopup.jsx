@@ -1,7 +1,8 @@
+import Draggable from "react-draggable";
+
 import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 
 import "./PolicyPopup.css";
-
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -12,76 +13,90 @@ import "./../../styles/utilities.css";
  */
 const PolicyPopup = ({ title, detail, setShowPopup, page = 0, isPerformSelected = true }) => {
   return (
-    <div
-      className="popup"
-      style={
-        !isPerformSelected && page === 1
-          ? {
-              width: "28.375rem",
-              height: "273px",
-              transform: "translate(-50%, calc(-100% + 10px + 0.87rem + 20px)",
-            }
-          : !isPerformSelected && page === 2
-          ? {
-              width: "28.375rem",
-              height: "273px",
-              transform: "translate(-50%, calc(-100% + 10px)",
-            }
-          : page === 0
-          ? { width: "28.375rem", height: "45.875rem", transform: "translateY(-50vh)" }
-          : page === 1
-          ? { width: "28.375rem", height: "465px", transform: "translate(-50%, calc(-100% - 10px)" }
-          : {
-              width: "25.8125rem",
-              height: "20.8125rem",
-              transform: "translate(-50%, calc(-100% - 10px - 0.87rem - 20px)",
-            }
-      }
-    >
-      <div className="j-content-between">
-        <div className="j-content-center a-items-center" id="title">
-          <p className="p-small-medium c-black">{title}</p>
-        </div>
-        <img
-          className="c-pointer"
-          id="close-btn"
-          src={CloseBtn}
-          alt="close"
-          onClick={() => {
-            setShowPopup(false);
-          }}
-        ></img>
-      </div>
+    <Draggable handle=".popup">
       <div
-        id="content-wrap"
+        className="popup"
         style={
-          !isPerformSelected
-            ? { width: "25.375rem", height: "170px" }
+          !isPerformSelected && (page === 1 || page === 2)
+            ? {
+                width: "413px",
+                height: "273px",
+                top: "0",
+                left: "0",
+              }
             : page === 0
-            ? { width: "25.375rem", height: "40rem" }
+            ? {
+                width: "500px",
+                height: "671px",
+                top: "0",
+                left: "calc(50% - 250px)",
+              }
             : page === 1
-            ? { width: "25.375rem", height: "360px" }
-            : { width: "23.0625rem", height: "14rem" }
+            ? {
+                width: "413px",
+                height: "465px",
+                top: "0",
+                left: "0",
+              }
+            : {
+                width: "413px",
+                height: "333px",
+                top: "132px",
+                left: "0",
+              }
         }
       >
+        <div className="j-content-between">
+          <div className="j-content-center a-items-center" id="title">
+            <p className="p-small-medium c-black">{title}</p>
+          </div>
+          <img
+            className="c-pointer"
+            id="close-btn"
+            src={CloseBtn}
+            alt="close"
+            onClick={() => {
+              setShowPopup(false);
+            }}
+          ></img>
+        </div>
         <div
-          id="content"
+          id="content-wrap"
           style={
-            !isPerformSelected ? { maxHeight: "159px" } : page === 1 ? { maxHeight: "357px" } : null
+            !isPerformSelected && (page === 1 || page === 2)
+              ? { width: "369px", height: "179px" }
+              : page === 0
+              ? { width: "447.137px", height: "585.068px" }
+              : page === 1
+              ? { width: "369px", height: "375px" }
+              : { width: "369px", height: "239px" }
           }
         >
-          {
-            // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
-            detail.split("\n").map((line, index) => (
-              <p key={index} className="p-small-medium c-black">
-                {line}
-                <br />
-              </p>
-            ))
-          }
+          <div
+            id="content"
+            style={
+              !isPerformSelected && (page === 1 || page === 2)
+                ? { maxHeight: "159px" }
+                : page === 0
+                ? { maxHeight: "550.33px" }
+                : page === 1
+                ? { maxHeight: "350px" }
+                : null
+            }
+          >
+            {
+              // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
+              detail.split("\n").map((line, index) => (
+                <p key={index} className="p-small-medium c-black">
+                  {line}
+                  <br />
+                </p>
+              ))
+            }
+          </div>
         </div>
       </div>
-    </div>
+    </Draggable>
   );
 };
 

@@ -128,7 +128,7 @@ const ScriptManageDetail = () => {
       if (InputtedThumbnailImgFile) {
         // 이미지를 변경한 경우
         formData.append("scriptImage", InputtedThumbnailImgFile);
-      } else {
+      } else if (getThumbnailImgUrl) {
         // 이미지 변경하지 않은 경우
         formData.append("imagePath", getThumbnailImgUrl);
       }
@@ -136,7 +136,7 @@ const ScriptManageDetail = () => {
       if (uploadedFile) {
         // 설명 파일을 변경한 경우
         formData.append("description", uploadedFile);
-      } else {
+      } else if (getFileUrl) {
         // 설명 파일을 변경하지 않은 경우
         formData.append("descriptionPath", getFileUrl);
       }

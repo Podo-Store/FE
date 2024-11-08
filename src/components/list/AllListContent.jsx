@@ -9,13 +9,13 @@ import sparkles from "../../assets/image/post/list/sparkles.svg";
  * @param {object} props.plays - shortPlays or longPlays
  * @returns
  */
-const AllListContent = ({ plays, renderListThumbnail, isLoading, observerTarget }) => {
+const AllListContent = ({ playType, plays, renderListThumbnail, isLoading, observerTarget }) => {
   return (
     <div className="work-list">
       <div className="j-content-between work-list-title">
         <div className="a-items-center" id="title">
           <img src={sparkles} alt="sparkles"></img>
-          <h5 className="h5-bold">단편극</h5>
+          <h5 className="h5-bold">{playType}</h5>
           <img src={sparkles} alt="sparkles"></img>
         </div>
       </div>

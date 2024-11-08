@@ -227,6 +227,7 @@ const List = () => {
         {showAllLongPlays ? (
           // 장편극 전체
           <AllListContent
+            playType="장편극"
             plays={longPlays}
             renderListThumbnail={renderListThumbnail}
             isLoading={isLoading}
@@ -251,6 +252,7 @@ const List = () => {
         {showAllShortPlays ? (
           // 단편극 전체
           <AllListContent
+            playType="단편극"
             plays={shortPlays}
             renderListThumbnail={renderListThumbnail}
             isLoading={isLoading}

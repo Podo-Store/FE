@@ -30,7 +30,7 @@ const PurchaseSummaryBox = ({
         // 구매 완료 페이지
         <h4 className="h5-bold">{title}</h4>
       )}
-      <div style={{ height: "1.08rem" }}></div>
+      <div style={{ height: "11.6px" }}></div>
       <div className="price-wrap">
         <p>{page === 0 ? "대본 가격" : `대본 {${scriptTitle}} 1 개`}</p>
         {buyScript ? <p>{formatPrice(scriptPrice)}원</p> : <p> - 원</p>}
@@ -39,7 +39,13 @@ const PurchaseSummaryBox = ({
         <p>{page === 0 ? "공연권 가격" : `공연권 {${scriptTitle}} ${performAmount} 개`}</p>
         {buyPerform ? <p>{formatPrice(performPrice * performAmount)}원</p> : <p> - 원</p>}
       </div>
-      <hr></hr>
+      <hr
+        style={
+          page === 0
+            ? { marginTop: "12.08px", marginBottom: "14.92px", marginRight: "12.97px" }
+            : null
+        }
+      ></hr>
       <div className="price-wrap">
         <p>총 금액</p>
         <p>

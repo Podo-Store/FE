@@ -148,6 +148,8 @@
 
 .purchase .purchase-side {
   flex: 1;
+  position: relative;
+
   margin-top: 7vh;
 }
 

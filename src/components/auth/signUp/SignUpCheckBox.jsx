@@ -135,17 +135,15 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
               전문보기
             </p>
           ) : null}
-          {item.popup && showPopup[item.key] ? (
-            <div className="popup-container">
-              {item.popup &&
-                React.cloneElement(item.popup, {
-                  title: item.name,
-                  detail: item.detail,
-                  setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
-                  page: 0,
-                })}
-            </div>
-          ) : null}
+          {item.popup && showPopup[item.key]
+            ? item.popup &&
+              React.cloneElement(item.popup, {
+                title: item.name,
+                detail: item.detail,
+                setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
+                page: 0,
+              })
+            : null}
         </div>
       ))}
     </div>

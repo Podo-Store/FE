@@ -39,6 +39,10 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   }, [id]);
 
   const checkIdDuplicated = async (id) => {
+    if (!idChecker.format || !idChecker.length) {
+      return;
+    }
+
     // initialize
     setHasIdDuplicateChecked(false);
 
@@ -57,16 +61,13 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
     }
   };
 
-  useEffect(() => {
+  const onClickNext = async () => {
+    await checkIdDuplicated(id); // 중복 체크 실행
+
     if (hasIdDuplicateChecked && idChecker.format && idChecker.length && !idDuplicated) {
       setUserInfo({ ...userInfo, id: id });
       onNext();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasIdDuplicateChecked]); // hasIdDuplicateChecked 상태가 변경될 때 실행
-
-  const onClickNext = async () => {
-    await checkIdDuplicated(id); // 중복 체크 실행
   };
 
   return (

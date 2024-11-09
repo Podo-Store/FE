@@ -57,6 +57,10 @@ const SignUp3 = ({
   }, [name, hasClickedInputFlag]);
 
   const checkNameDuplicated = async (name) => {
+    if (!nameChecker.format || !nameChecker.length) {
+      return;
+    }
+
     // initialize
     setHasNameDuplicateChecked(false);
 
@@ -84,16 +88,13 @@ const SignUp3 = ({
     setUserInfo({ ...userInfo, name: name });
   };
 
-  useEffect(() => {
+  const onClickNext = async () => {
+    await checkNameDuplicated(name); // 중복 체크 실행
+
     if (hasNameDuplicateChecked && nameChecker.format && nameChecker.length && !nameDuplicated) {
       saveNameStatus();
       onNext();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hasNameDuplicateChecked]); // hasIdDuplicateChecked 상태가 변경될 때 실행
-
-  const onClickNext = async () => {
-    await checkNameDuplicated(name); // 중복 체크 실행
   };
 
   return (

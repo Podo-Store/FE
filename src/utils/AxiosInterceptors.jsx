@@ -1,60 +1,124 @@
 import axios from "axios";
-import { SERVER_URL } from "../constants/ServerURL.js";
+import Cookies from "js-cookie";
+
+/** Axios 인터셉터가 이미 설정되었는지를 추적 */
+let isInterceptorSetup = false;
+/** 현재 token refreshing 작업이 진행 중인지 추적 */
+let isRefreshing = false;
+/** token refreshing이 완료될 때까지 대기 중인 실패한 요청들을 저장 */
+let failedQueue = [];
 
 /**
- * Axios 응답 인터셉터를 생성하는 함수
- * @param {axios.AxiosInstance} instance - Axios 인스턴스
- * @param {function} refreshAccessToken - 엑세스 토큰을 갱신하는 함수
- * @returns {number} - 인터셉터 ID
+ * queue에 있는 요청들을 처리하는 함수
+ * @param {Error|null} error - 발생한 에러
+ * @param {string|null} token - 새로운 accessToken
  */
-
-const createAxiosResponseInterceptor = (instance, refreshAccessToken) => {
-  const interceptor = instance.interceptors.response.use(
-    // 응답 성공 시 return
-    (response) => response,
-    // 에러 시
-    async (error) => {
-      // HTTP request에서 오류 발생 시 재요청을 위한 변수
-      const originalRequest = error.config;
-
-      // 엑세스 토큰 만료로 401 (Unauthorized) 에러가 발생 시
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true; // 무한 루프 방지 Flag
-
-        // 엑세스 토큰 갱신 함수
-        const newAccessToken = await refreshAccessToken();
-        if (newAccessToken) {
-          // 새로운 엑세스 토큰을 헤더에 설정
-          axios.defaults.headers.common[
-            "Authorization"
-          ] = `Bearer ${newAccessToken}`;
-          originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
-
-          // 기존 요청을 새로운 토큰으로 재시도
-          return axios(originalRequest);
-        }
-      }
-
-      return Promise.reject(error);
+const processQueue = (error, token = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
     }
-  );
+  });
 
-  return interceptor;
+  failedQueue = [];
 };
 
 /**
- * Axios 인스턴스와 인터셉터를 설정하는 함수
- * @param {function} refreshAccessToken - 엑세스 토큰을 갱신하는 함수
- * @returns {axios.AxiosInstance} - 설정된 Axios 인스턴스
+ * Axios 응답 인터셉터를 생성하는 함수
+ * @param {object} authActions - 인증 관련 함수들
+ * @param {function} authActions.refreshAccessToken - 엑세스 토큰을 갱신하는 함수
+ * @param {function} authActions.logout - 로그아웃 함수
  */
-export const setupAxiosInterceptors = (refreshAccessToken) => {
-  // Axios 인스턴스 생성
-  const instance = axios.create({
-    baseURL: SERVER_URL,
-  });
+const createAxiosResponseInterceptor = (authActions) => {
+  axios.interceptors.response.use(
+    // 응답 성공 시 그대로 반환
+    (response) => response,
+    // 에러 시
+    async (error) => {
+      const originalRequest = error.config;
 
-  // responseInterceptor 생성
-  createAxiosResponseInterceptor(instance, refreshAccessToken);
+      // 응답이 없거나 상태 코드가 401이 아니면 에러를 그대로 반환
+      if (!error.response || error.response.status !== 401) {
+        return Promise.reject(error);
+      }
 
-  return instance;
+      // 이미 retry 중인 요청이면 queue에 추가
+      if (originalRequest._retry) {
+        return Promise.reject(error);
+      }
+
+      // retry flag 설정
+      originalRequest._retry = true;
+
+      if (isRefreshing) {
+        return new Promise(function (resolve, reject) {
+          failedQueue.push({ resolve, reject });
+        })
+          .then((token) => {
+            originalRequest.headers["Authorization"] = `Bearer ${token}`;
+            return axios(originalRequest);
+          })
+          .catch((err) => {
+            return Promise.reject(err);
+          });
+      }
+
+      isRefreshing = true;
+
+      return new Promise(async (resolve, reject) => {
+        try {
+          const newAccessToken = await authActions.refreshAccessToken();
+          if (newAccessToken) {
+            axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
+            originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+            processQueue(null, newAccessToken);
+            resolve(axios(originalRequest));
+          } else {
+            processQueue(new Error("Failed to refresh token"), null);
+            authActions.logout();
+            window.location.href = "/signin";
+            reject(error);
+          }
+        } catch (err) {
+          processQueue(err, null);
+          authActions.logout();
+          window.location.href = "/signin";
+          reject(err);
+        } finally {
+          isRefreshing = false;
+        }
+      });
+    }
+  );
+};
+
+/**
+ * Axios 인터셉터를 설정하는 함수
+ * @param {object} authActions - 인증 관련 함수들
+ * @param {function} authActions.refreshAccessToken - 엑세스 토큰을 갱신하는 함수
+ * @param {function} authActions.logout - 로그아웃 함수
+ */
+export const setupAxiosInterceptors = (authActions) => {
+  if (isInterceptorSetup) {
+    return;
+  }
+
+  // 요청 인터셉터 설정 (accessToken 자동 첨부)
+  axios.interceptors.request.use(
+    (config) => {
+      const token = Cookies.get("accessToken");
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  // 응답 인터셉터 설정
+  createAxiosResponseInterceptor(authActions);
+
+  isInterceptorSetup = true;
 };

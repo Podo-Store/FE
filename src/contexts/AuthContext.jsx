@@ -1,12 +1,12 @@
-import React, { createContext, useState, useEffect } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
-import { SERVER_URL } from "../constants/ServerURL.js";
+import Cookies from "js-cookie";
+import React, { createContext, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
 import { setupAxiosInterceptors } from "../utils/AxiosInterceptors";
-import {
-  ACCESS_TOKEN_EXP_TIME,
-  REFRESH_TOKEN_EXP_TIME,
-} from "../constants/TokenExpireTime";
+
+import { SERVER_URL } from "../constants/ServerURL.js";
+import { ACCESS_TOKEN_EXP_TIME, REFRESH_TOKEN_EXP_TIME } from "../constants/TokenExpireTime";
 
 const AuthContext = createContext();
 
@@ -17,18 +17,24 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem("userNickname") || "username";
   });
 
+  const location = useLocation();
+
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
-    if (accessToken && refreshToken) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+    setIsAuthenticated(!!accessToken && !!refreshToken);
+  }, [location]);
 
   const login = (accessToken, refreshToken, userNickname) => {
-    Cookies.set("accessToken", accessToken, { expires: ACCESS_TOKEN_EXP_TIME });
+    Cookies.set("accessToken", accessToken, {
+      expires: ACCESS_TOKEN_EXP_TIME,
+      secure: true,
+      sameSite: "Strict",
+    });
     Cookies.set("refreshToken", refreshToken, {
       expires: REFRESH_TOKEN_EXP_TIME,
+      secure: true,
+      sameSite: "Strict",
     });
 
     setUserNickname(userNickname);
@@ -51,7 +57,6 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = Cookies.get("refreshToken");
     if (!refreshToken) {
       logout();
-
       return null;
     }
 
@@ -68,17 +73,26 @@ export const AuthProvider = ({ children }) => {
       const { accessToken } = response.data;
       Cookies.set("accessToken", accessToken, {
         expires: ACCESS_TOKEN_EXP_TIME,
+        secure: true,
+        sameSite: "Strict",
       });
+      setIsAuthenticated(true);
       return accessToken;
     } catch (error) {
+      console.error("Access token refresh failed:", error);
       logout();
-
       return null;
     }
   };
 
-  // Axios 인터셉터 설정
-  setupAxiosInterceptors(refreshAccessToken);
+  useEffect(() => {
+    // Axios 인터셉터 설정
+    setupAxiosInterceptors({
+      refreshAccessToken,
+      logout,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <AuthContext.Provider

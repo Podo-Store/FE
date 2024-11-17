@@ -40,14 +40,17 @@ const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
         </ul>
       </div>
       <div className="j-content-end" id="btn-wrap">
-        <SmallOnOffBtn text="계정 삭제하기" onClick={onClickDeleteAccountConfirm} color="grey" />
+        <SmallOnOffBtn onClick={onClickDeleteAccountConfirm} color="grey">
+          계정 삭제하기
+        </SmallOnOffBtn>
         <SmallOnOffBtn
-          text="취소하기"
           onClick={() => {
             window.location.reload();
           }}
           color="purple"
-        />
+        >
+          취소하기
+        </SmallOnOffBtn>
       </div>
     </div>
   );

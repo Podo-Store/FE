@@ -139,7 +139,7 @@ const ResetPW = ({ receivedAccessToken }) => {
           errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
           errorMessage="비밀번호가 일치하지 않습니다."
         />
-        <div style={{ height: "5.556vh" }}></div>
+        <div style={{ height: "29px" }}></div>
         <BottomBtn onClick={onClickResetPwBtn} disabled={!resetAllow}>
           비밀번호 재설정하기
         </BottomBtn>

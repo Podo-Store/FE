@@ -13,6 +13,8 @@ import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";
 
+import bar from "../../assets/image/auth/bar.svg";
+
 import "./SignIn.css";
 import "./../../styles/utilities.css";
 
@@ -80,7 +82,7 @@ function SignIn() {
         <Box>
           <RectangleForm onSubmit={onClickConfirmButton}>
             {/* Form 요소에 onSubmit을 사용 */}
-            <div className="titleWrap">로그인</div>
+            <div className="title h2-medium t-center">로그인</div>
             <div className="contentWrap">
               <AuthInputField
                 type="text"
@@ -111,14 +113,16 @@ function SignIn() {
             <div className="extraLink">
               <div className="d-flex">
                 <p
+                  className="p-small-regular c-pointer"
                   onClick={() => {
                     navigate("/signin/find/0");
                   }}
                 >
                   아이디
                 </p>
-                <p>&nbsp;/&nbsp;</p>
+                <p className="p-small-regular c-default">/</p>
                 <p
+                  className="p-small-regular c-pointer"
                   onClick={() => {
                     navigate("/signin/find/1");
                   }}
@@ -126,8 +130,9 @@ function SignIn() {
                   비밀번호 찾기
                 </p>
               </div>
-              <p id="bar">|</p>
+              <img src={bar} alt="|" />
               <p
+                className="p-small-regular c-pointer"
                 onClick={() => {
                   navigate("/signup");
                 }}

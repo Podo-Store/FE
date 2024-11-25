@@ -19,7 +19,7 @@
 }
 .background-container div#purple-rectangle {
   width: 20px;
-  height: 130px;
+  height: 160px;
   flex-shrink: 0;
   background: var(--purple-purple-4-main, #6a39c0);
 }

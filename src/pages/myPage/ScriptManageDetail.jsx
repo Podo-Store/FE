@@ -300,17 +300,16 @@ const ScriptManageDetail = () => {
 
             <div className="bottom-wrap">
               <div className="btn-wrap">
+                <SmallOnOffBtn color="white" onClick={() => navigate("/mypage/scriptmanage")}>
+                  취소하기
+                </SmallOnOffBtn>
                 <SmallOnOffBtn
-                  text="취소하기"
-                  color="white"
-                  onClick={() => navigate("/mypage/scriptmanage")}
-                />
-                <SmallOnOffBtn
-                  text="수정하기"
                   color="purple"
                   disabled={title === "" || scriptPrice === "" || performPrice === ""}
                   onClick={onClickModifyBtn}
-                />
+                >
+                  수정하기
+                </SmallOnOffBtn>
               </div>
             </div>
             <div className="j-content-end">
@@ -327,14 +326,17 @@ const ScriptManageDetail = () => {
               <div id="delete-alert-box" className="f-dir-column j-content-between a-items-center">
                 <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
                 <div id="btn-wrap" className="d-flex">
-                  <SmallOnOffBtn text="삭제하기" color="grey" onClick={onClickDeleteConfirm} />
+                  <SmallOnOffBtn color="grey" onClick={onClickDeleteConfirm}>
+                    삭제하기
+                  </SmallOnOffBtn>
                   <SmallOnOffBtn
-                    text="취소하기"
                     color="purple"
                     onClick={() => {
                       setShowDeleteAlertBox(false);
                     }}
-                  />
+                  >
+                    취소하기
+                  </SmallOnOffBtn>
                 </div>
               </div>
             ) : null}

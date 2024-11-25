@@ -6,6 +6,9 @@ import MainVer1 from "./pages/MainVer1.jsx";
 import Footer from "./pages/Footer";
 
 import "./App.css";
+import "./styles/colors.css";
+import "./styles/text.css";
+import "./styles/utilities.css";
 
 function App() {
   return (

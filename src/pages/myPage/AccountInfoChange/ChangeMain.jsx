@@ -334,19 +334,21 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
 
         <div className="j-content-end" id="btn-wrap">
           <SmallOnOffBtn
-            text="취소"
             onClick={() => {
               window.location.reload();
             }}
             color="white"
-          />
+          >
+            취소
+          </SmallOnOffBtn>
           <SmallOnOffBtn
-            text="수정 완료"
             type="submit"
             disabled={onChangeDisableCondition()}
             onClick={onClickCompleteBtn}
             color="purple"
-          />
+          >
+            수정 완료
+          </SmallOnOffBtn>
         </div>
 
         <div className="j-content-end">

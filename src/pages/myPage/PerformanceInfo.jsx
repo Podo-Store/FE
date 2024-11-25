@@ -366,18 +366,16 @@ const PerformanceInfo = () => {
 
           <div className="j-content-end width-629" id="btn">
             <SmallOnOffBtn
-              text="취소하기"
               color="white"
               onClick={() => {
                 navigate("/mypage/purchased");
               }}
-            />
-            <SmallOnOffBtn
-              text="신청하기"
-              color="purple"
-              disabled={isApplyDisabled}
-              onClick={onClickApply}
-            />
+            >
+              취소하기
+            </SmallOnOffBtn>
+            <SmallOnOffBtn color="purple" disabled={isApplyDisabled} onClick={onClickApply}>
+              신청하기
+            </SmallOnOffBtn>
           </div>
         </div>
       </div>

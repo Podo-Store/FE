@@ -40,7 +40,7 @@ const PerformanceRefund = () => {
   const [refundPossiblePrice, setRefundPossiblePrice] = useState(0);
 
   const [reason, setReason] = useState("");
-  const [currentAmount, setCurrentAmount] = useState(1);
+  const [currentAmount, setCurrentAmount] = useState(0);
   const [currentLength, setCurrentLength] = useState(0);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -236,7 +236,6 @@ const PerformanceRefund = () => {
 
           <div className="j-content-end" id="btn">
             <SmallOnOffBtn
-              text="취소하기"
               color="white"
               onClick={() => {
                 if (showPopup) {
@@ -244,9 +243,10 @@ const PerformanceRefund = () => {
                 }
                 navigate("/mypage/purchased");
               }}
-            />
+            >
+              취소하기
+            </SmallOnOffBtn>
             <SmallOnOffBtn
-              text="신청하기"
               color="purple"
               disabled={reason.length === 0}
               onClick={() => {
@@ -255,7 +255,9 @@ const PerformanceRefund = () => {
                 }
                 onClickRequestRefund();
               }}
-            />
+            >
+              신청하기
+            </SmallOnOffBtn>
           </div>
           {showPopup ? (
             <div className="f-dir-column j-content-center" id="refund-popup">

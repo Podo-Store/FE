@@ -1,3 +1,5 @@
+@import "~@fontsource/pretendard/index.css";
+
 .App a {
   text-decoration: none;
   color: black;
@@ -18,8 +20,7 @@ input,
 button,
 label {
   margin: 0;
-  letter-spacing: -0.05em;
 
   /* 전역 설정 */
-  font-family: "Noto Sans KR", "Apple SD Gothic Neo", Sans-serif !important;
+  font-family: "pretendard", "Apple SD Gothic Neo", Sans-serif !important;
 }

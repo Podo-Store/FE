@@ -32,12 +32,20 @@ const PurchaseSummaryBox = ({
       )}
       <div style={{ height: "11.6px" }}></div>
       <div className="price-wrap">
-        <p>{page === 0 ? "대본 가격" : `대본 {${scriptTitle}} 1 개`}</p>
-        {buyScript ? <p>{formatPrice(scriptPrice)}원</p> : <p> - 원</p>}
+        <p className="p-medium-regular">
+          {page === 0 ? "대본 가격" : `대본 ${scriptTitle} ${buyScript ? 1 : "-"} 개`}
+        </p>
+        <p className="p-medium-regular">{buyScript ? formatPrice(scriptPrice) : "-"} 원</p>
       </div>
       <div className="price-wrap">
-        <p>{page === 0 ? "공연권 가격" : `공연권 {${scriptTitle}} ${performAmount} 개`}</p>
-        {buyPerform ? <p>{formatPrice(performPrice * performAmount)}원</p> : <p> - 원</p>}
+        <p className="p-medium-regular">
+          {page === 0
+            ? "공연권 가격"
+            : `공연권 ${scriptTitle} ${buyPerform ? performAmount : "-"} 개`}
+        </p>
+        <p className="p-medium-regular">
+          {buyPerform ? formatPrice(performPrice * performAmount) : "-"} 원
+        </p>
       </div>
       <hr
         style={
@@ -47,8 +55,8 @@ const PurchaseSummaryBox = ({
         }
       ></hr>
       <div className="price-wrap">
-        <p>총 금액</p>
-        <p>
+        <p className="p-large-regular">총 금액</p>
+        <p className="p-large-regular">
           {formatPrice(
             (buyScript ? scriptPrice : 0) + (buyPerform ? performPrice * performAmount : 0)
           )}

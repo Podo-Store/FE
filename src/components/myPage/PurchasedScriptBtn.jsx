@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
+import Button from "./../button/RoundBtn_149_48";
+
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./PurchasedScriptBtn.css";
@@ -13,9 +15,10 @@ import "./../../styles/utilities.css";
  * @param {number} props.id - 구매 내역의 id
  * @param {number} props.productId - 작품의 개별 id
  * @param {number} props.buyPerformance - 0: 구매 불가, 1: 계약 필요, 2: 구매 가능 아이콘 추가
+ * @param {boolean} props.paymentStatus - true: 결제 완료, false: 결제 미완료
  * @returns
  */
-const PurchasedScriptBtn = ({ id, title, productId, buyPerformance }) => {
+const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, paymentStatus = false }) => {
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -58,21 +61,14 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance }) => {
   return (
     <div className="j-content-end purchased-script-btn">
       {buyPerformance !== 0 ? (
-        <button
-          style={{
-            backgroundColor: "#ffffff",
-            border: "3px solid var(--Main, #6A39C0)",
-            color: "var(--Main, #6A39C0)",
-          }}
-          onClick={onClickPurchasePerform}
-        >
+        <Button color="white" onClick={onClickPurchasePerform}>
           공연권 구매
-        </button>
+        </Button>
       ) : null}
 
-      <button style={{ backgroundColor: "var(--Main, #6A39C0)" }} onClick={onClickDownloadScript}>
-        대본 받기
-      </button>
+      <Button disabled={!paymentStatus} onClick={onClickDownloadScript}>
+        {paymentStatus ? "대본 받기" : "입금 확인 중"}
+      </Button>
     </div>
   );
 };

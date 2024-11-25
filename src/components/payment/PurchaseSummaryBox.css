@@ -15,6 +15,7 @@
 }
 
 .purchase-summary-box hr {
+  margin-right: 13px;
   border: 1px solid #caabff;
 }
 
@@ -22,28 +23,12 @@
   display: flex;
   gap: 1rem;
 
-  padding-left: 1rem;
-  margin-right: 27px;
-}
-
-.purchase-summary-box .price-wrap p {
-  margin: 0;
   margin-top: 5.61px;
-  color: #000;
-
-  font-family: "Noto Sans KR";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px;
+  margin-right: 27px;
+  padding-left: 1rem;
 }
 
 .purchase-summary-box .price-wrap p:last-child {
   /* 오른쪽 정렬 */
   margin-left: auto;
-}
-
-.purchase-summary-box .price-wrap:last-child p {
-  font-size: 18px;
-  line-height: 28px;
 }

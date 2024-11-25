@@ -92,10 +92,15 @@ const ScriptContent = ({
                     title={script.title}
                     productId={script.productId}
                     buyPerformance={script.buyPerformance}
+                    paymentStatus={script.paymentStatus}
                   />
                 ) : (
                   // PurchasedPerformBtn.jsx
-                  <Button id={script.id} possibleAmount={script.performanceAmount} />
+                  <Button
+                    id={script.id}
+                    possibleAmount={script.performanceAmount}
+                    paymentStatus={script.paymentStatus}
+                  />
                 )
               ) : currentPage === "1" && !script.delete ? (
                 // 작품 관리 페이지 ScriptManageBtn.jsx

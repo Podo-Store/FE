@@ -57,7 +57,7 @@
   }
 }
 .resized-image {
-  width: 100vw;
+  width: 100%;
   height: auto; /* 이미지 비율을 유지하며 높이 자동 설정 */
   max-width: 1920px;
 }

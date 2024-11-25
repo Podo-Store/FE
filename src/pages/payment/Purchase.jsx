@@ -7,6 +7,7 @@ import MainNav from "../MainNav";
 import Footer from "../Footer";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
+import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import AmountChange from "../../components/detail/AmountChange";
 import { AuthInputField, AuthPhoneInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
@@ -151,9 +152,11 @@ const Purchase = () => {
 
   useEffect(() => {
     if (!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)) {
+      setButtonEnabled(false);
       return;
     }
     if (isPerformSelected && !(name.length > 0 && phone.length > 0 && address.length > 0)) {
+      setButtonEnabled(false);
       return;
     }
 
@@ -161,6 +164,8 @@ const Purchase = () => {
   }, [checkBoxCondition, name, phone, address, isPerformSelected]);
 
   const onClickPurchase = async () => {
+    setIsLoading(true);
+
     if (buyPerform && (!nameValid || !phoneValid || !addressValid)) {
       alert("신청자 정보를 다시 확인해주세요.");
       return;
@@ -175,6 +180,9 @@ const Purchase = () => {
             performanceAmount: buyPerform ? modifiedPurchasePerformAmount : 0,
           },
         ],
+        // 결제 방식 - 0: 0원, 1: 계좌이체
+        paymentMethod:
+          (buyScript && scriptPrice === 0) || (buyPerform && performPrice === 0) ? 0 : 1,
       };
 
       // Include applicant only if performance rights are being purchased
@@ -200,19 +208,14 @@ const Purchase = () => {
       alert("결제가 완료되었습니다.");
       navigate("/purchase/success", {
         state: {
-          orderDate: orderData.orderDate,
-          orderNumber: orderData.orderNum,
-          buyScript,
-          scriptPrice,
-          buyPerform,
-          performPrice,
-          performAmount: modifiedPurchasePerformAmount,
-          scriptTitle: orderData.title,
+          orderId: orderData.id,
         },
       });
     } catch (error) {
       alert(error.response?.data?.error || "결제 요청 중 문제가 발생했습니다.");
       navigate("/purchase/abort");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -224,18 +227,20 @@ const Purchase = () => {
     <div className="purchase">
       <MainNav />
       <div className="purchase-wrap">
-        <h4 id="title">결제</h4>
+        <h5 className="h5-bold">결제</h5>
         <div className="purchase-flex">
           <div className="list-side">
             {buyScript ? (
               <div className="content">
-                <h4 id="subtitle">대본</h4>
+                <p className="p-large-bold" id="subtitle">
+                  대본
+                </p>
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
-                    <h5>{title}</h5>
+                    <p className="left-margin p-large-bold">{title}</p>
                     <hr></hr>
-                    <h6>{author}</h6>
+                    <p className="left-margin p-large-medium">{author}</p>
                     {/*<p id="tag"># {lengthType}</p>*/}
                     <div className="detail-price">
                       <div className="price-wrap">
@@ -252,14 +257,16 @@ const Purchase = () => {
 
             {buyPerform ? (
               <div className="content">
-                <h4 id="subtitle">공연권</h4>
+                <p className="p-large-bold" id="subtitle">
+                  공연권
+                </p>
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="f-dir-column j-content-between detail">
-                    <div>
-                      <h5>{title}</h5>
+                    <div className="detail">
+                      <p className="left-margin p-large-bold">{title}</p>
                       <hr></hr>
-                      <h6>{author}</h6>
+                      <p className="left-margin p-large-medium">{author}</p>
                       {/*<p id="tag"># {lengthType}</p>*/}
                       <div className="detail-price">
                         <div className="price-wrap">
@@ -291,6 +298,22 @@ const Purchase = () => {
               performAmount={modifiedPurchasePerformAmount}
               totalPrice={totalPrice}
             />
+
+            <div className="purchase-method">
+              <p className="p-large-bold">결제 방법</p>
+              <div className="btn-wrap d-flex">
+                <SmallOnOffBtn style={{ width: "108px", height: "36px" }}>계좌 이체</SmallOnOffBtn>
+                <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                  -
+                </SmallOnOffBtn>
+                <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                  -
+                </SmallOnOffBtn>
+              </div>
+              <p className="p-small-bold c-grey4 t-align-center">
+                계좌 이체 방법은 메일로 전송됩니다.
+              </p>
+            </div>
 
             {isPerformSelected ? (
               <div id="user-info-wrap">

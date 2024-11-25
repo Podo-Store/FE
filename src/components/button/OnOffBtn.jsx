@@ -10,10 +10,10 @@ import "./../../styles/text.css";
  * @param {Object} [props.style] - style
  * @returns
  */
-const OnOffBtn = ({ text, color = "purple", onClick, disabled, style }) => {
+const OnOffBtn = ({ text, color = "purple", onClick, disabled = false, style }) => {
   return color === "white" ? (
     <button
-      className="c-pointer p-large-bold c-main on-off-btn"
+      className="on-off-btn c-pointer p-large-bold c-main"
       id="white"
       disabled={disabled}
       onClick={onClick}
@@ -22,7 +22,7 @@ const OnOffBtn = ({ text, color = "purple", onClick, disabled, style }) => {
     </button>
   ) : (
     <button
-      className="c-pointer p-large-bold c-white on-off-btn"
+      className="on-off-btn c-pointer p-large-bold c-white"
       id="purple"
       disabled={disabled}
       onClick={onClick}

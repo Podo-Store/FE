@@ -1,4 +1,7 @@
 import { useNavigate } from "react-router-dom";
+
+import Button from "../button/RoundBtn_149_48";
+
 import "./ScriptManageBtn.css";
 
 const ReviewCompleted = {
@@ -6,12 +9,8 @@ const ReviewCompleted = {
   UNDER_REVIEWING: false,
 };
 
-const ScriptManageBtn = ({ reviewCompleted, scriptSale = false, performSale = false, id }) => {
+const ScriptManageBtn = ({ reviewCompleted, id }) => {
   const navigate = useNavigate();
-
-  const onClickDetail = () => {
-    navigate(`/mypage/scriptmanage/detail/${id}`);
-  };
 
   return (
     <div className="script-manage-btn">
@@ -19,29 +18,31 @@ const ScriptManageBtn = ({ reviewCompleted, scriptSale = false, performSale = fa
         {
           [ReviewCompleted.REVIEW_COMPLETED]: (
             <div className="script-manage-flex">
-              <div className="sale-status">
-                {scriptSale ? (
-                  <button className="sale-status-enabled">대본 판매 중</button>
-                ) : (
-                  <button className="sale-status-disabled">대본 판매 중지</button>
-                )}
-                {performSale ? (
-                  <button className="sale-status-enabled">공연권 판매 중</button>
-                ) : (
-                  <button className="sale-status-disabled">공연권 판매 중지</button>
-                )}
+              <div> </div>
+
+              <div className="d-flex" style={{ gap: "19px" }}>
+                <Button
+                  color="white"
+                  onClick={() => {
+                    navigate(`/mypage/scriptmanage/askedperform/${id}`);
+                  }}
+                >
+                  신청된 공연
+                </Button>
+                <Button
+                  onClick={() => {
+                    navigate(`/mypage/scriptmanage/detail/${id}`);
+                  }}
+                >
+                  작품 관리
+                </Button>
               </div>
-              <button id="detail" onClick={onClickDetail}>
-                작품 관리
-              </button>
             </div>
           ),
           [ReviewCompleted.UNDER_REVIEWING]: (
             <div className="script-manage-flex">
               <div> </div>
-              <button id="detail" disabled="true">
-                심사 중
-              </button>
+              <Button disabled={true}>심사 중</Button>
             </div>
           ),
         }[reviewCompleted]

@@ -23,11 +23,11 @@ const PurchasedPerformBtn = ({ id, possibleAmount = 0, paymentStatus = false }) 
           공연 가능 횟수 : {possibleAmount} 번
         </p>
         <p
-          className={`p-12-400 c-pointer t-underline ${
-            possibleAmount === 0 || !paymentStatus ? "c-grey4" : ""
+          className={`p-12-400 t-underline ${
+            possibleAmount === 0 || !paymentStatus ? "c-grey4 c-default" : "c-pointer"
           }`}
           onClick={() => {
-            if (!possibleAmount || paymentStatus) {
+            if (possibleAmount !== 0 && paymentStatus) {
               navigate(`/mypage/purchased/performance-refund/${id}`);
             }
           }}

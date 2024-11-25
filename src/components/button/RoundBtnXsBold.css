@@ -1,0 +1,28 @@
+.xs-bold-btn {
+  width: 92px;
+  height: 32px;
+
+  box-sizing: border-box;
+  border-radius: 50px;
+}
+
+.xs-bold-btn#white {
+  border: 2.5px solid var(--Main, #6a39c0);
+  background: var(--ect-white, #fff);
+}
+
+.xs-bold-btn#grey {
+  border: none;
+  background: #d9d9d9;
+}
+
+.xs-bold-btn#purple {
+  border: none;
+  cursor: pointer;
+  background: var(--Main, #6a39c0);
+}
+
+.xs-bold-btn#purple:disabled {
+  cursor: default;
+  background-color: #dadada;
+}

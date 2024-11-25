@@ -1,0 +1,118 @@
+.asked-perform-manage .contents {
+  gap: 3.519vh;
+
+  margin-top: 4.167vh;
+}
+
+.asked-perform-manage .script-info {
+  padding: 0 2.188vw;
+  padding-top: 4.722vh;
+  padding-bottom: 3.889vh;
+
+  width: 389px;
+  height: 741px;
+
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 2px solid var(--Main, #6a39c0);
+  background: var(--ect-white, #fff);
+}
+
+.asked-perform-manage .script-info .script-info-title > hr {
+  margin: 0;
+  margin-top: 5px;
+  margin-bottom: 9px;
+
+  width: 197px;
+
+  border: 1px solid #9e9e9e;
+}
+
+.asked-perform-manage .script-info .script-info-title .summary {
+  margin-top: 7px;
+}
+
+.asked-perform-manage .script-info .sales-status-box-wrap {
+  gap: 2.685vh;
+}
+
+.asked-perform-manage .script-info .sales-status-box {
+  width: 305px;
+  height: 121px;
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+  border-radius: 20px;
+  background: var(--purple-purple-10, #f5f0ff);
+}
+
+.asked-perform-manage .script-info .sales-status-box .title {
+  margin-top: 12px;
+  margin-left: 23px;
+  margin-right: 12px;
+}
+
+.asked-perform-manage .script-info .sales-status-box .content {
+  gap: 34px;
+
+  margin-top: 11px;
+}
+
+.asked-perform-manage .script-info .sales-status-box .content hr {
+  margin: 0;
+  border-color: #caabff;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap {
+  width: fit-content;
+
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 2px solid var(--Main, #6a39c0);
+
+  max-height: 741px;
+  overflow-y: auto;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap .asked-perform-box {
+  padding-top: 3.426vh;
+  padding-left: 2.917vw;
+  padding-right: 2.969vw;
+  padding-bottom: 1.204vh;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap .date {
+  padding: 0 6px;
+
+  width: 740px;
+  height: 33px;
+  flex-shrink: 0;
+
+  border-bottom: 1px solid #b489ff;
+  background-color: var(--purple-purple-10, #f5f0ff);
+}
+
+.asked-perform-manage .contents .asked-perform-wrap .content-inside {
+  padding-top: 1.667vh;
+  padding-left: 7.05px;
+  padding-right: 6px;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap .content-inside .user-info {
+  margin-bottom: 1.296vh;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap .content-inside .date-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: space-between;
+  row-gap: 1.481vh;
+
+  width: 100%;
+}
+
+.asked-perform-manage .contents .asked-perform-wrap hr {
+  margin-top: 2.685vh;
+
+  border: 1px solid #9e9e9e;
+}

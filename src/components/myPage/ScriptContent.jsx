@@ -112,7 +112,7 @@ const ScriptContent = ({
                   // PurchasedPerformBtn.jsx
                   <Button
                     id={script.id}
-                    possibleAmount={script.possibleAmount}
+                    possibleCount={script.possibleCount}
                     paymentStatus={script.paymentStatus}
                   />
                 )

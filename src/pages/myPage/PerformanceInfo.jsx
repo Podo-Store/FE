@@ -303,7 +303,10 @@ const PerformanceInfo = () => {
               ) : null}
             </div>
             <p className="p-small-regular">
-              {fetchedDates.length + inputFields.length}/{performAmount}
+              {performAmount - fetchedDates.length > 0
+                ? fetchedDates.length + inputFields.length
+                : performAmount}
+              /{performAmount}
             </p>
           </div>
 
@@ -333,36 +336,42 @@ const PerformanceInfo = () => {
           ))}
 
           {/* inputFields: 새로 날짜 추가 */}
-          {inputFields.map((_, index) => (
-            <div key={index}>
-              <PerformDateInputField
-                placeholder="공연 예상 일자를 입력해주세요. (예) 2024-02-27 13:00"
-                value={dates[index] || ""}
-                onChange={(e) => onDateChange(index, e.target.value)}
-                onClick={() => onClickDateInput(index)}
-                onBlur={() => onBlurDateInput(index)}
-                onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
-              />
-              <div style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}></div>
-              {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
-              {dateChecker[index]?.show && (
-                <CheckerMessage
-                  message="일자 및 시간을 올바르게 입력해주세요. (ex. 2024-02-27 13:00)"
-                  checkedFlag={dateChecker[index]?.format}
+          {/* 소지 공연권을 전부 신청했을 경우 표시 X */}
+          {performAmount - fetchedDates.length > 0 &&
+            inputFields.map((_, index) => (
+              <div key={index}>
+                <PerformDateInputField
+                  placeholder="공연 예상 일자를 입력해주세요. (예) 2024-02-27 13:00"
+                  value={dates[index] || ""}
+                  onChange={(e) => onDateChange(index, e.target.value)}
+                  onClick={() => onClickDateInput(index)}
+                  onBlur={() => onBlurDateInput(index)}
+                  onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
                 />
-              )}
-              {isDateOverOneYear(dates[index]) ? (
-                <div style={{ marginTop: "5px" }}>
-                  <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
-                </div>
-              ) : null}
-              <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
-            </div>
-          ))}
+                <div
+                  style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}
+                ></div>
+                {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
+                {dateChecker[index]?.show && (
+                  <CheckerMessage
+                    message="일자 및 시간을 올바르게 입력해주세요. (ex. 2024-02-27 13:00)"
+                    checkedFlag={dateChecker[index]?.format}
+                  />
+                )}
+                {isDateOverOneYear(dates[index]) ? (
+                  <div style={{ marginTop: "5px" }}>
+                    <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
+                  </div>
+                ) : null}
+                <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
+              </div>
+            ))}
 
-          <div className="j-content-center width-629" id="circle-add-btn">
-            <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
-          </div>
+          {performAmount - fetchedDates.length > 0 && (
+            <div className="j-content-center width-629" id="circle-add-btn">
+              <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
+            </div>
+          )}
 
           <div className="j-content-end width-629" id="btn">
             <SmallOnOffBtn

@@ -1,0 +1,28 @@
+.large-bold-btn {
+  width: 195px;
+  height: 48px;
+
+  box-sizing: border-box;
+  border-radius: 50px;
+}
+
+.large-bold-btn#white {
+  border: 2.5px solid var(--Main, #6a39c0);
+  background: var(--ect-white, #fff);
+}
+
+.large-bold-btn#grey {
+  border: none;
+  background: #d9d9d9;
+}
+
+.large-bold-btn#purple {
+  border: none;
+  cursor: pointer;
+  background: var(--Main, #6a39c0);
+}
+
+.large-bold-btn#purple:disabled {
+  cursor: default;
+  background-color: #dadada;
+}

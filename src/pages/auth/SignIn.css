@@ -3,18 +3,9 @@
   margin: 22.5vh 0;
 }
 
-.signIn .titleWrap {
+.signIn .title {
   margin-top: 3.056vh;
   margin-bottom: 2.685vh;
-
-  color: #000;
-  font-family: "Noto Sans KR";
-  font-size: 2rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 2.5rem; /* 125% */
-
-  text-align: center;
 }
 
 .signIn .contentWrap {
@@ -26,22 +17,10 @@
 .signIn .extraLink {
   display: flex;
   justify-content: center;
-  gap: 7px;
+  gap: 19px;
+
   margin-top: 37.5px;
   margin-bottom: 41.5px;
-}
-
-.signIn .extraLink p {
-  margin: 0;
-  color: #000;
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
-  cursor: pointer;
 }
 
 .signIn .extraLink p#bar {

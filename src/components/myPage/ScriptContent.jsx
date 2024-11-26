@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import ScriptContentPopup from "./ScriptContentPopUp.jsx";
+import ScriptManageTopBtn from "./ScriptManageTopBtn.jsx";
 import PriceText from "../price/PriceText.jsx";
 import PriceTextsVertical from "../price/PriceTextsVertical.jsx";
 import ThumbnailImg from "../thumbnail/ThumbnailImg.jsx";
@@ -37,7 +38,7 @@ const ScriptContent = ({
 
   return (
     <div key={index} className="script-content">
-      <h3 id="date">{formattedDate}</h3>
+      <p className="p-large-bold c-grey-8f8f8f">{formattedDate}</p>
       <hr></hr>
       {items.map((script) => (
         <div key={script.id}>
@@ -45,9 +46,16 @@ const ScriptContent = ({
             <ThumbnailImg imagePath={script.imagePath}></ThumbnailImg>
             <div className="script-detail">
               <div className="script-tag">
-                <div className="d-flex a-items-center" id="title">
-                  <h3 id="title">{script.title || "제목 없음"}</h3>
-                  {script.delete ? (
+                <div
+                  className={`a-items-center ${
+                    currentPage === "1" && script.checked ? "j-content-between" : ""
+                  }`}
+                  id="title"
+                >
+                  <p className="p-large-bold" id="title">
+                    {script.title || "제목 없음"}
+                  </p>
+                  {script.delete && (
                     <img
                       id="title-info"
                       src={circleInfoBtn}
@@ -56,11 +64,17 @@ const ScriptContent = ({
                         setShowPopup(!showPopup);
                       }}
                     />
-                  ) : null}
+                  )}
                   {showPopup ? <ScriptContentPopup onClose={() => setShowPopup(false)} /> : null}
+                  {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+                  {currentPage === "1" && script.checked ? (
+                    <ScriptManageTopBtn script={script} />
+                  ) : null}
                 </div>
                 <hr></hr>
-                <h4>{!script.delete ? script.writer : "삭제된 계정"}</h4>
+                <p className="p-large-medium" id="author">
+                  {!script.delete ? script.writer : "삭제된 계정"}
+                </p>
                 {currentPage === "1" && !script.checked ? (
                   // 작품 관리 페이지에서 심사 중인 작품일 경우
                   <div className="margin-43_4px"></div>
@@ -98,7 +112,7 @@ const ScriptContent = ({
                   // PurchasedPerformBtn.jsx
                   <Button
                     id={script.id}
-                    possibleAmount={script.performanceAmount}
+                    possibleCount={script.possibleCount}
                     paymentStatus={script.paymentStatus}
                   />
                 )

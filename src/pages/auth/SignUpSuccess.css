@@ -1,10 +1,11 @@
 .signUpSuccess .signUp-success-wrap {
+  position: relative;
+
   margin: 22.5vh 0;
 }
 
 .signUpSuccess .signUp-success-wrap h1 {
   margin-top: 3vh;
-  margin-bottom: 2vh;
 
   color: #000;
 
@@ -17,7 +18,16 @@
   text-align: center;
 }
 
+.signUpSuccess .signUp-success-wrap img {
+  position: absolute;
+  top: 12px;
+
+  width: 389px;
+  height: 334px;
+  flex-shrink: 0;
+}
+
 .signUpSuccess .bottomButton {
-  margin-top: 29vh;
-  margin-bottom: 5vh;
+  margin-top: 25.833vh;
+  margin-bottom: 3.704vh;
 }

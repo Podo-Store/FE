@@ -10,24 +10,24 @@ import "./../../styles/utilities.css";
  *
  * @param {object} props
  * @param {number} props.id - id
- * @param {number} props.possibleAmount - 공연 가능 횟수
+ * @param {number} props.possibleCount - 공연 가능 횟수
  * @param {boolean} props.paymentStatus - true: 결제 완료, false: 결제 미완료
  * @returns
  */
-const PurchasedPerformBtn = ({ id, possibleAmount = 0, paymentStatus = false }) => {
+const PurchasedPerformBtn = ({ id, possibleCount = 0, paymentStatus = false }) => {
   const navigate = useNavigate();
   return (
     <div className="j-content-between purchased-script-btn">
       <div className="f-dir-column j-content-end">
         <p className={`p-medium-regular ${!paymentStatus ? "c-grey4" : ""}`}>
-          공연 가능 횟수 : {possibleAmount} 번
+          공연 가능 횟수 : {possibleCount} 번
         </p>
         <p
-          className={`p-12-400 c-pointer t-underline ${
-            possibleAmount === 0 || !paymentStatus ? "c-grey4" : ""
+          className={`p-12-400 t-underline ${
+            possibleCount === 0 || !paymentStatus ? "c-grey4 c-default" : "c-pointer"
           }`}
           onClick={() => {
-            if (!possibleAmount || paymentStatus) {
+            if (possibleCount !== 0 && paymentStatus) {
               navigate(`/mypage/purchased/performance-refund/${id}`);
             }
           }}

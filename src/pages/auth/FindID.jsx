@@ -160,7 +160,7 @@ const FindID = () => {
             onClickEmailSend={onClickEmailSend}
           />
 
-          <div style={{ height: "5.556vh" }}></div>
+          <div style={{ height: "29px" }}></div>
           <BottomBtn
             onClick={() => {
               setShowingIDPermitted(true);

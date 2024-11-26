@@ -219,6 +219,10 @@
   color: var(--grey7, #3c3c3c);
 }
 
+.c-grey-8f8f8f {
+  color: #8f8f8f;
+}
+
 .c-red {
   color: #ff0000;
 }

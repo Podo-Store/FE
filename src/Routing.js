@@ -18,6 +18,7 @@ import PerformanceInfo from "./pages/myPage/PerformanceInfo";
 import PerformanceRefund from "./pages/myPage/PerformanceRefund";
 import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
+import AskedPerformManage from "./pages/myPage/AskedPerformManage";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
@@ -75,6 +76,7 @@ function Routing() {
               path="/mypage/scriptmanage/detail/:id"
               element={<ProtectedRoute element={<ScriptManageDetail />} />}
             />
+            <Route path="/mypage/scriptmanage/askedperform/:id" element={<AskedPerformManage />} />
             <Route
               path="/mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}

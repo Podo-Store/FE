@@ -18,6 +18,8 @@
 }
 
 .info-change-enter div#enter-input button {
+  margin-top: 0.25rem;
+
   width: 4.875rem;
   height: 3.75rem;
 

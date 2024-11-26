@@ -1,7 +1,6 @@
 .auth-input-field {
   display: flex;
   flex-direction: column;
-  flex: 1;
 }
 
 .auth-input-field label {

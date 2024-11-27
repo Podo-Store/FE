@@ -3,30 +3,10 @@
   flex-direction: column;
   align-items: center;
 
-  padding-top: 15vh;
-}
-
-.Loading .loading-wrap p {
-  color: #000;
-
-  /* Paragraph/Large/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 155.556% */
+  padding-top: 16.667vh;
+  margin-bottom : 68.519vh;
 }
 
 .Loading .loading-wrap > p {
-  margin-top: 0.75rem;
-  margin-bottom: 20vh;
-}
-
-.Loading .loading-wrap .loading-content {
-  margin-bottom: 7.5vh;
-  text-align: center;
-}
-
-.Loading .loading-wrap .loading-content:last-child {
-  margin-bottom: 27.5vh;
+  margin-top: 2.13vh;
 }

@@ -1,5 +1,5 @@
-.purchase-abort .purchase-abort-wrap {
-  margin: 0 15%;
+.purchase-abort {
+  margin-top: 20vh;
   min-height: 90vh;
 }
 
@@ -21,8 +21,6 @@
 }
 
 .purchase-abort .purchase-abort-content {
-  margin-top: 20vh;
-
   display: flex;
   flex-direction: column;
   align-items: center;

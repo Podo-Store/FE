@@ -7,9 +7,6 @@ import RoundBtnXsBold from "../../components/button/RoundBtnXsBold";
 import { AuthInputField } from "../../components/inputField";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import listCloseBtn from "../../assets/image/button/listCloseBtn.svg";
 import listOpenBtn from "../../assets/image/button/listOpenBtn.svg";
 
@@ -60,7 +57,6 @@ const AskedPerformManage = () => {
 
   return (
     <div className="asked-perform-manage">
-      <MainNav />
       <div className="min-height perform-info perform-top">
         <GoBack url="/mypage/scriptmanage" />
         <h4 className="h4-bold">등록한 작품들을 관리할 수 있어요!</h4>
@@ -121,7 +117,7 @@ const AskedPerformManage = () => {
             </div>
           </div>
           <div className="asked-perform-wrap">
-            {isExist ? (
+            {!isExist ? (
               list.map((item, index) => (
                 <div
                   key={index}
@@ -219,7 +215,6 @@ const AskedPerformManage = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

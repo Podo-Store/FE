@@ -2,9 +2,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import {
   MyPageMenu,
   ScriptContent,
@@ -97,11 +94,7 @@ const PurchasedScript = () => {
 
   return (
     <div className="myPage-contents-default">
-      <MainNav />
-      <div
-        className="myPage-contents-default-wrap"
-        style={{ margin: "0 16.5%", marginTop: "6.66vh" }}
-      >
+      <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">
           <div className="d-flex j-content-between a-items-start">
@@ -150,7 +143,6 @@ const PurchasedScript = () => {
         </div>
       </div>
       <div ref={footerRef} style={{ height: "6.66vh" }}></div>
-      <Footer />
     </div>
   );
 };

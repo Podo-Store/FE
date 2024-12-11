@@ -3,9 +3,7 @@ import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
+import AllListContent from "../../components/list/AllListContent.jsx";
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
 import TruncatedListContent from "../../components/list/TruncatedListContent.jsx";
@@ -21,7 +19,6 @@ import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
 import "./List.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import AllListContent from "../../components/list/AllListContent.jsx";
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -192,7 +189,6 @@ const List = () => {
 
   return (
     <div className="list">
-      <MainNav />
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
       <div className="min-height list-wrap">
         <div className="title">
@@ -260,7 +256,6 @@ const List = () => {
           />
         ) : null}
       </div>
-      <Footer />
     </div>
   );
 };

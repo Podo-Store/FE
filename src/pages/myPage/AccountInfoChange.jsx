@@ -1,8 +1,5 @@
 import { useContext, useState } from "react";
 
-import MainNav from "../MainNav.jsx";
-import Footer from "../Footer.jsx";
-
 import AccountInfoChangeEnter from "./AccountInfoChange/ChangeEnter.jsx";
 import AccountInfoChangeMain from "./AccountInfoChange/ChangeMain.jsx";
 import AccountDelete from "./AccountDelete/AccountDelete.jsx";
@@ -26,7 +23,6 @@ const AccountInfoChange = () => {
 
   return (
     <div className="account-info-change">
-      <MainNav />
       <div className="account-info-change-wrap">
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side">
@@ -47,7 +43,6 @@ const AccountInfoChange = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

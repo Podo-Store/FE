@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import GoBack from "../../components/button/GoBack";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import { PerformInputField } from "../../components/inputField";
@@ -114,7 +111,6 @@ const PerformanceRefund = () => {
 
   return (
     <div>
-      <MainNav />
       <div className="min-height perform-refund perform-top">
         <GoBack url="/mypage/purchased" />
         <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
@@ -287,7 +283,6 @@ const PerformanceRefund = () => {
           ) : null}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

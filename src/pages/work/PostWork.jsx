@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import FileInputBox from "../../components/file/FileInputBox";
 
 //import { refreshAccessToken } from "./../../contexts/AuthContext";
@@ -69,7 +66,6 @@ const PostWork = () => {
 
   return (
     <div className="post-work">
-      <MainNav />
       <div className="post-work-wrap">
         <div className="left-side">
           <div className="inside-field">
@@ -105,11 +101,7 @@ const PostWork = () => {
                 }}
               />
 
-              <button
-                id="upload-btn"
-                onClick={onClickUpload}
-                disabled={!fileSelected}
-              >
+              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
                 작품 보내기
               </button>
             </div>
@@ -122,7 +114,6 @@ const PostWork = () => {
           }}
         ></div>
       </div>
-      <Footer />
     </div>
   );
 };

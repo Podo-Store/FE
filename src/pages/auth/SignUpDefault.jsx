@@ -2,12 +2,10 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
+import Loading from "../Loading";
 
 import { Box } from "../../components/auth";
 import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../components/auth/signUp";
-import Loading from "../Loading";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -71,7 +69,6 @@ const SignUpDefault = () => {
 
   return (
     <div>
-      <MainNav />
       <div className="sign-up-default">
         <div style={{ height: "18.519vh" }}></div>
         <Box>
@@ -112,7 +109,6 @@ const SignUpDefault = () => {
           </div>
         </Box>
       </div>
-      <Footer />
     </div>
   );
 };

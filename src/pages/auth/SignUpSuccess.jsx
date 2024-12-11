@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import BottomBtn from "../../components/auth/BottomBtn";
 import Box from "../../components/auth/Box";
 import RectangleForm from "../../components/auth/RectangleForm";
@@ -16,7 +13,6 @@ function SignUpSuccess() {
 
   return (
     <div className="signUpSuccess">
-      <MainNav />
       <div className="signUp-success-wrap">
         <Box>
           <RectangleForm>
@@ -26,7 +22,6 @@ function SignUpSuccess() {
           </RectangleForm>
         </Box>
       </div>
-      <Footer />
     </div>
   );
 }

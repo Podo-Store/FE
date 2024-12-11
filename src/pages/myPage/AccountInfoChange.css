@@ -1,7 +1,6 @@
 .account-info-change .account-info-change-wrap {
   display: flex;
-  margin: 6.66vh 16.5%;
-  min-height: 80vh;
+  margin: 6.66vh 0;
 }
 
 .account-info-change .content-side {

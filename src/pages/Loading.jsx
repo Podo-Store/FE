@@ -1,13 +1,10 @@
 import { SyncLoader } from "react-spinners";
-import MainNav from "./MainNav";
-import Footer from "./Footer";
 
 import "./Loading.css";
 
 const Loading = () => {
   return (
     <div className="Loading">
-      <MainNav />
       <div className="loading-wrap">
         <SyncLoader color="#6b39c0" margin={12} />
         <p>로딩중</p>
@@ -24,7 +21,6 @@ const Loading = () => {
           <p>헤헤히히 관극 가는 중</p>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

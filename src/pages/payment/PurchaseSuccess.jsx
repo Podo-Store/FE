@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import OnOffBtn from "../../components/button/OnOffBtn";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import Loading from "../Loading";
@@ -66,7 +63,6 @@ const PurchaseSuccess = () => {
 
   return (
     <div className="PurchaseSuccess">
-      <MainNav />
       <div className="purchase-success">
         <div className="purchase-success-content">
           <h1>대본 구매가 완료되었습니다.</h1>
@@ -107,7 +103,6 @@ const PurchaseSuccess = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

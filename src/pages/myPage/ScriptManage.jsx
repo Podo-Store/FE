@@ -2,9 +2,6 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import {
   MyPageMenu,
   ScriptContent,
@@ -49,7 +46,6 @@ const ScriptManage = () => {
 
   return (
     <div className="myPage-contents-default">
-      <MainNav />
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="1" />
         <div className="content-side">
@@ -68,7 +64,6 @@ const ScriptManage = () => {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

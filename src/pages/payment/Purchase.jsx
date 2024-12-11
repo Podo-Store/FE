@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import OnOffBtn from "../../components/button/OnOffBtn";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import AmountChange from "../../components/detail/AmountChange";
@@ -225,7 +222,6 @@ const Purchase = () => {
 
   return (
     <div className="purchase">
-      <MainNav />
       <div className="purchase-wrap">
         <h5 className="h5-bold">결제</h5>
         <div className="purchase-flex">
@@ -391,7 +387,6 @@ const Purchase = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

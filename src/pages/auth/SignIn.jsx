@@ -2,10 +2,8 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import Loading from "../Loading";
+
 import { BottomBtn, Box, RectangleForm } from "../../components/auth";
 import { AuthInputField, AuthPwInputField } from "../../components/inputField";
 
@@ -77,7 +75,6 @@ function SignIn() {
 
   return (
     <div className="signIn">
-      <MainNav />
       <div className="signIn-wrap">
         <Box>
           <RectangleForm onSubmit={onClickConfirmButton}>
@@ -143,7 +140,6 @@ function SignIn() {
           </RectangleForm>
         </Box>
       </div>
-      <Footer />
     </div>
   );
 }

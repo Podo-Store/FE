@@ -1,39 +1,21 @@
 .myPage-menu-side {
   position: relative;
 
+  width: 305px;
   margin-right: 6.719vw;
-  width: 15.885vw;
-  min-width: 244px;
 }
 
 .myPage-menu-inside {
-  width: 15.885vw;
-  min-width: 244px;
+  width: 305px;
   height: 80vh;
 }
 
-.myPage-menu-side h1 {
+.myPage-menu-side h3.nickname {
   margin-bottom: 2vh;
-  color: #000;
-
-  /* H3/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.75rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 2.25rem; /* 128.571% */
 }
 
-.myPage-menu-side h3 {
+.myPage-menu-side h5.text {
   margin-bottom: 5vh;
-  color: #000;
-
-  /* H5/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.75rem; /* 140% */
 }
 
 .myPage-menu-side .select-menu-btn {
@@ -54,18 +36,6 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-.myPage-menu-side .select-menu-btn h6 {
-  margin: 0;
-  color: #000;
-
-  /* Paragraph/Medium/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.5rem; /* 150% */
-}
-
 .myPage-menu-side .selected {
   border: 5px solid var(--Main, #6a39c0);
   padding-left: 23.24px;
@@ -80,19 +50,8 @@
   transform: translate(0, 5px);
 }
 
-.myPage-menu-side .myPage-menu-inside .myPage-menu-inside-content > p {
+.myPage-menu-side p.info-change-btn {
   margin-top: 4.5vh;
-  color: #000;
-  text-decoration: underline;
-
-  cursor: pointer;
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 142.857% */
 }
 
 .myPage-menu-side #grey-rectangle {

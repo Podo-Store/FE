@@ -1,5 +1,5 @@
 .Not-Found .not-found {
-  padding: 15vh 0;
+  padding: 16.667vh 0;
   text-align: center;
 }
 
@@ -9,7 +9,6 @@
   color: var(--Main, #6a39c0);
 
   /* BIG */
-  font-family: "Noto Sans KR";
   font-size: 8rem;
   font-style: normal;
   font-weight: 700;
@@ -19,11 +18,4 @@
 
 .Not-Found .not-found p {
   color: var(--grey6, #777);
-
-  /* Paragraph/Large/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 155.556% */
 }

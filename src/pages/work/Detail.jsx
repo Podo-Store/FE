@@ -4,10 +4,8 @@ import { useEffect, useState, useRef } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import Loading from "../Loading";
+
 import AmountChange from "../../components/detail/AmountChange";
 import Preview from "../../components/detail/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
@@ -25,7 +23,6 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
-import samplePDF from "./../../assets/sample.pdf";
 
 import "./Detail.css";
 import "./../../styles/text.css";
@@ -217,7 +214,6 @@ const Detail = () => {
 
   return (
     <div className="detail">
-      <MainNav />
       <div className="detail-wrap">
         <div className="d-flex">
           <div className="detail-thumbnail-wrap">
@@ -408,7 +404,6 @@ const Detail = () => {
           </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 };

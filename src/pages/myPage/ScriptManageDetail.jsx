@@ -3,10 +3,8 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import Loading from "../Loading";
+
 import GoBack from "../../components/button/GoBack";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import FileInputBox from "../../components/file/FileInputBox";
@@ -190,7 +188,6 @@ const ScriptManageDetail = () => {
 
   return (
     <div className="script-manage-detail">
-      <MainNav />
       <div className="script-manage-detail-wrap">
         <GoBack url="/mypage/scriptmanage" />
 
@@ -343,7 +340,6 @@ const ScriptManageDetail = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

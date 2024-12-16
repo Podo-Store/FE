@@ -1,6 +1,5 @@
 .purchase .purchase-wrap {
-  margin: 6.66vh 15vw;
-  min-height: 80vh;
+  margin: 6.66vh 0;
 }
 
 .purchase .purchase-wrap p#subtitle {

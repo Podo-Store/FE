@@ -31,8 +31,8 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
         }
       >
         <div className="myPage-menu-inside-content">
-          <h1>{nickname} 님,</h1>
-          <h3>오늘도 달콤한 하루 되세요!</h3>
+          <h3 className="nickname h3-bold">{nickname} 님,</h3>
+          <h5 className="text h5-regular">오늘도 달콤한 하루 되세요!</h5>
           <div
             className={
               currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"
@@ -41,7 +41,7 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
               navigate("/mypage/purchased");
             }}
           >
-            <h6>구매한 작품</h6>
+            <p className="p-medium-regular">구매한 작품</p>
             <img src={scriptMenuImg} alt="scriptMenu"></img>
           </div>
           <div
@@ -52,10 +52,11 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
               navigate("/mypage/scriptmanage");
             }}
           >
-            <h6>작품 관리</h6>
+            <p className="p-medium-regular">작품 관리</p>
             <img src={pencilMenuImg} alt="pencilMenu"></img>
           </div>
           <p
+            className="p-small-under c-pointer info-change-btn"
             onClick={() => {
               navigate("/mypage/infochange");
             }}

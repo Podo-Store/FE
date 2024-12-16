@@ -1,0 +1,48 @@
+.__margin-layout__ {
+  display: grid;
+  grid-template-columns: 320px 1fr 320px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 콘텐츠 영역을 중앙에 배치 */
+.__margin-layout__ > * {
+  grid-column: 2 / 3;
+  max-width: 1280px;
+}
+
+@media (max-width: 1920px) {
+  .__margin-layout__ {
+    grid-template-columns: 320px 1fr 320px;
+  }
+}
+
+@media (max-width: 1600px) {
+  .__margin-layout__ {
+    grid-template-columns: 160px 1fr 160px;
+  }
+}
+
+@media (max-width: 1280px) {
+  .__margin-layout__ {
+    grid-template-columns: 80px 1fr 80px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .__margin-layout__ {
+    grid-template-columns: 40px 1fr 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .__margin-layout__ {
+    grid-template-columns: 20px 1fr 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .__margin-layout__ {
+    grid-template-columns: 10px 1fr 10px;
+  }
+}

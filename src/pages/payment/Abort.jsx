@@ -1,8 +1,5 @@
 import { useNavigate } from "react-router-dom";
 
-import MainNav from "../MainNav";
-import Footer from "../Footer";
-
 import "./Abort.css";
 
 const Abort = () => {
@@ -10,7 +7,6 @@ const Abort = () => {
 
   return (
     <div className="purchase-abort">
-      <MainNav />
       <div className="purchase-abort-wrap">
         <div className="purchase-abort-content">
           <h5>결제를 실패하였습니다.</h5>
@@ -24,7 +20,6 @@ const Abort = () => {
           </button>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

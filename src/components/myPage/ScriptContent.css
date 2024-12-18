@@ -1,3 +1,8 @@
+.script-content .date {
+  margin-top: 6px;
+  margin-left: 5px;
+}
+
 .script-content hr {
   border: 1px solid #b489ff;
   margin: 0;

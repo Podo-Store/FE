@@ -1,10 +1,10 @@
-.delete-complete {
-  margin-top: 6.667vh;
-}
-
 .delete-complete .delete-complete-wrap {
   display: flex;
   align-items: flex-start;
+
+  position: relative;
+
+  margin-top: 72px;
 }
 
 .delete-complete .delete-complete-box {
@@ -15,8 +15,11 @@
 }
 
 .delete-complete .delete-complete-wrap img {
-  background: #fdfaff;
-  transform: translate(-26.25rem, -1.5rem);
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
 }
 
 .delete-complete .delete-complete-box p {

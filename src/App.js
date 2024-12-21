@@ -34,6 +34,7 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/text.css";
 import "./styles/utilities.css";
+import AccountDelete from "./pages/myPage/AccountDelete/AccountDelete";
 
 function App() {
   return (
@@ -102,6 +103,7 @@ function App() {
                 <Route path="test/loading" element={<Loading />} />
                 <Route path="test/404" element={<NotFound />} />
                 <Route path="test/signup" element={<SignUpDefault />} />
+                <Route path="test/delete" element={<AccountInfoChange />} />
               </Route>
             </Route>
           </Routes>

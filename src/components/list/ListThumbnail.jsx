@@ -23,11 +23,10 @@ const ListThumbnail = ({
     <div className="list-thumbnail" onClick={onClick}>
       <ThumbnailImg imagePath={thumbnailImg} />
       <div className="description">
-        <h5>{title}</h5>
-        <h5 id="author">{author}</h5>
-        <div className="price">
-          <PriceTextsHorizontal scriptPrice={scriptPrice} performPrice={performPrice} />
-        </div>
+        <p className="p-large-bold">{title}</p>
+        <p className="p-medium-bold">{author}</p>
+
+        <PriceTextsHorizontal scriptPrice={scriptPrice} performPrice={performPrice} />
       </div>
     </div>
   );

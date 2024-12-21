@@ -8,27 +8,9 @@
   gap: 0.5rem;
 
   margin: 0.4rem 0;
-  margin-left: 0.5vw;
 }
 
-.list-thumbnail .description h5 {
+.list-thumbnail .description p {
   overflow: hidden;
-  color: #000;
   text-overflow: ellipsis;
-
-  /* Paragraph/Large/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.125rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 155.556% */
-}
-
-.list-thumbnail .description h5#author {
-  font-size: 1rem;
-  line-height: 1.5rem; /* 150% */
-}
-
-.list-thumbnail .price {
-  margin-left: 0.25rem;
 }

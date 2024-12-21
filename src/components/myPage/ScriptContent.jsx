@@ -38,7 +38,7 @@ const ScriptContent = ({
 
   return (
     <div key={index} className="script-content">
-      <p className="p-large-bold c-grey-8f8f8f">{formattedDate}</p>
+      <p className="date p-large-bold c-grey-8f8f8f">{formattedDate}</p>
       <hr></hr>
       {items.map((script) => (
         <div key={script.id}>

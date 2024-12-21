@@ -1,4 +1,7 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+
+import AuthContext from "../../../contexts/AuthContext";
 
 import check from "../../../assets/image/myPage/check.svg";
 
@@ -6,6 +9,7 @@ import "./AccountDeleteSuccess.css";
 
 const AccountDeleteSuccess = () => {
   const navigate = useNavigate();
+  const { logout } = useContext(AuthContext);
   return (
     <div className="delete-complete">
       <h1>계정 삭제</h1>
@@ -20,6 +24,7 @@ const AccountDeleteSuccess = () => {
       <button
         className="main-page-btn"
         onClick={() => {
+          logout();
           navigate("/");
         }}
       >

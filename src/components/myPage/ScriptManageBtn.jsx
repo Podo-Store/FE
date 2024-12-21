@@ -21,14 +21,14 @@ const ScriptManageBtn = ({ reviewCompleted, id }) => {
               <div> </div>
 
               <div className="d-flex" style={{ gap: "19px" }}>
-                <Button
+                {/* <Button
                   color="white"
                   onClick={() => {
                     navigate(`/mypage/scriptmanage/askedperform/${id}`);
                   }}
                 >
                   신청된 공연
-                </Button>
+                </Button> */}
                 <Button
                   onClick={() => {
                     navigate(`/mypage/scriptmanage/detail/${id}`);

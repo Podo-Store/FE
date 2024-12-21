@@ -4,8 +4,8 @@
   flex-shrink: 0;
 
   border-radius: 20px;
-  border: 1px solid var(--grey-grey-6, #777);
-  background: #FFFFFF;
+  border: 1px solid var(--grey-grey-3, #e2e2e2);
+  background: #ffffff;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

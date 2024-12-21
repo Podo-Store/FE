@@ -5,6 +5,7 @@ import MarginLayout from "./layouts/MarginLayout";
 
 import MainVer1 from "./pages/MainVer1";
 import PolicyBar from "./pages/footer/PolicyBar";
+import AdminSwitch from "./pages/admin/AdminSwitch";
 import SignUpDefault from "./pages/auth/SignUpDefault";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
@@ -33,6 +34,7 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/text.css";
 import "./styles/utilities.css";
+import AccountDelete from "./pages/myPage/AccountDelete/AccountDelete";
 
 function App() {
   return (
@@ -43,6 +45,9 @@ function App() {
             <Route path="/" element={<DefaultLayout />}>
               <Route index element={<MainVer1 />} />
               <Route element={<MarginLayout />}>
+                <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
+                <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
+
                 <Route path="policy/:id" element={<PolicyBar />} />
 
                 <Route path="signup" element={<SignUpDefault />} />
@@ -98,6 +103,7 @@ function App() {
                 <Route path="test/loading" element={<Loading />} />
                 <Route path="test/404" element={<NotFound />} />
                 <Route path="test/signup" element={<SignUpDefault />} />
+                <Route path="test/delete" element={<AccountInfoChange />} />
               </Route>
             </Route>
           </Routes>

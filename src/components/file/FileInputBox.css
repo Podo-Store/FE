@@ -1,7 +1,14 @@
-.file-input-box > p {
-  margin-top: 1.5rem;
-  margin-left: 1.5rem;
+.file-input-box .title {
+  gap: 10px;
 
+  position: relative;
+
+  margin-top: 2.222vh;
+  margin-left: 1.5rem;
+  margin-bottom: 0.63rem;
+}
+
+.file-input-box > p {
   color: #000;
 
   /* Paragraph/Large/Bold */
@@ -10,6 +17,14 @@
   font-style: normal;
   font-weight: 700;
   line-height: 1.75rem; /* 155.556% */
+}
+
+.file-input-box img#info-btn {
+  width: 20px;
+  height: 20px;
+
+  /* #BABABA */
+  filter: invert(74%) sepia(13%) saturate(0%) hue-rotate(220deg) brightness(99%) contrast(91%);
 }
 
 .file-input-box .input-box-content {
@@ -41,11 +56,6 @@
   margin: 0;
   margin-top: 1.75rem;
   margin-bottom: 1%;
-}
-
-.file-input-box .input-box-content image {
-  width: 2.5rem;
-  cursor: pointer;
 }
 
 .file-input-box .input-box-content p#pdf {

@@ -21,6 +21,7 @@
 
   border-radius: 5px;
   border: 0.5px solid #000;
+  box-sizing: border-box;
 
   color: #000;
 

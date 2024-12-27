@@ -1,6 +1,7 @@
 .select {
   width: 100%;
 
+  box-sizing: border-box;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;

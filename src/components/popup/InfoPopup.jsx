@@ -9,9 +9,12 @@ import "./../../styles/text.css";
  * @param {function} props.onClose: 팝업을 닫을 때 호출할 함수
  * @param props.style - padding, left 사용 권장.
  * @param {string} props.buttonId: 팝업을 띄우는 버튼의 id (e.g. "popup-btn2")
+ *
+ * @param {string} message - 팝업 메시지
+ * @param {string} message2 - 두 번째 팝업 메시지 (존재 시 상단 구분 바 (---) 생성 및 아래에 출력)
  * @returns
  */
-const InfoPopup = ({ message, onClose, style, buttonId }) => {
+const InfoPopup = ({ message, onClose, style, buttonId, message2 }) => {
   const popupRef = useRef(null); // InfoPopup 컴포넌트의 DOM 요소를 참조
 
   useEffect(() => {
@@ -56,6 +59,17 @@ const InfoPopup = ({ message, onClose, style, buttonId }) => {
           </p>
         ))
       }
+      {message2 ? (
+        <>
+          <hr />
+          {message2.split("\n").map((line, index) => (
+            <p key={index} className="p-xs-regular c-black">
+              {line}
+              <br />
+            </p>
+          ))}
+        </>
+      ) : null}
     </div>
   );
 };

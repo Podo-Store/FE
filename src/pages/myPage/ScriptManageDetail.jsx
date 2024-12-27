@@ -74,6 +74,13 @@ const ScriptManageDetail = () => {
   });
 
   useEffect(() => {
+    // 줄거리 입력 시 줄거리 글자 수 제한
+    if (plot.length > 150) {
+      setPlot(plot.slice(0, 150));
+    }
+  }, [plot]);
+
+  useEffect(() => {
     if (saleScriptStatus && salePerformStatus) {
       setSelectedOption("scriptPerformSale");
     } else if (saleScriptStatus) {

@@ -21,6 +21,7 @@ import "./../../styles/text.css";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
+  const [plot, setPlot] = useState("");
   const [scriptPrice, setScriptPrice] = useState("0");
   const [performPrice, setPerformPrice] = useState("0");
   // getThumbnailImgUrl: API 요청으로부터 받아온 이미지 URL
@@ -59,6 +60,7 @@ const ScriptManageDetail = () => {
         },
       });
       setTitle(response.data.title);
+      setPlot(response.data.plot);
       setScriptPrice(response.data.scriptPrice);
       setPerformPrice(response.data.performancePrice);
       setGetThumbnailImgUrl(response.data.imagePath);
@@ -70,6 +72,13 @@ const ScriptManageDetail = () => {
     }
     setIsLoading(false);
   });
+
+  useEffect(() => {
+    // 줄거리 입력 시 줄거리 글자 수 제한
+    if (plot.length > 150) {
+      setPlot(plot.slice(0, 150));
+    }
+  }, [plot]);
 
   useEffect(() => {
     if (saleScriptStatus && salePerformStatus) {
@@ -122,6 +131,7 @@ const ScriptManageDetail = () => {
       formData.append("performance", updatedSalePerformStatus);
       formData.append("scriptPrice", scriptPrice);
       formData.append("performancePrice", performPrice);
+      formData.append("plot", plot);
 
       if (InputtedThumbnailImgFile) {
         // 이미지를 변경한 경우
@@ -216,127 +226,131 @@ const ScriptManageDetail = () => {
                     setTitle(e.target.value);
                   }}
                 />
-
-                {/* 가격 0원으로 고정 */}
-                {/* <RectInputField
-                  type="number"
-                  placeholder="대본 가격을 숫자로 입력해주세요."
-                  value={scriptPrice}
+                <textarea
+                  className="plot p-small-regular"
+                  placeholder="간단한 줄거리를 입력해주세요."
+                  value={plot}
                   onChange={(e) => {
-                    setScriptPrice(e.target.value);
+                    setPlot(e.target.value);
                   }}
-                />
-                <RectInputField
-                  type="number"
-                  placeholder="공연권 가격을 숫자로 입력해주세요."
-                  value={performPrice}
-                  onChange={(e) => {
-                    setPerformPrice(e.target.value);
-                  }}
-                /> */}
-                <RectInputField
-                  type="number"
-                  placeholder="대본 가격을 숫자로 입력해주세요."
-                  value={scriptPrice}
-                  readOnly={true}
-                />
-                <RectInputField
-                  type="number"
-                  placeholder="공연권 가격을 숫자로 입력해주세요."
-                  value={performPrice}
-                  readOnly={true}
                 />
               </div>
             </div>
           </div>
-          <div className="d-flex" id="select-wrap">
-            <div id="select">
-              <p className="p-medium-bold">대본 판매 상태</p>
-              <Select
-                value={saleScriptStatus ? "scriptSale" : "notSale"}
-                onChange={(event) => {
-                  setSaleScriptStatus(event.target.value === "scriptSale");
-                }}
-                style={{ height: "2.125rem" }}
-              >
-                <option value="notSale">판매 중지</option>
-                <option value="scriptSale">판매</option>
-              </Select>
-            </div>
-            <div id="select">
-              <p className="p-medium-bold">공연권 판매 상태</p>
-              <Select
-                value={salePerformStatus ? "performSale" : "notSale"}
-                onChange={(event) => {
-                  setSalePerformStatus(event.target.value === "performSale");
-                }}
-                style={{ height: "2.125rem" }}
-              >
-                <option value="notSale">판매 중지</option>
-                <option value="performSale">판매</option>
-              </Select>
-            </div>
-          </div>
-          <div className="description-wrap">
-            <FileInputBox
-              title="작품 설명"
-              onFileUpload={(file) => {
-                setUploadedFile(file);
-              }}
-              style={{ width: "39.3125rem" }}
-              titleStyle={{
-                margin: "0",
-                marginTop: "2.222vh",
-                marginBottom: "0.63rem",
-                fontSize: "1rem",
-                fontStyle: "normal",
-                fontWeight: "700",
-                lineHeight: "1.5rem",
-              }}
-            />
-
-            <div className="bottom-wrap">
-              <div className="btn-wrap">
-                <SmallOnOffBtn color="white" onClick={() => navigate("/mypage/scriptmanage")}>
-                  취소하기
-                </SmallOnOffBtn>
-                <SmallOnOffBtn
-                  color="purple"
-                  disabled={title === "" || scriptPrice === "" || performPrice === ""}
-                  onClick={onClickModifyBtn}
-                >
-                  수정하기
-                </SmallOnOffBtn>
+          <div className="detail-wrap">
+            <div id="select-wrap">
+              <div id="select">
+                <p className="title p-medium-bold">대본 정보</p>
+                <div className="select-inside d-flex">
+                  <RectInputField
+                    type="number"
+                    placeholder="대본 가격을 숫자로 입력해주세요."
+                    value={scriptPrice}
+                    onChange={(e) => {
+                      setScriptPrice(e.target.value);
+                    }}
+                  />
+                  <Select
+                    value={saleScriptStatus ? "scriptSale" : "notSale"}
+                    onChange={(event) => {
+                      setSaleScriptStatus(event.target.value === "scriptSale");
+                    }}
+                    style={{ width: "197px", height: "40px" }}
+                  >
+                    <option value="notSale">판매 중지</option>
+                    <option value="scriptSale">판매</option>
+                  </Select>
+                </div>
+              </div>
+              <div style={{ height: "15px" }}></div>
+              <div id="select">
+                <p className="title p-medium-bold">공연권 정보</p>
+                <div className="select-inside d-flex">
+                  <RectInputField
+                    type="number"
+                    placeholder="대본 가격을 숫자로 입력해주세요."
+                    value={performPrice}
+                    onChange={(e) => {
+                      setPerformPrice(e.target.value);
+                    }}
+                  />
+                  <Select
+                    value={salePerformStatus ? "performSale" : "notSale"}
+                    onChange={(event) => {
+                      setSalePerformStatus(event.target.value === "performSale");
+                    }}
+                    style={{ width: "197px", height: "40px" }}
+                  >
+                    <option value="notSale">판매 중지</option>
+                    <option value="performSale">판매</option>
+                  </Select>
+                </div>
               </div>
             </div>
-            <div className="j-content-end">
-              <p
-                id="delete"
-                onClick={() => {
-                  setShowDeleteAlertBox(true);
-                }}
-              >
-                작품 삭제
-              </p>
-            </div>
-            {showDeleteAlertBox ? (
-              <div id="delete-alert-box" className="f-dir-column j-content-between a-items-center">
-                <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
-                <div id="btn-wrap" className="d-flex">
-                  <SmallOnOffBtn color="grey" onClick={onClickDeleteConfirm}>
-                    삭제하기
+            <div className="description-wrap">
+              <div className="a-items-center">
+                <FileInputBox
+                  title="작품 설명"
+                  infoText={"작품 설명은 5페이지 이내의\n PDF 형식 파일만 가능해요."}
+                  onFileUpload={(file) => {
+                    setUploadedFile(file);
+                  }}
+                  style={{ width: "39.3125rem" }}
+                  titleStyle={{
+                    fontSize: "1rem",
+                    fontStyle: "normal",
+                    fontWeight: "700",
+                    lineHeight: "1.5rem",
+                  }}
+                />
+              </div>
+
+              <div className="bottom-wrap">
+                <div className="btn-wrap">
+                  <SmallOnOffBtn color="white" onClick={() => navigate("/mypage/scriptmanage")}>
+                    취소하기
                   </SmallOnOffBtn>
                   <SmallOnOffBtn
                     color="purple"
-                    onClick={() => {
-                      setShowDeleteAlertBox(false);
-                    }}
+                    disabled={title === "" || scriptPrice === "" || performPrice === ""}
+                    onClick={onClickModifyBtn}
                   >
-                    취소하기
+                    수정하기
                   </SmallOnOffBtn>
                 </div>
               </div>
-            ) : null}
+              <div className="j-content-end">
+                <p
+                  id="delete"
+                  onClick={() => {
+                    setShowDeleteAlertBox(true);
+                  }}
+                >
+                  작품 삭제
+                </p>
+              </div>
+              {showDeleteAlertBox ? (
+                <div
+                  id="delete-alert-box"
+                  className="f-dir-column j-content-between a-items-center"
+                >
+                  <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
+                  <div id="btn-wrap" className="d-flex">
+                    <SmallOnOffBtn color="grey" onClick={onClickDeleteConfirm}>
+                      삭제하기
+                    </SmallOnOffBtn>
+                    <SmallOnOffBtn
+                      color="purple"
+                      onClick={() => {
+                        setShowDeleteAlertBox(false);
+                      }}
+                    >
+                      취소하기
+                    </SmallOnOffBtn>
+                  </div>
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>

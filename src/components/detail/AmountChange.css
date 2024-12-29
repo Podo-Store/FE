@@ -2,9 +2,10 @@
   gap: 10px;
 }
 
-.amount-change p:last-child {
-  margin-left: 27px;
+.amount-change > p {
+  /* margin-left: 27px;
 
-  min-width: 84px;
-  text-align: right;
+  min-width: 84px; */
+  min-width: 22px;
+  text-align: center;
 }

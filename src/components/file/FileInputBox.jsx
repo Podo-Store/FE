@@ -5,11 +5,15 @@ import { useNavigate } from "react-router-dom";
 
 import download from "./../../assets/image/fileInput/download.svg";
 import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
+import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 
 import "./FileInputBox.css";
+import InfoPopup from "../popup/InfoPopup";
 
-const FileInputBox = ({ title, onFileUpload, style, titleStyle }) => {
+const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
+
+  const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   const onDrop = useCallback(
@@ -51,7 +55,37 @@ const FileInputBox = ({ title, onFileUpload, style, titleStyle }) => {
 
   return (
     <div className="file-input-box">
-      {title ? <p style={{ ...titleStyle }}>{title}</p> : null}
+      <div className="title j-content-start a-items-center">
+        {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}
+        {infoText ? (
+          <>
+            <img
+              id="info-btn"
+              className="c-pointer"
+              src={circleInfoBtn}
+              alt="circleInfoBtn"
+              onClick={() => {
+                setShowPopup(!showPopup);
+              }}
+            />
+            {showPopup ? (
+              <InfoPopup
+                message={"작품 설명은 5페이지 이내의\n PDF 형식 파일만 가능해요."}
+                onClose={() => {
+                  setShowPopup(!showPopup);
+                }}
+                style={{
+                  top: "unset",
+                  bottom: "0",
+                  padding: "11px",
+                  transform: "translate(calc(20px + 75px), 0)",
+                }}
+                buttonId="info-btn"
+              />
+            ) : null}
+          </>
+        ) : null}
+      </div>
       <div
         className="input-box-content"
         {...getRootProps({ onClick: handleClick })} // handleClick 함수를 getRootProps에 전달

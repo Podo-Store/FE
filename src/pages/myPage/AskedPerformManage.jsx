@@ -1,11 +1,20 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import GoBack from "../../components/button/GoBack";
 import RoundBtnLargeBold from "../../components/button/RoundBtnLargeBold";
 import RoundBtnXsBold from "../../components/button/RoundBtnXsBold";
 import { AuthInputField } from "../../components/inputField";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
+
+import { useRequest } from "../../hooks/useRequest";
+
+import formatDateCutSec from "../../utils/formatDateCutSec";
+import { formatPrice } from "../../utils/formatPrice";
+
+import { SERVER_URL } from "../../constants/ServerURL";
 
 import listCloseBtn from "../../assets/image/button/listCloseBtn.svg";
 import listOpenBtn from "../../assets/image/button/listOpenBtn.svg";
@@ -14,47 +23,48 @@ import "./AskedPerformManage.css";
 import "./PerformanceTop.css";
 
 const AskedPerformManage = () => {
-  const [isExist, setIsExist] = useState(false);
-  const [list, setList] = useState([
-    {
-      date: "2024-01-01",
-      open: false,
-      lists: [
-        {
-          name: "테스트",
-          phone: "010-1234-5678",
-          address: "서울특별시 강남구",
-          performDate: ["2024-01-01 13:00", "2024-02-02 15:00"],
-        },
-        {
-          name: "홍길동",
-          phone: "010-8765-4321",
-          address: "부산광역시 해운대구",
-          performDate: ["2024-01-02 14:00", "2024-02-03 16:00"],
-        },
-      ],
-    },
-    {
-      date: "2024-01-02",
-      open: false,
-      lists: [
-        {
-          name: "홍길동",
-          phone: "010-8765-4321",
-          address: "부산광역시 해운대구",
-          performDate: ["2024-01-02 14:00", "2024-02-03 16:00"],
-        },
-        {
-          name: "테스트",
-          phone: "010-1234-5678",
-          address: "서울특별시 강남구",
-          performDate: ["2024-01-01 13:00", "2024-02-02 15:00"],
-        },
-      ],
-    },
-  ]);
+  const [isExist, setIsExist] = useState(true);
+  const [list, setList] = useState([]);
+  const [productInfo, setProductInfo] = useState({});
+
+  const { id } = useParams();
   const navigate = useNavigate();
 
+  useRequest(async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}profile/requested`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+        params: {
+          id,
+        },
+      });
+
+      setProductInfo(response.data.productInfo);
+      // 공연 신청 정보가 없을 때
+      if (response.data.dateRequestedList.length === 0) {
+        setIsExist(false);
+        return;
+      }
+      const mappedList = response.data.dateRequestedList.map((item) => ({
+        date: item.date,
+        lists: item.requestedInfo.map((subItem) => ({
+          amount: subItem.amount,
+          name: subItem.name,
+          phone: subItem.phoneNumber,
+          address: subItem.address,
+          performDate: subItem.performanceDateList.map((dateObj) => {
+            return formatDateCutSec(dateObj.date);
+          }),
+        })),
+      }));
+      setList(mappedList);
+    } catch (error) {
+      alert(error.response.data.error);
+    }
+  }, []);
   return (
     <div className="asked-perform-manage">
       <div className="min-height perform-info perform-top">
@@ -68,29 +78,27 @@ const AskedPerformManage = () => {
             <div className="script-info-title f-dir-column a-items-center">
               <ThumbnailImg />
               <div style={{ height: "12px" }}></div>
-              <p className="p-large-bold">작품 제목</p>
+              <p className="p-large-bold">{productInfo.title || "제목"}</p>
               <hr />
-              <p className="p-large-medium">작가</p>
-              <p className="summary p-small-regular t-center">
-                줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리줄거리
-              </p>
+              <p className="p-large-medium">{productInfo.writer || "작가"}</p>
+              <p className="summary p-small-regular t-center">{productInfo.plot || "줄거리"}</p>
             </div>
             <div className="sales-status-box-wrap f-dir-column">
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">대본</p>
                   <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
-                    대본 판매 중
+                    {productInfo.script ? "대본 판매 중" : "대본 판매 중지"}
                   </RoundBtnXsBold>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">20,000원</p>
+                    <p className="p-small-regular">{formatPrice(productInfo.scriptPrice)}원</p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">N개</p>
+                    <p className="p-small-regular">{productInfo.scriptQuantity}개</p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -99,17 +107,17 @@ const AskedPerformManage = () => {
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">공연권</p>
                   <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
-                    공연권 판매 중
+                    {productInfo.perform ? "공연권 판매 중" : "공연권 판매 중지"}
                   </RoundBtnXsBold>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">20,000원</p>
+                    <p className="p-small-regular">{formatPrice(productInfo.performancePrice)}원</p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">N개</p>
+                    <p className="p-small-regular">{productInfo.performanceQuantity}개</p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -117,7 +125,7 @@ const AskedPerformManage = () => {
             </div>
           </div>
           <div className="asked-perform-wrap">
-            {!isExist ? (
+            {isExist ? (
               list.map((item, index) => (
                 <div
                   key={index}
@@ -186,6 +194,18 @@ const AskedPerformManage = () => {
                                 style={{ width: "355px", height: "42px" }}
                               />
                             ))}
+                            {subItem.performDate.length < subItem.amount &&
+                              Array.from(
+                                { length: subItem.amount - subItem.performDate.length },
+                                (_, index) => (
+                                  <AuthInputField
+                                    key={index}
+                                    value="미 입력"
+                                    readOnly={true}
+                                    style={{ width: "355px", height: "42px" }}
+                                  />
+                                )
+                              )}
                           </div>
                         </div>
                         {

@@ -18,7 +18,8 @@ a,
 li,
 input,
 button,
-label {
+label,
+textarea {
   margin: 0;
 
   /* 전역 설정 */

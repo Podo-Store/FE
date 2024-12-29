@@ -64,6 +64,8 @@
 }
 
 .asked-perform-manage .contents .asked-perform-wrap {
+  padding-top: 3.426vh;
+
   width: fit-content;
 
   box-sizing: border-box;
@@ -75,7 +77,6 @@
 }
 
 .asked-perform-manage .contents .asked-perform-wrap .asked-perform-box {
-  padding-top: 3.426vh;
   padding-left: 2.917vw;
   padding-right: 2.969vw;
   padding-bottom: 1.204vh;

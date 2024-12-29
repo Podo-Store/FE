@@ -21,6 +21,7 @@ import { DETAIL_SCRIPT_TEXT, DETAIL_PERFORM_TEXT } from "../../constants/PopupTe
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
+import closeBtn from "./../../assets/image/button/aiOutlineClose.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import vector23 from "./../../assets/image/post/vector23.svg";
@@ -310,9 +311,19 @@ const Detail = () => {
                         </div>
                         <div className="a-items-center" id="detail-amount-price">
                           <p className="p-large-medium">1</p>
-                          <p className="p-large-medium" id="price">
-                            {formatPrice(scriptPrice)} 원
-                          </p>
+                          <div className="a-items-center" style={{ gap: "39px" }}>
+                            <p className="p-large-medium" id="price">
+                              {formatPrice(scriptPrice)} 원
+                            </p>
+                            <img
+                              className="c-pointer"
+                              src={closeBtn}
+                              alt="X"
+                              onClick={() => {
+                                setSelectedOption("");
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
                     ) : null}
@@ -332,10 +343,24 @@ const Detail = () => {
                             purchasePerformAmount={purchasePerformAmount}
                             setPurchasePerformAmount={setPurchasePerformAmount}
                           />
-
-                          <p className="p-large-medium" id="price">
-                            {formatPrice(purchasePerformAmount * performPrice)} 원
-                          </p>
+                          <div className="a-items-center" style={{ gap: "39px" }}>
+                            <p className="p-large-medium" id="price">
+                              {formatPrice(purchasePerformAmount * performPrice)} 원
+                            </p>
+                            <img
+                              className="c-pointer"
+                              src={closeBtn}
+                              alt="X"
+                              onClick={() => {
+                                if (selectedOption === "perform") {
+                                  setSelectedOption("");
+                                } else {
+                                  // selectedOption === "scriptPerform"
+                                  setSelectedOption("script");
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
                       </div>
                     ) : null}

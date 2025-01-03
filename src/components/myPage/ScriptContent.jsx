@@ -48,7 +48,7 @@ const ScriptContent = ({
               <div className="script-tag">
                 <div
                   className={`a-items-center ${
-                    currentPage === "1" && script.checked ? "j-content-between" : ""
+                    currentPage === "1" && script.checked === "PASS" ? "j-content-between" : ""
                   }`}
                   id="title"
                 >
@@ -67,7 +67,7 @@ const ScriptContent = ({
                   )}
                   {showPopup ? <ScriptContentPopup onClose={() => setShowPopup(false)} /> : null}
                   {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-                  {currentPage === "1" && script.checked ? (
+                  {currentPage === "1" && script.checked === "PASS" ? (
                     <ScriptManageTopBtn script={script} />
                   ) : null}
                 </div>
@@ -75,7 +75,7 @@ const ScriptContent = ({
                 <p className="p-large-medium" id="author">
                   {!script.delete ? script.writer : "삭제된 계정"}
                 </p>
-                {currentPage === "1" && !script.checked ? (
+                {currentPage === "1" && script.checked === "WAIT" ? (
                   // 작품 관리 페이지에서 심사 중인 작품일 경우
                   <div className="margin-43_4px"></div>
                 ) : currentPage === "0" ? (

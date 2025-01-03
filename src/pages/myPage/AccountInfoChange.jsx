@@ -13,11 +13,11 @@ import "./../../styles/utilities.css";
 
 const AccountInfoChange = () => {
   // 회원 정보 수정 진입
-  const [changeShowPermission, setChangeShowPermission] = useState(true);
+  const [changeShowPermission, setChangeShowPermission] = useState(false);
 
   // 계정 삭제
-  const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(true);
-  const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(true);
+  const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
+  const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
 
   const { userNickname } = useContext(AuthContext);
 

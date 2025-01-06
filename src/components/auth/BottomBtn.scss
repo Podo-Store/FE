@@ -1,12 +1,15 @@
+@import "./../../components/button/_mixins.scss";
+
 .BottomBtn {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
 }
 
 .BottomBtn .bottomButton {
+  @include purple-btn;
+
   width: 25.875rem;
   height: 3.75rem;
 
@@ -18,7 +21,7 @@
 
   color: #fff;
 
-  /* Paragraph/Medium/Meidium */
+  /* Paragraph/Medium/Medium */
   font-family: "Noto Sans KR";
   font-size: 1rem;
   font-style: normal;

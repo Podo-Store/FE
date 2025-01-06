@@ -298,7 +298,15 @@ const Purchase = () => {
             <div className="purchase-method">
               <p className="p-large-bold">결제 방법</p>
               <div className="btn-wrap d-flex">
-                <SmallOnOffBtn style={{ width: "108px", height: "36px" }}>계좌 이체</SmallOnOffBtn>
+                <SmallOnOffBtn
+                  style={{
+                    width: "108px",
+                    height: "36px",
+                    border: "3px solid var(--purple-purple-7, #B489FF)",
+                  }}
+                >
+                  계좌 이체
+                </SmallOnOffBtn>
                 <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
                   -
                 </SmallOnOffBtn>

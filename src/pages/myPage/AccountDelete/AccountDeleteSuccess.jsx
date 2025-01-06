@@ -5,7 +5,7 @@ import AuthContext from "../../../contexts/AuthContext";
 
 import check from "../../../assets/image/myPage/check.svg";
 
-import "./AccountDeleteSuccess.css";
+import "./AccountDeleteSuccess.scss";
 
 const AccountDeleteSuccess = () => {
   const navigate = useNavigate();

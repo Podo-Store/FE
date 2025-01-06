@@ -7,7 +7,7 @@ import EnterForm from "../../../components/EnterForm";
 
 import { SERVER_URL } from "../../../constants/ServerURL";
 
-import "./ChangeEnter.css";
+import "./ChangeEnter.scss";
 import "./../../../styles/text.css";
 
 const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {

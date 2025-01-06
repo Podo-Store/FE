@@ -1,5 +1,5 @@
 import React from "react";
-import "./BottomBtn.css";
+import "./BottomBtn.scss";
 
 // 자신 아래에 component 배치: children 사용
 const BottomBtn = ({ onClick, disabled, children }) => {

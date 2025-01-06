@@ -1,3 +1,5 @@
+@import "./../../components/button/mixins.scss";
+
 .detail .detail-wrap {
   margin: 6.5vh 0;
   margin-bottom: 5%;
@@ -233,10 +235,20 @@
 
 .detail .detail-btn-wrap button#purchase-btn,
 .detail .detail-bottom-bar button#purchase-btn {
+  @include purple-btn;
+
   background: var(--Main, #9591f2);
 
   color: #fdfaff;
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.detail .detail-btn-wrap button#purchase-btn:disabled,
+.detail .detail-bottom-bar button#purchase-btn:disabled {
+  border: none;
+  background: #bababa;
+  color: white;
+  cursor: default;
 }
 
 .detail .detail-btn-wrap button#purchase-btn {

@@ -1,4 +1,4 @@
-import "./PreviewPurchase.css";
+import "./PreviewPurchase.scss";
 import "./../../styles/text.css";
 
 const PreviewPurchase = ({ text, onClick, style }) => {

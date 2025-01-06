@@ -26,7 +26,7 @@ import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import vector23 from "./../../assets/image/post/vector23.svg";
 
-import "./Detail.css";
+import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -354,6 +354,7 @@ const Detail = () => {
                               onClick={() => {
                                 if (selectedOption === "perform") {
                                   setSelectedOption("");
+                                  setIsOptionSelected(false);
                                 } else {
                                   // selectedOption === "scriptPerform"
                                   setSelectedOption("script");

@@ -12,7 +12,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 //import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
 
-import "./PostWork.css";
+import "./PostWork.scss";
 
 const PostWork = () => {
   const navigate = useNavigate();

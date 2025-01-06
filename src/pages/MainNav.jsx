@@ -8,7 +8,7 @@ import navTitle from "../assets/image/navBar/navTitle.svg";
 // import cart from "../assets/image/navBar/cart.svg";
 import person from "../assets/image/navBar/person.svg";
 
-import "./MainNav.css";
+import "./MainNav.scss";
 
 function MainNav() {
   const { isAuthenticated, logout } = useContext(AuthContext);

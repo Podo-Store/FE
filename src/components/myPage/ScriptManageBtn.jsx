@@ -5,8 +5,8 @@ import Button from "../button/RoundBtn_149_48";
 import "./ScriptManageBtn.css";
 
 const ReviewCompleted = {
-  REVIEW_COMPLETED: true,
-  UNDER_REVIEWING: false,
+  REVIEW_COMPLETED: "PASS",
+  UNDER_REVIEWING: "WAIT",
 };
 
 const ScriptManageBtn = ({ reviewCompleted, id }) => {

@@ -1,4 +1,4 @@
-import "./AuthInsideBtn.css";
+import "./AuthInsideBtn.scss";
 
 const AuthInsideBtn = ({ title, onClick, disabled = false }, style) => {
   return (

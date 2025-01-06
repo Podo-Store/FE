@@ -1,3 +1,5 @@
+@import "./../../components/button/mixins.scss";
+
 .post-work .post-work-wrap {
   display: flex;
   height: 93vh;
@@ -62,6 +64,8 @@
 }
 
 .post-work .inside-field button#upload-btn {
+  @include purple-btn;
+
   width: 100%;
   height: 3.125rem;
 

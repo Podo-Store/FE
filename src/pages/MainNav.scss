@@ -1,3 +1,5 @@
+@import "./../components/button/_mixins.scss";
+
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -63,6 +65,8 @@
 }
 
 .navbar .signin_btn {
+  @include white-btn;
+
   border-radius: 30px;
   border: 2.5px solid var(--Main, #6a39c0);
   width: 13.889vh;

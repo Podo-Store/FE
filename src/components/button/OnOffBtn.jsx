@@ -1,4 +1,4 @@
-import "./OnOffBtn.css";
+import "./OnOffBtn.scss";
 import "./../../styles/text.css";
 
 /**
@@ -10,7 +10,7 @@ import "./../../styles/text.css";
  * @param {Object} [props.style] - style
  * @returns
  */
-const OnOffBtn = ({ text, color = "purple", onClick, disabled = false, style }) => {
+const OnOffBtn = ({ children, text, color = "purple", onClick, disabled = false, style }) => {
   return color === "white" ? (
     <button
       className="on-off-btn c-pointer p-large-bold c-main"
@@ -18,7 +18,7 @@ const OnOffBtn = ({ text, color = "purple", onClick, disabled = false, style }) 
       disabled={disabled}
       onClick={onClick}
     >
-      {text}
+      {text || children}
     </button>
   ) : (
     <button
@@ -28,7 +28,7 @@ const OnOffBtn = ({ text, color = "purple", onClick, disabled = false, style }) 
       onClick={onClick}
       style={{ ...style }}
     >
-      {text}
+      {text || children}
     </button>
   );
 };

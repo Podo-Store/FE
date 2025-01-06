@@ -1,4 +1,4 @@
-import "./RoundBtn_135_40.css";
+import "./RoundBtn_135_40.scss";
 
 /**
  * @param {Object} props - Component properties

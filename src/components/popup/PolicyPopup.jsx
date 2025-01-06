@@ -27,7 +27,7 @@ const PolicyPopup = ({ title, detail, setShowPopup, page = 0, isPerformSelected 
             : page === 0
             ? {
                 width: "500px",
-                height: "671px",
+                height: "735px",
                 top: "0",
                 left: "calc(50% - 250px)",
               }
@@ -66,7 +66,7 @@ const PolicyPopup = ({ title, detail, setShowPopup, page = 0, isPerformSelected 
             !isPerformSelected && (page === 1 || page === 2)
               ? { width: "369px", height: "179px" }
               : page === 0
-              ? { width: "447.137px", height: "585.068px" }
+              ? { width: "447.137px", height: "642px" }
               : page === 1
               ? { width: "369px", height: "375px" }
               : { width: "369px", height: "239px" }
@@ -78,7 +78,7 @@ const PolicyPopup = ({ title, detail, setShowPopup, page = 0, isPerformSelected 
               !isPerformSelected && (page === 1 || page === 2)
                 ? { maxHeight: "159px" }
                 : page === 0
-                ? { maxHeight: "550.33px" }
+                ? { maxHeight: "620px" }
                 : page === 1
                 ? { maxHeight: "350px" }
                 : null

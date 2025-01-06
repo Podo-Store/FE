@@ -1,9 +1,13 @@
+@import "./../../../button/_mixins.scss";
+
 .AuthInsideBtn {
   position: absolute;
   right: -1.25rem;
 }
 
 .AuthInsideBtn .insideButton {
+  @include purple-btn;
+
   width: 4.75rem;
   height: 2.75rem;
   flex-shrink: 0;

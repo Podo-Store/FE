@@ -62,7 +62,7 @@ const MainVer1 = () => {
   }, [hasScrolled, isAnimating]);
 
   return (
-    <div>
+    <div className="main-ver1">
       <div>
         <div className="background-container">
           <div id="a1"></div>

@@ -1,4 +1,4 @@
-.background-container {
+.main-ver1 .background-container {
   height: 93.519vh;
   background-image: url(./../assets/image/landingPageBackground.png);
   background-color: #fff;
@@ -9,21 +9,21 @@
   flex-direction: column;
   justify-content: space-between;
 }
-.background-container div#a1 {
+.main-ver1 .background-container div#a1 {
   height: 26px;
 }
-.background-container div#title {
+.main-ver1 .background-container div#title {
   display: flex;
   justify-content: center;
   gap: 25px;
 }
-.background-container div#purple-rectangle {
+.main-ver1 .background-container div#purple-rectangle {
   width: 20px;
   height: 160px;
   flex-shrink: 0;
   background: var(--purple-purple-4-main, #6a39c0);
 }
-.background-container h1 {
+.main-ver1 .background-container h1 {
   color: var(--ect-black, #000);
   font-family: "Hakgyoansim Allimjang" !important;
   font-size: 64px;
@@ -35,7 +35,7 @@
   justify-content: center; /* 수평 중앙 정렬 */
   align-items: center;
 }
-.background-container img {
+.main-ver1 .background-container img {
   width: 80px;
   height: 26px;
   flex-shrink: 0;
@@ -56,7 +56,7 @@
     transform: translateY(0); /* 원래 위치로 돌아옴 */
   }
 }
-.resized-image {
+.main-ver1 .resized-image {
   width: 100%;
   height: auto; /* 이미지 비율을 유지하며 높이 자동 설정 */
   max-width: 1920px;

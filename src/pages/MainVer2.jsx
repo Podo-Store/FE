@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import CardsContent from "../components/landing/CardsContent";
 
-import firstImage from "../assets/image/LangPageDownArrow.svg";
-import secondImage from "../assets/image/Landing1.png";
+import firstImage from "../assets/image/landing/LangPageDownArrow.svg";
+import secondImage from "../assets/image/landing/Landing1.png";
 import page3Cloud from "../assets/image/landing/page3Cloud.svg";
 import facebook from "../assets/image/landing/page4/facebook.svg";
 import instagram from "../assets/image/landing/page4/instagram.svg";

@@ -1,10 +1,16 @@
 .footer {
   margin: 0;
-  box-sizing: border-box;
+  padding-bottom: 2.13vh; /* 23px */
 
   width: 100%;
-  height: 18.8rem;
+  height: 300px;
+
+  box-sizing: border-box;
   background: #ffffff;
+}
+
+.footer * {
+  box-sizing: border-box;
 }
 
 .footer .footer-inner {
@@ -12,14 +18,12 @@
   flex-direction: column;
   align-items: center;
 
-  box-sizing: border-box;
   position: relative;
 
   width: 100%;
   max-width: 1920px;
 
   padding: 0 16.667vw;
-  padding-bottom: 2.13vh;
 
   border-top: 1px solid #dddddd;
 }
@@ -31,7 +35,7 @@
   align-items: flex-start;
 
   width: 100%;
-  margin-top: 4.96vh;
+  margin-top: 4.775vh; /* 51.57px */
 }
 
 .footer .footer-upper img {
@@ -54,7 +58,6 @@
 .footer .footer-lower {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
 
   width: 100%;
   max-width: 1547px;
@@ -74,9 +77,11 @@
 }
 
 .footer hr {
-  height: 140px;
+  margin: 0;
   margin-left: 25px;
   margin-right: 9px;
+
+  height: 140px;
 
   border: 1px solid #000000;
 }
@@ -88,6 +93,7 @@
   gap: 9vw;
 
   margin-right: 2.5vw;
+  transform: translateY(-2.13vh);
 }
 
 .footer .sitemap .sitemap-section {

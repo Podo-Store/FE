@@ -4,6 +4,7 @@ import DefaultLayout from "./layouts/DefaultLayout";
 import MarginLayout from "./layouts/MarginLayout";
 
 import MainVer1 from "./pages/MainVer1";
+import MainVer2 from "./pages/MainVer2";
 import PolicyBar from "./pages/footer/PolicyBar";
 import AdminSwitch from "./pages/admin/AdminSwitch";
 import SignUpDefault from "./pages/auth/SignUpDefault";
@@ -34,7 +35,6 @@ import "./App.css";
 import "./styles/colors.css";
 import "./styles/text.css";
 import "./styles/utilities.css";
-import AccountDelete from "./pages/myPage/AccountDelete/AccountDelete";
 
 function App() {
   return (
@@ -44,6 +44,7 @@ function App() {
           <Routes>
             <Route path="/" element={<DefaultLayout />}>
               <Route index element={<MainVer1 />} />
+              <Route path="v2" element={<MainVer2 />} />
               <Route element={<MarginLayout />}>
                 <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
                 <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />

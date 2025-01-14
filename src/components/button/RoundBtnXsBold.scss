@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 .xs-bold-btn {
   width: 92px;
   height: 32px;
@@ -7,6 +9,8 @@
 }
 
 .xs-bold-btn#white {
+  @include white-btn;
+
   border: 2.5px solid var(--Main, #6a39c0);
   background: var(--ect-white, #fff);
 }
@@ -17,6 +21,8 @@
 }
 
 .xs-bold-btn#purple {
+  @include purple-btn;
+
   border: none;
   cursor: pointer;
   background: var(--Main, #6a39c0);

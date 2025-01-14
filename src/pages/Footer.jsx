@@ -31,6 +31,7 @@ function Footer() {
         <div className="footer-lower">
           <div className="business-info">
             {/*<p>사업자 번호 : 111-11-111111</p>*/}
+            <p>&nbsp;</p>
             <p>연락처 : 010-5251-5830</p>
             <p>대표 : 서준</p>
           </div>

@@ -3,6 +3,9 @@ import inequalityRight from "./../../assets/image/button/inequalityRight.svg";
 
 import "./Modal.css";
 
+/**
+ * @deprecated
+ */
 const Modal = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
   const closeModal = () => {
     setSelectedPage(null); // modal 닫기

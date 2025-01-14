@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import "./MarginLayout.css";
+import "./MarginLayout.scss";
 
 const MarginLayout = () => {
   return (

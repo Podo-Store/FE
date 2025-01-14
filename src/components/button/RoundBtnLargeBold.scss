@@ -1,3 +1,5 @@
+@import "./mixins.scss";
+
 .large-bold-btn {
   width: 195px;
   height: 48px;
@@ -7,6 +9,8 @@
 }
 
 .large-bold-btn#white {
+  @include white-btn;
+
   border: 2.5px solid var(--Main, #6a39c0);
   background: var(--ect-white, #fff);
 }
@@ -17,6 +21,8 @@
 }
 
 .large-bold-btn#purple {
+  @include purple-btn;
+
   border: none;
   cursor: pointer;
   background: var(--Main, #6a39c0);

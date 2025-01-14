@@ -1,4 +1,4 @@
-import "./RoundBtnLargeBold.css";
+import "./RoundBtnLargeBold.scss";
 
 const RoundBtnLargeBold = ({ children, onClick, type, color, disabled = false, style }) => {
   return color === "white" ? (

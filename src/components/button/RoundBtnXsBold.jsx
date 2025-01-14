@@ -1,4 +1,4 @@
-import "./RoundBtnXsBold.css";
+import "./RoundBtnXsBold.scss";
 
 /**
  * @param {Object} props - Component properties

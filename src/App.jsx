@@ -10,6 +10,7 @@ import AdminSwitch from "./pages/admin/AdminSwitch";
 import SignUpDefault from "./pages/auth/SignUpDefault";
 import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
+import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 import List from "./pages/work/List";
 import Detail from "./pages/work/Detail";
@@ -54,6 +55,7 @@ function App() {
                 <Route path="signup" element={<SignUpDefault />} />
                 <Route path="signup/success" element={<SignUpSuccess />} />
                 <Route path="signin" element={<SignIn />} />
+                <Route path="signin/v2" element={<SignInV2 />} />
                 <Route path="signin/find/:id" element={<FindBar />} />
 
                 <Route path="list" element={<List />} />

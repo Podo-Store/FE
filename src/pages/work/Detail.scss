@@ -1,4 +1,4 @@
-@import "./../../components/button/mixins.scss";
+@use "./../../components/button/mixins.scss" as m;
 
 .detail .detail-wrap {
   margin: 6.5vh 0;
@@ -235,7 +235,7 @@
 
 .detail .detail-btn-wrap button#purchase-btn,
 .detail .detail-bottom-bar button#purchase-btn {
-  @include purple-btn;
+  @include m.purple-btn;
 
   background: var(--Main, #9591f2);
 

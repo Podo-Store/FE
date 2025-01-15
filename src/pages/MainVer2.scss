@@ -117,7 +117,10 @@
   @media (max-width: 1600px) {
     height: 100vh;
   }
-  background: var(--purple-purple-10, #f5f0ff);
+
+  & {
+    background: var(--purple-purple-10, #f5f0ff);
+  }
 }
 
 .main-ver2 .page4 .title_64px {
@@ -147,10 +150,11 @@
 }
 
 .page4-button:hover {
+  animation: shadow 0.2s forwards ease-in-out;
+
   @keyframes shadow {
     100% {
       filter: drop-shadow(0 0 1em var(--purple7));
     }
   }
-  animation: shadow 0.2s forwards ease-in-out;
 }

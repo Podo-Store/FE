@@ -1,4 +1,4 @@
-@import "./../../../components/button/_mixins.scss";
+@use "./../../../components/button/_mixins.scss" as m;
 
 .delete-complete .delete-complete-wrap {
   display: flex;
@@ -37,7 +37,7 @@
 }
 
 .delete-complete .main-page-btn {
-  @include purple-btn;
+  @include m.purple-btn;
 
   margin-top: 2.5rem;
 

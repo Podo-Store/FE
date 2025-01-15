@@ -21,8 +21,10 @@
     grid-template-columns: 10px 1fr 10px;
   }
 
-  min-height: 100vh;
-  box-sizing: border-box;
+  & {
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
 }
 
 /* 콘텐츠 영역을 중앙에 배치 */

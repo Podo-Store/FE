@@ -1,7 +1,7 @@
-@import "./mixins.scss";
+@use "./_mixins.scss" as m;
 
 .preview-purchase-btn {
-  @include purple-btn;
+  @include m.purple-btn;
 
   width: 81px;
   height: 24px;

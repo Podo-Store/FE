@@ -1,0 +1,52 @@
+.signIn-v2 .signIn-wrap {
+  margin-top: 18.519vh; /* 200px */
+
+  height: 100vh;
+}
+
+.signIn-v2 .title {
+  margin-top: 3.056vh;
+  margin-bottom: 2.685vh;
+}
+
+.signIn-v2 .contentWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2.778vh;
+}
+
+.signIn-v2 .oauth {
+  margin-top: 2.778vh; /* 30px */
+}
+
+.signIn-v2 .oauth .oauth-bar {
+  gap: 17px;
+
+  margin-bottom: 2.778vh; /* 30px */
+}
+
+.signIn-v2 .oauth .oauth-bar hr {
+  width: 132.004px;
+  border: 1.5px solid var(--grey-grey-4, #bababa);
+}
+
+.signIn-v2 .oauth .oauth-bar p {
+  width: max-content;
+}
+
+.signIn-v2 .oauth .oauth-btn-wrap {
+  gap: 30px;
+}
+
+.signIn-v2 .extraLink {
+  display: flex;
+  justify-content: center;
+  gap: 19px;
+
+  margin-top: 3.704vh; /* 40px */
+  margin-bottom: 3.704vh; /* 40px */
+}
+
+.signIn-v2 .extraLink p#bar {
+  cursor: default;
+}

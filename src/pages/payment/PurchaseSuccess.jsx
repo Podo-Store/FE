@@ -65,7 +65,7 @@ const PurchaseSuccess = () => {
     <div className="PurchaseSuccess">
       <div className="purchase-success">
         <div className="purchase-success-content">
-          <h1>대본 구매가 완료되었습니다.</h1>
+          <h1>결제가 완료되었습니다.</h1>
           <div className="p-wrap">
             <p>&nbsp;{formattedOrderDate}</p>
             <div className="order-num">

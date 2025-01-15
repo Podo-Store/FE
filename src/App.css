@@ -25,7 +25,3 @@ textarea {
   /* 전역 설정 */
   font-family: "pretendard", "Apple SD Gothic Neo", Sans-serif !important;
 }
-
-* {
-  box-sizing: border-box;
-}

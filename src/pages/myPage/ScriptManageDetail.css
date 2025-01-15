@@ -77,17 +77,43 @@
   gap: 1.02rem;
 }
 
+.script-manage-detail div#info-input .limit-box {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+
+  width: 53px;
+  height: 18px;
+  flex-shrink: 0;
+
+  box-sizing: border-box;
+  border-radius: 5px 0px;
+  border-right: 0.5px solid var(--grey-grey-4, #bababa);
+  border-bottom: 0.5px solid var(--grey-grey-4, #bababa);
+  background: var(--purple-purple-10, #f5f0ff);
+}
+
+.script-manage-detail div#info-input .limit-box p {
+  margin: 0;
+}
+
 .script-manage-detail div#info-input .plot {
   padding: 8px 22px;
 
+  width: 100%;
   height: 108px;
 
-  border-radius: 5px;
-  border: 0.5px solid #000;
-  background: var(--ect-white, #fff);
   box-sizing: border-box;
+  border-radius: 5px;
+  border: 0.5px solid var(--grey-grey-4, #bababa);
+  background: var(--ect-white, #fff);
 
   resize: none;
+}
+
+.script-manage-detail div#info-input .plot:focus {
+  outline: none;
+  border-color: #000;
 }
 
 .script-manage-detail .detail-wrap {

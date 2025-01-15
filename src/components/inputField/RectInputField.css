@@ -3,34 +3,19 @@
   flex-direction: column;
 }
 
-.rect-input-field label {
-  color: #000;
-
-  /* H5/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px; /* 140% */
-}
-
 .rect-input-field input {
   width: 25.75rem;
   height: 2.5rem;
   padding-left: 1.25rem;
 
   border-radius: 5px;
-  border: 0.5px solid #000;
+  border: 0.5px solid var(--grey-grey-4, #bababa);
   box-sizing: border-box;
+}
 
-  color: #000;
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
+.rect-input-field input:focus {
+  outline: none;
+  border-color: #000;
 }
 
 .rect-input-field input[type="number"]::-webkit-outer-spin-button,

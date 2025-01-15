@@ -73,9 +73,14 @@ const ScriptManageDetail = () => {
     setIsLoading(false);
   });
 
+  // 글자 수 제한
   useEffect(() => {
-    // 줄거리 입력 시 줄거리 글자 수 제한
-    if (plot?.length > 150) {
+    if (title && title.length > 20) {
+      setTitle(title.slice(0, 20));
+    }
+  }, [title]);
+  useEffect(() => {
+    if (plot && plot.length > 150) {
       setPlot(plot.slice(0, 150));
     }
   }, [plot]);
@@ -218,22 +223,32 @@ const ScriptManageDetail = () => {
             <div className="script-info-detail">
               <p className="p-medium-bold">작품 정보*</p>
               <div className="f-dir-column" id="info-input">
-                <RectInputField
-                  type="text"
-                  placeholder="작품 제목을 입력해주세요."
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                  }}
-                />
-                <textarea
-                  className="plot p-small-regular"
-                  placeholder="간단한 줄거리를 입력해주세요."
-                  value={plot}
-                  onChange={(e) => {
-                    setPlot(e.target.value);
-                  }}
-                />
+                <div className="p-relative">
+                  <RectInputField
+                    type="text"
+                    placeholder="작품 제목을 입력해주세요. (최대 20자)"
+                    value={title}
+                    onChange={(e) => {
+                      setTitle(e.target.value);
+                    }}
+                  />
+                  <div className="limit-box f-center">
+                    <p className="p-xs-regular c-grey6">{title ? title.length : 0} / 20자</p>
+                  </div>
+                </div>
+                <div className="p-relative" style={{ height: "108px" }}>
+                  <textarea
+                    className="plot p-small-regular"
+                    placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
+                    value={plot}
+                    onChange={(e) => {
+                      setPlot(e.target.value);
+                    }}
+                  />
+                  <div className="limit-box f-center">
+                    <p className="p-xs-regular c-grey6">{plot ? plot.length : 0} / 150자</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

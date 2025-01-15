@@ -253,9 +253,15 @@ const Purchase = () => {
 
             {buyPerform ? (
               <div className="content">
-                <p className="p-large-bold" id="subtitle">
-                  공연권
-                </p>
+                <div>
+                  <p className="p-large-bold">공연권</p>
+                  <div style={{ height: "6px" }}></div>
+                  <p className="p-xs-regular">
+                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                    하며, 대본이 ‘포도상점’을 통하여 제공되었음을 표시하여야 합니다.
+                  </p>
+                  <div style={{ height: "16px" }}></div>
+                </div>
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="f-dir-column j-content-between detail">

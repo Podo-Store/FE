@@ -1,4 +1,4 @@
-@import "./../../components/button/_mixins.scss";
+@use "./../../components/button/_mixins.scss" as m;
 
 .BottomBtn {
   display: flex;
@@ -8,7 +8,7 @@
 }
 
 .BottomBtn .bottomButton {
-  @include purple-btn;
+  @include m.purple-btn;
 
   width: 25.875rem;
   height: 3.75rem;

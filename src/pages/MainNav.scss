@@ -1,4 +1,4 @@
-@import "./../components/button/_mixins.scss";
+@use "./../components/button/_mixins.scss" as m;
 
 .navbar {
   display: flex;
@@ -65,7 +65,7 @@
 }
 
 .navbar .signin_btn {
-  @include white-btn;
+  @include m.white-btn;
 
   border-radius: 30px;
   border: 2.5px solid var(--Main, #6a39c0);

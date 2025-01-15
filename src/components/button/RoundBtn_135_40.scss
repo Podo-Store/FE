@@ -1,4 +1,4 @@
-@import "./mixins.scss";
+@use "./_mixins.scss" as m;
 
 .small-on-off-btn {
   width: 135px;
@@ -8,7 +8,7 @@
 }
 
 .small-on-off-btn#white {
-  @include white-btn;
+  @include m.white-btn;
 
   border: 2.5px solid var(--Main, #6a39c0);
   background: var(--ect-white, #fff);
@@ -20,7 +20,7 @@
 }
 
 .small-on-off-btn#purple {
-  @include purple-btn;
+  @include m.purple-btn;
 
   border: none;
   background: var(--Main, #6a39c0);

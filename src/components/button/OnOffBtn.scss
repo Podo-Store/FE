@@ -1,4 +1,4 @@
-@import "./_mixins.scss";
+@use "./_mixins.scss" as m;
 
 .on-off-btn {
   width: 195px;
@@ -11,14 +11,14 @@
 }
 
 .on-off-btn#white {
-  @include white-btn;
+  @include m.white-btn;
 
   border: 2.5px solid var(--Main, #6a39c0);
   background-color: var(--ect-white, #fff);
 }
 
 .on-off-btn#purple {
-  @include purple-btn;
+  @include m.purple-btn;
 
   border: none;
   cursor: pointer;

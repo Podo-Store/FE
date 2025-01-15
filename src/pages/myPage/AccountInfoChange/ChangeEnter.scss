@@ -1,4 +1,4 @@
-@import "./../../../components/button/mixins.scss";
+@use "./../../../components/button/mixins.scss" as m;
 
 .info-change-enter h6 {
   margin: 0;
@@ -20,7 +20,7 @@
 }
 
 .info-change-enter div#enter-input button {
-  @include purple-btn;
+  @include m.purple-btn;
 
   margin-top: 0.25rem;
 

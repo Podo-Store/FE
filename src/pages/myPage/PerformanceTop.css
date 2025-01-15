@@ -44,5 +44,5 @@
 .perform-top .script-detail p#author {
   margin-top: 0.5vh;
   margin-left: 0.125rem;
-  margin-bottom: 1.5vh;
+  margin-bottom: 1.5vh; /* 16.2px */
 }

@@ -19,7 +19,7 @@ import AuthContext from "../../contexts/AuthContext";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./MyPageContentsDefault.css";
-import "./../../styles/utilities.css";
+import "./PurchasedScript.css";
 
 const PurchasedScript = () => {
   const [scriptList, setScriptList] = useState([]);
@@ -93,12 +93,20 @@ const PurchasedScript = () => {
   });
 
   return (
-    <div className="myPage-contents-default">
+    <div className="purchased-script myPage-contents-default">
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">
-          <div className="d-flex j-content-between a-items-start">
-            <h1>구매한 작품들을 볼 수 있어요!</h1>
+          <div className="j-content-between a-items-start">
+            <div>
+              <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
+              {toggle && (
+                <p className="warning p-xs-regular">
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                  하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                </p>
+              )}
+            </div>
             <ToggleSlide
               toggle={toggle}
               onChangeToggle={() => {

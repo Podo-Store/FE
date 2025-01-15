@@ -240,6 +240,10 @@ const PerformanceInfo = () => {
                 <p className="p-large-medium" id="author">
                   {author}
                 </p>
+                <p className="p-xs-regular" id="warning">
+                  * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                  하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                </p>
               </div>
             </div>
           </div>

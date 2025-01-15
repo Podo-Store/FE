@@ -12,6 +12,7 @@ import { useRequest } from "../../hooks/useRequest";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import samplePDF from "./../../assets/sample.pdf";
+import previewGlass from "./../../assets/image/glass.svg";
 
 import "./Preview.css";
 import "./../../styles/text.css";
@@ -23,7 +24,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 /**
  * @param {object} props
  * @param {string} props.id - 대본 id
- * @param {number} props.lengthType - 1: 장편극, 2: 단편극
+ * @param {string} props.lengthType - LONG: 장편극, SHORT: 단편극
  */
 const Preview = ({ id, lengthType }) => {
   const [pdfData, setPdfData] = useState(null);
@@ -36,7 +37,7 @@ const Preview = ({ id, lengthType }) => {
   const previousPdfDataRef = useRef(null);
 
   // 단편극: 1장까지만, 장편극: 3장까지만
-  const showThreshold = lengthType === 2 ? 1 : 3;
+  const showThreshold = lengthType === "SHORT" ? 1 : 3;
 
   useRequest(async () => {
     try {
@@ -141,11 +142,7 @@ const Preview = ({ id, lengthType }) => {
 
                     {/* 미리보기 돋보기 */}
                     {index + 1 <= showThreshold && (
-                      <img
-                        src={require("./../../assets/image/glass.svg").default}
-                        alt="Preview Glass"
-                        id="preview-glass"
-                      />
+                      <img src={previewGlass} alt="Preview Glass" id="preview-glass" />
                     )}
                   </div>
                 );

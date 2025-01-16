@@ -73,7 +73,7 @@ const ScriptContent = ({
                 </div>
                 <hr></hr>
                 <p className="p-large-medium" id="author">
-                  {!script.delete ? script.writer : "삭제된 계정"}
+                  {currentPage === "1" ? "" : !script.delete ? script.writer : "삭제된 계정"}
                 </p>
                 {currentPage === "1" && script.checked === "WAIT" ? (
                   // 작품 관리 페이지에서 심사 중인 작품일 경우

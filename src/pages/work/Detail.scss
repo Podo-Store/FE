@@ -173,7 +173,7 @@
 .detail .option-select select,
 .detail .detail-bottom-bar select {
   border-radius: 9px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--grey-grey-4, #bababa);
   background: #fff;
 
   text-align: center;
@@ -190,6 +190,12 @@
   background-repeat: no-repeat;
   background-position: right 20px center;
   background-size: 1.25rem;
+}
+
+.detail .option-select select:focus,
+.detail .detail-bottom-bar select:focus {
+  outline: none;
+  border-color: #000;
 }
 
 .detail .option-select select {

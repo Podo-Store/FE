@@ -36,6 +36,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const Detail = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
+  const [plot, setPlot] = useState("");
 
   // 판매자가 설정한 대본, 공연권 판매 여부
   const [sellingScript, setSellingScript] = useState(false);
@@ -92,6 +93,7 @@ const Detail = () => {
 
       setTitle(response.data.title);
       setAuthor(response.data.writer);
+      setPlot(response.data.plot);
       // 판매자가 설정한 대본, 공연권 판매 여부
       setSellingScript(response.data.script);
       setSellingPerform(response.data.performance);
@@ -231,7 +233,7 @@ const Detail = () => {
               <hr id="detail-hr-1"></hr>
             </div>
             <div className="detail-plot">
-              <p className="p-medium-regular">줄거리</p>
+              <p className="p-medium-regular">{plot}</p>
             </div>
             <div>
               <hr id="detail-hr-2"></hr>

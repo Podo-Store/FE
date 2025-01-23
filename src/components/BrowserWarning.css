@@ -1,0 +1,13 @@
+.browser-warning {
+  width: 100%;
+  height: 6.481vh;
+  background: var(--Main, #6a39c0);
+}
+
+.browser-warning p {
+  font-size: 1.852vh;
+}
+
+.browser-warning .close-button {
+  margin-right: 1.458vw /* 28px */;
+}

@@ -28,6 +28,8 @@ import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 
+import BrowserWarning from "./components/BrowserWarning";
+
 import ProtectedRoute from "./routes/ProtectedRoute";
 
 import { AuthProvider } from "./contexts/AuthContext";
@@ -40,6 +42,7 @@ import "./styles/utilities.css";
 function App() {
   return (
     <div className="App">
+      <BrowserWarning />
       <BrowserRouter>
         <AuthProvider>
           <Routes>

@@ -38,6 +38,14 @@
   line-height: 36px; /* 128.571% */
 }
 
+.h4-regular {
+  /* H4/Regular */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 133.333% */
+}
+
 .h4-bold {
   /* H4/Bold */
   font-size: 24px;
@@ -198,7 +206,8 @@
   text-align: center;
 }
 
-.t-align-right {
+.t-align-right,
+.t-right {
   text-align: right;
 }
 
@@ -237,10 +246,6 @@
 
 .c-white {
   color: #ffffff;
-}
-
-.t-align-center {
-  text-align: center;
 }
 
 .t-underline {

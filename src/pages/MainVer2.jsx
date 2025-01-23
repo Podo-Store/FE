@@ -1,15 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+import ImageBtn from "../components/button/ImageBtn";
+import Page4Button from "../components/button/landing/Page4Button";
 import CardsContent from "../components/landing/CardsContent";
 
 import firstImage from "../assets/image/landing/LangPageDownArrow.svg";
-import secondImage from "../assets/image/landing/Landing1.png";
+import page2ButtonImg from "../assets/image/landing/page2/degree45Arrow.svg";
+import page2CardTitle from "../assets/image/landing/page2/page2CardTitle.svg";
+import good from "../assets/image/landing/page2/good.png";
+import stage from "../assets/image/landing/page2/stage.png";
+import typing from "../assets/image/landing/page2/type2.png";
 import page3Cloud from "../assets/image/landing/page3Cloud.svg";
 import facebook from "../assets/image/landing/page4/facebook.svg";
 import instagram from "../assets/image/landing/page4/instagram.svg";
 import youtube from "../assets/image/landing/page4/youtube.svg";
 
 import "./MainVer2.scss";
+import "./MainVer2Page2.scss";
 
 const MainVer2 = () => {
   const [hasScrolled, setHasScrolled] = useState(false);
@@ -17,6 +25,8 @@ const MainVer2 = () => {
 
   // 3페이지 카드 오픈 여부
   const [isOpened, setIsOpened] = useState({ 0: true, 1: false, 2: false, 3: false, 4: false });
+
+  const navigate = useNavigate();
 
   // 100vh만큼 스크롤 변경
   const targetScroll = window.innerHeight;
@@ -99,7 +109,62 @@ const MainVer2 = () => {
 
           <img src={firstImage} alt="First" className="arrow" />
         </div>
-        <img src={secondImage} alt="Second" className="resized-image" />
+
+        <div className={`page2 ${window.innerWidth >= 1600 && "page-size"}`}>
+          <h1 className="page2-title title_64px">포도상점에서는 이런 것들이 가능해요</h1>
+          <div className="page2-content-wrap j-content-center">
+            <div className="page2-content" onClick={() => navigate("/list")}>
+              <img src={page2CardTitle} alt="" className="page2-content-title" />
+              <h1 className="h1-medium">작품 둘러보기</h1>
+
+              <h4 className="h4-regular c-white">
+                다양한 작품을 마음껏 둘러보고 <br />
+                원하는 걸 골라보세요!
+              </h4>
+              <div className="page2-img-wrap j-content-center">
+                <img src={stage} alt="" />
+              </div>
+
+              <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+            </div>
+
+            <div
+              className="page2-content f-dir-column j-content-between"
+              onClick={() => navigate("/post")}
+            >
+              <img src={page2CardTitle} alt="" className="page2-content-title" />
+              <div className="page2-img-wrap j-content-end">
+                <img src={typing} alt="" />
+              </div>
+              <div>
+                <h4 className="h4-regular c-white">
+                  여러분의 톡톡 튀는 아이디어, <br />
+                  포도상점에 올려주세요!
+                </h4>
+
+                <h1 className="h1-medium">작품 등록하기</h1>
+
+                <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+              </div>
+            </div>
+
+            <div className="page2-content" onClick={() => navigate("/mypage/purchased")}>
+              <img src={page2CardTitle} alt="" className="page2-content-title" />
+              <h1 className="h1-medium t-right">공연권 신청하기</h1>
+
+              <h4 className="h4-regular c-white t-right">
+                구매한 작품의 <br />
+                공연권을 바로 신청해보세요!
+              </h4>
+
+              <div className="page2-img-wrap j-content-center">
+                <img src={good} alt="" />
+              </div>
+
+              <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+            </div>
+          </div>
+        </div>
 
         <div className="page3 page-size">
           <h1 className="title_64px">포도상점과 함께하고 있어요</h1>
@@ -149,11 +214,3 @@ const MainVer2 = () => {
 };
 
 export default MainVer2;
-
-const Page4Button = ({ src, alt, onClick }) => {
-  return (
-    <button className="page4-button c-pointer" onClick={onClick}>
-      <img src={src} alt={alt} />
-    </button>
-  );
-};

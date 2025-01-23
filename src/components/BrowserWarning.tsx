@@ -1,11 +1,13 @@
+// @ts-check
 import React, { useEffect, useState } from "react";
+
+import ImageBtn from "./button/ImageBtn";
 
 import closeBtn from "./../assets/image/button/aiOutlineCloseWhite.svg";
 
 import "./BrowserWarning.css";
-import ImageBtn from "./button/ImageBtn";
 
-const BrowserWarning = () => {
+const BrowserWarning: React.FC = () => {
   const [isChrome, setIsChrome] = useState(true);
 
   useEffect(() => {
@@ -17,13 +19,13 @@ const BrowserWarning = () => {
 
     // 실제 Chrome인지 확인
     if (isChromium && !isEdge && !isOpera && !isBrave) {
-      setIsChrome(false);
-    } else {
       setIsChrome(true);
+    } else {
+      setIsChrome(false);
     }
   }, []);
 
-  if (!isChrome) {
+  if (isChrome) {
     return null;
   }
 

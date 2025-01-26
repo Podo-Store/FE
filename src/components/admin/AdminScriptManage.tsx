@@ -27,13 +27,17 @@ import DownloadSvg from "../../assets/image/component/DownloadSvg";
 import AcceptSvg from "../../assets/image/component/AcceptSvg";
 import DenySvg from "../../assets/image/component/DenySvg";
 
+type Checked = "PASS" | "REJECT" | "WAIT";
+type FilterStatus = "ALL" | Checked;
+type PlayType = "LONG" | "SHORT" | null; // undefined: 선택 안함
+
 interface Product {
   id: string;
   createdAt: string;
   title: string;
   writer: string;
-  checked: "PASS" | "WAIT" | "REJECT";
-  playType: "LONG" | "SHORT" | null;
+  checked: Checked;
+  playType: PlayType;
 }
 
 interface ApiResponse {
@@ -46,7 +50,7 @@ interface ApiResponse {
 const AdminScriptManage = () => {
   const [data, setData] = useState<Product[]>([]);
   const [searchText, setSearchText] = useState("");
-  const [filterStatus, setFilterStatus] = useState("전체");
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>("ALL");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -78,20 +82,8 @@ const AdminScriptManage = () => {
         if (searchText) {
           params.search = searchText;
         }
-        if (filterStatus !== "전체") {
-          switch (filterStatus) {
-            case "수락":
-              params.status = "PASS";
-              break;
-            case "거절":
-              params.status = "REJECT";
-              break;
-            case "대기":
-              params.status = "WAIT";
-              break;
-            default:
-              break;
-          }
+        if (filterStatus !== "ALL") {
+          params.status = filterStatus;
         }
 
         const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/products`, {
@@ -129,24 +121,19 @@ const AdminScriptManage = () => {
   };
 
   // 장편극 / 단편극 변경
-  const onChangeClassification = (id: string, newClassification: number | null) => {
+  const onChangeClassification = (id: string, newClassification: PlayType) => {
     const updatedData = data.map((item) =>
       item.id === id
         ? {
             ...item,
-            playType:
-              newClassification === 1
-                ? ("LONG" as "LONG")
-                : newClassification === 2
-                ? ("SHORT" as "SHORT")
-                : null,
+            playType: newClassification || null,
           }
         : item
     );
     setData(updatedData);
   };
 
-  const onChangePermission = async (id: string, newPermission: "PASS" | "REJECT" | "WAIT") => {
+  const onChangePermission = async (id: string, newPermission: Checked) => {
     const updatedData = data.map((item) =>
       item.id === id
         ? {
@@ -157,12 +144,14 @@ const AdminScriptManage = () => {
     );
     setData(updatedData);
 
+    const type = updatedData.find((item) => item.id === id)?.playType;
+
     try {
       await axios.patch(
-        `${SERVER_URL}admin/products`,
+        `${SERVER_URL}admin/products/${id}`,
         {
-          type: updatedData.find((item) => item.id === id)?.playType || null,
-          status: newPermission,
+          playType: type,
+          productStatus: newPermission,
         },
         {
           headers: {
@@ -171,17 +160,12 @@ const AdminScriptManage = () => {
               ? `Bearer ${Cookies.get("accessToken")}`
               : undefined,
           },
-          params: {
-            productId: id,
-          },
         }
       );
 
-      setShowAlert({ ...showAlert, success: true });
+      setShowAlert({ show: true, success: true });
     } catch (error) {
-      setShowAlert({ ...showAlert, success: false });
-    } finally {
-      setShowAlert({ ...showAlert, show: true });
+      setShowAlert({ show: true, success: false });
     }
   };
 
@@ -228,28 +212,28 @@ const AdminScriptManage = () => {
           <span>
             <button
               onClick={() => {
-                setFilterStatus("전체");
+                setFilterStatus("ALL");
               }}
             >
               전체
             </button>
             <button
               onClick={() => {
-                setFilterStatus("수락");
+                setFilterStatus("PASS");
               }}
             >
               등록 수락
             </button>
             <button
               onClick={() => {
-                setFilterStatus("거절");
+                setFilterStatus("REJECT");
               }}
             >
               등록 거절
             </button>
             <button
               onClick={() => {
-                setFilterStatus("대기");
+                setFilterStatus("WAIT");
               }}
             >
               등록 대기
@@ -300,75 +284,72 @@ const AdminScriptManage = () => {
                     </TableCellCenter>
                     <TableCellCenter>
                       <ToggleButtonGroup
-                        value={item.playType === "LONG" ? 1 : item.playType === "SHORT" ? 2 : 0}
+                        value={item.playType || undefined}
                         exclusive
                         onChange={(event, newAlignment) => {
                           onChangeClassification(item.id, newAlignment);
                         }}
                         aria-label="구분"
                       >
-                        <ToggleButton value={1} aria-label="장편극">
+                        <ToggleButton value={"LONG"} aria-label="장편극">
                           L
                         </ToggleButton>
-                        <ToggleButton value={2} aria-label="단편극">
+                        <ToggleButton value={"SHORT"} aria-label="단편극">
                           S
                         </ToggleButton>
                       </ToggleButtonGroup>
                     </TableCellCenter>
                     <TableCellCenter>
-                      {/* 장편극 / 단편극 선택 여부 */}
-                      {item.playType === null ? (
-                        <div className="j-content-between" style={{ marginRight: "16px" }}>
-                          <DownloadSvg fill="#bababa" />
-                          <AcceptSvg fill="#bababa" />
-                          <DenySvg fill="#bababa" />
-                        </div>
-                      ) : (
-                        <div className="j-content-between" style={{ marginRight: "16px" }}>
-                          <DownloadSvg />
-                          {item.checked === "WAIT" ? (
-                            <>
-                              {/* 대기 */}
-                              <AcceptSvg
-                                className="c-pointer"
-                                onClick={() => {
-                                  onChangePermission(item.id, "PASS");
-                                }}
-                              />
-                              <DenySvg
-                                className="c-pointer"
-                                onClick={() => {
-                                  onChangePermission(item.id, "REJECT");
-                                }}
-                              />
-                            </>
-                          ) : item.checked === "PASS" ? (
-                            <>
-                              {/* 승인 */}
-                              <AcceptSvg fill="#6A39C0" opacity="0.5" />
-                              <DenySvg
-                                fill="#bababa"
-                                className="c-pointer"
-                                onClick={() => {
-                                  onChangePermission(item.id, "REJECT");
-                                }}
-                              />
-                            </>
-                          ) : (
-                            <>
-                              {/* 거절 */}
-                              <AcceptSvg
-                                fill="#bababa"
-                                className="c-pointer"
-                                onClick={() => {
-                                  onChangePermission(item.id, "PASS");
-                                }}
-                              />
-                              <DenySvg fill="#6A39C0" opacity="0.5" />
-                            </>
-                          )}
-                        </div>
-                      )}
+                      <div className="j-content-between" style={{ marginRight: "16px" }}>
+                        <DownloadSvg />
+                        {/* 장편극 / 단편극 선택 여부에 따른 변화 */}
+                        {item.playType === null ? (
+                          <>
+                            <AcceptSvg fill="#bababa" />
+                            <DenySvg fill="#bababa" />
+                          </>
+                        ) : item.checked === "WAIT" ? (
+                          <>
+                            {/* 대기 */}
+                            <AcceptSvg
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "PASS");
+                              }}
+                            />
+                            <DenySvg
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "REJECT");
+                              }}
+                            />
+                          </>
+                        ) : item.checked === "PASS" ? (
+                          <>
+                            {/* 승인 */}
+                            <AcceptSvg fill="#6A39C0" opacity="0.5" />
+                            <DenySvg
+                              fill="#bababa"
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "REJECT");
+                              }}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            {/* 거절 */}
+                            <AcceptSvg
+                              fill="#bababa"
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "PASS");
+                              }}
+                            />
+                            <DenySvg fill="#6A39C0" opacity="0.5" />
+                          </>
+                        )}
+                      </div>
                     </TableCellCenter>
                   </TableRow>
                 ))

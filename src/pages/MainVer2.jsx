@@ -6,11 +6,7 @@ import Page4Button from "../components/button/landing/Page4Button";
 import CardsContent from "../components/landing/CardsContent";
 
 import firstImage from "../assets/image/landing/LangPageDownArrow.svg";
-import page2ButtonImg from "../assets/image/landing/page2/degree45Arrow.svg";
-import page2CardTitle from "../assets/image/landing/page2/page2CardTitle.svg";
-import good from "../assets/image/landing/page2/good.png";
-import stage from "../assets/image/landing/page2/stage.png";
-import typing from "../assets/image/landing/page2/type2.png";
+import { good, page2ButtonImg, page2CardTitle, stage, typing } from "../assets/image/landing/page2";
 import page3Cloud from "../assets/image/landing/page3Cloud.svg";
 import facebook from "../assets/image/landing/page4/facebook.svg";
 import instagram from "../assets/image/landing/page4/instagram.svg";

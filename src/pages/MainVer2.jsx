@@ -5,7 +5,8 @@ import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import CardsContent from "../components/landing/CardsContent";
 
-import firstImage from "../assets/image/landing/LangPageDownArrow.svg";
+import arrow from "../assets/image/landing/LangPageDownArrow.svg";
+import circleIcon from "../assets/image/landing/page1.png";
 import { good, page2ButtonImg, page2CardTitle, stage, typing } from "../assets/image/landing/page2";
 import page3Cloud from "../assets/image/landing/page3Cloud.svg";
 import facebook from "../assets/image/landing/page4/facebook.svg";
@@ -92,18 +93,27 @@ const MainVer2 = () => {
   return (
     <div className="main-ver2">
       <div>
-        <div className="background-container">
-          <div id="a1"></div>
-
-          <div id="title">
-            <div id="purple-rectangle"></div>
-
-            <h1>
-              대본과 공연권 거래<br></br>저희가 도와드릴게요!
+        <div className="page1 f-dir-column j-content-between">
+          <div className="title-wrap f-dir-column p-relative">
+            <h1 className="title">
+              대본과 공연권 거래
+              <br />
+              포도상점에서
             </h1>
-          </div>
 
-          <img src={firstImage} alt="First" className="arrow" />
+            <h5 className="sub-title">
+              대본과 공연권 모두 간단하고 편리하게 거래해요!
+              <br />
+              여러분들이 원하던 플랫폼,
+              <br />
+              포도상점을 시작하세요!
+            </h5>
+
+            <img src={circleIcon} alt="circle" className="circle-icon" />
+          </div>
+          <div className="j-content-center">
+            <img src={arrow} alt="First" className="arrow" />
+          </div>
         </div>
 
         <div className={`page2 ${window.innerWidth >= 1600 && "page-size"}`}>
@@ -172,7 +182,7 @@ const MainVer2 = () => {
             <CardsContent pageNum={3} isOpened={isOpened[3]} setIsOpened={setIsOpened} />
             <CardsContent pageNum={4} isOpened={isOpened[4]} setIsOpened={setIsOpened} />
           </div>
-          <img src={page3Cloud} alt="Third" className="resized-image bottom-position" />
+          {/* <img src={page3Cloud} alt="Third" className="resized-image bottom-position" /> */}
         </div>
 
         <div className="page4 page-size">

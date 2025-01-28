@@ -49,7 +49,8 @@ interface ApiResponse {
 
 const AdminScriptManage = () => {
   const [data, setData] = useState<Product[]>([]);
-  const [searchText, setSearchText] = useState("");
+  const [inputText, setInputText] = useState<string>(""); // input 내부 필드 값
+  const [searchText, setSearchText] = useState<string>(""); // API 요청용
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("ALL");
 
   const [page, setPage] = useState<number>(1);
@@ -200,10 +201,15 @@ const AdminScriptManage = () => {
           variant="outlined"
           fullWidth
           margin="normal"
-          value={searchText}
+          value={inputText}
           onChange={(event) => {
-            setSearchText(event.target.value);
-            setPage(1);
+            setInputText(event.target.value);
+          }}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              setSearchText(inputText);
+              setPage(1);
+            }
           }}
         />
 

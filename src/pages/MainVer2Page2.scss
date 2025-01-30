@@ -1,5 +1,11 @@
 .main-ver2 .page2 .page2-title {
   margin: 8.981vh 0; /* 97px */
+  @media (max-width: 1920px) {
+    margin: 8.981vh 0;
+  }
+  @media (max-width: 1600px) {
+    margin: 4.5vh 0;
+  }
 }
 
 .main-ver2 .page2 .page2-content-wrap {
@@ -23,23 +29,9 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-@keyframes breath {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  50% {
-    transform: scale(1.01);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-}
-
 .main-ver2 .page2 .page2-content:hover {
-  animation: breath 2s infinite;
+  transform: scale(1.01);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .main-ver2 .page2 .page2-content .page2-button {

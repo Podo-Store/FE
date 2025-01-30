@@ -35,6 +35,13 @@
   flex-shrink: 0;
 
   animation: moveArrow 1.5s infinite ease-in-out;
+
+  @media (max-width: 1920px) {
+    margin-bottom: 16.574vh; /* 179px */
+  }
+  @media (max-width: 1600px) {
+    margin-bottom: 12vh;
+  }
 }
 
 @keyframes moveArrow {
@@ -52,17 +59,16 @@
 .main-ver2 .page1 .circle-icon {
   position: absolute;
   top: 11.852vh; /* 128px */
+  right: 12.5vw; /* 240px */
+
+  width: 33.958vw; /* 652px */
+  height: auto; /* 641px */
+
   @media (max-width: 1920px) {
     top: 11.852vh; /* 128px */
   }
   @media (max-width: 1600px) {
     top: 6vh;
-  }
-  & {
-    right: 12.5vw; /* 240px */
-
-    width: 33.958vw; /* 652px */
-    height: auto; /* 641px */
   }
 }
 

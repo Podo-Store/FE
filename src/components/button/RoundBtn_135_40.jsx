@@ -3,7 +3,7 @@ import "./RoundBtn_135_40.scss";
 /**
  * @param {Object} props - Component properties
  * @param {string} props.children - 표시 글자
- * @param {string} props.text - [deprecated] 표시 글자
+ * @param {string} [props.text] - [deprecated] 표시 글자
  * @param {function} props.onClick - onClick
  * @param {string} props.color - "white", "grey" or "gray", "purple"
  * @param {string} [props.type] - type: "submit", etc.

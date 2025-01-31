@@ -18,6 +18,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./ScriptManageDetail.css";
 import "./../../styles/text.css";
+import DialogPopup from "@/components/popup/DialogPopup";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -345,25 +346,21 @@ const ScriptManageDetail = () => {
                 </p>
               </div>
               {showDeleteAlertBox ? (
-                <div
-                  id="delete-alert-box"
-                  className="f-dir-column j-content-between a-items-center"
-                >
-                  <p className="p-medium-bold">작품을 정말 삭제할까요?</p>
-                  <div id="btn-wrap" className="d-flex">
-                    <SmallOnOffBtn color="grey" onClick={onClickDeleteConfirm}>
-                      삭제하기
-                    </SmallOnOffBtn>
-                    <SmallOnOffBtn
-                      color="purple"
-                      onClick={() => {
-                        setShowDeleteAlertBox(false);
-                      }}
-                    >
-                      취소하기
-                    </SmallOnOffBtn>
-                  </div>
-                </div>
+                <DialogPopup
+                  text="작품을 정말 삭제할까요?"
+                  negativeBtn={{
+                    text: "삭제하기",
+                    onClick: () => {
+                      onClickDeleteConfirm();
+                    },
+                  }}
+                  positiveBtn={{
+                    text: "취소하기",
+                    onClick: () => {
+                      setShowDeleteAlertBox(false);
+                    },
+                  }}
+                />
               ) : null}
             </div>
           </div>

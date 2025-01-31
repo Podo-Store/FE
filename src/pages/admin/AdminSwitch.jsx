@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 
 import AdminOrderManage from "../../components/admin/AdminOrderManage";
-import AdminScriptManage from "../../components/admin/AdminScriptManage";
+import AdminScriptManage from "../../components/admin/AdminScriptManage.tsx";
 
 import "./AdminSwitch.css";
 

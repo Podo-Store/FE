@@ -19,17 +19,6 @@ import "./../../../../styles/utilities.css";
  * @returns
  */
 const AuthSideBtnTimerInputField = ({
-  title,
-  type,
-  placeholder,
-  value,
-  onChange,
-  errorMessage,
-  showErrorMsg,
-  isValid,
-  isDuplicated,
-  validMessage,
-  errorMessageCustomFlag,
   sideBtnTitle,
   sideBtnOnClick,
   sideBtnDisabled,
@@ -37,6 +26,7 @@ const AuthSideBtnTimerInputField = ({
   timerStop, // 타이머 정지 제어
   timerReset,
   setTimerValue,
+  ...props
 }) => {
   const [timerId, setTimerId] = useState(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
@@ -87,12 +77,7 @@ const AuthSideBtnTimerInputField = ({
   return (
     <div>
       <AuthInputField
-        title={title}
-        type={type}
         className="input"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         rightElement={
           <div className="d-flex" style={{ transform: "translate(0, -0.5rem)" }}>
             <AuthInsideBtn
@@ -117,12 +102,7 @@ const AuthSideBtnTimerInputField = ({
             )}
           </div>
         }
-        errorMessage={errorMessage}
-        isValid={isValid}
-        isDuplicated={isDuplicated}
-        validMessage={validMessage}
-        showErrorMsg={showErrorMsg}
-        errorMessageCustomFlag={errorMessageCustomFlag}
+        {...props}
       />
     </div>
   );

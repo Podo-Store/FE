@@ -1,6 +1,6 @@
 import AuthInputField from "./AuthInputField";
 
-const AuthPhoneInputField = ({ placeholder, value, onChange, onClick, onBlur }) => {
+const AuthPhoneInputField = ({ onChange, ...props }) => {
   // onChange를 그대로 거치지 않고, formatPhoneNum을 거쳐서 onChange로 넘김
   const formatPhoneNum = (event) => {
     let inputValue = event.target.value.replace(/\D/g, ""); // 숫자만 남기기
@@ -32,15 +32,7 @@ const AuthPhoneInputField = ({ placeholder, value, onChange, onClick, onBlur }) 
   };
 
   return (
-    <AuthInputField
-      placeholder={placeholder}
-      value={value}
-      onChange={formatPhoneNum}
-      onClick={onClick}
-      onBlur={onBlur}
-      onKeyDown={onKeyDown}
-      maxLength="13"
-    />
+    <AuthInputField onChange={formatPhoneNum} onKeyDown={onKeyDown} maxLength="13" {...props} />
   );
 };
 

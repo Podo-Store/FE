@@ -1,7 +1,14 @@
 import AuthInputField from "../AuthInputField";
 import AuthInsideBtn from "./AuthInsideBtn";
 
-const AuthSideBtnInputField = ({ sideBtnTitle, sideBtnOnClick, sideBtnDisabled, ...props }) => {
+import { AuthSideBtnInputFieldProps } from "../types";
+
+const AuthSideBtnInputField: React.FC<AuthSideBtnInputFieldProps> = ({
+  sideBtnTitle,
+  sideBtnOnClick,
+  sideBtnDisabled,
+  ...props
+}) => {
   return (
     <AuthInputField
       className="input"

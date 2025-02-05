@@ -1,5 +1,7 @@
-import CheckerMessage from "./../../auth/signUp/ErrorMessages/CheckerMessage.jsx";
-import ErrorMessage from "./../../auth/signUp/ErrorMessages/ErrorMessage.jsx";
+import CheckerMessage from "../../auth/signUp/ErrorMessages/CheckerMessage.jsx";
+import ErrorMessage from "../../auth/signUp/ErrorMessages/ErrorMessage.jsx";
+
+import { AuthInputFieldProps } from "./types";
 
 import "./AuthInputField.css";
 
@@ -16,7 +18,7 @@ import "./AuthInputField.css";
  * @param {string} [props.errorMessage] - error 메시지
  * @param {boolean} [props.errorMessageCustomFlag] - [deprecated] custom error 메시지 표시 여부 (default: false)
  */
-const AuthInputField = ({
+const AuthInputField: React.FC<AuthInputFieldProps> = ({
   title,
   style,
   // 추가 요소
@@ -34,11 +36,11 @@ const AuthInputField = ({
 }) => {
   return (
     <div className="auth-input-field">
-      <label for={title}>{title}</label>
+      <label htmlFor={title}>{title}</label>
       <div className="input-wrap" style={{ ...style }}>
         <input
           className="input"
-          style={readOnly ? { border: "1px solid #000000" } : null}
+          style={readOnly ? { border: "1px solid #000000" } : {}}
           {...props}
         />
         {rightElement ? <div className="right-element">{rightElement}</div> : null}

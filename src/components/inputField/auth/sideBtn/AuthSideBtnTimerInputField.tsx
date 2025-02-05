@@ -3,9 +3,18 @@ import { useEffect, useState } from "react";
 import AuthInputField from "../AuthInputField";
 import AuthInsideBtn from "./AuthInsideBtn";
 
+import { AuthSideBtnInputFieldProps } from "../types";
+
 import "./../../../../styles/colors.css";
 import "./../../../../styles/text.css";
 import "./../../../../styles/utilities.css";
+
+interface AuthSideBtnTimerInputFieldProps extends AuthSideBtnInputFieldProps {
+  timerStart: boolean;
+  timerStop: boolean;
+  timerReset: boolean;
+  setTimerValue: (value: number) => void;
+}
 
 /**
  * AuthSideBtnInputField + Timer
@@ -18,7 +27,7 @@ import "./../../../../styles/utilities.css";
  * @param {function} props.setTimerValue - Timer callback function
  * @returns
  */
-const AuthSideBtnTimerInputField = ({
+const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
   sideBtnTitle,
   sideBtnOnClick,
   sideBtnDisabled,
@@ -28,7 +37,7 @@ const AuthSideBtnTimerInputField = ({
   setTimerValue,
   ...props
 }) => {
-  const [timerId, setTimerId] = useState(null);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
   const [timerVisible, setTimerVisible] = useState(false);
 
@@ -44,7 +53,7 @@ const AuthSideBtnTimerInputField = ({
     }
 
     if (timeLeft === 0 || timerStop) {
-      clearInterval(timerId);
+      timerId && clearInterval(timerId);
       setTimerVisible(false);
       setTimeLeft(300); // 초기화
     }
@@ -53,7 +62,7 @@ const AuthSideBtnTimerInputField = ({
 
   useEffect(() => {
     if (timerReset) {
-      clearInterval(timerId);
+      timerId && clearInterval(timerId);
       setTimeLeft(300); // 타이머를 300초로 초기화
       setTimerVisible(true);
     }
@@ -66,7 +75,7 @@ const AuthSideBtnTimerInputField = ({
     }
   }, [timeLeft, setTimerValue]);
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes < 10 ? `0${minutes}` : minutes}:${

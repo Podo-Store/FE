@@ -2,10 +2,12 @@ import { useState } from "react";
 
 import AuthInputField from "./AuthInputField";
 
+import { AuthInputFieldProps } from "./types";
+
 import invisible from "../../../assets/image/auth/invisible.svg";
 import visible from "../../../assets/image/auth/visible.svg";
 
-const AuthPwInputField = ({ ...props }) => {
+const AuthPwInputField: React.FC<AuthInputFieldProps> = ({ ...props }) => {
   const [toggleVisibility, setToggleInvisible] = useState(true);
 
   return (

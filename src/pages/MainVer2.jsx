@@ -5,10 +5,10 @@ import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import CardsContent from "../components/landing/CardsContent";
 
-import arrow from "../assets/image/landing/LangPageDownArrow.svg";
+import arrow from "../assets/image/landing/Vector 22.svg";
 import circleIcon from "../assets/image/landing/page1.png";
 import { good, page2ButtonImg, page2CardTitle, stage, typing } from "../assets/image/landing/page2";
-import page3Cloud from "../assets/image/landing/page3Cloud.svg";
+import rightArrow from "../assets/image/landing/Vector 22 Right.svg";
 import facebook from "../assets/image/landing/page4/facebook.svg";
 import instagram from "../assets/image/landing/page4/instagram.svg";
 import youtube from "../assets/image/landing/page4/youtube.svg";
@@ -175,14 +175,26 @@ const MainVer2 = () => {
         <div className="page3 page-size">
           <h1 className="title_64px">포도상점과 함께하고 있어요</h1>
           <h3 className="title_20px">포도상점은 다양한 공연 단체와 협력하고 있어요.</h3>
-          <div className="cards d-flex">
-            <CardsContent pageNum={0} isOpened={isOpened[0]} setIsOpened={setIsOpened} />
-            <CardsContent pageNum={1} isOpened={isOpened[1]} setIsOpened={setIsOpened} />
-            <CardsContent pageNum={2} isOpened={isOpened[2]} setIsOpened={setIsOpened} />
-            <CardsContent pageNum={3} isOpened={isOpened[3]} setIsOpened={setIsOpened} />
-            <CardsContent pageNum={4} isOpened={isOpened[4]} setIsOpened={setIsOpened} />
+          <div className="cards j-content-center">
+            <div className="a-items-center">
+              <img id="left" className="cards-arrow" src={rightArrow} alt="<" />
+            </div>
+            <div className="j-content-center">
+              <CardsContent pageNum={0} isOpened={isOpened[0]} setIsOpened={setIsOpened} />
+              <CardsContent pageNum={1} isOpened={isOpened[1]} setIsOpened={setIsOpened} />
+              <CardsContent pageNum={2} isOpened={isOpened[2]} setIsOpened={setIsOpened} />
+              <CardsContent pageNum={3} isOpened={isOpened[3]} setIsOpened={setIsOpened} />
+              <CardsContent
+                pageNum={4}
+                isOpened={isOpened[4]}
+                setIsOpened={setIsOpened}
+                rightMargin={false}
+              />
+            </div>
+            <div className="a-items-center">
+              <img className="cards-arrow" src={rightArrow} alt=">" />
+            </div>
           </div>
-          {/* <img src={page3Cloud} alt="Third" className="resized-image bottom-position" /> */}
         </div>
 
         <div className="page4 page-size">

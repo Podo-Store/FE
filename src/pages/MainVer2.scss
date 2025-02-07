@@ -116,11 +116,22 @@
 }
 
 .main-ver2 .cards {
+  gap: 3.125vw;
+
   margin: 0 auto;
   margin-top: 5.556vh;
 
   width: 1240px;
   height: 400px;
+}
+
+.main-ver2 .cards .cards-arrow {
+  width: 26px;
+  height: 80px;
+}
+
+.main-ver2 .cards .cards-arrow#left {
+  transform: rotate(180deg);
 }
 
 .main-ver2 .bottom-position {

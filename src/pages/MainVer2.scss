@@ -103,37 +103,6 @@
   line-height: normal;
 }
 
-.main-ver2 .page3 {
-  background: linear-gradient(180deg, #fff 0%, #f5f0ff 100%);
-}
-
-.main-ver2 .page3 > .title_64px {
-  padding-top: 8.333vh; /* 90px */
-}
-
-.main-ver2 .page3 > .title_20px {
-  margin-top: 1.204vh;
-}
-
-.main-ver2 .cards {
-  gap: 3.125vw;
-
-  margin: 0 auto;
-  margin-top: 5.556vh;
-
-  width: 1240px;
-  height: 400px;
-}
-
-.main-ver2 .cards .cards-arrow {
-  width: 26px;
-  height: 80px;
-}
-
-.main-ver2 .cards .cards-arrow#left {
-  transform: rotate(180deg);
-}
-
 .main-ver2 .bottom-position {
   position: absolute;
   bottom: 0;

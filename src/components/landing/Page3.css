@@ -1,5 +1,10 @@
+/* Page3 기본 스타일 */
 .main-ver2 .page3 {
   background: linear-gradient(180deg, #fff 0%, #f5f0ff 100%);
+}
+
+.main-ver2 .page3.page-size {
+  overflow-x: auto;
 }
 
 .main-ver2 .page3 > .title_64px {
@@ -10,21 +15,22 @@
   margin-top: 1.204vh;
 }
 
-.main-ver2 .cards {
-  gap: 3.125vw;
+.page3 .slider-wrapper {
+  position: relative;
 
-  margin: 0 auto;
-  margin-top: 5.556vh;
+  max-width: 1520px; /* Page3Cards의 너비와 동일 */
 
-  width: 1240px;
-  height: 400px;
+  overflow: hidden;
 }
 
-.main-ver2 .cards .cards-arrow {
-  width: 26px;
-  height: 80px;
+.page3 .slider {
+  display: flex;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
 }
 
-.main-ver2 .cards .cards-arrow#left {
-  transform: rotate(180deg);
+.page3 .slide {
+  flex: 1 0 100%;
+  scroll-snap-align: start;
 }

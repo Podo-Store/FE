@@ -1,48 +1,64 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 
-import CardsContent from "./CardsContent";
-
-import rightArrow from "../../assets/image/landing/Vector 22 Right.svg";
+import Page3Cards from "./Page3Cards";
 
 import "./Page3.css";
 
+// THX to Skillthrive: https://youtu.be/McPdzhLRzCg?si=swwfYJhFEB-4bOsl
 const Page3 = () => {
-  // 3페이지 카드 오픈 여부
-  const [isOpened, setIsOpened] = useState({ 0: true, 1: false, 2: false, 3: false, 4: false });
+  // 슬라이드 총 개수
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const totalSlides = 2;
 
-  useEffect(() => {
-    // 3페이지 모든 카드가 closed일 경우 첫번째 카드를 open으로 설정
-    if (!Object.values(isOpened).includes(true)) {
-      setIsOpened((prev) => ({ ...prev, 0: true }));
+  const sliderRef = useRef<HTMLDivElement>(null);
+
+  const onPrevSlide = () => {
+    const newSlide = currentSlide !== 0 ? currentSlide - 1 : currentSlide;
+    setCurrentSlide(newSlide);
+    if (sliderRef.current) {
+      sliderRef.current.scrollTo({
+        left: sliderRef.current.offsetWidth * newSlide,
+        behavior: "smooth",
+      });
     }
-    // 첫번째 카드 이외의 다른 카드가 open일 경우 첫번째 카드를 closed로 설정
-    else if (isOpened[0] && Object.values(isOpened).filter((value) => value).length > 1) {
-      setIsOpened((prev) => ({ ...prev, 0: false }));
+  };
+
+  const onNextSlide = () => {
+    const newSlide = currentSlide !== totalSlides - 1 ? currentSlide + 1 : currentSlide;
+    setCurrentSlide(newSlide);
+    if (sliderRef.current) {
+      sliderRef.current.scrollTo({
+        left: sliderRef.current.offsetWidth * newSlide,
+        behavior: "smooth",
+      });
     }
-  }, [isOpened]);
+  };
 
   return (
     <div className="page3 page-size">
       <h1 className="title_64px">포도상점과 함께하고 있어요</h1>
       <h3 className="title_20px">포도상점은 다양한 공연 단체와 협력하고 있어요.</h3>
-      <div className="cards j-content-center">
-        <div className="a-items-center">
-          <img id="left" className="cards-arrow" src={rightArrow} alt="<" />
-        </div>
-        <div className="j-content-center">
-          <CardsContent pageNum={0} isOpened={isOpened[0]} setIsOpened={setIsOpened} />
-          <CardsContent pageNum={1} isOpened={isOpened[1]} setIsOpened={setIsOpened} />
-          <CardsContent pageNum={2} isOpened={isOpened[2]} setIsOpened={setIsOpened} />
-          <CardsContent pageNum={3} isOpened={isOpened[3]} setIsOpened={setIsOpened} />
-          <CardsContent
-            pageNum={4}
-            isOpened={isOpened[4]}
-            setIsOpened={setIsOpened}
-            rightMargin={false}
-          />
-        </div>
-        <div className="a-items-center">
-          <img className="cards-arrow" src={rightArrow} alt=">" />
+
+      <div className="j-content-center">
+        <div className="slider-wrapper">
+          <div className="slider" ref={sliderRef}>
+            <div className="slide">
+              <Page3Cards
+                pageStartNum={0}
+                onPrevSlide={onPrevSlide}
+                onNextSlide={onNextSlide}
+                setLeftArrowDisappear={currentSlide === 0}
+              />
+            </div>
+            <div className="slide">
+              <Page3Cards
+                pageStartNum={5}
+                onPrevSlide={onPrevSlide}
+                onNextSlide={onNextSlide}
+                setRightArrowDisappear={currentSlide === totalSlides - 1}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,36 @@
+/* Page3 기본 스타일 */
+.main-ver2 .page3 {
+  background: linear-gradient(180deg, #fff 0%, #f5f0ff 100%);
+}
+
+.main-ver2 .page3.page-size {
+  overflow-x: auto;
+}
+
+.main-ver2 .page3 > .title_64px {
+  padding-top: 8.333vh; /* 90px */
+}
+
+.main-ver2 .page3 > .title_20px {
+  margin-top: 1.204vh;
+}
+
+.page3 .slider-wrapper {
+  position: relative;
+
+  max-width: 1520px; /* Page3Cards의 너비와 동일 */
+
+  overflow: hidden;
+}
+
+.page3 .slider {
+  display: flex;
+  overflow-x: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.page3 .slide {
+  flex: 1 0 100%;
+  scroll-snap-align: start;
+}

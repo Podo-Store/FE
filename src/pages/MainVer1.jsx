@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import firstImage from "../assets/image/landing/LangPageDownArrow.svg";
+import firstImage from "../assets/image/landing/Vector 22.svg";
 import secondImage from "../assets/image/landing/Landing1.png";
 
 import "./MainVer1.css";

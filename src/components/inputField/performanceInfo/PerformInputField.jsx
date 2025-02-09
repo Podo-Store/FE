@@ -1,4 +1,4 @@
-import AuthInputField from "../auth/AuthInputField";
+import AuthInputField from "../auth/AuthInputField.tsx";
 
 const PerformInputField = ({
   placeholder,

@@ -1,22 +1,25 @@
-import CheckerMessage from "./../../auth/signUp/ErrorMessages/CheckerMessage.jsx";
-import ErrorMessage from "./../../auth/signUp/ErrorMessages/ErrorMessage.jsx";
+import CheckerMessage from "../../auth/signUp/ErrorMessages/CheckerMessage.jsx";
+import ErrorMessage from "../../auth/signUp/ErrorMessages/ErrorMessage.jsx";
+
+import { AuthInputFieldProps } from "./types";
 
 import "./AuthInputField.css";
 
 /**
  * @param {object} props
- * @param {boolean} props.readOnly - 읽기 전용 여부
- * @param {boolean} props.checkerShowFlag - checker 메시지 표시 여부
- * @param {object[{ checkedFlag: boolean, message: string }]} props.checkerMessages
- * - checker 메시지 조건 및 내용 배열, checkerMessages={[{ checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." }, ...]}
- *
+ * @param {string} [props.title] - [deprecated] title
+ * @param {object} [props.style] - style
+ * @param {boolean} [props.readOnly] - 읽기 전용 여부
+ * @param {object} [props.rightElement] - input field 우측 element
+ * @param {boolean} [props.checkerShowFlag] - checker 메시지 표시 여부
+ * @param {object[{ checkedFlag: boolean, message: string }]} [props.checkerMessages]
+ * - checker 메시지 조건 및 내용 배열, e.g. checkerMessages={[{ checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." }, ...]}
+ * @param {boolean} [props.errorFlag] - error 메시지 표시 여부
+ * @param {string} [props.errorMessage] - error 메시지
+ * @param {boolean} [props.errorMessageCustomFlag] - [deprecated] custom error 메시지 표시 여부 (default: false)
  */
-const AuthInputField = ({
+const AuthInputField: React.FC<AuthInputFieldProps> = ({
   title,
-  type,
-  placeholder,
-  value,
-  onChange,
   style,
   // 추가 요소
   readOnly = false,
@@ -28,34 +31,17 @@ const AuthInputField = ({
   errorFlag,
   errorMessage,
 
-  onClick,
-  onBlur,
-
-  // 공연권 신청
-  maxLength,
-  onKeyDown,
-
-  // 커스텀 에러 메시지: AuthInputField를 사용한 component에서 error 메시지 정의, (default: false)
-  // errorMessageCustomFlag true로 고정, false case has been deprecated.
   errorMessageCustomFlag = false,
+  ...props
 }) => {
   return (
     <div className="auth-input-field">
-      <label for={title}>{title}</label>
+      <label htmlFor={title}>{title}</label>
       <div className="input-wrap" style={{ ...style }}>
         <input
-          id={title}
-          type={type}
           className="input"
-          placeholder={placeholder}
-          value={value}
-          onChange={onChange}
-          onClick={onClick}
-          onBlur={onBlur}
-          maxLength={maxLength}
-          readOnly={readOnly}
-          onKeyDown={onKeyDown}
-          style={readOnly ? { border: "1px solid #000000" } : null}
+          style={readOnly ? { border: "1px solid #000000" } : {}}
+          {...props}
         />
         {rightElement ? <div className="right-element">{rightElement}</div> : null}
       </div>

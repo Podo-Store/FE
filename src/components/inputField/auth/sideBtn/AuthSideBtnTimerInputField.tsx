@@ -3,9 +3,18 @@ import { useEffect, useState } from "react";
 import AuthInputField from "../AuthInputField";
 import AuthInsideBtn from "./AuthInsideBtn";
 
+import { AuthSideBtnInputFieldProps } from "../types";
+
 import "./../../../../styles/colors.css";
 import "./../../../../styles/text.css";
 import "./../../../../styles/utilities.css";
+
+interface AuthSideBtnTimerInputFieldProps extends AuthSideBtnInputFieldProps {
+  timerStart: boolean;
+  timerStop: boolean;
+  timerReset: boolean;
+  setTimerValue: (value: number) => void;
+}
 
 /**
  * AuthSideBtnInputField + Timer
@@ -18,18 +27,7 @@ import "./../../../../styles/utilities.css";
  * @param {function} props.setTimerValue - Timer callback function
  * @returns
  */
-const AuthSideBtnTimerInputField = ({
-  title,
-  type,
-  placeholder,
-  value,
-  onChange,
-  errorMessage,
-  showErrorMsg,
-  isValid,
-  isDuplicated,
-  validMessage,
-  errorMessageCustomFlag,
+const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
   sideBtnTitle,
   sideBtnOnClick,
   sideBtnDisabled,
@@ -37,8 +35,9 @@ const AuthSideBtnTimerInputField = ({
   timerStop, // 타이머 정지 제어
   timerReset,
   setTimerValue,
+  ...props
 }) => {
-  const [timerId, setTimerId] = useState(null);
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
   const [timerVisible, setTimerVisible] = useState(false);
 
@@ -54,7 +53,7 @@ const AuthSideBtnTimerInputField = ({
     }
 
     if (timeLeft === 0 || timerStop) {
-      clearInterval(timerId);
+      timerId && clearInterval(timerId);
       setTimerVisible(false);
       setTimeLeft(300); // 초기화
     }
@@ -63,7 +62,7 @@ const AuthSideBtnTimerInputField = ({
 
   useEffect(() => {
     if (timerReset) {
-      clearInterval(timerId);
+      timerId && clearInterval(timerId);
       setTimeLeft(300); // 타이머를 300초로 초기화
       setTimerVisible(true);
     }
@@ -76,7 +75,7 @@ const AuthSideBtnTimerInputField = ({
     }
   }, [timeLeft, setTimerValue]);
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes < 10 ? `0${minutes}` : minutes}:${
@@ -87,12 +86,7 @@ const AuthSideBtnTimerInputField = ({
   return (
     <div>
       <AuthInputField
-        title={title}
-        type={type}
         className="input"
-        placeholder={placeholder}
-        value={value}
-        onChange={onChange}
         rightElement={
           <div className="d-flex" style={{ transform: "translate(0, -0.5rem)" }}>
             <AuthInsideBtn
@@ -117,12 +111,7 @@ const AuthSideBtnTimerInputField = ({
             )}
           </div>
         }
-        errorMessage={errorMessage}
-        isValid={isValid}
-        isDuplicated={isDuplicated}
-        validMessage={validMessage}
-        showErrorMsg={showErrorMsg}
-        errorMessageCustomFlag={errorMessageCustomFlag}
+        {...props}
       />
     </div>
   );

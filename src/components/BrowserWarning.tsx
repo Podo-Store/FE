@@ -41,7 +41,7 @@ const BrowserWarning: React.FC = () => {
         src={closeBtn}
         alt="X"
         size="3.241vh"
-        onClick={() => setIsChrome(false)}
+        onClick={() => setIsChrome(true)}
       />
     </div>
   );

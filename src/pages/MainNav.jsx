@@ -3,12 +3,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import AuthContext from "../contexts/AuthContext";
 
+import hamburgerBtn from "../assets/image/navBar/hamburgerBtn.svg";
 import navLogo from "../assets/image/navBar/navLogo.svg";
 import navTitle from "../assets/image/navBar/navTitle.svg";
 // import cart from "../assets/image/navBar/cart.svg";
 import person from "../assets/image/navBar/person.svg";
 
 import "./MainNav.scss";
+import ImageBtn from "@/components/button/ImageBtn";
 
 function MainNav() {
   const { isAuthenticated, logout } = useContext(AuthContext);
@@ -26,6 +28,7 @@ function MainNav() {
 
   return (
     <nav className="navbar">
+      <ImageBtn className="hamburger-btn" src={hamburgerBtn} alt="≡" />
       <Link
         to="/"
         className="navbar_logo"
@@ -33,7 +36,7 @@ function MainNav() {
           handleLinkClick(event, "/");
         }}
       >
-        <img src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
+        <img className="icon" src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
         <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
       </Link>
       <ul className="navbar_menu">

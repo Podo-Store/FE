@@ -25,47 +25,46 @@ function MainNav() {
   };
 
   return (
-    <div className="App">
-      <nav className="navbar">
-        <Link
-          to="/"
-          className="navbar_logo"
-          onClick={(event) => {
-            handleLinkClick(event, "/");
-          }}
-        >
-          <img src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
-          <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
-        </Link>
-        <ul className="navbar_menu">
-          <li>
-            <Link
-              to="/list"
-              className="li"
-              onClick={(event) => {
-                handleLinkClick(event, "/list");
-              }}
-            >
-              작품 둘러보기
-            </Link>
-          </li>
-          {/*}
+    <nav className="navbar">
+      <Link
+        to="/"
+        className="navbar_logo"
+        onClick={(event) => {
+          handleLinkClick(event, "/");
+        }}
+      >
+        <img src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
+        <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
+      </Link>
+      <ul className="navbar_menu">
+        <li>
+          <Link
+            to="/list"
+            className="li"
+            onClick={(event) => {
+              handleLinkClick(event, "/list");
+            }}
+          >
+            작품 둘러보기
+          </Link>
+        </li>
+        {/*}
           <li>
             <Link to="/nowplaying">지금 공연 중</Link>
           </li>
           {*/}
-          <li>
-            <Link
-              to="/post"
-              className="li"
-              onClick={(event) => {
-                handleLinkClick(event, "/post");
-              }}
-            >
-              작품 등록하기
-            </Link>
-          </li>
-          {/*}
+        <li>
+          <Link
+            to="/post"
+            className="li"
+            onClick={(event) => {
+              handleLinkClick(event, "/post");
+            }}
+          >
+            작품 등록하기
+          </Link>
+        </li>
+        {/*}
           <li>
             <Link to="/applyscript">희망 대본 신청하기</Link>
           </li>
@@ -73,42 +72,41 @@ function MainNav() {
             <Link to="/monthauthor">이달의 작가</Link>
           </li>
           {*/}
-        </ul>
-        {!isAuthenticated ? (
-          <div className="navbar_login">
-            <button
-              onClick={() => {
-                navigate("/signin");
-              }}
-              className="signin_btn"
-            >
-              로그인
-            </button>
-          </div>
-        ) : (
-          <div className="navbar_login">
-            {/*<img src={cart} alt="cart" />*/}
-            <img
-              src={person}
-              alt="myPage"
-              onClick={(event) => {
-                handleLinkClick(event, "/mypage/purchased");
-              }}
-            />
-            <button
-              onClick={() => {
-                // context 호출
-                logout();
-                navigate("/");
-              }}
-              className="signin_btn"
-            >
-              로그아웃
-            </button>
-          </div>
-        )}
-      </nav>
-    </div>
+      </ul>
+      {!isAuthenticated ? (
+        <div className="navbar_login">
+          <button
+            onClick={() => {
+              navigate("/signin");
+            }}
+            className="signin_btn"
+          >
+            로그인
+          </button>
+        </div>
+      ) : (
+        <div className="navbar_login">
+          {/*<img src={cart} alt="cart" />*/}
+          <img
+            src={person}
+            alt="myPage"
+            onClick={(event) => {
+              handleLinkClick(event, "/mypage/purchased");
+            }}
+          />
+          <button
+            onClick={() => {
+              // context 호출
+              logout();
+              navigate("/");
+            }}
+            className="signin_btn"
+          >
+            로그아웃
+          </button>
+        </div>
+      )}
+    </nav>
   );
 }
 

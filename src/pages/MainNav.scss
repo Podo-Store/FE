@@ -5,10 +5,10 @@
   justify-content: space-between;
   align-items: center;
 
-  height: 6.481vh;
   padding-left: 4.583vw;
   padding-right: 2.292vw;
-  font-family: "Noto_Sans_KR";
+
+  height: 6.481vh;
   background-color: #ffffff;
 
   border-bottom: 1px solid var(--Main, #6a39c0);
@@ -57,11 +57,15 @@
 }
 
 .navbar .navbar_login img {
+  position: absolute;
+  left: -45px;
+
+  width: 2.407vh;
   height: 2.593vh;
 
-  position: absolute;
-  left: -4vw;
   cursor: pointer;
+
+  transform: translateX(-100%);
 }
 
 .navbar .signin_btn {

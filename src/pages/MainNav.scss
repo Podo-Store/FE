@@ -5,13 +5,18 @@
   justify-content: space-between;
   align-items: center;
 
-  height: 6.481vh;
-  padding-left: 4.583vw;
-  padding-right: 2.292vw;
-  font-family: "Noto_Sans_KR";
-  background-color: #ffffff;
+  padding-left: 88px;
+  @media (max-width: 768px) {
+    padding-left: 44px;
+  }
+  & {
+    padding-right: 44px;
 
-  border-bottom: 1px solid var(--Main, #6a39c0);
+    height: 6.481vh; /* 70px */
+    background-color: #ffffff;
+
+    border-bottom: 1px solid var(--Main, #6a39c0);
+  }
 }
 
 .navbar a {
@@ -19,16 +24,43 @@
   color: black;
 }
 
+.navbar .hamburger-btn {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
 .navbar .navbar_logo {
   display: flex;
   align-items: center;
   gap: 1.5rem;
+
+  @media (max-width: 768px) {
+    position: absolute;
+    left: 50%;
+
+    transform: translateX(-50%);
+  }
+}
+
+.navbar .navbar_logo .icon {
+  @media (max-width: 768px) {
+    display: none;
+  }
 }
 
 .navbar .navbar_menu {
   display: flex;
-  list-style: none;
-  padding-left: 0;
+  @media (max-width: 768px) {
+    display: none;
+  }
+  & {
+    padding-left: 0;
+
+    list-style: none;
+    white-space: nowrap;
+  }
 }
 
 .navbar .navbar_menu li {
@@ -57,11 +89,19 @@
 }
 
 .navbar .navbar_login img {
+  position: absolute;
+  left: -45px;
+
+  width: 2.407vh;
   height: 2.593vh;
 
-  position: absolute;
-  left: -4vw;
   cursor: pointer;
+
+  transform: translateX(-100%);
+  @media (max-width: 768px) {
+    position: static;
+    transform: none;
+  }
 }
 
 .navbar .signin_btn {
@@ -83,4 +123,8 @@
   font-style: normal;
   font-weight: 500;
   line-height: 2.593vh; /* 155.556% */
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 }

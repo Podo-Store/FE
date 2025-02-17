@@ -1,26 +1,27 @@
+import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FileInputBox from "../../components/file/FileInputBox";
-
-//import { refreshAccessToken } from "./../../contexts/AuthContext";
+import AnimatedCheckedSvg from "@/components/loading/AnimatedCheckedSvg";
+import PartialLoading from "@/components/loading/PartialLoading";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-//import infoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
 
 import "./PostWork.scss";
 
 const PostWork = () => {
-  const navigate = useNavigate();
-
-  const fileInputRef = useRef(null);
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState("");
   const [fileSelected, setFileSelected] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  const navigate = useNavigate();
 
   const onClickUpload = async () => {
     if (!file) {
@@ -31,6 +32,8 @@ const PostWork = () => {
     const formData = new FormData();
     formData.append("script", file);
 
+    setIsLoading(true);
+
     try {
       const response = await axios.post(`${SERVER_URL}register`, formData, {
         headers: {
@@ -40,8 +43,13 @@ const PostWork = () => {
       });
 
       if (response.data === true) {
-        alert("작품 등록이 완료되었습니다.");
-        navigate("/");
+        setUploadSuccess(true);
+        setTimeout(() => {
+          setUploadSuccess(false);
+          setIsLoading(false);
+          alert("작품 등록이 완료되었습니다.");
+          navigate("/");
+        }, 2500);
       }
     } catch (error) {
       if (error.response) {
@@ -60,13 +68,21 @@ const PostWork = () => {
         } else {
           alert("업로드 과정 중 문제가 발생했습니다.");
         }
+        setIsLoading(false);
       }
     }
   };
 
   return (
     <div className="post-work">
-      <div className="post-work-wrap">
+      <div className="post-work-wrap p-relative">
+        {isLoading && (
+          <Dialog open={true}>
+            <DialogContent className="loading-dialog">
+              {uploadSuccess ? <AnimatedCheckedSvg /> : <PartialLoading />}
+            </DialogContent>
+          </Dialog>
+        )}
         <div className="left-side">
           <div className="inside-field">
             <div className="title">
@@ -95,7 +111,6 @@ const PostWork = () => {
                 onFileUpload={(file) => {
                   if (file) {
                     setFile(file);
-                    setFileName(file.name);
                     setFileSelected(true);
                   }
                 }}

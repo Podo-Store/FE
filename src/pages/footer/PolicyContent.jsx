@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Document, Page } from "react-pdf";
 
 import PartialLoading from "../../components/loading/PartialLoading";
@@ -6,8 +6,29 @@ import PartialLoading from "../../components/loading/PartialLoading";
 import userInfoPolicy from "./../../assets/pdf/userInfoPolicy.pdf";
 import termsOfService from "./../../assets/pdf/termsOfService.pdf";
 
-import "./PolicyBar.css";
+import "./PolicyBar.scss";
 import "./../../styles/utilities.css";
+
+const useWindowDimensions = () => {
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return windowDimensions;
+};
 
 /**
  *
@@ -16,9 +37,20 @@ import "./../../styles/utilities.css";
  */
 const PolicyContent = ({ page = 0 }) => {
   const [numPages, setNumPages] = useState(null);
+  const { width: windowWidth } = useWindowDimensions();
+
+  // 창 크기가 768px 이상일 때 값
+  let calculatedWidth = 686;
+
+  if (windowWidth <= 767) {
+    const vwWidth = windowWidth * 0.35833;
+    calculatedWidth = Math.min(Math.max(vwWidth, 440), 688);
+  } else if (windowWidth <= 480) {
+    calculatedWidth = 440;
+  }
 
   const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages); // PDF가 로드된 후 총 페이지 수 설정
+    setNumPages(numPages);
   };
 
   return (
@@ -31,7 +63,7 @@ const PolicyContent = ({ page = 0 }) => {
           loading={<PartialLoading />}
         >
           {Array.from(new Array(numPages), (el, index) => (
-            <Page key={index} renderMode="canvas" pageNumber={index + 1} width={686} />
+            <Page key={index} renderMode="canvas" pageNumber={index + 1} width={calculatedWidth} />
           ))}
         </Document>
       </div>

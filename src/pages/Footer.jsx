@@ -6,7 +6,7 @@ import mail from "../assets/image/footer/mail.svg";
 // import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
 // import XIcon from "../assets/image/footer/XIcon.svg";
 
-import "./Footer.css";
+import "./Footer.scss";
 import "./../styles/text.css";
 import "./../styles/utilities.css";
 
@@ -20,7 +20,7 @@ function Footer() {
   };
 
   return (
-    <div className="footer">
+    <div className="footer j-content-center">
       <div className="footer-inner">
         <div className="footer-upper">
           <img src={logo} alt="navLogo" />
@@ -37,29 +37,33 @@ function Footer() {
           </div>
 
           <div className="sitemap">
-            <div className="sitemap-section">
-              <hr />
+            <div id="left" className="sitemap-section">
+              <>
+                <hr />
 
-              <ul id="menu">
-                <li
-                  onClick={() => {
-                    navigate("/list");
-                    scrollToTop();
-                  }}
-                >
-                  작품 둘러보기
-                </li>
-                <li
-                  onClick={() => {
-                    navigate("/post");
-                    scrollToTop();
-                  }}
-                >
-                  작품 등록하기
-                </li>
-              </ul>
+                <ul id="menu">
+                  <li
+                    className="p-xs-bold c-pointer"
+                    onClick={() => {
+                      navigate("/list");
+                      scrollToTop();
+                    }}
+                  >
+                    작품 둘러보기
+                  </li>
+                  <li
+                    className="p-xs-bold c-pointer"
+                    onClick={() => {
+                      navigate("/post");
+                      scrollToTop();
+                    }}
+                  >
+                    작품 등록하기
+                  </li>
+                </ul>
+              </>
             </div>
-            <div className="sitemap-section">
+            <div id="right" className="sitemap-section">
               <ul id="question">
                 <li
                   className="p-xs-regular"
@@ -83,25 +87,29 @@ function Footer() {
                   <button>문의하기</button>
                 </li>*/}
               </ul>
-              <hr />
-              <ul>
-                <li>Follow us.</li>
-                <li id="icons">
-                  <a
-                    href="https://www.instagram.com/podosangjeom"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <img src={instagramIcon} alt="instagramIcon" />
-                    <p>@podosangjeom</p>
-                  </a>
-                </li>
-                <div style={{ height: "12px" }}></div>
-                <li>Contact.</li>
-                <li className="d-flex" id="contact">
-                  <img src={mail} alt="contact" />
-                  <p>podostore1111@gmail.com</p>
-                </li>
+              <hr id="right" />
+              <ul id="us">
+                <div className="f-dir-column">
+                  <li className="p-xs-regular">Follow us.</li>
+                  <li id="icons">
+                    <a
+                      href="https://www.instagram.com/podosangjeom"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <img src={instagramIcon} alt="instagramIcon" />
+                      <p className="p-xs-regular">@podosangjeom</p>
+                    </a>
+                  </li>
+                </div>
+
+                <div className="contact f-dir-column">
+                  <li className="p-xs-regular">Contact.</li>
+                  <li className="a-items-center" id="contact">
+                    <img src={mail} alt="contact" />
+                    <p className="p-xs-regular">podostore1111@gmail.com</p>
+                  </li>
+                </div>
               </ul>
             </div>
           </div>

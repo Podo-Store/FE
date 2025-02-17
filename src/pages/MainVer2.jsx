@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 
 import ImageBtn from "../components/button/ImageBtn";
@@ -16,64 +16,7 @@ import "./MainVer2.scss";
 import "./MainVer2Page2.scss";
 
 const MainVer2 = () => {
-  const [hasScrolled, setHasScrolled] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-
   const navigate = useNavigate();
-
-  // 100vh만큼 스크롤 변경
-  const targetScroll = window.innerHeight;
-
-  const smoothScrollTo = (target) => {
-    setIsAnimating(true); // 애니메이션 시작
-    const startY = window.scrollY;
-    const distance = target - startY;
-    const duration = 600;
-    let startTime = null;
-
-    const animateScroll = (currentTime) => {
-      if (!startTime) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
-      const easing = progress * (2 - progress); // 가속 및 감속 효과
-
-      window.scrollTo(0, startY + distance * easing);
-
-      if (progress < 1) {
-        requestAnimationFrame(animateScroll);
-      } else {
-        setIsAnimating(false); // 애니메이션이 끝난 후 다시 스크롤 가능
-      }
-    };
-
-    requestAnimationFrame(animateScroll);
-  };
-
-  const wheelHandler = (event) => {
-    if (isAnimating) return; // 애니메이션 중에는 이벤트 무시
-
-    const scrollY = window.scrollY;
-
-    // 아래로 스크롤: deltaY가 양수일 때
-    if (!hasScrolled && event.deltaY > 0 && scrollY < targetScroll) {
-      smoothScrollTo(targetScroll);
-      setHasScrolled(true);
-    }
-    // 위로 스크롤: deltaY가 음수일 때
-    else if (hasScrolled && event.deltaY < 0 && scrollY > 0) {
-      smoothScrollTo(0);
-      setHasScrolled(false);
-    }
-  };
-
-  // 스크롤 비활성화
-  // useEffect(() => {
-  //   window.addEventListener("wheel", wheelHandler);
-
-  //   return () => {
-  //     window.removeEventListener("wheel", wheelHandler);
-  //   };
-  // }, [hasScrolled, isAnimating]);
 
   return (
     <div className="main-ver2">

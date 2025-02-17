@@ -1,0 +1,18 @@
+.policy-bar div#policy-box {
+  margin-top: 51.5px;
+  padding: 1px 0;
+
+  width: 66.5rem;
+  @media (max-width: 1279px) {
+    width: clamp(688px, 55.417vw, 66.5rem);
+  }
+  @media (max-width: 767px) {
+    width: clamp(440px, 35.833vw, 688px);
+  }
+  @media (max-width: 480px) {
+    width: 440px;
+  }
+  & {
+    border: 1px solid var(--grey-grey7, #3c3c3c);
+  }
+}

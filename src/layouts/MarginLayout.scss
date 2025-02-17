@@ -9,10 +9,10 @@
     grid-template-columns: 160px 1fr 160px;
   }
   @media (max-width: 1280px) {
-    grid-template-columns: 80px 1fr 80px;
+    grid-template-columns: 40px 1fr 40px;
   }
   @media (max-width: 1024px) {
-    grid-template-columns: 40px 1fr 40px;
+    grid-template-columns: 20px 1fr 20px;
   }
   @media (max-width: 768px) {
     grid-template-columns: 20px 1fr 20px;

@@ -13,7 +13,7 @@ import "./ImageBtn.css";
  */
 const ImageBtn = ({ src, alt, onClick, className = "", id = "", size }) => {
   return (
-    <button id={id} className={`${className} image-btn c-pointer`} onClick={onClick}>
+    <button id={id} className={`image-btn c-pointer ${className}`} onClick={onClick}>
       <img src={src} alt={alt} style={size && { width: `${size}`, height: `${size}` }} />
     </button>
   );

@@ -133,8 +133,9 @@
   @media (max-width: 768px) {
     display: none;
   }
-
-  height: fit-content;
+  & {
+    height: fit-content;
+  }
 }
 
 .footer .sitemap #right.sitemap-section {

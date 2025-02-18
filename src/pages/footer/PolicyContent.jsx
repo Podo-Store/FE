@@ -1,34 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Document, Page } from "react-pdf";
 
 import PartialLoading from "../../components/loading/PartialLoading";
+
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import userInfoPolicy from "./../../assets/pdf/userInfoPolicy.pdf";
 import termsOfService from "./../../assets/pdf/termsOfService.pdf";
 
 import "./PolicyBar.scss";
 import "./../../styles/utilities.css";
-
-const useWindowDimensions = () => {
-  const [windowDimensions, setWindowDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-};
 
 /**
  *

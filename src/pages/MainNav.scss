@@ -29,6 +29,10 @@
   @media (max-width: 768px) {
     display: block;
   }
+  & {
+    width: /* 30px */ 2.778vh;
+    height: /* 24px */ 2.222vh;
+  }
 }
 
 .navbar .navbar_logo {

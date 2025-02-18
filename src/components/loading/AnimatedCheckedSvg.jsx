@@ -4,9 +4,9 @@ const AnimatedCheckedSvg = () => (
       <defs>
         <clipPath id="fillClip">
           <rect x="0" y="24" width="0" height="0">
-            <animate attributeName="width" from="0" to="24" dur="2s" begin="0s" fill="freeze" />
-            <animate attributeName="y" from="24" to="0" dur="2s" begin="0s" fill="freeze" />
-            <animate attributeName="height" from="0" to="24" dur="2s" begin="0s" fill="freeze" />
+            <animate attributeName="width" from="0" to="24" dur="1s" begin="0s" fill="freeze" />
+            <animate attributeName="y" from="24" to="0" dur="1s" begin="0s" fill="freeze" />
+            <animate attributeName="height" from="0" to="24" dur="1s" begin="0s" fill="freeze" />
           </rect>
         </clipPath>
       </defs>
@@ -26,7 +26,7 @@ const AnimatedCheckedSvg = () => (
           attributeName="stroke-dashoffset"
           from="150"
           to="0"
-          dur="2s"
+          dur="1s"
           begin="0s"
           fill="freeze"
         />

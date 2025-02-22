@@ -20,7 +20,7 @@ const ListThumbnail = ({
   author = TruncatedText({ text: author, maxLength: 11 });
 
   return (
-    <div className="list-thumbnail" onClick={onClick}>
+    <div className="list-thumbnail f-dir-column" onClick={onClick}>
       <ThumbnailImg imagePath={thumbnailImg} />
       <div className="description">
         <p className="p-large-bold">{title}</p>

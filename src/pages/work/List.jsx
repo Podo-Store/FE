@@ -16,7 +16,7 @@ import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
 
-import "./List.css";
+import "./List.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -188,7 +188,7 @@ const List = () => {
   }, [showAllLongPlays, showAllShortPlays]);
 
   return (
-    <div className="list">
+    <div className="list j-content-center">
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
       <div className="min-height list-wrap">
         <div className="title">

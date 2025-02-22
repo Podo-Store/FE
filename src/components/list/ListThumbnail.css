@@ -1,4 +1,8 @@
 .list-thumbnail {
+  gap: 7px;
+
+  width: 197px;
+  height: 295px;
   cursor: pointer;
 }
 

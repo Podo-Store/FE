@@ -55,6 +55,38 @@
   box-sizing: border-box;
 }
 
+.cards-content .background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 40px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+
+  z-index: 0;
+}
+
+.cards-content .background-image.visible {
+  opacity: 1;
+}
+
+.cards-content#opened .cards-top {
+  display: flex;
+  flex-wrap: wrap;
+
+  row-gap: 8px;
+
+  width: 60%;
+}
+
 .cards-content#opened .cards-top .label {
   padding: 4px 16px;
 
@@ -76,18 +108,25 @@
   height: 10px;
   flex-shrink: 0;
 
-  border-radius: 50%;
+  box-sizing: border-box;
+  border-radius: 100%;
   background-color: #fff;
+
+  z-index: 1;
 }
 
 .cards-content#opened .cards-bottom h1 {
   min-width: fit-content;
+
+  z-index: 1;
 }
 
 .cards-content#closed {
   position: relative;
 
   width: 85px;
+
+  box-sizing: border-box;
 }
 
 .cards-content .mou-logo {
@@ -99,8 +138,13 @@
   height: 50px;
   flex-shrink: 0;
 
+  box-sizing: border-box;
   border-radius: 50%;
   background-color: var(--ect-white, #fff);
+}
+
+.cards-content .mou-logo img {
+  box-sizing: border-box;
 }
 
 .cards-content#closed p {

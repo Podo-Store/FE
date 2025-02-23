@@ -190,71 +190,73 @@ const List = () => {
   return (
     <div className="list j-content-center">
       {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
-      <div className="min-height list-wrap">
-        <div className="title">
-          <h1>작품 둘러보기</h1>
-          <img
-            src={circleInfoBtn}
-            alt="info btn"
-            className="info-button"
-            onClick={onClickInfoBtn}
-          />
+      <div className="list-wrap-wrap">
+        <div className="min-height list-wrap">
+          <div className="title">
+            <h1>작품 둘러보기</h1>
+            <img
+              src={circleInfoBtn}
+              alt="info btn"
+              className="info-button"
+              onClick={onClickInfoBtn}
+            />
+          </div>
+          <div className="banner-wrap">
+            <div className="banner"></div>
+            <img src={leftBtn} alt="banner left btn" />
+            <img src={rightBtn} alt="banner right btn" />
+          </div>
+
+          {showTruncatedLongPlays ? (
+            // 장편극 10개
+            <TruncatedListContent
+              playType="장편극"
+              plays={truncatedLongPlays}
+              showAllPlays={showAllLongPlays}
+              setShowAllPlays={setShowAllLongPlays}
+              setShowTruncatedShortPlays={setShowTruncatedShortPlays}
+              setShowTruncatedLongPlays={setShowTruncatedLongPlays}
+              renderListThumbnail={renderListThumbnail}
+              isLoading={isLoading}
+            />
+          ) : null}
+
+          {showAllLongPlays ? (
+            // 장편극 전체
+            <AllListContent
+              playType="장편극"
+              plays={longPlays}
+              renderListThumbnail={renderListThumbnail}
+              isLoading={isLoading}
+              observerTarget={observerTarget}
+            />
+          ) : null}
+
+          {showTruncatedShortPlays ? (
+            // 단편극 10개
+            <TruncatedListContent
+              playType="단편극"
+              plays={truncatedShortPlays}
+              showAllPlays={showAllShortPlays}
+              setShowAllPlays={setShowAllShortPlays}
+              setShowTruncatedShortPlays={setShowTruncatedShortPlays}
+              setShowTruncatedLongPlays={setShowTruncatedLongPlays}
+              renderListThumbnail={renderListThumbnail}
+              isLoading={isLoading}
+            />
+          ) : null}
+
+          {showAllShortPlays ? (
+            // 단편극 전체
+            <AllListContent
+              playType="단편극"
+              plays={shortPlays}
+              renderListThumbnail={renderListThumbnail}
+              isLoading={isLoading}
+              observerTarget={observerTarget}
+            />
+          ) : null}
         </div>
-        <div className="banner-wrap">
-          <div className="banner"></div>
-          <img src={leftBtn} alt="banner left btn" />
-          <img src={rightBtn} alt="banner right btn" />
-        </div>
-
-        {showTruncatedLongPlays ? (
-          // 장편극 10개
-          <TruncatedListContent
-            playType="장편극"
-            plays={truncatedLongPlays}
-            showAllPlays={showAllLongPlays}
-            setShowAllPlays={setShowAllLongPlays}
-            setShowTruncatedShortPlays={setShowTruncatedShortPlays}
-            setShowTruncatedLongPlays={setShowTruncatedLongPlays}
-            renderListThumbnail={renderListThumbnail}
-            isLoading={isLoading}
-          />
-        ) : null}
-
-        {showAllLongPlays ? (
-          // 장편극 전체
-          <AllListContent
-            playType="장편극"
-            plays={longPlays}
-            renderListThumbnail={renderListThumbnail}
-            isLoading={isLoading}
-            observerTarget={observerTarget}
-          />
-        ) : null}
-
-        {showTruncatedShortPlays ? (
-          // 단편극 10개
-          <TruncatedListContent
-            playType="단편극"
-            plays={truncatedShortPlays}
-            showAllPlays={showAllShortPlays}
-            setShowAllPlays={setShowAllShortPlays}
-            setShowTruncatedShortPlays={setShowTruncatedShortPlays}
-            setShowTruncatedLongPlays={setShowTruncatedLongPlays}
-            renderListThumbnail={renderListThumbnail}
-            isLoading={isLoading}
-          />
-        ) : null}
-
-        {showAllShortPlays ? (
-          // 단편극 전체
-          <AllListContent
-            playType="단편극"
-            plays={shortPlays}
-            renderListThumbnail={renderListThumbnail}
-            isLoading={isLoading}
-            observerTarget={observerTarget}
-          />
-        ) : null}
       </div>
     </div>
   );

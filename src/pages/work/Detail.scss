@@ -5,22 +5,28 @@
   margin-bottom: 5%;
 }
 
-.detail .detail-title {
-  margin-left: 3.125vw;
-  width: 100%;
+.detail .detail-wrap .content {
+  gap: 22px;
 }
 
-.detail .detail-title h1 {
+.detail .detail-title {
+  width: 737px;
+  @media (max-width: 1280px) {
+    width: 682px;
+  }
+}
+
+.detail .detail-title .title-wrap {
   margin-top: 11px;
+  padding-left: 38px;
 }
 
 .detail .detail-title hr#detail-hr-1 {
   margin: 0;
 
-  width: calc(100% + 3.519vh);
+  width: 100%;
 
   border: 1px solid #caabff;
-  transform: translateX(-3.519vh);
 }
 
 .detail .detail-title hr#detail-hr-1:nth-of-type(1) {
@@ -36,13 +42,16 @@
   height: 71px;
 }
 
+.detail .detail-price-wrap {
+  padding-left: 22px;
+}
+
 .detail hr#detail-hr-2 {
   margin: 22px 0;
 
   width: calc(100% + 2.315vh - 31px);
 
   border: 1px solid var(--grey-grey-5, #9e9e9e);
-  transform: translateX(-2.315vh);
 }
 
 .detail .detail-title hr#detail-hr-3 {
@@ -54,7 +63,7 @@
   align-items: center;
   gap: 17px;
 
-  margin-left: 0.3rem;
+  margin-left: 25px;
 }
 
 .detail .detail-price .price {
@@ -89,8 +98,8 @@
 }
 
 .detail div#detail-amount-wrap {
-  margin-left: 2.448vw; /* 47px */
-  margin-right: 4.115vw;
+  margin-left: 72px;
+  margin-right: 19px;
 }
 
 .detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) {
@@ -140,12 +149,17 @@
   text-align: right;
 }
 
-.detail div#total-price {
-  margin-right: 55px;
+.detail .total-price {
+  padding-left: 25px;
+  margin-right: 14px;
 }
 
 .detail div#total-price-won {
   gap: 7px;
+}
+
+.detail .select-amount-wrap {
+  padding-left: 25px;
 }
 
 .detail div#info-wrap {
@@ -167,6 +181,7 @@
   margin-top: 26px;
   margin-bottom: 23px;
   margin-right: 55px;
+  padding-left: 25px;
 }
 
 /* select 공용 설정 */
@@ -206,7 +221,9 @@
 .detail .detail-btn-wrap {
   display: flex;
   gap: 0.5em;
+
   margin-top: 1.852vh; /* 20px */
+  padding-left: 25px;
 }
 
 .detail .detail-btn-wrap button,
@@ -228,7 +245,7 @@
 
 .detail .detail-btn-wrap button {
   flex: 1;
-  margin-right: 55px;
+  margin-right: 15px;
 }
 
 /*

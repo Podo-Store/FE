@@ -149,8 +149,8 @@
   height: 19px;
 }
 
-.purchase div#user-info-wrap div#input-wrap {
-  gap: 14px;
+.purchase div#user-info-wrap .input-wrap {
+  gap: 15.78px;
 }
 
 .purchase p#p-1 {

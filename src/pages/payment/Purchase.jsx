@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import AmountChange from "../../components/detail/AmountChange";
-import { AuthInputField, AuthPhoneInputField } from "../../components/inputField";
+import { RectInputField, RectPhoneInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -354,18 +354,18 @@ const Purchase = () => {
                   ) : null}
                 </div>
 
-                <div className="f-dir-column" id="input-wrap">
-                  <AuthInputField
+                <div className="input-wrap f-dir-column">
+                  <RectInputField
                     placeholder="신청자 성함을 입력해주세요."
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
-                  <AuthPhoneInputField
+                  <RectPhoneInputField
                     placeholder="신청자 연락처를 입력해주세요."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
-                  <AuthInputField
+                  <RectInputField
                     placeholder="신청자 주소를 입력해주세요."
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}

@@ -1,6 +1,10 @@
 import "./RectInputField.css";
 
-const RectInputField = ({ title, ...props }: { title?: string }) => {
+interface RectInputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  title?: string;
+}
+
+const RectInputField: React.FC<RectInputFieldProps> = ({ title, ...props }) => {
   return (
     <div className="rect-input-field">
       <label htmlFor={title} className="h5-regular">

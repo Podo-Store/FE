@@ -9,3 +9,4 @@ export { default as PerformInputField } from "./performanceInfo/PerformInputFiel
 export { default as PerformDateInputField } from "./performanceInfo/PerformDateInputField";
 
 export { default as RectInputField } from "./RectInputField";
+export { default as RectPhoneInputField } from "./RectPhoneInputField";

@@ -8,11 +8,11 @@
 
 .purchase .purchase-flex {
   display: flex;
+  gap: 65px;
 }
 
 .purchase .list-side {
-  flex: 2;
-  padding-right: 2.5rem;
+  width: 800px;
 }
 
 .purchase .list-side hr#script-perform {
@@ -40,18 +40,20 @@
 
 .purchase .purchase-list {
   display: flex;
+  gap: 33px;
+
   margin-bottom: 1rem;
 }
 
 .purchase .detail {
-  width: 100%;
+  width: 565px;
   margin-top: 1rem;
-  margin-left: 1.5rem;
-  padding-right: 1.5rem;
+
+  box-sizing: border-box;
 }
 
 .purchase .detail p.left-margin {
-  margin-left: 0.5rem;
+  margin-left: 6px;
 }
 
 .purchase .detail hr {

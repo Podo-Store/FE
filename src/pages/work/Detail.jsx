@@ -219,10 +219,10 @@ const Detail = () => {
   return (
     <div className="detail">
       <div className="detail-wrap">
-        <div className="content d-flex">
+        <div className="content">
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
-              style={{ width: "24.271vw", height: "0", paddingBottom: "24.271vw" }}
+              style={{ width: "466px", height: "0", paddingBottom: "466px" }}
               imagePath={imagePath}
             />
           </div>

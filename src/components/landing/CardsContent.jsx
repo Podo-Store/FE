@@ -31,7 +31,7 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
         timer2 = setTimeout(() => {
           setIsKeywordAnimating(false);
           setShowPhoto(true);
-        }, 800);
+        }, 500);
       }, 300);
     }
     return () => {

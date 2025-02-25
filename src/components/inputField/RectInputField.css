@@ -5,7 +5,7 @@
 
 .rect-input-field input {
   width: 25.75rem;
-  height: 2.5rem;
+  height: 42px;
   padding-left: 1.25rem;
 
   border-radius: 5px;
@@ -15,7 +15,7 @@
 
 .rect-input-field input:focus {
   outline: none;
-  border-color: #000;
+  border: 1px solid var(--purple-purple-8-line, #caabff);
 }
 
 .rect-input-field input[type="number"]::-webkit-outer-spin-button,

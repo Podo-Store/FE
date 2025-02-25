@@ -20,9 +20,14 @@ const PurchaseSummaryBox = ({
 
   // 구매 완료 페이지
   scriptTitle,
+
+  // responsive 관련 props
+  setLeftPadding = false,
+  style,
+  ...props
 }) => {
   return (
-    <div className="purchase-summary-box">
+    <div className="purchase-summary-box" style={style} {...props}>
       {page === 0 ? (
         // 구매 페이지
         <h4 className="p-large-bold">{title}</h4>
@@ -31,13 +36,13 @@ const PurchaseSummaryBox = ({
         <h4 className="h5-bold">{title}</h4>
       )}
       <div style={{ height: "11.6px" }}></div>
-      <div className="price-wrap">
+      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
         <p className="p-medium-regular">
           {page === 0 ? "대본 가격" : `대본 ${scriptTitle} ${buyScript ? 1 : "-"} 개`}
         </p>
         <p className="p-medium-regular">{buyScript ? formatPrice(scriptPrice) : "-"} 원</p>
       </div>
-      <div className="price-wrap">
+      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
         <p className="p-medium-regular">
           {page === 0
             ? "공연권 가격"
@@ -54,7 +59,7 @@ const PurchaseSummaryBox = ({
             : null
         }
       ></hr>
-      <div className="price-wrap">
+      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
         <p className="p-large-regular">총 금액</p>
         <p className="p-large-regular">
           {formatPrice(

@@ -219,23 +219,23 @@ const Detail = () => {
   return (
     <div className="detail">
       <div className="detail-wrap">
-        <div className="d-flex">
+        <div className="content">
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
-              style={{ width: "24.271vw", height: "0", paddingBottom: "24.271vw" }}
+              style={{ width: "466px", height: "0", paddingBottom: "466px" }}
               imagePath={imagePath}
             />
           </div>
           <div className="f-dir-column j-content-between detail-title">
-            <div>
+            <div className="title-wrap">
               <h1 className="h1-bold">{title}</h1>
               <h3 className="h3-bold">{author}</h3>
-              <hr id="detail-hr-1"></hr>
             </div>
-            <div className="detail-plot">
-              <p className="p-medium-regular">{plot}</p>
-            </div>
-            <div>
+            <hr id="detail-hr-1"></hr>
+            <div className="detail-price-wrap">
+              <div className="detail-plot">
+                <p className="p-medium-regular">{plot}</p>
+              </div>
               <hr id="detail-hr-2"></hr>
 
               <div className="detail-price">
@@ -273,7 +273,7 @@ const Detail = () => {
               <hr id="detail-hr-2"></hr>
               {selectedOption ? (
                 <>
-                  <div className="a-items-center">
+                  <div className="select-amount-wrap a-items-center">
                     <p className="p-large-bold c-grey7">수량 선택</p>
                     <div className="j-content-start" id="info-wrap">
                       <img
@@ -373,7 +373,7 @@ const Detail = () => {
 
               {selectedOption ? <hr id="detail-hr-2"></hr> : null}
 
-              <div className="j-content-between a-items-center" id="total-price">
+              <div className="total-price j-content-between a-items-center">
                 <p className="p-large-bold c-grey7">총 금액</p>
                 <div className="a-items-end" id="total-price-won">
                   <h4 className="h4-bold">{totalPrice}</h4>
@@ -386,8 +386,8 @@ const Detail = () => {
                   구매하기
                 </button>
               </div>
-              <hr id="detail-hr-1" />
             </div>
+            <hr id="detail-hr-1" />
           </div>
         </div>
 

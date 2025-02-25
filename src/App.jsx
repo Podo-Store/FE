@@ -49,6 +49,8 @@ function App() {
             <Route path="/" element={<DefaultLayout />}>
               <Route index element={<MainVer2 />} />
               <Route path="v1" element={<MainVer1 />} />
+              <Route path="list" element={<List />} />
+
               <Route element={<MarginLayout />}>
                 <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
                 <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
@@ -61,7 +63,6 @@ function App() {
                 <Route path="signin/v2" element={<SignInV2 />} />
                 <Route path="signin/find/:id" element={<FindBar />} />
 
-                <Route path="list" element={<List />} />
                 {/*<Route path="list/detail/:id" element={<Detail />} />*/}
                 <Route path="list/detail/:id" element={<Detail testFlag={1} />} />
                 <Route path="list/detail/v2/:id" element={<Detail testFlag={0} />} />

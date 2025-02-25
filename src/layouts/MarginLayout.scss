@@ -1,4 +1,8 @@
 .__margin-layout__ {
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+
   display: grid;
 
   grid-template-columns: 320px 1fr 320px;

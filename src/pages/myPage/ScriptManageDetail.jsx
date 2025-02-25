@@ -8,7 +8,7 @@ import Loading from "../Loading";
 import GoBack from "../../components/button/GoBack";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import FileInputBox from "../../components/file/FileInputBox";
-import RectInputField from "../../components/inputField/RectInputField";
+import RectInputField from "../../components/inputField/RectInputField.tsx";
 import Select from "../../components/select/Select";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 

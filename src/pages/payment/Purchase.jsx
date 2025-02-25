@@ -14,6 +14,7 @@ import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 import Loading from "../Loading";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { formatPrice } from "../../utils/formatPrice";
 
@@ -25,7 +26,7 @@ import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 
-import "./Purchase.css";
+import "./Purchase.scss";
 import "./../../styles/utilities.css";
 
 const Purchase = () => {
@@ -64,14 +65,15 @@ const Purchase = () => {
 
   const { id } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
+  const { width } = useWindowDimensions();
+
   const {
     isScriptSelected = false,
     isPerformSelected = false,
     // 0: 공연권 구매 X, 1~: 구매 개수
     purchasePerformAmount = 0,
   } = location.state || {};
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (name.length > 0 && name.trim() !== "") {
@@ -289,40 +291,54 @@ const Purchase = () => {
               </div>
             ) : null}
           </div>
-          <div className="purchase-side">
-            <PurchaseSummaryBox
-              title="주문 요약"
-              page={0}
-              buyScript={buyScript}
-              scriptPrice={scriptPrice}
-              buyPerform={buyPerform}
-              performPrice={performPricePerAmount}
-              performAmount={modifiedPurchasePerformAmount}
-              totalPrice={totalPrice}
-            />
 
-            <div className="purchase-method">
-              <p className="p-large-bold">결제 방법</p>
-              <div className="btn-wrap d-flex">
-                <SmallOnOffBtn
-                  style={{
-                    width: "108px",
-                    height: "36px",
-                    border: "3px solid var(--purple-purple-7, #B489FF)",
-                  }}
-                >
-                  계좌 이체
-                </SmallOnOffBtn>
-                <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
-                  -
-                </SmallOnOffBtn>
-                <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
-                  -
-                </SmallOnOffBtn>
+          <hr className="to_768"></hr>
+
+          <div className="purchase-side">
+            <div className="purchase-side-box">
+              <PurchaseSummaryBox
+                title="주문 요약"
+                page={0}
+                buyScript={buyScript}
+                scriptPrice={scriptPrice}
+                buyPerform={buyPerform}
+                performPrice={performPricePerAmount}
+                performAmount={modifiedPurchasePerformAmount}
+                totalPrice={totalPrice}
+                style={width <= 768 ? { width: "320px" } : {}}
+                setLeftPadding={width <= 768 ? true : false}
+              />
+
+              <div className="purchase-method">
+                <div className="purchase-method-title">
+                  <p className="p-large-bold">결제 방법</p>
+                  {width <= 768 && (
+                    <p className="p-small-bold c-grey4">계좌 이체 방법은 메일로 전송됩니다.</p>
+                  )}
+                </div>
+                <div className="btn-wrap d-flex">
+                  <SmallOnOffBtn
+                    style={{
+                      width: "108px",
+                      height: "36px",
+                      border: "3px solid var(--purple-purple-7, #B489FF)",
+                    }}
+                  >
+                    계좌 이체
+                  </SmallOnOffBtn>
+                  <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                    -
+                  </SmallOnOffBtn>
+                  <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                    -
+                  </SmallOnOffBtn>
+                </div>
+                {width > 769 && (
+                  <p className="p-small-bold c-grey4 t-align-center">
+                    계좌 이체 방법은 메일로 전송됩니다.
+                  </p>
+                )}
               </div>
-              <p className="p-small-bold c-grey4 t-align-center">
-                계좌 이체 방법은 메일로 전송됩니다.
-              </p>
             </div>
 
             {isPerformSelected ? (
@@ -359,16 +375,19 @@ const Purchase = () => {
                     placeholder="신청자 성함을 입력해주세요."
                     value={name}
                     onChange={(e) => setName(e.target.value)}
+                    style={width <= 768 ? { width: "100%" } : {}}
                   />
                   <RectPhoneInputField
                     placeholder="신청자 연락처를 입력해주세요."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    style={width <= 768 ? { width: "100%" } : {}}
                   />
                   <RectInputField
                     placeholder="신청자 주소를 입력해주세요."
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
+                    style={width <= 768 ? { width: "100%" } : {}}
                   />
                 </div>
               </div>
@@ -385,7 +404,7 @@ const Purchase = () => {
               text="결제하기"
               onClick={onClickPurchase}
               disabled={!buttonEnabled}
-              style={{ width: "25.8125rem" }}
+              style={width > 768 ? { width: "25.8125rem" } : { width: "100%" }}
             />
 
             {isScriptSelected ? (

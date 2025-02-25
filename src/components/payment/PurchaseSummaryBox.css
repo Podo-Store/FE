@@ -28,6 +28,10 @@
   padding-left: 1rem;
 }
 
+.purchase-summary-box .price-wrap.left-padding {
+  padding-left: 10px;
+}
+
 .purchase-summary-box .price-wrap p:last-child {
   /* 오른쪽 정렬 */
   margin-left: auto;

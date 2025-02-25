@@ -3,6 +3,12 @@
   margin-top: 1.12rem;
 }
 
+@media (max-width: 768px) {
+  .purchase-checkbox {
+    margin-top: 32px;
+  }
+}
+
 .purchase-checkbox div#checkbox-content {
   gap: 0.62rem;
 }

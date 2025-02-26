@@ -149,7 +149,7 @@
 
 .cards-content#closed p {
   position: absolute;
-  top: 50%;
+  top: 45%;
 
   width: max-content;
   transform: rotate(-90deg);

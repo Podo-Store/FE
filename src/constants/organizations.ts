@@ -1,5 +1,7 @@
 import 광운극예술연구회_photo from "../assets/image/landing/organizations/광운대_광운극예술연구회/photo.png";
 import 광운극예술연구회_logo from "../assets/image/landing/organizations/광운대_광운극예술연구회/logo.png";
+import 북악극예술연구회_photo from "../assets/image/landing/organizations/국민대_북악극예술연구회/photo.png";
+import 북악극예술연구회_logo from "../assets/image/landing/organizations/국민대_북악극예술연구회/logo.png";
 import 작은공간_photo from "../assets/image/landing/organizations/광운대_작은공간/photo.png";
 import 작은공간_logo from "../assets/image/landing/organizations/광운대_작은공간/logo.png";
 import 리버액트_photo from "../assets/image/landing/organizations/서울대_리버액트/photo.png";
@@ -42,7 +44,7 @@ interface Organizations {
 */
 
 export const organizations: Organizations = {
-  4: {
+  5: {
     name: "광운대학교 광운극예술연구회",
     photo: {
       src: 광운극예술연구회_photo,
@@ -55,7 +57,19 @@ export const organizations: Organizations = {
     keywords: ["#광운대학교", "#Since1980", "#열정가득", "#과몰입", "#두번째가족"],
     additionalDeleteCircle: [2],
   },
-  // 바다
+  4: {
+    name: "국민대학교 북악극예술연구회",
+    photo: {
+      src: 북악극예술연구회_photo,
+      style: {},
+    },
+    logo: {
+      src: 북악극예술연구회_logo,
+      style: { width: "70%" },
+    },
+    keywords: ["#국민대학교", "#누구나", "#청춘", "#지금_이_순간"],
+    additionalDeleteCircle: [2],
+  },
   3: {
     name: "광운대학교 작은공간",
     photo: {
@@ -86,7 +100,7 @@ export const organizations: Organizations = {
     name: "한성대학교 낙산극회",
     photo: {
       src: 낙산극회_photo,
-      style: {},
+      style: { backgroundPosition: "center calc(50% - 45px)" },
     },
     logo: {
       src: 낙산극회_logo,

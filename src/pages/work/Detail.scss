@@ -6,8 +6,15 @@
 }
 
 .detail .detail-wrap .content {
-  display: flex;
-  gap: 22px;
+  display: grid;
+  grid-template-columns: 466px 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 22px;
+}
+
+.detail .detail-thumbnail-wrap {
+  grid-column: 1;
+  grid-row: 1 / span 2; // row 1부터 2개의 row 차지
 }
 
 .detail .detail-title {
@@ -15,6 +22,14 @@
   @media (max-width: 1280px) {
     width: 682px;
   }
+}
+.detail .detail-title:nth-of-type(1) {
+  grid-column: 2;
+  grid-row: 2;
+}
+.detail .detail-title:nth-of-type(2) {
+  grid-column: 2;
+  grid-row: 1;
 }
 
 .detail .detail-title .title-wrap {
@@ -40,6 +55,7 @@
 }
 
 .detail .detail-plot {
+  padding-left: 25px;
   height: 71px;
 }
 

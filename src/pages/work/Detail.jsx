@@ -222,15 +222,17 @@ const Detail = () => {
         <div className="content">
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
-              style={{ width: "466px", height: "0", paddingBottom: "466px" }}
+              style={{ width: "100%", height: "0", paddingBottom: "100%" }}
               imagePath={imagePath}
             />
           </div>
-          <div className="f-dir-column j-content-between detail-title">
+          <div className="detail-title f-dir-column j-content-between">
             <div className="title-wrap">
               <h1 className="h1-bold">{title}</h1>
               <h3 className="h3-bold">{author}</h3>
             </div>
+          </div>
+          <div className="detail-title f-dir-column j-content-between ">
             <hr id="detail-hr-1"></hr>
             <div className="detail-price-wrap">
               <div className="detail-plot">

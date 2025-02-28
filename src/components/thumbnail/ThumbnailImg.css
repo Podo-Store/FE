@@ -3,6 +3,7 @@
   height: 12.3125rem;
   flex-shrink: 0;
 
+  box-sizing: border-box;
   border-radius: 20px;
   border: 1px solid var(--grey-grey-3, #e2e2e2);
   background: #ffffff;

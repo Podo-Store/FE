@@ -8,6 +8,7 @@ import 리버액트_photo from "../assets/image/landing/organizations/서울대_
 import 리버액트_logo from "../assets/image/landing/organizations/서울대_리버액트/logo.png";
 import 낙산극회_photo from "../assets/image/landing/organizations/한성대_낙산극회/photo.png";
 import 낙산극회_logo from "../assets/image/landing/organizations/한성대_낙산극회/logo.png";
+import 동덕극회_photo from "../assets/image/landing/organizations/동덕여대_동덕극회/photo.png";
 import 동덕극회_logo from "../assets/image/landing/organizations/동덕여대_동덕극회/logo.png";
 
 interface Organizations {
@@ -112,8 +113,8 @@ export const organizations: Organizations = {
   0: {
     name: "동덕여자대학교 극예술연구회",
     photo: {
-      src: "",
-      style: {},
+      src: 동덕극회_photo,
+      style: { backgroundPosition: "center center" },
     },
     logo: {
       src: 동덕극회_logo,

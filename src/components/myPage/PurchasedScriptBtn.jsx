@@ -15,10 +15,10 @@ import "./../../styles/utilities.css";
  * @param {number} props.id - 구매 내역의 id
  * @param {number} props.productId - 작품의 개별 id
  * @param {number} props.buyPerformance - 0: 구매 불가, 1: 계약 필요, 2: 구매 가능 아이콘 추가
- * @param {boolean} props.paymentStatus - true: 결제 완료, false: 결제 미완료
+ * @param {string} props.orderStatus - WAIT: 입금 확인 중, PASS: 결제 완료, REJECT: 결제 취소
  * @returns
  */
-const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, paymentStatus = false }) => {
+const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus = "WAIT" }) => {
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -66,8 +66,8 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, paymentStatu
         </Button>
       ) : null}
 
-      <Button disabled={!paymentStatus} onClick={onClickDownloadScript}>
-        {paymentStatus ? "대본 받기" : "입금 확인 중"}
+      <Button disabled={orderStatus !== "PASS"} onClick={onClickDownloadScript}>
+        {orderStatus === "PASS" ? "대본 받기" : "입금 확인 중"}
       </Button>
     </div>
   );

@@ -106,14 +106,14 @@ const ScriptContent = ({
                     title={script.title}
                     productId={script.productId}
                     buyPerformance={script.buyPerformance}
-                    paymentStatus={script.paymentStatus}
+                    orderStatus={script.orderStatus}
                   />
                 ) : (
                   // PurchasedPerformBtn.jsx
                   <Button
                     id={script.id}
                     possibleCount={script.possibleCount}
-                    paymentStatus={script.paymentStatus}
+                    orderStatus={script.orderStatus}
                   />
                 )
               ) : currentPage === "1" && !script.delete ? (

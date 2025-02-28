@@ -28,7 +28,7 @@ const ScriptManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/scripts`, {
+      const response = await axios.get(`${SERVER_URL}profile/work`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${Cookies.get("accessToken")}`,

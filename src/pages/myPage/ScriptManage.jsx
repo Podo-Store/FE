@@ -34,10 +34,10 @@ const ScriptManage = () => {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
-      if (response.data.productList.length === 0) {
+      if (response.data.dateWorks.length === 0) {
         setIsNull(true);
       }
-      setProductList(response.data.productList);
+      setProductList(response.data.dateWorks);
     } catch (error) {
       alert("오류가 발생했습니다.");
     }

@@ -31,7 +31,7 @@ const ScriptContent = ({
   // 삭제된 작가 info 팝업
   const [showPopup, setShowPopup] = useState(false);
 
-  const items = currentPage === "0" ? order.orders || [] : order.products || [];
+  const items = currentPage === "0" ? order.orders || [] : order.works || [];
 
   const [year, month, day] = order.date.split("-");
   const formattedDate = `${year}. ${month}. ${day}.`;

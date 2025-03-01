@@ -8,6 +8,7 @@ import PreviewDiv from "./PreviewDiv";
 import PartialLoading from "../loading/PartialLoading";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -35,9 +36,13 @@ const Preview = ({ id, lengthType }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const previousPdfDataRef = useRef(null);
+  const { width } = useWindowDimensions();
 
   // 단편극: 1장까지만, 장편극: 3장까지만
   const showThreshold = lengthType === "SHORT" ? 1 : 3;
+
+  // for Responsive design
+  const totalRevealedPages = width > 768 ? 5 : 3;
 
   useRequest(async () => {
     try {
@@ -107,41 +112,51 @@ const Preview = ({ id, lengthType }) => {
           {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
           {numPages && (
             <div className="j-content-start" id="wrap">
-              {Array.from(new Array(Math.min(totalPage, 5)), (_, index) => {
+              {Array.from(new Array(Math.min(totalPage, totalRevealedPages)), (_, index) => {
+                const isShort = lengthType === "SHORT";
+
+                let isPageAvailable = true;
+                if (lengthType === "SHORT") {
+                  // 첫 페이지만 렌더링
+                  isPageAvailable = index + 1 === showThreshold;
+                } else {
+                  if (width > 768) {
+                    isPageAvailable = index + 1 <= showThreshold;
+                  } else {
+                    isPageAvailable = index + 1 < totalRevealedPages;
+                  }
+                }
+
                 return (
                   <div
                     key={index + 1}
-                    className={`c-pointer no-drag ${
-                      index + 1 > showThreshold ? "content-disabled" : ""
-                    }`}
+                    className={`c-pointer no-drag ${!isPageAvailable ? "content-disabled" : ""}`}
                     id="thumbnail-content"
                     onClick={() => {
-                      if (index + 1 <= showThreshold) {
-                        onClickPage(index + 1);
+                      if (isPageAvailable) {
+                        onClickPage(isShort ? showThreshold : index + 1);
                       }
                     }}
                   >
-                    {index + 1 > showThreshold && <div id="shadow-box"></div>}
-                    <div id={index + 1 > showThreshold ? "blur" : undefined}>
+                    {!isPageAvailable && <div id="shadow-box"></div>}
+                    <div id={!isPageAvailable ? "blur" : undefined}>
                       <Page
                         renderMode="canvas"
-                        pageNumber={index + 1 <= showThreshold ? index + 1 : showThreshold}
+                        pageNumber={
+                          isShort ? showThreshold : isPageAvailable ? index + 1 : showThreshold
+                        }
                         width={210}
                       />
                     </div>
-                    {/* 페이지 숫자 */}
                     <p className="p-small-regular t-align-center" id="page-number">
                       {index + 1}
                     </p>
-
-                    {index + 1 === 5 && (
+                    {index + 1 === totalRevealedPages && (
                       <p className="p-large-regular c-white" id="last-number">
-                        {totalPage - 5} +
+                        {totalPage - totalRevealedPages} +
                       </p>
                     )}
-
-                    {/* 미리보기 돋보기 */}
-                    {index + 1 <= showThreshold && (
+                    {isPageAvailable && (
                       <img src={previewGlass} alt="Preview Glass" id="preview-glass" />
                     )}
                   </div>

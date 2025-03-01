@@ -10,11 +10,18 @@
   grid-template-columns: 466px 1fr;
   grid-template-rows: auto auto;
   column-gap: 22px;
+  @media (max-width: 768px) {
+    grid-template-columns: 405px 1fr;
+    column-gap: 5.339vw; /* 41px */
+  }
 }
 
 .detail .detail-thumbnail-wrap {
   grid-column: 1;
   grid-row: 1 / span 2; // row 1부터 2개의 row 차지
+  @media (max-width: 768px) {
+    grid-row: 1;
+  }
 }
 
 .detail .detail-title {
@@ -22,19 +29,33 @@
   @media (max-width: 1280px) {
     width: 682px;
   }
+  @media (max-width: 768px) {
+    width: fit-content;
+  }
 }
-.detail .detail-title:nth-of-type(1) {
-  grid-column: 2;
-  grid-row: 2;
-}
-.detail .detail-title:nth-of-type(2) {
+.detail .detail-title#title {
   grid-column: 2;
   grid-row: 1;
+}
+.detail .detail-title#content {
+  grid-column: 2;
+  grid-row: 2;
+  @media (max-width: 768px) {
+    grid-column: 1 / span 2;
+
+    width: 682px;
+  }
 }
 
 .detail .detail-title .title-wrap {
   margin-top: 11px;
   padding-left: 38px;
+  @media (max-width: 768px) {
+    padding-left: 0;
+  }
+  & {
+    white-space: nowrap;
+  }
 }
 
 .detail .detail-title hr#detail-hr-1 {
@@ -197,7 +218,7 @@
   margin: 0;
   margin-top: 26px;
   margin-bottom: 23px;
-  margin-right: 55px;
+  margin-right: 46px;
   padding-left: 25px;
 }
 
@@ -320,6 +341,10 @@
     padding-left: 101.5px;
     padding-right: 102px;
   }
+  @media (max-width: 768px) {
+    padding-left: 55.5px;
+    padding-right: 55px;
+  }
   & {
     height: 9.259vh;
 
@@ -372,6 +397,9 @@
 
   width: 460px;
   height: 5.556vh;
+  @media (max-width: 768px) {
+    width: 220px;
+  }
 }
 
 .detail .detail-bottom-bar button {
@@ -379,4 +407,7 @@
   height: 5.556vh;
 
   font-size: 1.852vh;
+  @media (max-width: 768px) {
+    width: 159px;
+  }
 }

@@ -3,7 +3,7 @@ const truncateText = ({ text, maxLength }: { text: string; maxLength: number }) 
   const normalizedText = text.normalize("NFC");
   // maxLength보다 길면 텍스트를 자르고 "..."을 추가
   return normalizedText.length > maxLength
-    ? normalizedText.substring(0, maxLength) + "⋯"
+    ? normalizedText.substring(0, maxLength) + "..."
     : normalizedText;
 };
 

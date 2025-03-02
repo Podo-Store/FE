@@ -8,7 +8,7 @@
 }
 
 .cards-content .fade-in {
-  animation: fade-in 1s ease-in-out;
+  animation: fade-in 1.5s ease-in-out;
 }
 
 .cards-content {

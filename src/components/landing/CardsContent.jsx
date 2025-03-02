@@ -21,31 +21,35 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
 
   useEffect(() => {
     setShowPhoto(false);
-    let timer1;
-    let timer2;
+    let timer1, timer2, timer3;
     if (isOpened) {
       setIsKeywordVisible(false);
       timer1 = setTimeout(() => {
         setIsKeywordVisible(true);
         setIsKeywordAnimating(true);
         timer2 = setTimeout(() => {
-          setIsKeywordAnimating(false);
           setShowPhoto(true);
+          timer3 = setTimeout(() => {
+            setIsKeywordAnimating(false);
+          }, 1000);
         }, 500);
       }, 300);
     }
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, [isOpened]);
 
   const onMouseEnter = () => {
-    setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
+    // setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
+    // 선택된 카드만 열기, 나머진 닫기
+    setIsOpened((prev) => ({ [pageNum]: true }));
   };
 
   const onMouseLeave = () => {
-    setIsOpened((prev) => ({ ...prev, [pageNum]: false }));
+    // setIsOpened((prev) => ({ ...prev, [pageNum]: false }));
   };
 
   return isOpened ? (

@@ -10,10 +10,10 @@ import 낙산극회_photo from "../assets/image/landing/organizations/한성대_
 import 낙산극회_logo from "../assets/image/landing/organizations/한성대_낙산극회/logo.png";
 import 동덕극회_photo from "../assets/image/landing/organizations/동덕여대_동덕극회/photo.png";
 import 동덕극회_logo from "../assets/image/landing/organizations/동덕여대_동덕극회/logo.png";
+import 이화여대총연극회_photo from "../assets/image/landing/organizations/이화여대_총연극회/photo.png";
+import 이화여대총연극회_logo from "../assets/image/landing/organizations/이화여대_총연극회/logo.png";
 
 interface Organizations {
-  // 추가할 때마다 key값 증가
-
   name: string;
   photo: {
     src: string; // 이미지 경로
@@ -28,7 +28,7 @@ interface Organizations {
 }
 
 /* 복사하여 사용
-  0: {
+  {
     name: "",
     photo: {
       src: "",
@@ -127,6 +127,19 @@ const organizations: Organizations[] = [
       "#학내_유일_연극동아리",
     ],
     additionalDeleteCircle: [1, 3],
+  },
+  {
+    name: "이화여자대학교 총연극회",
+    photo: {
+      src: 이화여대총연극회_photo,
+      style: {},
+    },
+    logo: {
+      src: 이화여대총연극회_logo,
+      style: { width: "60%" },
+    },
+    keywords: ["#이화여자대학교", "#중앙연극동아리", "#깨어있는", "#연극을", "#위하여"],
+    additionalDeleteCircle: [1],
   },
 ];
 

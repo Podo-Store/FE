@@ -6,7 +6,7 @@
   align-items: center;
 
   padding-left: 88px;
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     padding-left: 44px;
   }
   & {
@@ -26,7 +26,7 @@
 
 .navbar .hamburger-btn {
   display: none;
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: block;
   }
   & {
@@ -40,7 +40,7 @@
   align-items: center;
   gap: 1.5rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     position: absolute;
     left: 50%;
 
@@ -49,14 +49,14 @@
 }
 
 .navbar .navbar_logo .icon {
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 }
 
 .navbar .navbar_menu {
   display: flex;
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: none;
   }
   & {
@@ -128,7 +128,7 @@
   font-weight: 500;
   line-height: 2.593vh; /* 155.556% */
 
-  @media (max-width: 768px) {
+  @media (max-width: 1000px) {
     display: none;
   }
 }

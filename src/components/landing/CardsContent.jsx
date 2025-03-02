@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { organizations } from "../../constants/organizations.ts";
+import { organizationsExport } from "../../constants/organizations.ts";
 import "./CardsContent.css";
 
 /**
@@ -21,31 +21,35 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
 
   useEffect(() => {
     setShowPhoto(false);
-    let timer1;
-    let timer2;
+    let timer1, timer2, timer3;
     if (isOpened) {
       setIsKeywordVisible(false);
       timer1 = setTimeout(() => {
         setIsKeywordVisible(true);
         setIsKeywordAnimating(true);
         timer2 = setTimeout(() => {
-          setIsKeywordAnimating(false);
           setShowPhoto(true);
+          timer3 = setTimeout(() => {
+            setIsKeywordAnimating(false);
+          }, 1000);
         }, 500);
       }, 300);
     }
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
+      clearTimeout(timer3);
     };
   }, [isOpened]);
 
   const onMouseEnter = () => {
-    setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
+    // setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
+    // 선택된 카드만 열기, 나머진 닫기
+    setIsOpened((prev) => ({ [pageNum]: true }));
   };
 
   const onMouseLeave = () => {
-    setIsOpened((prev) => ({ ...prev, [pageNum]: false }));
+    // setIsOpened((prev) => ({ ...prev, [pageNum]: false }));
   };
 
   return isOpened ? (
@@ -55,22 +59,22 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
         <div
           className={`background-image ${showPhoto ? "visible" : ""}`}
           style={{
-            backgroundImage: `url(${organizations?.[pageNum]?.photo?.src})`,
-            ...organizations?.[pageNum]?.photo?.style,
+            backgroundImage: `url(${organizationsExport[pageNum]?.photo?.src})`,
+            ...organizationsExport[pageNum]?.photo?.style,
           }}
         ></div>
 
         {isKeywordVisible ? (
           <div className={`cards-top ${isKeywordAnimating ? "fade-in" : ""} a-items-center`}>
-            {organizations?.[pageNum]?.keywords?.map((keyword, index) => (
+            {organizationsExport[pageNum]?.keywords?.map((keyword, index) => (
               <Fragment key={index}>
                 <div className="label p-medium-regular c-white">{keyword}</div>
                 {
                   // label 사이의 원 제어
                   // 1. 마지막 label일 때 제거
-                  index !== organizations?.[pageNum]?.keywords?.length - 1 &&
+                  index !== organizationsExport[pageNum]?.keywords?.length - 1 &&
                     // 2. 사용자 정의된 추가 삭제 원이 있을 때 제거
-                    !organizations?.[pageNum]?.additionalDeleteCircle?.includes(index) && (
+                    !organizationsExport[pageNum]?.additionalDeleteCircle?.includes(index) && (
                       <div className="label-circle"></div>
                     )
                 }
@@ -82,13 +86,13 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
         )}
         <div className="cards-bottom j-content-between">
           <h1 className="fade-in h1-regular c-white">
-            {organizations?.[pageNum]?.name || "MOU 단체명"}
+            {organizationsExport[pageNum]?.name || "MOU 단체명"}
           </h1>
           <div className="mou-logo f-center">
             <img
-              src={organizations?.[pageNum]?.logo?.src}
+              src={organizationsExport[pageNum]?.logo?.src}
               alt=""
-              style={organizations?.[pageNum]?.logo?.style}
+              style={organizationsExport[pageNum]?.logo?.style}
             />
           </div>
         </div>
@@ -99,13 +103,13 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
     <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div id="closed" className="cards-content f-dir-column f-center">
         <p className="fade-in p-large-medium c-white t-center">
-          {organizations?.[pageNum]?.name || "MOU 단체명"}
+          {organizationsExport[pageNum]?.name || "MOU 단체명"}
         </p>
         <div className="mou-logo f-center">
           <img
-            src={organizations?.[pageNum]?.logo?.src}
+            src={organizationsExport[pageNum]?.logo?.src}
             alt=""
-            style={organizations?.[pageNum]?.logo?.style}
+            style={organizationsExport[pageNum]?.logo?.style}
           />
         </div>
       </div>

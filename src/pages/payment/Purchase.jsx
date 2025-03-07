@@ -306,19 +306,19 @@ const Purchase = () => {
                 performAmount={modifiedPurchasePerformAmount}
                 totalPrice={totalPrice}
                 style={
-                  480 < width && width <= 1000
+                  768 < width && width <= 1280
                     ? { width: "320px" }
-                    : width <= 480
+                    : width <= 768
                     ? { width: "430px" }
                     : {}
                 }
-                setLeftPadding={width <= 1000 ? true : false}
+                setLeftPadding={width <= 768 ? true : false}
               />
 
               <div className="purchase-method">
                 <div className="purchase-method-title">
                   <p className="p-large-bold">결제 방법</p>
-                  {480 < width && width <= 1000 && (
+                  {768 < width && width <= 1280 && (
                     <p className="p-small-bold c-grey4">계좌 이체 방법은 메일로 전송됩니다.</p>
                   )}
                 </div>
@@ -339,7 +339,7 @@ const Purchase = () => {
                     -
                   </SmallOnOffBtn>
                 </div>
-                {(width <= 480 || width > 1000) && (
+                {(width <= 768 || width > 1280) && (
                   <p className="p-small-bold c-grey4 t-align-center">
                     계좌 이체 방법은 메일로 전송됩니다.
                   </p>
@@ -381,19 +381,19 @@ const Purchase = () => {
                     placeholder="신청자 성함을 입력해주세요."
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    style={width <= 1000 ? { width: "100%" } : {}}
+                    style={width <= 1280 ? { width: "100%" } : {}}
                   />
                   <RectPhoneInputField
                     placeholder="신청자 연락처를 입력해주세요."
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    style={width <= 1000 ? { width: "100%" } : {}}
+                    style={width <= 1280 ? { width: "100%" } : {}}
                   />
                   <RectInputField
                     placeholder="신청자 주소를 입력해주세요."
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
-                    style={width <= 1000 ? { width: "100%" } : {}}
+                    style={width <= 1280 ? { width: "100%" } : {}}
                   />
                 </div>
               </div>
@@ -410,7 +410,7 @@ const Purchase = () => {
               text="결제하기"
               onClick={onClickPurchase}
               disabled={!buttonEnabled}
-              style={width > 768 ? { width: "25.8125rem" } : { width: "100%" }}
+              style={width > 1280 ? { width: "25.8125rem" } : { width: "100%" }}
             />
 
             {isScriptSelected ? (

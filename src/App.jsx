@@ -49,7 +49,11 @@ function App() {
             <Route path="/" element={<DefaultLayout />}>
               <Route index element={<MainVer2 />} />
               <Route path="v1" element={<MainVer1 />} />
+
               <Route path="list" element={<List />} />
+              <Route path="list/detail/:id" element={<Detail />} />
+
+              <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
 
               <Route element={<MarginLayout />}>
                 <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
@@ -64,10 +68,7 @@ function App() {
                 <Route path="signin/find/:id" element={<FindBar />} />
 
                 {/*<Route path="list/detail/:id" element={<Detail />} />*/}
-                <Route path="list/detail/:id" element={<Detail testFlag={1} />} />
-                <Route path="list/detail/v2/:id" element={<Detail testFlag={0} />} />
 
-                <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
                 <Route
                   path="purchase/success"
                   element={<ProtectedRoute element={<PurchaseSuccess />} />}

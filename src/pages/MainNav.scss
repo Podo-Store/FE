@@ -1,4 +1,5 @@
 @use "./../components/button/_mixins.scss" as m;
+@use "./../styles/_responsive.scss" as r;
 
 .navbar {
   display: flex;
@@ -6,7 +7,7 @@
   align-items: center;
 
   padding-left: 88px;
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     padding-left: 44px;
   }
   & {
@@ -26,7 +27,7 @@
 
 .navbar .hamburger-btn {
   display: none;
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     display: block;
   }
   & {
@@ -40,7 +41,7 @@
   align-items: center;
   gap: 1.5rem;
 
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     position: absolute;
     left: 50%;
 
@@ -49,14 +50,14 @@
 }
 
 .navbar .navbar_logo .icon {
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     display: none;
   }
 }
 
 .navbar .navbar_menu {
   display: flex;
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     display: none;
   }
   & {
@@ -102,7 +103,7 @@
   cursor: pointer;
 
   transform: translateX(-100%);
-  @media (max-width: 768px) {
+  @include r.media-mobile {
     position: static;
     transform: none;
   }
@@ -128,7 +129,7 @@
   font-weight: 500;
   line-height: 2.593vh; /* 155.556% */
 
-  @media (max-width: 1000px) {
+  @include r.media-tablet {
     display: none;
   }
 }

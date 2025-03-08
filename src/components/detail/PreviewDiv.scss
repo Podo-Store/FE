@@ -1,9 +1,11 @@
+@use "./../../styles/responsive.scss" as r;
+
 .preview div#selected-page {
   padding: 67px 0;
 
-  background: var(--grey-grey-5, #9e9e9e);
-
   position: relative;
+
+  background: var(--grey-grey-5, #9e9e9e);
 }
 
 .preview div#selected-page img#close-btn {
@@ -19,8 +21,14 @@
   position: absolute;
   top: 98px;
   bottom: 98px;
+
   width: 674px;
-  z-index: 10; /* 페이지보다 뒤에 위치 */
+  @include r.media-tablet {
+    width: calc(467px + 23px * 2);
+  }
+  & {
+    z-index: 10;
+  }
 }
 
 .preview div#background-page {
@@ -33,6 +41,9 @@
   z-index: 50;
 
   gap: 163px;
+  @include r.media-tablet {
+    gap: 46px;
+  }
 }
 
 .preview div#selected-page div#page img {

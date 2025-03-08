@@ -42,7 +42,7 @@ const Preview = ({ id, lengthType }) => {
   const showThreshold = lengthType === "SHORT" ? 1 : 3;
 
   // for Responsive design
-  const totalRevealedPages = width > 768 ? 5 : 3;
+  const totalRevealedPages = width > 1280 ? 5 : width > 768 ? 3 : 2;
 
   useRequest(async () => {
     try {
@@ -120,7 +120,7 @@ const Preview = ({ id, lengthType }) => {
                   // 첫 페이지만 렌더링
                   isPageAvailable = index + 1 === showThreshold;
                 } else {
-                  if (width > 768) {
+                  if (width > 1280) {
                     isPageAvailable = index + 1 <= showThreshold;
                   } else {
                     isPageAvailable = index + 1 < totalRevealedPages;

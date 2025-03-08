@@ -1,10 +1,12 @@
 import PreviewPurchase from "../button/PreviewPurchase";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 import inequalityLeft from "./../../assets/image/button/inequalityLeft.svg";
 import inequalityRight from "./../../assets/image/button/inequalityRight.svg";
 
-import "./PreviewDiv.css";
+import "./PreviewDiv.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -16,6 +18,7 @@ import "./../../styles/utilities.css";
  * @returns
  */
 const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, numPages }) => {
+  const { width } = useWindowDimensions();
   return (
     <div>
       <hr id="selected-page-hr" />
@@ -27,7 +30,9 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, nu
             id="close-btn"
             src={CloseBtn}
             alt="close"
-            onClick={() => setSelectedPage(null)}
+            onClick={() => {
+              setSelectedPage(null);
+            }}
           />
           <div className="d-flex" id="background-page-wrap">
             <div id="background-page" style={selectedPage === 1 ? { opacity: "0" } : null}></div>
@@ -48,7 +53,11 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, nu
               }}
             />
             <div className="p-relative" id="preview-page">
-              <Page renderMode="canvas" pageNumber={selectedPage} width={609} />
+              <Page
+                renderMode="canvas"
+                pageNumber={selectedPage}
+                width={width > 1280 ? 609 : 467}
+              />
               <h3 className="p-small-regular" id="select-page">
                 {selectedPage}
               </h3>

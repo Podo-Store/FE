@@ -17,21 +17,39 @@
 .main-ver2 .page2 .page2-content {
   position: relative;
 
-  width: 400px;
+  width: 407px;
   min-height: 580px;
   height: 58.796vh; /* 635px */
   flex-shrink: 0;
 
-  background: var(--purple-purple-8-line, #caabff);
+  border-radius: 30px;
 
   cursor: pointer;
 
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .main-ver2 .page2 .page2-content:hover {
   transform: scale(1.01);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.main-ver2 .page2 .page2-content:nth-of-type(1) .page2-img-wrap {
+  position: absolute;
+  bottom: 0px;
+}
+
+.main-ver2 .page2 .page2-content:nth-of-type(2) .page2-img-wrap {
+  position: absolute;
+  bottom: 74.5px;
+}
+
+.main-ver2 .page2 .page2-content:nth-of-type(3) .page2-img-wrap {
+  position: absolute;
+  bottom: 0;
 }
 
 .main-ver2 .page2 .page2-content .page2-button {
@@ -41,7 +59,9 @@
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(1) {
-  border-radius: 0px 40px 40px 0px;
+  position: relative;
+
+  background-image: url("./../assets/image/landing/page2/content1/Group\ \(2\).png");
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(1) .page2-content-title {
@@ -64,30 +84,22 @@
   margin-left: 33px;
 }
 
-.main-ver2 .page2 .page2-content:nth-of-type(1) .page2-img-wrap {
-  margin-top: 55px;
-  @media (max-width: 1920px) {
-    margin-top: 55px;
-  }
-  @media (max-width: 1600px) {
-    margin-top: 0;
-  }
-}
-
 .main-ver2 .page2 .page2-content:nth-of-type(2) {
-  border-radius: 40px;
+  background-image: url("./../assets/image/landing/page2/content2/Clip\ path\ group.png");
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) h4 {
+  margin-top: 4.7222vh; /* 51px */
   margin-left: 33px;
   margin-bottom: 43px;
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) h1 {
-  position: relative; /* z-index */
+  position: absolute;
+  bottom: 0;
 
-  margin-left: 33px;
-  margin-bottom: 17px;
+  margin-left: 30px;
+  margin-bottom: 13px;
 
   z-index: 10;
 }
@@ -101,22 +113,20 @@
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(3) {
-  border-radius: 40px 40px 0px 40px;
+  background-image: url("./../assets/image/landing/page2/content3/Clip\ path\ group\ \(2\).png");
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(3) .page2-content-title {
   position: absolute;
   top: -2px;
   right: -2px;
-
-  transform: rotateY(180deg);
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(3) h1 {
   position: relative; /* z-index */
 
   margin-top: 17px;
-  margin-right: 33px;
+  margin-right: 32px;
 
   z-index: 10;
 }
@@ -124,14 +134,4 @@
 .main-ver2 .page2 .page2-content:nth-of-type(3) h4 {
   margin-top: 43px;
   margin-right: 33px;
-}
-
-.main-ver2 .page2 .page2-content:nth-of-type(3) .page2-img-wrap {
-  margin-top: 43px;
-  @media (max-width: 1920px) {
-    margin-top: 43px;
-  }
-  @media (max-width: 1600px) {
-    margin-top: 0;
-  }
 }

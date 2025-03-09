@@ -1,5 +1,6 @@
 import {
   Alert,
+  Button,
   CircularProgress,
   Pagination,
   Paper,
@@ -67,8 +68,11 @@ const AdminScriptManage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
+  // 다운로드 중 알림
+  const [showDownloadAlert, setShowDownloadAlert] = useState<boolean>(false);
+
   // 변경 완료 알림
-  const [showAlert, setShowAlert] = useState({
+  const [showChangedAlert, setShowChangedAlert] = useState({
     show: false,
     success: false,
   });
@@ -135,6 +139,32 @@ const AdminScriptManage = () => {
     setData(updatedData);
   };
 
+  // 대본 다운로드
+  const onClickDownload = async (id: string, title: string) => {
+    setShowDownloadAlert(true);
+
+    try {
+      const response = await axios.get(`${SERVER_URL}admin/download/${id}`, {
+        headers: {
+          Authorization: Cookies.get("accessToken")
+            ? `Bearer ${Cookies.get("accessToken")}`
+            : undefined,
+        },
+        responseType: "blob",
+      });
+
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `${title}.pdf`); // 파일명 추출 및 설정
+      document.body.appendChild(link);
+      link.click(); // 링크 클릭으로 다운로드 시작
+      link.remove(); // 링크 요소 제거
+    } catch (error: any) {
+      alert(error.response.data?.error);
+    }
+  };
+
   const onChangePermission = async (id: string, newPermission: OrderStatus) => {
     const updatedData = data.map((item) =>
       item.id === id
@@ -165,9 +195,9 @@ const AdminScriptManage = () => {
         }
       );
 
-      setShowAlert({ show: true, success: true });
+      setShowChangedAlert({ show: true, success: true });
     } catch (error) {
-      setShowAlert({ show: true, success: false });
+      setShowChangedAlert({ show: true, success: false });
     }
   };
 
@@ -180,15 +210,26 @@ const AdminScriptManage = () => {
   return (
     <>
       <Snackbar
-        open={showAlert.show}
+        open={showChangedAlert.show}
         autoHideDuration={3000}
-        onClose={() => setShowAlert({ ...showAlert, show: false })}
+        onClose={() => setShowChangedAlert({ ...showChangedAlert, show: false })}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert severity={showAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
-          {showAlert.success
+        <Alert severity={showChangedAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
+          {showChangedAlert.success
             ? "수정이 완료되었습니다."
             : "오류가 발생했습니다. 새로고침 후 다시 시도해주세요."}
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={showDownloadAlert}
+        autoHideDuration={3000}
+        onClose={() => setShowDownloadAlert(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert severity={"info"} sx={{ width: "100%" }}>
+          다운로드 중입니다.
         </Alert>
       </Snackbar>
 
@@ -216,35 +257,31 @@ const AdminScriptManage = () => {
 
         <div className="j-content-between a-items-center">
           <h4 className="h4-bold">전체 {totalCount}</h4>
-          <span>
-            <button
-              onClick={() => {
-                setFilterStatus("ALL");
-              }}
+          <span className="d-flex" style={{ gap: "8px" }}>
+            <Button
+              variant={filterStatus === "ALL" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("ALL")}
             >
               전체
-            </button>
-            <button
-              onClick={() => {
-                setFilterStatus("PASS");
-              }}
+            </Button>
+            <Button
+              variant={filterStatus === "PASS" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("PASS")}
             >
               등록 수락
-            </button>
-            <button
-              onClick={() => {
-                setFilterStatus("REJECT");
-              }}
-            >
-              등록 거절
-            </button>
-            <button
-              onClick={() => {
-                setFilterStatus("WAIT");
-              }}
+            </Button>
+            <Button
+              variant={filterStatus === "WAIT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("WAIT")}
             >
               등록 대기
-            </button>
+            </Button>
+            <Button
+              variant={filterStatus === "REJECT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("REJECT")}
+            >
+              등록 거절
+            </Button>
           </span>
         </div>
 
@@ -284,7 +321,12 @@ const AdminScriptManage = () => {
                     <TableCellCenter>{item.writer}</TableCellCenter>
                     <TableCellCenter
                       sx={{
-                        backgroundColor: "#E2E2E2",
+                        backgroundColor:
+                          item.checked === "PASS"
+                            ? "#C8E6C9"
+                            : item.checked === "REJECT"
+                            ? "#FFCDD2"
+                            : "#E2E2E2",
                       }}
                     >
                       {permissionToStatus[item.checked]}
@@ -308,7 +350,12 @@ const AdminScriptManage = () => {
                     </TableCellCenter>
                     <TableCellCenter>
                       <div className="j-content-between" style={{ marginRight: "16px" }}>
-                        <DownloadSvg />
+                        <DownloadSvg
+                          className="c-pointer"
+                          onClick={() => {
+                            onClickDownload(item.id, item.title);
+                          }}
+                        />
                         {/* 장편극 / 단편극 선택 여부에 따른 변화 */}
                         {item.playType === null ? (
                           <>
@@ -334,7 +381,14 @@ const AdminScriptManage = () => {
                         ) : item.checked === "PASS" ? (
                           <>
                             {/* 승인 */}
-                            <AcceptSvg fill="#6A39C0" opacity="0.5" />
+                            <AcceptSvg
+                              fill="#6A39C0"
+                              opacity="0.5"
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "WAIT");
+                              }}
+                            />
                             <DenySvg
                               fill="#bababa"
                               className="c-pointer"
@@ -353,7 +407,14 @@ const AdminScriptManage = () => {
                                 onChangePermission(item.id, "PASS");
                               }}
                             />
-                            <DenySvg fill="#6A39C0" opacity="0.5" />
+                            <DenySvg
+                              fill="#6A39C0"
+                              opacity="0.5"
+                              className="c-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "WAIT");
+                              }}
+                            />
                           </>
                         )}
                       </div>

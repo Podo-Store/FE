@@ -253,9 +253,7 @@ const AdminOrderManage = () => {
 
         {/* 필터 버튼 */}
         <div className="j-content-between a-items-center" style={{ marginBottom: "16px" }}>
-          <Typography variant="h6" className="h4-bold">
-            전체 {totalCount}
-          </Typography>
+          <h4 className="h4-bold">전체 {totalCount}</h4>
           <span className="d-flex" style={{ gap: "8px" }}>
             <Button
               variant={filterStatus === "ALL" ? "contained" : "outlined"}
@@ -328,7 +326,7 @@ const AdminOrderManage = () => {
                             ? "#C8E6C9"
                             : item.orderStatus === "REJECT"
                             ? "#FFCDD2"
-                            : "#FFFFFF",
+                            : "#E2E2E2",
                       }}
                     >
                       {statusToLabel(item.orderStatus)}

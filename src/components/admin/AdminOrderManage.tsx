@@ -28,6 +28,7 @@ import TableCellCenter from "./TableCellCenter";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { OrderStatus } from "@/types/orderStatus";
+import { FilterStatus } from "./types/filterStatus";
 
 import { SERVER_URL } from "@/constants/ServerURL";
 
@@ -57,7 +58,7 @@ const AdminOrderManage = () => {
   const [data, setData] = useState<Order[]>([]);
   const [inputText, setInputText] = useState<string>(""); // input 내부 필드 값
   const [searchText, setSearchText] = useState<string>(""); // API 요청용
-  const [filterStatus, setFilterStatus] = useState<"ALL" | "PASS" | "WAIT" | "REJECT">("ALL");
+  const [filterStatus, setFilterStatus] = useState<FilterStatus>("ALL");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -73,7 +74,7 @@ const AdminOrderManage = () => {
   // Dialog 상태
   const [changedStatus, setChangedStatus] = useState({
     id: -1 as number,
-    newStatus: null as OrderStatus,
+    newStatus: "WAIT" as OrderStatus, // initial value
   });
   const [open, setOpen] = useState(false);
 

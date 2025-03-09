@@ -21,14 +21,15 @@ import React, { useState, useEffect } from "react";
 
 import TableCellCenter from "./TableCellCenter";
 
+import { OrderStatus } from "@/types/orderStatus";
+import { FilterStatus } from "./types/filterStatus";
+
 import { SERVER_URL } from "@/constants/ServerURL";
 
 import DownloadSvg from "../../assets/image/component/DownloadSvg";
 import AcceptSvg from "../../assets/image/component/AcceptSvg";
 import DenySvg from "../../assets/image/component/DenySvg";
 
-type Checked = "PASS" | "REJECT" | "WAIT";
-type FilterStatus = "ALL" | Checked;
 type PlayType = "LONG" | "SHORT" | null; // undefined: 선택 안함
 
 interface Product {
@@ -36,7 +37,7 @@ interface Product {
   createdAt: string;
   title: string;
   writer: string;
-  checked: Checked;
+  checked: OrderStatus;
   playType: PlayType;
 }
 
@@ -134,7 +135,7 @@ const AdminScriptManage = () => {
     setData(updatedData);
   };
 
-  const onChangePermission = async (id: string, newPermission: Checked) => {
+  const onChangePermission = async (id: string, newPermission: OrderStatus) => {
     const updatedData = data.map((item) =>
       item.id === id
         ? {

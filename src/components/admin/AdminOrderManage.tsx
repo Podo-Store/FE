@@ -314,7 +314,7 @@ const AdminOrderManage = () => {
               ) : data.length > 0 ? (
                 data.map((item, index) => (
                   <TableRow key={item.id}>
-                    <TableCellCenter>{(page - 1) * 10 + index + 1}</TableCellCenter>
+                    <TableCellCenter>{item.id}</TableCellCenter>
                     <TableCellCenter>{new Date(item.orderDate).toLocaleString()}</TableCellCenter>
                     <TableCellCenter>{item.title}</TableCellCenter>
                     <TableCellCenter>{item.writer}</TableCellCenter>

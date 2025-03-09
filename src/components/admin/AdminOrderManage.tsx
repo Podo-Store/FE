@@ -57,7 +57,7 @@ const AdminOrderManage = () => {
   const [data, setData] = useState<Order[]>([]);
   const [inputText, setInputText] = useState<string>(""); // input 내부 필드 값
   const [searchText, setSearchText] = useState<string>(""); // API 요청용
-  const [filterStatus, setFilterStatus] = useState<"전체" | "완료" | "대기">("전체");
+  const [filterStatus, setFilterStatus] = useState<"ALL" | "PASS" | "WAIT" | "REJECT">("ALL");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -95,10 +95,8 @@ const AdminOrderManage = () => {
         if (searchText) {
           params.search = searchText;
         }
-        if (filterStatus === "완료") {
-          params.checked = true;
-        } else if (filterStatus === "대기") {
-          params.checked = false;
+        if (filterStatus !== "ALL") {
+          params.status = filterStatus;
         }
 
         const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/orders`, {
@@ -257,26 +255,30 @@ const AdminOrderManage = () => {
           <Typography variant="h6" className="h4-bold">
             전체 {totalCount}
           </Typography>
-          <span>
+          <span className="d-flex" style={{ gap: "8px" }}>
             <Button
-              variant={filterStatus === "전체" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("전체")}
-              style={{ marginRight: "8px" }}
+              variant={filterStatus === "ALL" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("ALL")}
             >
               전체
             </Button>
             <Button
-              variant={filterStatus === "완료" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("완료")}
-              style={{ marginRight: "8px" }}
+              variant={filterStatus === "PASS" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("PASS")}
             >
               결제 완료
             </Button>
             <Button
-              variant={filterStatus === "대기" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("대기")}
+              variant={filterStatus === "WAIT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("WAIT")}
             >
               결제 대기
+            </Button>
+            <Button
+              variant={filterStatus === "REJECT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("REJECT")}
+            >
+              결제 취소
             </Button>
           </span>
         </div>

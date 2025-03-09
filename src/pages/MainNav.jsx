@@ -97,7 +97,7 @@ function MainNav() {
           <div className="navbar_login">
             <button
               onClick={() => {
-                navigate("/signin");
+                navigate("/signin", { state: { from: location } });
               }}
               className="signin_btn"
             >

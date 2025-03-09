@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import Loading from "../Loading";
 
@@ -29,6 +29,9 @@ function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = location.state?.from?.pathname || "/"; // 이전 페이지로 이동
 
   useEffect(() => {
     setShowErrorMsg(false);
@@ -55,7 +58,8 @@ function SignIn() {
         login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
 
         setIsIdPwMatch(true);
-        navigate("/");
+        navigate(from, { replace: true });
+        navigate(-1); // 왠진 모르겠지만 해줘야 정상 작동함...
       } else {
         setIsIdPwMatch(false);
       }

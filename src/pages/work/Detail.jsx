@@ -136,6 +136,7 @@ const Detail = () => {
 
   const pdfContainerRef = useRef(null);
 
+  // 구매 버튼이 보이면 bottom bar가 보이지 않도록
   useEffect(() => {
     if (!numPages) return; // PDF가 로드되지 않았으면 IntersectionObserver 설정 중지
 
@@ -161,6 +162,7 @@ const Detail = () => {
     };
   }, [numPages]); // numPages가 설정된 후에만 IntersectionObserver 작동
 
+  // footer 위에 도달하면 바닥에 붙도록
   useEffect(() => {
     if (!numPages) return; // PDF가 로드되지 않았으면 스크롤 이벤트 중지
 
@@ -175,6 +177,7 @@ const Detail = () => {
         if (pdfContainerRect.bottom <= window.innerHeight - bottomBarHeight) {
           setBottomBarStyle({
             position: "relative",
+            width: "100%",
           });
         } else {
           setBottomBarStyle({
@@ -220,8 +223,8 @@ const Detail = () => {
   }
 
   return (
-    <div className="detail">
-      <div className="detail-wrap">
+    <div className="detail f-dir-column a-items-center">
+      <div className="detail-wrap f-dir-column a-items-center">
         <div className="content">
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
@@ -232,169 +235,173 @@ const Detail = () => {
           <div id="title" className="detail-title f-dir-column j-content-between">
             <div className="title-wrap">
               <h1 className="h1-bold">
-                {width > 768 ? title : truncateText({ text: title, maxLength: 6 })}
+                {width > 769 ? title : truncateText({ text: title, maxLength: 6 })}
               </h1>
               <h3 className="h3-bold">{author}</h3>
             </div>
           </div>
-          <div id="content" className="detail-title f-dir-column j-content-between ">
-            <hr id="detail-hr-1"></hr>
-            <div className="detail-price-wrap">
-              <div className="detail-plot">
-                <p className="p-medium-regular">{plot}</p>
-              </div>
-              <hr id="detail-hr-2"></hr>
-
-              <div className="detail-price">
-                <div className="price">
-                  <img id="script" src={scriptImg} alt="script"></img>
-                  <p style={{ marginLeft: "0.2rem" }}>대본</p>
+          <div id="content" className="detail-title f-dir-column j-content-between">
+            <div className="_content-detail">
+              <hr id="detail-hr-1"></hr>
+              <div className="detail-price-wrap">
+                <div className="detail-plot">
+                  <p className="p-medium-regular">{plot}</p>
                 </div>
-                <p className="p-large-medium">{formatPrice(scriptPrice)} 원</p>
-              </div>
-              <div className="detail-price">
-                <div className="price">
-                  <img id="perform" src={performImg} alt="perform"></img>
-                  <p>공연권</p>
+                <hr id="detail-hr-2"></hr>
+
+                <div className="detail-price">
+                  <div className="price">
+                    <img id="script" src={scriptImg} alt="script"></img>
+                    <p style={{ marginLeft: "0.2rem" }}>대본</p>
+                  </div>
+                  <p className="p-large-medium">{formatPrice(scriptPrice)} 원</p>
                 </div>
-                <p className="p-large-medium">{formatPrice(performPrice)} 원</p>
-              </div>
+                <div className="detail-price">
+                  <div className="price">
+                    <img id="perform" src={performImg} alt="perform"></img>
+                    <p>공연권</p>
+                  </div>
+                  <p className="p-large-medium">{formatPrice(performPrice)} 원</p>
+                </div>
 
-              <div className="option-select">
-                <Select value={selectedOption} onChange={onChangeSelectOption}>
-                  <option value="" disabled selected>
-                    옵션 선택
-                  </option>
-                  {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
-                    <option value="script">대본</option>
-                  ) : null}
-                  {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
-                    <option value="scriptPerform">대본 + 공연권</option>
-                  ) : null}
-                  {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
-                    <option value="perform">공연권</option>
-                  ) : null}
-                </Select>
-              </div>
+                <div className="option-select">
+                  <Select value={selectedOption} onChange={onChangeSelectOption}>
+                    <option value="" disabled selected>
+                      옵션 선택
+                    </option>
+                    {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
+                      <option value="script">대본</option>
+                    ) : null}
+                    {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
+                      <option value="scriptPerform">대본 + 공연권</option>
+                    ) : null}
+                    {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
+                      <option value="perform">공연권</option>
+                    ) : null}
+                  </Select>
+                </div>
 
-              <hr id="detail-hr-2"></hr>
-              {selectedOption ? (
-                <>
-                  <div className="select-amount-wrap a-items-center">
-                    <p className="p-large-bold c-grey7">수량 선택</p>
-                    <div className="j-content-start" id="info-wrap">
-                      <img
-                        className="c-pointer"
-                        id="info-btn"
-                        src={circleInfoBtn}
-                        alt="info"
-                        onClick={() => {
-                          setShowPopup(!showPopup);
-                        }}
-                      ></img>
-                      {showPopup ? (
-                        <InfoPopup
-                          message={
-                            selectedOption === "perform" ? DETAIL_PERFORM_TEXT : DETAIL_SCRIPT_TEXT
-                          }
-                          onClose={() => {
+                <hr id="detail-hr-2"></hr>
+                {selectedOption ? (
+                  <>
+                    <div className="select-amount-wrap a-items-center">
+                      <p className="p-large-bold c-grey7">수량 선택</p>
+                      <div className="j-content-start" id="info-wrap">
+                        <img
+                          className="c-pointer"
+                          id="info-btn"
+                          src={circleInfoBtn}
+                          alt="info"
+                          onClick={() => {
                             setShowPopup(!showPopup);
                           }}
-                          style={{
-                            padding: "11px",
-                            transform: "translate(35px, calc(-100% + 19px))",
-                          }}
-                          buttonId="info-btn"
-                          message2={selectedOption === "scriptPerform" && DETAIL_PERFORM_TEXT}
-                        />
+                        ></img>
+                        {showPopup ? (
+                          <InfoPopup
+                            message={
+                              selectedOption === "perform"
+                                ? DETAIL_PERFORM_TEXT
+                                : DETAIL_SCRIPT_TEXT
+                            }
+                            onClose={() => {
+                              setShowPopup(!showPopup);
+                            }}
+                            style={{
+                              padding: "11px",
+                              transform: "translate(35px, calc(-100% + 19px))",
+                            }}
+                            buttonId="info-btn"
+                            message2={selectedOption === "scriptPerform" && DETAIL_PERFORM_TEXT}
+                          />
+                        ) : null}
+                      </div>
+                    </div>
+                    <div id="detail-amount-wrap">
+                      {selectedOption === "script" || selectedOption === "scriptPerform" ? (
+                        <div className="j-content-between" id="detail-amount">
+                          <div className="a-items-center" id="detail-amount-title">
+                            <img src={vector23} alt="ㄴ"></img>
+                            <img id="script" src={scriptImg} alt="script amount"></img>
+                            <p className="p-large-medium">대본</p>
+                          </div>
+                          <div className="a-items-center" id="detail-amount-price">
+                            <p className="p-large-medium">1</p>
+                            <div className="a-items-center" style={{ gap: "39px" }}>
+                              <p className="p-large-medium" id="price">
+                                {formatPrice(scriptPrice)} 원
+                              </p>
+                              <img
+                                className="c-pointer"
+                                src={closeBtn}
+                                alt="X"
+                                onClick={() => {
+                                  setSelectedOption("");
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      ) : null}
+
+                      {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
+
+                      {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
+                        <div className="j-content-between" id="detail-amount">
+                          <div className="a-items-center" id="detail-amount-title">
+                            <img src={vector23} alt="ㄴ"></img>
+                            <img id="perform" src={performImg} alt="perform amount"></img>
+                            <p className="p-large-medium">공연권</p>
+                          </div>
+
+                          <div className="a-items-center t-align-center" id="detail-amount-price">
+                            <AmountChange
+                              purchasePerformAmount={purchasePerformAmount}
+                              setPurchasePerformAmount={setPurchasePerformAmount}
+                            />
+                            <div className="a-items-center" style={{ gap: "39px" }}>
+                              <p className="p-large-medium" id="price">
+                                {formatPrice(purchasePerformAmount * performPrice)} 원
+                              </p>
+                              <img
+                                className="c-pointer"
+                                src={closeBtn}
+                                alt="X"
+                                onClick={() => {
+                                  if (selectedOption === "perform") {
+                                    setSelectedOption("");
+                                    setIsOptionSelected(false);
+                                  } else {
+                                    // selectedOption === "scriptPerform"
+                                    setSelectedOption("script");
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       ) : null}
                     </div>
+                  </>
+                ) : null}
+
+                {selectedOption ? <hr id="detail-hr-2"></hr> : null}
+
+                <div className="total-price j-content-between a-items-center">
+                  <p className="p-large-bold c-grey7">총 금액</p>
+                  <div className="a-items-end" id="total-price-won">
+                    <h4 className="h4-bold">{totalPrice}</h4>
+                    <p className="p-large-bold c-grey7">원</p>
                   </div>
-                  <div id="detail-amount-wrap">
-                    {selectedOption === "script" || selectedOption === "scriptPerform" ? (
-                      <div className="j-content-between" id="detail-amount">
-                        <div className="a-items-center" id="detail-amount-title">
-                          <img src={vector23} alt="ㄴ"></img>
-                          <img id="script" src={scriptImg} alt="script amount"></img>
-                          <p className="p-large-medium">대본</p>
-                        </div>
-                        <div className="a-items-center" id="detail-amount-price">
-                          <p className="p-large-medium">1</p>
-                          <div className="a-items-center" style={{ gap: "39px" }}>
-                            <p className="p-large-medium" id="price">
-                              {formatPrice(scriptPrice)} 원
-                            </p>
-                            <img
-                              className="c-pointer"
-                              src={closeBtn}
-                              alt="X"
-                              onClick={() => {
-                                setSelectedOption("");
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ) : null}
-
-                    {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
-
-                    {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
-                      <div className="j-content-between" id="detail-amount">
-                        <div className="a-items-center" id="detail-amount-title">
-                          <img src={vector23} alt="ㄴ"></img>
-                          <img id="perform" src={performImg} alt="perform amount"></img>
-                          <p className="p-large-medium">공연권</p>
-                        </div>
-
-                        <div className="a-items-center t-align-center" id="detail-amount-price">
-                          <AmountChange
-                            purchasePerformAmount={purchasePerformAmount}
-                            setPurchasePerformAmount={setPurchasePerformAmount}
-                          />
-                          <div className="a-items-center" style={{ gap: "39px" }}>
-                            <p className="p-large-medium" id="price">
-                              {formatPrice(purchasePerformAmount * performPrice)} 원
-                            </p>
-                            <img
-                              className="c-pointer"
-                              src={closeBtn}
-                              alt="X"
-                              onClick={() => {
-                                if (selectedOption === "perform") {
-                                  setSelectedOption("");
-                                  setIsOptionSelected(false);
-                                } else {
-                                  // selectedOption === "scriptPerform"
-                                  setSelectedOption("script");
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ) : null}
-                  </div>
-                </>
-              ) : null}
-
-              {selectedOption ? <hr id="detail-hr-2"></hr> : null}
-
-              <div className="total-price j-content-between a-items-center">
-                <p className="p-large-bold c-grey7">총 금액</p>
-                <div className="a-items-end" id="total-price-won">
-                  <h4 className="h4-bold">{totalPrice}</h4>
-                  <p className="p-large-bold c-grey7">원</p>
+                </div>
+                <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
+                  {/*<button id="cart-btn">장바구니</button>*/}
+                  <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
+                    구매하기
+                  </button>
                 </div>
               </div>
-              <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
-                {/*<button id="cart-btn">장바구니</button>*/}
-                <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
-                  구매하기
-                </button>
-              </div>
+              <hr id="detail-hr-1" />
             </div>
-            <hr id="detail-hr-1" />
           </div>
         </div>
 
@@ -416,7 +423,12 @@ const Detail = () => {
               noData=""
             >
               {Array.from(new Array(numPages), (el, index) => (
-                <Page key={index} renderMode="canvas" pageNumber={index + 1} width={1000} />
+                <Page
+                  key={index}
+                  renderMode="canvas"
+                  pageNumber={index + 1}
+                  width={width > 1280 ? 1000 : width <= 1280 && width > 768 ? 700 : 400}
+                />
               ))}
             </Document>
           </div>

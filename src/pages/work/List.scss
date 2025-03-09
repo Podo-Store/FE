@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .list {
   display: flex;
   flex-direction: column;
@@ -5,40 +7,18 @@
 }
 
 .list .list-wrap-wrap {
-  width: 1280px;
-  @media (max-width: 1920px) {
-    /* main threshold */
-    width: 1280px;
+  width: 66.6%;
+  @include r.media-desktop {
+    width: 66.6%;
   }
-  @media (max-width: 1280px) {
-    /* main threshold */
-    width: clamp(1180px, 52.604vw, 668px);
+  @include r.media-laptop {
+    width: 92.1%;
   }
-  @media (max-width: 1200px) {
-    width: 1000px;
+  @include r.media-tablet {
+    width: 86.9%;
   }
-  @media (max-width: 1024px) {
-    width: 900px;
-  }
-  @media (max-width: 920px) {
-    width: 800px;
-  }
-  @media (max-width: 850px) {
-    width: 700px;
-  }
-  @media (max-width: 768px) {
-    /* main threshold */
-    width: 668px;
-  }
-  @media (max-width: 700px) {
-    width: 600px;
-  }
-  @media (max-width: 620px) {
-    width: 424px;
-  }
-  @media (max-width: 480px) {
-    /* main threshold */
-    width: 424px;
+  @include r.media-mobile {
+    width: 88.3%;
   }
 }
 
@@ -121,19 +101,16 @@
 
 .list .list-wrap .work-list {
   padding: 0;
-  @media (max-width: 1920px) {
+  @include r.media-desktop {
     padding: 0;
   }
-  @media (max-width: 1280px) {
+  @include r.media-laptop {
     padding: 0 85px;
   }
-  @media (max-width: 920px) {
-    padding: 0;
-  }
-  @media (max-width: 768px) {
+  @include r.media-tablet {
     padding: 0 26px;
   }
-  @media (max-width: 700px) {
+  @include r.media-mobile {
     padding: 0;
   }
 }
@@ -144,10 +121,10 @@
   margin-top: 4.393vh;
   margin-bottom: 2.552vh;
   margin-left: 2.5rem;
-  @media (max-width: 1920px) {
+  @include r.media-desktop {
     margin-left: 2.5rem;
   }
-  @media (max-width: 1280px) {
+  @include r.media-laptop {
     margin-left: 0;
   }
 }
@@ -166,27 +143,27 @@
 .list .list-wrap .work-list-content {
   display: grid;
   grid-template-columns: repeat(5, 197px);
-  @media (max-width: 1920px) {
+  @include r.media-desktop {
     grid-template-columns: repeat(5, 197px);
   }
-  @media (max-width: 1280px) {
+  @include r.media-laptop {
     grid-template-columns: repeat(4, 197px);
   }
   @media (max-width: 1200px) {
     grid-template-columns: repeat(3, 197px);
   }
-  @media (max-width: 850px) {
+  @include r.media-tablet {
     grid-template-columns: repeat(2, 197px);
 
     padding: 0 calc(100px - 26px);
   }
-  @media (max-width: 620px) {
+  @include r.media-mobile {
     padding: 0;
   }
   & {
     gap: 5.278vh 74px;
 
-    @media (max-width: 620px) {
+    @include r.media-mobile {
       gap: 5.278vh 34px;
     }
     & {

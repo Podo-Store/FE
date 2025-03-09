@@ -85,9 +85,7 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
           <div></div>
         )}
         <div className="cards-bottom j-content-between">
-          <h1 className="fade-in h1-regular c-white">
-            {organizationsExport[pageNum]?.name || "MOU 단체명"}
-          </h1>
+          <h1 className="fade-in h1-regular c-white">{organizationsExport[pageNum]?.name || ""}</h1>
           <div className="mou-logo f-center">
             <img
               src={organizationsExport[pageNum]?.logo?.src}
@@ -103,7 +101,7 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
     <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <div id="closed" className="cards-content f-dir-column f-center">
         <p className="fade-in p-large-medium c-white t-center">
-          {organizationsExport[pageNum]?.name || "MOU 단체명"}
+          {organizationsExport[pageNum]?.name || ""}
         </p>
         <div className="mou-logo f-center">
           <img

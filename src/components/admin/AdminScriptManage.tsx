@@ -1,10 +1,8 @@
 import {
-  Alert,
   Button,
   CircularProgress,
   Pagination,
   Paper,
-  Snackbar,
   Table,
   TableBody,
   TableCell,
@@ -30,6 +28,7 @@ import { SERVER_URL } from "@/constants/ServerURL";
 import DownloadSvg from "../../assets/image/component/DownloadSvg";
 import AcceptSvg from "../../assets/image/component/AcceptSvg";
 import DenySvg from "../../assets/image/component/DenySvg";
+import { toastAlert } from "@/utils/ToastAlert";
 
 type PlayType = "LONG" | "SHORT" | null; // undefined: 선택 안함
 
@@ -67,15 +66,6 @@ const AdminScriptManage = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  // 다운로드 중 알림
-  const [showDownloadAlert, setShowDownloadAlert] = useState<boolean>(false);
-
-  // 변경 완료 알림
-  const [showChangedAlert, setShowChangedAlert] = useState({
-    show: false,
-    success: false,
-  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,7 +131,7 @@ const AdminScriptManage = () => {
 
   // 대본 다운로드
   const onClickDownload = async (id: string, title: string) => {
-    setShowDownloadAlert(true);
+    toastAlert("다운로드 중입니다.", "info");
 
     try {
       const response = await axios.get(`${SERVER_URL}admin/download/${id}`, {
@@ -195,9 +185,9 @@ const AdminScriptManage = () => {
         }
       );
 
-      setShowChangedAlert({ show: true, success: true });
+      toastAlert("수정이 완료되었습니다.", "success");
     } catch (error) {
-      setShowChangedAlert({ show: true, success: false });
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
     }
   };
 
@@ -209,30 +199,6 @@ const AdminScriptManage = () => {
 
   return (
     <>
-      <Snackbar
-        open={showChangedAlert.show}
-        autoHideDuration={3000}
-        onClose={() => setShowChangedAlert({ ...showChangedAlert, show: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert severity={showChangedAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
-          {showChangedAlert.success
-            ? "수정이 완료되었습니다."
-            : "오류가 발생했습니다. 새로고침 후 다시 시도해주세요."}
-        </Alert>
-      </Snackbar>
-
-      <Snackbar
-        open={showDownloadAlert}
-        autoHideDuration={3000}
-        onClose={() => setShowDownloadAlert(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert severity={"info"} sx={{ width: "100%" }}>
-          다운로드 중입니다.
-        </Alert>
-      </Snackbar>
-
       <div className="j-content-end" style={{ gap: "16px" }}>
         <Typography variant="h6">등록 수락: {passedCount}</Typography>
         <Typography variant="h6">등록 대기: {waitingCount}</Typography>

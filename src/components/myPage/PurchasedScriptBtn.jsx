@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "./../button/RoundBtn_149_48";
 
+import { toastAlert } from "@/utils/ToastAlert";
+
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./PurchasedScriptBtn.css";
 import "./../../styles/utilities.css";
-import { Alert, Snackbar } from "@mui/material";
-import { useState } from "react";
 
 /**
  * 구매한 대본 페이지 버튼 component
@@ -21,8 +21,6 @@ import { useState } from "react";
  * @returns
  */
 const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus = "WAIT" }) => {
-  const [showDownloadAlert, setShowDownloadAlert] = useState(false);
-
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -37,7 +35,7 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
   };
 
   const onClickDownloadScript = async () => {
-    setShowDownloadAlert(true);
+    toastAlert("다운로드 중입니다.", "info");
     try {
       const response = await axios.get(`${SERVER_URL}profile/download`, {
         headers: {
@@ -64,18 +62,6 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
 
   return (
     <div className="j-content-end purchased-script-btn">
-      {/* 다운로드 alert */}
-      <Snackbar
-        open={showDownloadAlert}
-        autoHideDuration={3000}
-        onClose={() => setShowDownloadAlert(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert severity={"info"} sx={{ width: "100%" }}>
-          다운로드 중입니다.
-        </Alert>
-      </Snackbar>
-
       {buyPerformance !== 0 ? (
         <Button color="white" onClick={onClickPurchasePerform}>
           공연권 구매

@@ -6,6 +6,8 @@ import SideMenuDialog from "@/components/navBar/SideMenuDialog";
 
 import AuthContext from "../contexts/AuthContext";
 
+import { useNavigateWithRefresh } from "@/hooks/useNavigateWithRefresh";
+
 import hamburgerBtn from "../assets/image/navBar/hamburgerBtn.svg";
 import navLogo from "../assets/image/navBar/navLogo.svg";
 import navTitle from "../assets/image/navBar/navTitle.svg";
@@ -17,18 +19,10 @@ import "./MainNav.scss";
 function MainNav() {
   const { isAuthenticated, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const navigateWithRefresh = useNavigateWithRefresh();
   const location = useLocation();
-  const [openDialog, setOpenDialog] = useState(false);
 
-  // 현재 페이지와 같은 페이지 클릭 시 새로고침
-  const handleLinkClick = (event, path) => {
-    if (location.pathname === path) {
-      event.preventDefault();
-      window.location.reload();
-    } else {
-      navigate(path);
-    }
-  };
+  const [openDialog, setOpenDialog] = useState(false);
 
   const onCloseDialog = () => {
     setOpenDialog(false);
@@ -50,7 +44,7 @@ function MainNav() {
           to="/"
           className="navbar_logo"
           onClick={(event) => {
-            handleLinkClick(event, "/");
+            navigateWithRefresh(event, "/");
           }}
         >
           <img className="icon" src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
@@ -62,7 +56,7 @@ function MainNav() {
               to="/list"
               className="li"
               onClick={(event) => {
-                handleLinkClick(event, "/list");
+                navigateWithRefresh(event, "/list");
               }}
             >
               작품 둘러보기
@@ -78,7 +72,7 @@ function MainNav() {
               to="/post"
               className="li"
               onClick={(event) => {
-                handleLinkClick(event, "/post");
+                navigateWithRefresh(event, "/post");
               }}
             >
               작품 등록하기
@@ -111,7 +105,7 @@ function MainNav() {
               src={person}
               alt="myPage"
               onClick={(event) => {
-                handleLinkClick(event, "/mypage/purchased");
+                navigateWithRefresh(event, "/mypage/purchased");
               }}
             />
             <button

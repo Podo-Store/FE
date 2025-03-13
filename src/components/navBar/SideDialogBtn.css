@@ -1,0 +1,13 @@
+.side-dialog-btn {
+  padding-left: 50px;
+
+  width: 100%;
+  height: 86px;
+
+  border: none;
+  background-color: transparent;
+}
+
+.side-dialog-btn:active {
+  background: var(--purple-purple-10, #f5f0ff);
+}

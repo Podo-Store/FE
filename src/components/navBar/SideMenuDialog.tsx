@@ -77,7 +77,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         </div>
 
         <hr className="hr-outside" />
-        {!isAuthenticated && (
+        {isAuthenticated && (
           <div>
             <div className="side-menu-greeting f-dir-column">
               <h3 className="h3-bold">{userNickname} 님,</h3>
@@ -104,7 +104,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         <hr className="hr-outside" />
       </div>
 
-      {!isAuthenticated && (
+      {isAuthenticated && (
         <>
           <div>
             <div className="authenticated-title">

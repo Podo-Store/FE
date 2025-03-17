@@ -9,6 +9,7 @@ import SideDialogBtn from "@/components/navBar/SideDialogBtn";
 import AuthContext from "@/contexts/AuthContext";
 
 import { useNavigateWithRefresh } from "@/hooks/useNavigateWithRefresh";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import closeBtn from "@/assets/image/button/aiOutlineCloseBlack.svg";
 import navLogo from "@/assets/image/navBar/navLogo.svg";
@@ -34,6 +35,7 @@ interface SideMenuDialogProps {
 const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
   const { isAuthenticated, userNickname, logout } = useContext(AuthContext);
   const navigateWithRefresh = useNavigateWithRefresh();
+  const { width } = useWindowDimensions();
 
   /** navigateWithRefresh 이후 창 닫기 */
   const navigate = (event: React.MouseEvent, path: string) => {
@@ -55,7 +57,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             position: "absolute",
             left: 0,
             top: 0,
-            width: "540px",
+            width: `${width < 768 ? "350px" : "540px"} `,
             height: "100%",
             borderRadius: 0,
           },

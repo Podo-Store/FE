@@ -1,0 +1,29 @@
+.__floating-btn__ {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+
+  padding: 0;
+
+  width: 40px;
+  height: 40px;
+
+  background-color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+
+  cursor: pointer;
+
+  z-index: 10;
+
+  transition: background-color 0.125s ease;
+}
+
+.__floating-btn__:active {
+  background-color: var(--purple-purple-4-main, #6a39c0);
+}
+
+.__floating-btn__ img {
+  transform: translateY(1px);
+}

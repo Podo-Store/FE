@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../Loading";
 
+import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
 import Preview from "../../components/detail/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
@@ -224,6 +225,8 @@ const Detail = () => {
 
   return (
     <div className="detail f-dir-column a-items-center">
+      <FloatingBtn style={{ bottom: "100px" }} />
+
       <div className="detail-wrap f-dir-column a-items-center">
         <div className="content">
           <div className="detail-thumbnail-wrap">

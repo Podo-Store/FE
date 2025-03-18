@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Document, Page } from "react-pdf";
 
+import FloatingBtn from "@/components/button/FloatingBtn";
 import PartialLoading from "../../components/loading/PartialLoading";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -36,6 +37,7 @@ const PolicyContent = ({ page = 0 }) => {
 
   return (
     <div className="j-content-center min-height">
+      <FloatingBtn />
       <div className="j-content-center" id="policy-box">
         <Document
           file={page === 0 ? userInfoPolicy : termsOfService}

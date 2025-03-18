@@ -2,13 +2,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 
+import FloatingBtn from "@/components/button/FloatingBtn";
+import PartialLoading from "../../components/loading/PartialLoading";
 import {
   MyPageMenu,
   ScriptContent,
   ScriptManageBtn,
   NullScriptContent,
 } from "../../components/myPage";
-import PartialLoading from "../../components/loading/PartialLoading";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -46,6 +47,8 @@ const ScriptManage = () => {
 
   return (
     <div className="myPage-contents-default">
+      <FloatingBtn />
+
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="1" />
         <div className="content-side">

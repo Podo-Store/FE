@@ -2,6 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
+import FloatingBtn from "@/components/button/FloatingBtn";
+import ToggleSlide from "../../components/button/ToggleSlide";
+import PartialLoading from "../../components/loading/PartialLoading";
 import {
   MyPageMenu,
   ScriptContent,
@@ -9,8 +12,6 @@ import {
   PurchasedPerformBtn,
   NullScriptContent,
 } from "../../components/myPage";
-import ToggleSlide from "../../components/button/ToggleSlide";
-import PartialLoading from "../../components/loading/PartialLoading";
 
 import { useRequest } from "../../hooks/useRequest";
 
@@ -94,6 +95,8 @@ const PurchasedScript = () => {
 
   return (
     <div className="purchased-script myPage-contents-default">
+      <FloatingBtn />
+
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">

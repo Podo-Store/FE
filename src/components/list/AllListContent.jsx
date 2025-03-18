@@ -1,6 +1,7 @@
 import PartialLoading from "../loading/PartialLoading";
 
 import sparkles from "../../assets/image/post/list/sparkles.svg";
+import FloatingBtn from "../button/FloatingBtn";
 
 /**
  * 더보기 클릭 시 무한 스크롤로 노출되는 작품 리스트
@@ -12,6 +13,8 @@ import sparkles from "../../assets/image/post/list/sparkles.svg";
 const AllListContent = ({ playType, plays, renderListThumbnail, isLoading, observerTarget }) => {
   return (
     <div className="work-list">
+      <FloatingBtn />
+
       <div className="j-content-between work-list-title">
         <div className="a-items-center" id="title">
           <img src={sparkles} alt="sparkles"></img>

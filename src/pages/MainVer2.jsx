@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import FloatingBtn from "@/components/button/FloatingBtn";
 import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import Page3 from "@/components/landing/Page3";
@@ -27,6 +28,8 @@ const MainVer2 = () => {
 
   return (
     <div className="main-ver2">
+      <FloatingBtn />
+
       <div>
         <div className="page1 f-dir-column j-content-between">
           <div className="title-wrap f-dir-column p-relative">

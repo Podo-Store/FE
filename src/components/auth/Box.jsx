@@ -1,5 +1,5 @@
 import React from "react";
-import "./Box.css";
+import "./Box.scss";
 
 const Box = ({ children }) => {
   return (

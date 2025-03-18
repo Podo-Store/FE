@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .sign-up-default {
   min-height: 900px;
   height: 100vh;
@@ -17,4 +19,12 @@
 .sign-up-default div#next-button img {
   width: 1.5625rem;
   height: 1.5625rem;
+}
+
+/* input field responsive */
+.sign-up-default .input-wrap {
+  width: 25.875rem;
+  @include r.media-mobile {
+    width: 100%;
+  }
 }

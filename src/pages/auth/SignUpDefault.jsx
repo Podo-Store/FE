@@ -9,7 +9,7 @@ import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../components/auth/signUp
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./SignUpDefault.css";
+import "./SignUpDefault.scss";
 import "../../components/auth/signUp/ErrorMessages/AuthErrorMessages.css";
 import "../../styles/text.css";
 import "../../styles/utilities.css";

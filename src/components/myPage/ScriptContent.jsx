@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
+import PurchasedPerformPossibleInfo from "./PurchasedPerformPossibleInfo.jsx";
 import ScriptContentPopup from "./ScriptContentPopUp.jsx";
 import ScriptManageTopBtn from "./ScriptManageTopBtn.jsx";
 import PriceText from "../price/PriceText.jsx";
@@ -39,7 +39,6 @@ const ScriptContent = ({
   const [year, month, day] = order.date.split("-");
   const formattedDate = `${year}. ${month}. ${day}.`;
 
-  const navigate = useNavigate();
   const { widthConditions } = useWindowDimensions();
 
   return (
@@ -92,7 +91,11 @@ const ScriptContent = ({
                   <PriceText type="script" value={script.scriptPrice || 0} />
                 ) : currentTogglePage === "1" ? (
                   // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
-                  <PriceText type="perform" value={script.performancePrice || 0} />
+                  <>
+                    <PriceText type="perform" value={script.performancePrice || 0} />
+                    <div style={{ height: "32px" }}></div>
+                    <PurchasedPerformPossibleInfo script={script} />
+                  </>
                 ) : null
               ) : (
                 // 작품 관리 페이지
@@ -121,36 +124,14 @@ const ScriptContent = ({
                     orderStatus={script.orderStatus}
                   />
                 ) : (
-                  // PurchasedPerformBtn.jsx
                   <section className="j-content-between">
                     {!widthConditions.isMobile ? (
-                      <div className="f-dir-column j-content-end">
-                        <p
-                          className={`p-medium-regular ${
-                            script.orderStatus === "PASS" ? "" : "c-grey4"
-                          }`}
-                        >
-                          공연 가능 횟수 : {script.possibleCount} 번
-                        </p>
-                        <p
-                          className={`p-12-400 t-underline ${
-                            script.possibleCount !== 0 && script.orderStatus === "PASS"
-                              ? "c-pointer"
-                              : "c-grey4 c-default"
-                          }`}
-                          onClick={() => {
-                            if (script.possibleCount !== 0 && script.orderStatus === "PASS") {
-                              navigate(`/mypage/purchased/performance-refund/${script.id}`);
-                            }
-                          }}
-                        >
-                          환불 신청
-                        </p>
-                      </div>
+                      <PurchasedPerformPossibleInfo script={script} />
                     ) : (
                       <div></div>
                     )}
 
+                    {/* PurchasedPerformBtn.jsx */}
                     <Button
                       id={script.id}
                       possibleCount={script.possibleCount}

@@ -14,13 +14,16 @@ import {
 } from "../../components/myPage";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
+import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg";
+
 import "./MyPageContentsDefault.css";
-import "./PurchasedScript.css";
+import "./PurchasedScript.scss";
 
 const PurchasedScript = () => {
   const [scriptList, setScriptList] = useState([]);
@@ -38,6 +41,8 @@ const PurchasedScript = () => {
   // MyPageMenu 스크롤 제어
   const footerRef = useRef(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -100,22 +105,54 @@ const PurchasedScript = () => {
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">
-          <div className="j-content-between a-items-start">
-            <div>
-              <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
-              {toggle && (
-                <p className="warning p-xs-regular">
+          <div className="content-side-grid">
+            <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
+            <div className="grid-item-first">
+              {!toggle ? (
+                width <= 1279 && (
+                  <div className="warning-box script d-flex">
+                    <img src={circleGreyWarning} alt="!" />
+                    <div className="warning-box-content f-dir-column j-content-center">
+                      <p className="p-xs-regular">
+                        대본과 공연권은 구매시점으로부터 1년 이내만 사용 가능해요.
+                      </p>
+                    </div>
+                  </div>
+                )
+              ) : width > 1919 ? (
+                <div className="warning p-xs-regular">
                   공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
                   하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
-                </p>
+                </div>
+              ) : width <= 1919 && width > 1279 ? (
+                <div className="warning p-xs-regular">
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                  하며, 대본이 '포도상점'을 통하여 <br />
+                  제공되었음을 표시하여야 합니다.
+                </div>
+              ) : (
+                <div className="warning-box perform d-flex">
+                  <img src={circleGreyWarning} alt="!" />
+                  <div className="warning-box-content f-dir-column j-content-between">
+                    <p className="p-xs-regular">
+                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                      하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                    </p>
+                    <p className="p-xs-regular">
+                      대본과 공연권은 구매시점으로부터 1년 이내만 사용 가능해요.
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
-            <ToggleSlide
-              toggle={toggle}
-              onChangeToggle={() => {
-                setToggle(!toggle);
-              }}
-            />
+            <div className="toggle-wrap">
+              <ToggleSlide
+                toggle={toggle}
+                onChangeToggle={() => {
+                  setToggle(!toggle);
+                }}
+              />
+            </div>
           </div>
 
           <div style={{ height: "1.75vh" }}></div>

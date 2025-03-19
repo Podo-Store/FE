@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "../button/RoundBtn_149_48";
 
-import "./ScriptManageBtn.css";
+import "./ScriptManageBtn.scss";
 
 const ReviewCompleted = {
   REVIEW_COMPLETED: "PASS",

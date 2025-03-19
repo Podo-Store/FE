@@ -1,9 +1,14 @@
+@use "./../../styles/responsive.scss" as r;
+
 .perform-info .script-detail p#warning {
   margin-top: 0.167vh; /* 1.8px */
 }
 
 .width-629 {
   width: 629px;
+  @include r.media-mobile {
+    width: 430px;
+  }
 }
 
 .perform-info .script div#info {

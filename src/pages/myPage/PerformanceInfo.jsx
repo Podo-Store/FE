@@ -21,8 +21,8 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
 
-import "./PerformanceInfo.css";
-import "./PerformanceTop.css";
+import "./PerformanceInfo.scss";
+import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -226,167 +226,169 @@ const PerformanceInfo = () => {
 
         <p className="p-medium-regular">공연권 신청</p>
         <hr />
-        <div className="script">
-          <div className="d-flex">
-            <ThumbnailImg imagePath={thumbnail} />
-            <div className="script-detail">
-              <div className="script-tag">
-                <div className="d-flex a-items-center" id="title">
-                  <p className="p-large-bold" id="title">
-                    {title}
+        <section className="f-dir-column a-items-center">
+          <div className="script">
+            <div className="d-flex">
+              <ThumbnailImg imagePath={thumbnail} />
+              <div className="script-detail">
+                <div className="script-tag">
+                  <div className="d-flex a-items-center" id="title">
+                    <p className="p-large-bold" id="title">
+                      {title}
+                    </p>
+                  </div>
+                  <hr></hr>
+                  <p className="p-large-medium" id="author">
+                    {author}
+                  </p>
+                  <p className="p-xs-regular" id="warning">
+                    * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                    하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
                   </p>
                 </div>
-                <hr></hr>
-                <p className="p-large-medium" id="author">
-                  {author}
-                </p>
-                <p className="p-xs-regular" id="warning">
-                  * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                  하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
-                </p>
               </div>
             </div>
-          </div>
 
-          <div className="a-items-center" id="info">
-            <p className="p-medium-bold">신청자 정보</p>
-            <img
-              className="c-pointer"
-              id="popup-btn1"
-              src={circleInfoBtn}
-              alt="circleInfoBtn"
-              onClick={() => {
-                setShowPopup({ ...showPopup, userInfo: !showPopup.userInfo });
-              }}
-            />
-            {showPopup.userInfo ? (
-              <InfoPopup
-                message={USER_INFO}
-                onClose={() => setShowPopup({ ...showPopup, userInfo: false })}
-                style={{
-                  padding: "0.5rem 0.62rem",
-                  left: "10px",
-                }}
-                buttonId="popup-btn1"
-              />
-            ) : null}
-          </div>
-
-          <PerformInputField placeholder={applicantInfo.name} readOnly={true} />
-          <div id="margin"></div>
-          <PerformInputField placeholder={applicantInfo.phoneNumber} readOnly={true} />
-          <div id="margin"></div>
-          <PerformInputField placeholder={applicantInfo.address} readOnly={true} />
-
-          <div className="j-content-between a-items-center width-629" id="days">
-            <div className="a-items-center" id="days-left">
-              <p className="p-medium-bold">공연 예상 일자</p>
+            <div className="a-items-center" id="info">
+              <p className="p-medium-bold">신청자 정보</p>
               <img
                 className="c-pointer"
-                id="popup-btn2"
+                id="popup-btn1"
                 src={circleInfoBtn}
                 alt="circleInfoBtn"
                 onClick={() => {
-                  setShowPopup({ ...showPopup, performDate: !showPopup.performDate });
+                  setShowPopup({ ...showPopup, userInfo: !showPopup.userInfo });
                 }}
               />
-              {showPopup.performDate ? (
+              {showPopup.userInfo ? (
                 <InfoPopup
-                  message={PERFORM_DATE}
-                  onClose={() => setShowPopup({ ...showPopup, performDate: false })}
+                  message={USER_INFO}
+                  onClose={() => setShowPopup({ ...showPopup, userInfo: false })}
                   style={{
                     padding: "0.5rem 0.62rem",
-                    left: "24px",
+                    left: "10px",
                   }}
-                  buttonId="popup-btn2"
+                  buttonId="popup-btn1"
                 />
               ) : null}
             </div>
-            <p className="p-small-regular">
-              {performAmount - fetchedDates.length > 0
-                ? fetchedDates.length + inputFields.length
-                : performAmount}
-              /{performAmount}
-            </p>
-          </div>
 
-          {/*
-           * fetchedDates 형식:
-           * [
-           *  {
-           *    "date": "2024-09-05T18:00:00"
-           *  },
-           *  {
-           *    "date": "2024-09-01T15:39:50"
-           *  },
-           *  {
-           *    "date": "2024-10-01T15:39:50"
-           *  }
-           * ]
-           */}
-          {/* fetchedDates: 이미 예약된 날짜들 */}
-          {fetchedDates.map((dateObject, index) => (
-            <div key={index}>
-              <PerformDateInputField
-                placeholder={formatDateCutSec(dateObject.date)}
-                readOnly={true}
-              />
-              <div id="margin"></div>
+            <PerformInputField placeholder={applicantInfo.name} readOnly={true} />
+            <div id="margin"></div>
+            <PerformInputField placeholder={applicantInfo.phoneNumber} readOnly={true} />
+            <div id="margin"></div>
+            <PerformInputField placeholder={applicantInfo.address} readOnly={true} />
+
+            <div className="j-content-between a-items-center width-629" id="days">
+              <div className="a-items-center" id="days-left">
+                <p className="p-medium-bold">공연 예상 일자</p>
+                <img
+                  className="c-pointer"
+                  id="popup-btn2"
+                  src={circleInfoBtn}
+                  alt="circleInfoBtn"
+                  onClick={() => {
+                    setShowPopup({ ...showPopup, performDate: !showPopup.performDate });
+                  }}
+                />
+                {showPopup.performDate ? (
+                  <InfoPopup
+                    message={PERFORM_DATE}
+                    onClose={() => setShowPopup({ ...showPopup, performDate: false })}
+                    style={{
+                      padding: "0.5rem 0.62rem",
+                      left: "24px",
+                    }}
+                    buttonId="popup-btn2"
+                  />
+                ) : null}
+              </div>
+              <p className="p-small-regular">
+                {performAmount - fetchedDates.length > 0
+                  ? fetchedDates.length + inputFields.length
+                  : performAmount}
+                &nbsp;/&nbsp;{performAmount}
+              </p>
             </div>
-          ))}
 
-          {/* inputFields: 새로 날짜 추가 */}
-          {/* 소지 공연권을 전부 신청했을 경우 표시 X */}
-          {performAmount - fetchedDates.length > 0 &&
-            inputFields.map((_, index) => (
+            {/*
+             * fetchedDates 형식:
+             * [
+             *  {
+             *    "date": "2024-09-05T18:00:00"
+             *  },
+             *  {
+             *    "date": "2024-09-01T15:39:50"
+             *  },
+             *  {
+             *    "date": "2024-10-01T15:39:50"
+             *  }
+             * ]
+             */}
+            {/* fetchedDates: 이미 예약된 날짜들 */}
+            {fetchedDates.map((dateObject, index) => (
               <div key={index}>
                 <PerformDateInputField
-                  placeholder="공연 예상 일자를 입력해주세요. (예) 2024-02-27 13:00"
-                  value={dates[index] || ""}
-                  onChange={(e) => onDateChange(index, e.target.value)}
-                  onClick={() => onClickDateInput(index)}
-                  onBlur={() => onBlurDateInput(index)}
-                  onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
+                  placeholder={formatDateCutSec(dateObject.date)}
+                  readOnly={true}
                 />
-                <div
-                  style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}
-                ></div>
-                {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
-                {dateChecker[index]?.show && (
-                  <CheckerMessage
-                    message="일자 및 시간을 올바르게 입력해주세요. (ex. 2024-02-27 13:00)"
-                    checkedFlag={dateChecker[index]?.format}
-                  />
-                )}
-                {isDateOverOneYear(dates[index]) ? (
-                  <div style={{ marginTop: "5px" }}>
-                    <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
-                  </div>
-                ) : null}
-                <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
+                <div id="margin"></div>
               </div>
             ))}
 
-          {performAmount - fetchedDates.length > 0 && (
-            <div className="j-content-center width-629" id="circle-add-btn">
-              <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
-            </div>
-          )}
+            {/* inputFields: 새로 날짜 추가 */}
+            {/* 소지 공연권을 전부 신청했을 경우 표시 X */}
+            {performAmount - fetchedDates.length > 0 &&
+              inputFields.map((_, index) => (
+                <div key={index}>
+                  <PerformDateInputField
+                    placeholder="공연 예상 일자를 입력해주세요. (예) 2024-02-27 13:00"
+                    value={dates[index] || ""}
+                    onChange={(e) => onDateChange(index, e.target.value)}
+                    onClick={() => onClickDateInput(index)}
+                    onBlur={() => onBlurDateInput(index)}
+                    onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
+                  />
+                  <div
+                    style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}
+                  ></div>
+                  {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
+                  {dateChecker[index]?.show && (
+                    <CheckerMessage
+                      message="일자 및 시간을 올바르게 입력해주세요. (ex. 2024-02-27 13:00)"
+                      checkedFlag={dateChecker[index]?.format}
+                    />
+                  )}
+                  {isDateOverOneYear(dates[index]) ? (
+                    <div style={{ marginTop: "5px" }}>
+                      <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
+                    </div>
+                  ) : null}
+                  <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
+                </div>
+              ))}
 
-          <div className="j-content-end width-629" id="btn">
-            <SmallOnOffBtn
-              color="white"
-              onClick={() => {
-                navigate("/mypage/purchased");
-              }}
-            >
-              취소하기
-            </SmallOnOffBtn>
-            <SmallOnOffBtn color="purple" disabled={isApplyDisabled} onClick={onClickApply}>
-              신청하기
-            </SmallOnOffBtn>
+            {performAmount - fetchedDates.length > 0 && (
+              <div className="j-content-center width-629" id="circle-add-btn">
+                <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
+              </div>
+            )}
+
+            <div className="j-content-end width-629" id="btn">
+              <SmallOnOffBtn
+                color="white"
+                onClick={() => {
+                  navigate("/mypage/purchased");
+                }}
+              >
+                취소하기
+              </SmallOnOffBtn>
+              <SmallOnOffBtn color="purple" disabled={isApplyDisabled} onClick={onClickApply}>
+                신청하기
+              </SmallOnOffBtn>
+            </div>
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

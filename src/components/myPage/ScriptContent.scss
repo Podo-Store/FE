@@ -1,0 +1,82 @@
+@use "./../../styles/responsive.scss" as r;
+
+.script-content .date {
+  margin-top: 6px;
+  margin-left: 5px;
+}
+
+.script-content hr {
+  border: 1px solid #b489ff;
+  margin: 0;
+}
+
+.script-content .script {
+  /* display: flex; */
+  display: grid;
+  grid-template-columns: 197px 1fr;
+  column-gap: 23px;
+  @include r.media-mobile {
+    row-gap: 20px;
+  }
+  & {
+    margin-top: 2vh;
+    padding-bottom: 20px;
+
+    box-sizing: border-box;
+    border-bottom: 1px solid #caabff;
+  }
+}
+
+.script-content .thumbnail-img-wrap {
+  grid-column: 1;
+  grid-row: 1 / span 2; /* row 1부터 2개의 row 차지 */
+  @include r.media-mobile {
+    grid-row: 1;
+  }
+}
+
+.script-content .__script-content-btn {
+  grid-column: 2;
+  grid-row: 2;
+
+  width: 100%;
+  @include r.media-mobile {
+    grid-column: 1 / span 2;
+  }
+}
+
+.script-content .script-tag {
+  grid-column: 2;
+  grid-row: 1;
+
+  width: 100%;
+}
+
+.script-content div#title {
+  margin-top: 1vh;
+  margin-bottom: 0.5vh;
+
+  width: 100%;
+}
+
+.script-content p#title {
+  margin-left: 0.125rem;
+}
+
+.script-content img#title-info {
+  width: 1.1875rem;
+  height: 1.1875rem;
+  margin-left: 0.5rem;
+
+  cursor: pointer;
+}
+
+.script-content p#author {
+  margin-top: 0.5vh;
+  margin-left: 0.125rem;
+  margin-bottom: 1.5vh;
+}
+
+.script-content .margin-43_4px {
+  height: 43.4px;
+}

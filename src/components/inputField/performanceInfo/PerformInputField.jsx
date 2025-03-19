@@ -1,5 +1,7 @@
 import AuthInputField from "../auth/AuthInputField.tsx";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions.ts";
+
 const PerformInputField = ({
   placeholder,
   value,
@@ -11,6 +13,8 @@ const PerformInputField = ({
   rightElement,
   readOnly,
 }) => {
+  const { width } = useWindowDimensions();
+
   return (
     <AuthInputField
       type="text"
@@ -24,7 +28,9 @@ const PerformInputField = ({
       rightElement={rightElement}
       readOnly={readOnly}
       errorMessageCustomFlag="true"
-      style={{ width: "39.3125rem", height: "42px" }}
+      style={
+        !(width < 768) ? { width: "39.3125rem", height: "42px" } : { width: "100%", height: "42px" }
+      }
     />
   );
 };

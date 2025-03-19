@@ -1,3 +1,5 @@
+@use "./../../styles/responsive.scss" as r;
+
 .script-manage-btn .script-manage-flex {
   display: flex;
   justify-content: space-between;

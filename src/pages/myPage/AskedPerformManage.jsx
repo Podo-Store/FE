@@ -20,7 +20,7 @@ import listCloseBtn from "../../assets/image/button/listCloseBtn.svg";
 import listOpenBtn from "../../assets/image/button/listOpenBtn.svg";
 
 import "./AskedPerformManage.css";
-import "./PerformanceTop.css";
+import "./PerformanceTop.scss";
 
 const AskedPerformManage = () => {
   const [isExist, setIsExist] = useState(true);

@@ -1,14 +1,17 @@
 import { useState } from "react";
 
+import PurchasedPerformPossibleInfo from "./PurchasedPerformPossibleInfo.jsx";
 import ScriptContentPopup from "./ScriptContentPopUp.jsx";
 import ScriptManageTopBtn from "./ScriptManageTopBtn.jsx";
 import PriceText from "../price/PriceText.jsx";
 import PriceTextsVertical from "../price/PriceTextsVertical.jsx";
 import ThumbnailImg from "../thumbnail/ThumbnailImg.jsx";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions.ts";
+
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 
-import "./ScriptContent.css";
+import "./ScriptContent.scss";
 import "./../../styles/utilities.css";
 
 /**
@@ -36,6 +39,8 @@ const ScriptContent = ({
   const [year, month, day] = order.date.split("-");
   const formattedDate = `${year}. ${month}. ${day}.`;
 
+  const { widthConditions } = useWindowDimensions();
+
   return (
     <div key={index} className="script-content">
       <p className="date p-large-bold c-grey-8f8f8f">{formattedDate}</p>
@@ -43,58 +48,68 @@ const ScriptContent = ({
       {items.map((script) => (
         <div key={script.id}>
           <div className="script">
-            <ThumbnailImg imagePath={script.imagePath}></ThumbnailImg>
-            <div className="script-detail">
-              <div className="script-tag">
-                <div
-                  className={`a-items-center ${
-                    currentPage === "1" && script.checked === "PASS" ? "j-content-between" : ""
-                  }`}
-                  id="title"
-                >
-                  <p className="p-large-bold" id="title">
-                    {script.title || "제목 없음"}
-                  </p>
-                  {script.delete && (
-                    <img
-                      id="title-info"
-                      src={circleInfoBtn}
-                      alt="circleInfoBtn"
-                      onClick={() => {
-                        setShowPopup(!showPopup);
-                      }}
-                    />
-                  )}
-                  {showPopup ? <ScriptContentPopup onClose={() => setShowPopup(false)} /> : null}
-                  {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-                  {currentPage === "1" && script.checked === "PASS" ? (
-                    <ScriptManageTopBtn script={script} />
-                  ) : null}
-                </div>
-                <hr></hr>
-                <p className="p-large-medium" id="author">
-                  {currentPage === "1" ? "" : !script.delete ? script.writer : "삭제된 계정"}
+            <div className="thumbnail-img-wrap">
+              <ThumbnailImg imagePath={script.imagePath}></ThumbnailImg>
+            </div>
+            <div className="script-tag">
+              <div
+                className={`a-items-center ${
+                  currentPage === "1" && script.checked === "PASS" ? "j-content-between" : ""
+                }`}
+                id="title"
+              >
+                <p className="p-large-bold" id="title">
+                  {script.title || "제목 없음"}
                 </p>
-                {currentPage === "1" && script.checked === "WAIT" ? (
-                  // 작품 관리 페이지에서 심사 중인 작품일 경우
-                  <div className="margin-43_4px"></div>
-                ) : currentPage === "0" ? (
-                  // 구매한 작품 페이지
-                  currentTogglePage === "0" ? (
-                    // 구매한 작품 페이지에서 토글 선택이 '대본'일 경우
-                    <PriceText type="script" value={script.scriptPrice || 0} />
-                  ) : currentTogglePage === "1" ? (
-                    // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
-                    <PriceText type="perform" value={script.performancePrice || 0} />
-                  ) : null
-                ) : (
-                  // 작품 관리 페이지
-                  <PriceTextsVertical
-                    scriptPrice={script.scriptPrice || 0}
-                    performPrice={script.performancePrice || 0}
+                {script.delete && (
+                  <img
+                    id="title-info"
+                    src={circleInfoBtn}
+                    alt="circleInfoBtn"
+                    onClick={() => {
+                      setShowPopup(!showPopup);
+                    }}
                   />
                 )}
+                {showPopup ? <ScriptContentPopup onClose={() => setShowPopup(false)} /> : null}
+                {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+                {currentPage === "1" && script.checked === "PASS" ? (
+                  <ScriptManageTopBtn script={script} />
+                ) : null}
               </div>
+              <hr></hr>
+              <p className="p-large-medium" id="author">
+                {currentPage === "1" ? "" : !script.delete ? script.writer : "삭제된 계정"}
+              </p>
+              {currentPage === "1" && script.checked === "WAIT" ? (
+                // 작품 관리 페이지에서 심사 중인 작품일 경우
+                <div className="margin-43_4px"></div>
+              ) : currentPage === "0" ? (
+                // 구매한 작품 페이지
+                currentTogglePage === "0" ? (
+                  // 구매한 작품 페이지에서 토글 선택이 '대본'일 경우
+                  <PriceText type="script" value={script.scriptPrice || 0} />
+                ) : currentTogglePage === "1" ? (
+                  // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
+                  <>
+                    <PriceText type="perform" value={script.performancePrice || 0} />
+                    <div style={{ height: "32px" }}></div>
+                    <PurchasedPerformPossibleInfo script={script} />
+                  </>
+                ) : null
+              ) : (
+                // 작품 관리 페이지
+                <PriceTextsVertical
+                  scriptPrice={script.scriptPrice || 0}
+                  performPrice={script.performancePrice || 0}
+                />
+              )}
+              {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+              {currentPage === "1" && script.checked === "PASS" ? (
+                <ScriptManageTopBtn className="mobile" script={script} />
+              ) : null}
+            </div>
+            <div className="__script-content-btn">
               {/* Button: props */}
               {currentPage === "0" && !script.delete ? (
                 // 구매한 작품 페이지 (PurchasedScript.jsx)
@@ -109,12 +124,20 @@ const ScriptContent = ({
                     orderStatus={script.orderStatus}
                   />
                 ) : (
-                  // PurchasedPerformBtn.jsx
-                  <Button
-                    id={script.id}
-                    possibleCount={script.possibleCount}
-                    orderStatus={script.orderStatus}
-                  />
+                  <section className="j-content-between">
+                    {!widthConditions.isMobile ? (
+                      <PurchasedPerformPossibleInfo script={script} />
+                    ) : (
+                      <div></div>
+                    )}
+
+                    {/* PurchasedPerformBtn.jsx */}
+                    <Button
+                      id={script.id}
+                      possibleCount={script.possibleCount}
+                      orderStatus={script.orderStatus}
+                    />
+                  </section>
                 )
               ) : currentPage === "1" && !script.delete ? (
                 // 작품 관리 페이지 ScriptManageBtn.jsx

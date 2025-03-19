@@ -20,7 +20,7 @@ import plusBtn from "../../assets/image/button/circleAddBtn.svg";
 import minusBtn from "../../assets/image/button/circleSubBtn.svg";
 
 import "./PerformanceRefund.css";
-import "./PerformanceTop.css";
+import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -117,171 +117,175 @@ const PerformanceRefund = () => {
 
         <p className="p-medium-regular">공연권 환불 신청</p>
         <hr />
-        <div className="script">
-          <div className="d-flex">
-            <ThumbnailImg imagePath={thumbnail} />
-            <div className="script-detail">
-              <div className="script-tag">
-                <div className="d-flex a-items-center" id="title">
-                  <p className="p-large-bold" id="title">
-                    {title}
+        <section className="f-dir-column a-items-center">
+          <div className="script">
+            <div className="d-flex">
+              <ThumbnailImg imagePath={thumbnail} />
+              <div className="script-detail">
+                <div className="script-tag">
+                  <div className="d-flex a-items-center" id="title">
+                    <p className="p-large-bold" id="title">
+                      {title}
+                    </p>
+                  </div>
+                  <hr></hr>
+                  <p className="p-large-medium" id="author">
+                    {author}
                   </p>
                 </div>
-                <hr></hr>
-                <p className="p-large-medium" id="author">
-                  {author}
-                </p>
               </div>
             </div>
-          </div>
 
-          <hr />
+            <hr />
 
-          <div id="detail">
-            <div className="j-content-between detail-content">
-              <p className="p-medium-bold c-grey">구매 일자</p>
-              <p className="p-medium-regular c-grey">{orderDate ? formatDate2(orderDate) : ""}</p>
-            </div>
-            <hr />
-            <div className="j-content-between detail-content">
-              <p className="p-medium-bold c-grey">주문번호</p>
-              <p className="p-medium-regular c-grey">{orderNum}</p>
-            </div>
-            <hr />
-            <div className="j-content-between detail-content">
-              <p className="p-medium-bold c-grey">구매한 공연권 수량 및 금액</p>
-              <div className="j-content-end">
-                <p className="p-large-medium c-grey">{orderedAmount}</p>
-                <div className="price-default-left" />
-                <p className="p-large-medium c-grey price-default">{formatPrice(orderedPrice)}원</p>
+            <div id="detail">
+              <div className="j-content-between detail-content">
+                <p className="p-medium-bold c-grey">구매 일자</p>
+                <p className="p-medium-regular c-grey">{orderDate ? formatDate2(orderDate) : ""}</p>
+              </div>
+              <hr />
+              <div className="j-content-between detail-content">
+                <p className="p-medium-bold c-grey">주문번호</p>
+                <p className="p-medium-regular c-grey">{orderNum}</p>
+              </div>
+              <hr />
+              <div className="j-content-between detail-content">
+                <p className="p-medium-bold c-grey">구매한 공연권 수량 및 금액</p>
+                <div className="j-content-end">
+                  <p className="p-large-medium c-grey">{orderedAmount}</p>
+                  <div className="price-default-left" />
+                  <p className="p-large-medium c-grey price-default">
+                    {formatPrice(orderedPrice)}원
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div className="j-content-between detail-content">
+                <p className="p-medium-bold c-grey">환불 가능한 공연권 수량 및 금액</p>
+                <div className="j-content-end">
+                  <p className="p-large-medium c-grey">{refundPossibleAmount}</p>
+                  <div className="price-default-left" />
+                  <p className="p-large-medium c-grey price-default">
+                    {formatPrice(refundPossiblePrice)}원
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div className="j-content-between a-items-center detail-content" id="total">
+                <p className="p-medium-bold">환불 예정 공연권 수량 및 금액</p>
+                <div className="j-content-end a-items-center">
+                  {refundPossibleAmount !== 1 ? (
+                    <div className="j-content-between a-items-center" id="total-amount">
+                      <img
+                        className="c-pointer"
+                        src={minusBtn}
+                        alt="minusBtn"
+                        onClick={() => {
+                          changeAmount(-1);
+                        }}
+                      />
+                      <p className="p-large-medium t-align-center">{currentAmount}</p>
+                      <img
+                        className="c-pointer"
+                        src={plusBtn}
+                        alt="plusBtn"
+                        onClick={() => {
+                          changeAmount(1);
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="d-flex">
+                      <p className="p-large-medium">{currentAmount}</p>
+                      <div className="price-default-left" />
+                    </div>
+                  )}
+                  <p className="p-large-medium price-default">
+                    {formatPrice(singlePrice * currentAmount)}원
+                  </p>
+                </div>
               </div>
             </div>
-            <hr />
-            <div className="j-content-between detail-content">
-              <p className="p-medium-bold c-grey">환불 가능한 공연권 수량 및 금액</p>
-              <div className="j-content-end">
-                <p className="p-large-medium c-grey">{refundPossibleAmount}</p>
-                <div className="price-default-left" />
-                <p className="p-large-medium c-grey price-default">
-                  {formatPrice(refundPossiblePrice)}원
-                </p>
-              </div>
-            </div>
-            <hr />
-            <div className="j-content-between a-items-center detail-content" id="total">
-              <p className="p-medium-bold">환불 예정 공연권 수량 및 금액</p>
-              <div className="j-content-end a-items-center">
-                {refundPossibleAmount !== 1 ? (
-                  <div className="j-content-between a-items-center" id="total-amount">
-                    <img
-                      className="c-pointer"
-                      src={minusBtn}
-                      alt="minusBtn"
-                      onClick={() => {
-                        changeAmount(-1);
-                      }}
-                    />
-                    <p className="p-large-medium t-align-center">{currentAmount}</p>
-                    <img
-                      className="c-pointer"
-                      src={plusBtn}
-                      alt="plusBtn"
-                      onClick={() => {
-                        changeAmount(1);
-                      }}
-                    />
-                  </div>
-                ) : (
-                  <div className="d-flex">
-                    <p className="p-large-medium">{currentAmount}</p>
-                    <div className="price-default-left" />
-                  </div>
-                )}
-                <p className="p-large-medium price-default">
-                  {formatPrice(singlePrice * currentAmount)}원
-                </p>
-              </div>
-            </div>
-          </div>
 
-          <hr />
-          <div className="j-content-between a-items-center">
-            <p className="p-medium-bold">환불 사유</p>
-          </div>
-          <div style={{ height: "0.63rem" }} />
-          <PerformInputField
-            placeholder="자유롭게 입력해주세요."
-            value={reason}
-            onChange={(event) => {
-              if (event.target.value.length <= MAX_LENGTH) {
-                setReason(event.target.value);
-                setCurrentLength(event.target.value.length);
-              }
-            }}
-            onKeyDown={(event) => {
-              if (event.key === "Backspace") {
-                setReason(event.target.value);
-              }
-            }}
-            rightElement={
-              <p className="p-xs-medium c-default" id="length">
-                {currentLength} / {MAX_LENGTH}
-              </p>
-            }
-          />
-
-          <div className="j-content-end" id="btn">
-            <SmallOnOffBtn
-              color="white"
-              onClick={() => {
-                if (showPopup) {
-                  return;
+            <hr />
+            <div className="j-content-between a-items-center">
+              <p className="p-medium-bold">환불 사유</p>
+            </div>
+            <div style={{ height: "0.63rem" }} />
+            <PerformInputField
+              placeholder="자유롭게 입력해주세요."
+              value={reason}
+              onChange={(event) => {
+                if (event.target.value.length <= MAX_LENGTH) {
+                  setReason(event.target.value);
+                  setCurrentLength(event.target.value.length);
                 }
-                navigate("/mypage/purchased");
               }}
-            >
-              취소하기
-            </SmallOnOffBtn>
-            <SmallOnOffBtn
-              color="purple"
-              disabled={reason.length === 0}
-              onClick={() => {
-                if (showPopup) {
-                  return;
+              onKeyDown={(event) => {
+                if (event.key === "Backspace") {
+                  setReason(event.target.value);
                 }
-                onClickRequestRefund();
               }}
-            >
-              신청하기
-            </SmallOnOffBtn>
-          </div>
-          {showPopup ? (
-            <div className="f-dir-column j-content-center" id="refund-popup">
-              <p>환불 신청이 완료되었어요.</p>
-              <div className="d-flex">
-                <p>환불에는 영업일 기준&nbsp;</p>
-                <p className="c-main">2-4일</p>
-                <p>&nbsp;이 필요해요.</p>
-              </div>
-              <p>환불이 완료되면 저장된 메일 주소로</p>
-              <div className="d-flex">
-                <p className="c-main">환불 완료 메일</p>
-                <p>을 보내드리니 확인 부탁드려요.</p>
-              </div>
+              rightElement={
+                <p className="p-xs-medium c-default" id="length">
+                  {currentLength} / {MAX_LENGTH}
+                </p>
+              }
+            />
 
-              <div className="j-content-center" id="bottom-btn-wrap">
-                <OnOffBtn
-                  text="구매한 작품으로 돌아가기"
-                  color="purple"
-                  style={{ width: "220px" }}
-                  onClick={() => {
-                    navigate("/mypage/purchased");
-                  }}
-                />
-              </div>
+            <div className="j-content-end" id="btn">
+              <SmallOnOffBtn
+                color="white"
+                onClick={() => {
+                  if (showPopup) {
+                    return;
+                  }
+                  navigate("/mypage/purchased");
+                }}
+              >
+                취소하기
+              </SmallOnOffBtn>
+              <SmallOnOffBtn
+                color="purple"
+                disabled={reason.length === 0}
+                onClick={() => {
+                  if (showPopup) {
+                    return;
+                  }
+                  onClickRequestRefund();
+                }}
+              >
+                신청하기
+              </SmallOnOffBtn>
             </div>
-          ) : null}
-        </div>
+            {showPopup ? (
+              <div className="f-dir-column j-content-center" id="refund-popup">
+                <p>환불 신청이 완료되었어요.</p>
+                <div className="d-flex">
+                  <p>환불에는 영업일 기준&nbsp;</p>
+                  <p className="c-main">2-4일</p>
+                  <p>&nbsp;이 필요해요.</p>
+                </div>
+                <p>환불이 완료되면 저장된 메일 주소로</p>
+                <div className="d-flex">
+                  <p className="c-main">환불 완료 메일</p>
+                  <p>을 보내드리니 확인 부탁드려요.</p>
+                </div>
+
+                <div className="j-content-center" id="bottom-btn-wrap">
+                  <OnOffBtn
+                    text="구매한 작품으로 돌아가기"
+                    color="purple"
+                    style={{ width: "220px" }}
+                    onClick={() => {
+                      navigate("/mypage/purchased");
+                    }}
+                  />
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </section>
       </div>
     </div>
   );

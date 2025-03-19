@@ -1,8 +1,13 @@
+@use "./../../styles/responsive.scss" as r;
+
 .myPage-menu-side {
   position: relative;
 
   width: 305px;
   margin-right: 6.719vw;
+  @include r.media-tablet {
+    display: none;
+  }
 }
 
 .myPage-menu-inside {

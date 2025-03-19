@@ -4,7 +4,7 @@ import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg
 import pencilMenuImg from "./../../assets/image/myPage/pencil.svg";
 import scriptMenuImg from "./../../assets/image/myPage/script.svg";
 
-import "./MyPageMenu.css";
+import "./MyPageMenu.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 

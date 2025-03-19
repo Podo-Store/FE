@@ -1,8 +1,13 @@
+@use "./../../styles/responsive.scss" as r;
+
 .script-manage-btn {
   grid-column: 2;
   grid-row: 2;
 
   width: 100%;
+  @include r.media-mobile {
+    grid-column: 1 / span 2;
+  }
 }
 
 .script-manage-btn .script-manage-flex {

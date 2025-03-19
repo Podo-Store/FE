@@ -1,8 +1,10 @@
 import RoundBtnXsBold from "../button/RoundBtnXsBold";
 
-const ScriptManageTopBtn = ({ script }) => {
+import "./ScriptManageTopBtn.scss";
+
+const ScriptManageTopBtn = ({ script, className }) => {
   return (
-    <div className="d-flex" style={{ gap: "10px" }}>
+    <div className={"script-manage-top-btn d-flex " + className}>
       {script.script ? (
         <RoundBtnXsBold disabled={false}>대본 판매 중</RoundBtnXsBold>
       ) : (

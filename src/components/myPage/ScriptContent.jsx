@@ -8,7 +8,7 @@ import ThumbnailImg from "../thumbnail/ThumbnailImg.jsx";
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 
-import "./ScriptContent.css";
+import "./ScriptContent.scss";
 import "./../../styles/utilities.css";
 
 /**
@@ -95,6 +95,10 @@ const ScriptContent = ({
                   performPrice={script.performancePrice || 0}
                 />
               )}
+              {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+              {currentPage === "1" && script.checked === "PASS" ? (
+                <ScriptManageTopBtn className="mobile" script={script} />
+              ) : null}
             </div>
             {/* Button: props */}
             {currentPage === "0" && !script.delete ? (

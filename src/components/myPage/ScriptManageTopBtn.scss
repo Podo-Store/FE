@@ -1,0 +1,16 @@
+@use "./../../styles/responsive.scss" as r;
+
+.script-manage-top-btn {
+  gap: 10px;
+  @include r.media-mobile {
+    display: none;
+  }
+}
+
+@include r.media-mobile {
+  .script-manage-top-btn.mobile {
+    display: flex;
+
+    margin-top: 16px;
+  }
+}

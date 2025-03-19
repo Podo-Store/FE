@@ -35,10 +35,14 @@
   }
 }
 
-.script-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.script-content .__script-content-btn {
+  grid-column: 2;
+  grid-row: 2;
+
+  width: 100%;
+  @include r.media-mobile {
+    grid-column: 1 / span 2;
+  }
 }
 
 .script-content .script-tag {

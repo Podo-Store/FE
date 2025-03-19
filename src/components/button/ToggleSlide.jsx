@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./ToggleSlide.css";
+import "./ToggleSlide.scss";
 
 const ToggleSlide = ({ toggle, onChangeToggle }) => {
   return (

@@ -17,25 +17,7 @@ import "./../../styles/utilities.css";
 const PurchasedPerformBtn = ({ id, possibleCount = 0, orderStatus = "WAIT" }) => {
   const navigate = useNavigate();
   return (
-    <div className="j-content-between purchased-script-btn">
-      <div className="f-dir-column j-content-end">
-        <p className={`p-medium-regular ${orderStatus === "PASS" ? "" : "c-grey4"}`}>
-          공연 가능 횟수 : {possibleCount} 번
-        </p>
-        <p
-          className={`p-12-400 t-underline ${
-            possibleCount !== 0 && orderStatus === "PASS" ? "c-pointer" : "c-grey4 c-default"
-          }`}
-          onClick={() => {
-            if (possibleCount !== 0 && orderStatus === "PASS") {
-              navigate(`/mypage/purchased/performance-refund/${id}`);
-            }
-          }}
-        >
-          환불 신청
-        </p>
-      </div>
-
+    <div className="purchased-script-btn">
       <Button
         disabled={orderStatus !== "PASS"}
         onClick={() => {

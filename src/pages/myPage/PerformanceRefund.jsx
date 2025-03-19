@@ -20,7 +20,7 @@ import plusBtn from "../../assets/image/button/circleAddBtn.svg";
 import minusBtn from "../../assets/image/button/circleSubBtn.svg";
 
 import "./PerformanceRefund.css";
-import "./PerformanceTop.css";
+import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 

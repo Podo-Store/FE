@@ -21,8 +21,8 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
 
-import "./PerformanceInfo.css";
-import "./PerformanceTop.css";
+import "./PerformanceInfo.scss";
+import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
@@ -307,7 +307,7 @@ const PerformanceInfo = () => {
                 {performAmount - fetchedDates.length > 0
                   ? fetchedDates.length + inputFields.length
                   : performAmount}
-                /{performAmount}
+                &nbsp;/&nbsp;{performAmount}
               </p>
             </div>
 

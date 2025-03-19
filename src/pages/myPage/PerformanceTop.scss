@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .perform-top {
   margin: 3.426vh 0;
 }
@@ -16,6 +18,9 @@
   margin-bottom: 1.75rem;
 
   width: 629px;
+  @include r.media-mobile {
+    width: 430px;
+  }
 }
 
 .perform-top .script-detail {
@@ -24,7 +29,11 @@
   justify-content: space-between;
 
   margin-left: 2rem;
-  width: 21.458vw;
+
+  width: 349px;
+  @include r.media-mobile {
+    width: 205px;
+  }
 }
 
 .perform-top .script-detail div#title {
@@ -34,6 +43,9 @@
 
 .perform-top .script-detail hr {
   width: 25rem;
+  @include r.media-mobile {
+    width: 100%;
+  }
 }
 
 .perform-top .script-detail p#title {

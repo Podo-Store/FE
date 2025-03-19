@@ -12,11 +12,10 @@
 }
 
 .perform-top .script {
-  width: 629px;
-
   margin-top: 3.241vh;
-  margin-left: 16vw;
   margin-bottom: 1.75rem;
+
+  width: 629px;
 }
 
 .perform-top .script-detail {

@@ -48,6 +48,10 @@
   line-height: 1.25rem; /* 142.857% */
 }
 
+.auth-input-field .input-wrap input.non-right-element {
+  padding-right: 1.25rem;
+}
+
 .auth-input-field .input-wrap input:focus {
   outline: none;
   border: 1px solid var(--purple-purple-8-line, #caabff);

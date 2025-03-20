@@ -39,7 +39,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
       <label htmlFor={title}>{title}</label>
       <div className="input-wrap" style={{ ...style }}>
         <input
-          className="input"
+          className={"input" + rightElement ? " non-right-element" : ""}
           style={readOnly ? { border: "1px solid #000000" } : {}}
           {...props}
         />

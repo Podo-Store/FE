@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .script-manage-detail .script-manage-detail-wrap {
   margin: 3.426vh 0;
 }
@@ -48,6 +50,10 @@
 .script-manage-detail .script-info {
   display: flex;
   margin: 0;
+  @include r.media-mobile {
+    display: block;
+    width: 100%;
+  }
 }
 
 .script-manage-detail .script-info-thumbnail {
@@ -66,6 +72,9 @@
 .script-manage-detail .script-info-detail {
   margin-top: 3.241vh;
   margin-left: 1.25rem;
+  @include r.media-mobile {
+    margin-left: 0;
+  }
 }
 
 .script-manage-detail .script-info-detail p {
@@ -142,7 +151,7 @@
   justify-content: flex-end;
   align-items: center;
 
-  margin-top: 8vh;
+  margin-top: 40px;
 }
 
 .script-manage-detail .btn-wrap {

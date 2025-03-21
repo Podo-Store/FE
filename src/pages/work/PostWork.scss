@@ -1,5 +1,9 @@
 @use "./../../components/button/mixins.scss" as m;
 
+.post-work {
+  width: 100vw;
+}
+
 .post-work .post-work-wrap {
   display: flex;
   height: 93vh;

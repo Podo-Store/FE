@@ -22,7 +22,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg";
 
-import "./MyPageContentsDefault.css";
+import "./MyPageContentsDefault.scss";
 import "./PurchasedScript.scss";
 
 const PurchasedScript = () => {

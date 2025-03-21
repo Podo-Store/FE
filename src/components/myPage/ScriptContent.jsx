@@ -105,7 +105,7 @@ const ScriptContent = ({
                 />
               )}
               {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-              {currentPage === "1" && script.checked === "PASS" ? (
+              {widthConditions.isMobile && currentPage === "1" && script.checked === "PASS" ? (
                 <ScriptManageTopBtn className="mobile" script={script} />
               ) : null}
             </div>

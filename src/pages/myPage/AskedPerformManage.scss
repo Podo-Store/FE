@@ -1,7 +1,22 @@
+@use "./../../styles/_responsive.scss" as r;
+
+.asked-perform-manage * {
+  box-sizing: border-box;
+}
+
 .asked-perform-manage .contents {
-  gap: 3.519vh;
+  display: flex;
+  gap: 38px;
 
   margin-top: 4.167vh;
+
+  @include r.media-laptop {
+    gap: 29px;
+  }
+  @include r.media-tablet {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .asked-perform-manage .script-info {
@@ -16,6 +31,23 @@
   border-radius: 20px;
   border: 2px solid var(--Main, #6a39c0);
   background: var(--ect-white, #fff);
+  @include r.media-laptop {
+    width: 351px;
+  }
+  @include r.media-tablet {
+    flex-direction: row;
+
+    padding-left: 68px;
+    padding-right: 39px;
+
+    width: 100%;
+    height: 428px;
+  }
+  @include r.media-mobile {
+    flex-direction: column;
+
+    height: 741px;
+  }
 }
 
 .asked-perform-manage .script-info .script-info-title > hr {
@@ -64,21 +96,23 @@
 }
 
 .asked-perform-manage .contents .asked-perform-wrap {
-  padding-top: 3.426vh;
+  padding: 37px 56px;
+  @include r.media-laptop {
+    padding: 37px 30px;
+  }
+  & {
+    width: fit-content;
 
-  width: fit-content;
+    box-sizing: border-box;
+    border-radius: 20px;
+    border: 2px solid var(--Main, #6a39c0);
 
-  box-sizing: border-box;
-  border-radius: 20px;
-  border: 2px solid var(--Main, #6a39c0);
-
-  max-height: 741px;
-  overflow-y: auto;
+    max-height: 741px;
+    overflow-y: auto;
+  }
 }
 
 .asked-perform-manage .contents .asked-perform-wrap .asked-perform-box {
-  padding-left: 2.917vw;
-  padding-right: 2.969vw;
   padding-bottom: 1.204vh;
 }
 
@@ -86,17 +120,28 @@
   padding: 0 6px;
 
   width: 740px;
-  height: 33px;
-  flex-shrink: 0;
+  @include r.media-tablet {
+    width: 608px;
+  }
+  @include r.media-mobile {
+    width: 370px;
+  }
 
-  border-bottom: 1px solid #b489ff;
-  background-color: var(--purple-purple-10, #f5f0ff);
+  & {
+    height: 33px;
+    flex-shrink: 0;
+
+    box-sizing: border-box;
+    border-bottom: 1px solid #b489ff;
+    background-color: var(--purple-purple-10, #f5f0ff);
+  }
 }
 
 .asked-perform-manage .contents .asked-perform-wrap .content-inside {
+  padding: 0 6px;
   padding-top: 1.667vh;
-  padding-left: 7.05px;
-  padding-right: 6px;
+
+  box-sizing: border-box;
 }
 
 .asked-perform-manage .contents .asked-perform-wrap .content-inside .user-info {
@@ -105,11 +150,18 @@
 
 .asked-perform-manage .contents .asked-perform-wrap .content-inside .date-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: space-between;
-  row-gap: 1.481vh;
+  grid-template-columns: 1fr 355px;
+  @include r.media-tablet {
+    grid-template-columns: 1fr 285px;
+  }
+  @include r.media-mobile {
+    grid-template-columns: 1fr 170px;
+  }
+  & {
+    row-gap: 1.481vh;
 
-  width: 100%;
+    width: 100%;
+  }
 }
 
 .asked-perform-manage .contents .asked-perform-wrap hr {

@@ -10,6 +10,7 @@ import { AuthInputField } from "../../components/inputField";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import formatDateCutSec from "../../utils/formatDateCutSec";
 import { formatPrice } from "../../utils/formatPrice";
@@ -19,7 +20,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import listCloseBtn from "../../assets/image/button/listCloseBtn.svg";
 import listOpenBtn from "../../assets/image/button/listOpenBtn.svg";
 
-import "./AskedPerformManage.css";
+import "./AskedPerformManage.scss";
 import "./PerformanceTop.scss";
 
 const AskedPerformManage = () => {
@@ -73,7 +74,7 @@ const AskedPerformManage = () => {
 
         <p className="p-medium-regular">공연 신청 정보</p>
         <hr />
-        <div className="contents d-flex">
+        <div className="contents">
           <div className="script-info f-dir-column a-items-center j-content-between">
             <div className="script-info-title f-dir-column a-items-center">
               <ThumbnailImg />
@@ -166,44 +167,22 @@ const AskedPerformManage = () => {
                         <div className="content-inside">
                           <p className="p-medium-bold">신청자 정보</p>
                           <div className="user-info j-content-between">
-                            <AuthInputField
-                              value={subItem.name}
-                              readOnly={true}
-                              style={{ width: "355px", height: "42px" }}
-                            />
-                            <AuthInputField
-                              value={subItem.phone}
-                              readOnly={true}
-                              style={{ width: "355px", height: "42px" }}
-                            />
+                            <ShortInputField value={subItem.name} readOnly={true} />
+                            <ShortInputField value={subItem.phone} readOnly={true} />
                           </div>
-                          <AuthInputField
-                            value={subItem.address}
-                            readOnly={true}
-                            style={{ width: "724px", height: "42px" }}
-                          />
+                          <LongInputField value={subItem.address} readOnly={true} />
                         </div>
                         <div className="content-inside">
                           <p className="p-medium-bold">예상 공연 일자</p>
                           <div className="date-list">
                             {subItem.performDate.map((date, dateIndex) => (
-                              <AuthInputField
-                                key={dateIndex}
-                                value={date}
-                                readOnly={true}
-                                style={{ width: "355px", height: "42px" }}
-                              />
+                              <ShortInputField key={dateIndex} value={date} readOnly={true} />
                             ))}
                             {subItem.performDate.length < subItem.amount &&
                               Array.from(
                                 { length: subItem.amount - subItem.performDate.length },
                                 (_, index) => (
-                                  <AuthInputField
-                                    key={index}
-                                    value="미 입력"
-                                    readOnly={true}
-                                    style={{ width: "355px", height: "42px" }}
-                                  />
+                                  <ShortInputField key={index} value="미 입력" readOnly={true} />
                                 )
                               )}
                           </div>
@@ -240,3 +219,37 @@ const AskedPerformManage = () => {
 };
 
 export default AskedPerformManage;
+
+const LongInputField = ({ ...props }) => {
+  const { widthConditions } = useWindowDimensions();
+
+  return (
+    <AuthInputField
+      style={
+        widthConditions.isMobile
+          ? { width: "358px", height: "42px" }
+          : widthConditions.isTablet
+          ? { width: "596px", height: "42px" }
+          : { width: "100%", height: "42px" }
+      }
+      {...props}
+    />
+  );
+};
+
+const ShortInputField = ({ ...props }) => {
+  const { widthConditions } = useWindowDimensions();
+
+  return (
+    <AuthInputField
+      style={
+        widthConditions.isMobile
+          ? { width: "170px", height: "42px" }
+          : widthConditions.isTablet
+          ? { width: "285px", height: "42px" }
+          : { width: "355px", height: "42px" }
+      }
+      {...props}
+    />
+  );
+};

@@ -50,6 +50,12 @@ function App() {
               <Route index element={<MainVer2 />} />
               <Route path="v1" element={<MainVer1 />} />
 
+              <Route path="signup" element={<SignUpDefault />} />
+              <Route path="signup/success" element={<SignUpSuccess />} />
+              <Route path="signin" element={<SignIn />} />
+              <Route path="signin/v2" element={<SignInV2 />} />
+              <Route path="signin/find/:id" element={<FindBar />} />
+
               <Route path="list" element={<List />} />
               <Route path="list/detail/:id" element={<Detail />} />
 
@@ -60,12 +66,6 @@ function App() {
                 <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
 
                 <Route path="policy/:id" element={<PolicyBar />} />
-
-                <Route path="signup" element={<SignUpDefault />} />
-                <Route path="signup/success" element={<SignUpSuccess />} />
-                <Route path="signin" element={<SignIn />} />
-                <Route path="signin/v2" element={<SignInV2 />} />
-                <Route path="signin/find/:id" element={<FindBar />} />
 
                 {/*<Route path="list/detail/:id" element={<Detail />} />*/}
 

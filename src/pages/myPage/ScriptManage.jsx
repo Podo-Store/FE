@@ -17,7 +17,7 @@ import AuthContext from "../../contexts/AuthContext";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./MyPageContentsDefault.css";
+import "./MyPageContentsDefault.scss";
 
 const ScriptManage = () => {
   const [productList, setProductList] = useState([]);

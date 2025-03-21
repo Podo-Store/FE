@@ -130,12 +130,15 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             </SideDialogBtn>
             <hr className="hr-outside" />
           </div>
-
-          <div>
-            <div className="authenticated-title">
-              <h5 className="h5-regular">내 설정</h5>
-              <hr className="hr-outside" />
-            </div>
+        </>
+      )}
+      <div>
+        <div className="authenticated-title">
+          <h5 className="h5-regular">내 설정</h5>
+          <hr className="hr-outside" />
+        </div>
+        {isAuthenticated ? (
+          <>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
                 navigate(event, "/mypage/infochange");
@@ -153,9 +156,20 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
               로그아웃
             </SideDialogBtn>
             <hr className="hr-outside" />
-          </div>
-        </>
-      )}
+          </>
+        ) : (
+          <>
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
+                navigate(event, "/signin");
+              }}
+            >
+              로그인
+            </SideDialogBtn>
+            <hr className="hr-inside" />
+          </>
+        )}
+      </div>
     </Dialog>
   );
 };

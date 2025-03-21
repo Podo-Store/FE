@@ -9,16 +9,17 @@ import GoBack from "../../components/button/GoBack";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import FileInputBox from "../../components/file/FileInputBox";
 import RectInputField from "../../components/inputField/RectInputField.tsx";
+import DialogPopup from "@/components/popup/DialogPopup";
 import Select from "../../components/select/Select";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./ScriptManageDetail.css";
+import "./ScriptManageDetail.scss";
 import "./../../styles/text.css";
-import DialogPopup from "@/components/popup/DialogPopup";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -47,6 +48,9 @@ const ScriptManageDetail = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
+  const {
+    widthConditions: { isMobile },
+  } = useWindowDimensions();
 
   useRequest(async () => {
     try {
@@ -232,6 +236,7 @@ const ScriptManageDetail = () => {
                     onChange={(e) => {
                       setTitle(e.target.value);
                     }}
+                    style={!isMobile ? {} : { width: "100%" }}
                   />
                   <div className="limit-box f-center">
                     <p className="p-xs-regular c-grey6">{title ? title.length : 0} / 20자</p>
@@ -265,13 +270,18 @@ const ScriptManageDetail = () => {
                     onChange={(e) => {
                       setScriptPrice(e.target.value);
                     }}
+                    style={!isMobile ? {} : { width: "270px" }}
                   />
                   <Select
                     value={saleScriptStatus ? "scriptSale" : "notSale"}
                     onChange={(event) => {
                       setSaleScriptStatus(event.target.value === "scriptSale");
                     }}
-                    style={{ width: "197px", height: "40px" }}
+                    style={
+                      !isMobile
+                        ? { width: "197px", height: "40px" }
+                        : { width: "140px", height: "40px" }
+                    }
                   >
                     <option value="notSale">판매 중지</option>
                     <option value="scriptSale">판매</option>
@@ -289,13 +299,18 @@ const ScriptManageDetail = () => {
                     onChange={(e) => {
                       setPerformPrice(e.target.value);
                     }}
+                    style={!isMobile ? {} : { width: "270px" }}
                   />
                   <Select
                     value={salePerformStatus ? "performSale" : "notSale"}
                     onChange={(event) => {
                       setSalePerformStatus(event.target.value === "performSale");
                     }}
-                    style={{ width: "197px", height: "40px" }}
+                    style={
+                      !isMobile
+                        ? { width: "197px", height: "40px" }
+                        : { width: "140px", height: "40px" }
+                    }
                   >
                     <option value="notSale">판매 중지</option>
                     <option value="performSale">판매</option>
@@ -311,7 +326,7 @@ const ScriptManageDetail = () => {
                   onFileUpload={(file) => {
                     setUploadedFile(file);
                   }}
-                  style={{ width: "39.3125rem" }}
+                  style={!isMobile ? { width: "39.3125rem" } : { width: "430px" }}
                   titleStyle={{
                     fontSize: "1rem",
                     fontStyle: "normal",

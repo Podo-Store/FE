@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .myPage-contents-default .myPage-contents-default-wrap {
   display: flex;
   margin: 6.66vh 0;
@@ -5,7 +7,16 @@
 }
 
 .myPage-contents-default .content-side {
-  flex: 2;
+  width: 847px;
+  @include r.media-laptop {
+    width: 775px;
+  }
+  @include r.media-tablet {
+    width: 668px;
+  }
+  @include r.media-mobile {
+    width: 430px;
+  }
 }
 
 .myPage-contents-default .content-side h1 {

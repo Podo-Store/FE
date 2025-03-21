@@ -1,22 +1,22 @@
 @use "./../styles/_responsive.scss" as r;
 
 .__margin-layout__ {
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-  display: grid;
+  // display: grid;
 
-  grid-template-columns: 320px 1fr 320px;
-  @include r.media-desktop {
-    grid-template-columns: 320px 1fr 320px;
-  }
-  @include r.media-laptop {
-    grid-template-columns: 50px 1fr 50px;
-  }
-  @include r.media-mobile {
-    grid-template-columns: 25px 1fr 25px;
-  }
+  // grid-template-columns: 320px 1fr 320px;
+  // @include r.media-desktop {
+  //   grid-template-columns: 320px 1fr 320px;
+  // }
+  // @include r.media-laptop {
+  //   grid-template-columns: 50px 1fr 50px;
+  // }
+  // @include r.media-mobile {
+  //   grid-template-columns: 25px 1fr 25px;
+  // }
 
   & {
     min-height: 100vh;
@@ -27,5 +27,6 @@
 /* 콘텐츠 영역을 중앙에 배치 */
 .__margin-layout__ > * {
   grid-column: 2 / 3;
+
   max-width: 1280px;
 }

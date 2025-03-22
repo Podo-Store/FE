@@ -1,7 +1,7 @@
 import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FileInputBox from "../../components/file/FileInputBox";
@@ -10,7 +10,9 @@ import PartialLoading from "@/components/loading/PartialLoading";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
+import infoBtn from "@/assets/image/button/circleInfoBlackBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
+import postingProcess2 from "../../assets/image/post/postingProcess2.png";
 
 import "./PostWork.scss";
 
@@ -20,6 +22,24 @@ const PostWork = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  // Image popup
+  const [showPopup, setShowPopup] = useState(false);
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // event.target이 popupRef.current의 child가 아닐 때
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowPopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -94,17 +114,21 @@ const PostWork = () => {
               <div className="upload-title">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
-                {/*
-                <img
-                  src={infoBtn}
-                  alt="infoBtn"
-                  onClick={(event) => {
-                    setShowPopup(true);
-                    const rect = event.target.getBoundingClientRect();
-                    setPopupPosition({ x: rect.left, y: rect.bottom });
-                  }}
-                />
-                */}
+
+                <div className="p-relative" style={{ height: "20px" }} ref={popupRef}>
+                  <img
+                    src={infoBtn}
+                    alt="i"
+                    onClick={(event) => {
+                      setShowPopup(!showPopup);
+                    }}
+                  />
+                  {showPopup && (
+                    <div className="image-popup f-center">
+                      <img src={postingProcess2} alt="" />
+                    </div>
+                  )}
+                </div>
               </div>
 
               <FileInputBox

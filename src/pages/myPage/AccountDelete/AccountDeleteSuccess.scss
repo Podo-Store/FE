@@ -12,6 +12,9 @@
 .delete-complete .delete-complete-box {
   padding: 2.69rem 1.69rem;
 
+  width: 100%;
+
+  box-sizing: border-box;
   border-radius: 1.25rem;
   border: 2px dashed var(--Main, #9591f2);
 }
@@ -19,8 +22,8 @@
 .delete-complete .delete-complete-wrap img {
   position: absolute;
   top: 0;
-  left: 0;
-  transform: translate(-50%, -50%);
+  left: 27px;
+  transform: translate(0, -50%);
   background: #ffffff;
 }
 
@@ -41,7 +44,7 @@
 
   margin-top: 2.5rem;
 
-  width: 27rem;
+  width: 414px;
   height: 3rem;
 
   border: none;

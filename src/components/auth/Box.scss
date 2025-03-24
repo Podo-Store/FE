@@ -14,7 +14,7 @@
 
   width: 500px;
   @include r.media-mobile {
-    width: calc(100vw - 30px);
+    width: 450px;
   }
   & {
     flex-shrink: 0;

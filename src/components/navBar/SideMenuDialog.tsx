@@ -134,7 +134,11 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
       )}
       <div>
         <div className="authenticated-title">
-          <h5 className="h5-regular">내 설정</h5>
+          {isAuthenticated ? (
+            <h5 className="h5-regular">내 설정</h5>
+          ) : (
+            <h5 className="h5-regular">&nbsp;</h5>
+          )}
           <hr className="hr-outside" />
         </div>
         {isAuthenticated ? (

@@ -4,3 +4,8 @@
   border: none;
   background-color: transparent;
 }
+
+.image-btn img {
+  width: 100%;
+  height: 100%;
+}

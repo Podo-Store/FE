@@ -55,7 +55,10 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
 
   return (
     <div className="file-input-box">
-      <div className="title j-content-start a-items-center">
+      <div
+        className="title j-content-start a-items-center"
+        style={!title ? { marginTop: "0" } : {}}
+      >
         {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}
         {infoText ? (
           <>
@@ -70,7 +73,7 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
             />
             {showPopup ? (
               <InfoPopup
-                message={"작품 설명은 5페이지 이내의\n PDF 형식 파일만 가능해요."}
+                message={infoText}
                 onClose={() => {
                   setShowPopup(!showPopup);
                 }}

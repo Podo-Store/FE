@@ -7,6 +7,8 @@ import EnterForm from "../../../components/EnterForm";
 
 import { SERVER_URL } from "../../../constants/ServerURL";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import "./ChangeEnter.scss";
 import "./../../../styles/text.css";
 
@@ -14,6 +16,10 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
   const [typedPassword, setTypedPassword] = useState("");
   const [pwValid, setPwValid] = useState(false);
   const [showPwValid, setShowPwValid] = useState(false);
+
+  const {
+    widthConditions: { isMobile },
+  } = useWindowDimensions();
 
   const onClickInputBtn = async () => {
     try {
@@ -60,6 +66,7 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
             }}
             errorFlag={showPwValid && !pwValid}
             errorMessage="비밀번호가 일치하지 않습니다."
+            style={isMobile ? { width: "332px" } : {}}
           ></AuthPwInputField>
           <button
             className="p-small-bold c-white t-align-center c-pointer"

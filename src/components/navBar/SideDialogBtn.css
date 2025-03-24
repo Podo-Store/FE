@@ -6,6 +6,8 @@
 
   border: none;
   background-color: transparent;
+
+  color: #000;
 }
 
 .side-dialog-btn:active {

@@ -10,7 +10,6 @@ import "./CardsContent.scss";
  * @param {number} props.pageNum - 페이지 번호
  * @param {Object} props.isOpened - 카드 오픈 여부
  * @param {function} props.setIsOpened - 카드 오픈 여부 설정 함수
- * @param {boolean} [props.rightMargin=true] - 오른쪽 여백 여부
  * @returns
  */
 
@@ -18,15 +17,9 @@ interface CardsContentProps {
   pageNum: number;
   isOpened: boolean;
   setIsOpened: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
-  rightMargin?: boolean;
 }
 
-const CardsContent: React.FC<CardsContentProps> = ({
-  pageNum,
-  isOpened,
-  setIsOpened,
-  rightMargin = true,
-}) => {
+const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpened }) => {
   // MOU 키워드 보이지 않게 처리
   const [isKeywordVisible, setIsKeywordVisible] = useState(false);
   // MOU 키워드 등장 애니메이션
@@ -111,7 +104,6 @@ const CardsContent: React.FC<CardsContentProps> = ({
           </div>
         </div>
       </div>
-      {rightMargin && <div className="margin"></div>}
     </div>
   ) : (
     <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
@@ -127,7 +119,6 @@ const CardsContent: React.FC<CardsContentProps> = ({
           />
         </div>
       </div>
-      {rightMargin && <div className="margin"></div>}
     </div>
   );
 };

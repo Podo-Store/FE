@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .main-ver2 .cards {
   gap: 3.125vw;
 
@@ -6,6 +8,9 @@
 
   width: 1520px;
   height: 400px;
+  @include r.media-tablet {
+    flex-direction: column;
+  }
 }
 
 .main-ver2 .cards .cards-arrow-wrap {
@@ -19,4 +24,11 @@
 
 .main-ver2 .cards .cards-arrow#left {
   transform: rotate(180deg);
+}
+
+.main-ver2 .cards-content-wrap {
+  display: flex;
+  justify-content: center;
+
+  gap: 3.125vw; /* 50px */
 }

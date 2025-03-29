@@ -66,7 +66,7 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
         )}
       </div>
 
-      <div className="j-content-center">
+      <div className="cards-content-wrap">
         <CardsContent
           pageNum={pageStartNum}
           isOpened={isOpened[pageStartNum]}
@@ -91,7 +91,6 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
           pageNum={pageStartNum + 4}
           isOpened={isOpened[pageStartNum + 4]}
           setIsOpened={setIsOpened}
-          rightMargin={false}
         />
       </div>
       <div className="cards-arrow-wrap a-items-center">

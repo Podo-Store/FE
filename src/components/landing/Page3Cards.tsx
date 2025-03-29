@@ -4,7 +4,7 @@ import CardsContent from "./CardsContent";
 
 import rightArrow from "../../assets/image/landing/Vector 22 Right.svg";
 
-import "./Page3Cards.css";
+import "./Page3Cards.scss";
 
 interface Page3CardsProps {
   pageStartNum: number;

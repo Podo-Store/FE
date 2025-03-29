@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 
 import { organizationsExport } from "../../constants/organizations";
 
-import "./CardsContent.css";
+import "./CardsContent.scss";
 
 /**
  *

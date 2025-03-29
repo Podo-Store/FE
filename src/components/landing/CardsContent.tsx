@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { organizationsExport } from "../../constants/organizations.ts";
+
+import { organizationsExport } from "../../constants/organizations";
+
 import "./CardsContent.css";
 
 /**
@@ -11,7 +13,20 @@ import "./CardsContent.css";
  * @param {boolean} [props.rightMargin=true] - 오른쪽 여백 여부
  * @returns
  */
-const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) => {
+
+interface CardsContentProps {
+  pageNum: number;
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
+  rightMargin?: boolean;
+}
+
+const CardsContent: React.FC<CardsContentProps> = ({
+  pageNum,
+  isOpened,
+  setIsOpened,
+  rightMargin = true,
+}) => {
   // MOU 키워드 보이지 않게 처리
   const [isKeywordVisible, setIsKeywordVisible] = useState(false);
   // MOU 키워드 등장 애니메이션
@@ -21,24 +36,25 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
 
   useEffect(() => {
     setShowPhoto(false);
-    let timer1, timer2, timer3;
+    let timers: NodeJS.Timeout[] = new Array(3);
+
     if (isOpened) {
       setIsKeywordVisible(false);
-      timer1 = setTimeout(() => {
+      timers[0] = setTimeout(() => {
         setIsKeywordVisible(true);
         setIsKeywordAnimating(true);
-        timer2 = setTimeout(() => {
+        timers[1] = setTimeout(() => {
           setShowPhoto(true);
-          timer3 = setTimeout(() => {
+          timers[2] = setTimeout(() => {
             setIsKeywordAnimating(false);
           }, 1000);
         }, 500);
       }, 300);
     }
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
+      clearTimeout(timers[0]);
+      clearTimeout(timers[1]);
+      clearTimeout(timers[2]);
     };
   }, [isOpened]);
 

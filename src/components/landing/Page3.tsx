@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 
 import Page3Cards from "./Page3Cards";
 
-import "./Page3.css";
+import "./Page3.scss";
 
 // THX to Skillthrive: https://youtu.be/McPdzhLRzCg?si=swwfYJhFEB-4bOsl
 const Page3 = () => {

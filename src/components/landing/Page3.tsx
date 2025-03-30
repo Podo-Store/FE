@@ -2,36 +2,70 @@ import { useRef, useState } from "react";
 
 import Page3Cards from "./Page3Cards";
 
-import "./Page3.css";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import { organizationsLength } from "@/constants/organizations";
+
+import "./Page3.scss";
 
 // THX to Skillthrive: https://youtu.be/McPdzhLRzCg?si=swwfYJhFEB-4bOsl
 const Page3 = () => {
   // 슬라이드 총 개수
   const [currentSlide, setCurrentSlide] = useState(0);
-  const totalSlides = 2;
+
+  // for responsive design
+  const { widthConditions } = useWindowDimensions();
+  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
+  // const isMobile = widthConditions.isMobile;
+
+  const slidesPerPage = !isTablet ? 5 : 3;
+  const totalSlides = Math.ceil(organizationsLength / slidesPerPage);
 
   const sliderRef = useRef<HTMLDivElement>(null);
 
-  const onPrevSlide = () => {
-    const newSlide = currentSlide !== 0 ? currentSlide - 1 : currentSlide;
-    setCurrentSlide(newSlide);
+  const handleSlide = (direction: "prev" | "next") => {
+    let newSlide;
+    if (direction === "prev") {
+      newSlide = currentSlide !== 0 ? currentSlide - 1 : currentSlide;
+      setCurrentSlide(newSlide);
+    } else {
+      newSlide = currentSlide !== totalSlides - 1 ? currentSlide + 1 : currentSlide;
+      setCurrentSlide(newSlide);
+    }
+
     if (sliderRef.current) {
-      sliderRef.current.scrollTo({
-        left: sliderRef.current.offsetWidth * newSlide,
-        behavior: "smooth",
-      });
+      if (!isTablet) {
+        // 기본: 좌우 슬라이드
+        sliderRef.current.scrollTo({
+          left: sliderRef.current.offsetWidth * newSlide,
+          behavior: "smooth",
+        });
+      } else {
+        // responsive: 상하 슬라이드
+        sliderRef.current.scrollTo({
+          top: sliderRef.current.offsetHeight * newSlide,
+          behavior: "smooth",
+        });
+      }
     }
   };
 
-  const onNextSlide = () => {
-    const newSlide = currentSlide !== totalSlides - 1 ? currentSlide + 1 : currentSlide;
-    setCurrentSlide(newSlide);
-    if (sliderRef.current) {
-      sliderRef.current.scrollTo({
-        left: sliderRef.current.offsetWidth * newSlide,
-        behavior: "smooth",
-      });
+  const renderPage3Cards = () => {
+    const cards = [];
+    for (let i = 0; i < totalSlides; i++) {
+      cards.push(
+        <div className="slide" key={i}>
+          <Page3Cards
+            pageStartNum={i * slidesPerPage}
+            onPrevSlide={() => handleSlide("prev")}
+            onNextSlide={() => handleSlide("next")}
+            setLeftArrowDisappear={currentSlide === 0}
+            setRightArrowDisappear={currentSlide === totalSlides - 1}
+          />
+        </div>
+      );
     }
+    return cards;
   };
 
   return (
@@ -42,22 +76,7 @@ const Page3 = () => {
       <div className="j-content-center">
         <div className="slider-wrapper">
           <div className="slider" ref={sliderRef}>
-            <div className="slide">
-              <Page3Cards
-                pageStartNum={0}
-                onPrevSlide={onPrevSlide}
-                onNextSlide={onNextSlide}
-                setLeftArrowDisappear={currentSlide === 0}
-              />
-            </div>
-            <div className="slide">
-              <Page3Cards
-                pageStartNum={5}
-                onPrevSlide={onPrevSlide}
-                onNextSlide={onNextSlide}
-                setRightArrowDisappear={currentSlide === totalSlides - 1}
-              />
-            </div>
+            {renderPage3Cards()}
           </div>
         </div>
       </div>

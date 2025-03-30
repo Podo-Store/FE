@@ -1,6 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { organizationsExport } from "../../constants/organizations.ts";
-import "./CardsContent.css";
+
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import { organizationsExport } from "../../constants/organizations";
+
+import "./CardsContent.scss";
 
 /**
  *
@@ -8,10 +12,16 @@ import "./CardsContent.css";
  * @param {number} props.pageNum - 페이지 번호
  * @param {Object} props.isOpened - 카드 오픈 여부
  * @param {function} props.setIsOpened - 카드 오픈 여부 설정 함수
- * @param {boolean} [props.rightMargin=true] - 오른쪽 여백 여부
  * @returns
  */
-const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) => {
+
+interface CardsContentProps {
+  pageNum: number;
+  isOpened: boolean;
+  setIsOpened: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
+}
+
+const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpened }) => {
   // MOU 키워드 보이지 않게 처리
   const [isKeywordVisible, setIsKeywordVisible] = useState(false);
   // MOU 키워드 등장 애니메이션
@@ -19,33 +29,48 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
   // 배경 단체 사진
   const [showPhoto, setShowPhoto] = useState(false);
 
+  // for responsive design
+  const { widthConditions } = useWindowDimensions();
+  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
+
   useEffect(() => {
     setShowPhoto(false);
-    let timer1, timer2, timer3;
+    let timers: NodeJS.Timeout[] = new Array(3);
+
     if (isOpened) {
       setIsKeywordVisible(false);
-      timer1 = setTimeout(() => {
+      timers[0] = setTimeout(() => {
         setIsKeywordVisible(true);
         setIsKeywordAnimating(true);
-        timer2 = setTimeout(() => {
+        timers[1] = setTimeout(() => {
           setShowPhoto(true);
-          timer3 = setTimeout(() => {
+          timers[2] = setTimeout(() => {
             setIsKeywordAnimating(false);
           }, 1000);
         }, 500);
       }, 300);
     }
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
+      clearTimeout(timers[0]);
+      clearTimeout(timers[1]);
+      clearTimeout(timers[2]);
     };
   }, [isOpened]);
 
   const onMouseEnter = () => {
     // setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
     // 선택된 카드만 열기, 나머진 닫기
-    setIsOpened((prev) => ({ [pageNum]: true }));
+    if (!isTablet) {
+      // 기본: mouse hover 시 카드 열기
+      setIsOpened((prev) => ({ [pageNum]: true }));
+    }
+  };
+  const onClick = () => {
+    // 선택된 카드만 열기, 나머진 닫기
+    if (isTablet) {
+      // responsive: 클릭 시 카드 열기
+      setIsOpened((prev) => ({ [pageNum]: true }));
+    }
   };
 
   const onMouseLeave = () => {
@@ -95,10 +120,14 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
           </div>
         </div>
       </div>
-      {rightMargin && <div className="margin"></div>}
     </div>
   ) : (
-    <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div
+      className="cards-wrap d-flex"
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div id="closed" className="cards-content f-dir-column f-center">
         <p className="fade-in p-large-medium c-white t-center">
           {organizationsExport[pageNum]?.name || ""}
@@ -111,7 +140,6 @@ const CardsContent = ({ pageNum, isOpened, setIsOpened, rightMargin = true }) =>
           />
         </div>
       </div>
-      {rightMargin && <div className="margin"></div>}
     </div>
   );
 };

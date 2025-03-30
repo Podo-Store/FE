@@ -144,3 +144,4 @@ const organizations: Organizations[] = [
 ];
 
 export const organizationsExport = Array.from(organizations).reverse();
+export const organizationsLength = organizationsExport.length;

@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 
 import CardsContent from "./CardsContent";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import rightArrow from "../../assets/image/landing/Vector 22 Right.svg";
 
-import "./Page3Cards.css";
+import "./Page3Cards.scss";
 
 interface Page3CardsProps {
   pageStartNum: number;
@@ -29,14 +31,28 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
   setLeftArrowDisappear = false,
   setRightArrowDisappear = false,
 }) => {
+  // for responsive design
+  const { widthConditions } = useWindowDimensions();
+  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
+  const slidesPerPage = !isTablet ? 5 : 3;
+
   // 5개 카드의 오픈 여부 상태
-  const [isOpened, setIsOpened] = useState<{ [key: number]: boolean }>({
-    [pageStartNum]: true,
-    [pageStartNum + 1]: false,
-    [pageStartNum + 2]: false,
-    [pageStartNum + 3]: false,
-    [pageStartNum + 4]: false,
-  });
+  const [isOpened, setIsOpened] = useState<{ [key: number]: boolean }>(
+    () => {
+      const initialState: { [key: number]: boolean } = {};
+      for (let i = pageStartNum; i < pageStartNum + slidesPerPage; ++i) {
+        initialState[i] = i === pageStartNum ? true : false;
+      }
+      return initialState;
+    }
+    // {
+    // [pageStartNum]: true,
+    // [pageStartNum + 1]: false,
+    // [pageStartNum + 2]: false,
+    // [pageStartNum + 3]: false,
+    // [pageStartNum + 4]: false,
+    // }
+  );
 
   useEffect(() => {
     // 모든 카드가 closed면 첫 번째 카드 open
@@ -52,6 +68,16 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
     }
   }, [isOpened, pageStartNum]);
 
+  const renderCardsContents = () => {
+    const cards = [];
+    for (let i = pageStartNum; i < pageStartNum + slidesPerPage; ++i) {
+      cards.push(
+        <CardsContent key={i} pageNum={i} isOpened={isOpened[i]} setIsOpened={setIsOpened} />
+      );
+    }
+    return cards;
+  };
+
   return (
     <div className="cards j-content-center">
       <div className="cards-arrow-wrap a-items-center">
@@ -66,34 +92,7 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
         )}
       </div>
 
-      <div className="j-content-center">
-        <CardsContent
-          pageNum={pageStartNum}
-          isOpened={isOpened[pageStartNum]}
-          setIsOpened={setIsOpened}
-        />
-        <CardsContent
-          pageNum={pageStartNum + 1}
-          isOpened={isOpened[pageStartNum + 1]}
-          setIsOpened={setIsOpened}
-        />
-        <CardsContent
-          pageNum={pageStartNum + 2}
-          isOpened={isOpened[pageStartNum + 2]}
-          setIsOpened={setIsOpened}
-        />
-        <CardsContent
-          pageNum={pageStartNum + 3}
-          isOpened={isOpened[pageStartNum + 3]}
-          setIsOpened={setIsOpened}
-        />
-        <CardsContent
-          pageNum={pageStartNum + 4}
-          isOpened={isOpened[pageStartNum + 4]}
-          setIsOpened={setIsOpened}
-          rightMargin={false}
-        />
-      </div>
+      <div className="cards-content-wrap">{renderCardsContents()}</div>
       <div className="cards-arrow-wrap a-items-center">
         {!setRightArrowDisappear && (
           <img className="cards-arrow c-pointer" src={rightArrow} alt=">" onClick={onNextSlide} />

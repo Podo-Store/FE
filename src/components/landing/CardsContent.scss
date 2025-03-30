@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -40,11 +42,6 @@
   background: var(--purple-purple-8-line, #caabff);
 }
 
-.cards-wrap .margin {
-  width: 50px;
-  height: 100%;
-}
-
 .cards-content#opened {
   position: relative;
 
@@ -53,6 +50,10 @@
   width: 700px;
 
   box-sizing: border-box;
+  @include r.media-tablet {
+    width: 585px;
+    height: 300px;
+  }
 }
 
 .cards-content .background-image {
@@ -85,6 +86,9 @@
   row-gap: 8px;
 
   width: 60%;
+  @include r.media-tablet {
+    width: 73%;
+  }
 }
 
 .cards-content#opened .cards-top .label {
@@ -127,6 +131,10 @@
   width: 85px;
 
   box-sizing: border-box;
+  @include r.media-tablet {
+    width: 585px;
+    height: 85px;
+  }
 }
 
 .cards-content .mou-logo {
@@ -141,6 +149,10 @@
   box-sizing: border-box;
   border-radius: 50%;
   background-color: var(--ect-white, #fff);
+  @include r.media-tablet {
+    right: 23px;
+    bottom: 17.5px;
+  }
 }
 
 .cards-content .mou-logo img {
@@ -153,4 +165,8 @@
 
   width: max-content;
   transform: rotate(-90deg);
+  @include r.media-tablet {
+    top: 50%;
+    transform: translate(0, -50%) rotate(0deg);
+  }
 }

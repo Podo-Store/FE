@@ -8,6 +8,9 @@
 
   width: 1520px;
   height: 400px;
+  @include r.media-laptop {
+    width: 1217px;
+  }
   @include r.media-tablet {
     flex-direction: column;
     align-items: center;

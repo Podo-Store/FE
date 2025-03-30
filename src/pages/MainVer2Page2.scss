@@ -1,3 +1,5 @@
+@use "./../styles/_responsive.scss" as r;
+
 .main-ver2 .page2 .page2-title {
   margin: 8.981vh 0; /* 97px */
   @media (max-width: 1920px) {
@@ -12,6 +14,9 @@
   gap: 23px;
 
   margin-bottom: 14.352vh; /* 155px */
+  @include r.media-laptop {
+    gap: 20px;
+  }
 }
 
 .main-ver2 .page2 .page2-content {
@@ -20,16 +25,28 @@
   width: 407px;
   min-height: 580px;
   height: 58.796vh; /* 635px */
-  flex-shrink: 0;
+  @include r.media-laptop {
+    width: 382px;
+    height: 596px;
+  }
+  & {
+    flex-shrink: 0;
 
-  border-radius: 30px;
+    border-radius: 30px;
 
-  cursor: pointer;
+    cursor: pointer;
 
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  background-size: cover;
-  background-repeat: no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+.main-ver2 .page2 .page2-content .page2-img-wrap img {
+  @include r.media-laptop {
+    width: 100%;
+  }
 }
 
 .main-ver2 .page2 .page2-content:hover {

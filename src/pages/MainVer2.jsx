@@ -46,8 +46,9 @@ const MainVer2 = () => {
               <br />
               포도상점을 시작하세요!
             </h5>
-
-            <img src={circleIcon} alt="circle" className="circle-icon" />
+            <div className="circle-icon">
+              <img src={circleIcon} alt="circle" />
+            </div>
           </div>
           <div className="j-content-center">
             <img src={arrow} alt="First" className="arrow" />

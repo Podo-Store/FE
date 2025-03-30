@@ -11,6 +11,16 @@
 
   padding-top: 25.093vh; /* 271px */
   padding-left: 16.667vw; /* 320px */
+  // @include r.media-laptop {
+  //   padding-top: 231px;
+  //   padding-left: 80px;
+  // }
+  @include r.media-tablet {
+    gap: 0;
+
+    padding-top: 132px;
+    padding-left: 80px;
+  }
 }
 
 .main-ver2 .page1 .title {
@@ -18,6 +28,14 @@
   font-style: normal;
   font-weight: 700;
   line-height: 120%; /* 86.4px */
+  @include r.media-tablet {
+    margin-bottom: 75px;
+
+    font-size: 64px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 76.8px */
+  }
 }
 
 .main-ver2 .page1 .sub-title {
@@ -27,6 +45,12 @@
   font-weight: 700;
   line-height: 156.25%; /* 156.25% */
   letter-spacing: -0.64px;
+  @include r.media-tablet {
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 50px; /* 156.25% */
+  }
 }
 
 .main-ver2 .page1 img.arrow {
@@ -63,15 +87,23 @@
   top: 11.852vh; /* 128px */
   right: 12.5vw; /* 240px */
 
+  @include r.media-laptop {
+    top: 12.5926vh; /* 136px */
+    right: 80px;
+  }
+  @include r.media-tablet {
+    display: flex;
+    justify-content: flex-end;
+
+    position: static;
+
+    width: 100%;
+  }
+}
+
+.main-ver2 .page1 .circle-icon img {
   width: 33.958vw; /* 652px */
   height: auto; /* 641px */
-
-  @media (max-width: 1920px) {
-    top: 11.852vh; /* 128px */
-  }
-  @media (max-width: 1600px) {
-    top: 6vh;
-  }
 }
 
 .resized-image {
@@ -97,6 +129,9 @@
   font-style: normal;
   font-weight: 700;
   line-height: 150%;
+  @include r.media-tablet {
+    font-size: 40px;
+  }
 }
 
 .main-ver2 .title_20px {
@@ -106,6 +141,9 @@
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+  @include r.media-tablet {
+    font-size: 20px;
+  }
 }
 
 .main-ver2 .bottom-position {

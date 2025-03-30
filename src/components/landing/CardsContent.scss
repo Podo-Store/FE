@@ -50,7 +50,13 @@
   width: 700px;
 
   box-sizing: border-box;
-  @include r.media-tablet {
+  // @include r.media-laptop {
+  //   // 비율 무시
+  //   width: 585px;
+  //   height: 400px;
+  // }
+  @include r.media-laptop {
+    // 700 : 400 = 585 : ~334
     width: 585px;
     height: 334px;
   }
@@ -86,7 +92,7 @@
   row-gap: 8px;
 
   width: 60%;
-  @include r.media-tablet {
+  @include r.media-laptop {
     width: 73%;
   }
 }
@@ -131,6 +137,9 @@
   width: 85px;
 
   box-sizing: border-box;
+  @include r.media-laptop {
+    height: 334px;
+  }
   @include r.media-tablet {
     width: 585px;
     height: 85px;
@@ -165,6 +174,9 @@
 
   width: max-content;
   transform: rotate(-90deg);
+  @include r.media-laptop {
+    transform: translate(0, -60%) rotate(-90deg);
+  }
   @include r.media-tablet {
     top: 50%;
     transform: translate(0, -50%) rotate(0deg);

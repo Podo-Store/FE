@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 /* Page3 기본 스타일 */
 .main-ver2 .page3 {
   background: linear-gradient(180deg, #fff 0%, #f5f0ff 100%);
@@ -5,6 +7,9 @@
 
 .main-ver2 .page3.page-size {
   overflow-x: auto;
+  @include r.media-tablet {
+    min-height: 1056px;
+  }
 }
 
 .main-ver2 .page3 > .title_64px {
@@ -21,6 +26,9 @@
   max-width: 1520px; /* Page3Cards의 너비와 동일 */
 
   overflow: hidden;
+  @include r.media-tablet {
+    max-height: 800px;
+  }
 }
 
 .page3 .slider {
@@ -28,9 +36,23 @@
   overflow-x: hidden;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
+  @include r.media-tablet {
+    flex-direction: column;
+    align-items: center;
+
+    // 이거 안하니까 상하 슬라이드 작동 안하더라..
+    height: 100%; // slider-wrapper의 전체 높이
+
+    overflow-x: unset;
+    overflow-y: hidden;
+    scroll-snap-type: y mandatory;
+  }
 }
 
 .page3 .slide {
   flex: 1 0 100%;
   scroll-snap-align: start;
+  @include r.media-tablet {
+    scroll-snap-align: start;
+  }
 }

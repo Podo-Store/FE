@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import { organizationsExport } from "../../constants/organizations";
 
 import "./CardsContent.scss";
@@ -26,6 +28,10 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
   const [isKeywordAnimating, setIsKeywordAnimating] = useState(false);
   // 배경 단체 사진
   const [showPhoto, setShowPhoto] = useState(false);
+
+  // for responsive design
+  const { widthConditions } = useWindowDimensions();
+  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
 
   useEffect(() => {
     setShowPhoto(false);
@@ -54,7 +60,17 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
   const onMouseEnter = () => {
     // setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
     // 선택된 카드만 열기, 나머진 닫기
-    setIsOpened((prev) => ({ [pageNum]: true }));
+    if (!isTablet) {
+      // 기본: mouse hover 시 카드 열기
+      setIsOpened((prev) => ({ [pageNum]: true }));
+    }
+  };
+  const onClick = () => {
+    // 선택된 카드만 열기, 나머진 닫기
+    if (isTablet) {
+      // responsive: 클릭 시 카드 열기
+      setIsOpened((prev) => ({ [pageNum]: true }));
+    }
   };
 
   const onMouseLeave = () => {
@@ -106,7 +122,12 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
       </div>
     </div>
   ) : (
-    <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div
+      className="cards-wrap d-flex"
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div id="closed" className="cards-content f-dir-column f-center">
         <p className="fade-in p-large-medium c-white t-center">
           {organizationsExport[pageNum]?.name || ""}

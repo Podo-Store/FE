@@ -10,11 +10,20 @@
   height: 400px;
   @include r.media-tablet {
     flex-direction: column;
+    align-items: center;
+    gap: 20px;
+
+    width: 100%;
+    height: 712px;
   }
 }
 
 .main-ver2 .cards .cards-arrow-wrap {
   width: 26px;
+
+  @include r.media-tablet {
+    rotate: 90deg;
+  }
 }
 
 .main-ver2 .cards .cards-arrow {
@@ -31,4 +40,9 @@
   justify-content: center;
 
   gap: 3.125vw; /* 50px */
+  @include r.media-tablet {
+    flex-direction: column;
+
+    height: 100%;
+  }
 }

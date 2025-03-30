@@ -1,3 +1,5 @@
+@use "./../styles/_responsive.scss" as r;
+
 .main-ver2 .page1 {
   height: 93.519vh;
 
@@ -83,6 +85,9 @@
   width: 100%;
   height: 100vh;
   max-width: 1920px;
+  @include r.media-tablet {
+    height: auto;
+  }
 }
 
 .main-ver2 .title_64px {

@@ -4,6 +4,9 @@
   height: 93.519vh;
 
   background: linear-gradient(180deg, #f5f0ff 0%, #fff 100%);
+  @include r.media-tablet {
+    height: auto;
+  }
 }
 
 .main-ver2 .page1 .title-wrap {
@@ -104,6 +107,9 @@
 .main-ver2 .page1 .circle-icon img {
   width: 33.958vw; /* 652px */
   height: auto; /* 641px */
+  @include r.media-tablet {
+    width: 75%;
+  }
 }
 
 .resized-image {
@@ -154,11 +160,13 @@
 }
 
 .main-ver2 .page4 {
-  @media (max-width: 1920px) {
-    height: 72.222vh; /* 780px */
-  }
-  @media (max-width: 1600px) {
+  height: 72.222vh; /* 780px */
+
+  @include r.media-laptop {
     height: 100vh;
+  }
+  @include r.media-tablet {
+    height: 72.222vh; /* 780px */
   }
 
   & {
@@ -178,4 +186,9 @@
   gap: 6.979vw; /* 134px */
 
   margin-top: 17.593vh; /* 190px */
+  @include r.media-laptop {
+    gap: 50px;
+
+    margin-top: 8.4259vh; /* 91px */
+  }
 }

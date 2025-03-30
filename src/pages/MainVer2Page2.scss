@@ -1,5 +1,11 @@
 @use "./../styles/_responsive.scss" as r;
 
+@include r.media-tablet {
+  .main-ver2 .page2 {
+    width: fit-content; // 디자인 안돼있음, 일단 이렇게 처리
+  }
+}
+
 .main-ver2 .page2 .page2-title {
   margin: 8.981vh 0; /* 97px */
   @media (max-width: 1920px) {

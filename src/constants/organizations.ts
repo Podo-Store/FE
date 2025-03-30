@@ -48,7 +48,7 @@ const organizations: Organizations[] = [
     name: "광운대학교 광운극예술연구회",
     photo: {
       src: 광운극예술연구회_photo,
-      style: { backgroundPosition: "center calc(50% + 60px)" },
+      style: { backgroundPosition: "center calc(50% + 50px)" },
     },
     logo: {
       src: 광운극예술연구회_logo,

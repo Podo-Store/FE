@@ -58,6 +58,10 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
   }, [isOpened]);
 
   const onMouseEnter = () => {
+    if (!organizationsExport[pageNum]) {
+      return;
+    }
+
     // setIsOpened((prev) => ({ ...prev, [pageNum]: true }));
     // 선택된 카드만 열기, 나머진 닫기
     if (!isTablet) {
@@ -66,6 +70,10 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
     }
   };
   const onClick = () => {
+    if (!organizationsExport[pageNum]) {
+      return;
+    }
+
     // 선택된 카드만 열기, 나머진 닫기
     if (isTablet) {
       // responsive: 클릭 시 카드 열기

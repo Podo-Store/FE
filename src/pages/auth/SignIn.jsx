@@ -58,8 +58,14 @@ function SignIn() {
         login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
 
         setIsIdPwMatch(true);
-        navigate(from, { replace: true });
-        navigate(-1); // 왠진 모르겠지만 해줘야 정상 작동함...
+        // location.state?.from?.pathname
+        if (from === "/signup/success") {
+          // 방금 회원가입 한 경우
+          navigate("/");
+        } else {
+          navigate(from, { replace: true });
+          navigate(-1); // 왠진 모르겠지만 해줘야 정상 작동함...
+        }
       } else {
         setIsIdPwMatch(false);
       }

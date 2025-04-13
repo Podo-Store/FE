@@ -13,6 +13,10 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import infoBtn from "@/assets/image/button/circleInfoBlackBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
 import postingProcess2 from "../../assets/image/post/postingProcess2.png";
+import podoalIcon from "../../assets/image/post/ic_podoal.svg";
+import podoSongIIcon from "../../assets/image/post/ic_podosongi.svg";
+import wine from "../../assets/image/post/Wine.png";
+import doubleRiteIcon from "../../assets/image/post/ic_double_right.svg";
 
 import "./PostWork.scss";
 
@@ -110,12 +114,70 @@ const PostWork = () => {
               <h1>작품을</h1>
               <h1>등록해주세요!</h1>
             </div>
+
+            <div className="stage-info-container">
+              <h5 className="title">스테이지 시스템 안내</h5>
+
+              <div className="contants">
+                {/* 포도알 */}
+                <div className="step">
+                  <div className="icon">
+                    <img src={podoalIcon} alt="podoal" />
+                    <p>포도알</p>
+                  </div>
+                  <div className="info">
+                    <p>
+                      • 대본 가격 <span>무료</span>만 설정 가능
+                    </p>
+                    <p> • 공연권 가격 설정 가능</p>
+                  </div>
+                </div>
+
+                <div class="arrow-box">
+                  <img
+                    src={doubleRiteIcon}
+                    alt="doubleRite"
+                    style={{ width: "30px" }}
+                  />
+                  <div class="divider"></div>
+                </div>
+
+                {/* 포도송이 */}
+                <div className="step">
+                  <div className="icon">
+                    <img src={podoSongIIcon} alt="podoSongI" />
+                    <p>포도송이</p>{" "}
+                  </div>
+                  <div className="info">
+                    <div className="TBD-info">
+                      <p>• 추후 업데이트 예정</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="arrow-box">
+                  <img src={doubleRiteIcon} alt="doubleRite" />
+                </div>
+
+                {/*와인 */}
+                <div className="step">
+                  <div className="icon">
+                    <img src={wine} alt="wine" style={{ height: "43px" }} />
+                    <p>와인</p>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div>
               <div className="upload-title">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
 
-                <div className="p-relative" style={{ height: "20px" }} ref={popupRef}>
+                <div
+                  className="p-relative"
+                  style={{ height: "20px" }}
+                  ref={popupRef}
+                >
                   <img
                     src={infoBtn}
                     alt="i"
@@ -140,7 +202,11 @@ const PostWork = () => {
                 }}
               />
 
-              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
+              <button
+                id="upload-btn"
+                onClick={onClickUpload}
+                disabled={!fileSelected}
+              >
                 작품 보내기
               </button>
             </div>

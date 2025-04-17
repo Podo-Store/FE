@@ -1,7 +1,9 @@
-export interface AuthInputFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface AuthInputFieldProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
   style?: React.CSSProperties;
   readOnly?: boolean;
+  disabledMode?: boolean; 
   rightElement?: React.ReactNode;
   checkerShowFlag?: boolean;
   checkerMessages?: { checkedFlag: boolean; message: string }[];

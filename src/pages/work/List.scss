@@ -60,25 +60,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: 100%;
+  height: 300px;
+  overflow: hidden; // 필수
   position: relative;
 }
 
-.list .list-wrap .banner {
+.banner-slider {
   width: 100%;
-  height: 197px;
-  flex-shrink: 0;
-
-  box-sizing: border-box;
-  border: none;
+  height: 100%;
+  overflow: hidden;
   border-radius: 50px;
-  background: var(--Main, #6a39c0);
-  background-image: url("./../../assets/image/listBanner.jpg");
-  background-size: cover;
-  background-position: center;
-  backdrop-filter: blur(17.5px);
+  position: relative;
+  flex-shrink: 0; // 이거도 추가!
 }
 
+.banner-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1); // ← 자연스럽게!
+  will-change: transform; // 성능 향상
+}
+
+.banner-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  display: flex;
+}
+
+.banner-img {
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50px; // ← 여기에 둥근 모서리 적용
+  overflow: hidden;
+}
 .list .list-wrap .banner-wrap img {
   position: absolute;
   top: 50%;
@@ -97,6 +115,28 @@
 .list .list-wrap .banner-wrap img:nth-of-type(2) {
   right: 0;
   transform: translate(50%, -50%);
+}
+
+.banner-indicator {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+
+  span {
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    &.active {
+      background-color: #333;
+    }
+  }
 }
 
 .list .list-wrap .work-list {

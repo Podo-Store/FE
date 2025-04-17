@@ -15,10 +15,12 @@ import { SERVER_URL } from "../../constants/ServerURL.js";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import leftBtn from "./../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "./../../assets/image/post/list/rightBtn.svg";
-
+import BannerImage1 from "./../../assets/image/listBanner.jpg";
 import "./List.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+
+const bannerImages = [BannerImage1, BannerImage1, BannerImage1];
 
 const List = () => {
   const [showPopup, setShowPopup] = useState(false);
@@ -32,6 +34,7 @@ const List = () => {
   const [showAllLongPlays, setShowAllLongPlays] = useState(false);
   const [showTruncatedShortPlays, setShowTruncatedShortPlays] = useState(true);
   const [showAllShortPlays, setShowAllShortPlays] = useState(false);
+  const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   // 무한스크롤 페이지
   const [page, setPage] = useState(0);
   // 이후 페이지가 있는지 여부
@@ -187,9 +190,25 @@ const List = () => {
     };
   }, [showAllLongPlays, showAllShortPlays]);
 
+  const handleBannerPrev = () => {
+    setCurrentBannerIndex((prevIndex) =>
+      prevIndex === 0 ? bannerImages.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleBannerNext = () => {
+    setCurrentBannerIndex((prevIndex) =>
+      prevIndex === bannerImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
   return (
     <div className="list j-content-center">
-      {showPopup && <ListPopup onClose={() => setShowPopup(false)} position={popupPosition} />}
+      {showPopup && (
+        <ListPopup
+          onClose={() => setShowPopup(false)}
+          position={popupPosition}
+        />
+      )}
       <div className="list-wrap-wrap">
         <div className="min-height list-wrap">
           <div className="title">
@@ -201,10 +220,46 @@ const List = () => {
               onClick={onClickInfoBtn}
             />
           </div>
+
+          {/* 배너 */}
           <div className="banner-wrap">
-            <div className="banner"></div>
-            <img src={leftBtn} alt="banner left btn" />
-            <img src={rightBtn} alt="banner right btn" />
+            <div className="banner-slider">
+              <div
+                className="banner-track"
+                style={{
+                  transform: `translateX(-${currentBannerIndex * 100}%)`,
+                }}
+              >
+                {bannerImages.map((img, idx) => (
+                  <div className="banner-slide" key={idx}>
+                    <div
+                      className="banner-img"
+                      style={{ backgroundImage: `url(${img})` }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+            <img
+              src={leftBtn}
+              alt="banner left btn"
+              onClick={handleBannerPrev}
+            />
+            <img
+              src={rightBtn}
+              alt="banner right btn"
+              onClick={handleBannerNext}
+            />
+
+            <div className="banner-indicator">
+              {bannerImages.map((_, idx) => (
+                <span
+                  key={idx}
+                  className={idx === currentBannerIndex ? "active" : ""}
+                  onClick={() => setCurrentBannerIndex(idx)}
+                ></span>
+              ))}
+            </div>
           </div>
 
           {showTruncatedLongPlays ? (

@@ -10,6 +10,7 @@ import "./AuthInputField.css";
  * @param {string} [props.title] - [deprecated] title
  * @param {object} [props.style] - style
  * @param {boolean} [props.readOnly] - 읽기 전용 여부
+ * @param {boolean} [props.disabledMode] - 선택 가능 여부
  * @param {object} [props.rightElement] - input field 우측 element
  * @param {boolean} [props.checkerShowFlag] - checker 메시지 표시 여부
  * @param {object[{ checkedFlag: boolean, message: string }]} [props.checkerMessages]
@@ -23,6 +24,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
   style,
   // 추가 요소
   readOnly = false,
+  disabledMode = false, // ✅ 새로운 prop
   rightElement,
 
   checkerShowFlag,
@@ -40,10 +42,20 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
       <div className="input-wrap" style={{ ...style }}>
         <input
           className={"input" + rightElement ? " non-right-element" : ""}
-          style={readOnly ? { border: "1px solid #000000" } : {}}
+          readOnly={readOnly || disabledMode}
+          tabIndex={disabledMode ? -1 : props.tabIndex}
+          style={{
+            ...(readOnly || disabledMode
+              ? { border: "1px solid #000000" }
+              : {}),
+            ...(disabledMode ? { pointerEvents: "none" } : {}),
+            ...style,
+          }}
           {...props}
         />
-        {rightElement ? <div className="right-element">{rightElement}</div> : null}
+        {rightElement ? (
+          <div className="right-element">{rightElement}</div>
+        ) : null}
       </div>
 
       {/* errorMessageCustomFlag가 false 경우에만 렌더링, 없을 경우 공간 X */}

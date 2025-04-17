@@ -2,7 +2,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
-import { AuthInputField, AuthPwInputField } from "../../../components/inputField";
+import {
+  AuthInputField,
+  AuthPwInputField,
+} from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
 import PartialLoading from "../../../components/loading/PartialLoading";
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
@@ -250,7 +253,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           className="input"
           placeholder={id}
           errorMessageCustomFlag={true}
-          readOnly={true}
+          disabledMode={true}
         />
 
         <div id="margin"></div>
@@ -260,6 +263,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           placeholder={email}
           readOnly={true}
           errorMessageCustomFlag={true}
+          disabledMode={true}
         />
 
         <div id="margin"></div>
@@ -282,7 +286,10 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
               checkedFlag: pwChecker.alphabet,
               message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
             },
-            { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+            {
+              checkedFlag: pwChecker.number,
+              message: "숫자를 하나 이상 포함해야 해요.",
+            },
             {
               checkedFlag: pwChecker.special,
               message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",
@@ -325,7 +332,10 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           }}
           checkerShowFlag={nameChecker.show}
           checkerMessages={[
-            { checkedFlag: nameChecker.format, message: "한글, 영어, 숫자만 사용 가능해요." },
+            {
+              checkedFlag: nameChecker.format,
+              message: "한글, 영어, 숫자만 사용 가능해요.",
+            },
             { checkedFlag: nameChecker.length, message: "3 ~ 8자만 가능해요." },
           ]}
           errorFlag={nameDuplicated}

@@ -1,0 +1,317 @@
+export const mockData = [
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 1000000000000,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 10,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+  {
+    id: "c56278ee-02f7-4001-a944-ca2c5321e14e",
+    title: "새야 날개를 펼쳐 봐라 알겠냐?????",
+    writer: "검정훈",
+    imagePath: "",
+    script: true,
+    scriptPrice: 450000,
+    performance: true,
+    performancePrice: 300000,
+    descriptionPath: "",
+    playType: 2,
+    checked: true,
+    plot: "이건 사랑이야기입니다.",
+    date: "2024-08-21T22:41:41.619016",
+    like: 0,
+    view: 0,
+    // 0 : 아무것도 구매 X
+    // 1 : 대본 or 대본 + 공연권 (대본 권리 기간 유효 시)
+    // 2 : 공연권만 보유
+    buyStatus: 0,
+  },
+];

@@ -1,3 +1,4 @@
+// App.jsx
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -13,6 +14,7 @@ import SignIn from "./pages/auth/SignIn";
 import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 import List from "./pages/work/List";
+import PostList from "./pages/work/postList/PostGallery";
 import Detail from "./pages/work/Detail";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
@@ -56,14 +58,26 @@ function App() {
               <Route path="signin/v2" element={<SignInV2 />} />
               <Route path="signin/find/:id" element={<FindBar />} />
 
+              <Route path="post-list" element={<PostList />} />
+              <Route path="post-list/detail/:id" element={<Detail />} />
+
               <Route path="list" element={<List />} />
               <Route path="list/detail/:id" element={<Detail />} />
 
-              <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
+              <Route
+                path="purchase/:id"
+                element={<ProtectedRoute element={<Purchase />} />}
+              />
 
               <Route element={<MarginLayout />}>
-                <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
-                <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
+                <Route
+                  path="admin/scriptManage"
+                  element={<AdminSwitch page={0} />}
+                />
+                <Route
+                  path="admin/orderManage"
+                  element={<AdminSwitch page={1} />}
+                />
 
                 <Route path="policy/:id" element={<PolicyBar />} />
 
@@ -73,7 +87,10 @@ function App() {
                   path="purchase/success"
                   element={<ProtectedRoute element={<PurchaseSuccess />} />}
                 />
-                <Route path="purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
+                <Route
+                  path="purchase/abort"
+                  element={<ProtectedRoute element={<Abort />} />}
+                />
                 <Route path="post" element={<PostWork />} />
 
                 <Route

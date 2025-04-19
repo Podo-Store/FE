@@ -7,6 +7,7 @@ import AllListContent from "../../components/list/AllListContent.jsx";
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
 import TruncatedListContent from "../../components/list/TruncatedListContent.jsx";
+import InfiniteBanner from "../work/postList/InfiniteBanner";
 
 import { useRequest } from "../../hooks/useRequest.js";
 
@@ -222,45 +223,7 @@ const List = () => {
           </div>
 
           {/* 배너 */}
-          <div className="banner-wrap">
-            <div className="banner-slider">
-              <div
-                className="banner-track"
-                style={{
-                  transform: `translateX(-${currentBannerIndex * 100}%)`,
-                }}
-              >
-                {bannerImages.map((img, idx) => (
-                  <div className="banner-slide" key={idx}>
-                    <div
-                      className="banner-img"
-                      style={{ backgroundImage: `url(${img})` }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-            <img
-              src={leftBtn}
-              alt="banner left btn"
-              onClick={handleBannerPrev}
-            />
-            <img
-              src={rightBtn}
-              alt="banner right btn"
-              onClick={handleBannerNext}
-            />
-
-            <div className="banner-indicator">
-              {bannerImages.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={idx === currentBannerIndex ? "active" : ""}
-                  onClick={() => setCurrentBannerIndex(idx)}
-                ></span>
-              ))}
-            </div>
-          </div>
+          <InfiniteBanner images={bannerImages} />
 
           {showTruncatedLongPlays ? (
             // 장편극 10개

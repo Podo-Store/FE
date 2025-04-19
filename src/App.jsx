@@ -14,7 +14,7 @@ import SignIn from "./pages/auth/SignIn";
 import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 import List from "./pages/work/List";
-import PostList from "./pages/work/postList/PostGallery";
+import PostGallery from "./pages/work/postList/PostGallery";
 import Detail from "./pages/work/Detail";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
@@ -58,7 +58,7 @@ function App() {
               <Route path="signin/v2" element={<SignInV2 />} />
               <Route path="signin/find/:id" element={<FindBar />} />
 
-              <Route path="post-list" element={<PostList />} />
+              <Route path="post-list" element={<PostGallery />} />
               <Route path="post-list/detail/:id" element={<Detail />} />
 
               <Route path="list" element={<List />} />

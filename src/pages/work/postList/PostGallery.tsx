@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { SERVER_URL } from "../../../constants/ServerURL.js";
 
 import { AllPostCard, PostCardPreview } from "./PostList.js";
+import InfiniteBanner from "../../../pages/work/postList/InfiniteBanner"; 
 
 import BannerImage1 from "./../../../assets/image/listBanner.jpg";
 import leftBtn from "./../../../assets/image/post/list/leftBtn.svg";
@@ -17,23 +18,14 @@ const stages = ["포도밭", "포도알", "포도송이", "와인"];
 const storyLength = ["전체", "장편", "단편"];
 const inactiveStages = ["포도송이", "와인"];
 
-const PostList = () => {
+const PostGallery = () => {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
+  const [fakeBannerIndex, setFakeBannerIndex] = useState(1);
+  const [isBannerTransitioning, setIsBannerTransitioning] = useState(true);
+
   const [activeCategory, setActiveCategory] = useState("포도밭");
   const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
-
-  const handleBannerPrev = () => {
-    setCurrentBannerIndex((prevIndex) =>
-      prevIndex === 0 ? bannerImages.length - 1 : prevIndex - 1
-    );
-  };
-
-  const handleBannerNext = () => {
-    setCurrentBannerIndex((prevIndex) =>
-      prevIndex === bannerImages.length - 1 ? 0 : prevIndex + 1
-    );
-  };
 
   const toggleViewType = () => {
     setViewType((prev) => (prev === "grid" ? "card" : "grid"));
@@ -47,55 +39,7 @@ const PostList = () => {
       </h1>
 
       {/*------ 배너 ------*/}
-      <div className="flex items-center justify-center w-full h-[300px] relative  mb-[0px]">
-        <div className="relative flex w-full h-full overflow-hidden shrink-0 rounded-[50px]">
-          {/* 배너 이미지 */}
-          <div
-            className="flex h-full transition-transform duration-[600ms] ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
-            style={{
-              transform: `translateX(-${currentBannerIndex * 100}%)`,
-              width: `${bannerImages.length * 100}%`,
-            }}
-          >
-            {bannerImages.map((img, idx) => (
-              <div className="flex-none w-full h-full" key={idx}>
-                <div
-                  className="w-full h-full bg-center bg-no-repeat bg-cover "
-                  style={{ backgroundImage: `url(${img})` }}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* 배너 이동 버튼 */}
-
-        <img
-          className="absolute top-1/2 left-[-25px] w-[50px] h-[42px] translate-y-[-50%] z-10"
-          src={leftBtn}
-          alt="banner left btn"
-          onClick={handleBannerPrev}
-        />
-        <img
-          className="absolute top-1/2 right-[-25px] w-[50px] h-[42px] translate-y-[-50%]"
-          src={rightBtn}
-          alt="banner right btn"
-          onClick={handleBannerNext}
-        />
-
-        {/* 배너 페이지 표시 */}
-        <div className="flex absolute bottom-[10px] left-[50%] translate-x-[-50%] gap-[8px]">
-          {bannerImages.map((_, idx) => (
-            <span
-              key={idx}
-              className={`w-[10px] h-[10px] rounded-full cursor-pointer transition-colors duration-300 ease-in-out ${
-                idx === currentBannerIndex ? "bg-[#333]" : "bg-[#ccc]"
-              }`}
-              onClick={() => setCurrentBannerIndex(idx)}
-            ></span>
-          ))}
-        </div>
-      </div>
+      <InfiniteBanner images={bannerImages} />
 
       {/*------ 스테이지 메뉴 ------*/}
 
@@ -210,4 +154,4 @@ const PostList = () => {
   );
 };
 
-export default PostList;
+export default PostGallery;

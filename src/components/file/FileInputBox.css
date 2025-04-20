@@ -1,8 +1,11 @@
+.file-input-box {
+  width: 100%;
+  height: 16.5741vh;
+}
 .file-input-box .title {
   gap: 10px;
 
   position: relative;
-
   margin-top: 2.222vh;
   margin-left: 1.5rem;
   margin-bottom: 0.63rem;
@@ -24,7 +27,8 @@
   height: 20px;
 
   /* #BABABA */
-  filter: invert(74%) sepia(13%) saturate(0%) hue-rotate(220deg) brightness(99%) contrast(91%);
+  filter: invert(74%) sepia(13%) saturate(0%) hue-rotate(220deg) brightness(99%)
+    contrast(91%);
 }
 
 .file-input-box .input-box-content {
@@ -34,9 +38,9 @@
   align-items: center;
 
   border-radius: 30px;
-  border: 2px dashed var(--Main, #6a39c0);
+  border: 1px dashed var(--Main, #6a39c0);
   filter: blur(0.25px);
-
+  height: 16.38889vh;
   text-align: center;
   cursor: pointer;
 }

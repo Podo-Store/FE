@@ -109,7 +109,7 @@ const PostWork = () => {
         )}
         <div className="left-side">
           <div className="inside-field">
-            <div className="title">
+            <div className="inside-field-title">
               <h1>자신만의</h1>
               <h1>작품을</h1>
               <h1>등록해주세요!</h1>
@@ -173,24 +173,7 @@ const PostWork = () => {
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
 
-                <div
-                  className="p-relative"
-                  style={{ height: "20px" }}
-                  ref={popupRef}
-                >
-                  <img
-                    src={infoBtn}
-                    alt="i"
-                    onClick={(event) => {
-                      setShowPopup(!showPopup);
-                    }}
-                  />
-                  {showPopup && (
-                    <div className="image-popup f-center">
-                      <img src={postingProcess2} alt="" />
-                    </div>
-                  )}
-                </div>
+                
               </div>
 
               <FileInputBox
@@ -212,12 +195,11 @@ const PostWork = () => {
             </div>
           </div>
         </div>
-        <div
+        <img
           className="right-side"
-          style={{
-            backgroundImage: `url(${postingProcess})`,
-          }}
-        ></div>
+          src={postingProcess}
+          alt="작품 등록 도식화"
+        ></img>
       </div>
     </div>
   );

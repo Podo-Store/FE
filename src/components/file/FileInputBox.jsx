@@ -56,7 +56,7 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
   return (
     <div className="file-input-box">
       <div
-        className="title j-content-start a-items-center"
+        className="title"
         style={!title ? { marginTop: "0" } : {}}
       >
         {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}

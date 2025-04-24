@@ -8,6 +8,7 @@ import MyPageMenu from "../../components/myPage/MyPageMenu.jsx";
 
 import AuthContext from "../../contexts/AuthContext.jsx";
 
+import "./MyPageContentsDefault.scss";
 import "./AccountInfoChange.css";
 import "./../../styles/utilities.css";
 
@@ -22,7 +23,7 @@ const AccountInfoChange = () => {
   const { userNickname } = useContext(AuthContext);
 
   return (
-    <div className="account-info-change">
+    <div className="myPage-contents-default account-info-change">
       <div className="account-info-change-wrap">
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side">

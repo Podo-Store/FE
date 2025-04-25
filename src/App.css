@@ -25,3 +25,11 @@ textarea {
   /* 전역 설정 */
   font-family: "pretendard", "Apple SD Gothic Neo", Sans-serif !important;
 }
+
+button {
+  padding: 0;
+
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}

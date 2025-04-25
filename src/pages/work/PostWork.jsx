@@ -1,12 +1,13 @@
 import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import FileInputBox from "../../components/file/FileInputBox";
 import AnimatedCheckedSvg from "@/components/loading/AnimatedCheckedSvg";
 import PartialLoading from "@/components/loading/PartialLoading";
+import InfoPopup from "@/components/popup/InfoPopup";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -30,20 +31,6 @@ const PostWork = () => {
   // Image popup
   const [showPopup, setShowPopup] = useState(false);
   const popupRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      // event.target이 popupRef.current의 child가 아닐 때
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setShowPopup(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const navigate = useNavigate();
 
@@ -133,9 +120,9 @@ const PostWork = () => {
                   </div>
                 </div>
 
-                <div class="arrow-box">
+                <div className="arrow-box">
                   <img src={doubleRiteIcon} alt="doubleRite" style={{ width: "30px" }} />
-                  <div class="divider"></div>
+                  <div className="divider"></div>
                 </div>
 
                 {/* 포도송이 */}
@@ -164,10 +151,39 @@ const PostWork = () => {
                 </div>
               </div>
             </div>
+
             <div>
-              <div className="upload-title">
+              <div className="upload-title items-center gap-[8px] relative">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
+                <button
+                  id="info-btn"
+                  className="w-fit h-[20px] box-border"
+                  onClick={() => setShowPopup(!showPopup)}
+                >
+                  <img src={infoBtn} alt="infoBtn" />
+                </button>
+                {showPopup && (
+                  <div ref={popupRef}>
+                    <InfoPopup
+                      message={
+                        <img
+                          className="popup-process"
+                          src={postingProcess2}
+                          alt="작품 등록 도식화"
+                        />
+                      }
+                      onClose={() => setShowPopup(!showPopup)}
+                      style={{
+                        top: "unset",
+                        bottom: "0",
+                        padding: "11px",
+                        transform: "translate(calc(113.75px + 8px + 20px + 5px), 0)",
+                      }}
+                      buttonId="info-btn"
+                    />
+                  </div>
+                )}
               </div>
 
               <FileInputBox
@@ -186,7 +202,9 @@ const PostWork = () => {
             </div>
           </div>
         </div>
-        <img className="right-side" src={postingProcess} alt="작품 등록 도식화"></img>
+        <div className="right-side">
+          <img src={postingProcess} alt="작품 등록 도식화"></img>
+        </div>
       </div>
     </div>
   );

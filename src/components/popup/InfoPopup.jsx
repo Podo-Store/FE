@@ -7,10 +7,9 @@ import "./../../styles/text.css";
  * 사용 시, 부모 요소 및 자매(sibling) 요소에 position: relative;를 설정해야 함.
  * @param {Object} props - Component properties
  * @param {function} props.onClose: 팝업을 닫을 때 호출할 함수
- * @param props.style - padding, left 사용 권장.
+ * @param {React.CSSProperties} props.style - padding, left 사용 권장.
  * @param {string} props.buttonId: 팝업을 띄우는 버튼의 id (e.g. "popup-btn2")
- *
- * @param {string} message - 팝업 메시지
+ * @param {React.ReactNode} message - 팝업 메시지 등의 React Node
  * @param {string} message2 - 두 번째 팝업 메시지 (존재 시 상단 구분 바 (---) 생성 및 아래에 출력)
  * @returns
  */
@@ -41,24 +40,24 @@ const InfoPopup = ({ message, onClose, style, buttonId, message2 }) => {
 
   return (
     <div className="info-popup" style={{ ...style }} ref={popupRef}>
-      {
-        // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
-        message.split("\n").map((line, index) => (
-          <p key={index} className="p-xs-regular c-black">
-            {/* PerformanceInfo 한정 사용 요소 */}
-            {line.includes("변경이 어려우니") ? (
-              <span>
-                {line.split("변경이 어려우니")[0]}
-                <span style={{ textDecoration: "underline" }}>변경이 어려우니</span>
-                {line.split("변경이 어려우니")[1]}
-              </span>
-            ) : (
-              line
-            )}
-            <br />
-          </p>
-        ))
-      }
+      {typeof message !== "string"
+        ? message
+        : // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
+          message.split("\n").map((line, index) => (
+            <p key={index} className="p-xs-regular c-black">
+              {/* PerformanceInfo 한정 사용 요소 */}
+              {line.includes("변경이 어려우니") ? (
+                <span>
+                  {line.split("변경이 어려우니")[0]}
+                  <span style={{ textDecoration: "underline" }}>변경이 어려우니</span>
+                  {line.split("변경이 어려우니")[1]}
+                </span>
+              ) : (
+                line
+              )}
+              <br />
+            </p>
+          ))}
       {message2 ? (
         <>
           <hr />

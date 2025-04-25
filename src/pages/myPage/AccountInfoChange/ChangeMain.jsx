@@ -2,10 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
-import {
-  AuthInputField,
-  AuthPwInputField,
-} from "../../../components/inputField";
+import { AuthInputField, AuthPwInputField } from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
 import PartialLoading from "../../../components/loading/PartialLoading";
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
@@ -224,6 +221,10 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
       );
 
       alert("회원 정보 수정이 완료되었습니다.");
+      // 닉네임 변경 사항 세션 반영
+      localStorage.removeItem("userNickname");
+      localStorage.setItem("userNickname", name || prevName);
+
       window.location.reload();
     } catch (error) {
       // 중복 닉네임 처리

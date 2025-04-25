@@ -134,11 +134,7 @@ const PostWork = () => {
                 </div>
 
                 <div class="arrow-box">
-                  <img
-                    src={doubleRiteIcon}
-                    alt="doubleRite"
-                    style={{ width: "30px" }}
-                  />
+                  <img src={doubleRiteIcon} alt="doubleRite" style={{ width: "30px" }} />
                   <div class="divider"></div>
                 </div>
 
@@ -159,7 +155,7 @@ const PostWork = () => {
                   <img src={doubleRiteIcon} alt="doubleRite" />
                 </div>
 
-                {/*와인 */}
+                {/* 와인 */}
                 <div className="step">
                   <div className="icon">
                     <img src={wine} alt="wine" style={{ height: "43px" }} />
@@ -172,8 +168,6 @@ const PostWork = () => {
               <div className="upload-title">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
-
-                
               </div>
 
               <FileInputBox
@@ -183,23 +177,16 @@ const PostWork = () => {
                     setFileSelected(true);
                   }
                 }}
+                style={{ height: "180px" }}
               />
 
-              <button
-                id="upload-btn"
-                onClick={onClickUpload}
-                disabled={!fileSelected}
-              >
+              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
                 작품 보내기
               </button>
             </div>
           </div>
         </div>
-        <img
-          className="right-side"
-          src={postingProcess}
-          alt="작품 등록 도식화"
-        ></img>
+        <img className="right-side" src={postingProcess} alt="작품 등록 도식화"></img>
       </div>
     </div>
   );

@@ -20,7 +20,10 @@
 }
 
 .post-work .left-side {
+  flex: 1;
   @include r.media-laptop {
+    margin-left: 77px;
+    margin-right: 55px;
   }
   @include r.media-tablet {
     flex: 1;
@@ -32,10 +35,24 @@
 }
 
 .post-work .right-side {
-  width: 59.804%;
-  height: 100vh;
+  flex: 1;
+
+  position: relative;
   @include r.media-tablet {
     display: none;
+  }
+}
+
+.post-work .right-side img {
+  position: absolute;
+  top: 58px;
+  right: 0;
+
+  @include r.media-laptop {
+    top: 75px;
+
+    width: 517px;
+    height: 869px;
   }
 }
 
@@ -50,7 +67,13 @@
 }
 
 .post-work .inside-field-title {
-  margin-top: 16.111vh;
+  margin-top: 174px;
+  @include r.media-laptop {
+    margin-top: 90px;
+  }
+  @include r.media-mobile {
+    margin-top: 50px;
+  }
 }
 
 .post-work .title h1 {
@@ -64,14 +87,18 @@
   line-height: 2.75rem; /* 122.222% */
 }
 
-.stage-info-container {
+.post-work .stage-info-container {
   width: 100%;
   height: auto;
 
   display: flex;
   flex-direction: column;
-  margin-top: 8.05556vh;
-  margin-bottom: 8.42592593vh;
+  margin-top: 87px;
+  margin-bottom: 66px;
+
+  @include r.media-mobile {
+    margin-top: 58px;
+  }
 
   .title {
     color: #000;
@@ -86,9 +113,18 @@
 
   .contants {
     display: grid;
-    margin-top: 4.907vh;
     grid-template-columns: 37fr 5fr 30fr 5fr 25fr;
+
+    margin-top: 4.907vh;
+
     height: 100%;
+
+    @include r.media-mobile {
+      grid-template-columns: 120px 30px 104px 30px 110px;
+    }
+    p {
+      white-space: nowrap;
+    }
   }
 
   .step {
@@ -104,6 +140,8 @@
       justify-content: center;
       margin-bottom: 1.9444vh;
 
+      box-sizing: border-box;
+
       p {
         color: #000;
 
@@ -116,11 +154,12 @@
       }
     }
     .info {
-      color: var(--ect-black, #000);
-      text-align: center;
       display: flex;
       flex-direction: column;
       gap: 2px;
+
+      color: var(--ect-black, #000);
+
       font-family: Pretendard;
       font-size: 0.875rem;
       font-style: normal;
@@ -139,24 +178,38 @@
   }
 }
 
-.arrow-box {
+/*
+ * 두 번째 .step .icon: 왼쪽에 있는 첫 번째 .step 하단의 text 길이에 의해 중앙 왜곡
+ * -> 대략 10px, ∴ 대략 절반 정도 좌측으로 translate.
+ */
+.post-work .contants .step:nth-child(3) .icon {
+  transform: translateX(-5px);
+}
+
+.post-work .arrow-box {
   position: relative;
 
+  @include r.media-mobile {
+    height: fit-content;
+  }
   img {
     margin-top: 50%;
   }
 }
 
-.divider {
+.post-work .divider {
   position: absolute;
   top: 60%;
   left: 50%;
   transform: translateX(-50%);
   height: 6.9444vh;
   border-left: 1px dashed #9e9e9e;
+  @include r.media-laptop {
+    display: none;
+  }
 }
 
-.TBD-info {
+.post-work .TBD-info {
   width: 200%;
   color: var(--ect-black, #000);
 
@@ -166,13 +219,19 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px; /* 142.857% */
+  @include r.media-mobile {
+    width: fit-content;
+
+    transform: translateX(50%);
+  }
 }
 
 .post-work .upload-title {
   display: flex;
   align-items: center;
 
-  margin-bottom: 1.4815vh;
+  // FileInputBox에 상단 margin 존재 - 제거 예정, 0.63rem만큼의 차 필요
+  margin-bottom: calc(16px - 0.63rem);
 }
 
 .post-work .upload-title h6 {
@@ -196,7 +255,7 @@
   }
 }
 
-.post-work .upload-title .image-popup {
+.post-work .upload-title .post-work .upload-title .image-popup {
   position: absolute;
   top: 20px;
   left: 25px;
@@ -254,4 +313,11 @@
 .post-work .inside-field button#upload-btn:disabled {
   background: var(--Sub-2, #dadada);
   cursor: default;
+}
+
+.post-work .popup-process {
+  @include r.media-mobile {
+    width: 242px;
+    height: 402px;
+  }
 }

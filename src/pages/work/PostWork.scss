@@ -3,7 +3,14 @@
 
 .post-work {
   width: 100vw;
-  height: 100vh;
+  // 이미지를 absolute로 설정하여 높이 직접 입력 필요
+  // height: fit-content;
+  @include r.media-desktop {
+    height: calc(58px + 938px);
+  }
+  @include r.media-laptop {
+    height: calc(75px + 869px);
+  }
 }
 
 .post-work .post-work-wrap {
@@ -289,7 +296,7 @@
   @include m.purple-btn;
 
   width: 100%;
-  height: 4.444vh;
+  height: 48px;
 
   margin-top: 2.593vh;
 

@@ -3,13 +3,25 @@ import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { useNavigate } from "react-router-dom";
 
+import InfoPopup from "../popup/InfoPopup";
+
 import download from "./../../assets/image/fileInput/download.svg";
 import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 
 import "./FileInputBox.css";
-import InfoPopup from "../popup/InfoPopup";
 
+/**
+ * 파일 입력 드래그 앤 드롭 기능 구현 component
+ * 주의: 'style' props로 입력 박스 높이 정해주어야 함.
+ * e.g. style={ height: "180px" }
+ * @param {string} title - 좌측 상단 제목
+ * @param {React.CSSProperties} titleStyle - 좌측 상단 제목 스타일
+ * @param {string} infoText - info 안내 텍스트
+ * @param {function} onFileUpload - 파일 업로드 시 callback function
+ * @param {React.CSSProperties} style - 입력 박스 스타일, 높이 정의 필수 - e.g. style={ height: "180px"}
+ * @returns
+ */
 const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle }) => {
   const [uploadedFile, setUploadedFile] = useState(null);
 
@@ -55,10 +67,7 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
 
   return (
     <div className="file-input-box">
-      <div
-        className="title"
-        style={!title ? { marginTop: "0" } : {}}
-      >
+      <div className="flex items-center title" style={!title ? { marginTop: "0" } : {}}>
         {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}
         {infoText ? (
           <>

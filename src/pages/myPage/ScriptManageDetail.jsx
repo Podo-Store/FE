@@ -318,7 +318,7 @@ const ScriptManageDetail = () => {
                 </div>
               </div>
             </div>
-            <div className="description-wrap">
+            <div className="flex flex-col">
               <div className="a-items-center">
                 <FileInputBox
                   title="작품 설명"
@@ -326,7 +326,11 @@ const ScriptManageDetail = () => {
                   onFileUpload={(file) => {
                     setUploadedFile(file);
                   }}
-                  style={!isMobile ? { width: "39.3125rem" } : { width: "430px" }}
+                  style={
+                    !isMobile
+                      ? { width: "39.3125rem", height: "180px" }
+                      : { width: "430px", height: "180px" }
+                  }
                   titleStyle={{
                     fontSize: "1rem",
                     fontStyle: "normal",

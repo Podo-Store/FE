@@ -2,8 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 
 import { SERVER_URL } from "../../../constants/ServerURL.js";
 
-import { AllPostCard, PostCardPreview } from "./PostList.js";
-import InfiniteBanner from "../../../pages/work/postList/InfiniteBanner"; 
+import { AllPostCard, PostCardPreview } from "@/components/post/PostList.js";
+import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 
 import BannerImage1 from "./../../../assets/image/listBanner.jpg";
 import leftBtn from "./../../../assets/image/post/list/leftBtn.svg";
@@ -119,7 +119,7 @@ const PostGallery = () => {
       {activeStoryLength === "전체" ? (
         <div className=" mt-[44px]  mb-[44px]">
           <section>
-            <div className="flex justify-between">
+            <div className="flex justify-between  mb-[28px]">
               {" "}
               <h2 className="text-black text-[20px] font-medium leading-[28px] tracking-[-0.4px] font-['Pretendard']">
                 단편극
@@ -131,10 +131,17 @@ const PostGallery = () => {
               </button>
             </div>
 
-            <PostCardPreview posts={mockData} viewType={viewType} />
+            <PostCardPreview
+              posts={mockData}
+              viewType={viewType}
+              postNum={10}
+              colNum={5}
+              gapX={74}
+              gapY={59}
+            />
           </section>
           <section>
-            <div className="flex justify-between mt-[74px]">
+            <div className="flex justify-between mt-[74px] mb-[28px]">
               <h2 className="text-black text-[20px] font-medium leading-[28px] tracking-[-0.4px] font-['Pretendard']">
                 장편극
               </h2>
@@ -144,11 +151,24 @@ const PostGallery = () => {
                 </p>
               </button>
             </div>
-            <PostCardPreview posts={mockData} viewType={viewType} />
+            <PostCardPreview
+              posts={mockData}
+              viewType={viewType}
+              postNum={10}
+              colNum={5}
+              gapX={74}
+              gapY={59}
+            />
           </section>
         </div>
       ) : (
-        <AllPostCard posts={mockData} viewType={viewType} />
+        <AllPostCard
+          posts={mockData}
+          viewType={viewType}
+          colNum={5}
+          gapX={74}
+          gapY={59}
+        />
       )}
     </div>
   );

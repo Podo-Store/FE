@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
     "pdfjs-dist": "^2.6.347",

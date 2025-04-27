@@ -7,8 +7,7 @@ import AllListContent from "../../components/list/AllListContent.jsx";
 import ListThumbnail from "./../../components/list/ListThumbnail.jsx";
 import ListPopup from "./../../components/list/ListPopup.jsx";
 import TruncatedListContent from "../../components/list/TruncatedListContent.jsx";
-import InfiniteBanner from "../work/postList/InfiniteBanner";
-
+import InfiniteBanner from "@/components/banner/InfiniteBanner";
 import { useRequest } from "../../hooks/useRequest.js";
 
 import { SERVER_URL } from "../../constants/ServerURL.js";

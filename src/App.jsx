@@ -27,6 +27,7 @@ import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
 import AskedPerformManage from "./pages/myPage/AskedPerformManage";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
+import LikedWorks from "./pages/myPage/LikedWorksPage";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 
@@ -92,7 +93,10 @@ function App() {
                   element={<ProtectedRoute element={<Abort />} />}
                 />
                 <Route path="post" element={<PostWork />} />
-
+                <Route
+                  path="mypage/liked"
+                  element={<ProtectedRoute element={<LikedWorks />} />}
+                />
                 <Route
                   path="mypage/purchased"
                   element={<ProtectedRoute element={<PurchasedScript />} />}

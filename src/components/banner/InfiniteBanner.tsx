@@ -1,8 +1,8 @@
 // src/components/InfiniteBanner.tsx
 import React, { useState, useEffect, useRef } from "react";
 
-import leftBtn from "./../../../assets/image/post/list/leftBtn.svg";
-import rightBtn from "./../../../assets/image/post/list/rightBtn.svg";
+import leftBtn from "../../assets/image/post/list/leftBtn.svg";
+import rightBtn from "../../assets/image/post/list/rightBtn.svg";
 
 // bannerImages를 props로 받을 수 있게 처리
 interface InfiniteBannerProps {
@@ -54,7 +54,7 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
       setIsTransitioning(false);
     }
   };
-  
+
   const handlePrev = () => {
     if (fakeIndex <= 0) return;
 
@@ -74,7 +74,6 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [fakeIndex]);
-
 
   return (
     <div className="flex items-center justify-center w-full h-[300px] relative mb-[0px]">

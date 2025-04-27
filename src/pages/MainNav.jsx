@@ -30,7 +30,9 @@ function MainNav() {
 
   return (
     <>
-      {openDialog && <SideMenuDialog open={openDialog} onClose={onCloseDialog} />}
+      {openDialog && (
+        <SideMenuDialog open={openDialog} onClose={onCloseDialog} />
+      )}
       <nav className="navbar">
         <ImageBtn
           className="hamburger-btn"
@@ -47,8 +49,17 @@ function MainNav() {
             navigateWithRefresh(event, "/");
           }}
         >
-          <img className="icon" src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
-          <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
+          <img
+            className="icon"
+            src={navLogo}
+            alt="logo"
+            style={{ height: "2.786vh" }}
+          />
+          <img
+            src={navTitle}
+            alt="포도상점"
+            style={{ height: "2.593vh" }}
+          ></img>
         </Link>
         <ul className="navbar_menu">
           <li>
@@ -105,7 +116,7 @@ function MainNav() {
               src={person}
               alt="myPage"
               onClick={(event) => {
-                navigateWithRefresh(event, "/mypage/liked");
+                navigateWithRefresh(event, "/mypage/purchased");
               }}
             />
             <button

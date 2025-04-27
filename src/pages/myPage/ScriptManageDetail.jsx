@@ -20,6 +20,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./ScriptManageDetail.scss";
 import "./../../styles/text.css";
+import OverLapPartialLoading from "@/components/loading/OverLapPartialLoading";
 
 const ScriptManageDetail = () => {
   const [title, setTitle] = useState("");
@@ -45,6 +46,7 @@ const ScriptManageDetail = () => {
   const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isPartialLoading, setPartialLoading] = useState(false);
 
   const navigate = useNavigate();
   const { id } = useParams();
@@ -159,6 +161,7 @@ const ScriptManageDetail = () => {
         formData.append("descriptionPath", getFileUrl);
       }
 
+      setPartialLoading(true);
       await axios.post(`${SERVER_URL}profile/detail`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -178,10 +181,13 @@ const ScriptManageDetail = () => {
       } else {
         alert(error.response.data.error || "예상치 못한 오류가 발생했습니다.");
       }
+    } finally {
+      setPartialLoading(false);
     }
   };
 
   const onClickDeleteConfirm = async () => {
+    setPartialLoading(true);
     try {
       await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
         headers: {
@@ -199,6 +205,8 @@ const ScriptManageDetail = () => {
       } else {
         alert(error.response.data.error);
       }
+    } finally {
+      setPartialLoading(false);
     }
   };
 
@@ -208,6 +216,8 @@ const ScriptManageDetail = () => {
 
   return (
     <div className="script-manage-detail">
+      <OverLapPartialLoading isLoading={isPartialLoading} />
+
       <div className="script-manage-detail-wrap">
         <GoBack url="/mypage/scriptmanage" />
 

@@ -105,7 +105,7 @@ function MainNav() {
               src={person}
               alt="myPage"
               onClick={(event) => {
-                navigateWithRefresh(event, "/mypage/purchased");
+                navigateWithRefresh(event, "/mypage/liked");
               }}
             />
             <button

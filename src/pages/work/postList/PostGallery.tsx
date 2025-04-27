@@ -27,8 +27,18 @@ const PostGallery = () => {
   const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
 
+  const [posts, setPosts] = useState(mockData); // 상태로 관리
+
   const toggleViewType = () => {
     setViewType((prev) => (prev === "grid" ? "card" : "grid"));
+  };
+
+  const handleToggleLike = (postId: string) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, isLike: !post.isLike } : post
+      )
+    );
   };
 
   return (
@@ -138,6 +148,7 @@ const PostGallery = () => {
               colNum={5}
               gapX={74}
               gapY={59}
+              onToggleLike={handleToggleLike}
             />
           </section>
           <section>
@@ -158,6 +169,7 @@ const PostGallery = () => {
               colNum={5}
               gapX={74}
               gapY={59}
+              onToggleLike={handleToggleLike}
             />
           </section>
         </div>
@@ -168,6 +180,7 @@ const PostGallery = () => {
           colNum={5}
           gapX={74}
           gapY={59}
+          onToggleLike={handleToggleLike}
         />
       )}
     </div>
@@ -175,3 +188,4 @@ const PostGallery = () => {
 };
 
 export default PostGallery;
+

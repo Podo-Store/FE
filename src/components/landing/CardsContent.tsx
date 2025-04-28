@@ -101,7 +101,13 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
           <div className={`cards-top ${isKeywordAnimating ? "fade-in" : ""} a-items-center`}>
             {organizationsExport[pageNum]?.keywords?.map((keyword, index) => (
               <Fragment key={index}>
-                <div className="label p-medium-regular c-white">{keyword}</div>
+                <div
+                  className={`label c-white ${
+                    !widthConditions.isMobile ? "p-medium-regular" : "p-xs-medium"
+                  }`}
+                >
+                  {keyword}
+                </div>
                 {
                   // label 사이의 원 제어
                   // 1. 마지막 label일 때 제거
@@ -118,7 +124,11 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
           <div></div>
         )}
         <div className="cards-bottom j-content-between">
-          <h1 className="fade-in h1-regular c-white">{organizationsExport[pageNum]?.name || ""}</h1>
+          <h1
+            className={`fade-in c-white ${!widthConditions.isMobile ? "h1-regular" : "h4-regular"}`}
+          >
+            {organizationsExport[pageNum]?.name || ""}
+          </h1>
           <div className="mou-logo f-center">
             <img
               src={organizationsExport[pageNum]?.logo?.src}

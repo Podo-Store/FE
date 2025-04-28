@@ -10,10 +10,16 @@
   @include r.media-tablet {
     min-height: 1056px;
   }
+  @include r.media-mobile {
+    min-height: 0;
+  }
 }
 
 .main-ver2 .page3 > .title_64px {
   padding-top: 8.333vh; /* 90px */
+  @include r.media-mobile {
+    padding: 0;
+  }
 }
 
 .main-ver2 .page3 > .title_20px {
@@ -28,6 +34,9 @@
   overflow: hidden;
   @include r.media-tablet {
     max-height: 800px;
+  }
+  @include r.media-mobile {
+    max-height: 700px;
   }
 }
 

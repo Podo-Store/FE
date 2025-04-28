@@ -55,6 +55,14 @@
   line-height: 32px; /* 133.333% */
 }
 
+.h4-medium {
+  /* H4/Medium */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px; /* 133.333% */
+}
+
 .h4-bold {
   /* H4/Bold */
   font-size: 24px;

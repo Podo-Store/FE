@@ -6,12 +6,17 @@ import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import Page3 from "@/components/landing/Page3";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import arrow from "../assets/image/landing/Vector 22.svg";
 import circleIcon from "../assets/image/landing/page1.png";
 import {
   content1,
+  content1_768,
   content2,
+  content2_768,
   content3,
+  content3_768,
   page2ButtonImg,
   title,
   title_right,
@@ -25,6 +30,31 @@ import "./MainVer2Page2.scss";
 
 const MainVer2 = () => {
   const navigate = useNavigate();
+  const {
+    widthConditions: { isTablet, isMobile },
+  } = useWindowDimensions();
+
+  const content2Title = () => "작품 둘러보기";
+  const content2Texts = () => {
+    return (
+      <h4 className={page2TextsClassName}>
+        다양한 작품을 마음껏 둘러보고 <br />
+        원하는 걸 골라보세요!
+      </h4>
+    );
+  };
+  const content3Title = () => "공연권 신청하기";
+  const content3Texts = () => {
+    return (
+      <h4 className={page2TextsClassName}>
+        구매한 작품의 <br />
+        공연권을 바로 신청해보세요!
+      </h4>
+    );
+  };
+
+  const page2TitleClassName = !isMobile ? "h1-medium" : "h4-medium";
+  const page2TextsClassName = !isMobile ? "h4-regular c-white" : "p-large-regular c-white";
 
   return (
     <div className="main-ver2">
@@ -40,14 +70,19 @@ const MainVer2 = () => {
             </h1>
 
             <h5 className="sub-title">
-              대본과 공연권 모두 간단하고 편리하게 거래해요!
+              편리하게 대본과 공연권을 거래해요.
               <br />
-              여러분들이 원하던 플랫폼,
+              여러분들이 원하던 스토리 IP 플랫폼,
               <br />
               포도상점을 시작하세요!
             </h5>
-
-            <img src={circleIcon} alt="circle" className="circle-icon" />
+            {!isTablet ? (
+              <img src={circleIcon} alt="circle" className="circle-icon" />
+            ) : (
+              <div className="flex justify-end">
+                <img src={circleIcon} alt="circle" className="circle-icon" />
+              </div>
+            )}
           </div>
           <div className="j-content-center">
             <img src={arrow} alt="First" className="arrow" />
@@ -59,50 +94,52 @@ const MainVer2 = () => {
           <div className="page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
               <img src={title} alt="" className="page2-content-title" />
-              <h1 className="h1-medium">작품 등록하기</h1>
+              <h1 className={page2TitleClassName}>작품 등록하기</h1>
 
-              <h4 className="h4-regular c-white">
+              <h4 className={page2TextsClassName}>
                 여러분의 톡톡 튀는 아이디어, <br />
                 포도상점에 올려주세요!
               </h4>
               <div className="page2-img-wrap j-content-center">
-                <img src={content1} alt="" />
+                <img src={!isTablet ? content1 : content1_768} alt="" />
               </div>
 
               <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
             </div>
 
+            {/* 768 아래에선 밑의 두 요소 contents 교체 */}
             <div
               className="page2-content f-dir-column j-content-between"
-              onClick={() => navigate("/list")}
+              onClick={() => (!isTablet ? navigate("/list") : navigate("/myPage/purchased"))}
             >
-              <img src={title} alt="" className="page2-content-title" />
+              <img src={!isTablet ? title : title_right} alt="" className="page2-content-title" />
               <div className="page2-img-wrap j-content-end">
-                <img src={content2} alt="" />
+                <img src={!isTablet ? content2 : content3_768} alt="" />
               </div>
               <div>
-                <h4 className="h4-regular c-white">
-                  다양한 작품을 마음껏 둘러보고 <br />
-                  원하는 걸 골라보세요!
-                </h4>
+                {!isTablet ? content2Texts() : content3Texts()}
 
-                <h1 className="h1-medium">작품 둘러보기</h1>
+                <h1 className={page2TitleClassName}>
+                  {!isTablet ? content2Title() : content3Title()}
+                </h1>
 
                 <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
               </div>
             </div>
 
-            <div className="page2-content" onClick={() => navigate("/mypage/purchased")}>
-              <img src={title_right} alt="" className="page2-content-title" />
-              <h1 className="h1-medium t-right">공연권 신청하기</h1>
+            <div
+              className="page2-content"
+              onClick={() => (!isTablet ? navigate("/mypage/purchased") : navigate("/list"))}
+            >
+              <img src={!isTablet ? title_right : title} alt="" className="page2-content-title" />
+              <h1 className={page2TitleClassName + " t-right"}>
+                {!isTablet ? content3Title() : content2Title()}
+              </h1>
 
-              <h4 className="h4-regular c-white t-right">
-                구매한 작품의 <br />
-                공연권을 바로 신청해보세요!
-              </h4>
+              {!isTablet ? content3Texts() : content2Texts()}
 
               <div className="page2-img-wrap j-content-center">
-                <img src={content3} alt="" />
+                <img src={!isTablet ? content3 : content2_768} alt="" />
               </div>
 
               <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />

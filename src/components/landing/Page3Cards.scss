@@ -16,6 +16,9 @@
     width: 100%;
     height: 712px;
   }
+  @include r.media-mobile {
+    margin-top: 0;
+  }
 }
 
 .main-ver2 .cards .cards-arrow-wrap {
@@ -44,5 +47,8 @@
     flex-direction: column;
 
     height: 100%;
+  }
+  @include r.media-mobile {
+    height: fit-content;
   }
 }

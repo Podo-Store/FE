@@ -120,7 +120,10 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
           </div>
         ) : (
           <div>
-            <img src={download} alt="download" />
+            {/* pointer-events: none; - 안해주면 해당 구역 클릭 불가 (보다 상위에 렌더링됨)*/}
+            <object data={download} style={{ pointerEvents: "none" }}>
+              download
+            </object>
             <p id="pdf">PDF</p>
             <p id="find">내 PC에서 찾기</p>
           </div>

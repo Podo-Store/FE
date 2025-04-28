@@ -40,6 +40,10 @@
     height: 320px;
     min-height: 0;
   }
+  @include r.media-mobile {
+    width: 440px;
+    height: 231px;
+  }
   & {
     flex-shrink: 0;
 
@@ -65,20 +69,33 @@
   @include r.media-tablet {
     right: 0;
   }
+  @include r.media-mobile {
+    width: 272px;
+    height: 226px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) .page2-img-wrap {
   position: absolute;
   bottom: 74.5px;
   @include r.media-tablet {
-    left: 286.97px;
+    right: 32px;
     bottom: 0;
+  }
+  @include r.media-mobile {
+    right: 33px;
+    width: 171px;
+    height: 264.699px;
   }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(3) .page2-img-wrap {
   position: absolute;
   bottom: 0;
+  @include r.media-mobile {
+    width: 349.433px;
+    height: 168.408px;
+  }
 }
 
 .main-ver2 .page2 .page2-content .page2-button {
@@ -102,6 +119,10 @@
   position: absolute;
   top: -2px;
   left: -2px;
+  @include r.media-mobile {
+    width: 217.829px;
+    height: 83.016px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(1) h1 {
@@ -111,11 +132,19 @@
   margin-left: 33px;
 
   z-index: 10;
+  @include r.media-mobile {
+    margin-top: 12.27px;
+    margin-left: 28.88px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(1) h4 {
   margin-top: 43px;
   margin-left: 33px;
+  @include r.media-mobile {
+    margin-top: 30.8px;
+    margin-left: 23.88px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) {
@@ -136,6 +165,10 @@
     margin-left: 30px;
     margin-bottom: 0;
   }
+  @include r.media-mobile {
+    margin-top: 21.66px;
+    margin-left: 21.71px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) h1 {
@@ -149,6 +182,10 @@
   @include r.media-tablet {
     margin-left: 22px;
   }
+  @include r.media-mobile {
+    margin-left: 29.88px;
+    margin-bottom: 9.33px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(2) .page2-content-title {
@@ -159,6 +196,10 @@
   transform: rotateX(180deg);
   @include r.media-tablet {
     transform: scale(-1, -1);
+  }
+  @include r.media-mobile {
+    width: 244.605px;
+    height: 83.016px;
   }
 }
 
@@ -180,6 +221,10 @@
   @include r.media-tablet {
     transform: scale(-1, 1);
   }
+  @include r.media-mobile {
+    width: 217.829px;
+    height: 83.016px;
+  }
 }
 
 .main-ver2 .page2 .page2-content:nth-of-type(3) h1 {
@@ -191,6 +236,10 @@
   z-index: 10;
   @include r.media-tablet {
     margin-right: 22px;
+  }
+  @include r.media-mobile {
+    margin-top: 12.27px;
+    margin-right: 29.83px;
   }
 }
 
@@ -205,5 +254,9 @@
     margin-left: 30px;
 
     width: fit-content;
+  }
+  @include r.media-mobile {
+    margin-top: 21.66px;
+    margin-left: 21.71px;
   }
 }

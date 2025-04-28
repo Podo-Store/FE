@@ -31,13 +31,13 @@ import "./MainVer2Page2.scss";
 const MainVer2 = () => {
   const navigate = useNavigate();
   const {
-    widthConditions: { isTablet },
+    widthConditions: { isTablet, isMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
   const content2Texts = () => {
     return (
-      <h4 className="h4-regular c-white">
+      <h4 className={page2TextsClassName}>
         다양한 작품을 마음껏 둘러보고 <br />
         원하는 걸 골라보세요!
       </h4>
@@ -46,12 +46,15 @@ const MainVer2 = () => {
   const content3Title = () => "공연권 신청하기";
   const content3Texts = () => {
     return (
-      <h4 className="h4-regular c-white">
+      <h4 className={page2TextsClassName}>
         구매한 작품의 <br />
         공연권을 바로 신청해보세요!
       </h4>
     );
   };
+
+  const page2TitleClassName = !isMobile ? "h1-medium" : "h4-medium";
+  const page2TextsClassName = !isMobile ? "h4-regular c-white" : "p-large-regular c-white";
 
   return (
     <div className="main-ver2">
@@ -91,9 +94,9 @@ const MainVer2 = () => {
           <div className="page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
               <img src={title} alt="" className="page2-content-title" />
-              <h1 className="h1-medium">작품 등록하기</h1>
+              <h1 className={page2TitleClassName}>작품 등록하기</h1>
 
-              <h4 className="h4-regular c-white">
+              <h4 className={page2TextsClassName}>
                 여러분의 톡톡 튀는 아이디어, <br />
                 포도상점에 올려주세요!
               </h4>
@@ -116,7 +119,9 @@ const MainVer2 = () => {
               <div>
                 {!isTablet ? content2Texts() : content3Texts()}
 
-                <h1 className="h1-medium">{!isTablet ? content2Title() : content3Title()}</h1>
+                <h1 className={page2TitleClassName}>
+                  {!isTablet ? content2Title() : content3Title()}
+                </h1>
 
                 <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
               </div>
@@ -127,7 +132,9 @@ const MainVer2 = () => {
               onClick={() => (!isTablet ? navigate("/mypage/purchased") : navigate("/list"))}
             >
               <img src={!isTablet ? title_right : title} alt="" className="page2-content-title" />
-              <h1 className="h1-medium t-right">{!isTablet ? content3Title() : content2Title()}</h1>
+              <h1 className={page2TitleClassName + " t-right"}>
+                {!isTablet ? content3Title() : content2Title()}
+              </h1>
 
               {!isTablet ? content3Texts() : content2Texts()}
 

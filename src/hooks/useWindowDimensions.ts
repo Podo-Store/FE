@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 
 const useWindowDimensions = () => {
   const [windowDimensions, setWindowDimensions] = useState({
-    width: window.outerWidth,
-    height: window.outerHeight,
+    width: window.innerWidth,
+    height: window.innerHeight,
     widthConditions: {
-      isMobile: window.outerWidth < 768,
-      isTablet: window.outerWidth < 1280,
-      isLaptop: window.outerWidth < 1920,
-      isDesktop: window.outerWidth >= 1920,
+      isMobile: window.innerWidth < 768,
+      isTablet: window.innerWidth < 1280,
+      isLaptop: window.innerWidth < 1920,
+      isDesktop: window.innerWidth >= 1920,
     },
   });
 
   useEffect(() => {
     const handleResize = () => {
       setWindowDimensions({
-        width: window.outerWidth,
-        height: window.outerHeight,
+        width: window.innerWidth,
+        height: window.innerHeight,
         widthConditions: {
-          isMobile: window.outerWidth < 768,
-          isTablet: window.outerWidth < 1280,
-          isLaptop: window.outerWidth < 1920,
-          isDesktop: window.outerWidth >= 1920,
+          isMobile: window.innerWidth < 768,
+          isTablet: window.innerWidth < 1280,
+          isLaptop: window.innerWidth < 1920,
+          isDesktop: window.innerWidth >= 1920,
         },
       });
     };

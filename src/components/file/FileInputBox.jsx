@@ -105,24 +105,30 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
       >
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p>파일을 여기에 드롭하세요...</p>
+          <p className="p-medium-medium">파일을 여기에 드롭하세요...</p>
         ) : uploadedFile ? (
-          <p>{uploadedFile.name}</p>
+          <p className="p-medium-medium">{uploadedFile.name}</p>
         ) : (
-          <p>파일을 마우스로 끌어오세요.</p>
+          <p className="p-medium-medium">파일을 마우스로 끌어오세요.</p>
         )}
 
         {uploadedFile ? (
           <div>
             <img src={inputCheck} alt="checked" />
-            <p id="pdf"></p>
-            <p id="find">다시하기</p>
+            <p id="pdf" className="p-medium-medium"></p>
+            <p id="find" className="p-medium-medium">
+              다시하기
+            </p>
           </div>
         ) : (
           <div>
-            <img src={download} alt="download" />
-            <p id="pdf">PDF</p>
-            <p id="find">내 PC에서 찾기</p>
+            <img src={download} alt="download" className="size-[40px]" />
+            <p id="pdf" className="p-small-bold">
+              PDF
+            </p>
+            <p id="find" className="p-small-under">
+              내 PC에서 찾기
+            </p>
           </div>
         )}
       </div>

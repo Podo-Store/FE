@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import InfoPopup from "../popup/InfoPopup";
 
-import download from "./../../assets/image/fileInput/ic_download.png";
+import download from "./../../assets/image/fileInput/ic_download.svg";
 import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 

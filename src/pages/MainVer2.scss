@@ -101,7 +101,7 @@
   position: absolute;
   top: 11.852vh; /* 128px */
   right: 12.5vw; /* 240px */
-
+  transform: translateX(-18px);
   @include r.media-laptop {
     top: 12.5926vh; /* 136px */
     right: 80px;
@@ -118,7 +118,7 @@
     width: 456px;
     height: 449px;
 
-    transform: translateX(18px);
+    transform: translateX(0);
   }
 }
 

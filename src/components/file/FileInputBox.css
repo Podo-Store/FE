@@ -44,17 +44,6 @@
   cursor: pointer;
 }
 
-.file-input-box .input-box-content p {
-  color: #000;
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
-}
-
 .file-input-box .input-box-content p:nth-of-type(1) {
   margin: 0;
   margin-top: 1.75rem;
@@ -64,8 +53,6 @@
 .file-input-box .input-box-content p#pdf {
   margin: 0;
   transform: translateY(-0.75rem);
-
-  font-weight: 400;
 }
 
 .file-input-box .input-box-content p#find {

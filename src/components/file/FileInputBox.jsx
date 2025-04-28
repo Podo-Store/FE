@@ -121,7 +121,7 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
         ) : (
           <div>
             {/* pointer-events: none; - 안해주면 해당 구역 클릭 불가 (보다 상위에 렌더링됨)*/}
-            <object data={download} style={{ pointerEvents: "none" }}>
+            <object data={download} style={{ pointerEvents: "none", WebkitTransform: "transform3d(0, 0, 0)" }}>
               download
             </object>
             <p id="pdf">PDF</p>

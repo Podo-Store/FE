@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 import InfoPopup from "../popup/InfoPopup";
 
-import download from "./../../assets/image/fileInput/download.svg";
+import download from "./../../assets/image/fileInput/ic_download.png";
 import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 
@@ -120,10 +120,7 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
           </div>
         ) : (
           <div>
-            {/* pointer-events: none; - 안해주면 해당 구역 클릭 불가 (보다 상위에 렌더링됨)*/}
-            <object data={download} style={{ pointerEvents: "none", WebkitTransform: "transform3d(0, 0, 0)" }}>
-              download
-            </object>
+            <img src={download} alt="download" />
             <p id="pdf">PDF</p>
             <p id="find">내 PC에서 찾기</p>
           </div>

@@ -13,8 +13,9 @@
 .script-content .script {
   /* display: flex; */
   display: grid;
-  grid-template-columns: 197px 1fr;
-  column-gap: 23px;
+  grid-template-columns: 23% 74%;
+  column-gap: 3%;
+
   @include r.media-mobile {
     row-gap: 20px;
   }
@@ -53,8 +54,7 @@
 }
 
 .script-content div#title {
-  margin-top: 1vh;
-  margin-bottom: 0.5vh;
+  padding-bottom: 16px;
 
   width: 100%;
 }

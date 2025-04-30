@@ -129,24 +129,20 @@
   position: relative;
 }
 
-.script-manage-detail div#select-wrap {
+.select-wrap {
   gap: 1.25rem;
   margin-top: 2.13vh;
 }
 
-.script-manage-detail div#select {
-  width: 100%;
-}
-
-.script-manage-detail div#select .title {
+.title {
   margin-bottom: 9px;
 }
 
-.script-manage-detail div#select .select-inside {
+.select-inside {
   gap: 20px;
 }
 
-.script-manage-detail .bottom-wrap {
+.bottom-wrap {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -154,12 +150,12 @@
   margin-top: 40px;
 }
 
-.script-manage-detail .btn-wrap {
+ .btn-wrap {
   display: flex;
   gap: 1rem;
 }
 
-.script-manage-detail p#delete {
+.delete {
   margin-top: 7.407vh;
   color: #000;
 

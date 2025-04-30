@@ -121,7 +121,11 @@ const PostWork = () => {
                 </div>
 
                 <div className="arrow-box">
-                  <img src={doubleRiteIcon} alt="doubleRite" style={{ width: "30px" }} />
+                  <img
+                    src={doubleRiteIcon}
+                    alt="doubleRite"
+                    style={{ width: "30px" }}
+                  />
                   <div className="divider"></div>
                 </div>
 
@@ -178,7 +182,8 @@ const PostWork = () => {
                         top: "unset",
                         bottom: "0",
                         padding: "11px",
-                        transform: "translate(calc(113.75px + 8px + 20px + 5px), 0)",
+                        transform:
+                          "translate(calc(113.75px + 8px + 20px + 5px), 0)",
                       }}
                       buttonId="info-btn"
                     />
@@ -196,7 +201,11 @@ const PostWork = () => {
                 style={{ height: "180px" }}
               />
 
-              <button id="upload-btn" onClick={onClickUpload} disabled={!fileSelected}>
+              <button
+                id="upload-btn"
+                onClick={onClickUpload}
+                disabled={!fileSelected}
+              >
                 작품 보내기
               </button>
             </div>

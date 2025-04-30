@@ -11,25 +11,28 @@ import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 
 import "./FileInputBox.css";
 
-/**
- * 파일 입력 드래그 앤 드롭 기능 구현 component
- * 주의: 'style' props로 입력 박스 높이 정해주어야 함.
- * e.g. style={ height: "180px" }
- * @param {string} title - 좌측 상단 제목
- * @param {React.CSSProperties} titleStyle - 좌측 상단 제목 스타일
- * @param {string} infoText - info 안내 텍스트
- * @param {function} onFileUpload - 파일 업로드 시 callback function
- * @param {React.CSSProperties} style - 입력 박스 스타일, 높이 정의 필수 - e.g. style={ height: "180px"}
- * @returns
- */
-const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle }) => {
-  const [uploadedFile, setUploadedFile] = useState(null);
+interface FileInputBoxProps {
+  title: string;
+  infoText?: string;
+  onFileUpload: (file: File) => void;
+  style: React.CSSProperties;
+  titleStyle?: React.CSSProperties;
+}
+
+const FileInputBox: React.FC<FileInputBoxProps> = ({
+  title,
+  infoText = "",
+  onFileUpload,
+  style,
+  titleStyle,
+}) => {
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const [showPopup, setShowPopup] = useState(false);
   const navigate = useNavigate();
 
   const onDrop = useCallback(
-    (acceptedFiles) => {
+    (acceptedFiles: File[]) => {
       if (!Cookies.get("accessToken")) {
         alert("로그인이 필요한 서비스입니다.");
         navigate("/signin");
@@ -53,10 +56,13 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: "application/pdf",
+    accept: {
+      "application/pdf": [],
+    },
+    multiple: false,
   });
 
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!Cookies.get("accessToken")) {
       e.preventDefault(); // 클릭 동작 중지
       e.stopPropagation(); // 이벤트 전파 중지
@@ -67,7 +73,10 @@ const FileInputBox = ({ title, infoText = "", onFileUpload, style, titleStyle })
 
   return (
     <div className="file-input-box">
-      <div className="flex items-center title" style={!title ? { marginTop: "0" } : {}}>
+      <div
+        className="flex items-center title"
+        style={!title ? { marginTop: "0" } : {}}
+      >
         {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}
         {infoText ? (
           <>

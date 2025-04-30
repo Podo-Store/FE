@@ -3,28 +3,34 @@ import { useEffect, useRef } from "react";
 import "./InfoPopup.css";
 import "./../../styles/text.css";
 
-/**
- * 사용 시, 부모 요소 및 자매(sibling) 요소에 position: relative;를 설정해야 함.
- * @param {Object} props - Component properties
- * @param {function} props.onClose: 팝업을 닫을 때 호출할 함수
- * @param {React.CSSProperties} props.style - padding, left 사용 권장.
- * @param {string} props.buttonId: 팝업을 띄우는 버튼의 id (e.g. "popup-btn2")
- * @param {React.ReactNode} message - 팝업 메시지 등의 React Node
- * @param {string} message2 - 두 번째 팝업 메시지 (존재 시 상단 구분 바 (---) 생성 및 아래에 출력)
- * @returns
- */
-const InfoPopup = ({ message, onClose, style, buttonId, message2 }) => {
-  const popupRef = useRef(null); // InfoPopup 컴포넌트의 DOM 요소를 참조
+interface InfoPopupProps {
+  message: React.ReactNode; // ✅ message를 React.ReactNode로 명시
+  onClose: () => void;
+  style: React.CSSProperties;
+  buttonId: string;
+  message2?: string;
+}
+
+const InfoPopup = ({
+  message,
+  onClose,
+  style,
+  buttonId,
+  message2,
+}: InfoPopupProps) => {
+  const popupRef = useRef<HTMLDivElement>(null); // InfoPopup 컴포넌트의 DOM 요소를 참조
 
   useEffect(() => {
     // 팝업이나 버튼이 아닌 곳을 클릭했을 때만 onClose() 호출
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
       const buttonElement = document.getElementById(buttonId); // 동적으로 받은 id로 버튼 선택
+
+
       if (
         popupRef.current &&
-        !popupRef.current.contains(event.target) &&
+        !popupRef.current.contains(event.target as Node) &&
         buttonElement &&
-        !buttonElement.contains(event.target)
+        !buttonElement.contains(event.target as Node)
       ) {
         onClose();
       }
@@ -49,7 +55,9 @@ const InfoPopup = ({ message, onClose, style, buttonId, message2 }) => {
               {line.includes("변경이 어려우니") ? (
                 <span>
                   {line.split("변경이 어려우니")[0]}
-                  <span style={{ textDecoration: "underline" }}>변경이 어려우니</span>
+                  <span style={{ textDecoration: "underline" }}>
+                    변경이 어려우니
+                  </span>
                   {line.split("변경이 어려우니")[1]}
                 </span>
               ) : (

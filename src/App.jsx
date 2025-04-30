@@ -24,7 +24,13 @@ import PurchasedScript from "./pages/myPage/PurchasedScript";
 import PerformanceInfo from "./pages/myPage/PerformanceInfo";
 import PerformanceRefund from "./pages/myPage/PerformanceRefund";
 import ScriptManage from "./pages/myPage/ScriptManage";
+
+//Ver 1.1.0 
 import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
+
+//Ver 2.2.0
+// import ScriptManageDetail from "./pages/myPage/PostManage/PostManageDetail";
+
 import AskedPerformManage from "./pages/myPage/AskedPerformManage";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import LikedWorks from "./pages/myPage/LikedWorksPage";

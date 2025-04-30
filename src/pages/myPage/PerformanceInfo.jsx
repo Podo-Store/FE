@@ -4,8 +4,11 @@ import Cookies from "js-cookie";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import GoBack from "../../components/button/GoBack";
-import { PerformInputField, PerformDateInputField } from "../../components/inputField";
+import GoBack from "../../components/button/GoBack.tsx";
+import {
+  PerformInputField,
+  PerformDateInputField,
+} from "../../components/inputField";
 import { CheckerMessage, ErrorMessage } from "../../components/auth/signUp";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import InfoPopup from "../../components/popup/InfoPopup";
@@ -15,7 +18,10 @@ import { useRequest } from "../../hooks/useRequest";
 
 import formatDateCutSec from "../../utils/formatDateCutSec";
 
-import { USER_INFO, PERFORM_DATE } from "../../constants/PopupTexts/PerformInfoTexts";
+import {
+  USER_INFO,
+  PERFORM_DATE,
+} from "../../constants/PopupTexts/PerformInfoTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
@@ -185,7 +191,9 @@ const PerformanceInfo = () => {
       }
     }
 
-    const localDates = dates.map((date) => ({ date: dayjs(date).format("YYYY-MM-DDTHH:mm:ss") }));
+    const localDates = dates.map((date) => ({
+      date: dayjs(date).format("YYYY-MM-DDTHH:mm:ss"),
+    }));
     try {
       await axios.post(
         `${SERVER_URL}profile/apply`,
@@ -203,7 +211,9 @@ const PerformanceInfo = () => {
       alert("신청이 완료되었습니다.");
       navigate("/mypage/purchased");
     } catch (error) {
-      alert(error.response.data.error || "오류가 발생했습니다. 다시 시도해주세요.");
+      alert(
+        error.response.data.error || "오류가 발생했습니다. 다시 시도해주세요."
+      );
     }
   };
 
@@ -242,8 +252,9 @@ const PerformanceInfo = () => {
                     {author}
                   </p>
                   <p className="p-xs-regular" id="warning">
-                    * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                    하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                    * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                    저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
+                    제공되었음을 표시하여야 합니다.
                   </p>
                 </div>
               </div>
@@ -263,7 +274,9 @@ const PerformanceInfo = () => {
               {showPopup.userInfo ? (
                 <InfoPopup
                   message={USER_INFO}
-                  onClose={() => setShowPopup({ ...showPopup, userInfo: false })}
+                  onClose={() =>
+                    setShowPopup({ ...showPopup, userInfo: false })
+                  }
                   style={{
                     padding: "0.5rem 0.62rem",
                     left: "10px",
@@ -273,13 +286,25 @@ const PerformanceInfo = () => {
               ) : null}
             </div>
 
-            <PerformInputField placeholder={applicantInfo.name} readOnly={true} />
+            <PerformInputField
+              placeholder={applicantInfo.name}
+              readOnly={true}
+            />
             <div id="margin"></div>
-            <PerformInputField placeholder={applicantInfo.phoneNumber} readOnly={true} />
+            <PerformInputField
+              placeholder={applicantInfo.phoneNumber}
+              readOnly={true}
+            />
             <div id="margin"></div>
-            <PerformInputField placeholder={applicantInfo.address} readOnly={true} />
+            <PerformInputField
+              placeholder={applicantInfo.address}
+              readOnly={true}
+            />
 
-            <div className="j-content-between a-items-center width-629" id="days">
+            <div
+              className="j-content-between a-items-center width-629"
+              id="days"
+            >
               <div className="a-items-center" id="days-left">
                 <p className="p-medium-bold">공연 예상 일자</p>
                 <img
@@ -288,13 +313,18 @@ const PerformanceInfo = () => {
                   src={circleInfoBtn}
                   alt="circleInfoBtn"
                   onClick={() => {
-                    setShowPopup({ ...showPopup, performDate: !showPopup.performDate });
+                    setShowPopup({
+                      ...showPopup,
+                      performDate: !showPopup.performDate,
+                    });
                   }}
                 />
                 {showPopup.performDate ? (
                   <InfoPopup
                     message={PERFORM_DATE}
-                    onClose={() => setShowPopup({ ...showPopup, performDate: false })}
+                    onClose={() =>
+                      setShowPopup({ ...showPopup, performDate: false })
+                    }
                     style={{
                       padding: "0.5rem 0.62rem",
                       left: "24px",
@@ -350,7 +380,11 @@ const PerformanceInfo = () => {
                     onDelete={() => onDeleteField(index)} // X 버튼 클릭 시
                   />
                   <div
-                    style={!dateChecker[index]?.show ? { height: "1rem" } : { height: "6px" }}
+                    style={
+                      !dateChecker[index]?.show
+                        ? { height: "1rem" }
+                        : { height: "6px" }
+                    }
                   ></div>
                   {/* dateChecker[index]?.show: optional chaining(없을 경우 undefined) */}
                   {dateChecker[index]?.show && (
@@ -364,13 +398,20 @@ const PerformanceInfo = () => {
                       <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
                     </div>
                   ) : null}
-                  <div style={!dateChecker[index]?.show ? {} : { height: "15px" }}></div>
+                  <div
+                    style={!dateChecker[index]?.show ? {} : { height: "15px" }}
+                  ></div>
                 </div>
               ))}
 
             {performAmount - fetchedDates.length > 0 && (
               <div className="j-content-center width-629" id="circle-add-btn">
-                <img src={circleAddBtn} alt="add" className="c-pointer" onClick={onClickAddField} />
+                <img
+                  src={circleAddBtn}
+                  alt="add"
+                  className="c-pointer"
+                  onClick={onClickAddField}
+                />
               </div>
             )}
 
@@ -383,7 +424,11 @@ const PerformanceInfo = () => {
               >
                 취소하기
               </SmallOnOffBtn>
-              <SmallOnOffBtn color="purple" disabled={isApplyDisabled} onClick={onClickApply}>
+              <SmallOnOffBtn
+                color="purple"
+                disabled={isApplyDisabled}
+                onClick={onClickApply}
+              >
                 신청하기
               </SmallOnOffBtn>
             </div>

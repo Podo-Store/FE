@@ -55,11 +55,11 @@
   top: 58px;
   right: 0;
 
+  width: 517px;
+  height: 869px;
+
   @include r.media-laptop {
     top: 75px;
-
-    width: 517px;
-    height: 869px;
   }
 }
 

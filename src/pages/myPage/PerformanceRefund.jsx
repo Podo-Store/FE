@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import GoBack from "../../components/button/GoBack";
+import GoBack from "../../components/button/GoBack.tsx";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import { PerformInputField } from "../../components/inputField";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
@@ -141,7 +141,9 @@ const PerformanceRefund = () => {
             <div id="detail">
               <div className="j-content-between detail-content">
                 <p className="p-medium-bold c-grey">구매 일자</p>
-                <p className="p-medium-regular c-grey">{orderDate ? formatDate2(orderDate) : ""}</p>
+                <p className="p-medium-regular c-grey">
+                  {orderDate ? formatDate2(orderDate) : ""}
+                </p>
               </div>
               <hr />
               <div className="j-content-between detail-content">
@@ -150,7 +152,9 @@ const PerformanceRefund = () => {
               </div>
               <hr />
               <div className="j-content-between detail-content">
-                <p className="p-medium-bold c-grey">구매한 공연권 수량 및 금액</p>
+                <p className="p-medium-bold c-grey">
+                  구매한 공연권 수량 및 금액
+                </p>
                 <div className="j-content-end">
                   <p className="p-large-medium c-grey">{orderedAmount}</p>
                   <div className="price-default-left" />
@@ -161,9 +165,13 @@ const PerformanceRefund = () => {
               </div>
               <hr />
               <div className="j-content-between detail-content">
-                <p className="p-medium-bold c-grey">환불 가능한 공연권 수량 및 금액</p>
+                <p className="p-medium-bold c-grey">
+                  환불 가능한 공연권 수량 및 금액
+                </p>
                 <div className="j-content-end">
-                  <p className="p-large-medium c-grey">{refundPossibleAmount}</p>
+                  <p className="p-large-medium c-grey">
+                    {refundPossibleAmount}
+                  </p>
                   <div className="price-default-left" />
                   <p className="p-large-medium c-grey price-default">
                     {formatPrice(refundPossiblePrice)}원
@@ -171,11 +179,17 @@ const PerformanceRefund = () => {
                 </div>
               </div>
               <hr />
-              <div className="j-content-between a-items-center detail-content" id="total">
+              <div
+                className="j-content-between a-items-center detail-content"
+                id="total"
+              >
                 <p className="p-medium-bold">환불 예정 공연권 수량 및 금액</p>
                 <div className="j-content-end a-items-center">
                   {refundPossibleAmount !== 1 ? (
-                    <div className="j-content-between a-items-center" id="total-amount">
+                    <div
+                      className="j-content-between a-items-center"
+                      id="total-amount"
+                    >
                       <img
                         className="c-pointer"
                         src={minusBtn}
@@ -184,7 +198,9 @@ const PerformanceRefund = () => {
                           changeAmount(-1);
                         }}
                       />
-                      <p className="p-large-medium t-align-center">{currentAmount}</p>
+                      <p className="p-large-medium t-align-center">
+                        {currentAmount}
+                      </p>
                       <img
                         className="c-pointer"
                         src={plusBtn}

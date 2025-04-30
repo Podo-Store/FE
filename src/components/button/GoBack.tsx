@@ -9,7 +9,12 @@ import "./../../styles/utilities.css";
  * @param {string} url - routing 주소 (e.g. "/mypage/scriptmanage")
  * @returns
  */
-const GoBack = ({ url }) => {
+
+interface GoBackProps {
+  url: string;
+}
+
+const GoBack = ({ url }: GoBackProps) => {
   const navigate = useNavigate();
 
   return (

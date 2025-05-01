@@ -7,16 +7,15 @@
   align-items: center;
 
   padding-left: 88px;
+  padding-right: 44px;
+
+  height: 70px;
+  background-color: #ffffff;
+
+  border-bottom: 1px solid var(--Main, #6a39c0);
+
   @include r.media-tablet {
     padding-left: 44px;
-  }
-  & {
-    padding-right: 44px;
-
-    height: 6.481vh; /* 70px */
-    background-color: #ffffff;
-
-    border-bottom: 1px solid var(--Main, #6a39c0);
   }
 }
 
@@ -75,17 +74,6 @@
   padding: 8px 30px;
 }
 
-.navbar .navbar_menu .li {
-  color: #000;
-
-  /* H5/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 1.852vh;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 2.593vh; /* 140% */
-}
-
 .navbar .navbar_login {
   display: flex;
   align-items: center;
@@ -93,16 +81,16 @@
   position: relative;
 }
 
-.navbar .navbar_login img {
+.navbar .navbar_login .my-page-button {
   position: absolute;
   left: -45px;
 
-  width: 2.407vh;
-  height: 2.593vh;
+  width: 26px;
+  height: 28px;
 
   cursor: pointer;
 
-  transform: translateX(-100%);
+  transform: translate(-50%, -50%);
   @include r.media-mobile {
     position: static;
     transform: none;
@@ -110,25 +98,6 @@
 }
 
 .navbar .signin_btn {
-  @include m.white-btn;
-
-  border-radius: 30px;
-  border: 2.5px solid var(--Main, #6a39c0);
-  width: 13.889vh;
-  height: 4.074vh;
-  background-color: #fdfaff;
-
-  cursor: pointer;
-
-  color: var(--Main, #6a39c0);
-
-  /* Paragraph/Large/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 1.667vh;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 2.593vh; /* 155.556% */
-
   @include r.media-tablet {
     display: none;
   }

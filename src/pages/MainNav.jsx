@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import ImageBtn from "@/components/button/ImageBtn";
+import RoundBtnV2 from "@/components/button/round_btn/RoundBtnV2";
 import SideMenuDialog from "@/components/navBar/SideMenuDialog";
 
 import AuthContext from "../contexts/AuthContext";
@@ -30,9 +31,7 @@ function MainNav() {
 
   return (
     <>
-      {openDialog && (
-        <SideMenuDialog open={openDialog} onClose={onCloseDialog} />
-      )}
+      {openDialog && <SideMenuDialog open={openDialog} onClose={onCloseDialog} />}
       <nav className="navbar">
         <ImageBtn
           className="hamburger-btn"
@@ -49,23 +48,14 @@ function MainNav() {
             navigateWithRefresh(event, "/");
           }}
         >
-          <img
-            className="icon"
-            src={navLogo}
-            alt="logo"
-            style={{ height: "2.786vh" }}
-          />
-          <img
-            src={navTitle}
-            alt="포도상점"
-            style={{ height: "2.593vh" }}
-          ></img>
+          <img className="icon h-[30.086px]" src={navLogo} alt="logo" />
+          <img src={navTitle} alt="포도상점" className="h-[28px]"></img>
         </Link>
         <ul className="navbar_menu">
           <li>
             <Link
               to="/list"
-              className="li"
+              className="h5-regular"
               onClick={(event) => {
                 navigateWithRefresh(event, "/list");
               }}
@@ -81,7 +71,7 @@ function MainNav() {
           <li>
             <Link
               to="/post"
-              className="li"
+              className="h5-regular"
               onClick={(event) => {
                 navigateWithRefresh(event, "/post");
               }}
@@ -100,35 +90,36 @@ function MainNav() {
         </ul>
         {!isAuthenticated ? (
           <div className="navbar_login">
-            <button
+            <RoundBtnV2
               onClick={() => {
                 navigate("/signin", { state: { from: location } });
               }}
-              className="signin_btn"
+              className="signin_btn p-large-regular w-[150px] h-[44px] rounded-[30px]"
+              color="white"
             >
               로그인
-            </button>
+            </RoundBtnV2>
           </div>
         ) : (
           <div className="navbar_login">
             {/*<img src={cart} alt="cart" />*/}
-            <img
-              src={person}
-              alt="myPage"
+            <button
               onClick={(event) => {
                 navigateWithRefresh(event, "/mypage/purchased");
               }}
-            />
-            <button
+            >
+              <img src={person} alt="myPage" className="my-page-button" />
+            </button>
+            <RoundBtnV2
               onClick={() => {
-                // context 호출
                 logout();
                 navigate("/");
               }}
-              className="signin_btn"
+              className="signin_btn p-large-regular w-[150px] h-[44px] rounded-[30px]"
+              color="white"
             >
               로그아웃
-            </button>
+            </RoundBtnV2>
           </div>
         )}
       </nav>

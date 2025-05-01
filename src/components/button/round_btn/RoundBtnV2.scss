@@ -1,0 +1,26 @@
+@use "./../_mixins.scss" as m;
+
+.__round-btn__#white {
+  @include m.white-btn;
+
+  border: 2.5px solid var(--Main, #6a39c0);
+  color: var(--Main, #6a39c0);
+}
+
+.__round-btn__#grey {
+  border: none;
+  background: #d9d9d9;
+  color: #fff;
+}
+
+.__round-btn__#purple {
+  @include m.purple-btn;
+
+  border: none;
+  background: var(--Main, #6a39c0);
+  color: #fff;
+}
+
+.__round-btn__#purple:disabled {
+  background-color: #dadada;
+}

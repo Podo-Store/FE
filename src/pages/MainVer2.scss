@@ -17,6 +17,7 @@
   height: 85vh;
   @include r.media-tablet {
     width: calc(100% - 80px);
+    height: auto;
   }
   @include r.media-mobile {
     width: 100%;
@@ -90,9 +91,6 @@
   flex-shrink: 0;
 
   animation: moveArrow 1.5s infinite ease-in-out;
-  @include r.media-tablet {
-    display: none;
-  }
 }
 
 @keyframes moveArrow {

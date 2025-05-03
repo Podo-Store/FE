@@ -31,7 +31,7 @@ import "./MainVer2Page2.scss";
 const MainVer2 = () => {
   const navigate = useNavigate();
   const {
-    widthConditions: { isTablet, isMobile },
+    widthConditions: { isLaptop, isTablet, isMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
@@ -61,30 +61,32 @@ const MainVer2 = () => {
       <FloatingBtn />
 
       <div>
-        <div className="page1 f-dir-column j-content-between">
-          <div className="title-wrap f-dir-column p-relative">
-            <h1 className="title">
-              대본과 공연권 거래
-              <br />
-              포도상점에서
-            </h1>
+        <div className="page1">
+          <section className="page1-width">
+            <div className="title-wrap f-dir-column p-relative">
+              <h1 className="title">
+                대본과 {isLaptop && <br />}공연권 거래
+                <br />
+                포도상점에서
+              </h1>
 
-            <h5 className="sub-title">
-              편리하게 대본과 공연권을 거래해요.
-              <br />
-              여러분들이 원하던 스토리 IP 플랫폼,
-              <br />
-              포도상점을 시작하세요!
-            </h5>
-            {!isTablet ? (
-              <img src={circleIcon} alt="circle" className="circle-icon" />
-            ) : (
-              <div className="flex justify-end">
+              <h5 className="sub-title">
+                편리하게 대본과 공연권을 거래해요.
+                <br />
+                여러분들이 원하던 스토리 IP 플랫폼,
+                <br />
+                포도상점을 시작하세요!
+              </h5>
+              {!isTablet ? (
                 <img src={circleIcon} alt="circle" className="circle-icon" />
-              </div>
-            )}
-          </div>
-          <div className="j-content-center">
+              ) : (
+                <div className="flex justify-end">
+                  <img src={circleIcon} alt="circle" className="circle-icon" />
+                </div>
+              )}
+            </div>
+          </section>
+          <div className="flex justify-center w-full">
             <img src={arrow} alt="First" className="arrow" />
           </div>
         </div>

@@ -4,8 +4,22 @@
   height: 1361px;
 
   background: linear-gradient(180deg, #f5f0ff 0%, #fff 100%);
+  @include r.media-tablet {
+    align-items: end;
+  }
   @include r.media-mobile {
+    align-items: center;
     height: 1058px;
+  }
+}
+
+.main-ver2 .page1-width {
+  height: 85vh;
+  @include r.media-tablet {
+    width: calc(100% - 80px);
+  }
+  @include r.media-mobile {
+    width: 100%;
   }
 }
 
@@ -71,19 +85,13 @@
 }
 
 .main-ver2 .page1 img.arrow {
-  margin-bottom: 16.574vh; /* 179px */
-
   width: 80px;
   height: 26px;
   flex-shrink: 0;
 
   animation: moveArrow 1.5s infinite ease-in-out;
-
-  @media (max-width: 1920px) {
-    margin-bottom: 16.574vh; /* 179px */
-  }
-  @media (max-width: 1600px) {
-    margin-bottom: 12vh;
+  @include r.media-tablet {
+    display: none;
   }
 }
 
@@ -101,41 +109,32 @@
 
 .main-ver2 .page1 .circle-icon {
   position: absolute;
-  top: 11.852vh; /* 128px */
-  right: 12.5vw; /* 240px */
+  top: 11.852vh; // 128px
+  right: 12.5vw; // 240px
+
+  width: 652px;
+  height: 641px;
+
   transform: translateX(-18px);
   @include r.media-laptop {
-    top: 12.5926vh; /* 136px */
+    top: 12.5926vh; // 136px
     right: 80px;
-  }
-  @include r.media-tablet {
-    position: static;
 
     width: 616px;
     height: 606px;
   }
+  @include r.media-tablet {
+    position: static;
+  }
   @include r.media-mobile {
     margin-top: 42px;
 
-    width: 456px;
+    width: 438px;
     height: 449px;
 
     transform: translateX(0);
   }
 }
-
-.main-ver2 .page1 .circle-icon img {
-  width: 33.958vw; /* 652px */
-  height: auto; /* 641px */
-
-  @include r.media-tablet {
-    width: 75%;
-  }
-  @include r.media-mobile {
-    width: 100%;
-  }
-}
-
 .resized-image {
   width: 100%;
   height: auto; /* 이미지 비율을 유지하며 높이 자동 설정 */

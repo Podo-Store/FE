@@ -86,7 +86,7 @@ const MainVer2 = () => {
               )}
             </div>
           </section>
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center w-full h-content">
             <img src={arrow} alt="First" className="arrow" />
           </div>
         </div>

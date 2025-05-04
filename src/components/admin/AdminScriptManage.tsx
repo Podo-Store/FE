@@ -20,6 +20,8 @@ import React, { useState, useEffect } from "react";
 
 import TableCellCenter from "./TableCellCenter";
 
+import { toastAlert } from "@/utils/ToastAlert";
+
 import { OrderStatus } from "@/types/orderStatus";
 import { FilterStatus } from "./types/filterStatus";
 
@@ -28,7 +30,6 @@ import { SERVER_URL } from "@/constants/ServerURL";
 import DownloadSvg from "../../assets/image/component/DownloadSvg";
 import AcceptSvg from "../../assets/image/component/AcceptSvg";
 import DenySvg from "../../assets/image/component/DenySvg";
-import { toastAlert } from "@/utils/ToastAlert";
 
 type PlayType = "LONG" | "SHORT" | null; // undefined: 선택 안함
 
@@ -56,6 +57,10 @@ const AdminScriptManage = () => {
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+
+  // 작품 제목 / 작가명 변경
+  const [tempTitleMap, setTempTitleMap] = useState<Record<string, string>>({});
+  const [tempWriterMap, setTempWriterMap] = useState<Record<string, string>>({});
 
   // 전체
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -114,6 +119,68 @@ const AdminScriptManage = () => {
   // 페이지 변경 핸들러
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
+  };
+
+  // 제목 변경
+  const handleUpdateTitle = async (id: string) => {
+    const newTitle = tempTitleMap[id];
+    // 새로 입력하지 않았거나 기존 제목과 같으면 API 호출 X
+    if (!newTitle || newTitle === data.find((item) => item.id === id)?.title) {
+      return;
+    }
+
+    toastAlert("수정사항 반영 중...", "info");
+    try {
+      await axios.patch(
+        `${SERVER_URL}admin/products/title`,
+        {
+          productId: id,
+          title: newTitle,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: Cookies.get("accessToken")
+              ? `Bearer ${Cookies.get("accessToken")}`
+              : undefined,
+          },
+        }
+      );
+      toastAlert("수정사항이 반영되었습니다.", "success");
+    } catch (error) {
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
+    }
+  };
+
+  // 작가명 변경
+  const handleUpdateWriter = async (id: string) => {
+    const newWriter = tempWriterMap[id];
+    // 새로 입력하지 않았거나 기존 제목과 같으면 API 호출 X
+    if (!newWriter || newWriter === data.find((item) => item.id === id)?.writer) {
+      return;
+    }
+
+    toastAlert("수정사항 반영 중...", "info");
+    try {
+      await axios.patch(
+        `${SERVER_URL}admin/products/writer`,
+        {
+          productId: id,
+          writer: newWriter,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: Cookies.get("accessToken")
+              ? `Bearer ${Cookies.get("accessToken")}`
+              : undefined,
+          },
+        }
+      );
+      toastAlert("수정사항이 반영되었습니다.", "success");
+    } catch (error) {
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
+    }
   };
 
   // 장편극 / 단편극 변경
@@ -283,8 +350,30 @@ const AdminScriptManage = () => {
                   <TableRow key={item.id}>
                     <TableCellCenter>{totalCount - ((page - 1) * 10 + index)}</TableCellCenter>
                     <TableCellCenter>{item.createdAt}</TableCellCenter>
-                    <TableCellCenter>{item.title}</TableCellCenter>
-                    <TableCellCenter>{item.writer}</TableCellCenter>
+                    <TableCellCenter>
+                      <TextField
+                        variant="standard"
+                        value={tempTitleMap[item.id] ?? item.title}
+                        onChange={(event) => {
+                          setTempTitleMap((prev) => ({ ...prev, [item.id]: event.target.value }));
+                        }}
+                        onBlur={() => {
+                          handleUpdateTitle(item.id);
+                        }}
+                      ></TextField>
+                    </TableCellCenter>
+                    <TableCellCenter>
+                      <TextField
+                        variant="standard"
+                        value={tempWriterMap[item.id] ?? item.writer}
+                        onChange={(event) => {
+                          setTempWriterMap((prev) => ({ ...prev, [item.id]: event.target.value }));
+                        }}
+                        onBlur={() => {
+                          handleUpdateWriter(item.id);
+                        }}
+                      ></TextField>
+                    </TableCellCenter>
                     <TableCellCenter
                       sx={{
                         backgroundColor:

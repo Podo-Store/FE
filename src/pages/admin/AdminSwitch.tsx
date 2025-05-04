@@ -9,30 +9,32 @@ const AdminSwitch = ({ page = 0 }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="admin-switch">
-      <div className="d-flex switch-bar">
-        <h1
-          className={`h1-bold c-pointer  ${page === 0 ? "c-black" : "c-grey"}`}
-          onClick={() => {
-            navigate("/admin/scriptManage");
-          }}
-        >
-          작품 관리
-        </h1>
-        <h1
-          className={`h1-bold c-pointer ${page === 1 ? "c-black" : "c-grey"}`}
-          onClick={() => {
-            navigate("/admin/orderManage");
-          }}
-        >
-          주문 관리
-        </h1>
-      </div>
+    <main className="flex flex-col items-center w-full">
+      <div className="admin-switch">
+        <div className="d-flex switch-bar">
+          <h1
+            className={`h1-bold c-pointer  ${page === 0 ? "c-black" : "c-grey"}`}
+            onClick={() => {
+              navigate("/admin/scriptManage");
+            }}
+          >
+            작품 관리
+          </h1>
+          <h1
+            className={`h1-bold c-pointer ${page === 1 ? "c-black" : "c-grey"}`}
+            onClick={() => {
+              navigate("/admin/orderManage");
+            }}
+          >
+            주문 관리
+          </h1>
+        </div>
 
-      <div style={{ padding: "20px" }}>
-        {page === 0 ? <AdminScriptManage /> : <AdminOrderManage />}
+        <div style={{ padding: "20px" }}>
+          {page === 0 ? <AdminScriptManage /> : <AdminOrderManage />}
+        </div>
       </div>
-    </div>
+    </main>
   );
 };
 

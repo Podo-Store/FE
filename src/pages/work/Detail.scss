@@ -157,6 +157,9 @@
 .detail div#detail-amount-wrap {
   margin-left: 72px;
   margin-right: 19px;
+  @include r.media-mobile {
+    margin-left: 30px;
+  }
 }
 
 .detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) {
@@ -196,6 +199,13 @@
   div#detail-amount-price
   p:nth-of-type(1) {
   margin: 0 10px;
+}
+
+.detail #detail-amount-wrap .price-wrapper {
+  gap: 39px;
+  @include r.media-tablet {
+    gap: 20px;
+  }
 }
 
 .detail div#detail-amount-wrap div#detail-amount div#detail-amount-price p#price {

@@ -1,0 +1,18 @@
+@use "./../../styles/responsive.scss" as r;
+
+.amount-change {
+  position: absolute;
+  left: 52.72435897435897%;
+
+  @include r.media-mobile {
+    left: 117px;
+  }
+}
+
+.amount-change > p {
+  /* margin-left: 27px;
+
+  min-width: 84px; */
+  min-width: 22px;
+  text-align: center;
+}

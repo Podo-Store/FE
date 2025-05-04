@@ -268,7 +268,8 @@ const Detail = () => {
                 </div>
 
                 <div className="option-select">
-                  <Select value={selectedOption} onChange={onChangeSelectOption}>
+                  {/* disabled */}
+                  <Select value={selectedOption} onChange={onChangeSelectOption} disabled>
                     <option value="" disabled selected>
                       옵션 선택
                     </option>
@@ -446,12 +447,8 @@ const Detail = () => {
             </h4>
           </div>
           <div className="bottom-bar-right">
-            <select
-              name=""
-              id="option"
-              value={selectedOption}
-              onChange={onChangeBottomSelectOption}
-            >
+            {/* disabled */}
+            <Select value={selectedOption} onChange={onChangeBottomSelectOption} disabled>
               <option value="" disabled selected>
                 옵션 선택
               </option>
@@ -464,7 +461,7 @@ const Detail = () => {
               {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
                 <option value="perform">공연권</option>
               ) : null}
-            </select>
+            </Select>
             {/* <button id="cart-btn">장바구니</button>*/}
             <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
               구매하기

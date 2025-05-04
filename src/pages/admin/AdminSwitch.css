@@ -1,5 +1,7 @@
 .admin-switch {
   margin-top: 6.481vh; /* 70px */
+
+  width: 66.66666666666667%;
 }
 
 .admin-switch .switch-bar {

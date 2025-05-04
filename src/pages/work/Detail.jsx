@@ -255,20 +255,23 @@ const Detail = () => {
                 <div className="detail-price">
                   <div className="price">
                     <img id="script" src={scriptImg} alt="script"></img>
-                    <p style={{ marginLeft: "0.2rem" }}>대본</p>
+                    <p className="whitespace-nowrap" style={{ marginLeft: "0.2rem" }}>
+                      대본
+                    </p>
                   </div>
                   <p className="p-large-medium">{formatPrice(scriptPrice)} 원</p>
                 </div>
                 <div className="detail-price">
                   <div className="price">
                     <img id="perform" src={performImg} alt="perform"></img>
-                    <p>공연권</p>
+                    <p className="whitespace-nowrap">공연권</p>
                   </div>
                   <p className="p-large-medium">{formatPrice(performPrice)} 원</p>
                 </div>
 
                 <div className="option-select">
-                  <Select value={selectedOption} onChange={onChangeSelectOption}>
+                  {/* disabled */}
+                  <Select value={selectedOption} onChange={onChangeSelectOption} disabled>
                     <option value="" disabled selected>
                       옵션 선택
                     </option>
@@ -321,15 +324,18 @@ const Detail = () => {
                     </div>
                     <div id="detail-amount-wrap">
                       {selectedOption === "script" || selectedOption === "scriptPerform" ? (
-                        <div className="j-content-between" id="detail-amount">
+                        <div className="j-content-between relative" id="detail-amount">
                           <div className="a-items-center" id="detail-amount-title">
                             <img src={vector23} alt="ㄴ"></img>
                             <img id="script" src={scriptImg} alt="script amount"></img>
                             <p className="p-large-medium">대본</p>
                           </div>
+                          <p className="amount-change p-large-medium absolute translate-x-[35px]">
+                            1
+                          </p>
+
                           <div className="a-items-center" id="detail-amount-price">
-                            <p className="p-large-medium">1</p>
-                            <div className="a-items-center" style={{ gap: "39px" }}>
+                            <div className="price-wrapper flex items-center">
                               <p className="p-large-medium" id="price">
                                 {formatPrice(scriptPrice)} 원
                               </p>
@@ -349,19 +355,23 @@ const Detail = () => {
                       {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
 
                       {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
-                        <div className="j-content-between" id="detail-amount">
+                        <div className="flex justify-between relative" id="detail-amount">
                           <div className="a-items-center" id="detail-amount-title">
                             <img src={vector23} alt="ㄴ"></img>
                             <img id="perform" src={performImg} alt="perform amount"></img>
                             <p className="p-large-medium">공연권</p>
                           </div>
 
-                          <div className="a-items-center t-align-center" id="detail-amount-price">
-                            <AmountChange
-                              purchasePerformAmount={purchasePerformAmount}
-                              setPurchasePerformAmount={setPurchasePerformAmount}
-                            />
-                            <div className="a-items-center" style={{ gap: "39px" }}>
+                          <AmountChange
+                            purchasePerformAmount={purchasePerformAmount}
+                            setPurchasePerformAmount={setPurchasePerformAmount}
+                          />
+
+                          <div
+                            className="flex items-center relative text-center"
+                            id="detail-amount-price"
+                          >
+                            <div className="price-wrapper flex items-center">
                               <p className="p-large-medium" id="price">
                                 {formatPrice(purchasePerformAmount * performPrice)} 원
                               </p>
@@ -446,12 +456,8 @@ const Detail = () => {
             </h4>
           </div>
           <div className="bottom-bar-right">
-            <select
-              name=""
-              id="option"
-              value={selectedOption}
-              onChange={onChangeBottomSelectOption}
-            >
+            {/* disabled */}
+            <Select value={selectedOption} onChange={onChangeBottomSelectOption} disabled>
               <option value="" disabled selected>
                 옵션 선택
               </option>
@@ -464,7 +470,7 @@ const Detail = () => {
               {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
                 <option value="perform">공연권</option>
               ) : null}
-            </select>
+            </Select>
             {/* <button id="cart-btn">장바구니</button>*/}
             <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
               구매하기

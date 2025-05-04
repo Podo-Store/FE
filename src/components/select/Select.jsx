@@ -1,15 +1,10 @@
+import clsx from "clsx";
+
 import "./Select.css";
 
-const Select = ({ value, onChange, style, children }) => {
+const Select = ({ children, className, id, ...props }) => {
   return (
-    <select
-      className="select"
-      name=""
-      id="option"
-      value={value}
-      onChange={onChange}
-      style={{ ...style }}
-    >
+    <select className={clsx("__select", className)} name="" id={clsx("option", id)} {...props}>
       {children}
     </select>
   );

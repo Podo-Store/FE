@@ -1,11 +1,11 @@
 import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
 import circleSubBtn from "../../assets/image/button/circleSubBtn.svg";
 
-import "./AmountChange.css";
+import "./AmountChange.scss";
 
 const AmountChange = ({ purchasePerformAmount, setPurchasePerformAmount }) => {
   return (
-    <div className="j-content-center a-items-center amount-change">
+    <div className="amount-change flex justify-content items-center gap-[10px]">
       <img
         src={circleSubBtn}
         alt="minus"

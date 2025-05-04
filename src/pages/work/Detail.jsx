@@ -255,14 +255,16 @@ const Detail = () => {
                 <div className="detail-price">
                   <div className="price">
                     <img id="script" src={scriptImg} alt="script"></img>
-                    <p style={{ marginLeft: "0.2rem" }}>대본</p>
+                    <p className="whitespace-nowrap" style={{ marginLeft: "0.2rem" }}>
+                      대본
+                    </p>
                   </div>
                   <p className="p-large-medium">{formatPrice(scriptPrice)} 원</p>
                 </div>
                 <div className="detail-price">
                   <div className="price">
                     <img id="perform" src={performImg} alt="perform"></img>
-                    <p>공연권</p>
+                    <p className="whitespace-nowrap">공연권</p>
                   </div>
                   <p className="p-large-medium">{formatPrice(performPrice)} 원</p>
                 </div>

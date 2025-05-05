@@ -56,8 +56,14 @@ function App() {
         <AuthProvider>
           <Routes>
             <Route path="/" element={<DefaultLayout />}>
-              <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
-              <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
+              <Route
+                path="admin/scriptManage"
+                element={<AdminSwitch page={0} />}
+              />
+              <Route
+                path="admin/orderManage"
+                element={<AdminSwitch page={1} />}
+              />
 
               <Route index element={<MainVer2 />} />
               <Route path="v1" element={<MainVer1 />} />
@@ -68,13 +74,14 @@ function App() {
               <Route path="signin/v2" element={<SignInV2 />} />
               <Route path="signin/find/:id" element={<FindBar />} />
 
-              <Route path="post-list" element={<PostGallery />} />
-              <Route path="post-list/detail/:id" element={<Detail />} />
-
-              <Route path="list" element={<List />} />
+              {/* <Route path="list" element={<List />} /> */}
+              <Route path="list" element={<PostGallery />} />
               <Route path="list/detail/:id" element={<Detail />} />
 
-              <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
+              <Route
+                path="purchase/:id"
+                element={<ProtectedRoute element={<Purchase />} />}
+              />
 
               <Route element={<MarginLayout />}>
                 <Route path="policy/:id" element={<PolicyBar />} />
@@ -85,9 +92,15 @@ function App() {
                   path="purchase/success"
                   element={<ProtectedRoute element={<PurchaseSuccess />} />}
                 />
-                <Route path="purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
+                <Route
+                  path="purchase/abort"
+                  element={<ProtectedRoute element={<Abort />} />}
+                />
                 <Route path="post" element={<PostWork />} />
-                <Route path="mypage/liked" element={<ProtectedRoute element={<LikedWorks />} />} />
+                <Route
+                  path="mypage/liked"
+                  element={<ProtectedRoute element={<LikedWorks />} />}
+                />
                 <Route
                   path="mypage/purchased"
                   element={<ProtectedRoute element={<PurchasedScript />} />}

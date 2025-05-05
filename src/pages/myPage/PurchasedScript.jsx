@@ -33,7 +33,8 @@ const PurchasedScript = () => {
 
   const { userNickname } = useContext(AuthContext);
 
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
+  const toggle = true;
 
   const [isScriptListNull, setIsScriptListNull] = useState(false);
   const [isPerformListNull, setIsPerformListNull] = useState(false);
@@ -106,7 +107,7 @@ const PurchasedScript = () => {
         <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
         <div className="content-side">
           <div className="content-side-grid">
-            <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
+            <h4 className="h4-bold whitespace-nowrap">구매한 작품들을 볼 수 있어요!</h4>
             <div className="grid-item-first">
               {!toggle ? (
                 width <= 1279 && (
@@ -145,6 +146,7 @@ const PurchasedScript = () => {
                 </div>
               )}
             </div>
+            {/*
             <div className="toggle-wrap">
               <ToggleSlide
                 toggle={toggle}
@@ -152,7 +154,7 @@ const PurchasedScript = () => {
                   setToggle(!toggle);
                 }}
               />
-            </div>
+            </div>*/}
           </div>
 
           <div style={{ height: "1.75vh" }}></div>

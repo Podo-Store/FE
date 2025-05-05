@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import GoBack from "../../components/button/GoBack.tsx";
 import RoundBtnLargeBold from "../../components/button/RoundBtnLargeBold";
-import RoundBtnXsBold from "../../components/button/RoundBtnXsBold";
 import { AuthInputField } from "../../components/inputField";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
+import ScriptManageEachTopBtn from "@/components/myPage/ScriptManageEachTopBtn";
+
+import Loading from "../Loading.jsx";
 
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -28,10 +30,13 @@ const AskedPerformManage = () => {
   const [list, setList] = useState([]);
   const [productInfo, setProductInfo] = useState({});
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
   useRequest(async () => {
+    setIsLoading(true);
     try {
       const response = await axios.get(`${SERVER_URL}profile/requested`, {
         headers: {
@@ -47,6 +52,7 @@ const AskedPerformManage = () => {
       // 공연 신청 정보가 없을 때
       if (response.data.dateRequestedList.length === 0) {
         setIsExist(false);
+        setIsLoading(false);
         return;
       }
       const mappedList = response.data.dateRequestedList.map((item) => ({
@@ -56,16 +62,23 @@ const AskedPerformManage = () => {
           name: subItem.name,
           phone: subItem.phoneNumber,
           address: subItem.address,
-          performDate: subItem.performanceDateList.map((dateObj) => {
+          performDate: subItem.performanceDateList?.map((dateObj) => {
             return formatDateCutSec(dateObj.date);
           }),
         })),
       }));
+
       setList(mappedList);
     } catch (error) {
       alert(error.response.data.error);
     }
+    setIsLoading(false);
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="asked-perform-manage">
       <div className="min-height perform-info perform-top">
@@ -82,30 +95,24 @@ const AskedPerformManage = () => {
               <p className="p-large-bold">{productInfo.title || "제목"}</p>
               <hr />
               <p className="p-large-medium">{productInfo.writer || "작가"}</p>
-              <p className="summary p-small-regular t-center">
-                {productInfo.plot || "줄거리"}
-              </p>
+              <p className="summary p-small-regular t-center">{productInfo.plot || "줄거리"}</p>
             </div>
             <div className="sales-status-box-wrap f-dir-column">
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">대본</p>
-                  <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
+                  <ScriptManageEachTopBtn disabled={!productInfo.script}>
                     {productInfo.script ? "대본 판매 중" : "대본 판매 중지"}
-                  </RoundBtnXsBold>
+                  </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
-                      {formatPrice(productInfo.scriptPrice)}원
-                    </p>
+                    <p className="p-small-regular">{formatPrice(productInfo.scriptPrice)}원</p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
-                      {productInfo.scriptQuantity}개
-                    </p>
+                    <p className="p-small-regular">{productInfo.scriptQuantity}개</p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -113,24 +120,18 @@ const AskedPerformManage = () => {
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">공연권</p>
-                  <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
-                    {productInfo.perform
-                      ? "공연권 판매 중"
-                      : "공연권 판매 중지"}
-                  </RoundBtnXsBold>
+                  <ScriptManageEachTopBtn disabled={!productInfo.perform}>
+                    {productInfo.perform ? "공연권 판매 중" : "공연권 판매 중지"}
+                  </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
-                      {formatPrice(productInfo.performancePrice)}원
-                    </p>
+                    <p className="p-small-regular">{formatPrice(productInfo.performancePrice)}원</p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
-                      {productInfo.performanceQuantity}개
-                    </p>
+                    <p className="p-small-regular">{productInfo.performanceQuantity}개</p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -143,11 +144,7 @@ const AskedPerformManage = () => {
                 <div
                   key={index}
                   className="asked-perform-box"
-                  style={
-                    index !== item.lists.length - 1
-                      ? { marginBottom: "2.685vh" }
-                      : {}
-                  }
+                  style={index !== item.lists.length - 1 ? { marginBottom: "2.685vh" } : {}}
                 >
                   <div className="date j-content-between">
                     <p className="p-large-bold" style={{ color: "#8f8f8f" }}>
@@ -183,42 +180,24 @@ const AskedPerformManage = () => {
                         <div className="content-inside">
                           <p className="p-medium-bold">신청자 정보</p>
                           <div className="user-info j-content-between">
-                            <ShortInputField
-                              value={subItem.name}
-                              readOnly={true}
-                            />
-                            <ShortInputField
-                              value={subItem.phone}
-                              readOnly={true}
-                            />
+                            <ShortInputField value={subItem.name} readOnly={true} />
+                            <ShortInputField value={subItem.phone} readOnly={true} />
                           </div>
-                          <LongInputField
-                            value={subItem.address}
-                            readOnly={true}
-                          />
+                          <LongInputField value={subItem.address} readOnly={true} />
                         </div>
                         <div className="content-inside">
                           <p className="p-medium-bold">예상 공연 일자</p>
                           <div className="date-list">
                             {subItem.performDate.map((date, dateIndex) => (
-                              <ShortInputField
-                                key={dateIndex}
-                                value={date}
-                                readOnly={true}
-                              />
+                              <ShortInputField key={dateIndex} value={date} readOnly={true} />
                             ))}
                             {subItem.performDate.length < subItem.amount &&
                               Array.from(
                                 {
-                                  length:
-                                    subItem.amount - subItem.performDate.length,
+                                  length: subItem.amount - subItem.performDate.length,
                                 },
                                 (_, index) => (
-                                  <ShortInputField
-                                    key={index}
-                                    value="미 입력"
-                                    readOnly={true}
-                                  />
+                                  <ShortInputField key={index} value="미 입력" readOnly={true} />
                                 )
                               )}
                           </div>
@@ -232,10 +211,7 @@ const AskedPerformManage = () => {
                 </div>
               ))
             ) : (
-              <div
-                className="f-dir-column f-center"
-                style={{ gap: "2.685vh", width: "44.427vw", height: "100%" }}
-              >
+              <div className="flex flex-col justify-center items-center gap-[2.685vh] w-full h-full">
                 <p className="p-large-bold">아직 공연이 신청되지 않았어요.</p>
                 <RoundBtnLargeBold
                   color="purple"

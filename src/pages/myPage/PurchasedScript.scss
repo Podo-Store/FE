@@ -54,6 +54,9 @@
   border-radius: 10px;
   border: 1px solid var(--grey-grey-6, #777);
   box-sizing: border-box;
+  @include r.media-mobile {
+    max-width: 430px;
+  }
 }
 
 .purchased-script .warning-box.script {

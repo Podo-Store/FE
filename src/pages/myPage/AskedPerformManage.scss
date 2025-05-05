@@ -97,18 +97,26 @@
 
 .asked-perform-manage .contents .asked-perform-wrap {
   padding: 37px 56px;
+
+  width: 853px;
+
+  box-sizing: border-box;
+  border-radius: 20px;
+  border: 2px solid var(--Main, #6a39c0);
+
+  max-height: 741px;
+  overflow-y: auto;
+
   @include r.media-laptop {
     padding: 37px 30px;
+
+    width: 800px;
   }
-  & {
-    width: fit-content;
-
-    box-sizing: border-box;
-    border-radius: 20px;
-    border: 2px solid var(--Main, #6a39c0);
-
-    max-height: 741px;
-    overflow-y: auto;
+  @include r.media-tablet {
+    width: 668px;
+  }
+  @include r.media-mobile {
+    width: 430px;
   }
 }
 

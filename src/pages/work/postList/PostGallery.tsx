@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
+import AuthContext from "../../../contexts/AuthContext";
 
 import SortDropdown from "@/components/post/SortDropdown";
-import { AllPostCard, PostCardPreview } from "@/components/post/PostList.js";
+import { AllPostCard } from "@/components/post/PostList.js";
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import StageTab from "@/components/post/StageTab";
 import StoryLengthTeb from "@/components/post/StoryLengthTabs";
@@ -13,11 +14,8 @@ import BannerImage2 from "./../../../assets/image/postList_banner.png";
 import useToggleLike from "@/hooks/useToggleLike";
 import { fetchExploreScripts, ScriptItem } from "@/api/user/postListApi";
 import "./postGallery.scss";
-import { mockData } from "./mockData.js";
 
 const bannerImages = [BannerImage1, BannerImage2];
-
-const SORT_OPTIONS = ["조회수순", "좋아요순", "최신순"];
 
 const PostGallery = () => {
   const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
@@ -29,8 +27,9 @@ const PostGallery = () => {
   const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
   const [sortType, setSortType] = useState("조회수순");
-  const handleToggleLikeLong = useToggleLike(setLongPlays);
-  const handleToggleLikeShort = useToggleLike(setShortPlays);
+  const isAuthenticated = useContext(AuthContext);
+  const rawToggleLikeLong = useToggleLike(setLongPlays);
+  const rawToggleLikeShort = useToggleLike(setShortPlays);
 
   useEffect(() => {
     const loadScripts = async () => {
@@ -40,7 +39,6 @@ const PostGallery = () => {
 
         setLongPlays(Array.isArray(data.longPlay) ? data.longPlay : []);
         setShortPlays(Array.isArray(data.shortPlay) ? data.shortPlay : []);
-
       } catch (error) {
         console.error("작품 목록 불러오기 실패:", error);
       } finally {
@@ -50,9 +48,23 @@ const PostGallery = () => {
     loadScripts();
   }, []);
 
+  const handleToggleLikeLong = (postId: string) => {
+    if (!isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    rawToggleLikeLong(postId);
+  };
+
+  const handleToggleLikeShort = (postId: string) => {
+    if (!isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    rawToggleLikeShort(postId);
+  };
 
   const sortPosts = (posts: ScriptItem[] = [], sortType: string) => {
-
     const sorted = [...posts]; // 원본 배열 복사
     switch (sortType) {
       case "조회수순":

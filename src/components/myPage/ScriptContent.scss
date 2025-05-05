@@ -6,15 +6,14 @@
 }
 
 .script-content hr {
-  border: 1px solid #b489ff;
   margin: 0;
 }
 
 .script-content .script {
   /* display: flex; */
   display: grid;
-  grid-template-columns: 23% 74%;
-  column-gap: 3%;
+  grid-template-columns: 197px 1fr;
+  column-gap: 23px;
 
   @include r.media-mobile {
     row-gap: 20px;
@@ -54,6 +53,7 @@
 }
 
 .script-content div#title {
+  margin-top: 11px;
   padding-bottom: 16px;
 
   width: 100%;

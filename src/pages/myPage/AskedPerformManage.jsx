@@ -5,9 +5,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import GoBack from "../../components/button/GoBack.tsx";
 import RoundBtnLargeBold from "../../components/button/RoundBtnLargeBold";
-import RoundBtnXsBold from "../../components/button/RoundBtnXsBold";
 import { AuthInputField } from "../../components/inputField";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
+import ScriptManageEachTopBtn from "@/components/myPage/ScriptManageEachTopBtn";
 
 import Loading from "../Loading.jsx";
 
@@ -101,9 +101,9 @@ const AskedPerformManage = () => {
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">대본</p>
-                  <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
+                  <ScriptManageEachTopBtn disabled={!productInfo.script}>
                     {productInfo.script ? "대본 판매 중" : "대본 판매 중지"}
-                  </RoundBtnXsBold>
+                  </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
@@ -120,9 +120,9 @@ const AskedPerformManage = () => {
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">공연권</p>
-                  <RoundBtnXsBold color="purple" style={{ cursor: "default" }}>
+                  <ScriptManageEachTopBtn disabled={!productInfo.perform}>
                     {productInfo.perform ? "공연권 판매 중" : "공연권 판매 중지"}
-                  </RoundBtnXsBold>
+                  </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">

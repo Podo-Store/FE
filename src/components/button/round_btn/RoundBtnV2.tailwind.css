@@ -1,5 +1,5 @@
 @layer components {
   .__round-btn__ {
-    @apply flex justify-center items-center w-[195px] h-[48px] border-box rounded-[50px] cursor-pointer disabled:cursor-default;
+    @apply flex justify-center items-center w-[195px] h-[48px] box-border rounded-[50px] cursor-pointer disabled:cursor-default;
   }
 }

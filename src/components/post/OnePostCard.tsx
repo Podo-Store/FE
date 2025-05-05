@@ -38,7 +38,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
         <img
           src={posts.imagePath === "" ? defaultImg : posts.imagePath}
           alt={posts.title}
-          className="object-cover w-full shrink-0"
+          className="object-cover w-full shrink-0 rounded-[20px]"
         />
         <div className="absolute top-[80%] right-[5%]">
           <button onClick={handleLikeClick}>

@@ -2,10 +2,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { StringOptionsWithImporter } from "sass";
 
-const apiUrl = import.meta.env.VITE_API_URL;
+import { SERVER_URL } from "@/constants/ServerURL";
 
 const api = axios.create({
-  baseURL: apiUrl, // Use environment variables
+  baseURL: SERVER_URL, // Use environment variables
+
   timeout: 10000,
 });
 
@@ -45,8 +46,15 @@ export const fetchExploreScripts = async (
       withCredentials: true, // 쿠키 인증 시 필요
     });
 
-    console.log(response);
-    return response.data;
+
+    const { longPlay, shortPlay } = response.data;
+    console.log(longPlay);
+    console.log(shortPlay);
+    return {
+      longPlay: Array.isArray(longPlay) ? longPlay : [],
+      shortPlay: Array.isArray(shortPlay) ? shortPlay : [],
+    };
+
   } catch (error) {
     console.error("Error fetchExploreScripts:", error);
     throw new Error(`작품 둘러보기 API 호출 실패: ${(error as Error).message}`);

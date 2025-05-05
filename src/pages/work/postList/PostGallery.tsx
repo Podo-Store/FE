@@ -37,8 +37,8 @@ const PostGallery = () => {
       try {
         const accessToken = Cookies.get("accessToken");
         const data = await fetchExploreScripts(accessToken);
-        setLongPlays(data.longPlay);
-        setShortPlays(data.shortPlay);
+        setLongPlays(Array.isArray(data.longPlay) ? data.longPlay : []);
+        setShortPlays(Array.isArray(data.shortPlay) ? data.shortPlay : []);
       } catch (error) {
         console.error("작품 목록 불러오기 실패:", error);
       } finally {
@@ -48,7 +48,7 @@ const PostGallery = () => {
     loadScripts();
   }, []);
 
-  const sortPosts = (posts: ScriptItem[], sortType: string) => {
+  const sortPosts = (posts: ScriptItem[] = [], sortType: string) => {
     const sorted = [...posts]; // 원본 배열 복사
     switch (sortType) {
       case "조회수순":

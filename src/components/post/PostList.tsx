@@ -5,12 +5,12 @@ import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 import LikeViewCount from "@/components/list/LikeViewCount";
 
 import defaultImg from "../../../assets/image/post/list/defaultProfile.png";
-import { PostCard, OnePostCard } from "./OnePostCard";
+import { OnePostCard } from "./OnePostCard";
 import clsx from "clsx";
 import { pxToDesignUnit } from "@/utils/unitCalc";
-
+import { ScriptItem } from "@/api/user/postListApi";
 interface Props {
-  posts: PostCard[];
+  posts: ScriptItem[];
   viewType: "grid" | "card";
   postNum?: number; // <- optional
   colNum: number;

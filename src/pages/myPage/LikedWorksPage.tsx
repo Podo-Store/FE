@@ -49,6 +49,7 @@ const LikedWorks = () => {
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
           />
+          <span className=" w-full h-[1px] block bg-[#E2E2E2] z-0 "></span>
 
           {/*----- 카테고리 메뉴 -----*/}
           <div className="flex items-center justify-between w-full mb-[35px]">
@@ -66,7 +67,7 @@ const LikedWorks = () => {
           {activeStoryLength === "전체" ? (
             // 카테고리 = 전체
             <>
-              <div>
+              {/* <div>
                 <SectionBlock
                   setActiveStoryLength={setActiveCategory}
                   posts={posts}
@@ -89,12 +90,12 @@ const LikedWorks = () => {
                   onMoreClick={() => setActiveStoryLength("장편")}
                   onToggleLike={handleToggleLike}
                 />
-              </div>
+              </div> */}
             </>
           ) : (
             <>
               {/* 카테고리 = 장편 | 단편 */}
-              <div className=" mb-[24px]">
+              {/* <div className=" mb-[24px]">
                 {activeStoryLength === "장편" ? (
                   <p className="h5-medium ">장편극</p>
                 ) : (
@@ -106,7 +107,7 @@ const LikedWorks = () => {
                 viewType={viewType}
                 colNum={4}
                 onToggleLike={handleToggleLike}
-              />
+              /> */}
             </>
           )}
         </div>

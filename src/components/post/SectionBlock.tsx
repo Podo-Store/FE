@@ -1,10 +1,10 @@
 import React from "react";
 import { PostCardPreview } from "@/components/post/PostList";
-import { PostCard } from "@/components/post/OnePostCard";
+import { ScriptItem } from "@/api/user/postListApi";
 
 interface Props {
   setActiveStoryLength: (value: string) => void;
-  posts: PostCard[];
+  posts: ScriptItem[];
   viewType: "grid" | "card";
   postNum: number;
   colNum: number;

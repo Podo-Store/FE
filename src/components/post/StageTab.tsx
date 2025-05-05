@@ -6,6 +6,7 @@ interface Props {
 }
 
 const stages = ["포도밭", "포도알", "포도송이", "와인"];
+const availableStages = ["포도밭"];
 
 const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
   return (
@@ -16,17 +17,22 @@ const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
       >
         {stages.map((stage) => {
           const isActive = activeCategory === stage;
+          const isAvailable = availableStages.includes(stage);
 
           return (
             <li
               key={stage}
-              className={`z-10 px-[15px] py-[10px] text-[20px] leading-[28px] font-medium tracking-[-0.4px] font-['Pretendard']
-           text-black
+              className={`z-10 px-[15px] py-[10px]  leading-[28px] h5-medium
               ${
                 isActive
-                  ? "border-b-4 border-[#6A39C0] rounded-[1px] "
+                  ? " border-b-4 border-[#6A39C0] rounded-[1px] "
                   : "text-black"
               }
+               ${
+                 isAvailable
+                   ? "cursor-pointer text-black"
+                   : "text-[var(--grey6)]"
+               }
             
           `}
             >
@@ -35,7 +41,7 @@ const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
           );
         })}
       </ul>
-      <span className=" w-full h-[1px] block bg-[#E2E2E2] z-0 "></span>
+      {/* <span className=" w-full h-[1px] block bg-[#E2E2E2] z-0 "></span> */}
     </>
   );
 };

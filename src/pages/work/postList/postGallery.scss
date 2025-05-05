@@ -1,0 +1,17 @@
+@use "../../../styles/_responsive.scss" as r;
+
+.list-wrap-wrap {
+  width: 66.6%;
+  @include r.media-desktop {
+    width: 66.6%;
+  }
+  @include r.media-laptop {
+    width: 92.1%;
+  }
+  @include r.media-tablet {
+    width: 86.9%;
+  }
+  @include r.media-mobile {
+    width: 88.3%;
+  }
+}

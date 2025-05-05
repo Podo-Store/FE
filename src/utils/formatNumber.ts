@@ -1,4 +1,5 @@
-export const formatNumber = (value: number): string => {
+export const formatNumber = (value?: number): string => {
+  if (typeof value !== "number") return "0"; // 또는 '' 등 원하는 기본값
   if (value >= 10000) {
     return `${(value / 10000).toFixed(1)}만`;
   }

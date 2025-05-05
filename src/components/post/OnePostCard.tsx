@@ -1,45 +1,40 @@
 // src/components/PostCardList.tsx
 import React, { useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 import LikeViewCount from "@/components/list/LikeViewCount";
 
 import defaultImg from "../../assets/image/post/list/defaultProfile.png";
 import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
-
-export interface PostCard {
-  id: string;
-  title: string;
-  writer: string;
-  imagePath: string;
-  script: boolean;
-  scriptPrice: number;
-  performance: boolean;
-  performancePrice: number;
-  playType: number;
-  checked: boolean;
-  date: string;
-  like: number;
-  view: number;
-  isLike: boolean;
-}
+import { ScriptItem } from "@/api/user/postListApi";
 
 interface Props {
-  posts: PostCard;
+  posts: ScriptItem;
   viewType: "grid" | "card";
   onToggleLike: (postId: string) => void;
 }
 
 export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
-  const handleLikeClick = () => {
+  const navigate = useNavigate();
+
+  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation(); // 좋아요 클릭 시 navigate 막기
     onToggleLike(posts.id); // 부모에게 '나 클릭했어' 알려줌
   };
 
+  const handleCardClick = () => {
+    navigate(`/list/detail/${posts.id}`);
+  };
+
   return (
-    <div key={posts.id} className="flex flex-col items-center  max-w-[197px]  ">
+    <div
+      key={posts.id}
+      className="flex flex-col items-center  max-w-[197px] cursor-pointer  "
+      onClick={handleCardClick}
+    >
       {/* 이미지 */}
-      <div className="flex relative border rounded-[20px] mb-[7px] ">
+      <div className="flex relative rounded-[20px] mb-[7px] ">
         <img
           src={posts.imagePath === "" ? defaultImg : posts.imagePath}
           alt={posts.title}
@@ -49,7 +44,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
           <button onClick={handleLikeClick}>
             <img
               className=""
-              src={posts.isLike ? redHeartIcon : heartIcon}
+              src={posts.like ? redHeartIcon : heartIcon}
               alt="좋아요"
             ></img>
           </button>
@@ -75,7 +70,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
       )}
 
       <div className="w-full mt-[10px]">
-        <LikeViewCount likes={posts.like} views={posts.view} />
+        <LikeViewCount likes={posts.likeCount} views={posts.viewCount} />
       </div>
     </div>
   );

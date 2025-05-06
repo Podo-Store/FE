@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import AuthContext from "../../../contexts/AuthContext";
+import PartialLoading from "@/components/loading/PartialLoading";
 
 import SortDropdown from "@/components/post/SortDropdown";
 import { AllPostCard } from "@/components/post/PostList.js";
@@ -27,11 +28,14 @@ const PostGallery = () => {
   const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
   const [sortType, setSortType] = useState("조회수순");
+  const [colNum, setColNum] = useState(5);
+  const [postNum, setPostNum] = useState(10);
   const isAuthenticated = useContext(AuthContext);
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
 
   useEffect(() => {
+    setIsLoading(true);
     const loadScripts = async () => {
       try {
         const accessToken = Cookies.get("accessToken");
@@ -46,6 +50,26 @@ const PostGallery = () => {
       }
     };
     loadScripts();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setColNum(2);
+        setPostNum(4);
+      } else if (width < 1280) {
+        setColNum(3);
+        setPostNum(6);
+      } else {
+        setColNum(5);
+        setPostNum(10);
+      }
+    };
+
+    handleResize(); // 초기 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleToggleLikeLong = (postId: string) => {
@@ -117,64 +141,69 @@ const PostGallery = () => {
       </div>
 
       {/*----- post list -----*/}
-
-      <div className="mb-[]">
-        {activeStoryLength === "전체" ? (
-          // 카테고리 = 전체
-          <>
-            <div>
-              <SectionBlock
-                setActiveStoryLength={setActiveCategory}
-                posts={sortedShortPlays}
-                viewType={viewType}
-                postNum={10}
-                colNum={5}
-                title="단편"
-                onMoreClick={() => setActiveStoryLength("단편")}
-                onToggleLike={handleToggleLikeShort}
-              />
-            </div>
-            <div className="mt-[78px]">
-              <SectionBlock
-                setActiveStoryLength={setActiveCategory}
-                posts={sortedLongPlays}
-                viewType={viewType}
-                postNum={10}
-                colNum={5}
-                title="장편"
-                onMoreClick={() => setActiveStoryLength("장편")}
-                onToggleLike={handleToggleLikeLong}
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            {/* 카테고리 = 장편 | 단편 */}
-            <div className=" mb-[24px]">
+      {isLoading ? (
+        <div className="m-auto">
+          <PartialLoading />
+        </div>
+      ) : (
+        <div className="mb-[]">
+          {activeStoryLength === "전체" ? (
+            // 카테고리 = 전체
+            <>
+              <div className="">
+                <SectionBlock
+                  setActiveStoryLength={setActiveCategory}
+                  posts={sortedShortPlays}
+                  viewType={viewType}
+                  postNum={postNum}
+                  colNum={colNum}
+                  title="단편"
+                  onMoreClick={() => setActiveStoryLength("단편")}
+                  onToggleLike={handleToggleLikeShort}
+                />
+              </div>
+              <div className="mt-[78px]">
+                <SectionBlock
+                  setActiveStoryLength={setActiveCategory}
+                  posts={sortedLongPlays}
+                  viewType={viewType}
+                  postNum={postNum}
+                  colNum={colNum}
+                  title="장편"
+                  onMoreClick={() => setActiveStoryLength("장편")}
+                  onToggleLike={handleToggleLikeLong}
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              {/* 카테고리 = 장편 | 단편 */}
+              <div className=" mb-[24px]">
+                {activeStoryLength === "장편" ? (
+                  <p className="h5-medium ">장편극</p>
+                ) : (
+                  <p className="h5-medium">단편극</p>
+                )}
+              </div>{" "}
               {activeStoryLength === "장편" ? (
-                <p className="h5-medium ">장편극</p>
+                <AllPostCard
+                  posts={sortedLongPlays}
+                  viewType={viewType}
+                  colNum={colNum}
+                  onToggleLike={handleToggleLikeLong}
+                />
               ) : (
-                <p className="h5-medium">단편극</p>
+                <AllPostCard
+                  posts={sortedShortPlays}
+                  viewType={viewType}
+                  colNum={colNum}
+                  onToggleLike={handleToggleLikeShort}
+                />
               )}
-            </div>{" "}
-            {activeStoryLength === "장편" ? (
-              <AllPostCard
-                posts={sortedLongPlays}
-                viewType={viewType}
-                colNum={5}
-                onToggleLike={handleToggleLikeLong}
-              />
-            ) : (
-              <AllPostCard
-                posts={sortedShortPlays}
-                viewType={viewType}
-                colNum={5}
-                onToggleLike={handleToggleLikeShort}
-              />
-            )}
-          </>
-        )}
-      </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

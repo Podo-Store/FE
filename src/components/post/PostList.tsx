@@ -31,22 +31,24 @@ export const AllPostCard = ({
     <div
       className={clsx(
         "grid",
+        colNum === 2 && "grid-cols-2",
+        colNum === 3 && "grid-cols-3",
         colNum === 4 && "grid-cols-4",
         colNum === 5 && "grid-cols-5",
         colNum === 6 && "grid-cols-6"
       )}
       style={{
-        columnGap: `${pxToDesignUnit(gapX ?? 22, { type: "vw" })}vw`,
         rowGap: `${pxToDesignUnit(gapY ?? 59, { type: "vw" })}vw`,
       }}
     >
       {posts.map((post) => (
-        <OnePostCard
-          key={post.id}
-          posts={post}
-          viewType={viewType}
-          onToggleLike={onToggleLike}
-        />
+        <div key={post.id} className="flex justify-center">
+          <OnePostCard
+            posts={post}
+            viewType={viewType}
+            onToggleLike={onToggleLike}
+          />
+        </div>
       ))}
     </div>
   );
@@ -65,22 +67,24 @@ export const PostCardPreview = ({
     <div
       className={clsx(
         "grid",
+        colNum === 2 && "grid-cols-2",
+        colNum === 3 && "grid-cols-3",
         colNum === 4 && "grid-cols-4",
         colNum === 5 && "grid-cols-5",
         colNum === 6 && "grid-cols-6"
       )}
       style={{
-        columnGap: `${pxToDesignUnit(gapX ?? 22, { type: "vw" })}vw`,
         rowGap: `${pxToDesignUnit(gapY ?? 59, { type: "vw" })}vw`,
       }}
     >
       {posts.slice(0, postNum).map((post) => (
-        <OnePostCard
-          key={post.id}
-          posts={post}
-          viewType={viewType}
-          onToggleLike={onToggleLike}
-        />
+        <div key={post.id} className="flex justify-center">
+          <OnePostCard
+            posts={post}
+            viewType={viewType}
+            onToggleLike={onToggleLike}
+          />
+        </div>
       ))}
     </div>
   );

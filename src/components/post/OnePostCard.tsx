@@ -28,9 +28,10 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
   };
 
   return (
+   
     <div
       key={posts.id}
-      className="flex flex-col items-center  max-w-[197px] cursor-pointer  "
+      className="flex flex-col items-center max-w-[197px] min-w-[197px] cursor-pointer  "
       onClick={handleCardClick}
     >
       {/* 이미지 */}

@@ -51,7 +51,7 @@ const SortDropdown = ({
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
-        <ul className="absolute  mt-[5px] flex flex-col gap-[10px] p-medium-regular list-none text-center py-[14px] px-[0px] w-[84px] bg-[var(--white)] border border-[var(--grey3)] rounded-[5px] ">
+        <ul className="absolute z-10 mt-[5px] flex flex-col gap-[10px] p-medium-regular list-none text-center py-[14px] px-[0px] w-[84px] bg-[var(--white)] border border-[var(--grey3)] rounded-[5px] ">
           {SORT_OPTIONS.map((option) => (
             <li
               key={option}

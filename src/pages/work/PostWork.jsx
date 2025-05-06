@@ -142,7 +142,7 @@ const PostWork = () => {
                   </div>
                 </div>
 
-                <div class="arrow-box">
+                <div className="arrow-box">
                   <img src={doubleRiteIcon} alt="doubleRite" />
                 </div>
 

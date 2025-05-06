@@ -27,7 +27,7 @@ const SectionBlock = ({
     <section>
       <div className="flex justify-between mb-[24px]">
         {" "}
-        <h2 className=" h5-medium">{title}극</h2>
+        <h2 className="h5-medium">{title}극</h2>
         <button
           className="flex px-[25px] py-[3px] justify-center items-center rounded-[30px] border-[2.5px] border-[#6A39C0] bg-[#FFF]"
           onClick={onMoreClick}

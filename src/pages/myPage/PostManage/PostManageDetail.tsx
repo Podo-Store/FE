@@ -3,6 +3,7 @@ import {
   getWorkDetail,
   WorkDetailResponse,
   postWorkDetail,
+  deleteWorkDetail,
 } from "@/api/user/profile/workDetail";
 import { useNavigate, useParams } from "react-router-dom";
 import OverLapPartialLoading from "@/components/loading/OverLapPartialLoading";
@@ -77,7 +78,7 @@ const PostManageDetail: React.FC = () => {
     playType: "",
     plot: "",
     buyStatus: 0,
-    any: 0,
+    any: null,
     male: 0,
     female: 0,
     stageComment: "",
@@ -161,7 +162,19 @@ const PostManageDetail: React.FC = () => {
     }
   };
 
-  const onClickDeleteConfirm = async () => {};
+  const onClickDeleteConfirm = async () => {
+    console.log("삭제 시도");
+    if (!scriptId || !accessToken) return;
+    try {
+      const result = await deleteWorkDetail(scriptId, accessToken);
+      if (result === true) {
+        alert("작품이 삭제되었습니다.");
+        navigate("/mypage/scriptmanage");
+      }
+    } catch (error: any) {
+      alert(error.message); // "작가가 아님" 또는 "심사 중"
+    }
+  };
 
   useEffect(() => {
     const fetchWorkDetail = async () => {
@@ -200,10 +213,10 @@ const PostManageDetail: React.FC = () => {
         {/* detail */}
         <div className="m-auto flex w-[32.8vw] min-w-[630px] flex-col pt-[3.241vh] pb-[11.389%]">
           {/* top info */}
-          <div className="  grid grid-cols-[31%_69%]">
+          <div className=" grid grid-cols-[31%_69%]">
             {/* 이미지 */}
             <ThumbnailImg
-              className="flex items-end justify-end w-full h-full"
+              className="flex items-end justify-end w-full h-full "
               imagePath={
                 InputtedThumbnailImgFile
                   ? InputtedThumbnailImgUrl
@@ -275,7 +288,13 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
+                      src={
+                        (form.any ?? 0) > 0 ||
+                        (form.male ?? 0) > 0 ||
+                        (form.female ?? 0) > 0
+                          ? puppleCheckIcon
+                          : grayCheckIcon
+                      }
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -290,39 +309,47 @@ const PostManageDetail: React.FC = () => {
                     <input
                       type="text"
                       placeholder="00"
-                      value={form.any === null ? "" : form.any}
+                      value={
+                        form.any === null || form.any === 0 ? "" : form.any
+                      }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          any: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 99) {
+                          setForm((prev) => ({ ...prev, any: value }));
+                        }
                       }}
                     />
                     <span>명 / 남</span>
                     <input
                       type="text"
                       placeholder="00"
-                      value={form.male === null ? "" : form.male}
+                      value={
+                        form.male === null || form.male === 0 ? "" : form.male
+                      }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          male: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 99) {
+                          setForm((prev) => ({ ...prev, male: value }));
+                        }
                       }}
                     />
                     <span>명 / 여</span>
                     <input
-                      value={form.female === null ? "" : form.female}
+                      value={
+                        form.female === null || form.female === 0
+                          ? ""
+                          : form.female
+                      }
                       type="text"
                       placeholder="00"
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          female: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 99) {
+                          setForm((prev) => ({ ...prev, female: value }));
+                        }
                       }}
                     />
                     <span>명</span>
@@ -333,7 +360,9 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
+                      src={
+                        form.runningTime ?? 0 ? puppleCheckIcon : grayCheckIcon
+                      }
                       className="aspect-square"
                       alt="입력 체크"
                     />
@@ -348,13 +377,17 @@ const PostManageDetail: React.FC = () => {
                     <input
                       type="text"
                       placeholder="000"
-                      value={form.runningTime === null ? "" : form.runningTime}
+                      value={
+                        form.runningTime === null || form.runningTime === 0
+                          ? ""
+                          : form.runningTime
+                      }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[4.31%] mr-[1.72%] w-[31%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          runningTime: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 999) {
+                          setForm((prev) => ({ ...prev, runningTime: value }));
+                        }
                       }}
                     />
                     <span>분</span>
@@ -365,7 +398,11 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
+                      src={
+                        form.stageComment ?? ""
+                          ? puppleCheckIcon
+                          : grayCheckIcon
+                      }
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -380,10 +417,10 @@ const PostManageDetail: React.FC = () => {
                     placeholder="시기, 장소 등을 자유롭게 적어주세요."
                     value={form.stageComment === null ? "" : form.stageComment}
                     onChange={(e) => {
-                      setForm((prev) => ({
-                        ...prev,
-                        stageComment: e.target.value,
-                      }));
+                      const value = e.target.value;
+                      if (value.length <= 20) {
+                        setForm((prev) => ({ ...prev, stageComment: value }));
+                      }
                     }}
                   />
                 </div>
@@ -392,7 +429,11 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
+                      src={
+                        (form.scene ?? 0) > 0 || (form.act ?? 0) > 0
+                          ? puppleCheckIcon
+                          : grayCheckIcon
+                      }
                       className="aspect-square"
                       alt="입력 체크"
                     />
@@ -406,26 +447,32 @@ const PostManageDetail: React.FC = () => {
                     <input
                       type="text"
                       placeholder="00"
-                      value={form.scene === null ? "" : form.scene}
+                      value={
+                        form.scene === null || form.scene === 0
+                          ? ""
+                          : form.scene
+                      }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          scene: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 99) {
+                          setForm((prev) => ({ ...prev, scene: value }));
+                        }
                       }}
                     />
                     <span>장</span>
                     <input
                       type="text"
                       placeholder="00"
-                      value={form.act === null ? "" : form.act}
+                      value={
+                        form.act === null || form.act === 0 ? "" : form.act
+                      }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[3.9%]  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        setForm((prev) => ({
-                          ...prev,
-                          act: Number(e.target.value),
-                        }));
+                        const value = Number(e.target.value);
+                        if (value <= 99) {
+                          setForm((prev) => ({ ...prev, act: value }));
+                        }
                       }}
                     />
                     <span>막</span>
@@ -445,7 +492,7 @@ const PostManageDetail: React.FC = () => {
                 <h2 className="p-medium-bold">판매 상태 </h2>
                 <img
                   id="info-btn"
-                  className="c-pointer w-[20px] h-[20px] [filter:invert(74%)_sepia(13%)_saturate(0%)_hue-rotate(220deg)_brightness(99%)_contrast(91%)]"
+                  className="cursor-pointer c-pointer w-[20px] h-[20px] [filter:invert(74%)_sepia(13%)_saturate(0%)_hue-rotate(220deg)_brightness(99%)_contrast(91%)]"
                   src={circleInfoBtn}
                   alt="circleInfoBtn"
                   onClick={() => {
@@ -476,7 +523,9 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
+                      src={
+                        form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
+                      }
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -487,26 +536,29 @@ const PostManageDetail: React.FC = () => {
                   </div>
                   <input
                     type="text"
+                    value="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
+                    disabled
                     placeholder="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
-                    className="p-xs-regular ml-[4.82%] px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                    className=" p-xs-regular ml-[4.82%] px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                     onChange={(e) => {
                       setForm((prev) => ({
                         ...prev,
                         scriptPrice: Number(e.target.value),
                       }));
                     }}
-                    value={form.scriptPrice}
                   ></input>
                 </div>
                 <select
-                  className="ml-[9.05%] mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
+                  className="ml-[9.05%] cursor-pointer mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
                   value={form.script ? "true" : "false"}
-                  onChange={(e) =>
+                  onChange={(e) => {
+                    const isScript = e.target.value === "true";
                     setForm((prev) => ({
                       ...prev,
-                      script: e.target.value === "true",
-                    }))
-                  }
+                      script: isScript,
+                      performance: isScript ? prev.performance : false, // script가 false면 performance도 false로
+                    }));
+                  }}
                 >
                   <option value="false">판매 중지</option>
                   <option value="true"> 판매 중</option>
@@ -515,31 +567,67 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={grayCheckIcon}
-                      className=" aspect-square"
+                      src={
+                        form.performancePrice ?? 0
+                          ? puppleCheckIcon
+                          : grayCheckIcon
+                      }
+                      className={`aspect-square ${
+                        form.script === false ? "opacity-50" : ""
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
+                    <span
+                      className={` ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ${
+                        form.script === false ? "opacity-50" : "text-black"
+                      }`}
+                    >
                       공연권
                     </span>
-                    <img src={stickIcon} className="" />
+                    <img
+                      src={stickIcon}
+                      className={` ${
+                        form.script === false ? "opacity-50" : ""
+                      }`}
+                    />
                   </div>
-                  <input
-                    type="text"
-                    placeholder="공연권 가격을 입력하세요."
-                    className="ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                    onChange={(e) => {
-                      setForm((prev) => ({
-                        ...prev,
-                        performancePrice: Number(e.target.value),
-                      }));
-                    }}
-                    value={form.performancePrice}
-                  ></input>
+                  <div className="relative pr-[33px]">
+                    <input
+                      type="text"
+                      disabled={
+                        form.performance === false || form.script === false
+                      }
+                      placeholder="공연권 가격을 입력하세요."
+                      className="ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]   placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] w-full "
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        if (/^\d*$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            performancePrice: Number(value),
+                          }));
+                        }
+                      }}
+                      value={
+                        form.performancePrice === 0 ? "" : form.performancePrice
+                      }
+                    />
+
+                    <span
+                      className={`absolute top-[20%] right-[5%] p-xs-regular ${
+                        !form.performance || !form.script ? "opacity-50" : ""
+                      }`}
+                    >
+                      원
+                    </span>
+                  </div>
                 </div>
                 <select
-                  className="ml-[9.05%] mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
+                  className={`${
+                    form.script === false ? "" : "cursor-pointer"
+                  } ml-[9.05%] mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
                   value={form.performance ? "true" : "false"}
+                  disabled={form.script === false}
                   onChange={(e) =>
                     setForm((prev) => ({
                       ...prev,
@@ -589,8 +677,14 @@ const PostManageDetail: React.FC = () => {
                 color="purple"
                 disabled={
                   form.title === "" ||
-                  form.scriptPrice === 0 ||
-                  form.performancePrice === 0
+                  form.stageComment === "" ||
+                  form.plot === "" ||
+                  Number(form.male ?? 0) +
+                    Number(form.female ?? 0) +
+                    Number(form.any ?? 0) <
+                    1 ||
+                  form.runningTime === 0 ||
+                  Number(form.act ?? 0) + Number(form.scene ?? 0) < 1
                 }
                 onClick={onClickModifyBtn}
               >
@@ -598,34 +692,34 @@ const PostManageDetail: React.FC = () => {
               </SmallOnOffBtn>
             </div>
 
-            <div className="j-content-end mt-[7.99%] p-small-under">
-              <p
-                id="delete"
-                onClick={() => {
-                  setShowDeleteAlertBox(true);
-                }}
-              >
-                작품 삭제
-              </p>
+            <div
+              className="j-content-end mt-[7.99%] p-small-under cursor-pointer"
+              onClick={() => {
+                setShowDeleteAlertBox(true);
+              }}
+            >
+              <p id="delete">작품 삭제</p>
             </div>
 
             {/* 작품 삭제 토글 */}
             {showDeleteAlertBox ? (
-              <DialogPopup
-                text="작품을 정말 삭제할까요?"
-                negativeBtn={{
-                  text: "삭제하기",
-                  onClick: () => {
-                    onClickDeleteConfirm();
-                  },
-                }}
-                positiveBtn={{
-                  text: "취소하기",
-                  onClick: () => {
-                    setShowDeleteAlertBox(false);
-                  },
-                }}
-              />
+              <div className="top-[50%]">
+                <DialogPopup
+                  text="작품을 정말 삭제할까요?"
+                  negativeBtn={{
+                    text: "삭제하기",
+                    onClick: () => {
+                      onClickDeleteConfirm();
+                    },
+                  }}
+                  positiveBtn={{
+                    text: "취소하기",
+                    onClick: () => {
+                      setShowDeleteAlertBox(false);
+                    },
+                  }}
+                />
+              </div>
             ) : null}
           </div>
         </div>

@@ -13,7 +13,7 @@ import SignUpSuccess from "./pages/auth/SignUpSuccess";
 import SignIn from "./pages/auth/SignIn";
 import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
-import List from "./pages/work/List";
+
 import PostGallery from "./pages/work/postList/PostGallery";
 import Detail from "./pages/work/Detail";
 import PostWork from "./pages/work/PostWork";
@@ -26,10 +26,11 @@ import PerformanceRefund from "./pages/myPage/PerformanceRefund";
 import ScriptManage from "./pages/myPage/ScriptManage";
 
 //Ver 1.1.0
-import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
+// import ScriptManageDetail from "./pages/myPage/ScriptManageDetail";
+// import List from "./pages/work/List";
 
 //Ver 2.2.0
-// import ScriptManageDetail from "./pages/myPage/PostManage/PostManageDetail";
+import ScriptManageDetail from "./pages/myPage/PostManage/PostManageDetail";
 
 import AskedPerformManage from "./pages/myPage/AskedPerformManage";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
@@ -118,7 +119,7 @@ function App() {
                   element={<ProtectedRoute element={<ScriptManage />} />}
                 />
                 <Route
-                  path="mypage/scriptmanage/detail/:id"
+                  path="mypage/scriptmanage/detail/:scriptId"
                   element={<ProtectedRoute element={<ScriptManageDetail />} />}
                 />
                 <Route

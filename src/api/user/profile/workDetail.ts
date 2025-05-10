@@ -22,7 +22,7 @@ export interface WorkDetailResponse {
   plot: string;
   date: string;
   buyStatus: number;
-  any: number;
+  any: number | null;
   male: number;
   female: number;
   stageComment: string;
@@ -73,5 +73,19 @@ export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
     const errorMessage =
       err.response?.data?.error ?? "작품 정보를 수정하는 데 실패했습니다.";
     throw new Error(errorMessage);
+  }
+};
+
+export const deleteWorkDetail = async (id: string, accessToken: string) => {
+  try {
+    const response = await api.delete(`/profile/deleteScript/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(error.response?.data?.error || "작품 삭제 중 오류 발생");
   }
 };

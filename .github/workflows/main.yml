@@ -49,3 +49,19 @@ jobs:
           aws cloudfront create-invalidation \
             --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }} \
             --paths "/*"
+
+      - name: Deployment Slack Notification
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: "#깃헙액션-배포"
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+          SLACK_MESSAGE: |
+            *배포 결과:* ${{ job.status == 'success' && '✅ 성공' || '❌ 실패' }}
+            *프로젝트:* 포도상점 - FrontEnd CI/CD - Deploy
+            *브랜치:* ${{ github.ref_name }}
+            *커밋 메시지:* ${{ github.event.head_commit.message }}
+            *커밋 작성자:* ${{ github.event.head_commit.author.name }}
+          SLACK_TITLE: "배포 결과 알림"
+          SLACK_USERNAME: "Notification-Bot"
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()

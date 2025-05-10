@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { StringOptionsWithImporter } from "sass";
 
 import { SERVER_URL } from "@/constants/ServerURL";
 

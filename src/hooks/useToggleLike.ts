@@ -32,7 +32,7 @@ const useToggleLike = (
         );
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
-        alert("좋아요 처리에 실패했습니다.");
+        alert("좋아요는 로그인 후 이용할 수 있어요.");
       }
     },
     [setState]

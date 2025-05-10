@@ -230,7 +230,10 @@ const PostManageDetail: React.FC = () => {
                     placeholder="작품 제목을 입력해주세요. (최대 20자)"
                     value={form.title}
                     onChange={(e) => {
-                      setForm((prev) => ({ ...prev, title: e.target.value }));
+                      const value = e.target.value;
+                      if (value.length <= 20) {
+                        setForm((prev) => ({ ...prev, title: value }));
+                      }
                     }}
                     style={!isMobile ? {} : { width: "100%" }}
                     className="placeholder:text-[rgba(0,0,0,0.17)] "
@@ -247,7 +250,10 @@ const PostManageDetail: React.FC = () => {
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
                     value={form.plot}
                     onChange={(e) => {
-                      setForm((prev) => ({ ...prev, plot: e.target.value }));
+                      const value = e.target.value;
+                      if (value.length <= 150) {
+                        setForm((prev) => ({ ...prev, plot: value }));
+                      }
                     }}
                   />
                   <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]">

@@ -2,12 +2,14 @@ import { useState, useRef, useEffect } from "react";
 import downDropIcon from "@/assets/image/post/ic_arrow_down.svg";
 const SORT_OPTIONS = ["조회수순", "좋아요순", "최신순"];
 
-const SortDropdown = ({
-  selected,
-  onChange,
-}: {
-  selected: string;
-  onChange: (val: string) => void;
+interface SortDropdownProps {
+  selected?: string; // optional
+  onChange?: (val: string) => void; // optional
+}
+
+const SortDropdown: React.FC<SortDropdownProps> = ({
+  selected = "조회수",
+  onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);

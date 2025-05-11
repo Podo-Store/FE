@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import Cookies from "js-cookie";
 import AuthContext from "../../../contexts/AuthContext";
 import PartialLoading from "@/components/loading/PartialLoading";
-
+import { useNavigate } from "react-router-dom";
 import SortDropdown from "@/components/post/SortDropdown";
 import { AllPostCard } from "@/components/post/PostList.js";
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
@@ -33,7 +33,7 @@ const PostGallery = () => {
   const isAuthenticated = useContext(AuthContext);
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setIsLoading(true);
     const loadScripts = async () => {
@@ -130,6 +130,7 @@ const PostGallery = () => {
         <StoryLengthTeb
           activeStoryLength={activeStoryLength}
           setActiveStoryLength={setActiveStoryLength}
+          page={"/list"}
         />
         <div className="flex items-center flex-row gap-[10px] h-full   ">
           {/* 정렬 */}
@@ -147,61 +148,30 @@ const PostGallery = () => {
         </div>
       ) : (
         <div className="mb-[]">
-          {activeStoryLength === "전체" ? (
-            // 카테고리 = 전체
-            <>
-              <div className="">
-                <SectionBlock
-                  setActiveStoryLength={setActiveCategory}
-                  posts={sortedShortPlays}
-                  viewType={viewType}
-                  postNum={postNum}
-                  colNum={colNum}
-                  title="단편"
-                  onMoreClick={() => setActiveStoryLength("단편")}
-                  onToggleLike={handleToggleLikeShort}
-                />
-              </div>
-              <div className="mt-[78px]">
-                <SectionBlock
-                  setActiveStoryLength={setActiveCategory}
-                  posts={sortedLongPlays}
-                  viewType={viewType}
-                  postNum={postNum}
-                  colNum={colNum}
-                  title="장편"
-                  onMoreClick={() => setActiveStoryLength("장편")}
-                  onToggleLike={handleToggleLikeLong}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {/* 카테고리 = 장편 | 단편 */}
-              <div className=" mb-[24px]">
-                {activeStoryLength === "장편" ? (
-                  <p className="h5-medium ">장편극</p>
-                ) : (
-                  <p className="h5-medium">단편극</p>
-                )}
-              </div>{" "}
-              {activeStoryLength === "장편" ? (
-                <AllPostCard
-                  posts={sortedLongPlays}
-                  viewType={viewType}
-                  colNum={colNum}
-                  onToggleLike={handleToggleLikeLong}
-                />
-              ) : (
-                <AllPostCard
-                  posts={sortedShortPlays}
-                  viewType={viewType}
-                  colNum={colNum}
-                  onToggleLike={handleToggleLikeShort}
-                />
-              )}
-            </>
-          )}
+          <div className="">
+            <SectionBlock
+              setActiveStoryLength={setActiveCategory}
+              posts={sortedShortPlays}
+              viewType={viewType}
+              postNum={postNum}
+              colNum={colNum}
+              title="단편"
+              onMoreClick={() => navigate("/list/short")}
+              onToggleLike={handleToggleLikeShort}
+            />
+          </div>
+          <div className="mt-[78px]">
+            <SectionBlock
+              setActiveStoryLength={setActiveCategory}
+              posts={sortedLongPlays}
+              viewType={viewType}
+              postNum={postNum}
+              colNum={colNum}
+              title="장편"
+              onMoreClick={() => navigate("/list/long")}
+              onToggleLike={handleToggleLikeLong}
+            />
+          </div>
         </div>
       )}
     </div>

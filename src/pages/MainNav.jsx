@@ -31,7 +31,9 @@ function MainNav() {
 
   return (
     <>
-      {openDialog && <SideMenuDialog open={openDialog} onClose={onCloseDialog} />}
+      {openDialog && (
+        <SideMenuDialog open={openDialog} onClose={onCloseDialog} />
+      )}
       <nav className="navbar">
         <ImageBtn
           className="hamburger-btn"
@@ -105,7 +107,7 @@ function MainNav() {
             {/*<img src={cart} alt="cart" />*/}
             <button
               onClick={(event) => {
-                navigateWithRefresh(event, "/mypage/purchased");
+                navigateWithRefresh(event, "/mypage/liked");
               }}
             >
               <img src={person} alt="myPage" className="my-page-button" />

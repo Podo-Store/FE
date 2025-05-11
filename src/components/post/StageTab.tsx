@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   activeCategory: string;
@@ -9,6 +10,7 @@ const stages = ["포도밭", "포도알", "포도송이", "와인"];
 const availableStages = ["포도밭"];
 
 const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
+  const navigate = useNavigate();
   return (
     <>
       <ul

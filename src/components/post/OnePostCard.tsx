@@ -28,18 +28,21 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
   };
 
   return (
-   
     <div
       key={posts.id}
       className="flex flex-col items-center max-w-[197px] min-w-[197px] cursor-pointer  "
       onClick={handleCardClick}
     >
       {/* 이미지 */}
-      <div className="flex relative rounded-[20px] mb-[7px] ">
+      <div
+        className={`flex relative rounded-[20px] bg-white mb-[7px] ${
+          posts.imagePath !== "" ? "border border-[var(--grey3)]" : ""
+        }`}
+      >
         <img
           src={posts.imagePath === "" ? defaultImg : posts.imagePath}
           alt={posts.title}
-          className="object-cover w-full shrink-0 rounded-[20px]"
+          className="object-contain w-[197px] h-[197px] shrink-0 rounded-[20px]"
         />
         <div className="absolute top-[80%] right-[5%]">
           <button onClick={handleLikeClick}>

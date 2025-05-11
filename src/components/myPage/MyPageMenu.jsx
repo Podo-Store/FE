@@ -40,9 +40,9 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
                   ? "select-menu-btn selected liked"
                   : "select-menu-btn"
               }
-              // onClick={() => {
-              //   navigate("/mypage/liked");
-              // }}
+              onClick={() => {
+                navigate("/mypage/liked");
+              }}
             >
               <p className="p-medium-regular">좋아한 작품</p>
               <img src={likedMenuImg} alt="likedMenu"></img>

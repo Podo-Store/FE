@@ -4,7 +4,7 @@ import {
   WorkDetailResponse,
   postWorkDetail,
   deleteWorkDetail,
-} from "@/api/user/profile/workDetail";
+} from "@/api/user/profile/workDetailApi";
 import { useNavigate, useParams } from "react-router-dom";
 import OverLapPartialLoading from "@/components/loading/OverLapPartialLoading";
 import GoBack from "@/components/button/GoBack";

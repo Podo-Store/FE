@@ -36,3 +36,56 @@ export const fetchLikedPost = async (
     throw new Error(`좋아한 작품 API 호출 실패: ${(error as Error).message}`);
   }
 };
+
+// 좋아한 장편 작품 목록 조회
+export const getLikedLongWorks = async (
+  page: number = 0,
+  accessToken?: string
+): Promise<ScriptItem[]> => {
+  try {
+    const headers: Record<string, string> = {};
+
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const response = await api.get<ScriptItem[]>(`/profile/like/long`, {
+      params: { page },
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching liked long works:", error);
+    throw new Error(
+      `좋아한 장편 작품 API 호출 실패: ${(error as Error).message}`
+    );
+  }
+};
+
+// 좋아한 장편 작품 목록 조회
+export const getLikedShortWorks = async (
+  page: number = 0,
+  accessToken?: string
+): Promise<ScriptItem[]> => {
+  try {
+    const headers: Record<string, string> = {};
+
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const response = await api.get<ScriptItem[]>(`/profile/like/short`, {
+      params: { page },
+      headers,
+    });
+    console.log(response);
+    return response.data;
+    
+  } catch (error) {
+    console.error("Error fetching liked short works:", error);
+    throw new Error(
+      `좋아한 단편 작품 API 호출 실패: ${(error as Error).message}`
+    );
+  }
+};

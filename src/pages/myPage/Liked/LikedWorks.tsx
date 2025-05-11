@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import FloatingBtn from "@/components/button/FloatingBtn";
 import StageTab from "@/components/post/StageTab";
 import StoryLengthTeb from "@/components/post/StoryLengthTabs";
@@ -9,15 +10,24 @@ import { MyPageMenu } from "@/components/myPage";
 import { AllPostCard } from "@/components/post/PostList";
 import useToggleLike from "@/hooks/useToggleLike";
 import { ScriptItem } from "@/api/user/postListApi";
-import { fetchLikedPost } from "@/api/user/profile/likeApi";
+import {
+  fetchLikedPost,
+  getLikedLongWorks,
+  getLikedShortWorks,
+} from "@/api/user/profile/likeApi";
 
-import { mockData } from "./../work/postList/mockData";
-import AuthContext from "../../contexts/AuthContext";
+import AuthContext from "../../../contexts/AuthContext";
 
 const LikedWorks = () => {
+  const navigate = useNavigate();
   const { userNickname } = useContext(AuthContext);
-  const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
-  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
+
+  const [previewLongPlays, setPreviewLongPlays] = useState<ScriptItem[]>([]);
+
+  const [previewShortPlays, setPreviewShortPlays] = useState<ScriptItem[]>([]);
+
+  const observerRef = useRef<HTMLDivElement | null>(null);
+
   const [isLoading, setIsLoading] = useState(true);
 
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -25,18 +35,21 @@ const LikedWorks = () => {
   const [activeCategory, setActiveCategory] = useState("포도밭");
   const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
-  const rawToggleLikeLong = useToggleLike(setLongPlays);
-  const rawToggleLikeShort = useToggleLike(setShortPlays);
+  const rawToggleLikeLong = useToggleLike(setPreviewLongPlays);
+  const rawToggleLikeShort = useToggleLike(setPreviewShortPlays);
+
+  const accessToken = Cookies.get("accessToken");
 
   useEffect(() => {
     setIsLoading(true);
     const loadScripts = async () => {
       try {
-        const accessToken = Cookies.get("accessToken");
         const data = await fetchLikedPost(accessToken);
 
-        setLongPlays(Array.isArray(data.longPlay) ? data.longPlay : []);
-        setShortPlays(Array.isArray(data.shortPlay) ? data.shortPlay : []);
+        setPreviewLongPlays(Array.isArray(data.longPlay) ? data.longPlay : []);
+        setPreviewShortPlays(
+          Array.isArray(data.shortPlay) ? data.shortPlay : []
+        );
       } catch (error) {
         console.error("작품 목록 불러오기 실패:", error);
       } finally {
@@ -45,14 +58,6 @@ const LikedWorks = () => {
     };
     loadScripts();
   }, []);
-
-  // const handleToggleLike = (postId: string) => {
-  //   setPosts((prevPosts) =>
-  //     prevPosts.map((post) =>
-  //       post.id === postId ? { ...post, isLike: !post.isLike } : post
-  //     )
-  //   );
-  // };
 
   const handleToggleLikeLong = (postId: string) => {
     if (!isAuthenticated) {
@@ -97,6 +102,7 @@ const LikedWorks = () => {
             <StoryLengthTeb
               activeStoryLength={activeStoryLength}
               setActiveStoryLength={setActiveStoryLength}
+              page={"/mypage/liked"}
             />
 
             {/*----- 보기방식 -----*/}
@@ -104,62 +110,30 @@ const LikedWorks = () => {
             <ViewToggleButton viewType={viewType} setViewType={setViewType} />
           </div>
 
-          {/*----- post list -----*/}
-          {activeStoryLength === "전체" ? (
-            // 카테고리 = 전체
-            <>
-              <div>
-                <SectionBlock
-                  setActiveStoryLength={setActiveCategory}
-                  posts={shortPlays}
-                  viewType={viewType}
-                  postNum={4}
-                  colNum={4}
-                  title="단편"
-                  onMoreClick={() => setActiveStoryLength("단편")}
-                  onToggleLike={handleToggleLikeShort}
-                />
-              </div>
-              <div className="mt-[78px]">
-                <SectionBlock
-                  setActiveStoryLength={setActiveCategory}
-                  posts={longPlays}
-                  viewType={viewType}
-                  postNum={4}
-                  colNum={4}
-                  title="장편"
-                  onMoreClick={() => setActiveStoryLength("장편")}
-                  onToggleLike={handleToggleLikeLong}
-                />
-              </div>
-            </>
-          ) : (
-            <>
-              {/* 카테고리 = 장편 | 단편 */}
-              <div className=" mb-[24px]">
-                {activeStoryLength === "장편" ? (
-                  <p className="h5-medium ">장편극</p>
-                ) : (
-                  <p className="h5-medium">단편극</p>
-                )}
-              </div>
-              {activeStoryLength === "장편" ? (
-                <AllPostCard
-                  posts={longPlays}
-                  viewType={viewType}
-                  colNum={4}
-                  onToggleLike={handleToggleLikeLong}
-                />
-              ) : (
-                <AllPostCard
-                  posts={shortPlays}
-                  viewType={viewType}
-                  colNum={4}
-                  onToggleLike={handleToggleLikeShort}
-                />
-              )}
-            </>
-          )}
+          <div>
+            <SectionBlock
+              setActiveStoryLength={setActiveCategory}
+              posts={previewShortPlays}
+              viewType={viewType}
+              postNum={4}
+              colNum={4}
+              title="단편"
+              onMoreClick={() => navigate("/myPage/liked/short")}
+              onToggleLike={handleToggleLikeShort}
+            />
+          </div>
+          <div className="mt-[78px]">
+            <SectionBlock
+              setActiveStoryLength={setActiveCategory}
+              posts={previewLongPlays}
+              viewType={viewType}
+              postNum={4}
+              colNum={4}
+              title="장편"
+              onMoreClick={() => navigate("/myPage/liked/long")}
+              onToggleLike={handleToggleLikeLong}
+            />
+          </div>
         </div>
       </div>
     </div>

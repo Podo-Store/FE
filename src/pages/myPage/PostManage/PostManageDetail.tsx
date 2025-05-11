@@ -19,6 +19,7 @@ import puppleLine from "@/assets/image/myPage/pupple_line.svg";
 import FileInputBox from "@/components/file/FileInputBox";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
+import Cookies from "js-cookie";
 
 import InfoPopup from "@/components/popup/InfoPopup";
 
@@ -47,8 +48,7 @@ type WorkFormState = Partial<
 
 const PostManageDetail: React.FC = () => {
   const { scriptId } = useParams();
-  const accessToken = localStorage.getItem("accessToken") || "";
-
+  const accessToken = Cookies.get("accessToken");
   // const [title, setTitle] = useState("");
   const [isPartialLoading, setPartialLoading] = useState(false);
   const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] =
@@ -113,22 +113,22 @@ const PostManageDetail: React.FC = () => {
       const formData = new FormData();
 
       formData.append("id", scriptId);
-      formData.append("title", form.title ?? ""); //✅
-      formData.append("plot", form.plot ?? ""); //✅
-      formData.append("script", form.script ? "true" : "false"); //✅
-      formData.append("performance", form.performance ? "true" : "false"); //✅
-      formData.append("scriptPrice", String(Number(form.scriptPrice ?? 0))); //✅
+      formData.append("title", form.title ?? "");
+      formData.append("plot", form.plot ?? "");
+      formData.append("script", form.script ? "true" : "false");
+      formData.append("performance", form.performance ? "true" : "false");
+      formData.append("scriptPrice", String(Number(form.scriptPrice ?? 0)));
       formData.append(
         "performancePrice",
         String(Number(form.performancePrice ?? 0))
-      ); //✅
-      formData.append("any", String(Number(form.any ?? 0))); // ❌
-      formData.append("male", String(Number(form.male ?? 0))); // ❌
-      formData.append("female", String(Number(form.female ?? 0))); // ❌
-      formData.append("stageComment", form.stageComment ?? ""); // ❌
-      formData.append("runningTime", String(Number(form.runningTime ?? 0))); // ❌
-      formData.append("scene", String(Number(form.scene ?? 0))); // ❌
-      formData.append("act", String(Number(form.act ?? 0))); // ❌
+      );
+      formData.append("any", String(Number(form.any ?? 0)));
+      formData.append("male", String(Number(form.male ?? 0)));
+      formData.append("female", String(Number(form.female ?? 0)));
+      formData.append("stageComment", form.stageComment ?? "");
+      formData.append("runningTime", String(Number(form.runningTime ?? 0)));
+      formData.append("scene", String(Number(form.scene ?? 0)));
+      formData.append("act", String(Number(form.act ?? 0)));
 
       // 파일 또는 기존 path로 설정
       if (InputtedThumbnailImgFile) {
@@ -178,7 +178,7 @@ const PostManageDetail: React.FC = () => {
 
   useEffect(() => {
     const fetchWorkDetail = async () => {
-      if (!scriptId) return;
+      if (!scriptId || !accessToken) return;
 
       try {
         setPartialLoading(true); // 로딩 시작

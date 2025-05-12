@@ -60,7 +60,13 @@ const ScriptManage = () => {
             <PartialLoading />
           ) : !isNull ? (
             productList.map((order, index) => (
-              <ScriptContent order={order} index={index} currentPage="1" Button={ScriptManageBtn} />
+              <ScriptContent
+                order={order}
+                index={index}
+                currentPage="1"
+                Button={ScriptManageBtn}
+                isRoute={true}
+              />
             ))
           ) : (
             <NullScriptContent currentPage={1} />

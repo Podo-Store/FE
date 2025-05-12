@@ -13,6 +13,7 @@ import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 
 import "./ScriptContent.scss";
 import "./../../styles/utilities.css";
+import { useNavigate } from "react-router-dom";
 
 /**
  * 구매한 작품 페이지, 작품 관리 페이지의 상품 란,
@@ -22,6 +23,7 @@ import "./../../styles/utilities.css";
  * @param {string} props.currentPage - 구매한 작품: "0", 작품 관리: "1"
  * @param {component} props.Button - 페이지에 사용할 Button component. e.g. PurchasedScriptBtn.jsx
  * @param {string} props.currentTogglePage - PurchasedScript의 토글 버튼. 대본: "0", 공연권: "1"
+ * @param {boolean} [props.isRoute] - 클릭 시 detail 페이지 이동 활성화 여부, 값 넣을 시 썸네일과 제목에 추가 및 cursor-pointer 적용
  */
 const ScriptContent = ({
   order,
@@ -30,6 +32,7 @@ const ScriptContent = ({
   Button,
   // currentTogglePage: PurchasedScript에서 대본, 공연권 토글 여부
   currentTogglePage = "0",
+  isRoute = false,
 }) => {
   // 삭제된 작가 info 팝업
   const [showPopup, setShowPopup] = useState(false);
@@ -41,6 +44,8 @@ const ScriptContent = ({
 
   const { widthConditions } = useWindowDimensions();
 
+  const navigate = useNavigate();
+
   return (
     <div key={index} className="script-content ">
       <p className="date p-large-bold c-grey-8f8f8f">{formattedDate}</p>
@@ -49,7 +54,11 @@ const ScriptContent = ({
         <div key={script.id}>
           <div className="script">
             <div className=" aspect-square thumbnail-img-wrap">
-              <ThumbnailImg imagePath={script.imagePath}></ThumbnailImg>
+              <ThumbnailImg
+                imagePath={script.imagePath}
+                isRoute={isRoute}
+                id={script.id}
+              ></ThumbnailImg>
             </div>
             <div className=" script-tag">
               <div
@@ -58,9 +67,20 @@ const ScriptContent = ({
                 }`}
                 id="title"
               >
-                <p className="p-large-bold" id="title">
-                  {script.title || "제목 없음"}
-                </p>
+                <div className="relative">
+                  <p className="p-large-bold" id="title">
+                    {script.title || "제목 없음"}
+                  </p>
+                  {isRoute && (
+                    <button
+                      className="absolute top-0 size-full cursor-pointer"
+                      style={{ top: 0 }} // 왜 tailwind 안먹음..?
+                      onClick={() => {
+                        navigate(`/list/detail/${script.id}`);
+                      }}
+                    ></button>
+                  )}
+                </div>
                 {script.delete && (
                   <img
                     id="title-info"

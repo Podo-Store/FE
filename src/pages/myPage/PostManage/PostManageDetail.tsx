@@ -18,6 +18,7 @@ import stickIcon from "@/assets/image/myPage/ic_stick.svg";
 import puppleLine from "@/assets/image/myPage/pupple_line.svg";
 import FileInputBox from "@/components/file/FileInputBox";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
+import HeaderWithBack from "@/components/header/HeaderWithBack";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
 import Cookies from "js-cookie";
 
@@ -201,15 +202,16 @@ const PostManageDetail: React.FC = () => {
       <OverLapPartialLoading isLoading={isPartialLoading} />
 
       {/* main */}
-      <div className=" mt-[3.426vh]   ">
-        <GoBack url="/mypage/scriptmanage" />
-
+      <div className="mt-[3.426vh]">
+        <HeaderWithBack
+          backUrl="/mypage/scriptmanage"
+          headerTitle="등록한 작품들을 관리할 수 있어요!"
+          headerFont="h4-bold"
+        />
         {/* head */}
-        <div className="flex flex-col gap-[4.259vh] border-b-1 border-[#B489FF] pb-[0.463vh]">
-          <h1 className="h4-bold">등록한 작품들을 관리할 수 있어요!</h1>
+        <div className="flex mt-[46px] border-b-1 border-[#B489FF] pb-[0.463vh]">
           <p id="p-medium-regular">작품 상세 페이지 수정</p>
         </div>
-
         {/* detail */}
         <div className="m-auto flex w-[32.8vw] min-w-[630px] flex-col pt-[3.241vh] pb-[11.389%]">
           {/* top info */}

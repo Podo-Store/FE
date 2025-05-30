@@ -11,7 +11,6 @@ import PostHeaderControl from "@/components/post/PostHeaderControl";
 
 const LikedLong = () => {
   const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [longPlayPage, setLongPlayPage] = useState(0);
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
@@ -88,11 +87,7 @@ const LikedLong = () => {
     <div className="purchased-script myPage-contents-default">
       <FloatingBtn />
       <div className="myPage-contents-default-wrap">
-        <MyPageMenu
-          nickname={userNickname}
-          currentPage="3"
-          isFooterVisible={isFooterVisible}
-        />
+        <MyPageMenu nickname={userNickname} currentPage="3" />
         <div className="content-side">
           <div className="content-side-grid">
             <h4 className="h4-bold">좋아한 작품들을 볼 수 있어요!</h4>

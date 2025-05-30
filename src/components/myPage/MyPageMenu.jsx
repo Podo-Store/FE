@@ -34,54 +34,57 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
           <div className="myPage-menu-inside-content">
             <h3 className="nickname h3-bold">{nickname} 님,</h3>
             <h5 className="text h5-regular">오늘도 달콤한 하루 되세요!</h5>
-            <div
-              className={
-                currentPage === "3"
-                  ? "select-menu-btn selected liked"
-                  : "select-menu-btn"
-              }
-              onClick={() => {
-                navigate("/mypage/liked");
-              }}
-            >
-              <p className="p-medium-regular">좋아한 작품</p>
-              <img src={likedMenuImg} alt="likedMenu"></img>
-            </div>
-            <div
-              className={
-                currentPage === "0"
-                  ? "select-menu-btn selected purchased"
-                  : "select-menu-btn"
-              }
-              onClick={() => {
-                navigate("/mypage/purchased");
-              }}
-            >
-              <p className="p-medium-regular">구매한 작품</p>
-              <img src={scriptMenuImg} alt="purchasedMenu"></img>
-            </div>
-            <div
-              className={
-                currentPage === "1"
-                  ? "select-menu-btn selected script-manage"
-                  : "select-menu-btn"
-              }
-              onClick={() => {
-                navigate("/mypage/scriptmanage");
-              }}
-            >
-              <p className="p-medium-regular">작품 관리</p>
-              <img src={pencilMenuImg} alt="pencilMenu"></img>
-            </div>
-            <p
-              className="p-small-under c-pointer info-change-btn"
-              onClick={() => {
-                navigate("/mypage/infochange");
-              }}
-            >
-              회원 정보 수정
-            </p>
+            <section className="flex flex-col gap-[30px]">
+              <div
+                className={
+                  currentPage === "3"
+                    ? "select-menu-btn selected liked"
+                    : "select-menu-btn"
+                }
+                onClick={() => {
+                  navigate("/mypage/liked");
+                }}
+              >
+                <p className="p-medium-regular">좋아한 작품</p>
+                <img src={likedMenuImg} alt="likedMenu"></img>
+              </div>
+              <div
+                className={
+                  currentPage === "0"
+                    ? "select-menu-btn selected purchased"
+                    : "select-menu-btn"
+                }
+                onClick={() => {
+                  navigate("/mypage/purchased");
+                }}
+              >
+                <p className="p-medium-regular">구매한 작품</p>
+                <img src={scriptMenuImg} alt="purchasedMenu"></img>
+              </div>
+              <div
+                className={
+                  currentPage === "1"
+                    ? "select-menu-btn selected script-manage"
+                    : "select-menu-btn"
+                }
+                onClick={() => {
+                  navigate("/mypage/scriptmanage");
+                }}
+              >
+                <p className="p-medium-regular">작품 관리</p>
+                <img src={pencilMenuImg} alt="pencilMenu"></img>
+              </div>
+              <p
+                className="p-small-under c-pointer info-change-btn"
+                onClick={() => {
+                  navigate("/mypage/infochange");
+                }}
+              >
+                회원 정보 수정
+              </p>
+            </section>
           </div>
+
           {currentPage === "0" ? (
             <div id="grey-rectangle">
               <img src={circleGreyWarning} alt="warn" className="warning-img" />

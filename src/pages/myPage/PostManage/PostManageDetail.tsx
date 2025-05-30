@@ -144,13 +144,6 @@ const PostManageDetail: React.FC = () => {
         formData.append("descriptionPath", form.descriptionPath); //✅
       }
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
-      }
-
-      for (const [key, value] of formData.entries()) {
-        console.log(key, value);
-      }
       const success = await postWorkDetail(formData);
 
       if (success) {
@@ -163,7 +156,6 @@ const PostManageDetail: React.FC = () => {
   };
 
   const onClickDeleteConfirm = async () => {
-    console.log("삭제 시도");
     if (!scriptId || !accessToken) return;
     try {
       const result = await deleteWorkDetail(scriptId, accessToken);
@@ -184,7 +176,6 @@ const PostManageDetail: React.FC = () => {
         setPartialLoading(true); // 로딩 시작
 
         const data = await getWorkDetail(scriptId, accessToken);
-        console.log(data);
         setForm(data);
       } catch (err: any) {
         alert(err.message);

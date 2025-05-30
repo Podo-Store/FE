@@ -40,31 +40,8 @@ const PurchasedScript = () => {
   const [isPerformListNull, setIsPerformListNull] = useState(false);
 
   // MyPageMenu 스크롤 제어
-  const footerRef = useRef(null);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
 
   const { width } = useWindowDimensions();
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        setIsFooterVisible(entry.isIntersecting);
-      },
-      { threshold: 0 }
-    );
-
-    if (footerRef.current) {
-      observer.observe(footerRef.current);
-    }
-
-    return () => {
-      if (footerRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-        observer.unobserve(footerRef.current);
-      }
-    };
-  }, []);
 
   // API 요청
   useRequest(async () => {
@@ -82,12 +59,15 @@ const PurchasedScript = () => {
       }
       setScriptList(response.data.orderList);
 
-      const response2 = await axios.get(`${SERVER_URL}profile/orderPerformances`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response2 = await axios.get(
+        `${SERVER_URL}profile/orderPerformances`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
 
       if (response2.data.orderList.length === 0) {
         setIsPerformListNull(true);
@@ -104,10 +84,12 @@ const PurchasedScript = () => {
       <FloatingBtn />
 
       <div className="myPage-contents-default-wrap">
-        <MyPageMenu nickname={userNickname} currentPage="0" isFooterVisible={isFooterVisible} />
+        <MyPageMenu nickname={userNickname} currentPage="0" />
         <div className="content-side">
           <div className="content-side-grid">
-            <h4 className="h4-bold whitespace-nowrap">구매한 작품들을 볼 수 있어요!</h4>
+            <h4 className="h4-bold whitespace-nowrap">
+              구매한 작품들을 볼 수 있어요!
+            </h4>
             <div className="grid-item-first">
               {!toggle ? (
                 width <= 1279 && (
@@ -115,20 +97,22 @@ const PurchasedScript = () => {
                     <img src={circleGreyWarning} alt="!" />
                     <div className="warning-box-content f-dir-column j-content-center">
                       <p className="p-xs-regular">
-                        대본과 공연권은 구매시점으로부터 1년 이내만 사용 가능해요.
+                        대본과 공연권은 구매시점으로부터 1년 이내만 사용
+                        가능해요.
                       </p>
                     </div>
                   </div>
                 )
               ) : width > 1919 ? (
                 <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                  하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
+                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 제공되었음을
+                  표시하여야 합니다.
                 </div>
               ) : width <= 1919 && width > 1279 ? (
                 <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                  하며, 대본이 '포도상점'을 통하여 <br />
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
+                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 <br />
                   제공되었음을 표시하여야 합니다.
                 </div>
               ) : (
@@ -136,8 +120,9 @@ const PurchasedScript = () => {
                   <img src={circleGreyWarning} alt="!" />
                   <div className="warning-box-content f-dir-column j-content-between">
                     <p className="p-xs-regular">
-                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                      하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                      저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
+                      제공되었음을 표시하여야 합니다.
                     </p>
                     <p className="p-xs-regular">
                       대본과 공연권은 구매시점으로부터 1년 이내만 사용 가능해요.
@@ -192,7 +177,6 @@ const PurchasedScript = () => {
           )}
         </div>
       </div>
-      <div ref={footerRef} style={{ height: "6.66vh" }}></div>
     </div>
   );
 };

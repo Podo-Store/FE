@@ -46,7 +46,6 @@ export const getWorkDetail = async (
       headers,
     });
 
-    console.log(data);
     return data;
   } catch (error: any) {
     const err = error as AxiosError<{ error: string }>;
@@ -78,7 +77,7 @@ export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
 
 export const deleteWorkDetail = async (id: string, accessToken: string) => {
   try {
-    const response = await api.delete(`/profile/deleteScript/${id}`, {
+    const response = await api.delete(`/profile/work/deleteScript/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",

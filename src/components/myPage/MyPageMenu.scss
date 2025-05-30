@@ -4,6 +4,7 @@
   position: relative;
 
   width: 305px;
+  height: 100%;
   margin-right: 6.719vw;
   @include r.media-tablet {
     display: none;
@@ -28,35 +29,20 @@
   justify-content: space-between;
   align-items: center;
 
-  margin-top: 1.75vh;
-  margin-bottom: 2.25vh;
-  height: 3.88313rem;
+  height: 65.52px;
   padding-left: 28.24px;
   padding-right: 30.5px;
 
   cursor: pointer;
 
   border-radius: 50px;
+  border: 5px solid #fff;
   background: #fff;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
 .myPage-menu-side .selected {
   border: 5px solid var(--Main, #6a39c0);
-  padding-left: 23.24px;
-  padding-right: 25.5px;
-}
-
-.myPage-menu-side .liked {
-  transform: translate(0, -5px);
-}
-
-.myPage-menu-side .purchased {
-  transform: translate(0, -5px);
-}
-
-.myPage-menu-side .script-manage {
-  transform: translate(0, 5px);
 }
 
 .myPage-menu-side p.info-change-btn {

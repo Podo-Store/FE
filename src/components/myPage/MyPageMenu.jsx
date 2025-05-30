@@ -1,23 +1,29 @@
 import { useNavigate } from "react-router-dom";
 
+import { myPageStore } from "./../../store/MyPageStore.ts";
+
 import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg";
 import pencilMenuImg from "./../../assets/image/myPage/pencil.svg";
 import scriptMenuImg from "./../../assets/image/myPage/script.svg";
 import likedMenuImg from "./../../assets/image/myPage/ic_iked_heart.svg";
+
 import "./MyPageMenu.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+import { useSnapshot } from "valtio";
 
 /**
  *
  * @param {object} props
  * @param {string} props.nickname - 사용자 닉네임
  * @param {string} props.currentPage - 현재 페이지. 0: 구매한 작품 1: 작품 관리, 2: 회원 정보 수정, 3: 좋아요 작품
- * @param {boolean} props.isFooterVisible - 구매한 작품 페이지에서 스크롤 관리를 위한 props
  * @returns
  */
-const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
+const MyPageMenu = ({ nickname, currentPage }) => {
   const navigate = useNavigate();
+
+  const { isFooterVisible } = useSnapshot(myPageStore);
+
   return (
     <section>
       <div className="myPage-menu-side">

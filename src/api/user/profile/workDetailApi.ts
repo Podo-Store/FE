@@ -46,7 +46,6 @@ export const getWorkDetail = async (
       headers,
     });
 
-    console.log(data);
     return data;
   } catch (error: any) {
     const err = error as AxiosError<{ error: string }>;

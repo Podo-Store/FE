@@ -26,7 +26,7 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
           style={
             currentPage === "0" || currentPage === "1" || currentPage === "3"
               ? isFooterVisible
-                ? { position: "absolute", bottom: "2vh" }
+                ? { position: "absolute", bottom: "0" }
                 : { position: "fixed" }
               : null
           }
@@ -34,7 +34,7 @@ const MyPageMenu = ({ nickname, currentPage, isFooterVisible }) => {
           <div className="myPage-menu-inside-content">
             <h3 className="nickname h3-bold">{nickname} 님,</h3>
             <h5 className="text h5-regular">오늘도 달콤한 하루 되세요!</h5>
-            <section className="flex flex-col gap-[30px]">
+            <section className="flex flex-col gap-[1.5625vh]">
               <div
                 className={
                   currentPage === "3"

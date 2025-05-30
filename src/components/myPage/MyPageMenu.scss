@@ -4,6 +4,7 @@
   position: relative;
 
   width: 305px;
+  height: 100%;
   margin-right: 6.719vw;
   @include r.media-tablet {
     display: none;

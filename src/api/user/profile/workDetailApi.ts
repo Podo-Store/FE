@@ -77,7 +77,7 @@ export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
 
 export const deleteWorkDetail = async (id: string, accessToken: string) => {
   try {
-    const response = await api.delete(`/profile/deleteScript/${id}`, {
+    const response = await api.delete(`/profile/work/deleteScript/${id}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         "Content-Type": "application/json",

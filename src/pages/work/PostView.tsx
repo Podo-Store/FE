@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-
+import { useParams } from "react-router-dom";
+import { getPostView } from "@/api/user/postListApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
@@ -20,6 +21,8 @@ const PostView: React.FC = () => {
   const isProgrammaticScroll = useRef<boolean>(false);
   const [currentPage, setCurrentPage] = useState(1);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
+  const { id } = useParams<string>();
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -39,6 +42,27 @@ const PostView: React.FC = () => {
       setCurrentPage(page);
     }
   };
+
+  useEffect(() => {
+    const fetchPdf = async () => {
+      try {
+        if (!id) return; // id가 없으면 요청하지 않음
+        const blob = await getPostView(id); // <- 여기에 실제 UUID 입력
+        const url = URL.createObjectURL(blob);
+        setPdfBlobUrl(url);
+      } catch (e) {
+        alert((e as Error).message);
+      }
+    };
+
+    fetchPdf();
+
+    return () => {
+      if (pdfBlobUrl) {
+        URL.revokeObjectURL(pdfBlobUrl);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -184,23 +208,27 @@ const PostView: React.FC = () => {
             </button>
           </div>
 
-          <PdfDocument
-            file="/test.pdf"
-            onLoadSuccess={onDocumentLoadSuccess}
-            loading={<div className="mt-10 text-center">로딩 중...</div>}
-          >
-            {Array.from(new Array(numPages), (_, index) => (
-              <div id={`page-${index + 1}`} key={`page-${index + 1}`}>
-                <Page
-                  pageNumber={index + 1}
-                  width={653}
-                  scale={scale}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                />
-              </div>
-            ))}
-          </PdfDocument>
+          {pdfBlobUrl ? (
+            <PdfDocument
+              file={pdfBlobUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              loading={<div className="mt-10 text-center">로딩 중...</div>}
+            >
+              {Array.from(new Array(numPages), (_, index) => (
+                <div id={`page-${index + 1}`} key={`page-${index + 1}`}>
+                  <Page
+                    pageNumber={index + 1}
+                    width={653}
+                    scale={scale}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+                </div>
+              ))}
+            </PdfDocument>
+          ) : (
+            <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>
+          )}
 
           {/* 하단 바*/}
           {/* 653px */}

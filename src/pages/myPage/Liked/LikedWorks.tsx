@@ -8,7 +8,7 @@ import ViewToggleButton from "@/components/post/ViewToggleButton";
 import SectionBlock from "@/components/post/SectionBlock";
 import { MyPageMenu } from "@/components/myPage";
 import { AllPostCard } from "@/components/post/PostList";
-import useToggleLike from "@/hooks/useToggleLike";
+import { useToggleLike } from "@/hooks/useToggleLike";
 import { ScriptItem } from "@/api/user/postListApi";
 import {
   fetchLikedPost,

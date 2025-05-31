@@ -5,6 +5,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../Loading";
+import type { PDFDocumentProxy } from "pdfjs-dist";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
@@ -19,7 +20,6 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
-
 import {
   DETAIL_SCRIPT_TEXT,
   DETAIL_PERFORM_TEXT,
@@ -39,29 +39,27 @@ import "./../../styles/utilities.css";
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+export interface PostDetail {
+  id: string;
+  title: string;
+  writer: string;
+  plot: string;
+  script: boolean;
+  scriptPrice: number;
+  performance: boolean;
+  performancePrice: number;
+  playType?: string;
+  imagePath?: string;
+  descriptionPath?: string;
+  buyStatus: number;
+  like: boolean;
+  likeCount: number;
+  viewCount: number;
+}
+
 const Detail = () => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [plot, setPlot] = useState("");
-
-  // 판매자가 설정한 대본, 공연권 판매 여부
-  const [sellingScript, setSellingScript] = useState(false);
-  const [sellingPerform, setSellingPerform] = useState(false);
-
-  const [scriptPrice, setScriptPrice] = useState(0);
-  const [performPrice, setPerformPrice] = useState(0);
-  const [lengthType, setLengthType] = useState("");
-
-  const [imagePath, setImagePath] = useState("");
-  const [descriptionPath, setDescriptionPath] = useState("");
-
-  // 기존 대본 구매 이력
-  const [buyStatus, setBuyStatus] = useState(0);
-  const [like, setLike] = useState(false);
-  const [likeCount, setLikeCount] = useState(0);
-  const [viewCount, setViewCount] = useState(0);
-
-  const [bottomBarStyle, setBottomBarStyle] = useState({
+  const [script, setScript] = useState<PostDetail>();
+  const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
   });
   const [selectedOption, setSelectedOption] = useState("");
@@ -78,23 +76,25 @@ const Detail = () => {
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
 
-  const [numPages, setNumPages] = useState(null); // 페이지 수를 저장하는 상태 추가
+  const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
+
+  pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
+  pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
   useRequest(async () => {
     try {
       setIsLoading(true);
 
+      let headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
       // 로그인 상태에 따른 헤더 설정
-      let headers = { "Content-Type": "application/json" };
       if (Cookies.get("accessToken")) {
-        headers = {
-          ...headers,
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        };
+        headers["Authorization"] = `Bearer ${Cookies.get("accessToken")}`;
       }
 
       const response = await axios.get(`${SERVER_URL}scripts/detail`, {
@@ -103,55 +103,66 @@ const Detail = () => {
           script: id,
         },
       });
-
-      setTitle(response.data.title);
-      setAuthor(response.data.writer);
-      setImagePath(response.data.imagePath);
-      // 판매자가 설정한 대본, 공연권 판매 여부
-      setSellingScript(response.data.script);
-      setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
-      setSellingPerform(response.data.performance);
-      setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
-      setDescriptionPath(response.data.descriptionPath);
-      setLengthType(response.data.playType);
-      //Checked
-      setPlot(response.data.plot);
-      //date
-      setBuyStatus(response.data.buyStatus);
-      setLike(response.data.like);
-      setLikeCount(response.data.likeCount);
-      setViewCount(response.data.ViewCount);
+      setScript({
+        id: id || "", // 혹은 response.data.id 가 있다면 사용
+        title: response.data.title,
+        writer: response.data.writer,
+        plot: response.data.plot,
+        script: response.data.script,
+        scriptPrice: response.data.scriptPrice ?? 0,
+        performance: response.data.performance,
+        performancePrice: response.data.performancePrice ?? 0,
+        playType: response.data.playType,
+        imagePath: response.data.imagePath,
+        descriptionPath: response.data.descriptionPath,
+        buyStatus: response.data.buyStatus,
+        like: response.data.like,
+        likeCount: response.data.likeCount,
+        viewCount: response.data.ViewCount, // 여긴 ViewCount 주의!
+      });
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
     }
     setIsLoading(false);
   });
 
-  const onChangeSelectOption = (event) => {
+  const onChangeSelectOption = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedOption(event.target.value);
     setIsOptionSelected(true);
   };
 
-  const onChangeBottomSelectOption = (event) => {
+  const onChangeBottomSelectOption = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     onChangeSelectOption(event);
   };
 
   useEffect(() => {
+    if (!script) return setTotalPrice(" - ");
     if (selectedOption === "script") {
-      setTotalPrice(formatPrice(scriptPrice));
+      setTotalPrice(formatPrice(script?.scriptPrice));
     } else if (selectedOption === "perform") {
-      setTotalPrice(formatPrice(purchasePerformAmount * performPrice));
+      setTotalPrice(
+        formatPrice(purchasePerformAmount * script?.performancePrice)
+      );
     } else if (selectedOption === "scriptPerform") {
       setTotalPrice(
-        formatPrice(scriptPrice + purchasePerformAmount * performPrice)
+        formatPrice(
+          script?.scriptPrice + purchasePerformAmount * script?.performancePrice
+        )
       );
-    } else {
-      setTotalPrice(" - ");
     }
-  }, [selectedOption, scriptPrice, performPrice, purchasePerformAmount]);
+  }, [
+    selectedOption,
+    script?.scriptPrice,
+    script?.performancePrice,
+    purchasePerformAmount,
+  ]);
 
-  const pdfContainerRef = useRef(null);
+  const pdfContainerRef = useRef<HTMLDivElement | null>(null);
 
   // 구매 버튼이 보이면 bottom bar가 보이지 않도록
   useEffect(() => {
@@ -185,7 +196,9 @@ const Detail = () => {
 
     const handleScroll = () => {
       const pdfContainer = pdfContainerRef.current;
-      const bottomBar = document.querySelector(".detail-bottom-bar");
+      const bottomBar = document.querySelector(
+        ".detail-bottom-bar"
+      ) as HTMLElement;
 
       if (pdfContainer && bottomBar) {
         const pdfContainerRect = pdfContainer.getBoundingClientRect();
@@ -234,17 +247,14 @@ const Detail = () => {
   const onClickScriptView = () => {
     navigate(`/list/view/${id}`, {
       state: {
-        title,
-        author,
-        like,
+        script,
       },
     });
   };
 
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages); // PDF가 로드된 후 총 페이지 수 설정
+  const onDocumentLoadSuccess = (pdf: any) => {
+    setNumPages(pdf.numPages);
   };
-
   if (isLoading) {
     return <Loading />;
   }
@@ -258,7 +268,7 @@ const Detail = () => {
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
               style={{ width: "100%", height: "0", paddingBottom: "100%" }}
-              imagePath={imagePath}
+              imagePath={script?.imagePath}
             />
           </div>
 
@@ -270,10 +280,10 @@ const Detail = () => {
             <div className="title-wrap">
               <h1 className="h1-bold">
                 {width > 769
-                  ? title
-                  : truncateText({ text: title, maxLength: 6 })}
+                  ? script?.title
+                  : truncateText({ text: script?.title || "", maxLength: 6 })}
               </h1>
-              <h3 className="h3-bold">{author}</h3>
+              <h3 className="h3-bold">{script?.writer}</h3>
             </div>
           </div>
 
@@ -286,7 +296,7 @@ const Detail = () => {
               <hr id="detail-hr-1"></hr>
               <div className="detail-price-wrap">
                 <div className="detail-plot pr-[46px]">
-                  <p className="p-medium-regular ">{plot}</p>
+                  <p className="p-medium-regular ">{script?.plot}</p>
                 </div>
                 <hr id="detail-hr-2"></hr>
 
@@ -301,7 +311,7 @@ const Detail = () => {
                     </p>
                   </div>
                   <p className="p-large-medium">
-                    {formatPrice(scriptPrice)} 원
+                    {formatPrice(script?.scriptPrice)} 원
                   </p>
                 </div>
                 <div className="detail-price">
@@ -310,7 +320,7 @@ const Detail = () => {
                     <p className="whitespace-nowrap">공연권</p>
                   </div>
                   <p className="p-large-medium">
-                    {formatPrice(performPrice)} 원
+                    {formatPrice(script?.performancePrice)} 원
                   </p>
                 </div>
 
@@ -321,18 +331,20 @@ const Detail = () => {
                     onChange={onChangeSelectOption}
                     disabled
                   >
-                    <option value="" disabled selected>
+                    <option value="" disabled>
                       옵션 선택
                     </option>
-                    {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
+                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+                    script.script ? (
                       <option value="script">대본</option>
                     ) : null}
-                    {(buyStatus === 0 || buyStatus === 2) &&
-                    sellingScript &&
-                    sellingPerform ? (
+                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+                    script.script &&
+                    script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
-                    {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
+                    {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
+                    script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null}
                   </Select>
@@ -369,8 +381,9 @@ const Detail = () => {
                             }}
                             buttonId="info-btn"
                             message2={
-                              selectedOption === "scriptPerform" &&
-                              DETAIL_PERFORM_TEXT
+                              selectedOption === "scriptPerform"
+                                ? DETAIL_PERFORM_TEXT
+                                : undefined
                             }
                           />
                         ) : null}
@@ -405,7 +418,7 @@ const Detail = () => {
                           >
                             <div className="flex items-center price-wrapper">
                               <p className="p-large-medium" id="price">
-                                {formatPrice(scriptPrice)} 원
+                                {formatPrice(script?.scriptPrice)} 원
                               </p>
                               <img
                                 className="c-pointer"
@@ -455,7 +468,8 @@ const Detail = () => {
                             <div className="flex items-center price-wrapper">
                               <p className="p-large-medium" id="price">
                                 {formatPrice(
-                                  purchasePerformAmount * performPrice
+                                  purchasePerformAmount *
+                                    (script?.performancePrice ?? 0)
                                 )}{" "}
                                 원
                               </p>
@@ -514,33 +528,28 @@ const Detail = () => {
           <p className="p-large-bold" id="preview-title">
             미리보기
           </p>
-          <Preview id={id} lengthType={lengthType} />
+          <Preview id={id!} lengthType={script?.playType ?? ""} />
           <hr></hr>
 
           <div className="j-content-center">
             {/* PDF 삽입 */}
-            <Document
-              file={descriptionPath}
-              onLoadSuccess={onDocumentLoadSuccess}
-              options={{ cMapUrl: "cmaps/", cMapPacked: true }}
-              loading={<PartialLoading />}
-              noData=""
-            >
-              {Array.from(new Array(numPages), (el, index) => (
-                <Page
-                  key={index}
-                  renderMode="canvas"
-                  pageNumber={index + 1}
-                  width={
-                    width > 1280
-                      ? 1000
-                      : width <= 1280 && width > 768
-                      ? 700
-                      : 400
-                  }
-                />
-              ))}
-            </Document>
+            {script?.descriptionPath ? (
+              <Document
+                file={script.descriptionPath}
+                onLoadSuccess={onDocumentLoadSuccess}
+                loading={<PartialLoading />}
+              >
+                {Array.from(new Array(numPages), (_, index) => (
+                  <Page
+                    key={index}
+                    pageNumber={index + 1}
+                    width={width > 1280 ? 1000 : width > 768 ? 700 : 400}
+                  />
+                ))}
+              </Document>
+            ) : (
+              <p>미리보기 파일이 존재하지 않습니다.</p> // ✅ file이 없을 때 보여줄 내용
+            )}
           </div>
         </div>
       </div>
@@ -559,18 +568,20 @@ const Detail = () => {
               onChange={onChangeBottomSelectOption}
               disabled
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 옵션 선택
               </option>
-              {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
+              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+              script.script ? (
                 <option value="script">대본</option>
               ) : null}
-              {(buyStatus === 0 || buyStatus === 2) &&
-              sellingScript &&
-              sellingPerform ? (
+              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+              script.script &&
+              script.performance ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
-              {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
+              {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
+              script.performance ? (
                 <option value="perform">공연권</option>
               ) : null}
             </Select>

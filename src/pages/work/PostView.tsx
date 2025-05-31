@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getPostView } from "@/api/user/postListApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
@@ -6,6 +6,11 @@ import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+import { useSingleToggleLike } from "@/hooks/useToggleLike";
+import { ScriptItem } from "@/api/user/postListApi";
+import AuthContext from "@/contexts/AuthContext";
+import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
+import { PostDetail } from "./Detail";
 
 const MockData = { title: "Archive", user: "서준" };
 const PostView: React.FC = () => {
@@ -26,11 +31,16 @@ const PostView: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   const location = useLocation();
-  const { title, author, like } = location.state;
+  const { script } = location.state;
 
+  const { isAuthenticated } = useContext(AuthContext);
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
   };
+
+  const [scriptDetail, setScriptDetail] = useState<PostDetail>(script); // script → 상태화
+
+  const rawToggleLike = useSingleToggleLike(setScriptDetail);
 
   const handlePageChange = (page: number) => {
     const target = document.getElementById(`page-${page}`);
@@ -45,6 +55,14 @@ const PostView: React.FC = () => {
       target.scrollIntoView({ behavior: "smooth", block: "start" });
       setCurrentPage(page);
     }
+  };
+
+  const handleToggleLike = (postId: string) => {
+    rawToggleLike(postId);
+  };
+
+  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleToggleLike(id!); // 부모에게 '나 클릭했어' 알려줌
   };
 
   useEffect(() => {
@@ -71,6 +89,12 @@ const PostView: React.FC = () => {
       }
     };
   }, [id]);
+
+  useEffect(() => {
+    // 페이지 진입 시 하단바를 먼저 보여줌
+    setOffset(0);
+    setIsControlVisible(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -154,9 +178,9 @@ const PostView: React.FC = () => {
         {/* header */}
         <HeaderWithBack
           backUrl={id ? `/list/detail/${id}` : "/list"}
-          headerTitle={title}
+          headerTitle={script.title}
           headerFont="h1-bold"
-          subtitle={author}
+          subtitle={script.writer}
           subFont="h3-bold"
           className="mb-[2.12vh] mt-[3.4vw]"
         />
@@ -263,7 +287,13 @@ const PostView: React.FC = () => {
           >
             <span className="absolute w-[300vw] border border-[var(--purple7)] left-[-100%]" />
             <div className=" m-auto  min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
-              <img src={heartIcon} alt="좋아요" className="w-[5.4%]" />
+              <button onClick={handleLikeClick}>
+                <img
+                  className=""
+                  src={scriptDetail.like ? redHeartIcon : heartIcon}
+                  alt="좋아요"
+                ></img>
+              </button>
               <img src={bookMarkIcon} alt="북마크" className="w-[4.9%]" />
 
               {/* 페이지네이션 */}

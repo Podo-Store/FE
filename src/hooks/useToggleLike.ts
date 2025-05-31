@@ -2,13 +2,13 @@ import { useCallback } from "react";
 import Cookies from "js-cookie";
 import { toggleLikeScript } from "@/api/user/postListApi";
 import { ScriptItem } from "@/api/user/postListApi";
-
+import { PostDetail } from "@/pages/work/Detail";
 /**
  * 좋아요 토글 훅
  * @returns handleToggleLike 함수 반환
  */
 
-const useToggleLike = (
+export const useToggleLike = (
   setState: React.Dispatch<React.SetStateAction<ScriptItem[]>>
 ) => {
   const handleToggleLike = useCallback(
@@ -41,4 +41,27 @@ const useToggleLike = (
   return handleToggleLike;
 };
 
-export default useToggleLike;
+export const useSingleToggleLike = (
+  setScript: React.Dispatch<React.SetStateAction<PostDetail>>
+) => {
+  const handleToggleLike = useCallback(
+    async (postId: string) => {
+      try {
+        const accessToken = Cookies.get("accessToken");
+        await toggleLikeScript(postId, accessToken);
+
+        setScript((prev) => ({
+          ...prev,
+          like: !prev.like,
+          likeCount: prev.like ? prev.likeCount - 1 : prev.likeCount + 1,
+        }));
+      } catch (error) {
+        console.error("좋아요 처리 실패:", error);
+        alert("좋아요는 로그인 후 이용할 수 있어요.");
+      }
+    },
+    [setScript]
+  );
+
+  return handleToggleLike;
+};

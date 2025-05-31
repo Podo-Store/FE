@@ -9,6 +9,7 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const MockData = { title: "Archive", user: "서준" };
 const PostView: React.FC = () => {
+
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
@@ -23,6 +24,7 @@ const PostView: React.FC = () => {
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const { id } = useParams<string>();
+  const [loading, setLoading] = useState(true);
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -44,25 +46,29 @@ const PostView: React.FC = () => {
   };
 
   useEffect(() => {
+    let objectUrl: string;
+
     const fetchPdf = async () => {
       try {
         if (!id) return; // id가 없으면 요청하지 않음
         const blob = await getPostView(id); // <- 여기에 실제 UUID 입력
-        const url = URL.createObjectURL(blob);
-        setPdfBlobUrl(url);
+        objectUrl = URL.createObjectURL(blob);
+        setPdfBlobUrl(objectUrl);
+        setLoading(false);
       } catch (e) {
         alert((e as Error).message);
+        setLoading(false);
       }
     };
 
     fetchPdf();
 
     return () => {
-      if (pdfBlobUrl) {
-        URL.revokeObjectURL(pdfBlobUrl);
+      if (objectUrl) {
+        URL.revokeObjectURL(objectUrl);
       }
     };
-  }, []);
+  }, [id]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,8 +118,6 @@ const PostView: React.FC = () => {
     };
   });
 
-  console.log(currentPage);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -137,20 +141,25 @@ const PostView: React.FC = () => {
     return () => observer.disconnect();
   }, [numPages]);
 
+  if (loading) {
+    return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
+  }
+
+ 
   return (
     <>
       {/* 1280px */}
       <div className="m-auto list-wrap-wrap mb-[7vh]">
         {/* header */}
         <HeaderWithBack
-          backUrl="/list/detail/:id"
+          backUrl={id ? `/list/detail/${id}` : "/list"}
           headerTitle={MockData.title}
           headerFont="h1-bold"
           subtitle={MockData.user}
           subFont="h3-bold"
           className="mb-[2.12vh] mt-[3.4vw]"
         />
-        <span className="absolute  w-[200vw] border border-[var(--purple7)] left-[-50%]" />
+        <span className="absolute z-10 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
 
         <div className="relative mx-auto w-fit ">
           <div
@@ -215,7 +224,11 @@ const PostView: React.FC = () => {
               loading={<div className="mt-10 text-center">로딩 중...</div>}
             >
               {Array.from(new Array(numPages), (_, index) => (
-                <div id={`page-${index + 1}`} key={`page-${index + 1}`}>
+                <div
+                  className="z-0 "
+                  id={`page-${index + 1}`}
+                  key={`page-${index + 1}`}
+                >
                   <Page
                     pageNumber={index + 1}
                     width={653}

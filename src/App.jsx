@@ -17,7 +17,9 @@ import FindBar from "./pages/auth/FindBar";
 import PostGallery from "./pages/work/postList/PostGallery";
 import PostGalleryShort from "./pages/work/postList/PostGalleryShort";
 import PostGalleryLong from "./pages/work/postList/PostGalleryLong";
+
 import Detail from "./pages/work/Detail.tsx";
+
 import PostView from "./pages/work/PostView";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";

@@ -147,6 +147,7 @@ const PostView: React.FC = () => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
+        if (isProgrammaticScroll.current) return;
         const visibleEntry = entries.find((entry) => entry.isIntersecting);
         if (visibleEntry) {
           const pageId = visibleEntry.target.id;
@@ -161,11 +162,16 @@ const PostView: React.FC = () => {
       }
     );
 
-    const pages = document.querySelectorAll("[id^='page-']");
-    pages.forEach((page) => observer.observe(page));
+    const timeoutId = setTimeout(() => {
+      const pages = document.querySelectorAll("[id^='page-']");
+      pages.forEach((page) => observer.observe(page));
+    }, 500); // 렌더링 여유시간
 
-    return () => observer.disconnect();
-  }, [numPages]);
+    return () => {
+      clearTimeout(timeoutId);
+      observer.disconnect();
+    };
+  }, [numPages, pdfBlobUrl]);
 
   if (loading) {
     return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { getPostView } from "@/api/user/postListApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import heartIcon from "@/assets/image/post/ic_heart.svg";
@@ -9,7 +9,6 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 
 const MockData = { title: "Archive", user: "서준" };
 const PostView: React.FC = () => {
-
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
@@ -25,6 +24,9 @@ const PostView: React.FC = () => {
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const { id } = useParams<string>();
   const [loading, setLoading] = useState(true);
+
+  const location = useLocation();
+  const { title, author, like } = location.state;
 
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -145,7 +147,6 @@ const PostView: React.FC = () => {
     return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
   }
 
- 
   return (
     <>
       {/* 1280px */}
@@ -153,9 +154,9 @@ const PostView: React.FC = () => {
         {/* header */}
         <HeaderWithBack
           backUrl={id ? `/list/detail/${id}` : "/list"}
-          headerTitle={MockData.title}
+          headerTitle={title}
           headerFont="h1-bold"
-          subtitle={MockData.user}
+          subtitle={author}
           subFont="h3-bold"
           className="mb-[2.12vh] mt-[3.4vw]"
         />

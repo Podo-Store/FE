@@ -20,7 +20,10 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
 
-import { DETAIL_SCRIPT_TEXT, DETAIL_PERFORM_TEXT } from "../../constants/PopupTexts/DetailTexts";
+import {
+  DETAIL_SCRIPT_TEXT,
+  DETAIL_PERFORM_TEXT,
+} from "../../constants/PopupTexts/DetailTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
@@ -54,6 +57,9 @@ const Detail = () => {
 
   // 기존 대본 구매 이력
   const [buyStatus, setBuyStatus] = useState(0);
+  const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
 
   const [bottomBarStyle, setBottomBarStyle] = useState({
     position: "fixed",
@@ -85,7 +91,10 @@ const Detail = () => {
       // 로그인 상태에 따른 헤더 설정
       let headers = { "Content-Type": "application/json" };
       if (Cookies.get("accessToken")) {
-        headers = { ...headers, Authorization: `Bearer ${Cookies.get("accessToken")}` };
+        headers = {
+          ...headers,
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        };
       }
 
       const response = await axios.get(`${SERVER_URL}scripts/detail`, {
@@ -97,16 +106,21 @@ const Detail = () => {
 
       setTitle(response.data.title);
       setAuthor(response.data.writer);
-      setPlot(response.data.plot);
+      setImagePath(response.data.imagePath);
       // 판매자가 설정한 대본, 공연권 판매 여부
       setSellingScript(response.data.script);
-      setSellingPerform(response.data.performance);
       setScriptPrice(response.data.scriptPrice ?? 0); // nullish 병합 연산자 사용
+      setSellingPerform(response.data.performance);
       setPerformPrice(response.data.performancePrice ?? 0); // nullish 병합 연산자 사용
-      setLengthType(response.data.playType);
-      setImagePath(response.data.imagePath);
       setDescriptionPath(response.data.descriptionPath);
+      setLengthType(response.data.playType);
+      //Checked
+      setPlot(response.data.plot);
+      //date
       setBuyStatus(response.data.buyStatus);
+      setLike(response.data.like);
+      setLikeCount(response.data.likeCount);
+      setViewCount(response.data.ViewCount);
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
     }
@@ -129,7 +143,9 @@ const Detail = () => {
     } else if (selectedOption === "perform") {
       setTotalPrice(formatPrice(purchasePerformAmount * performPrice));
     } else if (selectedOption === "scriptPerform") {
-      setTotalPrice(formatPrice(scriptPrice + purchasePerformAmount * performPrice));
+      setTotalPrice(
+        formatPrice(scriptPrice + purchasePerformAmount * performPrice)
+      );
     } else {
       setTotalPrice(" - ");
     }
@@ -215,6 +231,16 @@ const Detail = () => {
     });
   };
 
+  const onClickScriptView = () => {
+    navigate(`/list/view/${id}`, {
+      state: {
+        title,
+        author,
+        like,
+      },
+    });
+  };
+
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages); // PDF가 로드된 후 총 페이지 수 설정
   };
@@ -227,7 +253,7 @@ const Detail = () => {
     <div className="detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
 
-      <div className="detail-wrap f-dir-column a-items-center">
+      <div className="detail-wrap f-dir-column a-items-center max-w-[1220px]">
         <div className="content">
           <div className="detail-thumbnail-wrap">
             <ThumbnailImg
@@ -235,50 +261,75 @@ const Detail = () => {
               imagePath={imagePath}
             />
           </div>
-          <div id="title" className="detail-title f-dir-column j-content-between">
+
+          {/* 제목, 이름 */}
+          <div
+            id="title"
+            className=" detail-title f-dir-column j-content-between"
+          >
             <div className="title-wrap">
               <h1 className="h1-bold">
-                {width > 769 ? title : truncateText({ text: title, maxLength: 6 })}
+                {width > 769
+                  ? title
+                  : truncateText({ text: title, maxLength: 6 })}
               </h1>
               <h3 className="h3-bold">{author}</h3>
             </div>
           </div>
-          <div id="content" className="detail-title f-dir-column j-content-between">
+
+          <div
+            id="content"
+            className="detail-title f-dir-column j-content-between"
+          >
+            {/* 줄거리 */}
             <div className="_content-detail">
               <hr id="detail-hr-1"></hr>
               <div className="detail-price-wrap">
-                <div className="detail-plot">
-                  <p className="p-medium-regular">{plot}</p>
+                <div className="detail-plot pr-[46px]">
+                  <p className="p-medium-regular ">{plot}</p>
                 </div>
                 <hr id="detail-hr-2"></hr>
 
                 <div className="detail-price">
                   <div className="price">
                     <img id="script" src={scriptImg} alt="script"></img>
-                    <p className="whitespace-nowrap" style={{ marginLeft: "0.2rem" }}>
+                    <p
+                      className="whitespace-nowrap"
+                      style={{ marginLeft: "0.2rem" }}
+                    >
                       대본
                     </p>
                   </div>
-                  <p className="p-large-medium">{formatPrice(scriptPrice)} 원</p>
+                  <p className="p-large-medium">
+                    {formatPrice(scriptPrice)} 원
+                  </p>
                 </div>
                 <div className="detail-price">
                   <div className="price">
                     <img id="perform" src={performImg} alt="perform"></img>
                     <p className="whitespace-nowrap">공연권</p>
                   </div>
-                  <p className="p-large-medium">{formatPrice(performPrice)} 원</p>
+                  <p className="p-large-medium">
+                    {formatPrice(performPrice)} 원
+                  </p>
                 </div>
 
                 <div className="option-select">
                   {/* disabled */}
-                  <Select value={selectedOption} onChange={onChangeSelectOption} disabled>
+                  <Select
+                    value={selectedOption}
+                    onChange={onChangeSelectOption}
+                    disabled
+                  >
                     <option value="" disabled selected>
                       옵션 선택
                     </option>
                     {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
                       <option value="script">대본</option>
                     ) : null}
-                    {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
+                    {(buyStatus === 0 || buyStatus === 2) &&
+                    sellingScript &&
+                    sellingPerform ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
                     {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
@@ -317,25 +368,42 @@ const Detail = () => {
                               transform: "translate(35px, calc(-100% + 19px))",
                             }}
                             buttonId="info-btn"
-                            message2={selectedOption === "scriptPerform" && DETAIL_PERFORM_TEXT}
+                            message2={
+                              selectedOption === "scriptPerform" &&
+                              DETAIL_PERFORM_TEXT
+                            }
                           />
                         ) : null}
                       </div>
                     </div>
                     <div id="detail-amount-wrap">
-                      {selectedOption === "script" || selectedOption === "scriptPerform" ? (
-                        <div className="j-content-between relative" id="detail-amount">
-                          <div className="a-items-center" id="detail-amount-title">
+                      {selectedOption === "script" ||
+                      selectedOption === "scriptPerform" ? (
+                        <div
+                          className="relative j-content-between"
+                          id="detail-amount"
+                        >
+                          <div
+                            className="a-items-center"
+                            id="detail-amount-title"
+                          >
                             <img src={vector23} alt="ㄴ"></img>
-                            <img id="script" src={scriptImg} alt="script amount"></img>
+                            <img
+                              id="script"
+                              src={scriptImg}
+                              alt="script amount"
+                            ></img>
                             <p className="p-large-medium">대본</p>
                           </div>
                           <p className="amount-change p-large-medium absolute translate-x-[35px]">
                             1
                           </p>
 
-                          <div className="a-items-center" id="detail-amount-price">
-                            <div className="price-wrapper flex items-center">
+                          <div
+                            className="a-items-center"
+                            id="detail-amount-price"
+                          >
+                            <div className="flex items-center price-wrapper">
                               <p className="p-large-medium" id="price">
                                 {formatPrice(scriptPrice)} 원
                               </p>
@@ -352,13 +420,26 @@ const Detail = () => {
                         </div>
                       ) : null}
 
-                      {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
+                      {selectedOption === "scriptPerform" ? (
+                        <hr id="detail-hr-3"></hr>
+                      ) : null}
 
-                      {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
-                        <div className="flex justify-between relative" id="detail-amount">
-                          <div className="a-items-center" id="detail-amount-title">
+                      {selectedOption === "perform" ||
+                      selectedOption === "scriptPerform" ? (
+                        <div
+                          className="relative flex justify-between"
+                          id="detail-amount"
+                        >
+                          <div
+                            className="a-items-center"
+                            id="detail-amount-title"
+                          >
                             <img src={vector23} alt="ㄴ"></img>
-                            <img id="perform" src={performImg} alt="perform amount"></img>
+                            <img
+                              id="perform"
+                              src={performImg}
+                              alt="perform amount"
+                            ></img>
                             <p className="p-large-medium">공연권</p>
                           </div>
 
@@ -368,12 +449,15 @@ const Detail = () => {
                           />
 
                           <div
-                            className="flex items-center relative text-center"
+                            className="relative flex items-center text-center"
                             id="detail-amount-price"
                           >
-                            <div className="price-wrapper flex items-center">
+                            <div className="flex items-center price-wrapper">
                               <p className="p-large-medium" id="price">
-                                {formatPrice(purchasePerformAmount * performPrice)} 원
+                                {formatPrice(
+                                  purchasePerformAmount * performPrice
+                                )}{" "}
+                                원
                               </p>
                               <img
                                 className="c-pointer"
@@ -408,7 +492,14 @@ const Detail = () => {
                 </div>
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
                   {/*<button id="cart-btn">장바구니</button>*/}
-                  <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
+                  <button id="purchase-btn" onClick={onClickScriptView}>
+                    대본열람하기
+                  </button>
+                  <button
+                    id="purchase-btn"
+                    onClick={onClickPurchase}
+                    disabled={!isOptionSelected}
+                  >
                     구매하기
                   </button>
                 </div>
@@ -440,7 +531,13 @@ const Detail = () => {
                   key={index}
                   renderMode="canvas"
                   pageNumber={index + 1}
-                  width={width > 1280 ? 1000 : width <= 1280 && width > 768 ? 700 : 400}
+                  width={
+                    width > 1280
+                      ? 1000
+                      : width <= 1280 && width > 768
+                      ? 700
+                      : 400
+                  }
                 />
               ))}
             </Document>
@@ -457,14 +554,20 @@ const Detail = () => {
           </div>
           <div className="bottom-bar-right">
             {/* disabled */}
-            <Select value={selectedOption} onChange={onChangeBottomSelectOption} disabled>
+            <Select
+              value={selectedOption}
+              onChange={onChangeBottomSelectOption}
+              disabled
+            >
               <option value="" disabled selected>
                 옵션 선택
               </option>
               {(buyStatus === 0 || buyStatus === 2) && sellingScript ? (
                 <option value="script">대본</option>
               ) : null}
-              {(buyStatus === 0 || buyStatus === 2) && sellingScript && sellingPerform ? (
+              {(buyStatus === 0 || buyStatus === 2) &&
+              sellingScript &&
+              sellingPerform ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
               {(buyStatus === 1 || buyStatus === 2) && sellingPerform ? (
@@ -472,7 +575,11 @@ const Detail = () => {
               ) : null}
             </Select>
             {/* <button id="cart-btn">장바구니</button>*/}
-            <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
+            <button
+              id="purchase-btn"
+              onClick={onClickPurchase}
+              disabled={!isOptionSelected}
+            >
               구매하기
             </button>
           </div>

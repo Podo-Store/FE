@@ -94,8 +94,6 @@ function App() {
               <Route element={<MarginLayout />}>
                 <Route path="policy/:id" element={<PolicyBar />} />
 
-                {/*<Route path="list/detail/:id" element={<Detail />} />*/}
-
                 <Route
                   path="purchase/success"
                   element={<ProtectedRoute element={<PurchaseSuccess />} />}

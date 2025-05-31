@@ -7,13 +7,24 @@ interface Props {
   headerFont: string;
   subtitle?: string;
   subFont?: string;
+  className?: string;
 }
 
-const HeaderWithBack = ({ backUrl, headerTitle, headerFont }: Props) => {
+const HeaderWithBack = ({
+  backUrl,
+  headerTitle,
+  headerFont,
+  subtitle,
+  subFont,
+  className,
+}: Props) => {
   return (
-    <div className="flex flex-col gap-[14px]">
+    <div className={`flex flex-col gap-[14px] ${className}`}>
       <GoBack url={backUrl} />
-      <h1 className={headerFont}>{headerTitle}</h1>
+      <div>
+        <h1 className={headerFont}>{headerTitle}</h1>
+        {subtitle ? <span className={subFont}>{subtitle}</span> : <></>}
+      </div>
     </div>
   );
 };

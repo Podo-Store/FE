@@ -18,6 +18,7 @@ import PostGallery from "./pages/work/postList/PostGallery";
 import PostGalleryShort from "./pages/work/postList/PostGalleryShort";
 import PostGalleryLong from "./pages/work/postList/PostGalleryLong";
 import Detail from "./pages/work/Detail";
+import PostView from "./pages/work/PostView";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
@@ -84,7 +85,7 @@ function App() {
               <Route path="list/long" element={<PostGalleryLong />} />
               <Route path="list/short" element={<PostGalleryShort />} />
               <Route path="list/detail/:id" element={<Detail />} />
-
+              <Route path="list/view/:id" element={<PostView />} />
               <Route
                 path="purchase/:id"
                 element={<ProtectedRoute element={<Purchase />} />}
@@ -104,6 +105,7 @@ function App() {
                   element={<ProtectedRoute element={<Abort />} />}
                 />
                 <Route path="post" element={<PostWork />} />
+
                 <Route
                   path="mypage/liked"
                   element={<ProtectedRoute element={<LikedWorks />} />}

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import Cookies from "js-cookie";
 
 import { SERVER_URL } from "@/constants/ServerURL";
@@ -129,5 +129,26 @@ export const getShortWorks = async (
   } catch (error) {
     console.error("Error fetchin short works:", error);
     throw new Error(`단편 작품 API 호출 실패: ${(error as Error).message}`);
+  }
+};
+
+export const getPostView = async (scriptId: string): Promise<Blob> => {
+  try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+
+    const { data } = await api.get<Blob>("/scripts/view", {
+      params: { script: scriptId },
+      headers,
+      responseType: "blob",
+    });
+
+    return data;
+  } catch (error: any) {
+    const err = error as AxiosError<{ error: string }>;
+    const errorMessage =
+      err.response?.data?.error ?? "대본을 불러오는데 실패했습니다.";
+    throw new Error(errorMessage);
   }
 };

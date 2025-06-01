@@ -5,7 +5,7 @@ import FloatingBtn from "@/components/button/FloatingBtn";
 import { getLikedLongWorks } from "@/api/user/profile/likeApi";
 import { MyPageMenu } from "@/components/myPage";
 import { ScriptItem } from "@/api/user/postListApi";
-import useToggleLike from "@/hooks/useToggleLike";
+import { useToggleLike } from "@/hooks/useToggleLike";
 import AuthContext from "@/contexts/AuthContext";
 import PostHeaderControl from "@/components/post/PostHeaderControl";
 

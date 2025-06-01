@@ -12,7 +12,7 @@ import ViewToggleButton from "@/components/post/ViewToggleButton";
 import SectionBlock from "@/components/post/SectionBlock";
 import BannerImage1 from "./../../../assets/image/listBanner.jpg";
 import BannerImage2 from "./../../../assets/image/postList_banner.png";
-import useToggleLike from "@/hooks/useToggleLike";
+import {useToggleLike} from "@/hooks/useToggleLike";
 import { fetchExploreScripts, ScriptItem } from "@/api/user/postListApi";
 import "./postGallery.scss";
 

@@ -96,7 +96,7 @@
 
 .detail .detail-plot {
   padding-left: 25px;
-  height: 71px;
+  height: 96px;
 }
 
 .detail .detail-price-wrap {
@@ -167,11 +167,17 @@
   margin-bottom: 14px;
 }
 
-.detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) div#detail-amount-title {
+.detail
+  div#detail-amount-wrap
+  div#detail-amount:nth-of-type(1)
+  div#detail-amount-title {
   gap: 13px;
 }
 
-.detail div#detail-amount-wrap div#detail-amount:nth-of-type(1) div#detail-amount-price {
+.detail
+  div#detail-amount-wrap
+  div#detail-amount:nth-of-type(1)
+  div#detail-amount-price {
   gap: 31px;
 }
 
@@ -189,7 +195,10 @@
   margin-bottom: 18px;
 }
 
-.detail div#detail-amount-wrap div#detail-amount:nth-of-type(2) div#detail-amount-title {
+.detail
+  div#detail-amount-wrap
+  div#detail-amount:nth-of-type(2)
+  div#detail-amount-title {
   gap: 10px;
 }
 
@@ -208,7 +217,11 @@
   }
 }
 
-.detail div#detail-amount-wrap div#detail-amount div#detail-amount-price p#price {
+.detail
+  div#detail-amount-wrap
+  div#detail-amount
+  div#detail-amount-price
+  p#price {
   margin: 0;
   margin-left: 1.406vw;
 

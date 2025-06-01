@@ -8,7 +8,7 @@ import PartialLoading from "@/components/loading/PartialLoading";
 import { AllPostCard } from "@/components/post/PostList.js";
 import { getLongWorks, ScriptItem } from "@/api/user/postListApi";
 import AuthContext from "../../../contexts/AuthContext";
-import useToggleLike from "@/hooks/useToggleLike";
+import { useToggleLike } from "@/hooks/useToggleLike";
 
 const bannerImages = [BannerImage1, BannerImage2];
 const PostGalleryLong = () => {

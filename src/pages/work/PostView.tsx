@@ -38,7 +38,9 @@ const PostView: React.FC = () => {
     setNumPages(numPages);
   };
 
-  const [scriptDetail, setScriptDetail] = useState<PostDetail>(script); // script → 상태화
+  const [scriptDetail, setScriptDetail] = useState<PostDetail | undefined>(
+    script
+  ); // script → 상태화
 
   const rawToggleLike = useSingleToggleLike(setScriptDetail);
 
@@ -296,7 +298,7 @@ const PostView: React.FC = () => {
               <button onClick={handleLikeClick}>
                 <img
                   className=""
-                  src={scriptDetail.like ? redHeartIcon : heartIcon}
+                  src={scriptDetail?.like ? redHeartIcon : heartIcon}
                   alt="좋아요"
                 ></img>
               </button>

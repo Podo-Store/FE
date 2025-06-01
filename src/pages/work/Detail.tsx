@@ -5,7 +5,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../Loading";
-import type { PDFDocumentProxy } from "pdfjs-dist";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
@@ -14,7 +13,7 @@ import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
-
+import InfoItem from "@/components/detail/InfoItem";
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
@@ -103,6 +102,8 @@ const Detail = () => {
           script: id,
         },
       });
+
+      console.log(response.data);
       setScript({
         id: id || "", // 혹은 response.data.id 가 있다면 사용
         title: response.data.title,
@@ -325,15 +326,11 @@ const Detail = () => {
                 </div>
 
                 <div className="option-select">
-                  {/* disabled */}
                   <Select
                     value={selectedOption}
                     onChange={onChangeSelectOption}
-                    disabled
                   >
-                    <option value="" disabled>
-                      옵션 선택
-                    </option>
+                    <option value="">옵션 선택</option>
                     {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
                     script.script ? (
                       <option value="script">대본</option>
@@ -343,8 +340,7 @@ const Detail = () => {
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
-                    {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-                    script.performance ? (
+                    {script?.buyStatus === 0 && script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null}
                   </Select>
@@ -524,6 +520,17 @@ const Detail = () => {
         </div>
 
         <div className="detail-description" ref={pdfContainerRef}>
+          <hr></hr>
+          <div className="flex  flex-col pl-[20px] gap-[19px]">
+            <h2 className="p-large-bold">개요</h2>
+            <div className="flex flex-col  gap-[18px]">
+              <InfoItem label="등장인물" value="남 9명/ 여 9명" />
+              <InfoItem label="무대" value="대한민국 가정집, 법정" />
+              <InfoItem label="공연 시간" value="약 120분" />
+              <InfoItem label="장과 막" value="3막 10장" />
+            </div>
+          </div>
+
           <hr></hr>
           <p className="p-large-bold" id="preview-title">
             미리보기

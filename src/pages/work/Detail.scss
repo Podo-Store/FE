@@ -8,7 +8,7 @@
 
 .detail .detail-wrap .content {
   display: grid;
-  grid-template-columns: 466px 1fr;
+  grid-template-columns: 466px 734px;
   grid-template-rows: auto auto;
   column-gap: 22px;
 
@@ -31,15 +31,6 @@
   }
 }
 
-.detail .detail-title {
-  width: 737px;
-  @include r.media-laptop {
-    width: 682px;
-  }
-  @include r.media-tablet {
-    width: fit-content;
-  }
-}
 .detail .detail-title#title {
   grid-column: 2;
   grid-row: 1;

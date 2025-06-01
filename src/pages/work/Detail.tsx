@@ -1,12 +1,14 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 
 import Loading from "../Loading";
-import type { PDFDocumentProxy } from "pdfjs-dist";
-
+import AuthContext from "@/contexts/AuthContext";
+import defaultImg from "../../assets/image/post/list/defaultProfile.png";
+import heartIcon from "../../assets/image/post/ic_heart.svg";
+import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
 import Preview from "../../components/detail/Preview";
@@ -14,10 +16,11 @@ import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
-
+import InfoItem from "@/components/detail/InfoItem";
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-
+import LikeViewCount from "@/components/list/LikeViewCount";
+import { useSingleToggleLike } from "@/hooks/useToggleLike";
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
 import {
@@ -65,7 +68,6 @@ const Detail = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalPrice, setTotalPrice] = useState(" - ");
-
   const [purchasePerformAmount, setPurchasePerformAmount] = useState(1);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -75,7 +77,8 @@ const Detail = () => {
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
-
+  const isAuthenticated = useContext(AuthContext);
+  const toggleLike = useSingleToggleLike(setScript);
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
   const { id } = useParams<{ id: string }>();
@@ -103,6 +106,8 @@ const Detail = () => {
           script: id,
         },
       });
+
+      console.log(response.data);
       setScript({
         id: id || "", // 혹은 response.data.id 가 있다면 사용
         title: response.data.title,
@@ -118,7 +123,7 @@ const Detail = () => {
         buyStatus: response.data.buyStatus,
         like: response.data.like,
         likeCount: response.data.likeCount,
-        viewCount: response.data.ViewCount, // 여긴 ViewCount 주의!
+        viewCount: response.data.viewCount,
       });
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
@@ -141,26 +146,24 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    if (!script) return setTotalPrice(" - ");
-    if (selectedOption === "script") {
-      setTotalPrice(formatPrice(script?.scriptPrice));
-    } else if (selectedOption === "perform") {
-      setTotalPrice(
-        formatPrice(purchasePerformAmount * script?.performancePrice)
-      );
-    } else if (selectedOption === "scriptPerform") {
-      setTotalPrice(
-        formatPrice(
-          script?.scriptPrice + purchasePerformAmount * script?.performancePrice
-        )
-      );
+    if (!script) {
+      setTotalPrice(" - ");
+      return;
     }
-  }, [
-    selectedOption,
-    script?.scriptPrice,
-    script?.performancePrice,
-    purchasePerformAmount,
-  ]);
+
+    let total = 0;
+
+    if (selectedOption === "script") {
+      total = script.scriptPrice;
+    } else if (selectedOption === "perform") {
+      total = purchasePerformAmount * script.performancePrice;
+    } else if (selectedOption === "scriptPerform") {
+      total =
+        script.scriptPrice + purchasePerformAmount * script.performancePrice;
+    }
+
+    setTotalPrice(formatPrice(total));
+  }, [selectedOption, script, purchasePerformAmount]);
 
   const pdfContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -258,32 +261,71 @@ const Detail = () => {
   if (isLoading) {
     return <Loading />;
   }
+  const handleLikeClick = (postId: string) => {
+    if (!isAuthenticated) {
+      alert("로그인이 필요합니다.");
+      return;
+    }
+    if (!postId) {
+      console.error("스크립트 ID 없음");
+      return;
+    }
+    toggleLike(postId);
+  };
 
   return (
     <div className="detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
 
-      <div className="detail-wrap f-dir-column a-items-center max-w-[1220px]">
-        <div className="content">
-          <div className="detail-thumbnail-wrap">
-            <ThumbnailImg
-              style={{ width: "100%", height: "0", paddingBottom: "100%" }}
-              imagePath={script?.imagePath}
-            />
+      <div className="detail-wrap f-dir-column a-items-center max-w-[1225px] ">
+        <div className="w-full content">
+          <div className=" detail-thumbnail-wrap">
+            <div
+              className={`flex  relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
+                script?.imagePath !== "" ? "border border-[var(--grey3)]" : ""
+              }`}
+            >
+              <img
+                src={script?.imagePath === "" ? defaultImg : script?.imagePath}
+                alt={script?.title}
+                className="object-contain  shrink-0 rounded-[20px]  w-full"
+              />
+              <div className="absolute bottom-[6.3%] right-[6.4%] borde">
+                <button
+                  onClick={() => {
+                    if (script?.id) {
+                      handleLikeClick(script.id);
+                    }
+                  }}
+                >
+                  <img
+                    className=""
+                    src={script?.like ? redHeartIcon : heartIcon}
+                    alt="좋아요"
+                  ></img>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* 제목, 이름 */}
           <div
             id="title"
-            className=" detail-title f-dir-column j-content-between"
+            className="w-full detail-title f-dir-column j-content-between"
           >
-            <div className="title-wrap">
+            <div className="title-wrap ">
               <h1 className="h1-bold">
                 {width > 769
                   ? script?.title
                   : truncateText({ text: script?.title || "", maxLength: 6 })}
               </h1>
-              <h3 className="h3-bold">{script?.writer}</h3>
+              <div className="flex flex-row justify-between ">
+                <h3 className="h3-bold">{script?.writer}</h3>
+                <LikeViewCount
+                  likes={script?.likeCount ?? 0}
+                  views={script?.viewCount ?? 0}
+                />
+              </div>
             </div>
           </div>
 
@@ -292,11 +334,11 @@ const Detail = () => {
             className="detail-title f-dir-column j-content-between"
           >
             {/* 줄거리 */}
-            <div className="_content-detail">
+            <div className=" _content-detail">
               <hr id="detail-hr-1"></hr>
               <div className="detail-price-wrap">
-                <div className="detail-plot pr-[46px]">
-                  <p className="p-medium-regular ">{script?.plot}</p>
+                <div className="detail-plot pr-[46px] ">
+                  <p className="w-full p-medium-regular">{script?.plot}</p>
                 </div>
                 <hr id="detail-hr-2"></hr>
 
@@ -325,15 +367,11 @@ const Detail = () => {
                 </div>
 
                 <div className="option-select">
-                  {/* disabled */}
                   <Select
                     value={selectedOption}
                     onChange={onChangeSelectOption}
-                    disabled
                   >
-                    <option value="" disabled>
-                      옵션 선택
-                    </option>
+                    <option value="">옵션 선택</option>
                     {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
                     script.script ? (
                       <option value="script">대본</option>
@@ -343,8 +381,7 @@ const Detail = () => {
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
-                    {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-                    script.performance ? (
+                    {script?.buyStatus === 0 && script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null}
                   </Select>
@@ -425,6 +462,9 @@ const Detail = () => {
                                 src={closeBtn}
                                 alt="X"
                                 onClick={() => {
+                                  setTotalPrice(
+                                    formatPrice(script?.scriptPrice)
+                                  );
                                   setSelectedOption("");
                                 }}
                               />
@@ -482,7 +522,6 @@ const Detail = () => {
                                     setSelectedOption("");
                                     setIsOptionSelected(false);
                                   } else {
-                                    // selectedOption === "scriptPerform"
                                     setSelectedOption("script");
                                   }
                                 }}
@@ -523,12 +562,25 @@ const Detail = () => {
           </div>
         </div>
 
-        <div className="detail-description" ref={pdfContainerRef}>
+        <div className="w-full detail-description" ref={pdfContainerRef}>
           <hr></hr>
-          <p className="p-large-bold" id="preview-title">
-            미리보기
-          </p>
-          <Preview id={id!} lengthType={script?.playType ?? ""} />
+          <div className="flex  flex-col pl-[20px] gap-[19px]">
+            <h2 className="p-large-bold">개요</h2>
+            <div className="flex flex-col  gap-[18px]">
+              <InfoItem label="등장인물" value="남 9명/ 여 9명" />
+              <InfoItem label="무대" value="대한민국 가정집, 법정" />
+              <InfoItem label="공연 시간" value="약 120분" />
+              <InfoItem label="장과 막" value="3막 10장" />
+            </div>
+          </div>
+
+          <hr></hr>
+          <div className="mb-[40px]">
+            <p className="p-large-bold" id="preview-title">
+              미리보기
+            </p>
+            <Preview id={id!} lengthType={script?.playType ?? ""} />
+          </div>
           <hr></hr>
 
           <div className="j-content-center">
@@ -548,7 +600,7 @@ const Detail = () => {
                 ))}
               </Document>
             ) : (
-              <p>미리보기 파일이 존재하지 않습니다.</p> // ✅ file이 없을 때 보여줄 내용
+              <></>
             )}
           </div>
         </div>
@@ -566,11 +618,8 @@ const Detail = () => {
             <Select
               value={selectedOption}
               onChange={onChangeBottomSelectOption}
-              disabled
             >
-              <option value="" disabled>
-                옵션 선택
-              </option>
+              <option value="">옵션 선택</option>
               {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
               script.script ? (
                 <option value="script">대본</option>
@@ -580,8 +629,7 @@ const Detail = () => {
               script.performance ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
-              {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-              script.performance ? (
+              {script?.buyStatus === 0 && script.performance ? (
                 <option value="perform">공연권</option>
               ) : null}
             </Select>

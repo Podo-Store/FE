@@ -42,7 +42,7 @@ export const useToggleLike = (
 };
 
 export const useSingleToggleLike = (
-  setScript: React.Dispatch<React.SetStateAction<PostDetail>>
+  setScript: React.Dispatch<React.SetStateAction<PostDetail | undefined>>
 ) => {
   const handleToggleLike = useCallback(
     async (postId: string) => {
@@ -50,11 +50,15 @@ export const useSingleToggleLike = (
         const accessToken = Cookies.get("accessToken");
         await toggleLikeScript(postId, accessToken);
 
-        setScript((prev) => ({
-          ...prev,
-          like: !prev.like,
-          likeCount: prev.like ? prev.likeCount - 1 : prev.likeCount + 1,
-        }));
+        setScript((prev) => {
+          if (!prev) return prev; // 혹은 null 반환도 가능
+
+          return {
+            ...prev,
+            like: !prev.like,
+            likeCount: prev.like ? prev.likeCount - 1 : prev.likeCount + 1,
+          };
+        });
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
         alert("좋아요는 로그인 후 이용할 수 있어요.");

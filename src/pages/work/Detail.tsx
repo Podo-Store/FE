@@ -64,7 +64,7 @@ const Detail = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [totalPrice, setTotalPrice] = useState(" - ");
-
+  const [totalPriceNum, setTotalPriceNum] = useState<number>(0);
   const [purchasePerformAmount, setPurchasePerformAmount] = useState(1);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -142,26 +142,26 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    if (!script) return setTotalPrice(" - ");
-    if (selectedOption === "script") {
-      setTotalPrice(formatPrice(script?.scriptPrice));
-    } else if (selectedOption === "perform") {
-      setTotalPrice(
-        formatPrice(purchasePerformAmount * script?.performancePrice)
-      );
-    } else if (selectedOption === "scriptPerform") {
-      setTotalPrice(
-        formatPrice(
-          script?.scriptPrice + purchasePerformAmount * script?.performancePrice
-        )
-      );
+    if (!script) {
+      setTotalPrice(" - ");
+      setTotalPriceNum(0);
+      return;
     }
-  }, [
-    selectedOption,
-    script?.scriptPrice,
-    script?.performancePrice,
-    purchasePerformAmount,
-  ]);
+
+    let total = 0;
+
+    if (selectedOption === "script") {
+      total = script.scriptPrice;
+    } else if (selectedOption === "perform") {
+      total = purchasePerformAmount * script.performancePrice;
+    } else if (selectedOption === "scriptPerform") {
+      total =
+        script.scriptPrice + purchasePerformAmount * script.performancePrice;
+    }
+
+    setTotalPriceNum(total);
+    setTotalPrice(formatPrice(total));
+  }, [selectedOption, script, purchasePerformAmount]);
 
   const pdfContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -421,6 +421,9 @@ const Detail = () => {
                                 src={closeBtn}
                                 alt="X"
                                 onClick={() => {
+                                  setTotalPrice(
+                                    formatPrice(script?.scriptPrice)
+                                  );
                                   setSelectedOption("");
                                 }}
                               />
@@ -478,7 +481,6 @@ const Detail = () => {
                                     setSelectedOption("");
                                     setIsOptionSelected(false);
                                   } else {
-                                    // selectedOption === "scriptPerform"
                                     setSelectedOption("script");
                                   }
                                 }}
@@ -561,7 +563,7 @@ const Detail = () => {
         </div>
       </div>
       {!isDetailBtnVisible && (
-        <div className="detail-bottom-bar" style={bottomBarStyle}>
+        <div className="border detail-bottom-bar" style={bottomBarStyle}>
           <div className="bottom-bar-left">
             <h5 className="h5-regular c-grey">총 금액</h5>
             <h4 className="h4-bold" id="bottom-total-price">
@@ -573,11 +575,8 @@ const Detail = () => {
             <Select
               value={selectedOption}
               onChange={onChangeBottomSelectOption}
-              disabled
             >
-              <option value="" disabled>
-                옵션 선택
-              </option>
+              <option value="">옵션 선택</option>
               {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
               script.script ? (
                 <option value="script">대본</option>
@@ -587,8 +586,7 @@ const Detail = () => {
               script.performance ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
-              {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-              script.performance ? (
+              {script?.buyStatus === 0 && script.performance ? (
                 <option value="perform">공연권</option>
               ) : null}
             </Select>

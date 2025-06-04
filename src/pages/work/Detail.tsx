@@ -58,6 +58,13 @@ export interface PostDetail {
   like: boolean;
   likeCount: number;
   viewCount: number;
+  any: number;
+  male: number;
+  female: number;
+  stageComment: string;
+  runningTime: number;
+  scene: number;
+  act: number;
 }
 
 const Detail = () => {
@@ -124,6 +131,13 @@ const Detail = () => {
         like: response.data.like,
         likeCount: response.data.likeCount,
         viewCount: response.data.viewCount,
+        any: response.data.any,
+        male: response.data.male,
+        female: response.data.female,
+        stageComment: response.data.stageComment,
+        runningTime: response.data.runningTime,
+        scene: response.data.scene,
+        act: response.data.act,
       });
     } catch (error) {
       alert("작품 정보를 불러오는데 실패했습니다.");
@@ -567,10 +581,25 @@ const Detail = () => {
           <div className="flex  flex-col pl-[20px] gap-[19px]">
             <h2 className="p-large-bold">개요</h2>
             <div className="flex flex-col  gap-[18px]">
-              <InfoItem label="등장인물" value="남 9명/ 여 9명" />
-              <InfoItem label="무대" value="대한민국 가정집, 법정" />
-              <InfoItem label="공연 시간" value="약 120분" />
-              <InfoItem label="장과 막" value="3막 10장" />
+              <InfoItem
+                label="등장인물"
+                value={[
+                  (script?.any ?? 0) > 0 ? `성별무관 ${script?.any}명` : null,
+                  (script?.male ?? 0) > 0 ? `남자 ${script?.male}명` : null,
+                  (script?.female ?? 0) > 0 ? `여자 ${script?.female}명` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" / ")}
+              />
+              <InfoItem label="무대" value={`${script?.stageComment}`} />
+              <InfoItem
+                label="공연 시간"
+                value={`약 ${script?.runningTime}분`}
+              />
+              <InfoItem
+                label="장과 막"
+                value={`${script?.scene}막 ${script?.act}장`}
+              />
             </div>
           </div>
 

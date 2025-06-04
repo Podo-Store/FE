@@ -372,25 +372,31 @@ const Detail = () => {
                       : `${formatPrice(script?.scriptPrice)}원`}
                   </p>
                 </div>
-                <div className="detail-price">
-                  <div className="price">
-                    <img id="perform" src={performImg} alt="perform"></img>
-                    <p className="whitespace-nowrap">공연권</p>
+                {script?.performance ? (
+                  <div className="detail-price">
+                    <div className="price">
+                      <img id="perform" src={performImg} alt="perform"></img>
+                      <p className="whitespace-nowrap">공연권</p>
+                    </div>
+                    <p className="p-large-medium">
+                      {formatPrice(script?.performancePrice) === "0"
+                        ? "무료"
+                        : `${formatPrice(script?.performancePrice)}원`}
+                    </p>
                   </div>
-                  <p className="p-large-medium">
-                    {formatPrice(script?.performancePrice) === "0"
-                      ? "무료"
-                      : `${formatPrice(script?.performancePrice)}원`}
-                  </p>
-                </div>
+                ) : (
+                  <></>
+                )}
 
-                <div className="option-select">
+                <div className="option-select ">
                   <Select
+                    className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
                     value={selectedOption}
                     onChange={onChangeSelectOption}
+                    disabled={!script?.performance} // 포도알 스테이지에서만 적용
                   >
                     <option value="">옵션 선택</option>
-                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+                    {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
                     script.script ? (
                       <option value="script">대본</option>
                     ) : null}
@@ -398,7 +404,7 @@ const Detail = () => {
                     script.script &&
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
-                    ) : null}
+                    ) : null} */}
                     {script?.buyStatus === 0 && script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null}

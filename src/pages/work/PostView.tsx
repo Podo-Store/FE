@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getPostView } from "@/api/user/postListApi";
+import { getLikeStatus } from "@/api/user/profile/likeApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
@@ -11,8 +12,8 @@ import { ScriptItem } from "@/api/user/postListApi";
 import AuthContext from "@/contexts/AuthContext";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import { PostDetail } from "./Detail";
+import Cookies from "js-cookie";
 
-const MockData = { title: "Archive", user: "서준" };
 const PostView: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
@@ -32,7 +33,8 @@ const PostView: React.FC = () => {
 
   const location = useLocation();
   const { script } = location.state;
-
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const accessToken = Cookies.get("accessToken");
   const { isAuthenticated } = useContext(AuthContext);
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
@@ -64,8 +66,20 @@ const PostView: React.FC = () => {
   };
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setIsLiked((prev) => !prev);
     handleToggleLike(id!); // 부모에게 '나 클릭했어' 알려줌
   };
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      if (!id) return; // id가 없으면 요청하지 않음
+      const status = await getLikeStatus(id, accessToken);
+      setIsLiked(status);
+      console.log(status);
+    };
+
+    fetchLikeStatus();
+  }, [id]);
 
   useEffect(() => {
     let objectUrl: string;
@@ -298,7 +312,7 @@ const PostView: React.FC = () => {
               <button onClick={handleLikeClick}>
                 <img
                   className=""
-                  src={scriptDetail?.like ? redHeartIcon : heartIcon}
+                  src={isLiked ? redHeartIcon : heartIcon}
                   alt="좋아요"
                 ></img>
               </button>

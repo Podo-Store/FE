@@ -96,15 +96,17 @@ const Detail = () => {
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
   useRequest(async () => {
+    if (!id) return;
     try {
       setIsLoading(true);
 
-      let headers: Record<string, string> = {
+      const headers: Record<string, string> = {
         "Content-Type": "application/json",
       };
-      // 로그인 상태에 따른 헤더 설정
-      if (Cookies.get("accessToken")) {
-        headers["Authorization"] = `Bearer ${Cookies.get("accessToken")}`;
+
+      const token = Cookies.get("accessToken");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
       }
 
       const response = await axios.get(`${SERVER_URL}scripts/detail`, {
@@ -139,8 +141,16 @@ const Detail = () => {
         scene: response.data.scene,
         act: response.data.act,
       });
-    } catch (error) {
-      alert("작품 정보를 불러오는데 실패했습니다.");
+    } catch (error: any) {
+      const errMsg = error.response?.data?.error;
+      if (errMsg?.includes("rollback")) {
+        alert(
+          "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
+        );
+      } else {
+        alert("작품 정보를 불러오는데 실패했습니다.");
+      }
+      console.error("❌ 서버 응답:", errMsg);
     }
     setIsLoading(false);
   });

@@ -81,11 +81,35 @@ export const getLikedShortWorks = async (
     });
     console.log(response);
     return response.data;
-    
   } catch (error) {
     console.error("Error fetching liked short works:", error);
     throw new Error(
       `좋아한 단편 작품 API 호출 실패: ${(error as Error).message}`
     );
+  }
+};
+
+export const getLikeStatus = async (
+  id: string,
+  accessToken?: string
+): Promise<boolean> => {
+  try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (accessToken) {
+      headers["Authorization"] = `Bearer ${accessToken}`;
+    }
+
+    const response = await api.get<boolean>(`/scripts/likeStatus/${id}`, {
+      headers,
+    });
+    console.log(response.data);
+    console.log(document.cookie);
+
+    return response.data; // true 또는 false
+  } catch (error) {
+    console.error("좋아요 상태 가져오기 실패:", error);
+    return false; // 에러 발생 시 기본값 false로 처리
   }
 };

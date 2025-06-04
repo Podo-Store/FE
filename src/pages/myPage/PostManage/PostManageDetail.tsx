@@ -28,15 +28,11 @@ type WorkFormState = Partial<
   Pick<
     WorkDetailResponse,
     | "title"
-    | "plot"
-    | "imagePath"
     | "script"
-    | "scriptPrice"
     | "performance"
+    | "scriptPrice"
     | "performancePrice"
-    | "descriptionPath"
-    | "buyStatus"
-    | "playType"
+    | "plot"
     | "any"
     | "male"
     | "female"
@@ -44,6 +40,10 @@ type WorkFormState = Partial<
     | "runningTime"
     | "scene"
     | "act"
+    | "buyStatus"
+    | "playType"
+    | "imagePath"
+    | "descriptionPath"
   >
 >;
 
@@ -70,22 +70,21 @@ const PostManageDetail: React.FC = () => {
 
   const [form, setForm] = useState<WorkFormState>({
     title: "",
-    imagePath: "",
     script: false,
-    scriptPrice: 0,
     performance: false,
+    scriptPrice: 0,
     performancePrice: 0,
-    descriptionPath: "",
-    playType: "",
     plot: "",
-    buyStatus: 0,
-    any: null,
+    any: 0,
     male: 0,
     female: 0,
     stageComment: "",
     runningTime: 0,
     scene: 0,
     act: 0,
+
+    imagePath: "",
+    descriptionPath: "",
   });
 
   //  이미지 수정
@@ -131,18 +130,22 @@ const PostManageDetail: React.FC = () => {
       formData.append("scene", String(Number(form.scene ?? 0)));
       formData.append("act", String(Number(form.act ?? 0)));
 
-      // 파일 또는 기존 path로 설정
+      // 썸네일 이미지
       if (InputtedThumbnailImgFile) {
         formData.append("scriptImage", InputtedThumbnailImgFile);
       } else if (form.imagePath) {
-        formData.append("imagePath", form.imagePath); //✅
+        formData.append("imagePath", form.imagePath);
       }
 
-      // 설명 파일
       if (uploadedFile) {
         formData.append("description", uploadedFile);
       } else if (form.descriptionPath) {
-        formData.append("descriptionPath", form.descriptionPath); //✅
+        formData.append("descriptionPath", form.descriptionPath);
+      }
+
+      // ✅ FormData 확인용
+      for (const pair of formData.entries()) {
+        console.log(pair[0], pair[1]);
       }
 
       const success = await postWorkDetail(formData);
@@ -177,7 +180,14 @@ const PostManageDetail: React.FC = () => {
         setPartialLoading(true); // 로딩 시작
 
         const data = await getWorkDetail(scriptId, accessToken);
-        setForm(data);
+
+        // title이 20자 초과 시 잘라서 세팅
+        const trimmedTitle =
+          data.title && data.title.length > 20
+            ? data.title.slice(0, 20)
+            : data.title;
+
+        setForm({ ...data, title: trimmedTitle });
       } catch (err: any) {
         alert(err.message);
       } finally {
@@ -234,7 +244,7 @@ const PostManageDetail: React.FC = () => {
                   <RectInputField
                     type="text"
                     placeholder="작품 제목을 입력해주세요. (최대 20자)"
-                    value={form.title}
+                    value={form.title ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 20) {
@@ -254,7 +264,7 @@ const PostManageDetail: React.FC = () => {
                   <textarea
                     className=" focus:outline-none focus:border-[0.5px] focus:border-[#caabff] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] resize-none h-full w-full rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[1.15vw] py-[1.20vh] p-small-regular  box-border "
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
-                    value={form.plot}
+                    value={form.plot ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 150) {
@@ -408,7 +418,7 @@ const PostManageDetail: React.FC = () => {
                   <textarea
                     className="focus:outline-none  focus:border-[0.5px] focus:border-[#caabff] p-xs-regular resize-none mt-[9px]  mb-[5px] ml-[4.83%] mr-[5.3%] rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[10px] py-[8px] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] "
                     placeholder="시기, 장소 등을 자유롭게 적어주세요."
-                    value={form.stageComment === null ? "" : form.stageComment}
+                    value={form.stageComment ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 20) {
@@ -516,9 +526,10 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
-                      }
+                      // src={
+                      //   form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
+                      // }
+                      src={form.script ? puppleCheckIcon : grayCheckIcon}
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -533,12 +544,12 @@ const PostManageDetail: React.FC = () => {
                     disabled
                     placeholder="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
                     className=" p-xs-regular ml-[4.82%] px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                    onChange={(e) => {
-                      setForm((prev) => ({
-                        ...prev,
-                        scriptPrice: Number(e.target.value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   setForm((prev) => ({
+                    //     ...prev,
+                    //     scriptPrice: Number(e.target.value),
+                    //   }));
+                    // }}
                   ></input>
                 </div>
                 <select
@@ -601,9 +612,7 @@ const PostManageDetail: React.FC = () => {
                           }));
                         }
                       }}
-                      value={
-                        form.performancePrice === 0 ? "" : form.performancePrice
-                      }
+                      value={form.performancePrice ?? ""}
                     />
 
                     <span

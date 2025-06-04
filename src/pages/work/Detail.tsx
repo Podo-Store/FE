@@ -367,7 +367,9 @@ const Detail = () => {
                     </p>
                   </div>
                   <p className="p-large-medium">
-                    {formatPrice(script?.scriptPrice)} 원
+                    {formatPrice(script?.scriptPrice) === "0"
+                      ? "무료"
+                      : `${formatPrice(script?.scriptPrice)}원`}
                   </p>
                 </div>
                 <div className="detail-price">
@@ -376,7 +378,9 @@ const Detail = () => {
                     <p className="whitespace-nowrap">공연권</p>
                   </div>
                   <p className="p-large-medium">
-                    {formatPrice(script?.performancePrice)} 원
+                    {formatPrice(script?.performancePrice) === "0"
+                      ? "무료"
+                      : `${formatPrice(script?.performancePrice)}원`}
                   </p>
                 </div>
 

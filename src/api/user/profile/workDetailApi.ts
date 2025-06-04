@@ -55,10 +55,13 @@ export const getWorkDetail = async (
   }
 };
 
+type ErrorResponse = {
+  error: string;
+};
+
 export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
   try {
     const headers: Record<string, string> = {
-      "Content-Type": "multipart/form-data",
       Authorization: `Bearer ${Cookies.get("accessToken")}`,
     };
 
@@ -68,10 +71,11 @@ export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
 
     return response.data === true;
   } catch (error: any) {
-    const err = error as AxiosError<{ error: string }>;
-    const errorMessage =
-      err.response?.data?.error ?? "작품 정보를 수정하는 데 실패했습니다.";
-    throw new Error(errorMessage);
+    const err = error as AxiosError<ErrorResponse>;
+    console.error("💥 서버 응답 데이터:", err.response?.data);
+    throw new Error(
+      err.response?.data?.error ?? "작품 정보를 수정하는 데 실패했습니다."
+    );
   }
 };
 

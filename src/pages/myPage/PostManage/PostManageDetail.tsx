@@ -1,42 +1,39 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getWorkDetail,
   WorkDetailResponse,
   postWorkDetail,
   deleteWorkDetail,
 } from "@/api/user/profile/workDetailApi";
-import { useNavigate, useParams } from "react-router-dom";
+
 import OverLapPartialLoading from "@/components/loading/OverLapPartialLoading";
-import GoBack from "@/components/button/GoBack";
 import ThumbnailImg from "@/components/thumbnail/ThumbnailImg";
 import RectInputField from "@/components/inputField/RectInputField";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 import DialogPopup from "@/components/popup/DialogPopup";
+import FileInputBox from "@/components/file/FileInputBox";
+import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
+import HeaderWithBack from "@/components/header/HeaderWithBack";
+import InfoPopup from "@/components/popup/InfoPopup";
+
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
 import grayCheckIcon from "@/assets/image/myPage/ic_gray_check.svg";
 import puppleCheckIcon from "@/assets/image/myPage/ic_pupple_check.svg";
 import stickIcon from "@/assets/image/myPage/ic_stick.svg";
 import puppleLine from "@/assets/image/myPage/pupple_line.svg";
-import FileInputBox from "@/components/file/FileInputBox";
-import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
-import HeaderWithBack from "@/components/header/HeaderWithBack";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
 import Cookies from "js-cookie";
-
-import InfoPopup from "@/components/popup/InfoPopup";
 
 type WorkFormState = Partial<
   Pick<
     WorkDetailResponse,
     | "title"
-    | "plot"
-    | "imagePath"
     | "script"
-    | "scriptPrice"
     | "performance"
+    | "scriptPrice"
     | "performancePrice"
-    | "descriptionPath"
-    | "buyStatus"
-    | "playType"
+    | "plot"
     | "any"
     | "male"
     | "female"
@@ -44,48 +41,44 @@ type WorkFormState = Partial<
     | "runningTime"
     | "scene"
     | "act"
+    | "buyStatus"
+    | "playType"
+    | "imagePath"
+    | "descriptionPath"
   >
 >;
 
 const PostManageDetail: React.FC = () => {
   const { scriptId } = useParams();
   const accessToken = Cookies.get("accessToken");
-  // const [title, setTitle] = useState("");
-  const [isPartialLoading, setPartialLoading] = useState(false);
-  const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] =
-    useState<File | null>(null);
-  // imgFile: 입력받은 이미지 파일, imgUrl: 입력받은 이미지 파일 -> URL
-  const [InputtedThumbnailImgUrl, setInputtedThumbnailImgUrl] = useState("");
-  // getThumbnailImgUrl: API 요청으로부터 받아온 이미지 URL
-
-  const [showPopup, setShowPopup] = useState(false);
   const {
     widthConditions: { isMobile },
   } = useWindowDimensions();
   const navigate = useNavigate();
-  // 삭제하기 클릭 시 경고 박스
-  const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
-  // 업로드된 설명 파일
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
+  const [isPartialLoading, setPartialLoading] = useState(false);
+  const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] =
+    useState<File | null>(null);
+  const [InputtedThumbnailImgUrl, setInputtedThumbnailImgUrl] = useState("");
+  const [showPopup, setShowPopup] = useState(false);
+  const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null); // 업로드된 설명 파일
   const [form, setForm] = useState<WorkFormState>({
     title: "",
-    imagePath: "",
     script: false,
-    scriptPrice: 0,
     performance: false,
+    scriptPrice: 0,
     performancePrice: 0,
-    descriptionPath: "",
-    playType: "",
     plot: "",
-    buyStatus: 0,
-    any: null,
+    any: 0,
     male: 0,
     female: 0,
     stageComment: "",
     runningTime: 0,
     scene: 0,
     act: 0,
+    imagePath: "",
+    descriptionPath: "",
   });
 
   //  이미지 수정
@@ -107,7 +100,7 @@ const PostManageDetail: React.FC = () => {
     fileInput.click();
   };
 
-  // 수정하기
+  // 수정하기 
   const onClickModifyBtn = async () => {
     if (!scriptId || !accessToken) return;
     try {
@@ -131,18 +124,16 @@ const PostManageDetail: React.FC = () => {
       formData.append("scene", String(Number(form.scene ?? 0)));
       formData.append("act", String(Number(form.act ?? 0)));
 
-      // 파일 또는 기존 path로 설정
       if (InputtedThumbnailImgFile) {
         formData.append("scriptImage", InputtedThumbnailImgFile);
       } else if (form.imagePath) {
-        formData.append("imagePath", form.imagePath); //✅
+        formData.append("imagePath", form.imagePath);
       }
 
-      // 설명 파일
       if (uploadedFile) {
         formData.append("description", uploadedFile);
       } else if (form.descriptionPath) {
-        formData.append("descriptionPath", form.descriptionPath); //✅
+        formData.append("descriptionPath", form.descriptionPath);
       }
 
       const success = await postWorkDetail(formData);
@@ -151,11 +142,13 @@ const PostManageDetail: React.FC = () => {
         alert("작품 수정이 완료되었습니다.");
         navigate("/mypage/scriptmanage");
       }
+      
     } catch (error: any) {
       alert(error.message);
     }
   };
 
+  // 작품 삭제하기
   const onClickDeleteConfirm = async () => {
     if (!scriptId || !accessToken) return;
     try {
@@ -174,19 +167,52 @@ const PostManageDetail: React.FC = () => {
       if (!scriptId || !accessToken) return;
 
       try {
-        setPartialLoading(true); // 로딩 시작
+        setPartialLoading(true); 
 
         const data = await getWorkDetail(scriptId, accessToken);
-        setForm(data);
+
+        // title이 20자 초과 시 잘라서 세팅
+        const trimmedTitle =
+          data.title && data.title.length > 20
+            ? data.title.slice(0, 20)
+            : data.title;
+
+        setForm({ ...data, title: trimmedTitle });
       } catch (err: any) {
         alert(err.message);
       } finally {
-        setPartialLoading(false); // 로딩 종료
+        setPartialLoading(false);
       }
     };
 
     fetchWorkDetail();
   }, [scriptId]);
+
+  
+  // 활성화 조건
+  const totalActors =
+    Number(form.male ?? 0) + Number(form.female ?? 0) + Number(form.any ?? 0);
+  const hasValidTitle = form.title?.trim() !== "" && form.title !== null;
+  const hasValidPlot = form.plot?.trim() !== "" && form.plot !== null;
+  const hasValidStageComment =
+    form.stageComment?.trim() !== "" && form.stageComment !== null;
+  const hasActors = totalActors > 0;
+  const hasRunningTime = (form.runningTime ?? 0) > 0;
+  const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
+  const hasValidPerformancePrice =
+    form.script && form.performance ? (form.performancePrice ?? -1) >= 0 : true;
+
+  const isFormValid = () => {
+    return (
+      hasValidTitle &&
+      hasValidPlot &&
+      hasValidStageComment &&
+      hasActors &&
+      hasRunningTime &&
+      hasSceneOrAct &&
+      hasValidPerformancePrice
+    );
+  };
 
   return (
     <div className="w-full">
@@ -234,7 +260,7 @@ const PostManageDetail: React.FC = () => {
                   <RectInputField
                     type="text"
                     placeholder="작품 제목을 입력해주세요. (최대 20자)"
-                    value={form.title}
+                    value={form.title ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 20) {
@@ -254,7 +280,7 @@ const PostManageDetail: React.FC = () => {
                   <textarea
                     className=" focus:outline-none focus:border-[0.5px] focus:border-[#caabff] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] resize-none h-full w-full rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[1.15vw] py-[1.20vh] p-small-regular  box-border "
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
-                    value={form.plot}
+                    value={form.plot ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 150) {
@@ -281,13 +307,7 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        (form.any ?? 0) > 0 ||
-                        (form.male ?? 0) > 0 ||
-                        (form.female ?? 0) > 0
-                          ? puppleCheckIcon
-                          : grayCheckIcon
-                      }
+                      src={hasActors ? puppleCheckIcon : grayCheckIcon}
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -353,9 +373,7 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        form.runningTime ?? 0 ? puppleCheckIcon : grayCheckIcon
-                      }
+                      src={hasRunningTime ? puppleCheckIcon : grayCheckIcon}
                       className="aspect-square"
                       alt="입력 체크"
                     />
@@ -392,9 +410,7 @@ const PostManageDetail: React.FC = () => {
                     {" "}
                     <img
                       src={
-                        form.stageComment ?? ""
-                          ? puppleCheckIcon
-                          : grayCheckIcon
+                        hasValidStageComment ? puppleCheckIcon : grayCheckIcon
                       }
                       className=" aspect-square"
                       alt="입력 체크"
@@ -408,7 +424,7 @@ const PostManageDetail: React.FC = () => {
                   <textarea
                     className="focus:outline-none  focus:border-[0.5px] focus:border-[#caabff] p-xs-regular resize-none mt-[9px]  mb-[5px] ml-[4.83%] mr-[5.3%] rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[10px] py-[8px] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] "
                     placeholder="시기, 장소 등을 자유롭게 적어주세요."
-                    value={form.stageComment === null ? "" : form.stageComment}
+                    value={form.stageComment ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
                       if (value.length <= 20) {
@@ -422,11 +438,7 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        (form.scene ?? 0) > 0 || (form.act ?? 0) > 0
-                          ? puppleCheckIcon
-                          : grayCheckIcon
-                      }
+                      src={hasSceneOrAct ? puppleCheckIcon : grayCheckIcon}
                       className="aspect-square"
                       alt="입력 체크"
                     />
@@ -516,9 +528,10 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
-                      }
+                      // src={
+                      //   form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
+                      // }
+                      src={puppleCheckIcon}
                       className=" aspect-square"
                       alt="입력 체크"
                     />
@@ -533,12 +546,12 @@ const PostManageDetail: React.FC = () => {
                     disabled
                     placeholder="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
                     className=" p-xs-regular ml-[4.82%] px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                    onChange={(e) => {
-                      setForm((prev) => ({
-                        ...prev,
-                        scriptPrice: Number(e.target.value),
-                      }));
-                    }}
+                    // onChange={(e) => {
+                    //   setForm((prev) => ({
+                    //     ...prev,
+                    //     scriptPrice: Number(e.target.value),
+                    //   }));
+                    // }}
                   ></input>
                 </div>
                 <select
@@ -561,7 +574,7 @@ const PostManageDetail: React.FC = () => {
                     {" "}
                     <img
                       src={
-                        form.performancePrice ?? 0
+                        hasValidPerformancePrice
                           ? puppleCheckIcon
                           : grayCheckIcon
                       }
@@ -601,9 +614,7 @@ const PostManageDetail: React.FC = () => {
                           }));
                         }
                       }}
-                      value={
-                        form.performancePrice === 0 ? "" : form.performancePrice
-                      }
+                      value={form.performancePrice ?? ""}
                     />
 
                     <span
@@ -668,17 +679,7 @@ const PostManageDetail: React.FC = () => {
               </SmallOnOffBtn>
               <SmallOnOffBtn
                 color="purple"
-                disabled={
-                  form.title === "" ||
-                  form.stageComment === "" ||
-                  form.plot === "" ||
-                  Number(form.male ?? 0) +
-                    Number(form.female ?? 0) +
-                    Number(form.any ?? 0) <
-                    1 ||
-                  form.runningTime === 0 ||
-                  Number(form.act ?? 0) + Number(form.scene ?? 0) < 1
-                }
+                disabled={!isFormValid()}
                 onClick={onClickModifyBtn}
               >
                 수정하기

@@ -8,10 +8,8 @@ import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
-import { ScriptItem } from "@/api/user/postListApi";
 import AuthContext from "@/contexts/AuthContext";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
-import { PostDetail } from "./Detail";
 import Cookies from "js-cookie";
 
 const PostView: React.FC = () => {
@@ -35,16 +33,11 @@ const PostView: React.FC = () => {
   const { script } = location.state;
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const accessToken = Cookies.get("accessToken");
-  const { isAuthenticated } = useContext(AuthContext);
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
   };
 
-  const [scriptDetail, setScriptDetail] = useState<PostDetail | undefined>(
-    script
-  ); // script → 상태화
-
-  const rawToggleLike = useSingleToggleLike(setScriptDetail);
+  const rawToggleLike = useSingleToggleLike();
 
   const handlePageChange = (page: number) => {
     const target = document.getElementById(`page-${page}`);

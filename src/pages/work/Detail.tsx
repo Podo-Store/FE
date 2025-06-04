@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Loading from "../Loading";
 import AuthContext from "@/contexts/AuthContext";
 import defaultImg from "../../assets/image/post/list/defaultProfile.png";
@@ -15,7 +14,6 @@ import Preview from "../../components/detail/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
-import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 import InfoItem from "@/components/detail/InfoItem";
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -85,7 +83,7 @@ const Detail = () => {
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
   const isAuthenticated = useContext(AuthContext);
-  const toggleLike = useSingleToggleLike(setScript);
+  const toggleLike = useSingleToggleLike();
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
   const { id } = useParams<{ id: string }>();
@@ -285,6 +283,7 @@ const Detail = () => {
   if (isLoading) {
     return <Loading />;
   }
+
   const handleLikeClick = (postId: string) => {
     if (!isAuthenticated) {
       alert("로그인이 필요합니다.");
@@ -294,6 +293,13 @@ const Detail = () => {
       console.error("스크립트 ID 없음");
       return;
     }
+
+    setScript((prev) => ({
+      ...prev!,
+      like: !prev!.like,
+      likeCount: prev!.like ? prev!.likeCount - 1 : prev!.likeCount + 1,
+    }));
+
     toggleLike(postId);
   };
 

@@ -109,7 +109,7 @@ const PostView: React.FC = () => {
 
   useEffect(() => {
     // 페이지 진입 시 하단바를 먼저 보여줌
-    setOffset(0);
+
     setIsControlVisible(true);
   }, []);
 
@@ -253,14 +253,17 @@ const PostView: React.FC = () => {
                 : `translateY(-${offset}px)`,
 
               height: `${barHeight}px`,
-              pointerEvents: isControlVisible ? "auto" : "none",
+
               // left: `33.9svw`,
             }}
           >
             <span className="absolute w-[100vw] border border-[var(--purple7)] " />
             <div className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
               {isMoreBtn ? (
-                <div className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear">
+                <div
+                  className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
+                  style={{ pointerEvents: isControlVisible ? "auto" : "none" }}
+                >
                   <button
                     onClick={() =>
                       setScale((prev) =>

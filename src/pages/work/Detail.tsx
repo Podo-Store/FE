@@ -293,6 +293,12 @@ const Detail = () => {
       console.error("스크립트 ID 없음");
       return;
     }
+    const accessToken = Cookies.get("accessToken");
+    
+    if (!accessToken) {
+      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      return;
+    }
 
     setScript((prev) => ({
       ...prev!,

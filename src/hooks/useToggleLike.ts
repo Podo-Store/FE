@@ -50,6 +50,7 @@ export const useSingleToggleLike = (
     async (postId: string) => {
       try {
         const accessToken = Cookies.get("accessToken");
+       
         await toggleLikeScript(postId, accessToken);
       } catch (error) {
         console.error("좋아요 처리 실패:", error);

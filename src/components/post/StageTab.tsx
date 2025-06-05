@@ -7,7 +7,7 @@ interface Props {
 }
 
 const stages = ["포도밭", "포도알", "포도송이", "와인"];
-const availableStages = ["포도밭"];
+const availableStages = ["포도밭", "포도알"];
 
 const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
   const navigate = useNavigate();
@@ -37,6 +37,9 @@ const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
                }
             
           `}
+              onClick={() => {
+                setActiveCategory(stage);
+              }}
             >
               {stage}
             </li>

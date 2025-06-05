@@ -8,7 +8,7 @@ import PartialLoading from "@/components/loading/PartialLoading";
 import { AllPostCard } from "@/components/post/PostList.js";
 import { getShortWorks, ScriptItem } from "@/api/user/postListApi";
 import AuthContext from "../../../contexts/AuthContext";
-import {useToggleLike} from "@/hooks/useToggleLike";
+import { useToggleLike } from "@/hooks/useToggleLike";
 
 const bannerImages = [BannerImage1, BannerImage2];
 const PostGalleryShort = () => {
@@ -55,7 +55,7 @@ const PostGalleryShort = () => {
     }
   };
 
-    const handleToggleLikeShort = (postId: string) => {
+  const handleToggleLikeShort = (postId: string) => {
     if (!isAuthenticated) {
       alert("로그인이 필요합니다.");
       return;
@@ -78,13 +78,12 @@ const PostGalleryShort = () => {
         return posts;
     }
   };
-  
+
   const uniqueShortPlays = Array.from(
     new Map(shortPlays.map((post) => [post.id, post])).values()
   );
 
   const sortedShortPlays = sortPosts(uniqueShortPlays, sortType);
-
 
   useEffect(() => {
     const handleResize = () => {
@@ -160,7 +159,7 @@ const PostGalleryShort = () => {
         <>
           <div className="mb-[24px]">
             {" "}
-            <p className="h5-medium ">장편극</p>
+            <p className="h5-medium ">단편극</p>
           </div>
           <AllPostCard
             posts={sortedShortPlays}

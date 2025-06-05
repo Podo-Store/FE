@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
-
 import Loading from "../Loading";
 import AuthContext from "@/contexts/AuthContext";
 import defaultImg from "../../assets/image/post/list/defaultProfile.png";
@@ -15,7 +14,6 @@ import Preview from "../../components/detail/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
-import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 import InfoItem from "@/components/detail/InfoItem";
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -58,6 +56,13 @@ export interface PostDetail {
   like: boolean;
   likeCount: number;
   viewCount: number;
+  any: number;
+  male: number;
+  female: number;
+  stageComment: string;
+  runningTime: number;
+  scene: number;
+  act: number;
 }
 
 const Detail = () => {
@@ -78,7 +83,7 @@ const Detail = () => {
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
   const isAuthenticated = useContext(AuthContext);
-  const toggleLike = useSingleToggleLike(setScript);
+  const toggleLike = useSingleToggleLike();
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
   const { id } = useParams<{ id: string }>();
@@ -89,15 +94,17 @@ const Detail = () => {
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
   useRequest(async () => {
+    if (!id) return;
     try {
       setIsLoading(true);
 
-      let headers: Record<string, string> = {
+      const headers: Record<string, string> = {
         "Content-Type": "application/json",
       };
-      // 로그인 상태에 따른 헤더 설정
-      if (Cookies.get("accessToken")) {
-        headers["Authorization"] = `Bearer ${Cookies.get("accessToken")}`;
+
+      const token = Cookies.get("accessToken");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
       }
 
       const response = await axios.get(`${SERVER_URL}scripts/detail`, {
@@ -124,9 +131,24 @@ const Detail = () => {
         like: response.data.like,
         likeCount: response.data.likeCount,
         viewCount: response.data.viewCount,
+        any: response.data.any,
+        male: response.data.male,
+        female: response.data.female,
+        stageComment: response.data.stageComment,
+        runningTime: response.data.runningTime,
+        scene: response.data.scene,
+        act: response.data.act,
       });
-    } catch (error) {
-      alert("작품 정보를 불러오는데 실패했습니다.");
+    } catch (error: any) {
+      const errMsg = error.response?.data?.error;
+      if (errMsg?.includes("rollback")) {
+        alert(
+          "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
+        );
+      } else {
+        alert("작품 정보를 불러오는데 실패했습니다.");
+      }
+      console.error("❌ 서버 응답:", errMsg);
     }
     setIsLoading(false);
   });
@@ -261,6 +283,7 @@ const Detail = () => {
   if (isLoading) {
     return <Loading />;
   }
+
   const handleLikeClick = (postId: string) => {
     if (!isAuthenticated) {
       alert("로그인이 필요합니다.");
@@ -270,6 +293,19 @@ const Detail = () => {
       console.error("스크립트 ID 없음");
       return;
     }
+    const accessToken = Cookies.get("accessToken");
+    
+    if (!accessToken) {
+      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      return;
+    }
+
+    setScript((prev) => ({
+      ...prev!,
+      like: !prev!.like,
+      likeCount: prev!.like ? prev!.likeCount - 1 : prev!.likeCount + 1,
+    }));
+
     toggleLike(postId);
   };
 
@@ -353,26 +389,36 @@ const Detail = () => {
                     </p>
                   </div>
                   <p className="p-large-medium">
-                    {formatPrice(script?.scriptPrice)} 원
+                    {formatPrice(script?.scriptPrice) === "0"
+                      ? "무료"
+                      : `${formatPrice(script?.scriptPrice)}원`}
                   </p>
                 </div>
-                <div className="detail-price">
-                  <div className="price">
-                    <img id="perform" src={performImg} alt="perform"></img>
-                    <p className="whitespace-nowrap">공연권</p>
+                {script?.performance ? (
+                  <div className="detail-price">
+                    <div className="price">
+                      <img id="perform" src={performImg} alt="perform"></img>
+                      <p className="whitespace-nowrap">공연권</p>
+                    </div>
+                    <p className="p-large-medium">
+                      {formatPrice(script?.performancePrice) === "0"
+                        ? "무료"
+                        : `${formatPrice(script?.performancePrice)}원`}
+                    </p>
                   </div>
-                  <p className="p-large-medium">
-                    {formatPrice(script?.performancePrice)} 원
-                  </p>
-                </div>
+                ) : (
+                  <></>
+                )}
 
-                <div className="option-select">
+                <div className="option-select ">
                   <Select
+                    className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
                     value={selectedOption}
                     onChange={onChangeSelectOption}
+                    disabled={!script?.performance} // 포도알 스테이지에서만 적용
                   >
                     <option value="">옵션 선택</option>
-                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+                    {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
                     script.script ? (
                       <option value="script">대본</option>
                     ) : null}
@@ -380,7 +426,7 @@ const Detail = () => {
                     script.script &&
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
-                    ) : null}
+                    ) : null} */}
                     {script?.buyStatus === 0 && script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null}
@@ -567,10 +613,25 @@ const Detail = () => {
           <div className="flex  flex-col pl-[20px] gap-[19px]">
             <h2 className="p-large-bold">개요</h2>
             <div className="flex flex-col  gap-[18px]">
-              <InfoItem label="등장인물" value="남 9명/ 여 9명" />
-              <InfoItem label="무대" value="대한민국 가정집, 법정" />
-              <InfoItem label="공연 시간" value="약 120분" />
-              <InfoItem label="장과 막" value="3막 10장" />
+              <InfoItem
+                label="등장인물"
+                value={[
+                  (script?.any ?? 0) > 0 ? `성별무관 ${script?.any}명` : null,
+                  (script?.male ?? 0) > 0 ? `남자 ${script?.male}명` : null,
+                  (script?.female ?? 0) > 0 ? `여자 ${script?.female}명` : null,
+                ]
+                  .filter(Boolean)
+                  .join(" / ")}
+              />
+              <InfoItem label="무대" value={`${script?.stageComment}`} />
+              <InfoItem
+                label="공연 시간"
+                value={`약 ${script?.runningTime}분`}
+              />
+              <InfoItem
+                label="장과 막"
+                value={`${script?.scene}막 ${script?.act}장`}
+              />
             </div>
           </div>
 

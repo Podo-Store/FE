@@ -1,21 +1,22 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { getPostView } from "@/api/user/postListApi";
+import { getLikeStatus } from "@/api/user/profile/likeApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
-import { ScriptItem } from "@/api/user/postListApi";
 import AuthContext from "@/contexts/AuthContext";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
-import { PostDetail } from "./Detail";
+import Cookies from "js-cookie";
+import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 
-const MockData = { title: "Archive", user: "서준" };
 const PostView: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [isMoreBtn, setIsMoreBtn] = useState(false);
   const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
   const [offset, setOffset] = useState(barHeight);
   const [isControlVisible, setIsControlVisible] = useState(true);
@@ -32,17 +33,13 @@ const PostView: React.FC = () => {
 
   const location = useLocation();
   const { script } = location.state;
-
-  const { isAuthenticated } = useContext(AuthContext);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const accessToken = Cookies.get("accessToken");
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
   };
 
-  const [scriptDetail, setScriptDetail] = useState<PostDetail | undefined>(
-    script
-  ); // script → 상태화
-
-  const rawToggleLike = useSingleToggleLike(setScriptDetail);
+  const rawToggleLike = useSingleToggleLike();
 
   const handlePageChange = (page: number) => {
     const target = document.getElementById(`page-${page}`);
@@ -64,8 +61,26 @@ const PostView: React.FC = () => {
   };
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!accessToken) {
+      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      return;
+    }
+
+    setIsLiked((prev) => !prev);
     handleToggleLike(id!); // 부모에게 '나 클릭했어' 알려줌
   };
+
+  useEffect(() => {
+    const fetchLikeStatus = async () => {
+      if (!id) return; // id가 없으면 요청하지 않음
+
+      const status = await getLikeStatus(id, accessToken);
+      setIsLiked(status);
+      console.log(status);
+    };
+
+    fetchLikeStatus();
+  }, [id]);
 
   useEffect(() => {
     let objectUrl: string;
@@ -94,7 +109,7 @@ const PostView: React.FC = () => {
 
   useEffect(() => {
     // 페이지 진입 시 하단바를 먼저 보여줌
-    setOffset(0);
+
     setIsControlVisible(true);
   }, []);
 
@@ -182,7 +197,7 @@ const PostView: React.FC = () => {
   return (
     <>
       {/* 1280px */}
-      <div className="m-auto list-wrap-wrap mb-[7vh]">
+      <div className=" w-screen mb-[7vh]">
         {/* header */}
         <HeaderWithBack
           backUrl={id ? `/list/detail/${id}` : "/list"}
@@ -190,88 +205,35 @@ const PostView: React.FC = () => {
           headerFont="h1-bold"
           subtitle={script.writer}
           subFont="h3-bold"
-          className="mb-[2.12vh] mt-[3.4vw]"
+          className="mx-[16.5%] mb-[2.12vh] mt-[3.4vw]"
         />
         <span className="absolute z-10 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
 
-        <div className="relative mx-auto w-fit ">
-          <div
-            ref={topControlRef}
-            className="absolute right-[6%] mt-[15px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
-            style={{
-              opacity: isControlVisible ? 1 : 0,
-              pointerEvents: isControlVisible ? "auto" : "none",
-            }}
-          >
-            <button
-              onClick={() =>
-                setScale((prev) => Math.max(0.8, +(prev - 0.1).toFixed(1)))
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M13.5938 9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                  fill="#BABABA"
-                />
-                <path
-                  d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                  fill="#BABABA"
-                />
-              </svg>
-            </button>
-            <span className="p-large-medium ">{Math.round(scale * 100)}%</span>
-            <button
-              onClick={() =>
-                setScale((prev) => Math.min(2.0, +(prev + 0.1).toFixed(1)))
-              }
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M13.5938 9.375H10.625V6.40625C10.625 6.32031 10.5547 6.25 10.4688 6.25H9.53125C9.44531 6.25 9.375 6.32031 9.375 6.40625V9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H9.375V13.5938C9.375 13.6797 9.44531 13.75 9.53125 13.75H10.4688C10.5547 13.75 10.625 13.6797 10.625 13.5938V10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                  fill="black"
-                />
-                <path
-                  d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                  fill="black"
-                />
-              </svg>
-            </button>
-          </div>
-
+        <div className="relative w-full">
           {pdfBlobUrl ? (
-            <PdfDocument
-              file={pdfBlobUrl}
-              onLoadSuccess={onDocumentLoadSuccess}
-              loading={<div className="mt-10 text-center">로딩 중...</div>}
-            >
-              {Array.from(new Array(numPages), (_, index) => (
-                <div
-                  className="z-0 "
-                  id={`page-${index + 1}`}
-                  key={`page-${index + 1}`}
-                >
-                  <Page
-                    pageNumber={index + 1}
-                    width={653}
-                    scale={scale}
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                  />
-                </div>
-              ))}
-            </PdfDocument>
+            <div className="mx-auto w-fit">
+              <PdfDocument
+                file={pdfBlobUrl}
+                onLoadSuccess={onDocumentLoadSuccess}
+                loading={<div className="mt-10 text-center">로딩 중...</div>}
+              >
+                {Array.from(new Array(numPages), (_, index) => (
+                  <div
+                    className="z-0 "
+                    id={`page-${index + 1}`}
+                    key={`page-${index + 1}`}
+                  >
+                    <Page
+                      pageNumber={index + 1}
+                      width={653}
+                      scale={scale}
+                      renderTextLayer={false}
+                      renderAnnotationLayer={false}
+                    />
+                  </div>
+                ))}
+              </PdfDocument>
+            </div>
           ) : (
             <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>
           )}
@@ -280,25 +242,95 @@ const PostView: React.FC = () => {
           {/* 653px */}
           <div
             ref={footerControlRef}
-            className={`${
+            className={` w-screen ${
               isFooterVisible
                 ? "absolute"
                 : "fixed transition-transform duration-100 ease-linear"
-            }  top-[100%] bg-[#FFF] h-[7vh] w-fit  `}
+            }  top-[100%] bg-[#FFF] h-[7vh]`}
             style={{
               transform: isFooterVisible
                 ? "translateY(0px)"
                 : `translateY(-${offset}px)`,
 
               height: `${barHeight}px`,
+
+              // left: `33.9svw`,
             }}
           >
-            <span className="absolute w-[300vw] border border-[var(--purple7)] left-[-100%]" />
-            <div className=" m-auto  min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
+            <span className="absolute w-[100vw] border border-[var(--purple7)] " />
+            <div className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
+              {isMoreBtn ? (
+                <div
+                  className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
+                  style={{ pointerEvents: isControlVisible ? "auto" : "none" }}
+                >
+                  <button
+                    onClick={() =>
+                      setScale((prev) =>
+                        Math.max(0.8, +(prev - 0.1).toFixed(1))
+                      )
+                    }
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M13.5938 9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
+                        fill="#BABABA"
+                      />
+                      <path
+                        d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
+                        fill="#BABABA"
+                      />
+                    </svg>
+                  </button>
+                  <span className="p-large-medium ">
+                    {Math.round(scale * 100)}%
+                  </span>
+                  <button
+                    onClick={() =>
+                      setScale((prev) =>
+                        Math.min(2.0, +(prev + 0.1).toFixed(1))
+                      )
+                    }
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                    >
+                      <path
+                        d="M13.5938 9.375H10.625V6.40625C10.625 6.32031 10.5547 6.25 10.4688 6.25H9.53125C9.44531 6.25 9.375 6.32031 9.375 6.40625V9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H9.375V13.5938C9.375 13.6797 9.44531 13.75 9.53125 13.75H10.4688C10.5547 13.75 10.625 13.6797 10.625 13.5938V10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
+                        fill="black"
+                      />
+                      <path
+                        d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
+                        fill="black"
+                      />
+                    </svg>
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
+              <button
+                onClick={() => {
+                  console.log(isMoreBtn);
+                  setIsMoreBtn(!isMoreBtn);
+                }}
+              >
+                <img src={moreBtn}></img>
+              </button>
               <button onClick={handleLikeClick}>
                 <img
                   className=""
-                  src={scriptDetail?.like ? redHeartIcon : heartIcon}
+                  src={isLiked ? redHeartIcon : heartIcon}
                   alt="좋아요"
                 ></img>
               </button>

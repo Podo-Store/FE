@@ -30,12 +30,10 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
       setIdChecker(newIdChecker);
       */
 
-    setIdChecker((prevIdChecker) => ({
-      // 기존 show가 true면 그대로 유지
-      ...prevIdChecker,
+    setIdChecker({
       format: ID_FORMAT_REGEX.test(id),
       length: ID_LENGTH_REGEX.test(id),
-    }));
+    });
   }, [id]);
 
   const checkIdDuplicated = async (id) => {
@@ -64,7 +62,12 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   const onClickNext = async () => {
     await checkIdDuplicated(id); // 중복 체크 실행
 
-    if (hasIdDuplicateChecked && idChecker.format && idChecker.length && !idDuplicated) {
+    if (
+      hasIdDuplicateChecked &&
+      idChecker.format &&
+      idChecker.length &&
+      !idDuplicated
+    ) {
       setUserInfo({ ...userInfo, id: id });
       onNext();
     }
@@ -88,9 +91,12 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
           checkIdDuplicated(id);
           setIdChecker({ ...idChecker, show: false });
         }}
-        checkerShowFlag={idChecker.show}
+        checkerShowFlag={id.length > 0}
         checkerMessages={[
-          { checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." },
+          {
+            checkedFlag: idChecker.format,
+            message: "영어와 숫자를 반드시 포함해야 해요.",
+          },
           { checkedFlag: idChecker.length, message: "5 ~ 10자만 가능해요." },
         ]}
         errorFlag={idDuplicated}

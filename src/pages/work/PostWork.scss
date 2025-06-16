@@ -263,7 +263,7 @@
   }
 }
 
-#info-btn {
+.post-work #info-btn {
   @include r.media-laptop {
     display: none;
   }

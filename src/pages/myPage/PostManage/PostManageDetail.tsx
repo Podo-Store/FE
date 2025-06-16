@@ -560,7 +560,7 @@ const PostManageDetail: React.FC = () => {
 
             {/* --- 판매 상태 --- */}
             <div className="min-h-[103px] mb-[12px] ">
-              <div className="mb-[2%] flex items-center gap-[7px]">
+              <div className="mb-[2%] flex items-center gap-[7px] relative">
                 <h2 className="p-medium-bold">판매 상태 </h2>
                 <img
                   id="info-btn"
@@ -581,11 +581,11 @@ const PostManageDetail: React.FC = () => {
                     }}
                     style={{
                       top: "unset",
-                      left: "32%",
+                      left: "0%",
                       padding: "11px",
                       transform: "translate(calc(20px + 75px), 0)",
                     }}
-                    buttonId="info-btn"
+                    buttonId="info-btn1"
                   />
                 ) : null}
               </div>
@@ -675,10 +675,13 @@ const PostManageDetail: React.FC = () => {
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            performancePrice: Number(value),
-                          }));
+                          const numericValue = Number(value);
+                          if (numericValue <= 50000) {
+                            setForm((prev) => ({
+                              ...prev,
+                              performancePrice: numericValue,
+                            }));
+                          }
                         }
                       }}
                       value={form.performancePrice ?? ""}

@@ -6,7 +6,10 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import OnOffBtn from "../../components/button/OnOffBtn";
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 import AmountChange from "../../components/detail/AmountChange";
-import { RectInputField, RectPhoneInputField } from "../../components/inputField";
+import {
+  RectInputField,
+  RectPhoneInputField,
+} from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -44,7 +47,8 @@ const Purchase = () => {
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
-  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] = useState(1);
+  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] =
+    useState(1);
 
   // 공연권 거래 시
   const [showPopup, setShowPopup] = useState(false);
@@ -150,11 +154,16 @@ const Purchase = () => {
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
   useEffect(() => {
-    if (!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)) {
+    if (
+      !(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)
+    ) {
       setButtonEnabled(false);
       return;
     }
-    if (isPerformSelected && !(name.length > 0 && phone.length > 0 && address.length > 0)) {
+    if (
+      isPerformSelected &&
+      !(name.length > 0 && phone.length > 0 && address.length > 0)
+    ) {
       setButtonEnabled(false);
       return;
     }
@@ -181,7 +190,9 @@ const Purchase = () => {
         ],
         // 결제 방식 - 0: 0원, 1: 계좌이체
         paymentMethod:
-          (buyScript && scriptPrice === 0) || (buyPerform && performPrice === 0) ? 0 : 1,
+          (buyScript && scriptPrice === 0) || (buyPerform && performPrice === 0)
+            ? 0
+            : 1,
       };
 
       // Include applicant only if performance rights are being purchased
@@ -195,23 +206,25 @@ const Purchase = () => {
         requestBody.applicant = undefined;
       }
 
-      const response = await axios.post(`${SERVER_URL}order/item`, requestBody, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await axios.post(
+        `${SERVER_URL}order/item`,
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
 
       const orderData = response.data[0];
 
-      alert("결제가 완료되었습니다.");
       navigate("/purchase/success", {
         state: {
           orderId: orderData.id,
         },
       });
     } catch (error) {
-      alert(error.response?.data?.error || "결제 요청 중 문제가 발생했습니다.");
       navigate("/purchase/abort");
     } finally {
       setIsLoading(false);
@@ -259,8 +272,9 @@ const Purchase = () => {
                   <p className="p-large-bold">공연권</p>
                   <div style={{ height: "6px" }}></div>
                   <p className="p-xs-regular">
-                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                    하며, 대본이 ‘포도상점’을 통하여 제공되었음을 표시하여야 합니다.
+                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                    저작자의 것임을 표시해야 하며, 대본이 ‘포도상점’을 통하여
+                    제공되었음을 표시하여야 합니다.
                   </p>
                   <div style={{ height: "16px" }}></div>
                 </div>
@@ -283,7 +297,9 @@ const Purchase = () => {
                       <AmountChange
                         performPrice={performPrice}
                         purchasePerformAmount={modifiedPurchasePerformAmount}
-                        setPurchasePerformAmount={setModifiedPurchasePerformAmount}
+                        setPurchasePerformAmount={
+                          setModifiedPurchasePerformAmount
+                        }
                       />
                     </div>
                   </div>
@@ -319,7 +335,9 @@ const Purchase = () => {
                 <div className="purchase-method-title">
                   <p className="p-large-bold">결제 방법</p>
                   {768 < width && width <= 1280 && (
-                    <p className="p-small-bold c-grey4">계좌 이체 방법은 메일로 전송됩니다.</p>
+                    <p className="p-small-bold c-grey4">
+                      계좌 이체 방법은 메일로 전송됩니다.
+                    </p>
                   )}
                 </div>
                 <div className="btn-wrap d-flex">
@@ -332,10 +350,16 @@ const Purchase = () => {
                   >
                     계좌 이체
                   </SmallOnOffBtn>
-                  <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                  <SmallOnOffBtn
+                    disabled={true}
+                    style={{ width: "108px", height: "36px" }}
+                  >
                     -
                   </SmallOnOffBtn>
-                  <SmallOnOffBtn disabled={true} style={{ width: "108px", height: "36px" }}>
+                  <SmallOnOffBtn
+                    disabled={true}
+                    style={{ width: "108px", height: "36px" }}
+                  >
                     -
                   </SmallOnOffBtn>
                 </div>

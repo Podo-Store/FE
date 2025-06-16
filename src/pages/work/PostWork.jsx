@@ -184,7 +184,8 @@ const PostWork = () => {
                         padding: "11px",
                         transform:
                           "translate(calc(113.75px + 8px + 20px + 5px), 0)",
-                      }}
+                      }
+                    }
                       buttonId="info-btn"
                     />
                   </div>

@@ -263,6 +263,15 @@
   }
 }
 
+#info-btn {
+  @include r.media-laptop {
+    display: none;
+  }
+  @include r.media-tablet {
+    display: block;
+  }
+}
+
 .post-work .upload-title .post-work .upload-title .image-popup {
   position: absolute;
   top: 20px;

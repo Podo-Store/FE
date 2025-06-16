@@ -38,7 +38,7 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
 
   const checkIdDuplicated = async (id) => {
     if (!idChecker.format || !idChecker.length) {
-      return;
+      return false;
     }
 
     // initialize
@@ -49,9 +49,10 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
         userId: id,
         check: true,
       });
-      if (response.data === true) {
-        setIdDuplicated(false);
-      }
+
+      const isAvailable = response.data === true;
+      setIdDuplicated(!isAvailable);
+      return isAvailable;
     } catch (error) {
       setIdDuplicated(true);
     } finally {
@@ -60,14 +61,9 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   };
 
   const onClickNext = async () => {
-    await checkIdDuplicated(id); // 중복 체크 실행
+    const isAvailable = await checkIdDuplicated(id);
 
-    if (
-      hasIdDuplicateChecked &&
-      idChecker.format &&
-      idChecker.length &&
-      !idDuplicated
-    ) {
+    if (idChecker.format && idChecker.length && isAvailable) {
       setUserInfo({ ...userInfo, id: id });
       onNext();
     }

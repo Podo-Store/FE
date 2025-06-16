@@ -91,7 +91,12 @@ const SignUp3 = ({
   const onClickNext = async () => {
     await checkNameDuplicated(name); // 중복 체크 실행
 
-    if (hasNameDuplicateChecked && nameChecker.format && nameChecker.length && !nameDuplicated) {
+    if (
+      hasNameDuplicateChecked &&
+      nameChecker.format &&
+      nameChecker.length &&
+      !nameDuplicated
+    ) {
       saveNameStatus();
       onNext();
     }
@@ -117,9 +122,12 @@ const SignUp3 = ({
           setHasClickedInputFlag(false);
           checkNameDuplicated(name);
         }}
-        checkerShowFlag={nameChecker.show}
+        checkerShowFlag={name.length > 0}
         checkerMessages={[
-          { checkedFlag: nameChecker.format, message: "한글, 영어, 숫자만 사용 가능해요." },
+          {
+            checkedFlag: nameChecker.format,
+            message: "한글, 영어, 숫자만 사용 가능해요.",
+          },
           { checkedFlag: nameChecker.length, message: "3 ~ 8자만 가능해요." },
         ]}
         errorFlag={nameDuplicated}

@@ -137,7 +137,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
           ) : null}
           {item.popup && showPopup[item.key]
             ? item.popup &&
-              React.cloneElement(item.popup, {
+             React .cloneElement(item.popup, {
                 title: item.name,
                 detail: item.detail,
                 setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),

@@ -2,13 +2,14 @@ import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import FileInputBox from "../../components/file/FileInputBox";
 import AnimatedCheckedSvg from "@/components/loading/AnimatedCheckedSvg";
 import PartialLoading from "@/components/loading/PartialLoading";
 import InfoPopup from "@/components/popup/InfoPopup";
-
+import PolicyPopup from "@/components/popup/PolicyPopup";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import infoBtn from "@/assets/image/button/circleInfoBlackBtn.svg";
@@ -18,6 +19,9 @@ import podoalIcon from "../../assets/image/post/ic_podoal.svg";
 import podoSongIIcon from "../../assets/image/post/ic_podosongi.svg";
 import wine from "../../assets/image/post/Wine.png";
 import doubleRiteIcon from "../../assets/image/post/ic_double_right.svg";
+import checkSquare from "../../assets/image/ic_check_square.svg";
+import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
+import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
 import "./PostWork.scss";
 
@@ -27,13 +31,18 @@ const PostWork = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   // Image popup
   const [showPopup, setShowPopup] = useState(false);
+  const [authorPopup, setAuthorPopup] = useState(false);
   const popupRef = useRef(null);
 
   const navigate = useNavigate();
 
+  const handleChange = (e) => {
+    setIsChecked(e.target.checked);
+  };
   const onClickUpload = async () => {
     if (!file) {
       alert("파일을 선택해주세요.");
@@ -184,8 +193,7 @@ const PostWork = () => {
                         padding: "11px",
                         transform:
                           "translate(calc(113.75px + 8px + 20px + 5px), 0)",
-                      }
-                    }
+                      }}
                       buttonId="info-btn"
                     />
                   </div>
@@ -202,6 +210,51 @@ const PostWork = () => {
                 style={{ height: "180px" }}
               />
 
+              <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
+                <label className=" flex gap-[5px] items-center ">
+                  <div className="relative w-[20px] h-[20px]">
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={handleChange}
+                      className="absolute top-0 opacity-0 cursor-pointer peer"
+                    />
+                    <img
+                      className="absolute hidden peer-checked:block "
+                      alt="check"
+                      src={checkSquare}
+                    />
+                    <img
+                      className="absolute peer-checked:hidden"
+                      alt="noCheck"
+                      src={noCheckSquare}
+                    />
+                  </div>
+
+                  <p
+                    className={`${
+                      isChecked ? "text-[#6A39C0]" : ""
+                    } p-small-medium `}
+                  >
+                    작가 대상 이용약관 동의
+                  </p>
+                </label>
+
+                <span
+                  className="cursor-pointer p-xs-under"
+                  onClick={() => setAuthorPopup(true)}
+                >
+                  자세히 보기
+                </span>
+                {authorPopup && (
+                  <PolicyPopup
+                    title={"작가 대상 이용약관 (포도알 스테이지)"}
+                    detail={AUTHOR_TERMS_CONTENT}
+                    setShowPopup={setAuthorPopup}
+                    page={3}
+                  />
+                )}
+              </div>
               <button
                 id="upload-btn"
                 onClick={onClickUpload}

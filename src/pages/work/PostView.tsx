@@ -1,16 +1,20 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
+import Cookies from "js-cookie";
+
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+
 import { getPostView } from "@/api/user/postListApi";
 import { getLikeStatus } from "@/api/user/profile/likeApi";
+
+import { useSingleToggleLike } from "@/hooks/useToggleLike";
+
 import HeaderWithBack from "@/components/header/HeaderWithBack";
+
 import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
-import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
-import { useSingleToggleLike } from "@/hooks/useToggleLike";
-import AuthContext from "@/contexts/AuthContext";
-import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
-import Cookies from "js-cookie";
+import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 
 const PostView: React.FC = () => {
@@ -35,9 +39,15 @@ const PostView: React.FC = () => {
   const { script } = location.state;
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const accessToken = Cookies.get("accessToken");
+
+  const HEADER_HEIGHT = 179; // 헤더 높이
+  const [headerOffset, setHeaderOffset] = useState(0);
+  const [isHeaderTouchTop, setIsHeaderTouchTop] = useState(true);
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
   };
+  const topMarkerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const rawToggleLike = useSingleToggleLike();
 
@@ -76,7 +86,6 @@ const PostView: React.FC = () => {
 
       const status = await getLikeStatus(id, accessToken);
       setIsLiked(status);
-      console.log(status);
     };
 
     fetchLikeStatus();
@@ -124,6 +133,11 @@ const PostView: React.FC = () => {
 
       setIsControlVisible(deltaY <= 0);
 
+      setHeaderOffset((prev) => {
+        const next = prev + deltaY;
+        return Math.min(Math.max(next, 0), HEADER_HEIGHT); // 0 ~ HEADER_HEIGHT 사이 제한
+      });
+
       const footer = document.querySelector(".footer");
       if (footer) {
         const footerTop = footer.getBoundingClientRect().top;
@@ -163,6 +177,29 @@ const PostView: React.FC = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsHeaderTouchTop(entry.isIntersecting);
+      },
+      {
+        root: null, // ✅ window 스크롤 기준
+        threshold: 0.01,
+      }
+    );
+    const waitForRef = () => {
+      if (topMarkerRef.current) {
+        observer.observe(topMarkerRef.current);
+      } else {
+        requestAnimationFrame(waitForRef); // 다음 프레임에서 재시도
+      }
+    };
+
+    waitForRef();
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
       (entries) => {
         if (isProgrammaticScroll.current) return;
         const visibleEntry = entries.find((entry) => entry.isIntersecting);
@@ -197,19 +234,34 @@ const PostView: React.FC = () => {
   return (
     <>
       {/* 1280px */}
-      <div className=" w-screen mb-[7vh]">
+      <div ref={scrollContainerRef} className=" w-screen mb-[7vh]">
         {/* header */}
-        <HeaderWithBack
-          backUrl={id ? `/list/detail/${id}` : "/list"}
-          headerTitle={script.title}
-          headerFont="h1-bold"
-          subtitle={script.writer}
-          subFont="h3-bold"
-          className="mx-[16.5%] mb-[2.12vh] mt-[3.4vw]"
+        <div
+          ref={topMarkerRef}
+          style={{
+            height: "1px",
+          }}
         />
-        <span className="absolute z-10 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
+        <div
+          className={`fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
+          style={{
+            transform: isHeaderTouchTop
+              ? `translateY(-${headerOffset}px)` // 마커에 닿았을 때
+              : `translateY(-${headerOffset + 74}px)`, // 그 외
+          }}
+        >
+          <HeaderWithBack
+            backUrl={id ? `/list/detail/${id}` : "/list"}
+            headerTitle={script.title}
+            headerFont="h1-bold"
+            subtitle={script.writer}
+            subFont="h3-bold"
+            className={` mx-auto mb-[2.12vh] mt-[3.4vw] max-w-[1280px]`}
+          />
+          <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
+        </div>
 
-        <div className="relative w-full">
+        <div className="relative w-full pt-[179px] ">
           {pdfBlobUrl ? (
             <div className="mx-auto w-fit">
               <PdfDocument
@@ -321,7 +373,6 @@ const PostView: React.FC = () => {
               )}
               <button
                 onClick={() => {
-                  console.log(isMoreBtn);
                   setIsMoreBtn(!isMoreBtn);
                 }}
               >

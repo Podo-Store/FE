@@ -51,7 +51,10 @@ const Preview = ({ id, lengthType }) => {
       // 로그인 상태에 따른 헤더 설정
       let headers = { "Content-Type": "application/json" };
       if (Cookies.get("accessToken")) {
-        headers = { ...headers, Authorization: `Bearer ${Cookies.get("accessToken")}` };
+        headers = {
+          ...headers,
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        };
       }
       const response = await axios.get(`${SERVER_URL}scripts/preview`, {
         headers: headers,
@@ -100,7 +103,7 @@ const Preview = ({ id, lengthType }) => {
   }
 
   return (
-    <div className="f-dir-column a-items-center preview">
+    <div className="f-dir-column preview">
       {pdfData ? (
         <Document
           file={pdfData || samplePDF}
@@ -112,56 +115,72 @@ const Preview = ({ id, lengthType }) => {
           {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
           {numPages && (
             <div className="j-content-start" id="wrap">
-              {Array.from(new Array(Math.min(totalPage, totalRevealedPages)), (_, index) => {
-                const isShort = lengthType === "SHORT";
+              {Array.from(
+                new Array(Math.min(totalPage, totalRevealedPages)),
+                (_, index) => {
+                  const isShort = lengthType === "SHORT";
 
-                let isPageAvailable = true;
-                if (lengthType === "SHORT") {
-                  // 첫 페이지만 렌더링
-                  isPageAvailable = index + 1 === showThreshold;
-                } else {
-                  if (width > 1280) {
-                    isPageAvailable = index + 1 <= showThreshold;
+                  let isPageAvailable = true;
+                  if (lengthType === "SHORT") {
+                    // 첫 페이지만 렌더링
+                    isPageAvailable = index + 1 === showThreshold;
                   } else {
-                    isPageAvailable = index + 1 < totalRevealedPages;
+                    if (width > 1280) {
+                      isPageAvailable = index + 1 <= showThreshold;
+                    } else {
+                      isPageAvailable = index + 1 < totalRevealedPages;
+                    }
                   }
-                }
 
-                return (
-                  <div
-                    key={index + 1}
-                    className={`c-pointer no-drag ${!isPageAvailable ? "content-disabled" : ""}`}
-                    id="thumbnail-content"
-                    onClick={() => {
-                      if (isPageAvailable) {
-                        onClickPage(isShort ? showThreshold : index + 1);
-                      }
-                    }}
-                  >
-                    {!isPageAvailable && <div id="shadow-box"></div>}
-                    <div id={!isPageAvailable ? "blur" : undefined}>
-                      <Page
-                        renderMode="canvas"
-                        pageNumber={
-                          isShort ? showThreshold : isPageAvailable ? index + 1 : showThreshold
+                  return (
+                    <div
+                      key={index + 1}
+                      className={`c-pointer no-drag ${
+                        !isPageAvailable ? "content-disabled" : ""
+                      }`}
+                      id="thumbnail-content"
+                      onClick={() => {
+                        if (isPageAvailable) {
+                          onClickPage(isShort ? showThreshold : index + 1);
                         }
-                        width={210}
-                      />
-                    </div>
-                    <p className="p-small-regular t-align-center" id="page-number">
-                      {index + 1}
-                    </p>
-                    {index + 1 === totalRevealedPages && (
-                      <p className="p-large-regular c-white" id="last-number">
-                        {totalPage - totalRevealedPages} +
+                      }}
+                    >
+                      {!isPageAvailable && <div id="shadow-box"></div>}
+                      <div id={!isPageAvailable ? "blur" : undefined}>
+                        <Page
+                          renderMode="canvas"
+                          pageNumber={
+                            isShort
+                              ? showThreshold
+                              : isPageAvailable
+                              ? index + 1
+                              : showThreshold
+                          }
+                          width={210}
+                        />
+                      </div>
+                      <p
+                        className="p-small-regular t-align-center"
+                        id="page-number"
+                      >
+                        {index + 1}
                       </p>
-                    )}
-                    {isPageAvailable && (
-                      <img src={previewGlass} alt="Preview Glass" id="preview-glass" />
-                    )}
-                  </div>
-                );
-              })}
+                      {index + 1 === totalRevealedPages && (
+                        <p className="p-large-regular c-white" id="last-number">
+                          {totalPage - totalRevealedPages} +
+                        </p>
+                      )}
+                      {isPageAvailable && (
+                        <img
+                          src={previewGlass}
+                          alt="Preview Glass"
+                          id="preview-glass"
+                        />
+                      )}
+                    </div>
+                  );
+                }
+              )}
             </div>
           )}
 

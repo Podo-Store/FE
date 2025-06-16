@@ -81,6 +81,15 @@ const PostManageDetail: React.FC = () => {
     descriptionPath: "",
   });
 
+  const [isTouched, setIsTouched] = useState({
+    any: false,
+    male: false,
+    female: false,
+    runningTime: false,
+    scene: false,
+    act: false,
+  });
+
   //  이미지 수정
   const onClickChangeThumbnailImg = () => {
     const fileInput = document.createElement("input");
@@ -100,7 +109,7 @@ const PostManageDetail: React.FC = () => {
     fileInput.click();
   };
 
-  // 수정하기 
+  // 수정하기
   const onClickModifyBtn = async () => {
     if (!scriptId || !accessToken) return;
     try {
@@ -142,7 +151,6 @@ const PostManageDetail: React.FC = () => {
         alert("작품 수정이 완료되었습니다.");
         navigate("/mypage/scriptmanage");
       }
-      
     } catch (error: any) {
       alert(error.message);
     }
@@ -167,7 +175,7 @@ const PostManageDetail: React.FC = () => {
       if (!scriptId || !accessToken) return;
 
       try {
-        setPartialLoading(true); 
+        setPartialLoading(true);
 
         const data = await getWorkDetail(scriptId, accessToken);
 
@@ -188,7 +196,6 @@ const PostManageDetail: React.FC = () => {
     fetchWorkDetail();
   }, [scriptId]);
 
-  
   // 활성화 조건
   const totalActors =
     Number(form.male ?? 0) + Number(form.female ?? 0) + Number(form.any ?? 0);
@@ -323,13 +330,21 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="00"
                       value={
-                        form.any === null || form.any === 0 ? "" : form.any
+                        form.any === 0 && !isTouched.any
+                          ? ""
+                          : String(form.any ?? "")
                       }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 99) {
-                          setForm((prev) => ({ ...prev, any: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, any: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, any: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({ ...prev, any: Number(value) }));
                         }
                       }}
                     />
@@ -338,30 +353,47 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="00"
                       value={
-                        form.male === null || form.male === 0 ? "" : form.male
+                        form.male === 0 && !isTouched.male
+                          ? ""
+                          : String(form.male ?? "")
                       }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 99) {
-                          setForm((prev) => ({ ...prev, male: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, male: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, male: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({ ...prev, male: Number(value) }));
                         }
                       }}
                     />
                     <span>명 / 여</span>
                     <input
                       value={
-                        form.female === null || form.female === 0
+                        form.female === 0 && !isTouched.female
                           ? ""
-                          : form.female
+                          : String(form.female ?? "")
                       }
                       type="text"
                       placeholder="00"
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 99) {
-                          setForm((prev) => ({ ...prev, female: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, female: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, female: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            female: Number(value),
+                          }));
                         }
                       }}
                     />
@@ -389,15 +421,30 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="000"
                       value={
-                        form.runningTime === null || form.runningTime === 0
+                        form.runningTime === 0 && !isTouched.runningTime
                           ? ""
-                          : form.runningTime
+                          : String(form.runningTime ?? "")
                       }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[4.31%] mr-[1.72%] w-[31%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 999) {
-                          setForm((prev) => ({ ...prev, runningTime: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({
+                          ...prev,
+                          runningTime: true,
+                        }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({
+                            ...prev,
+                            runningTime: undefined,
+                          })); // 또는 null
+                        } else if (/^\d{0,3}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            runningTime: Number(value),
+                          }));
                         }
                       }}
                     />
@@ -453,15 +500,24 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="00"
                       value={
-                        form.scene === null || form.scene === 0
+                        form.scene === 0 && !isTouched.scene
                           ? ""
-                          : form.scene
+                          : String(form.scene ?? "")
                       }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 99) {
-                          setForm((prev) => ({ ...prev, scene: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, scene: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, scene: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            scene: Number(value),
+                          }));
                         }
                       }}
                     />
@@ -470,13 +526,24 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="00"
                       value={
-                        form.act === null || form.act === 0 ? "" : form.act
+                        form.act === 0 && !isTouched.act
+                          ? ""
+                          : String(form.act ?? "")
                       }
                       className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[3.9%]  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
-                        const value = Number(e.target.value);
-                        if (value <= 99) {
-                          setForm((prev) => ({ ...prev, act: value }));
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, act: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, act: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            act: Number(value),
+                          }));
                         }
                       }}
                     />

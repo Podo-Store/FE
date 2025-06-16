@@ -86,13 +86,16 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         onBlur={() => {
           setPwChecker({ ...pwChecker, show: false });
         }}
-        checkerShowFlag={pwChecker.show}
+        checkerShowFlag={pw.length > 0}
         checkerMessages={[
           {
             checkedFlag: pwChecker.alphabet,
             message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
           },
-          { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+          {
+            checkedFlag: pwChecker.number,
+            message: "숫자를 하나 이상 포함해야 해요.",
+          },
           {
             checkedFlag: pwChecker.special,
             message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",

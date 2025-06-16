@@ -258,7 +258,7 @@ const PostWork = () => {
               <button
                 id="upload-btn"
                 onClick={onClickUpload}
-                disabled={!fileSelected}
+                disabled={!fileSelected || !isChecked}
               >
                 작품 보내기
               </button>

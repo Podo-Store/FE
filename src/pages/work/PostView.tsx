@@ -280,11 +280,11 @@ const PostView: React.FC = () => {
                     >
                       <path
                         d="M13.5938 9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                        fill="#BABABA"
+                        fill={`${scale === 0.8 ? "#BABABA" : "black"}`}
                       />
                       <path
                         d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                        fill="#BABABA"
+                        fill={`${scale === 0.8 ? "#BABABA" : "black"}`}
                       />
                     </svg>
                   </button>
@@ -307,11 +307,11 @@ const PostView: React.FC = () => {
                     >
                       <path
                         d="M13.5938 9.375H10.625V6.40625C10.625 6.32031 10.5547 6.25 10.4688 6.25H9.53125C9.44531 6.25 9.375 6.32031 9.375 6.40625V9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H9.375V13.5938C9.375 13.6797 9.44531 13.75 9.53125 13.75H10.4688C10.5547 13.75 10.625 13.6797 10.625 13.5938V10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                        fill="black"
+                        fill={`${scale === 2.0 ? "#BABABA" : "black"}`}
                       />
                       <path
                         d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                        fill="black"
+                        fill={`${scale === 2.0 ? "#BABABA" : "black"}`}
                       />
                     </svg>
                   </button>
@@ -325,16 +325,20 @@ const PostView: React.FC = () => {
                   setIsMoreBtn(!isMoreBtn);
                 }}
               >
-                <img src={moreBtn}></img>
+                <img src={moreBtn} alt="더보기" className="no-drag"></img>
               </button>
               <button onClick={handleLikeClick}>
                 <img
-                  className=""
+                  className="no-drag"
                   src={isLiked ? redHeartIcon : heartIcon}
                   alt="좋아요"
                 ></img>
               </button>
-              <img src={bookMarkIcon} alt="북마크" className="w-[4.9%]" />
+              <img
+                src={bookMarkIcon}
+                alt="북마크"
+                className="w-[4.9%] no-drag"
+              />
 
               {/* 페이지네이션 */}
               <div className="flex items-center justify-between w-full">
@@ -346,7 +350,7 @@ const PostView: React.FC = () => {
                   onChange={(e) => handlePageChange(Number(e.target.value))}
                   className="w-full accent-[#6A39C0] h-[3px]"
                 />
-                <span className="ml-[32px] text-black whitespace-nowrap p-large-medium">
+                <span className="ml-[32px] text-black whitespace-nowrap p-large-medium no-drag">
                   {currentPage} / {numPages}
                 </span>
               </div>

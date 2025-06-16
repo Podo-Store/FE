@@ -21,12 +21,18 @@
 
   color: #fff;
 
-  /* Paragraph/Medium/Medium */
-  font-family: "Noto Sans KR";
-  font-size: 1rem;
+  // /* Paragraph/Medium/Medium */
+  // font-family: "Noto Sans KR";
+  // font-size: 1rem;
+  // font-style: normal;
+  // font-weight: 500;
+  // line-height: 1.5rem; /* 150% */
+  /* Paragraph/Large/Bold */
+  font-family: Pretendard;
+  font-size: 1.125rem;
   font-style: normal;
-  font-weight: 500;
-  line-height: 1.5rem; /* 150% */
+  font-weight: 700;
+  line-height: 1.75rem; /* 155.556% */
 }
 
 .BottomBtn .bottomButton:disabled {

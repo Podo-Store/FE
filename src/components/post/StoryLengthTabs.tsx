@@ -8,7 +8,7 @@ interface Props {
   page: string; // 이동할 페이지
 }
 
-const storyLength = ["전체", "장편", "단편"];
+const storyLength = ["전체", "단편", "장편"];
 
 const pathMap: Record<string, string> = {
   전체: "",

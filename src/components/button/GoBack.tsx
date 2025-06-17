@@ -19,7 +19,7 @@ const GoBack = ({ url }: GoBackProps) => {
 
   return (
     <div
-      className="a-items-center c-pointer go-back"
+      className="a-items-center c-pointer go-back no-drag"
       onClick={() => {
         navigate(url);
       }}

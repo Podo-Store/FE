@@ -6,7 +6,7 @@
 
 .signUpSuccess .signUp-success-wrap h1 {
   position: absolute;
-  top: 3.7037vh;
+  top: 40px;
   left: 50%;
   transform: translateX(-50%);
 

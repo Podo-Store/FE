@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
-import { AuthSideBtnInputField, AuthSideBtnTimerInputField } from "../../inputField";
+import {
+  AuthSideBtnInputField,
+  AuthSideBtnTimerInputField,
+} from "../../inputField";
 import { Selector, PreviousButton, CheckerMessage } from ".";
 import SignUpCheckBox from "./SignUpCheckBox";
 import BottomBtn from "../BottomBtn";
@@ -14,7 +17,12 @@ import EmailCodeErrorMessages from "./ErrorMessages/EmailCodeErrorMessages";
  *
  * @param {*} onClickRegisterAllowButton - 회원가입 완료 버튼 클릭 시 호출되는 함수
  */
-const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton }) => {
+const SignUp4 = ({
+  onPrevious,
+  userInfo,
+  setUserInfo,
+  onClickRegisterAllowButton,
+}) => {
   const [email, setEmail] = useState(userInfo.email);
   const [emailChecker, setEmailChecker] = useState({
     show: false,
@@ -143,9 +151,12 @@ const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton
         sideBtnTitle="인증"
         sideBtnOnClick={onClickEmailSend}
         sideBtnDisabled={!emailChecker.format}
-        checkerShowFlag={emailChecker.show}
+        checkerShowFlag={email.length > 0}
         checkerMessages={[
-          { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+          {
+            checkedFlag: emailChecker.format,
+            message: "올바른 이메일 형식을 포함해야 해요.",
+          },
         ]}
         errorFlag={emailDuplicated}
         errorMessage="중복된 이메일입니다."

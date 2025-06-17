@@ -101,7 +101,7 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
                   padding: "11px",
                   transform: "translate(calc(20px + 75px), 0)",
                 }}
-                buttonId="info-btn"
+                buttonId="info-btn2"
               />
             ) : null}
           </>

@@ -82,7 +82,9 @@ const PostGallery = () => {
                 ).values()
               )
             );
-            setIsLoading(false); // 👉 여기에서 같이 끝내는 게 자연스럽다
+            requestAnimationFrame(() => {
+              setIsLoading(false);
+            });
           }, 150);
         } else if (activeCategory === "단편") {
           const shortData = await getShortWorks(shortPlayPage, accessToken);
@@ -90,14 +92,19 @@ const PostGallery = () => {
             setHasMoreShortPlays(false);
             return;
           }
-          setShortPlays((prev) =>
-            Array.from(
-              new Map(
-                [...prev, ...shortData].map((post) => [post.id, post])
-              ).values()
-            )
-          );
-          setIsLoading(false);
+
+          setTimeout(() => {
+            setShortPlays((prev) =>
+              Array.from(
+                new Map(
+                  [...prev, ...shortData].map((post) => [post.id, post])
+                ).values()
+              )
+            );
+            requestAnimationFrame(() => {
+              setIsLoading(false);
+            });
+          }, 150);
         } else {
           const allData = await fetchExploreScripts(accessToken);
 
@@ -147,21 +154,18 @@ const PostGallery = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleToggleLikeLong = (postId: string) => {
-    if (!isAuthenticated) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    rawToggleLikeLong(postId);
+  const makeToggleHandler = (rawToggleFn: (postId: string) => void) => {
+    return (postId: string) => {
+      if (!isAuthenticated) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      rawToggleFn(postId);
+    };
   };
 
-  const handleToggleLikeShort = (postId: string) => {
-    if (!isAuthenticated) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    rawToggleLikeShort(postId);
-  };
+  const handleToggleLikeLong = makeToggleHandler(rawToggleLikeLong);
+  const handleToggleLikeShort = makeToggleHandler(rawToggleLikeShort);
 
   const sortPosts = (posts: ScriptItem[] = [], sortType: string) => {
     const sorted = [...posts]; // 원본 배열 복사
@@ -187,11 +191,12 @@ const PostGallery = () => {
 
   useEffect(() => {
     if (resetFlag) return;
+
     // 🔐 데이터가 없거나 로딩 중이면 등록하지 않음
     const isReady =
       !isLoading &&
-      ((activeCategory === "장편" && longPlays.length > 0) ||
-        (activeCategory === "단편" && shortPlays.length > 0));
+      ((activeCategory === "장편" && longPlays.length >= postNum) ||
+        (activeCategory === "단편" && shortPlays.length >= postNum));
 
     if (!isReady) return;
 
@@ -225,6 +230,27 @@ const PostGallery = () => {
     longPlays.length,
     shortPlays.length,
   ]);
+
+  let content = null;
+
+  if (isLoading) {
+    content = null; // 또는 로딩 스켈레톤 넣기
+  } else if (shortPlays.length > 0) {
+    content = (
+      <AllPostCard
+        posts={shortPlays}
+        viewType={viewType}
+        colNum={colNum}
+        onToggleLike={handleToggleLikeShort}
+      />
+    );
+  } else {
+    content = (
+      <div>
+        <p className="m-auto w-fit p-large-bold">등록된 작품이 없습니다.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px] ">
@@ -297,30 +323,56 @@ const PostGallery = () => {
 
           <div
             className={`transition-opacity duration-300 ${
-              isLoading ? "opacity-0" : "opacity-100"
+              isLoading
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
             }`}
           >
-            <AllPostCard
-              posts={longPlays}
-              viewType={viewType}
-              colNum={colNum}
-              onToggleLike={handleToggleLikeLong}
-            />
+            {longPlays.length !== 0 ? (
+              <AllPostCard
+                posts={longPlays}
+                viewType={viewType}
+                colNum={colNum}
+                onToggleLike={handleToggleLikeShort}
+              />
+            ) : longPlays.length === 0 ? (
+              <div>
+                <p className="m-auto w-fit p-large-bold">
+                  등록된 작품이 없습니다.
+                </p>
+              </div>
+            ) : null}
           </div>
-          <div ref={observerRef} className="h-[1px]" />
+          <div ref={observerRef} className="h-[1px] mt-[100px]" />
         </>
       ) : (
         <>
           <div className="mb-[24px]">
             <p className="h5-medium ">단편극</p>
           </div>
-          <AllPostCard
-            posts={shortPlays}
-            viewType={viewType}
-            colNum={colNum}
-            onToggleLike={handleToggleLikeLong}
-          />
-          <div ref={observerRef} className="h-[1px]" />
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoading
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
+            }`}
+          >
+            {shortPlays.length !== 0 ? (
+              <AllPostCard
+                posts={shortPlays}
+                viewType={viewType}
+                colNum={colNum}
+                onToggleLike={handleToggleLikeShort}
+              />
+            ) : shortPlays.length === 0 ? (
+              <div>
+                <p className="m-auto w-fit p-large-bold">
+                  등록된 작품이 없습니다.
+                </p>
+              </div>
+            ) : null}
+          </div>
+          <div ref={observerRef} className="h-[1px] mt-[100px] " />
         </>
       )}
     </div>

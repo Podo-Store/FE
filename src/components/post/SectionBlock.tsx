@@ -34,13 +34,19 @@ const SectionBlock = ({
         </button>
       </div>
 
-      <PostCardPreview
-        posts={posts}
-        viewType={viewType}
-        postNum={postNum}
-        colNum={colNum}
-        onToggleLike={onToggleLike}
-      />
+      {posts.length !== 0 ? (
+        <PostCardPreview
+          posts={posts}
+          viewType={viewType}
+          postNum={postNum}
+          colNum={colNum}
+          onToggleLike={onToggleLike}
+        />
+      ) : posts.length === 0 ? (
+        <div>
+          <p className="m-auto w-fit p-large-bold">등록된 작품이 없습니다.</p>
+        </div>
+      ) : null}
     </section>
   );
 };

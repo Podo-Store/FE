@@ -19,7 +19,7 @@ import StoryLengthTeb from "@/components/post/StoryLengthTabs";
 import ViewToggleButton from "@/components/post/ViewToggleButton";
 import SectionBlock from "@/components/post/SectionBlock";
 import { AllPostCard } from "@/components/post/PostList.js";
-
+import PostHeaderControl from "@/components/post/PostHeaderControl";
 import BannerImage1 from "@/assets/image/listBanner.jpg";
 import BannerImage2 from "@/assets/image/postList_banner.png";
 
@@ -231,27 +231,6 @@ const PostGallery = () => {
     shortPlays.length,
   ]);
 
-  let content = null;
-
-  if (isLoading) {
-    content = null; // 또는 로딩 스켈레톤 넣기
-  } else if (shortPlays.length > 0) {
-    content = (
-      <AllPostCard
-        posts={shortPlays}
-        viewType={viewType}
-        colNum={colNum}
-        onToggleLike={handleToggleLikeShort}
-      />
-    );
-  } else {
-    content = (
-      <div>
-        <p className="m-auto w-fit p-large-bold">등록된 작품이 없습니다.</p>
-      </div>
-    );
-  }
-
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px] ">
       {/*------ 작품 둘러보기 ------*/}
@@ -263,27 +242,18 @@ const PostGallery = () => {
       <InfiniteBanner images={bannerImages} />
 
       {/*----- 스테이지 메뉴 -----*/}
-      <div className="relative">
-        <StageTab
-          activeStage={activeStage}
-          setActiveStage={(value) => handleChange(value, "stage")}
-        />
-        <span className="absolute left-1/2 top-0 -translate-x-1/2 w-[140vw] h-[1px] block bg-[#E2E2E2] z-0 "></span>
-      </div>
-      {/*----- 카테고리 메뉴 -----*/}
-      <div className="flex items-center justify-between w-full h-[48px] mb-[35px] ">
-        <StoryLengthTeb
-          activeStoryLength={activeCategory}
-          setActiveStoryLength={(value) => handleChange(value, "category")}
-        />
-        <div className="flex items-center flex-row gap-[10px] h-full   ">
-          {/* 정렬 */}
-          <SortDropdown selected={sortType} onChange={setSortType} />
-          {/*----- 보기방식 -----*/}
 
-          <ViewToggleButton viewType={viewType} setViewType={setViewType} />
-        </div>
-      </div>
+      <PostHeaderControl
+        activeStage={activeStage}
+        setActiveStage={(value) => handleChange(value, "stage")}
+        activeStoryLength={activeCategory}
+        setActiveStoryLength={(value) => handleChange(value, "category")}
+        viewType={viewType}
+        setViewType={setViewType}
+        isSorted={true}
+        sortType={sortType}
+        setSortType={setSortType}
+      />
 
       {/*----- post list -----*/}
       {isLoading ? (

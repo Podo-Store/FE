@@ -6,50 +6,49 @@ import StoryLengthTeb from "@/components/post/StoryLengthTabs";
 import SortDropdown from "@/components/post/SortDropdown";
 
 interface PostHeaderControlProps {
-  activeCategory: string;
-  setActiveCategory: (value: string) => void;
+  activeStage: string;
+  setActiveStage: (value: string) => void;
   activeStoryLength: string;
   setActiveStoryLength: (value: string) => void;
   viewType: "grid" | "card";
   setViewType: (value: "grid" | "card") => void;
-  page: string;
   isSorted?: boolean;
   sortType?: string;
   setSortType?: (value: string) => void;
 }
 
 const PostHeaderControl: React.FC<PostHeaderControlProps> = ({
-  activeCategory,
-  setActiveCategory,
+  activeStage,
+  setActiveStage,
   activeStoryLength,
   setActiveStoryLength,
   viewType,
   setViewType,
-  page,
   isSorted,
   sortType,
   setSortType,
 }) => {
   return (
     <>
-      <StageTab
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
-      />
-      <span className="w-full h-[1px] block bg-[#E2E2E2]" />
-
+      {/*----- 스테이지 메뉴 -----*/}
+      <div className="relative">
+        <StageTab activeStage={activeStage} setActiveStage={setActiveStage} />
+        <span className="absolute left-1/2 top-0 -translate-x-1/2 w-[140vw] h-[1px] block bg-[#E2E2E2] z-0 "></span>
+      </div>
+      {/*----- 카테고리 메뉴 -----*/}
       <div className="flex items-center justify-between w-full mb-[35px]">
         <StoryLengthTeb
           activeStoryLength={activeStoryLength}
           setActiveStoryLength={setActiveStoryLength}
         />
         <div className="flex items-center flex-row gap-[10px] h-full   ">
+          {/* 정렬 */}
           {isSorted ? (
             <SortDropdown selected={sortType} onChange={setSortType} />
           ) : (
             <></>
           )}
-
+          {/*----- 보기방식 -----*/}
           <ViewToggleButton viewType={viewType} setViewType={setViewType} />
         </div>
       </div>

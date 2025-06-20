@@ -41,8 +41,8 @@ export const AllPostCard = ({
         rowGap: `${pxToDesignUnit(gapY ?? 59, { type: "vw" })}vw`,
       }}
     >
-      {posts.map((post) => (
-        <div key={post.id} className="flex justify-center">
+      {posts.map((post, index) => (
+        <div key={`${post.id}-${index}`} className="flex justify-center">
           <OnePostCard
             posts={post}
             viewType={viewType}
@@ -77,8 +77,8 @@ export const PostCardPreview = ({
         rowGap: `${pxToDesignUnit(gapY ?? 59, { type: "vw" })}vw`,
       }}
     >
-      {posts.slice(0, postNum).map((post) => (
-        <div key={post.id} className="flex justify-center">
+      {posts.slice(0, postNum).map((post, index) => (
+        <div key={`${post.id}-${index}`} className="flex justify-center">
           <OnePostCard
             posts={post}
             viewType={viewType}

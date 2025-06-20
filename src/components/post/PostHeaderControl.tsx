@@ -42,7 +42,6 @@ const PostHeaderControl: React.FC<PostHeaderControlProps> = ({
         <StoryLengthTeb
           activeStoryLength={activeStoryLength}
           setActiveStoryLength={setActiveStoryLength}
-          page={page}
         />
         <div className="flex items-center flex-row gap-[10px] h-full   ">
           {isSorted ? (

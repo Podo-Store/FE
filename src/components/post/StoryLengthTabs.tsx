@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 interface Props {
   activeStoryLength: string;
   setActiveStoryLength: (value: string) => void;
-  page: string; // 이동할 페이지
 }
 
 const storyLength = ["전체", "단편", "장편"];
@@ -16,23 +15,19 @@ const pathMap: Record<string, string> = {
   단편: "/short",
 };
 
-const StoryLengthTeb = ({
-  activeStoryLength,
-  setActiveStoryLength,
-  page,
-}: Props) => {
+const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (location.pathname.includes("/long")) {
-      setActiveStoryLength("장편");
-    } else if (location.pathname.includes("/short")) {
-      setActiveStoryLength("단편");
-    } else {
-      setActiveStoryLength("전체");
-    }
-  }, [location.pathname, setActiveStoryLength]);
+  // useEffect(() => {
+  //   if (location.pathname.includes("/long")) {
+  //     setActiveStoryLength("장편");
+  //   } else if (location.pathname.includes("/short")) {
+  //     setActiveStoryLength("단편");
+  //   } else {
+  //     setActiveStoryLength("전체");
+  //   }
+  // }, [location.pathname, setActiveStoryLength]);
 
   return (
     <ul className="flex list-none " style={{ padding: 0, margin: 0 }}>
@@ -44,7 +39,6 @@ const StoryLengthTeb = ({
             onClick={() => {
               if (!isActive) {
                 setActiveStoryLength(length);
-                navigate(`${page}${pathMap[length]}`); // 원하는 경로로 수정하세요
               }
             }}
             className={`cursor-pointer z-10 px-[15px] py-[10px] text-[20px] leading-[28px] font-medium tracking-[-0.4px] font-['Pretendard']  ${

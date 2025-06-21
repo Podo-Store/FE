@@ -14,7 +14,7 @@ interface PostHeaderControlProps {
   setViewType: (value: "grid" | "card") => void;
   isSorted?: boolean;
   sortType?: string;
-  setSortType?: (value: string) => void;
+  setSortType?: (value: "POPULAR" | "LIKE_COUNT" | "LATEST") => void;
 }
 
 const PostHeaderControl: React.FC<PostHeaderControlProps> = ({

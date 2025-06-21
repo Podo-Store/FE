@@ -2,10 +2,9 @@ import {
   useState,
   useEffect,
   useContext,
-  useRef,
-  useLayoutEffect,
 } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 import Cookies from "js-cookie";
 
 import AuthContext from "@/contexts/AuthContext";
@@ -31,6 +30,13 @@ import "./postGallery.scss";
 
 const bannerImages = [BannerImage1, BannerImage2];
 
+const ScrollObserver: React.FC<{
+  inViewRef: (node?: Element | null) => void;
+  id: string;
+}> = ({ inViewRef, id }) => {
+  return <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />;
+};
+
 const PostGallery = () => {
   const [longPlays, setLongPlays] = useState<ScriptItem[]>([]); // 전체 longPlays
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
@@ -39,8 +45,8 @@ const PostGallery = () => {
   const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]); // 전체 shorPlays
   const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
   const [shortPlayPage, setShortPlayPage] = useState(0);
-
-  const observerRef = useRef<HTMLDivElement | null>(null);
+  const [observerKey, setObserverKey] = useState(0);
+  // const observerRef = useRef<HTMLDivElement | null>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const activeStage = searchParams.get("stage") || "포도밭";
@@ -60,11 +66,22 @@ const PostGallery = () => {
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
 
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 1.0,
+    triggerOnce: false,
+    fallbackInView: true,
+    initialInView: false,
+  });
+
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
     updated.set(`${menu}`, newStage);
     setSearchParams(updated);
   };
+
+  useEffect(() => {
+    setObserverKey((prev) => prev + 1);
+  }, [sortType, activeCategory]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -174,39 +191,49 @@ const PostGallery = () => {
     // 빈 useEffect로 스크롤 복원 차단 (라우팅된 후에도 위치 유지)
   }, []);
 
+  // useEffect(() => {
+  //   const ref = observerRef.current;
+  //   if (!ref) return;
+
+  //   const observer = new IntersectionObserver(
+  //     (entries) => {
+  //       if (!entries[0].isIntersecting || isLoading) return;
+
+  //       if (activeCategory === "장편" && hasMoreLongPlays) {
+  //         setLongPlayPage((prev) => prev + 1);
+  //       } else if (activeCategory === "단편" && hasMoreShortPlays) {
+  //         setShortPlayPage((prev) => prev + 1);
+  //       }
+  //     },
+  //     { threshold: 1.0 }
+  //   );
+
+  //   observer.observe(ref);
+
+  //   return () => observer.disconnect(); // ✅ 이러면 매번 observer 재설정됨
+  // }, [
+  //   activeCategory,
+  //   hasMoreLongPlays,
+  //   hasMoreShortPlays,
+  //   isLoading,
+  //   longPlays.length,
+  //   shortPlays.length,
+  //   sortType,
+  // ]);
+
+  // useEffect(() => {
+  //   console.log("📌 observerRef 상태", observerRef.current);
+  // }, [observerRef.current]);
+
   useEffect(() => {
-    const ref = observerRef.current;
-    if (!ref) return;
+    if (!inView || isLoading) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (!entries[0].isIntersecting || isLoading) return;
-
-        if (activeCategory === "장편" && hasMoreLongPlays) {
-          setLongPlayPage((prev) => prev + 1);
-        } else if (activeCategory === "단편" && hasMoreShortPlays) {
-          setShortPlayPage((prev) => prev + 1);
-        }
-      },
-      { threshold: 1.0 }
-    );
-
-    observer.observe(ref);
-
-    return () => observer.disconnect(); // ✅ 이러면 매번 observer 재설정됨
-  }, [
-    activeCategory,
-    hasMoreLongPlays,
-    hasMoreShortPlays,
-    isLoading,
-    longPlays.length,
-    shortPlays.length,
-    sortType,
-  ]);
-
-  useEffect(() => {
-    console.log("📌 observerRef 상태", observerRef.current);
-  }, [observerRef.current]);
+    if (activeCategory === "장편" && hasMoreLongPlays) {
+      setLongPlayPage((prev) => prev + 1);
+    } else if (activeCategory === "단편" && hasMoreShortPlays) {
+      setShortPlayPage((prev) => prev + 1);
+    }
+  }, [inView, isLoading, activeCategory, hasMoreLongPlays, hasMoreShortPlays]);
 
   useEffect(() => {
     setResetFlag(true);
@@ -299,7 +326,10 @@ const PostGallery = () => {
                   colNum={colNum}
                   onToggleLike={handleToggleLikeLong}
                 />{" "}
-                <div ref={observerRef} className="h-[1px] mt-[100px]" />
+                <ScrollObserver
+                  inViewRef={inViewRef}
+                  id={`${activeCategory}-${sortType}`}
+                />
               </>
             ) : longPlays.length === 0 ? (
               <div>
@@ -330,7 +360,11 @@ const PostGallery = () => {
                   colNum={colNum}
                   onToggleLike={handleToggleLikeShort}
                 />
-                <div ref={observerRef} className="border h-[1px] mt-[100px] " />
+                <ScrollObserver
+                  key={`scroll-${observerKey}`}
+                  inViewRef={inViewRef}
+                  id={`${activeCategory}-${sortType}`}
+                />
               </>
             ) : !isLoading && shortPlays.length === 0 ? (
               <div>

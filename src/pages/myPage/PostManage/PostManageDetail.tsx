@@ -476,7 +476,7 @@ const PostManageDetail: React.FC = () => {
                     value={form.stageComment ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (value.length <= 20) {
+                      if (value.length <= 30) {
                         setForm((prev) => ({ ...prev, stageComment: value }));
                       }
                     }}

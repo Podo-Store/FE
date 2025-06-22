@@ -15,8 +15,6 @@ import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 
 import PostGallery from "./pages/work/postList/PostGallery";
-import PostGalleryShort from "./pages/work/postList/PostGalleryShort";
-import PostGalleryLong from "./pages/work/postList/PostGalleryLong";
 
 import Detail from "./pages/work/Detail.tsx";
 

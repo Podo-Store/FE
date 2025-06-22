@@ -23,6 +23,7 @@ import checkSquare from "../../assets/image/ic_check_square.svg";
 import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
 import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
+import { toastAlert } from "@/utils/ToastAlert";
 import "./PostWork.scss";
 
 const PostWork = () => {
@@ -67,7 +68,7 @@ const PostWork = () => {
         setTimeout(() => {
           setUploadSuccess(false);
           setIsLoading(false);
-          alert("작품 등록이 완료되었습니다.");
+          toastAlert("작품 등록이 완료되었습니다.");
           navigate("/");
         }, 2500);
       }

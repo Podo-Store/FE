@@ -25,6 +25,8 @@ import puppleLine from "@/assets/image/myPage/pupple_line.svg";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
 import Cookies from "js-cookie";
 
+import { toastAlert } from "@/utils/ToastAlert";
+
 type WorkFormState = Partial<
   Pick<
     WorkDetailResponse,
@@ -148,7 +150,7 @@ const PostManageDetail: React.FC = () => {
       const success = await postWorkDetail(formData);
 
       if (success) {
-        alert("작품 수정이 완료되었습니다.");
+        toastAlert("작품 수정이 완료되었습니다.", "success");
         navigate("/mypage/scriptmanage");
       }
     } catch (error: any) {

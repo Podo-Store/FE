@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import FloatingBtn from "@/components/button/FloatingBtn";
 import SectionBlock from "@/components/post/SectionBlock";
 import { MyPageMenu } from "@/components/myPage";
+import NullScriptContent from "@/components/myPage/NullScriptContent";
 import PostHeaderControl from "@/components/post/PostHeaderControl";
 import { AllPostCard } from "@/components/post/PostList.js";
 import PartialLoading from "@/components/loading/PartialLoading";
@@ -186,119 +187,130 @@ const LikedWorks = () => {
           <div className="content-side-grid">
             <h4 className="h4-bold">좋아한 작품들을 볼 수 있어요!</h4>
           </div>
-
-          {/*----- 스테이지 메뉴 -----*/}
-          <PostHeaderControl
-            activeStage={activeStage}
-            setActiveStage={(value) => handleChange(value, "stage")}
-            activeStoryLength={activeCategory}
-            setActiveStoryLength={(value) => handleChange(value, "category")}
-            viewType={viewType}
-            setViewType={setViewType}
-            isSorted={false}
-            stageBottomBorderWidth="w-full"
-          />
-
-          {/*----- post list -----*/}
+          
           {isLoading ? (
             <div className="m-auto" style={{ height: "600px" }}>
               <PartialLoading />
             </div>
-          ) : activeCategory === "전체" ? (
-            <div className="mb-[]">
-              <div className="">
-                <SectionBlock
-                  posts={shortPlays}
-                  viewType={viewType}
-                  postNum={4}
-                  colNum={4}
-                  title="단편"
-                  onMoreClick={(value) => handleChange(value, "category")}
-                  onToggleLike={handleToggleLikeShort}
-                />
-              </div>
-              <div className="mt-[78px]">
-                <SectionBlock
-                  posts={longPlays}
-                  viewType={viewType}
-                  postNum={4}
-                  colNum={4}
-                  title="장편"
-                  onMoreClick={(value) => handleChange(value, "category")}
-                  onToggleLike={handleToggleLikeLong}
-                />
-              </div>
-            </div>
-          ) : activeCategory === "장편" ? (
-            <>
-              <div className="mb-[24px]">
-                <p className="h5-medium ">장편극</p>
-              </div>
-
-              <div
-                className={`transition-opacity duration-300 ${
-                  isLoading
-                    ? "opacity-0 pointer-events-none invisible"
-                    : "opacity-100 visible"
-                }`}
-              >
-                {longPlays.length !== 0 ? (
-                  <>
-                    {" "}
-                    <AllPostCard
-                      posts={longPlays}
-                      viewType={viewType}
-                      colNum={4}
-                      onToggleLike={handleToggleLikeLong}
-                    />{" "}
-                    <ScrollObserver
-                      inViewRef={inViewRef}
-                      id={`${activeCategory}`}
-                    />
-                  </>
-                ) : longPlays.length === 0 ? (
-                  <div>
-                    <p className="m-auto w-fit p-large-bold">
-                      좋아한 작품이 없습니다.
-                    </p>
-                  </div>
-                ) : null}
-              </div>
-            </>
+          ) : activeCategory === "전체" &&
+            longPlays.length + shortPlays.length === 0 ? (
+            <NullScriptContent currentPage={2} />
           ) : (
             <>
-              <div className="mb-[24px]">
-                <p className="h5-medium ">단편극</p>
-              </div>
-              <div
-                className={`transition-opacity duration-300 ${
-                  isLoading
-                    ? "opacity-0 pointer-events-none invisible"
-                    : "opacity-100 visible"
-                }`}
-              >
-                {!isLoading && shortPlays.length !== 0 ? (
-                  <>
-                    <AllPostCard
+              {/*----- 스테이지 메뉴 -----*/}
+              <PostHeaderControl
+                activeStage={activeStage}
+                setActiveStage={(value) => handleChange(value, "stage")}
+                activeStoryLength={activeCategory}
+                setActiveStoryLength={(value) =>
+                  handleChange(value, "category")
+                }
+                viewType={viewType}
+                setViewType={setViewType}
+                isSorted={false}
+                stageBottomBorderWidth="w-full"
+              />
+
+              {/*----- post list -----*/}
+
+              {activeCategory === "전체" ? (
+                <div className="mb-[]">
+                  <div className="">
+                    <SectionBlock
                       posts={shortPlays}
                       viewType={viewType}
+                      postNum={4}
                       colNum={4}
+                      title="단편"
+                      onMoreClick={(value) => handleChange(value, "category")}
                       onToggleLike={handleToggleLikeShort}
                     />
-                    <ScrollObserver
-                      key={`scroll-${observerKey}`}
-                      inViewRef={inViewRef}
-                      id={`${activeCategory}`}
-                    />
-                  </>
-                ) : !isLoading && shortPlays.length === 0 ? (
-                  <div>
-                    <p className="m-auto w-fit p-large-bold">
-                      좋아한 작품이 없습니다.
-                    </p>
                   </div>
-                ) : null}
-              </div>
+                  <div className="mt-[78px]">
+                    <SectionBlock
+                      posts={longPlays}
+                      viewType={viewType}
+                      postNum={4}
+                      colNum={4}
+                      title="장편"
+                      onMoreClick={(value) => handleChange(value, "category")}
+                      onToggleLike={handleToggleLikeLong}
+                      isLikePage={true}
+                    />
+                  </div>
+                </div>
+              ) : activeCategory === "장편" ? (
+                <>
+                  <div className="mb-[24px]">
+                    <p className="h5-medium ">장편극</p>
+                  </div>
+
+                  <div
+                    className={`transition-opacity duration-300 ${
+                      isLoading
+                        ? "opacity-0 pointer-events-none invisible"
+                        : "opacity-100 visible"
+                    }`}
+                  >
+                    {!isLoading && longPlays.length !== 0 ? (
+                      <>
+                        {" "}
+                        <AllPostCard
+                          posts={longPlays}
+                          viewType={viewType}
+                          colNum={4}
+                          onToggleLike={handleToggleLikeLong}
+                        />{" "}
+                        <ScrollObserver
+                          inViewRef={inViewRef}
+                          id={`${activeCategory}`}
+                        />
+                      </>
+                    ) : longPlays.length === 0 ? (
+                      <div>
+                        <p className="m-auto w-fit p-large-bold">
+                          좋아한 작품이 없습니다.
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="mb-[24px]">
+                    <p className="h5-medium ">단편극</p>
+                  </div>
+                  <div
+                    className={`transition-opacity duration-300 ${
+                      isLoading
+                        ? "opacity-0 pointer-events-none invisible"
+                        : "opacity-100 visible"
+                    }`}
+                  >
+                    {!isLoading && shortPlays.length !== 0 ? (
+                      <>
+                        <AllPostCard
+                          posts={shortPlays}
+                          viewType={viewType}
+                          colNum={4}
+                          onToggleLike={handleToggleLikeShort}
+                        />
+                        <ScrollObserver
+                          key={`scroll-${observerKey}`}
+                          inViewRef={inViewRef}
+                          id={`${activeCategory}`}
+                        />
+                      </>
+                    ) : !isLoading && shortPlays.length === 0 ? (
+                      <div>
+                        <p className="m-auto w-fit p-large-bold">
+                          좋아한 작품이 없습니다.
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                </>
+              )}
             </>
           )}
         </div>

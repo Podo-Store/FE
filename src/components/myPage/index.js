@@ -4,4 +4,4 @@ export { default as ScriptContentPopUp } from "./ScriptContentPopUp";
 export { default as PurchasedScriptBtn } from "./PurchasedScriptBtn";
 export { default as PurchasedPerformBtn } from "./PurchasedPerformBtn";
 export { default as ScriptManageBtn } from "./ScriptManageBtn";
-export { default as NullScriptContent } from "./NullScriptContent";
+export { default as NullScriptContent } from "./NullScriptContent.tsx";

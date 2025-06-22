@@ -10,6 +10,7 @@ interface Props {
   title: string;
   onMoreClick: (category: string) => void;
   onToggleLike: (postId: string) => void;
+  isLikePage?: boolean;
 }
 
 const SectionBlock = ({
@@ -20,6 +21,7 @@ const SectionBlock = ({
   title,
   onMoreClick,
   onToggleLike,
+  isLikePage = false,
 }: Props) => {
   return (
     <section>
@@ -44,7 +46,9 @@ const SectionBlock = ({
         />
       ) : posts.length === 0 ? (
         <div>
-          <p className="m-auto w-fit p-large-bold">등록된 작품이 없습니다.</p>
+          <p className="m-auto w-fit p-large-bold">
+            {isLikePage ? "좋아한 작품이 없습니다." : "등록된 작품이 없습니다."}
+          </p>
         </div>
       ) : null}
     </section>

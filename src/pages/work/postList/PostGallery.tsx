@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useContext,
-} from "react";
+import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import Cookies from "js-cookie";
@@ -145,7 +141,7 @@ const PostGallery = () => {
           setIsLoading(false);
         }
       } catch (error) {
-        console.error("작품 목록 불러오기 실패:", error);
+        console.error("좋아요 목록 불러오기 실패:", error);
       } finally {
         setIsLoading(false);
       }
@@ -190,40 +186,6 @@ const PostGallery = () => {
   useEffect(() => {
     // 빈 useEffect로 스크롤 복원 차단 (라우팅된 후에도 위치 유지)
   }, []);
-
-  // useEffect(() => {
-  //   const ref = observerRef.current;
-  //   if (!ref) return;
-
-  //   const observer = new IntersectionObserver(
-  //     (entries) => {
-  //       if (!entries[0].isIntersecting || isLoading) return;
-
-  //       if (activeCategory === "장편" && hasMoreLongPlays) {
-  //         setLongPlayPage((prev) => prev + 1);
-  //       } else if (activeCategory === "단편" && hasMoreShortPlays) {
-  //         setShortPlayPage((prev) => prev + 1);
-  //       }
-  //     },
-  //     { threshold: 1.0 }
-  //   );
-
-  //   observer.observe(ref);
-
-  //   return () => observer.disconnect(); // ✅ 이러면 매번 observer 재설정됨
-  // }, [
-  //   activeCategory,
-  //   hasMoreLongPlays,
-  //   hasMoreShortPlays,
-  //   isLoading,
-  //   longPlays.length,
-  //   shortPlays.length,
-  //   sortType,
-  // ]);
-
-  // useEffect(() => {
-  //   console.log("📌 observerRef 상태", observerRef.current);
-  // }, [observerRef.current]);
 
   useEffect(() => {
     if (!inView || isLoading) return;
@@ -272,6 +234,7 @@ const PostGallery = () => {
         isSorted={true}
         sortType={sortType}
         setSortType={setSortType}
+        stageBottomBorderWidth={"w-[140vw]"}
       />
 
       {/*----- post list -----*/}

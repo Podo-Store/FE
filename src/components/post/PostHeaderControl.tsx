@@ -15,6 +15,7 @@ interface PostHeaderControlProps {
   isSorted?: boolean;
   sortType?: string;
   setSortType?: (value: "POPULAR" | "LIKE_COUNT" | "LATEST") => void;
+  stageBottomBorderWidth: string;
 }
 
 const PostHeaderControl: React.FC<PostHeaderControlProps> = ({
@@ -27,13 +28,16 @@ const PostHeaderControl: React.FC<PostHeaderControlProps> = ({
   isSorted,
   sortType,
   setSortType,
+  stageBottomBorderWidth,
 }) => {
   return (
     <>
       {/*----- 스테이지 메뉴 -----*/}
       <div className="relative">
         <StageTab activeStage={activeStage} setActiveStage={setActiveStage} />
-        <span className="absolute left-1/2 top-0 -translate-x-1/2 w-[140vw] h-[1px] block bg-[#E2E2E2] z-0 "></span>
+        <span
+          className={`absolute left-1/2 top-0 -translate-x-1/2 ${stageBottomBorderWidth} h-[1px] block bg-[#E2E2E2] z-0`}
+        ></span>
       </div>
       {/*----- 카테고리 메뉴 -----*/}
       <div className="flex items-center justify-between w-full mb-[35px]">

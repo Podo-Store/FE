@@ -104,7 +104,7 @@ export const getShortWorks = async (
       params: { page, sortType },
       headers,
     });
-
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetchin short works:", error);

@@ -1,7 +1,7 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import AuthContext from "@/contexts/AuthContext";
 import BottomBtn from "../../components/auth/BottomBtn";
 import InnerBox from "./../../components/auth/InnerBox.jsx";
 import EmailCodeErrorMessages from "../../components/auth/signUp/ErrorMessages/EmailCodeErrorMessages.jsx";
@@ -22,6 +22,8 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 const FindID = () => {
+  const isAuthenticated = useContext(AuthContext);
+
   const [email, setEmail] = useState("");
   const [emailChecker, setEmailChecker] = useState({
     show: false,
@@ -48,6 +50,11 @@ const FindID = () => {
   const [foundRegisteredDate, setFoundRegisteredDate] = useState("");
 
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isAuthenticated.isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     const checker = {

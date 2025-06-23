@@ -25,28 +25,29 @@
   padding-bottom: 3.889vh;
 
   width: 389px;
-  height: 741px;
+  height: auto;
 
   box-sizing: border-box;
   border-radius: 20px;
   border: 2px solid var(--Main, #6a39c0);
   background: var(--ect-white, #fff);
+
   @include r.media-laptop {
     width: 351px;
   }
   @include r.media-tablet {
     flex-direction: row;
-
-    padding-left: 68px;
+    gap: 30px;
+    padding-left: 39px;
     padding-right: 39px;
 
-    width: 100%;
-    height: 428px;
+    width: 668px;
+    height: auto;
   }
   @include r.media-mobile {
+    width: 89.6svw;
     flex-direction: column;
-
-    height: 741px;
+    height: auto;
   }
 }
 
@@ -62,6 +63,7 @@
 
 .asked-perform-manage .script-info .script-info-title .summary {
   margin-top: 7px;
+  margin-bottom: 32px;
 }
 
 .asked-perform-manage .script-info .sales-status-box-wrap {
@@ -99,12 +101,11 @@
   padding: 37px 56px;
 
   width: 853px;
-
+  height: auto;
   box-sizing: border-box;
   border-radius: 20px;
   border: 2px solid var(--Main, #6a39c0);
 
-  max-height: 741px;
   overflow-y: auto;
 
   @include r.media-laptop {
@@ -116,7 +117,7 @@
     width: 668px;
   }
   @include r.media-mobile {
-    width: 430px;
+    width: 89.6svw;
   }
 }
 

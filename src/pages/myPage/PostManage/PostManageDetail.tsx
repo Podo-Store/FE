@@ -209,7 +209,9 @@ const PostManageDetail: React.FC = () => {
   const hasRunningTime = (form.runningTime ?? 0) > 0;
   const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
   const hasValidPerformancePrice =
-    form.script && form.performance ? (form.performancePrice ?? -1) >= 0 : true;
+    form.script && form.performance
+      ? (form.performancePrice ?? -1) <= 50000
+      : true;
 
   const isFormValid = () => {
     return (
@@ -673,16 +675,24 @@ const PostManageDetail: React.FC = () => {
                         form.performance === false || form.script === false
                       }
                       placeholder="공연권 가격을 입력하세요."
-                      className="ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]   placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] w-full "
+                      className={`ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px]  ${
+                        (form.performancePrice ?? 0) > 50000
+                          ? "focus:border-[#fc040477] border-[#fc040477]"
+                          : "border-[#BABABA] focus:border-[#caabff]"
+                      }    placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px] w-full `}
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) {
                           const numericValue = Number(value);
-                          if (numericValue <= 50000) {
-                            setForm((prev) => ({
-                              ...prev,
-                              performancePrice: numericValue,
-                            }));
+
+                          setForm((prev) => ({
+                            ...prev,
+                            performancePrice: numericValue,
+                          }));
+                          if (numericValue > 50000) {
+                            setShowPopup(true);
+                          } else {
+                            setShowPopup(false);
                           }
                         }
                       }}

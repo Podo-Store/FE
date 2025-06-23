@@ -55,7 +55,11 @@ function SignIn() {
 
       if (response.data.accessToken && response.data.refreshToken) {
         // accessToken을 쿠키에 저장 -> context 호출
-        login(response.data.accessToken, response.data.refreshToken, response.data.nickname);
+        login(
+          response.data.accessToken,
+          response.data.refreshToken,
+          response.data.nickname
+        );
 
         setIsIdPwMatch(true);
         navigate(from, { replace: true });
@@ -119,16 +123,7 @@ function SignIn() {
                     navigate("/signin/find/0");
                   }}
                 >
-                  아이디
-                </p>
-                <p className="p-small-regular c-default">/</p>
-                <p
-                  className="p-small-regular c-pointer"
-                  onClick={() => {
-                    navigate("/signin/find/1");
-                  }}
-                >
-                  비밀번호 찾기
+                  아이디/비밀번호 찾기
                 </p>
               </div>
               <img src={bar} alt="|" />

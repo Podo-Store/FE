@@ -6,7 +6,10 @@ import BottomBtn from "../../components/auth/BottomBtn";
 import InnerBox from "./../../components/auth/InnerBox.jsx";
 import EmailCodeErrorMessages from "../../components/auth/signUp/ErrorMessages/EmailCodeErrorMessages.jsx";
 import { CheckerMessage } from "../../components/auth/signUp/index.js";
-import { AuthSideBtnInputField, AuthSideBtnTimerInputField } from "../../components/inputField";
+import {
+  AuthSideBtnInputField,
+  AuthSideBtnTimerInputField,
+} from "../../components/inputField";
 
 import { EMAIL_REGEX } from "../../constants/regex";
 import { SERVER_URL } from "../../constants/ServerURL";
@@ -91,8 +94,8 @@ const FindID = () => {
       });
       setEmailCodeChecker({ show: true, match: true });
 
-      setFoundId(response.data.data[0]);
-      setFoundRegisteredDate(response.data.data[1]);
+      setFoundId(response.data.userId);
+      setFoundRegisteredDate(response.data.date);
     } catch (error) {
       setEmailCodeChecker({ show: true, match: false });
     }
@@ -120,7 +123,10 @@ const FindID = () => {
             sideBtnDisabled={!emailChecker.format}
             checkerShowFlag={emailChecker.show}
             checkerMessages={[
-              { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+              {
+                checkedFlag: emailChecker.format,
+                message: "올바른 이메일 형식을 포함해야 해요.",
+              },
             ]}
             errorFlag={isRegisteredEmail.show}
             errorMessage="가입되지 않은 이메일입니다."
@@ -129,7 +135,10 @@ const FindID = () => {
           {/* 메일 전송 메시지: 별도로 지정 */}
           <div className="f-dir-column" id="error-wrap">
             {emailSended && emailCode.length === 0 ? (
-              <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
+              <CheckerMessage
+                checkedFlag={true}
+                message="메일이 전송되었습니다."
+              />
             ) : null}
           </div>
 
@@ -165,7 +174,13 @@ const FindID = () => {
             onClick={() => {
               setShowingIDPermitted(true);
             }}
-            disabled={!(emailChecker.format && isRegisteredEmail && emailCodeChecker.match)}
+            disabled={
+              !(
+                emailChecker.format &&
+                isRegisteredEmail &&
+                emailCodeChecker.match
+              )
+            }
           >
             아이디 찾기
           </BottomBtn>
@@ -175,7 +190,9 @@ const FindID = () => {
 
   return (
     <div className="f-dir-column" id="founded">
-      <p className="p-large-medium t-align-center">이메일과 일치하는 아이디입니다.</p>
+      <p className="p-large-medium t-align-center">
+        이메일과 일치하는 아이디입니다.
+      </p>
       <InnerBox>
         <div className="section-column">
           <p id="title">아이디</p>

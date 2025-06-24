@@ -297,6 +297,8 @@ const Detail = () => {
 
     if (!accessToken) {
       alert("좋아요는 로그인 후 이용할 수 있어요.");
+
+      navigate("/signin");
       return;
     }
 

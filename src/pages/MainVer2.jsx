@@ -34,7 +34,6 @@ const MainVer2 = () => {
     widthConditions: { isLaptop, isTablet, isMobile },
   } = useWindowDimensions();
 
-  console.log(isLaptop);
   const content2Title = () => "작품 둘러보기";
   const content2Texts = () => {
     return (
@@ -114,22 +113,19 @@ const MainVer2 = () => {
           </h1>
           <div className="page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
-              {/* <img src={title} alt="" className="page2-content-title" />
+              <img
+                src={!isTablet ? null : title}
+                alt=""
+                className="page2-content-title"
+              />
               <h1 className={page2TitleClassName}>작품 등록하기</h1>
-
               <h4 className={page2TextsClassName}>
                 여러분의 톡톡 튀는 아이디어, <br />
                 포도상점에 올려주세요!
               </h4>
               <div className="page2-img-wrap j-content-center">
-                <img src={!isTablet ? content1 : content1_768} alt="" />
-              </div> */}
-              <h1 className={page2TitleClassName}>작품 등록하기</h1>
-              <h4 className={page2TextsClassName}>
-                여러분의 톡톡 튀는 아이디어, <br />
-                포도상점에 올려주세요!
-              </h4>
-
+                <img src={!isTablet ? null : content1_768} alt="" />
+              </div>
               <ImageBtn
                 src={page2ButtonImg}
                 alt="->"
@@ -145,12 +141,12 @@ const MainVer2 = () => {
               }
             >
               <img
-                src={!isTablet ? title : title_right}
+                src={!isTablet ? null : title_right}
                 alt=""
                 className="page2-content-title"
               />
               <div className="page2-img-wrap j-content-end">
-                <img src={!isTablet ? content2 : content3_768} alt="" />
+                <img src={!isTablet ? null : content3_768} alt="" />
               </div>
               <div>
                 {!isTablet ? content2Texts() : content3Texts()}
@@ -159,11 +155,11 @@ const MainVer2 = () => {
                   {!isTablet ? content2Title() : content3Title()}
                 </h1>
 
-                <ImageBtn
+                {/* <ImageBtn
                   src={page2ButtonImg}
                   alt="->"
                   className="page2-button"
-                />
+                /> */}
               </div>
             </div>
 
@@ -174,25 +170,25 @@ const MainVer2 = () => {
               }
             >
               <img
-                src={!isTablet ? title_right : title}
+                src={!isTablet ? null : title}
                 alt=""
                 className="page2-content-title"
               />
+              <div className="page2-img-wrap j-content-center">
+                <img src={!isTablet ? null : content2_768} alt="" />
+              </div>
+
               <h1 className={page2TitleClassName + " t-right"}>
                 {!isTablet ? content3Title() : content2Title()}
               </h1>
 
               {!isTablet ? content3Texts() : content2Texts()}
 
-              <div className="page2-img-wrap j-content-center">
-                <img src={!isTablet ? content3 : content2_768} alt="" />
-              </div>
-
-              <ImageBtn
+              {/* <ImageBtn
                 src={page2ButtonImg}
                 alt="->"
                 className="page2-button"
-              />
+              /> */}
             </div>
           </div>
         </div>

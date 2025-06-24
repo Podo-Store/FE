@@ -96,7 +96,7 @@ const PostWork = () => {
 
   return (
     <div className="post-work">
-      <div className="post-work-wrap p-relative">
+      <div className=" post-work-wrap p-relative">
         {isLoading && (
           <Dialog open={true}>
             <DialogContent className="loading-dialog">
@@ -104,8 +104,8 @@ const PostWork = () => {
             </DialogContent>
           </Dialog>
         )}
-        <div className="left-side">
-          <div className="inside-field">
+        <div className=" left-side">
+          <div className=" inside-field">
             <div className="inside-field-title">
               <h1>자신만의</h1>
               <h1>작품을</h1>
@@ -266,7 +266,7 @@ const PostWork = () => {
             </div>
           </div>
         </div>
-        <div className="right-side">
+        <div className=" right-side">
           <img src={postingProcess} alt="작품 등록 도식화"></img>
         </div>
       </div>

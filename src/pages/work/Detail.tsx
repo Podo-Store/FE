@@ -294,7 +294,7 @@ const Detail = () => {
       return;
     }
     const accessToken = Cookies.get("accessToken");
-    
+
     if (!accessToken) {
       alert("좋아요는 로그인 후 이용할 수 있어요.");
       return;
@@ -355,8 +355,9 @@ const Detail = () => {
                   ? script?.title
                   : truncateText({ text: script?.title || "", maxLength: 6 })}
               </h1>
-              <div className="flex flex-row justify-between ">
+              <div className="flex flex-row items-end justify-between">
                 <h3 className="h3-bold">{script?.writer}</h3>
+
                 <LikeViewCount
                   likes={script?.likeCount ?? 0}
                   views={script?.viewCount ?? 0}

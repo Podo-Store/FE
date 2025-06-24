@@ -93,6 +93,8 @@ const Detail = () => {
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
+  const accessToken = Cookies.get("accessToken");
+
   useRequest(async () => {
     if (!id) return;
     try {
@@ -270,11 +272,16 @@ const Detail = () => {
   };
 
   const onClickScriptView = () => {
-    navigate(`/list/view/${id}`, {
-      state: {
-        script,
-      },
-    });
+    if (!accessToken) {
+      alert("대본열람은 로그인 후 가능합니다.");
+      navigate("/signin");
+    } else {
+      navigate(`/list/view/${id}`, {
+        state: {
+          script,
+        },
+      });
+    }
   };
 
   const onDocumentLoadSuccess = (pdf: any) => {

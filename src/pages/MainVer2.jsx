@@ -9,7 +9,7 @@ import Page3 from "@/components/landing/Page3";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import arrow from "../assets/image/landing/Vector 22.svg";
-import circleIcon from "../assets/image/landing/page1.png";
+import circleIcon from "../assets/image/landing/page1.svg";
 import {
   content1,
   content1_768,
@@ -34,6 +34,7 @@ const MainVer2 = () => {
     widthConditions: { isLaptop, isTablet, isMobile },
   } = useWindowDimensions();
 
+  console.log(isLaptop);
   const content2Title = () => "작품 둘러보기";
   const content2Texts = () => {
     return (
@@ -54,7 +55,9 @@ const MainVer2 = () => {
   };
 
   const page2TitleClassName = !isMobile ? "h1-medium" : "h4-medium";
-  const page2TextsClassName = !isMobile ? "h4-regular c-white" : "p-large-regular c-white";
+  const page2TextsClassName = !isMobile
+    ? "h4-regular c-white"
+    : "p-large-regular c-white";
 
   return (
     <div className="main-ver2">
@@ -62,37 +65,53 @@ const MainVer2 = () => {
 
       <div>
         <div className="page1">
-          <section className="page1-width">
-            <div className="title-wrap f-dir-column p-relative">
-              <h1 className="title">
-                대본과 {isLaptop && <br />}공연권 거래
-                <br />
-                포도상점에서
-              </h1>
+          <section className=" page1-width">
+            <div
+              className={` page1-title-img w-fit pt-[110px]  ${
+                isLaptop
+                  ? "items-center  gap-[80px]"
+                  : isTablet
+                  ? " gap-[60px]"
+                  : "gap-[42px]"
+              }  justify-center`}
+            >
+              <div
+                className={` ${
+                  isLaptop ? "" : ""
+                }  h-fit title-wrap f-dir-column p-relative`}
+              >
+                <h1 className=" title">
+                  대본과 {isLaptop && <br />}공연권 거래
+                  <br />
+                  포도상점에서
+                </h1>
 
-              <h5 className="sub-title">
-                편리하게 대본과 공연권을 거래해요.
-                <br />
-                여러분들이 원하던 스토리 IP 플랫폼,
-                <br />
-                포도상점을 시작하세요!
-              </h5>
-              {!isTablet ? (
-                <img src={circleIcon} alt="circle" className="circle-icon" />
+                <h5 className="sub-title">
+                  편리하게 대본과 공연권을 거래해요.
+                  <br />
+                  여러분들이 원하던 스토리 IP 플랫폼,
+                  <br />
+                  포도상점을 시작하세요!
+                </h5>
+              </div>
+              {!isMobile ? (
+                <img src={circleIcon} alt="circle" className="" />
               ) : (
                 <div className="flex justify-end">
-                  <img src={circleIcon} alt="circle" className="circle-icon" />
+                  <img src={circleIcon} alt="circle" className=" w-[438px]" />
                 </div>
               )}
             </div>
           </section>
           <div className="flex justify-center w-full h-content">
-            <img src={arrow} alt="First" className="arrow" />
+            <img src={arrow} alt="First" className=" arrow" />
           </div>
         </div>
 
         <div className={`page2 ${window.innerWidth >= 1600 && "page-size"}`}>
-          <h1 className="page2-title title_64px">포도상점에서는 이런 것들이 가능해요</h1>
+          <h1 className="page2-title title_64px">
+            포도상점에서는 이런 것들이 가능해요
+          </h1>
           <div className="page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
               <img src={title} alt="" className="page2-content-title" />
@@ -106,15 +125,25 @@ const MainVer2 = () => {
                 <img src={!isTablet ? content1 : content1_768} alt="" />
               </div>
 
-              <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+              <ImageBtn
+                src={page2ButtonImg}
+                alt="->"
+                className="page2-button"
+              />
             </div>
 
             {/* 768 아래에선 밑의 두 요소 contents 교체 */}
             <div
               className="page2-content f-dir-column j-content-between"
-              onClick={() => (!isTablet ? navigate("/list") : navigate("/myPage/purchased"))}
+              onClick={() =>
+                !isTablet ? navigate("/list") : navigate("/myPage/purchased")
+              }
             >
-              <img src={!isTablet ? title : title_right} alt="" className="page2-content-title" />
+              <img
+                src={!isTablet ? title : title_right}
+                alt=""
+                className="page2-content-title"
+              />
               <div className="page2-img-wrap j-content-end">
                 <img src={!isTablet ? content2 : content3_768} alt="" />
               </div>
@@ -125,15 +154,25 @@ const MainVer2 = () => {
                   {!isTablet ? content2Title() : content3Title()}
                 </h1>
 
-                <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+                <ImageBtn
+                  src={page2ButtonImg}
+                  alt="->"
+                  className="page2-button"
+                />
               </div>
             </div>
 
             <div
               className="page2-content"
-              onClick={() => (!isTablet ? navigate("/mypage/purchased") : navigate("/list"))}
+              onClick={() =>
+                !isTablet ? navigate("/mypage/purchased") : navigate("/list")
+              }
             >
-              <img src={!isTablet ? title_right : title} alt="" className="page2-content-title" />
+              <img
+                src={!isTablet ? title_right : title}
+                alt=""
+                className="page2-content-title"
+              />
               <h1 className={page2TitleClassName + " t-right"}>
                 {!isTablet ? content3Title() : content2Title()}
               </h1>
@@ -144,7 +183,11 @@ const MainVer2 = () => {
                 <img src={!isTablet ? content3 : content2_768} alt="" />
               </div>
 
-              <ImageBtn src={page2ButtonImg} alt="->" className="page2-button" />
+              <ImageBtn
+                src={page2ButtonImg}
+                alt="->"
+                className="page2-button"
+              />
             </div>
           </div>
         </div>
@@ -168,7 +211,10 @@ const MainVer2 = () => {
               src={facebook}
               alt="facebook"
               onClick={() => {
-                window.open(`https://www.facebook.com/profile.php?id=61565446313244`, "_blank");
+                window.open(
+                  `https://www.facebook.com/profile.php?id=61565446313244`,
+                  "_blank"
+                );
               }}
             />
             <Page4Button

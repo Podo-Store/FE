@@ -678,11 +678,13 @@ const Detail = () => {
           <div className="bottom-bar-right">
             {/* disabled */}
             <Select
+              className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
               value={selectedOption}
-              onChange={onChangeBottomSelectOption}
+              onChange={onChangeSelectOption}
+              disabled={!script?.performance} // 포도알 스테이지에서만 적용
             >
               <option value="">옵션 선택</option>
-              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+              {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
               script.script ? (
                 <option value="script">대본</option>
               ) : null}
@@ -691,6 +693,10 @@ const Detail = () => {
               script.performance ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
+              {script?.buyStatus === 0 && script.performance ? (
+                <option value="perform">공연권</option>
+              ) : null} */}
+
               {script?.buyStatus === 0 && script.performance ? (
                 <option value="perform">공연권</option>
               ) : null}

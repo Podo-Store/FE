@@ -114,7 +114,7 @@ const MainVer2 = () => {
           </h1>
           <div className="page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
-              <img src={title} alt="" className="page2-content-title" />
+              {/* <img src={title} alt="" className="page2-content-title" />
               <h1 className={page2TitleClassName}>작품 등록하기</h1>
 
               <h4 className={page2TextsClassName}>
@@ -123,7 +123,12 @@ const MainVer2 = () => {
               </h4>
               <div className="page2-img-wrap j-content-center">
                 <img src={!isTablet ? content1 : content1_768} alt="" />
-              </div>
+              </div> */}
+              <h1 className={page2TitleClassName}>작품 등록하기</h1>
+              <h4 className={page2TextsClassName}>
+                여러분의 톡톡 튀는 아이디어, <br />
+                포도상점에 올려주세요!
+              </h4>
 
               <ImageBtn
                 src={page2ButtonImg}

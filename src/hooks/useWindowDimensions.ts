@@ -1,29 +1,42 @@
 import { useEffect, useState } from "react";
 
+const getWidthConditions = (width: number) => ({
+  isMobile: width < 768,
+  isTablet: width >= 768 && width < 1280,
+  isLaptop: width >= 1280 && width < 1920,
+  isDesktop: width >= 1920,
+});
+
+const getWindowDimensions = () => {
+  if (typeof window === "undefined") {
+    return {
+      width: 0,
+      height: 0,
+      widthConditions: {
+        isMobile: false,
+        isTablet: false,
+        isLaptop: false,
+        isDesktop: false,
+      },
+    };
+  }
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  return {
+    width,
+    height,
+    widthConditions: getWidthConditions(width),
+  };
+};
+
 const useWindowDimensions = () => {
-  const [windowDimensions, setWindowDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-    widthConditions: {
-      isMobile: window.innerWidth < 768,
-      isTablet: window.innerWidth < 1280,
-      isLaptop: window.innerWidth < 1920,
-      isDesktop: window.innerWidth >= 1920,
-    },
-  });
+  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions);
 
   useEffect(() => {
     const handleResize = () => {
-      setWindowDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-        widthConditions: {
-          isMobile: window.innerWidth < 768,
-          isTablet: window.innerWidth < 1280,
-          isLaptop: window.innerWidth < 1920,
-          isDesktop: window.innerWidth >= 1920,
-        },
-      });
+      setWindowDimensions(getWindowDimensions());
     };
 
     window.addEventListener("resize", handleResize);

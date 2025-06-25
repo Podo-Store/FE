@@ -1,56 +1,154 @@
 import { useState, useEffect, useContext } from "react";
+import { useSearchParams } from "react-router-dom";
+import { useInView } from "react-intersection-observer";
 import Cookies from "js-cookie";
-import AuthContext from "../../../contexts/AuthContext";
+
+import AuthContext from "@/contexts/AuthContext";
+
+import {
+  fetchExploreScripts,
+  getLongWorks,
+  getShortWorks,
+  ScriptItem,
+} from "@/api/user/postListApi";
+
 import PartialLoading from "@/components/loading/PartialLoading";
-import { useNavigate } from "react-router-dom";
-import SortDropdown from "@/components/post/SortDropdown";
-import { AllPostCard } from "@/components/post/PostList.js";
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
-import StageTab from "@/components/post/StageTab";
-import StoryLengthTeb from "@/components/post/StoryLengthTabs";
-import ViewToggleButton from "@/components/post/ViewToggleButton";
 import SectionBlock from "@/components/post/SectionBlock";
-import BannerImage1 from "./../../../assets/image/listBanner.jpg";
-import BannerImage2 from "./../../../assets/image/postList_banner.png";
-import {useToggleLike} from "@/hooks/useToggleLike";
-import { fetchExploreScripts, ScriptItem } from "@/api/user/postListApi";
+import { AllPostCard } from "@/components/post/PostList.js";
+import PostHeaderControl from "@/components/post/PostHeaderControl";
+
+import BannerImage1 from "@/assets/image/listBanner.jpg";
+import BannerImage2 from "@/assets/image/postList_banner.png";
+
+import { useToggleLike } from "@/hooks/useToggleLike";
 import "./postGallery.scss";
 
 const bannerImages = [BannerImage1, BannerImage2];
 
+const ScrollObserver: React.FC<{
+  inViewRef: (node?: Element | null) => void;
+  id: string;
+}> = ({ inViewRef, id }) => {
+  return <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />;
+};
+
 const PostGallery = () => {
-  const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
-  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
+  const [longPlays, setLongPlays] = useState<ScriptItem[]>([]); // 전체 longPlays
+  const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
+  const [longPlayPage, setLongPlayPage] = useState(0);
+
+  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]); // 전체 shorPlays
+  const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
+  const [shortPlayPage, setShortPlayPage] = useState(0);
+  const [observerKey, setObserverKey] = useState(0);
+  // const observerRef = useRef<HTMLDivElement | null>(null);
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeStage = searchParams.get("stage") || "포도밭";
+  const activeCategory = searchParams.get("category") || "전체";
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [activeCategory, setActiveCategory] = useState("포도밭");
-  const [activeStoryLength, setActiveStoryLength] = useState("전체");
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
-  const [sortType, setSortType] = useState("조회수순");
+  const [sortType, setSortType] = useState<"POPULAR" | "LIKE_COUNT" | "LATEST">(
+    "POPULAR"
+  );
+
   const [colNum, setColNum] = useState(5);
   const [postNum, setPostNum] = useState(10);
+  const [resetFlag, setResetFlag] = useState(false);
   const isAuthenticated = useContext(AuthContext);
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
-  const navigate = useNavigate();
+
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 1.0,
+    triggerOnce: false,
+    fallbackInView: true,
+    initialInView: false,
+  });
+
+  const handleChange = (newStage: string, menu: string) => {
+    const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
+    updated.set(`${menu}`, newStage);
+    setSearchParams(updated);
+  };
+
+  useEffect(() => {
+    setObserverKey((prev) => prev + 1);
+  }, [sortType, activeCategory]);
+
   useEffect(() => {
     setIsLoading(true);
-    const loadScripts = async () => {
+    const fetchData = async () => {
       try {
         const accessToken = Cookies.get("accessToken");
-        const data = await fetchExploreScripts(accessToken);
 
-        setLongPlays(Array.isArray(data.longPlay) ? data.longPlay : []);
-        setShortPlays(Array.isArray(data.shortPlay) ? data.shortPlay : []);
+        if (activeCategory === "장편") {
+          const longData = await getLongWorks(
+            longPlayPage,
+            accessToken,
+            sortType
+          );
+          if (longData.length === 0) {
+            setHasMoreLongPlays(false);
+            return;
+          }
+
+          setTimeout(() => {
+            setLongPlays((prev) =>
+              Array.from(
+                new Map(
+                  [...prev, ...longData].map((post) => [post.id, post])
+                ).values()
+              )
+            );
+            requestAnimationFrame(() => {
+              setIsLoading(false);
+            });
+          }, 150);
+        } else if (activeCategory === "단편") {
+          const shortData = await getShortWorks(
+            shortPlayPage,
+            accessToken,
+            sortType
+          );
+          if (shortData.length === 0) {
+            setHasMoreShortPlays(false);
+            return;
+          }
+
+          setTimeout(() => {
+            setShortPlays((prev) =>
+              Array.from(
+                new Map(
+                  [...prev, ...shortData].map((post) => [post.id, post])
+                ).values()
+              )
+            );
+            requestAnimationFrame(() => {
+              setIsLoading(false);
+            });
+          }, 150);
+        } else {
+          const allData = await fetchExploreScripts(accessToken, sortType);
+
+          setLongPlays(Array.isArray(allData.longPlay) ? allData.longPlay : []);
+          setShortPlays(
+            Array.isArray(allData.shortPlay) ? allData.shortPlay : []
+          );
+          setIsLoading(false);
+        }
       } catch (error) {
-        console.error("작품 목록 불러오기 실패:", error);
+        console.error("좋아요 목록 불러오기 실패:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    loadScripts();
-  }, []);
+
+    fetchData();
+  }, [activeCategory, longPlayPage, shortPlayPage, sortType]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -72,40 +170,47 @@ const PostGallery = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleToggleLikeLong = (postId: string) => {
-    if (!isAuthenticated) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    rawToggleLikeLong(postId);
+  const makeToggleHandler = (rawToggleFn: (postId: string) => void) => {
+    return (postId: string) => {
+      if (!isAuthenticated) {
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      rawToggleFn(postId);
+    };
   };
 
-  const handleToggleLikeShort = (postId: string) => {
-    if (!isAuthenticated) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-    rawToggleLikeShort(postId);
-  };
+  const handleToggleLikeLong = makeToggleHandler(rawToggleLikeLong);
+  const handleToggleLikeShort = makeToggleHandler(rawToggleLikeShort);
 
-  const sortPosts = (posts: ScriptItem[] = [], sortType: string) => {
-    const sorted = [...posts]; // 원본 배열 복사
-    switch (sortType) {
-      case "조회수순":
-        return sorted.sort((a, b) => b.viewCount - a.viewCount);
-      case "좋아요순":
-        return sorted.sort((a, b) => b.likeCount - a.likeCount);
-      case "최신순":
-        return sorted.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        );
-      default:
-        return posts;
-    }
-  };
+  useEffect(() => {
+    // 빈 useEffect로 스크롤 복원 차단 (라우팅된 후에도 위치 유지)
+  }, []);
 
-  const sortedLongPlays = sortPosts(longPlays, sortType);
-  const sortedShortPlays = sortPosts(shortPlays, sortType);
+  useEffect(() => {
+    if (!inView || isLoading) return;
+
+    if (activeCategory === "장편" && hasMoreLongPlays) {
+      setLongPlayPage((prev) => prev + 1);
+    } else if (activeCategory === "단편" && hasMoreShortPlays) {
+      setShortPlayPage((prev) => prev + 1);
+    }
+  }, [inView, isLoading, activeCategory, hasMoreLongPlays, hasMoreShortPlays]);
+
+  useEffect(() => {
+    setResetFlag(true);
+    setLongPlays([]);
+    setShortPlays([]);
+    setLongPlayPage(0);
+    setShortPlayPage(0);
+    setHasMoreLongPlays(true);
+    setHasMoreShortPlays(true);
+  }, [activeCategory, sortType]);
+
+  useEffect(() => {
+    if (!resetFlag) return;
+    setResetFlag(false);
+  }, [resetFlag]);
 
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px] ">
@@ -118,61 +223,121 @@ const PostGallery = () => {
       <InfiniteBanner images={bannerImages} />
 
       {/*----- 스테이지 메뉴 -----*/}
-      <div className="relative">
-        <StageTab
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
-        <span className="absolute left-1/2 top-0 -translate-x-1/2 w-[140vw] h-[1px] block bg-[#E2E2E2] z-0 "></span>
-      </div>
-      {/*----- 카테고리 메뉴 -----*/}
-      <div className="flex items-center justify-between w-full h-[48px] mb-[35px] ">
-        <StoryLengthTeb
-          activeStoryLength={activeStoryLength}
-          setActiveStoryLength={setActiveStoryLength}
-          page={"/list"}
-        />
-        <div className="flex items-center flex-row gap-[10px] h-full   ">
-          {/* 정렬 */}
-          <SortDropdown selected={sortType} onChange={setSortType} />
-          {/*----- 보기방식 -----*/}
 
-          <ViewToggleButton viewType={viewType} setViewType={setViewType} />
-        </div>
-      </div>
+      <PostHeaderControl
+        activeStage={activeStage}
+        setActiveStage={(value) => handleChange(value, "stage")}
+        activeStoryLength={activeCategory}
+        setActiveStoryLength={(value) => handleChange(value, "category")}
+        viewType={viewType}
+        setViewType={setViewType}
+        isSorted={true}
+        sortType={sortType}
+        setSortType={setSortType}
+        stageBottomBorderWidth={"w-[140vw]"}
+      />
 
       {/*----- post list -----*/}
       {isLoading ? (
-        <div className="m-auto">
+        <div className="m-auto" style={{ height: "600px" }}>
           <PartialLoading />
         </div>
-      ) : (
+      ) : activeCategory === "전체" ? (
         <div className="mb-[]">
           <div className="">
             <SectionBlock
-              setActiveStoryLength={setActiveCategory}
-              posts={sortedShortPlays}
+              posts={shortPlays}
               viewType={viewType}
               postNum={postNum}
               colNum={colNum}
               title="단편"
-              onMoreClick={() => navigate("/list/short")}
+              onMoreClick={(value) => handleChange(value, "category")}
               onToggleLike={handleToggleLikeShort}
             />
           </div>
           <div className="mt-[78px]">
             <SectionBlock
-              setActiveStoryLength={setActiveCategory}
-              posts={sortedLongPlays}
+              posts={longPlays}
               viewType={viewType}
               postNum={postNum}
               colNum={colNum}
               title="장편"
-              onMoreClick={() => navigate("/list/long")}
+              onMoreClick={(value) => handleChange(value, "category")}
               onToggleLike={handleToggleLikeLong}
             />
           </div>
         </div>
+      ) : activeCategory === "장편" ? (
+        <>
+          <div className="mb-[24px]">
+            <p className="h5-medium ">장편극</p>
+          </div>
+
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoading
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
+            }`}
+          >
+            {longPlays.length !== 0 ? (
+              <>
+                {" "}
+                <AllPostCard
+                  posts={longPlays}
+                  viewType={viewType}
+                  colNum={colNum}
+                  onToggleLike={handleToggleLikeLong}
+                />{" "}
+                <ScrollObserver
+                  inViewRef={inViewRef}
+                  id={`${activeCategory}-${sortType}`}
+                />
+              </>
+            ) : longPlays.length === 0 ? (
+              <div>
+                <p className="m-auto w-fit p-large-bold">
+                  등록된 작품이 없습니다.
+                </p>
+              </div>
+            ) : null}
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="mb-[24px]">
+            <p className="h5-medium ">단편극</p>
+          </div>
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoading
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
+            }`}
+          >
+            {!isLoading && shortPlays.length !== 0 ? (
+              <>
+                <AllPostCard
+                  posts={shortPlays}
+                  viewType={viewType}
+                  colNum={colNum}
+                  onToggleLike={handleToggleLikeShort}
+                />
+                <ScrollObserver
+                  key={`scroll-${observerKey}`}
+                  inViewRef={inViewRef}
+                  id={`${activeCategory}-${sortType}`}
+                />
+              </>
+            ) : !isLoading && shortPlays.length === 0 ? (
+              <div>
+                <p className="m-auto w-fit p-large-bold">
+                  등록된 작품이 없습니다.
+                </p>
+              </div>
+            ) : null}
+          </div>
+        </>
       )}
     </div>
   );

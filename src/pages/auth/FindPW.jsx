@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import ResetPW from "./ResetPW";
 import BottomBtn from "../../components/auth/BottomBtn";
@@ -11,12 +11,17 @@ import {
   AuthSideBtnTimerInputField,
 } from "../../components/inputField";
 
-import { ID_FORMAT_REGEX, ID_LENGTH_REGEX, EMAIL_REGEX } from "./../../constants/regex.js";
+import {
+  ID_FORMAT_REGEX,
+  ID_LENGTH_REGEX,
+  EMAIL_REGEX,
+} from "./../../constants/regex.js";
 import { SERVER_URL } from "../../constants/ServerURL";
-
+import AuthContext from "@/contexts/AuthContext";
 import "./FindBar.css";
 
 const FindPW = () => {
+  const isAuthenticated = useContext(AuthContext);
   const [id, setId] = useState("");
   const [idChecker, setIdChecker] = useState({
     show: false,
@@ -52,6 +57,11 @@ const FindPW = () => {
   // PW 재설정
   const [receivedAccessToken, setReceivedAccessToken] = useState("");
 
+  useEffect(() => {
+    if (isAuthenticated.isAuthenticated) {
+      navigate("/");
+    }
+  }, [isAuthenticated]);
   useEffect(() => {
     const newIdChecker = {
       show: id.length > 0,
@@ -106,7 +116,10 @@ const FindPW = () => {
 
       setEmailSended(true);
     } catch (error) {
-      if (error.response.data.error === "아이디와 이메일의 정보가 일치하지 않습니다.") {
+      if (
+        error.response.data.error ===
+        "아이디와 이메일의 정보가 일치하지 않습니다."
+      ) {
         setIsEmailMatchToId({ show: true, match: false });
       } else {
         alert("이메일 전송에 실패했습니다.");
@@ -154,7 +167,10 @@ const FindPW = () => {
           }}
           checkerShowFlag={idChecker.show}
           checkerMessages={[
-            { checkedFlag: idChecker.format, message: "영어와 숫자를 반드시 포함해야 해요." },
+            {
+              checkedFlag: idChecker.format,
+              message: "영어와 숫자를 반드시 포함해야 해요.",
+            },
             { checkedFlag: idChecker.length, message: "5 ~ 10자만 가능해요." },
           ]}
           errorFlag={isRegisteredId.show && !isRegisteredId.registered}
@@ -181,7 +197,10 @@ const FindPW = () => {
           sideBtnDisabled={!emailChecker.format}
           checkerShowFlag={emailChecker.show}
           checkerMessages={[
-            { checkedFlag: emailChecker.format, message: "올바른 이메일 형식을 포함해야 해요." },
+            {
+              checkedFlag: emailChecker.format,
+              message: "올바른 이메일 형식을 포함해야 해요.",
+            },
           ]}
           errorFlag={isEmailMatchToId.show && !isEmailMatchToId.match}
           errorMessage="등록된 이메일과 다릅니다."
@@ -190,7 +209,10 @@ const FindPW = () => {
         {/* 메일 전송 메시지: 별도로 지정 */}
         <div className="f-dir-column" id="error-wrap">
           {emailSended && emailCode.length === 0 ? (
-            <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
+            <CheckerMessage
+              checkedFlag={true}
+              message="메일이 전송되었습니다."
+            />
           ) : null}
         </div>
 

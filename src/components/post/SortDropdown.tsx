@@ -1,14 +1,20 @@
 import { useState, useRef, useEffect } from "react";
 import downDropIcon from "@/assets/image/post/ic_arrow_down.svg";
-const SORT_OPTIONS = ["조회수순", "좋아요순", "최신순"];
+const SORT_OPTIONS = ["POPULAR", "LIKE_COUNT", "LATEST"];
 
 interface SortDropdownProps {
   selected?: string; // optional
-  onChange?: (val: string) => void; // optional
+  onChange?: (val: "POPULAR" | "LIKE_COUNT" | "LATEST") => void; // optional
 }
 
+const LABEL_MAP: Record<"POPULAR" | "LIKE_COUNT" | "LATEST", string> = {
+  POPULAR: "조회수순",
+  LIKE_COUNT: "좋아요순",
+  LATEST: "최신순",
+};
+
 const SortDropdown: React.FC<SortDropdownProps> = ({
-  selected = "조회수",
+  selected = "POPULAR",
   onChange = () => {},
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +22,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleSelect = (option: string) => {
+  const handleSelect = (option: "POPULAR" | "LIKE_COUNT" | "LATEST") => {
     onChange(option);
     setIsOpen(false);
   };
@@ -41,7 +47,9 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
         onClick={toggleDropdown}
         className="flex  flex-row items-center gap-[4px] whitespace-nowrap p-medium-regular"
       >
-        <span className="align-middle">{selected}</span>
+        <span className="align-middle">
+          {LABEL_MAP[selected as "POPULAR" | "LIKE_COUNT" | "LATEST"]}
+        </span>
         <img
           src={downDropIcon}
           className={`transition-transform align-middle ${
@@ -57,14 +65,16 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
           {SORT_OPTIONS.map((option) => (
             <li
               key={option}
-              className={` cursor-pointer  ${
+              className={`cursor-pointer ${
                 selected === option
                   ? "p-medium-medium"
                   : "p-medium-regular text-[var(--grey6)]"
               } hover:bg-gray-100`}
-              onClick={() => handleSelect(option)}
+              onClick={() =>
+                handleSelect(option as "POPULAR" | "LIKE_COUNT" | "LATEST")
+              }
             >
-              {option}
+              {LABEL_MAP[option as "POPULAR" | "LIKE_COUNT" | "LATEST"]}
             </li>
           ))}
         </ul>

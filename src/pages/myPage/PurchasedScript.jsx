@@ -10,9 +10,8 @@ import {
   ScriptContent,
   PurchasedScriptBtn,
   PurchasedPerformBtn,
-  NullScriptContent,
 } from "../../components/myPage";
-
+import NullScriptContent from "@/components/myPage/NullScriptContent";
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 

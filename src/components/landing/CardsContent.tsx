@@ -21,7 +21,11 @@ interface CardsContentProps {
   setIsOpened: React.Dispatch<React.SetStateAction<{ [key: number]: boolean }>>;
 }
 
-const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpened }) => {
+const CardsContent: React.FC<CardsContentProps> = ({
+  pageNum,
+  isOpened,
+  setIsOpened,
+}) => {
   // MOU 키워드 보이지 않게 처리
   const [isKeywordVisible, setIsKeywordVisible] = useState(false);
   // MOU 키워드 등장 애니메이션
@@ -86,7 +90,11 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
   };
 
   return isOpened ? (
-    <div className="cards-wrap d-flex" onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+    <div
+      className="cards-wrap d-flex"
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+    >
       <div id="opened" className="cards-content f-dir-column j-content-between">
         {/* 배경 이미지용 div */}
         <div
@@ -98,12 +106,18 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
         ></div>
 
         {isKeywordVisible ? (
-          <div className={`cards-top ${isKeywordAnimating ? "fade-in" : ""} a-items-center`}>
+          <div
+            className={`cards-top ${
+              isKeywordAnimating ? "fade-in" : ""
+            } a-items-center`}
+          >
             {organizationsExport[pageNum]?.keywords?.map((keyword, index) => (
               <Fragment key={index}>
                 <div
                   className={`label c-white ${
-                    !widthConditions.isMobile ? "p-medium-regular" : "p-xs-medium"
+                    !widthConditions.isMobile
+                      ? "p-medium-regular"
+                      : "p-xs-medium"
                   }`}
                 >
                   {keyword}
@@ -111,9 +125,12 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
                 {
                   // label 사이의 원 제어
                   // 1. 마지막 label일 때 제거
-                  index !== organizationsExport[pageNum]?.keywords?.length - 1 &&
+                  index !==
+                    organizationsExport[pageNum]?.keywords?.length - 1 &&
                     // 2. 사용자 정의된 추가 삭제 원이 있을 때 제거
-                    !organizationsExport[pageNum]?.additionalDeleteCircle?.includes(index) && (
+                    !organizationsExport[
+                      pageNum
+                    ]?.additionalDeleteCircle?.includes(index) && (
                       <div className="label-circle"></div>
                     )
                 }
@@ -125,7 +142,9 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
         )}
         <div className="cards-bottom j-content-between">
           <h1
-            className={`fade-in c-white ${!widthConditions.isMobile ? "h1-regular" : "h4-regular"}`}
+            className={`fade-in c-white ${
+              !widthConditions.isMobile ? "h1-regular" : "h4-regular"
+            }`}
           >
             {organizationsExport[pageNum]?.name || ""}
           </h1>
@@ -148,14 +167,18 @@ const CardsContent: React.FC<CardsContentProps> = ({ pageNum, isOpened, setIsOpe
     >
       <div id="closed" className="cards-content f-dir-column f-center">
         <p className="fade-in p-large-medium c-white t-center">
-          {organizationsExport[pageNum]?.name || ""}
+          {organizationsExport[pageNum]?.name || "포도상점과 MOU를 맺어주세요!"}
         </p>
         <div className="mou-logo f-center">
-          <img
-            src={organizationsExport[pageNum]?.logo?.src}
-            alt=""
-            style={organizationsExport[pageNum]?.logo?.style}
-          />
+          {organizationsExport[pageNum]?.logo?.src ? (
+            <img
+              src={organizationsExport[pageNum]?.logo?.src}
+              alt=""
+              style={organizationsExport[pageNum]?.logo?.style}
+            />
+          ) : (
+            <>?</>
+          )}
         </div>
       </div>
     </div>

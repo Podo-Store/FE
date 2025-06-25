@@ -15,8 +15,6 @@ import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 
 import PostGallery from "./pages/work/postList/PostGallery";
-import PostGalleryShort from "./pages/work/postList/PostGalleryShort";
-import PostGalleryLong from "./pages/work/postList/PostGalleryLong";
 
 import Detail from "./pages/work/Detail.tsx";
 
@@ -40,8 +38,7 @@ import ScriptManageDetail from "./pages/myPage/PostManage/PostManageDetail";
 import AskedPerformManage from "./pages/myPage/AskedPerformManage";
 import AccountInfoChange from "./pages/myPage/AccountInfoChange";
 import LikedWorks from "./pages/myPage/Liked/LikedWorks";
-import LikedLong from "./pages/myPage/Liked/LikedLong";
-import LikedShort from "./pages/myPage/Liked/LikedShort";
+
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 
@@ -84,8 +81,7 @@ function App() {
 
               {/* <Route path="list" element={<List />} /> */}
               <Route path="list" element={<PostGallery />} />
-              <Route path="list/long" element={<PostGalleryLong />} />
-              <Route path="list/short" element={<PostGalleryShort />} />
+
               <Route path="list/detail/:id" element={<Detail />} />
               <Route path="list/view/:id" element={<PostView />} />
               <Route
@@ -110,14 +106,7 @@ function App() {
                   path="mypage/liked"
                   element={<ProtectedRoute element={<LikedWorks />} />}
                 />
-                <Route
-                  path="mypage/liked/long"
-                  element={<ProtectedRoute element={<LikedLong />} />}
-                />
-                <Route
-                  path="mypage/liked/short"
-                  element={<ProtectedRoute element={<LikedShort />} />}
-                />
+
                 <Route
                   path="mypage/purchased"
                   element={<ProtectedRoute element={<PurchasedScript />} />}

@@ -27,10 +27,8 @@
 }
 
 .post-work .left-side {
-  flex: 1;
+  width: 100%;
   @include r.media-laptop {
-    margin-left: 77px;
-    margin-right: 55px;
   }
   @include r.media-tablet {
     flex: 1;
@@ -51,12 +49,7 @@
 }
 
 .post-work .right-side img {
-  position: absolute;
-  top: 58px;
-  right: 0;
-
-  width: 517px;
-  height: 869px;
+  height: 100%;
 
   @include r.media-laptop {
     top: 75px;

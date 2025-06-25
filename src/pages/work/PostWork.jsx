@@ -23,6 +23,7 @@ import checkSquare from "../../assets/image/ic_check_square.svg";
 import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
 import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
+import { toastAlert } from "@/utils/ToastAlert";
 import "./PostWork.scss";
 
 const PostWork = () => {
@@ -67,7 +68,7 @@ const PostWork = () => {
         setTimeout(() => {
           setUploadSuccess(false);
           setIsLoading(false);
-          alert("작품 등록이 완료되었습니다.");
+          toastAlert("작품 등록이 완료되었습니다.");
           navigate("/");
         }, 2500);
       }
@@ -95,7 +96,7 @@ const PostWork = () => {
 
   return (
     <div className="post-work">
-      <div className="post-work-wrap p-relative">
+      <div className=" post-work-wrap p-relative">
         {isLoading && (
           <Dialog open={true}>
             <DialogContent className="loading-dialog">
@@ -103,8 +104,8 @@ const PostWork = () => {
             </DialogContent>
           </Dialog>
         )}
-        <div className="left-side">
-          <div className="inside-field">
+        <div className=" left-side">
+          <div className=" inside-field">
             <div className="inside-field-title">
               <h1>자신만의</h1>
               <h1>작품을</h1>
@@ -265,7 +266,7 @@ const PostWork = () => {
             </div>
           </div>
         </div>
-        <div className="right-side">
+        <div className=" right-side">
           <img src={postingProcess} alt="작품 등록 도식화"></img>
         </div>
       </div>

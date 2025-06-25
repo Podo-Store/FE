@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useContext } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
 import Cookies from "js-cookie";
 
@@ -43,6 +43,8 @@ const PostView: React.FC = () => {
   const HEADER_HEIGHT = 179; // 헤더 높이
   const [headerOffset, setHeaderOffset] = useState(0);
   const [isHeaderTouchTop, setIsHeaderTouchTop] = useState(true);
+
+  const navigate = useNavigate();
   const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
   };
@@ -73,6 +75,7 @@ const PostView: React.FC = () => {
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!accessToken) {
       alert("좋아요는 로그인 후 이용할 수 있어요.");
+      navigate("/signin");
       return;
     }
 

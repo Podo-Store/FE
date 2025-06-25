@@ -25,6 +25,8 @@ import puppleLine from "@/assets/image/myPage/pupple_line.svg";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
 import Cookies from "js-cookie";
 
+import { toastAlert } from "@/utils/ToastAlert";
+
 type WorkFormState = Partial<
   Pick<
     WorkDetailResponse,
@@ -148,7 +150,7 @@ const PostManageDetail: React.FC = () => {
       const success = await postWorkDetail(formData);
 
       if (success) {
-        alert("작품 수정이 완료되었습니다.");
+        toastAlert("작품 수정이 완료되었습니다.", "success");
         navigate("/mypage/scriptmanage");
       }
     } catch (error: any) {
@@ -207,7 +209,9 @@ const PostManageDetail: React.FC = () => {
   const hasRunningTime = (form.runningTime ?? 0) > 0;
   const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
   const hasValidPerformancePrice =
-    form.script && form.performance ? (form.performancePrice ?? -1) >= 0 : true;
+    form.script && form.performance
+      ? (form.performancePrice ?? -1) <= 50000
+      : true;
 
   const isFormValid = () => {
     return (
@@ -474,7 +478,7 @@ const PostManageDetail: React.FC = () => {
                     value={form.stageComment ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (value.length <= 20) {
+                      if (value.length <= 30) {
                         setForm((prev) => ({ ...prev, stageComment: value }));
                       }
                     }}
@@ -671,16 +675,24 @@ const PostManageDetail: React.FC = () => {
                         form.performance === false || form.script === false
                       }
                       placeholder="공연권 가격을 입력하세요."
-                      className="ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]   placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] w-full "
+                      className={`ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px]  ${
+                        (form.performancePrice ?? 0) > 50000
+                          ? "focus:border-[#fc040477] border-[#fc040477]"
+                          : "border-[#BABABA] focus:border-[#caabff]"
+                      }    placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px] w-full `}
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) {
                           const numericValue = Number(value);
-                          if (numericValue <= 50000) {
-                            setForm((prev) => ({
-                              ...prev,
-                              performancePrice: numericValue,
-                            }));
+
+                          setForm((prev) => ({
+                            ...prev,
+                            performancePrice: numericValue,
+                          }));
+                          if (numericValue > 50000) {
+                            setShowPopup(true);
+                          } else {
+                            setShowPopup(false);
                           }
                         }
                       }}

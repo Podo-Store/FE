@@ -8,9 +8,8 @@ import {
   MyPageMenu,
   ScriptContent,
   ScriptManageBtn,
-  NullScriptContent,
 } from "../../components/myPage";
-
+import NullScriptContent from "@/components/myPage/NullScriptContent";
 import { useRequest } from "../../hooks/useRequest";
 
 import AuthContext from "../../contexts/AuthContext";

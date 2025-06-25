@@ -15,10 +15,19 @@ import "./../../styles/utilities.css";
  * @param {object} props
  * @param {object} props.Page - PDF page component
  * @param {number} props.numPages - 전체 페이지 수
+ * @param {string} props.lengthType
  * @returns
  */
-const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, numPages }) => {
+const PreviewDiv = ({
+  Page,
+  showThreshold,
+  selectedPage = 1,
+  setSelectedPage,
+  numPages,
+  lengthType,
+}) => {
   const { width } = useWindowDimensions();
+
   return (
     <div>
       <hr id="selected-page-hr" />
@@ -35,23 +44,33 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, nu
             }}
           />
           <div className="d-flex" id="background-page-wrap">
-            <div id="background-page" style={selectedPage === 1 ? { opacity: "0" } : null}></div>
+            <div
+              id="background-page"
+              style={selectedPage === 1 ? { opacity: "0" } : null}
+            ></div>
             <div
               id="background-page"
               style={selectedPage === showThreshold ? { opacity: "0" } : null}
             ></div>
           </div>
-          <div className="f-center no-drag" id="page" onClick={(e) => e.stopPropagation()}>
-            <img
-              src={inequalityLeft}
-              alt="left-btn"
-              className="c-pointer"
-              onClick={() => {
-                if (selectedPage > 1) {
-                  setSelectedPage(selectedPage - 1);
-                }
-              }}
-            />
+          <div
+            className="f-center no-drag"
+            id="page"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {lengthType === "LONG" && (
+              <img
+                src={inequalityLeft}
+                alt="left-btn"
+                className="c-pointer"
+                onClick={() => {
+                  if (selectedPage > 1) {
+                    setSelectedPage(selectedPage - 1);
+                  }
+                }}
+              />
+            )}
+
             <div className="p-relative" id="preview-page">
               <Page
                 renderMode="canvas"
@@ -68,7 +87,9 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, nu
                     <p className="p-xs-bold t-align-center">
                       전체 {numPages} 페이지 중 {showThreshold} 페이지까지만
                     </p>
-                    <p className="p-xs-bold t-align-center">미리보기로 볼 수 있어요.</p>
+                    <p className="p-xs-bold t-align-center">
+                      미리보기로 볼 수 있어요.
+                    </p>
                   </div>
                   <PreviewPurchase
                     text="구매하기"
@@ -79,16 +100,18 @@ const PreviewDiv = ({ Page, showThreshold, selectedPage = 1, setSelectedPage, nu
                 </div>
               ) : null}
             </div>
-            <img
-              src={inequalityRight}
-              alt="right-btn"
-              className="c-pointer"
-              onClick={() => {
-                if (selectedPage < showThreshold) {
-                  setSelectedPage(selectedPage + 1);
-                }
-              }}
-            />
+            {lengthType === "LONG" && (
+              <img
+                src={inequalityRight}
+                alt="right-btn"
+                className="c-pointer"
+                onClick={() => {
+                  if (selectedPage < showThreshold) {
+                    setSelectedPage(selectedPage + 1);
+                  }
+                }}
+              />
+            )}
           </div>
         </div>
       </div>

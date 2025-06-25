@@ -93,6 +93,8 @@ const Detail = () => {
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
+  const accessToken = Cookies.get("accessToken");
+
   useRequest(async () => {
     if (!id) return;
     try {
@@ -270,11 +272,16 @@ const Detail = () => {
   };
 
   const onClickScriptView = () => {
-    navigate(`/list/view/${id}`, {
-      state: {
-        script,
-      },
-    });
+    if (!accessToken) {
+      alert("대본열람은 로그인 후 가능합니다.");
+      navigate("/signin");
+    } else {
+      navigate(`/list/view/${id}`, {
+        state: {
+          script,
+        },
+      });
+    }
   };
 
   const onDocumentLoadSuccess = (pdf: any) => {
@@ -294,9 +301,11 @@ const Detail = () => {
       return;
     }
     const accessToken = Cookies.get("accessToken");
-    
+
     if (!accessToken) {
       alert("좋아요는 로그인 후 이용할 수 있어요.");
+
+      navigate("/signin");
       return;
     }
 
@@ -355,8 +364,9 @@ const Detail = () => {
                   ? script?.title
                   : truncateText({ text: script?.title || "", maxLength: 6 })}
               </h1>
-              <div className="flex flex-row justify-between ">
+              <div className="flex flex-row items-end justify-between">
                 <h3 className="h3-bold">{script?.writer}</h3>
+
                 <LikeViewCount
                   likes={script?.likeCount ?? 0}
                   views={script?.viewCount ?? 0}
@@ -677,11 +687,13 @@ const Detail = () => {
           <div className="bottom-bar-right">
             {/* disabled */}
             <Select
+              className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
               value={selectedOption}
-              onChange={onChangeBottomSelectOption}
+              onChange={onChangeSelectOption}
+              disabled={!script?.performance} // 포도알 스테이지에서만 적용
             >
               <option value="">옵션 선택</option>
-              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+              {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
               script.script ? (
                 <option value="script">대본</option>
               ) : null}
@@ -690,6 +702,10 @@ const Detail = () => {
               script.performance ? (
                 <option value="scriptPerform">대본 + 공연권</option>
               ) : null}
+              {script?.buyStatus === 0 && script.performance ? (
+                <option value="perform">공연권</option>
+              ) : null} */}
+
               {script?.buyStatus === 0 && script.performance ? (
                 <option value="perform">공연권</option>
               ) : null}

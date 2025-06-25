@@ -1,15 +1,20 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
+import { useSearchParams } from "react-router-dom";
 interface Props {
-  activeCategory: string;
-  setActiveCategory: (value: string) => void;
+  activeStage: string;
+  setActiveStage: (value: string) => void;
 }
 
 const stages = ["포도밭", "포도알", "포도송이", "와인"];
 const availableStages = ["포도밭", "포도알"];
 
-const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
+const StageTab = ({ activeStage, setActiveStage }: Props) => {
+  const handleStageClick = (stage: string) => {
+    if (!availableStages.includes(stage)) return;
+    setActiveStage(stage);
+  };
+
   return (
     <>
       <ul
@@ -17,7 +22,7 @@ const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
         style={{ padding: 0 }}
       >
         {stages.map((stage) => {
-          const isActive = activeCategory === stage;
+          const isActive = activeStage === stage;
           const isAvailable = availableStages.includes(stage);
 
           return (
@@ -38,7 +43,8 @@ const StageTab = ({ activeCategory, setActiveCategory }: Props) => {
           `}
               onClick={() => {
                 if (isAvailable) {
-                  setActiveCategory(stage);
+                  handleStageClick(stage);
+                  setActiveStage(stage);
                 }
               }}
             >

@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import { toggleLikeScript } from "@/api/user/postListApi";
 import { ScriptItem } from "@/api/user/postListApi";
 import { PostDetail } from "@/pages/work/Detail";
+import { useNavigate } from "react-router-dom";
 
 /**
  * 좋아요 토글 훅
@@ -12,6 +13,7 @@ import { PostDetail } from "@/pages/work/Detail";
 export const useToggleLike = (
   setState: React.Dispatch<React.SetStateAction<ScriptItem[]>>
 ) => {
+  const navigate = useNavigate();
   const handleToggleLike = useCallback(
     async (postId: string) => {
       try {
@@ -34,6 +36,7 @@ export const useToggleLike = (
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
         alert("좋아요는 로그인 후 이용할 수 있어요.");
+        navigate("/signin");
       }
     },
     [setState]
@@ -46,15 +49,17 @@ export const useSingleToggleLike = (
   onSuccess?: () => void,
   onFail?: () => void
 ) => {
+  const navigate = useNavigate();
   const handleToggleLike = useCallback(
     async (postId: string) => {
       try {
         const accessToken = Cookies.get("accessToken");
-       
+
         await toggleLikeScript(postId, accessToken);
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
         alert("좋아요는 로그인 후 이용할 수 있어요.");
+        navigate("/signin");
       }
     },
     [onSuccess, onFail]

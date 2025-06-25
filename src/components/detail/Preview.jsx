@@ -191,6 +191,7 @@ const Preview = ({ id, lengthType }) => {
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
               numPages={numPages}
+              lengthType={lengthType}
             />
           )}
         </Document>

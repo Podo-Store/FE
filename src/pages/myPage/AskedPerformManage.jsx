@@ -87,17 +87,19 @@ const AskedPerformManage = () => {
 
         <p className="p-medium-regular">공연 신청 정보</p>
         <hr />
-        <div className="contents">
-          <div className="script-info f-dir-column a-items-center j-content-between">
-            <div className="script-info-title f-dir-column a-items-center">
+        <div className=" contents">
+          <div className=" script-info f-dir-column a-items-center j-content-between">
+            <div className=" script-info-title f-dir-column a-items-center">
               <ThumbnailImg />
               <div style={{ height: "12px" }}></div>
               <p className="p-large-bold">{productInfo.title || "제목"}</p>
               <hr />
               <p className="p-large-medium">{productInfo.writer || "작가"}</p>
-              <p className="summary p-small-regular t-center">{productInfo.plot || "줄거리"}</p>
+              <p className="summary p-small-regular t-center">
+                {productInfo.plot || "줄거리"}
+              </p>
             </div>
-            <div className="sales-status-box-wrap f-dir-column">
+            <div className=" sales-status-box-wrap f-dir-column">
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">대본</p>
@@ -107,12 +109,16 @@ const AskedPerformManage = () => {
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">{formatPrice(productInfo.scriptPrice)}원</p>
+                    <p className="p-small-regular">
+                      {formatPrice(productInfo.scriptPrice)}원
+                    </p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">{productInfo.scriptQuantity}개</p>
+                    <p className="p-small-regular">
+                      {productInfo.scriptQuantity}개
+                    </p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -121,17 +127,23 @@ const AskedPerformManage = () => {
                 <div className="title j-content-between a-items-end">
                   <p className="p-large-bold">공연권</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.perform}>
-                    {productInfo.perform ? "공연권 판매 중" : "공연권 판매 중지"}
+                    {productInfo.perform
+                      ? "공연권 판매 중"
+                      : "공연권 판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">{formatPrice(productInfo.performancePrice)}원</p>
+                    <p className="p-small-regular">
+                      {formatPrice(productInfo.performancePrice)}원
+                    </p>
                     <p className="p-small-regular c-grey5">가격</p>
                   </div>
                   <hr />
                   <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">{productInfo.performanceQuantity}개</p>
+                    <p className="p-small-regular">
+                      {productInfo.performanceQuantity}개
+                    </p>
                     <p className="p-small-regular c-grey5">판매 수</p>
                   </div>
                 </div>
@@ -144,7 +156,11 @@ const AskedPerformManage = () => {
                 <div
                   key={index}
                   className="asked-perform-box"
-                  style={index !== item.lists.length - 1 ? { marginBottom: "2.685vh" } : {}}
+                  style={
+                    index !== item.lists.length - 1
+                      ? { marginBottom: "2.685vh" }
+                      : {}
+                  }
                 >
                   <div className="date j-content-between">
                     <p className="p-large-bold" style={{ color: "#8f8f8f" }}>
@@ -180,24 +196,42 @@ const AskedPerformManage = () => {
                         <div className="content-inside">
                           <p className="p-medium-bold">신청자 정보</p>
                           <div className="user-info j-content-between">
-                            <ShortInputField value={subItem.name} readOnly={true} />
-                            <ShortInputField value={subItem.phone} readOnly={true} />
+                            <ShortInputField
+                              value={subItem.name}
+                              readOnly={true}
+                            />
+                            <ShortInputField
+                              value={subItem.phone}
+                              readOnly={true}
+                            />
                           </div>
-                          <LongInputField value={subItem.address} readOnly={true} />
+                          <LongInputField
+                            value={subItem.address}
+                            readOnly={true}
+                          />
                         </div>
                         <div className="content-inside">
                           <p className="p-medium-bold">예상 공연 일자</p>
                           <div className="date-list">
                             {subItem.performDate.map((date, dateIndex) => (
-                              <ShortInputField key={dateIndex} value={date} readOnly={true} />
+                              <ShortInputField
+                                key={dateIndex}
+                                value={date}
+                                readOnly={true}
+                              />
                             ))}
                             {subItem.performDate.length < subItem.amount &&
                               Array.from(
                                 {
-                                  length: subItem.amount - subItem.performDate.length,
+                                  length:
+                                    subItem.amount - subItem.performDate.length,
                                 },
                                 (_, index) => (
-                                  <ShortInputField key={index} value="미 입력" readOnly={true} />
+                                  <ShortInputField
+                                    key={index}
+                                    value="미 입력"
+                                    readOnly={true}
+                                  />
                                 )
                               )}
                           </div>

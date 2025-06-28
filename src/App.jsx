@@ -56,7 +56,7 @@ import "./styles/utilities.css";
 function App() {
   return (
     <div className="App">
-      <BrowserWarning />
+      {/* <BrowserWarning /> */}
       <BrowserRouter>
         <AuthProvider>
           <Routes>

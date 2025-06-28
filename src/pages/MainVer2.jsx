@@ -31,7 +31,7 @@ import "./MainVer2Page2.scss";
 const MainVer2 = () => {
   const navigate = useNavigate();
   const {
-    widthConditions: { isLaptop, isTablet, isMobile },
+    widthConditions: { isDesktop, isLaptop, isTablet, isMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
@@ -64,28 +64,28 @@ const MainVer2 = () => {
 
       <div>
         <div className="page1">
-          <section className=" page1-width">
+          <section className="page1-width">
             <div
-              className={` page1-title-img w-fit pt-[110px]  ${
+              className={`page1-title-img pt-[136px]  ${
                 isLaptop
-                  ? "items-center  gap-[80px]"
+                  ? "items-center gap-[80px]"
                   : isTablet
-                  ? " gap-[60px]"
+                  ? "gap-[60px]"
                   : "gap-[42px]"
-              }  justify-center`}
+              }  justify-between`}
             >
               <div
                 className={` ${
                   isLaptop ? "" : ""
                 }  h-fit title-wrap f-dir-column p-relative`}
               >
-                <h1 className=" title">
+                <h1 className="title">
                   대본과 {isLaptop && <br />}공연권 거래
                   <br />
                   포도상점에서
                 </h1>
 
-                <h5 className="sub-title">
+                <h5 className="sub-title whitespace-nowrap">
                   편리하게 대본과 공연권을 거래해요.
                   <br />
                   여러분들이 원하던 스토리 IP 플랫폼,
@@ -93,11 +93,15 @@ const MainVer2 = () => {
                   포도상점을 시작하세요!
                 </h5>
               </div>
-              {!isMobile ? (
-                <img src={circleIcon} alt="circle" className="" />
+              {!isTablet && !isMobile ? (
+                <img src={circleIcon} alt="circle" className="circle-icon" />
               ) : (
                 <div className="flex justify-end">
-                  <img src={circleIcon} alt="circle" className=" w-[438px]" />
+                  <img
+                    src={circleIcon}
+                    alt="circle"
+                    className="circle-icon w-[438px]"
+                  />
                 </div>
               )}
             </div>

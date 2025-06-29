@@ -17,6 +17,7 @@ import FindBar from "./pages/auth/FindBar";
 import PostGallery from "./pages/work/postList/PostGallery";
 
 import Detail from "./pages/work/Detail.tsx";
+import ReviewWrite from "./pages/work/review/reviewWrite";
 
 import PostView from "./pages/work/PostView";
 import PostWork from "./pages/work/PostWork";
@@ -84,6 +85,7 @@ function App() {
 
               <Route path="list/detail/:id" element={<Detail />} />
               <Route path="list/view/:id" element={<PostView />} />
+              <Route path="list/review/write/:id" element={<ReviewWrite />} />
               <Route
                 path="purchase/:id"
                 element={<ProtectedRoute element={<Purchase />} />}

@@ -1,0 +1,34 @@
+@use "../../../styles/_responsive.scss" as r;
+
+.all {
+  @include r.media-desktop {
+    width: 1280px;
+  }
+  @include r.media-laptop {
+    width: 1280px;
+  }
+  @include r.media-tablet {
+    width: 780px;
+  }
+  @include r.media-mobile {
+    width: 88.3%;
+  }
+}
+
+.content {
+  @include r.media-desktop {
+    width: 630px;
+  }
+  @include r.media-laptop {
+    width: 630px;
+  }
+}
+
+.content-img {
+  @include r.media-desktop {
+    width: 197px;
+  }
+  @include r.media-laptop {
+    width: 197px;
+  }
+}

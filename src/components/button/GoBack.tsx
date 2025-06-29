@@ -21,7 +21,11 @@ const GoBack = ({ url }: GoBackProps) => {
     <div
       className="a-items-center c-pointer go-back no-drag"
       onClick={() => {
-        navigate(url);
+        if (url === "-1") {
+          navigate(-1); // 숫자형으로 이전 페이지로 이동
+        } else {
+          navigate(url); // 지정된 경로로 이동
+        }
       }}
     >
       <img src={goBackArrowImg} alt="go back"></img>

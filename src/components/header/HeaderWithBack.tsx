@@ -21,7 +21,7 @@ const HeaderWithBack = ({
   return (
     <div className={`flex flex-col gap-[14px] ${className}`}>
       <GoBack url={backUrl} />
-      <div>
+      <div className="flex flex-col gap-[4px]">
         <h1 className={headerFont}>{headerTitle}</h1>
         {subtitle ? <span className={subFont}>{subtitle}</span> : <></>}
       </div>

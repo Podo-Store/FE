@@ -281,7 +281,7 @@ const PostView: React.FC = () => {
             headerFont="h1-bold"
             subtitle={script.writer}
             subFont="h3-bold"
-            className={` mx-auto mb-[2.12vh] mt-[3.4vw] max-w-[1280px]`}
+            className={` mx-auto mb-[23px] mt-[37px] max-w-[1280px] `}
           />
           <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
         </div>

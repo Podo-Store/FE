@@ -331,11 +331,16 @@ const PostView: React.FC = () => {
             }}
           >
             <span className="absolute w-[100vw] border border-[var(--purple7)] " />
-            <div className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
+            <div
+              className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center"
+              style={{
+                pointerEvents: isMoreBtn ? "none" : "auto",
+              }}
+            >
               {isMoreBtn ? (
                 <div
                   className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
-                  style={{ pointerEvents: isControlVisible ? "auto" : "none" }}
+                  style={{ pointerEvents: "auto" }}
                 >
                   <button onClick={() => handleZoom("out")}>
                     <svg
@@ -384,6 +389,7 @@ const PostView: React.FC = () => {
                 onClick={() => {
                   setIsMoreBtn(!isMoreBtn);
                 }}
+                style={{ pointerEvents: "auto" }}
               >
                 <img src={moreBtn} alt="더보기" className="no-drag"></img>
               </button>

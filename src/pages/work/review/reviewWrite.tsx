@@ -24,7 +24,7 @@ const reviewWrite = () => {
   return (
     <div className="mx-auto all pb-[92px]">
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
-        <GoBack url="/mypage/scriptmanage" />
+        <GoBack url="-1" />
 
         <div className="flex flex-col gap-[75px] border-b-1 border-[#B489FF] ">
           <h1 className="h4-bold">후기를 작성해 주세요!</h1>
@@ -159,10 +159,7 @@ const reviewWrite = () => {
         </ul>
 
         <div className="flex flex-row gap-[15px] justify-end mt-[80px]">
-          <SmallOnOffBtn
-            color="white"
-            onClick={() => navigate("/mypage/scriptmanage")}
-          >
+          <SmallOnOffBtn color="white" onClick={() => navigate(-1)}>
             취소하기
           </SmallOnOffBtn>
           <SmallOnOffBtn
@@ -170,13 +167,16 @@ const reviewWrite = () => {
             disabled={
               text.length < 50 || selectedStar < 1 || !hasSelectedReason
             }
-            onClick={() => navigate("/mypage/scriptmanage")}
+            onClick={() => navigate(-1)}
           >
             작성하기
           </SmallOnOffBtn>
         </div>
 
-        <span className="flex justify-end p-small-under mt-[80px]">
+        <span
+          className="flex justify-end p-small-under mt-[80px] cursor-pointer"
+          onClick={() => navigate(-1)}
+        >
           후기 삭제
         </span>
       </div>

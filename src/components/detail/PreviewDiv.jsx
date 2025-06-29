@@ -91,12 +91,13 @@ const PreviewDiv = ({
                       미리보기로 볼 수 있어요.
                     </p>
                   </div>
-                  <PreviewPurchase
+
+                  {/* <PreviewPurchase
                     text="구매하기"
                     onClick={() => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }}
-                  />
+                  /> */}
                 </div>
               ) : null}
             </div>

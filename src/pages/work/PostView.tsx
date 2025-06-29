@@ -16,6 +16,7 @@ import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
+import MainNav from "../../pages/MainNav";
 
 const PostView: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -138,7 +139,7 @@ const PostView: React.FC = () => {
 
       setHeaderOffset((prev) => {
         const next = prev + deltaY;
-        return Math.min(Math.max(next, 0), HEADER_HEIGHT); // 0 ~ HEADER_HEIGHT 사이 제한
+        return Math.min(Math.max(next, 0), HEADER_HEIGHT + 100); // 0 ~ HEADER_HEIGH+메인네브 사이 제한
       });
 
       const footer = document.querySelector(".footer");
@@ -234,32 +235,53 @@ const PostView: React.FC = () => {
     return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
   }
 
+  const handleZoom = (direction: "in" | "out") => {
+    isProgrammaticScroll.current = true;
+
+    setScale((prev) => {
+      const next =
+        direction === "in"
+          ? Math.min(2.0, +(prev + 0.1).toFixed(1))
+          : Math.max(0.8, +(prev - 0.1).toFixed(1));
+      return next;
+    });
+
+    // 일정 시간 후 다시 스크롤 이벤트 허용
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 600); // 확대/축소에 따른 layout 변화가 마무리되는 시간
+  };
+
   return (
     <>
+      <div
+        ref={topMarkerRef}
+        style={{
+          height: "1px",
+        }}
+      />
       {/* 1280px */}
       <div ref={scrollContainerRef} className=" w-screen mb-[7vh]">
         {/* header */}
+
         <div
-          ref={topMarkerRef}
-          style={{
-            height: "1px",
-          }}
-        />
-        <div
-          className={`fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
+          className={` fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
           style={{
             transform: isHeaderTouchTop
-              ? `translateY(-${headerOffset}px)` // 마커에 닿았을 때
-              : `translateY(-${headerOffset + 74}px)`, // 그 외
+              ? `translateY(0)` // 마커에 닿았을 때
+              : `translateY(-${headerOffset + 72}px)`, // 그 외
           }}
         >
+          {!isHeaderTouchTop ? <MainNav /> : <></>}
+
           <HeaderWithBack
             backUrl={id ? `/list/detail/${id}` : "/list"}
             headerTitle={script.title}
             headerFont="h1-bold"
             subtitle={script.writer}
             subFont="h3-bold"
-            className={` mx-auto mb-[2.12vh] mt-[3.4vw] max-w-[1280px]`}
+            className={` mx-auto mb-[23px] mt-[37px] max-w-[1280px] `}
           />
           <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
         </div>
@@ -313,19 +335,18 @@ const PostView: React.FC = () => {
             }}
           >
             <span className="absolute w-[100vw] border border-[var(--purple7)] " />
-            <div className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center">
+            <div
+              className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center"
+              style={{
+                pointerEvents: isMoreBtn ? "none" : "auto",
+              }}
+            >
               {isMoreBtn ? (
                 <div
                   className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
-                  style={{ pointerEvents: isControlVisible ? "auto" : "none" }}
+                  style={{ pointerEvents: "auto" }}
                 >
-                  <button
-                    onClick={() =>
-                      setScale((prev) =>
-                        Math.max(0.8, +(prev - 0.1).toFixed(1))
-                      )
-                    }
-                  >
+                  <button onClick={() => handleZoom("out")}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -346,13 +367,7 @@ const PostView: React.FC = () => {
                   <span className="p-large-medium ">
                     {Math.round(scale * 100)}%
                   </span>
-                  <button
-                    onClick={() =>
-                      setScale((prev) =>
-                        Math.min(2.0, +(prev + 0.1).toFixed(1))
-                      )
-                    }
-                  >
+                  <button onClick={() => handleZoom("in")}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -378,6 +393,7 @@ const PostView: React.FC = () => {
                 onClick={() => {
                   setIsMoreBtn(!isMoreBtn);
                 }}
+                style={{ pointerEvents: "auto" }}
               >
                 <img src={moreBtn} alt="더보기" className="no-drag"></img>
               </button>

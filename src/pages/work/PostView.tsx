@@ -16,6 +16,7 @@ import heartIcon from "@/assets/image/post/ic_heart.svg";
 import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
+import MainNav from "../../pages/MainNav";
 
 const PostView: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -138,7 +139,7 @@ const PostView: React.FC = () => {
 
       setHeaderOffset((prev) => {
         const next = prev + deltaY;
-        return Math.min(Math.max(next, 0), HEADER_HEIGHT); // 0 ~ HEADER_HEIGHT 사이 제한
+        return Math.min(Math.max(next, 0), HEADER_HEIGHT + 100); // 0 ~ HEADER_HEIGH+메인네브 사이 제한
       });
 
       const footer = document.querySelector(".footer");
@@ -254,23 +255,26 @@ const PostView: React.FC = () => {
 
   return (
     <>
+      <div
+        ref={topMarkerRef}
+        style={{
+          height: "1px",
+        }}
+      />
       {/* 1280px */}
       <div ref={scrollContainerRef} className=" w-screen mb-[7vh]">
         {/* header */}
+
         <div
-          ref={topMarkerRef}
-          style={{
-            height: "1px",
-          }}
-        />
-        <div
-          className={`fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
+          className={` fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
           style={{
             transform: isHeaderTouchTop
-              ? `translateY(-${headerOffset}px)` // 마커에 닿았을 때
-              : `translateY(-${headerOffset + 99}px)`, // 그 외
+              ? `translateY(0)` // 마커에 닿았을 때
+              : `translateY(-${headerOffset + 72}px)`, // 그 외
           }}
         >
+          {!isHeaderTouchTop ? <MainNav /> : <></>}
+
           <HeaderWithBack
             backUrl={id ? `/list/detail/${id}` : "/list"}
             headerTitle={script.title}

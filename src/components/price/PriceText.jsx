@@ -16,7 +16,11 @@ const PriceText = ({ type, value }) => {
         <img
           src={scriptImg}
           alt="script"
-          style={{ width: "0.75rem", height: "0.9375rem", marginLeft: "0.1rem" }}
+          style={{
+            width: "0.75rem",
+            height: "0.9375rem",
+            marginLeft: "0.1rem",
+          }}
         ></img>
       ) : type === "perform" ? (
         <img
@@ -26,7 +30,7 @@ const PriceText = ({ type, value }) => {
         ></img>
       ) : null}
 
-      <h6>{formatPrice(value)}원</h6>
+      <h6>{formatPrice(value) === "0" ? "무료" : `${formatPrice(value)}원`}</h6>
     </div>
   );
 };

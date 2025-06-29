@@ -45,12 +45,13 @@ const ScriptContent = ({
   const { widthConditions } = useWindowDimensions();
 
   const navigate = useNavigate();
+  console.log("items:", items);
 
   return (
     <div key={index} className="script-content ">
       <p className="date p-large-bold c-grey-8f8f8f">{formattedDate}</p>
       <hr className="border-[#caabff]"></hr>
-      {items.map((script) => (
+      {items.map((script, idx) => (
         <div key={script.id}>
           <div className="script">
             <div className=" aspect-square thumbnail-img-wrap">
@@ -63,7 +64,9 @@ const ScriptContent = ({
             <div className=" script-tag">
               <div
                 className={`a-items-center ${
-                  currentPage === "1" && script.checked === "PASS" ? "j-content-between" : ""
+                  currentPage === "1" && script.checked === "PASS"
+                    ? "j-content-between"
+                    : ""
                 }`}
                 id="title"
               >
@@ -73,7 +76,7 @@ const ScriptContent = ({
                   </p>
                   {isRoute && (
                     <button
-                      className="absolute top-0 size-full cursor-pointer"
+                      className="absolute top-0 cursor-pointer size-full"
                       style={{ top: 0 }} // 왜 tailwind 안먹음..?
                       onClick={() => {
                         navigate(`/list/detail/${script.id}`);
@@ -91,7 +94,9 @@ const ScriptContent = ({
                     }}
                   />
                 )}
-                {showPopup ? <ScriptContentPopup onClose={() => setShowPopup(false)} /> : null}
+                {showPopup ? (
+                  <ScriptContentPopup onClose={() => setShowPopup(false)} />
+                ) : null}
                 {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
                 {currentPage === "1" && script.checked === "PASS" ? (
                   <ScriptManageTopBtn className="" script={script} />
@@ -100,7 +105,11 @@ const ScriptContent = ({
 
               <hr className="border border-solid border-[#9E9E9E]"></hr>
               <p className="p-large-medium" id="author">
-                {currentPage === "1" ? "" : !script.delete ? script.writer : "삭제된 계정"}
+                {currentPage === "1"
+                  ? ""
+                  : !script.delete
+                  ? script.writer
+                  : "삭제된 계정"}
               </p>
               {currentPage === "1" && script.checked === "WAIT" ? (
                 // 작품 관리 페이지에서 심사 중인 작품일 경우
@@ -113,20 +122,28 @@ const ScriptContent = ({
                 ) : currentTogglePage === "1" ? (
                   // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
                   <>
-                    <PriceText type="perform" value={script.performancePrice || 0} />
+                    <PriceText
+                      type="perform"
+                      value={script.performancePrice || 0}
+                    />
                     <div style={{ height: "32px" }}></div>
-                    {widthConditions.isMobile && <PurchasedPerformPossibleInfo script={script} />}
+                    {widthConditions.isMobile && (
+                      <PurchasedPerformPossibleInfo script={script} />
+                    )}
                   </>
                 ) : null
               ) : (
-                // 작품 관리 페이지
                 <PriceTextsVertical
+                  script={script.script}
                   scriptPrice={script.scriptPrice || 0}
+                  performance={script.performance}
                   performPrice={script.performancePrice || 0}
                 />
               )}
               {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-              {widthConditions.isMobile && currentPage === "1" && script.checked === "PASS" ? (
+              {widthConditions.isMobile &&
+              currentPage === "1" &&
+              script.checked === "PASS" ? (
                 <ScriptManageTopBtn className="mobile" script={script} />
               ) : null}
             </div>

@@ -60,6 +60,7 @@ const ScriptManage = () => {
           ) : !isNull ? (
             productList.map((order, index) => (
               <ScriptContent
+                key={order.date + "-" + index}
                 order={order}
                 index={index}
                 currentPage="1"

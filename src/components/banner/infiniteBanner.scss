@@ -1,0 +1,28 @@
+@use "../../styles/responsive" as r;
+
+.bg-img-div {
+  display: flex;
+  @include r.media-desktop {
+  }
+  @include r.media-laptop {
+  }
+  @include r.media-tablet {
+  }
+  @include r.media-mobile {
+    display: none;
+  }
+}
+
+.bgImg {
+  background-size: cover;
+
+  @include r.media-desktop {
+  }
+  @include r.media-laptop {
+  }
+  @include r.media-tablet {
+    background-size: auto 100%;
+  }
+  @include r.media-mobile {
+  }
+}

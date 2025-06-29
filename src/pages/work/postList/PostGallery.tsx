@@ -72,6 +72,10 @@ const PostGallery = () => {
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
     updated.set(`${menu}`, newStage);
+
+    if (menu === "stage") {
+      updated.set("category", "전체");
+    }
     setSearchParams(updated);
   };
 

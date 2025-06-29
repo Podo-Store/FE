@@ -9,13 +9,13 @@
 .myPage-contents-default .content-side {
   width: 847px;
   @include r.media-laptop {
-    width: 775px;
+    width: 854px;
   }
   @include r.media-tablet {
-    width: 668px;
+    width: 768px;
   }
   @include r.media-mobile {
-    width: 430px;
+    width: 480px;
   }
 }
 

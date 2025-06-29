@@ -567,7 +567,7 @@ const PostManageDetail: React.FC = () => {
               <div className="mb-[2%] flex items-center gap-[7px] relative">
                 <h2 className="p-medium-bold">판매 상태 </h2>
                 <img
-                  id="info-btn"
+                  id="info-btn1"
                   className="cursor-pointer c-pointer w-[20px] h-[20px] [filter:invert(74%)_sepia(13%)_saturate(0%)_hue-rotate(220deg)_brightness(99%)_contrast(91%)]"
                   src={circleInfoBtn}
                   alt="circleInfoBtn"

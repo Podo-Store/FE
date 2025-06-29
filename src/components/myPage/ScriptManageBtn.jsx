@@ -9,7 +9,7 @@ const ReviewCompleted = {
   UNDER_REVIEWING: "WAIT",
 };
 
-const ScriptManageBtn = ({ reviewCompleted, id }) => {
+const ScriptManageBtn = ({ reviewCompleted, id, performSale }) => {
   const navigate = useNavigate();
 
   return (
@@ -21,14 +21,19 @@ const ScriptManageBtn = ({ reviewCompleted, id }) => {
               <div> </div>
 
               <div className="d-flex" style={{ gap: "19px" }}>
-                <Button
-                  color="white"
-                  onClick={() => {
-                    navigate(`/mypage/scriptmanage/askedperform/${id}`);
-                  }}
-                >
-                  신청된 공연
-                </Button>
+                {performSale ? (
+                  <Button
+                    color="white"
+                    onClick={() => {
+                      navigate(`/mypage/scriptmanage/askedperform/${id}`);
+                    }}
+                  >
+                    신청된 공연
+                  </Button>
+                ) : (
+                  <></>
+                )}
+
                 <Button
                   onClick={() => {
                     navigate(`/mypage/scriptmanage/detail/${id}`);

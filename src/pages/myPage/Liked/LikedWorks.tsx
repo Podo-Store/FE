@@ -48,7 +48,8 @@ const LikedWorks = () => {
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
   const [longPlayPage, setLongPlayPage] = useState(0);
   const [resetFlag, setResetFlag] = useState(false);
-
+  const [colNum, setColNum] = useState(4);
+  const [postNum, setPostNum] = useState(4);
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
 
@@ -74,6 +75,26 @@ const LikedWorks = () => {
   useEffect(() => {
     setObserverKey((prev) => prev + 1);
   }, [activeCategory]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width < 768) {
+        setColNum(2);
+        setPostNum(2);
+      } else if (width < 1280) {
+        setColNum(3);
+        setPostNum(3);
+      } else {
+        setColNum(4);
+        setPostNum(4);
+      }
+    };
+
+    handleResize(); // 초기 실행
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -182,9 +203,8 @@ const LikedWorks = () => {
   }, [resetFlag]);
 
   return (
-    <div className="purchased-script myPage-contents-default">
+    <div className=" purchased-script myPage-contents-default">
       <FloatingBtn />
-
       <div className="myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="3" />
         <div className="content-side">
@@ -223,8 +243,8 @@ const LikedWorks = () => {
                     <SectionBlock
                       posts={shortPlays}
                       viewType={viewType}
-                      postNum={4}
-                      colNum={4}
+                      postNum={postNum}
+                      colNum={colNum}
                       title="단편"
                       onMoreClick={(value) => handleChange(value, "category")}
                       onToggleLike={handleToggleLikeShort}
@@ -234,8 +254,8 @@ const LikedWorks = () => {
                     <SectionBlock
                       posts={longPlays}
                       viewType={viewType}
-                      postNum={4}
-                      colNum={4}
+                      postNum={postNum}
+                      colNum={colNum}
                       title="장편"
                       onMoreClick={(value) => handleChange(value, "category")}
                       onToggleLike={handleToggleLikeLong}
@@ -262,7 +282,7 @@ const LikedWorks = () => {
                         <AllPostCard
                           posts={longPlays}
                           viewType={viewType}
-                          colNum={4}
+                          colNum={colNum}
                           onToggleLike={handleToggleLikeLong}
                         />{" "}
                         <ScrollObserver
@@ -296,7 +316,7 @@ const LikedWorks = () => {
                         <AllPostCard
                           posts={shortPlays}
                           viewType={viewType}
-                          colNum={4}
+                          colNum={colNum}
                           onToggleLike={handleToggleLikeShort}
                         />
                         <ScrollObserver

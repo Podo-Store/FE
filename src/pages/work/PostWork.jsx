@@ -16,7 +16,7 @@ import infoBtn from "@/assets/image/button/circleInfoBlackBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
 import postingProcess2 from "../../assets/image/post/postingProcess2.png";
 import podoalIcon from "../../assets/image/post/ic_podoal.svg";
-import podoSongIIcon from "../../assets/image/post/ic_podosongi.svg";
+import podoSongIIcon from "@/assets/image/post/ic_podosongi.svg";
 import wine from "../../assets/image/post/Wine.png";
 import doubleRiteIcon from "../../assets/image/post/ic_double_right.svg";
 import checkSquare from "../../assets/image/ic_check_square.svg";

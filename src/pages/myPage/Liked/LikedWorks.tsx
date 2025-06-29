@@ -64,6 +64,10 @@ const LikedWorks = () => {
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
     updated.set(`${menu}`, newStage);
+
+    if (menu === "stage") {
+      updated.set("category", "전체");
+    }
     setSearchParams(updated);
   };
 
@@ -187,7 +191,7 @@ const LikedWorks = () => {
           <div className="content-side-grid">
             <h4 className="h4-bold">좋아한 작품들을 볼 수 있어요!</h4>
           </div>
-          
+
           {isLoading ? (
             <div className="m-auto" style={{ height: "600px" }}>
               <PartialLoading />

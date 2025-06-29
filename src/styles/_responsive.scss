@@ -7,14 +7,14 @@
 
 // 768~1280
 @mixin media-tablet {
-  @media (max-width: 1279px) {
+  @media (min-width: 768px) and (max-width: 1279px) {
     @content;
   }
 }
 
 // 1280~1920
 @mixin media-laptop {
-  @media (max-width: 1919px) {
+  @media (min-width: 1280px) and (max-width: 1919px) {
     @content;
   }
 }

@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import leftBtn from "../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "../../assets/image/post/list/rightBtn.svg";
+import "./infiniteBanner.scss";
 
 // bannerImages를 props로 받을 수 있게 처리
 interface InfiniteBannerProps {
@@ -76,7 +77,7 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
   }, [fakeIndex]);
 
   return (
-    <div className="flex items-center justify-center w-full h-[300px] relative mb-[0px]">
+    <div className=" items-center justify-center w-full h-[300px] relative mb-[0px] bg-img-div">
       <div className="relative flex w-full h-full overflow-hidden shrink-0 rounded-[50px]">
         <div
           className="flex h-full will-change-transform"
@@ -90,9 +91,9 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
           onTransitionEnd={handleTransitionEnd}
         >
           {clonedBannerImages.map((img, idx) => (
-            <div className="flex-none w-full h-full" key={idx}>
+            <div className="flex-none w-full h-full " key={idx}>
               <div
-                className="w-full h-full bg-center bg-no-repeat bg-cover"
+                className="w-full h-full bg-center bg-no-repeat bgImg"
                 style={{ backgroundImage: `url(${img})` }}
               />
             </div>

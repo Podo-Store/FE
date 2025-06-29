@@ -1,4 +1,5 @@
 .__default-layout__ {
   width: 100vw;
   min-height: 100vh;
+  /* overflow-x: hidden; */
 }

@@ -370,7 +370,6 @@ const ScriptManageDetail = () => {
                   fontWeight: "700",
                   lineHeight: "1.5rem",
                 }}
-                
               />
             </div>
 

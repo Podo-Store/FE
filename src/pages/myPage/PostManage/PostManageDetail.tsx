@@ -92,6 +92,7 @@ const PostManageDetail: React.FC = () => {
     act: false,
   });
 
+  const podoStudioOpen = true;
   //  이미지 수정
   const onClickChangeThumbnailImg = () => {
     const fileInput = document.createElement("input");
@@ -627,7 +628,9 @@ const PostManageDetail: React.FC = () => {
                 </div>
                 <select
                   className="ml-[9.05%] cursor-pointer mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
-                  value={form.script ? "true" : "false"}
+                  value={
+                    podoStudioOpen ? "true" : form.script ? "true" : "false"
+                  }
                   onChange={(e) => {
                     const isScript = e.target.value === "true";
                     setForm((prev) => ({
@@ -636,6 +639,7 @@ const PostManageDetail: React.FC = () => {
                       performance: isScript ? prev.performance : false, // script가 false면 performance도 false로
                     }));
                   }}
+                  disabled={podoStudioOpen ? true : false}
                 >
                   <option value="false">판매 중지</option>
                   <option value="true"> 판매 중</option>
@@ -713,7 +717,7 @@ const PostManageDetail: React.FC = () => {
                     form.script === false ? "" : "cursor-pointer"
                   } ml-[9.05%] mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
                   value={form.performance ? "true" : "false"}
-                  disabled={form.script === false}
+                  disabled={podoStudioOpen ? true : form.script === false}
                   onChange={(e) =>
                     setForm((prev) => ({
                       ...prev,

@@ -234,6 +234,24 @@ const PostView: React.FC = () => {
     return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
   }
 
+  const handleZoom = (direction: "in" | "out") => {
+    isProgrammaticScroll.current = true;
+
+    setScale((prev) => {
+      const next =
+        direction === "in"
+          ? Math.min(2.0, +(prev + 0.1).toFixed(1))
+          : Math.max(0.8, +(prev - 0.1).toFixed(1));
+      return next;
+    });
+
+    // 일정 시간 후 다시 스크롤 이벤트 허용
+    if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+    scrollTimeout.current = setTimeout(() => {
+      isProgrammaticScroll.current = false;
+    }, 600); // 확대/축소에 따른 layout 변화가 마무리되는 시간
+  };
+
   return (
     <>
       {/* 1280px */}
@@ -250,7 +268,7 @@ const PostView: React.FC = () => {
           style={{
             transform: isHeaderTouchTop
               ? `translateY(-${headerOffset}px)` // 마커에 닿았을 때
-              : `translateY(-${headerOffset + 74}px)`, // 그 외
+              : `translateY(-${headerOffset + 99}px)`, // 그 외
           }}
         >
           <HeaderWithBack
@@ -319,13 +337,7 @@ const PostView: React.FC = () => {
                   className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
                   style={{ pointerEvents: isControlVisible ? "auto" : "none" }}
                 >
-                  <button
-                    onClick={() =>
-                      setScale((prev) =>
-                        Math.max(0.8, +(prev - 0.1).toFixed(1))
-                      )
-                    }
-                  >
+                  <button onClick={() => handleZoom("out")}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"
@@ -346,13 +358,7 @@ const PostView: React.FC = () => {
                   <span className="p-large-medium ">
                     {Math.round(scale * 100)}%
                   </span>
-                  <button
-                    onClick={() =>
-                      setScale((prev) =>
-                        Math.min(2.0, +(prev + 0.1).toFixed(1))
-                      )
-                    }
-                  >
+                  <button onClick={() => handleZoom("in")}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="20"

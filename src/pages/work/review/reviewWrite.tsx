@@ -9,12 +9,18 @@ const reviewWrite = () => {
   const { id } = useParams<string>();
   const [text, setText] = useState("");
   const [selectedStar, setSelectedStar] = useState(0);
+  const [reason, setEeason] = useState<Record<string, boolean>>({
+    "캐릭터가 매력적이에요": false,
+    "관계성이 탄탄해요": false,
+    "스토리가 좋아요": false,
+  });
   const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     setText(e.target.value);
   };
 
+  const hasSelectedReason = Object.values(reason).some((value) => value);
   return (
     <div className="mx-auto all pb-[92px]">
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
@@ -104,10 +110,23 @@ const reviewWrite = () => {
                 <span className=" p-large-bold  mb-[10px]">
                   이 작품은 특히...
                 </span>
-                <span className="flex flex-row list-none p-medium-medium gap-[20px] whitespace-nowrap">
-                  <li>캐릭터가 매력적이에요</li>
-                  <li>관계성이 탄탄해요</li>
-                  <li>스토리가 좋아요</li>
+                <span className="flex flex-row gap-[20px] whitespace-nowrap">
+                  {Object.entries(reason).map(([label, selected]) => (
+                    <button
+                      key={label}
+                      onClick={() =>
+                        setEeason((prev) => ({
+                          ...prev,
+                          [label]: !prev[label],
+                        }))
+                      }
+                      className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                        selected ? "text-[var(--purple5)] " : ""
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </span>
               </div>
             </div>
@@ -148,7 +167,9 @@ const reviewWrite = () => {
           </SmallOnOffBtn>
           <SmallOnOffBtn
             color="purple"
-            disabled={text.length < 50}
+            disabled={
+              text.length < 50 || selectedStar < 1 || !hasSelectedReason
+            }
             onClick={() => navigate("/mypage/scriptmanage")}
           >
             작성하기

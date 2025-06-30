@@ -50,6 +50,12 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
       onClose={onClose}
       TransitionComponent={Transition}
       keepMounted
+      sx={{
+        "& .MuiDialog-container": {
+          alignItems: "stretch",
+          padding: 0,
+        },
+      }}
       slotProps={{
         paper: {
           style: {
@@ -60,6 +66,8 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             width: `${width < 768 ? "350px" : "540px"} `,
             height: "100%",
             borderRadius: 0,
+            maxWidth: "none",
+            maxHeight: "none",
           },
         },
       }}

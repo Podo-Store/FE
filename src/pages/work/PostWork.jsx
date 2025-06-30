@@ -187,7 +187,7 @@ const PostWork = () => {
                     <InfoPopup
                       message={
                         <img
-                          className="popup-process"
+                          className="popup-process w-[315px]"
                           src={postingProcess2}
                           alt="작품 등록 도식화"
                         />

@@ -30,11 +30,11 @@
     margin-left: 90px;
   }
   @include r.media-tablet {
-    flex: 1;
-    margin-right: 90px;
+    width: 588px;
+    margin: 0 auto;
   }
   @include r.media-mobile {
-    margin: 0 50px;
+    width: 380px;
   }
 }
 

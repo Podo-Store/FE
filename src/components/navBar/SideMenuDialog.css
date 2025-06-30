@@ -9,17 +9,18 @@
   gap: 22px;
 }
 
-.side-menu-dialog hr {
+.side-menu-dialog .div-outside,
+.side-menu-dialog .div-inside {
   margin: 0;
-  border: 0.5px solid;
+  height: 0.5px;
 }
 
-.side-menu-dialog hr.hr-outside {
-  border-color: #6a39c0;
+.side-menu-dialog .div-outside {
+  background-color: #6a39c0;
 }
 
-.side-menu-dialog hr.hr-inside {
-  border-color: #caabff;
+.side-menu-dialog .div-inside {
+  background-color: #caabff;
 }
 
 /* isAuthenticated == true */

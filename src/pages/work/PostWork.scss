@@ -3,13 +3,17 @@
 
 .post-work {
   width: 100vw;
+  height: 1080px;
   // 이미지를 absolute로 설정하여 높이 직접 입력 필요
   // height: fit-content;
   @include r.media-desktop {
-    height: calc(58px + 938px);
+    height: 1080px;
   }
   @include r.media-laptop {
-    height: calc(75px + 869px);
+    height: 1080px;
+  }
+  @include r.media-mobile {
+    height: 1000px;
   }
 }
 
@@ -28,14 +32,16 @@
 
 .post-work .left-side {
   width: 100%;
+
   @include r.media-laptop {
   }
   @include r.media-tablet {
-    flex: 1;
-    margin-right: 90px;
+    width: 768px;
+    margin: 0 auto;
   }
   @include r.media-mobile {
-    margin: 0 50px;
+    width: 480px;
+    margin: 0 auto;
   }
 }
 
@@ -61,15 +67,13 @@
   flex-direction: column;
   justify-content: space-between;
 
-  margin-right: 3.5%;
-
   height: auto;
 }
 
 .post-work .inside-field-title {
   margin-top: 174px;
   @include r.media-laptop {
-    margin-top: 90px;
+    margin-top: 174px;
   }
   @include r.media-mobile {
     margin-top: 50px;
@@ -94,34 +98,20 @@
   display: flex;
   flex-direction: column;
   margin-top: 87px;
-  margin-bottom: 66px;
+  margin-bottom: 64px;
 
   @include r.media-mobile {
     margin-top: 58px;
-  }
-
-  .title {
-    color: #000;
-    /* H5/Bold */
-    font-family: Pretendard;
-    font-size: 1.25rem;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 1.75rem; /* 140% */
-    letter-spacing: -0.025rem;
   }
 
   .contants {
     display: grid;
     grid-template-columns: 37fr 5fr 30fr 5fr 25fr;
 
-    margin-top: 4.907vh;
+    margin-top: 53px;
 
     height: 100%;
 
-    @include r.media-mobile {
-      grid-template-columns: 120px 30px 104px 30px 110px;
-    }
     p {
       white-space: nowrap;
     }
@@ -134,37 +124,18 @@
     .icon {
       display: flex;
       flex-direction: column;
-      gap: 1.0185vh;
+      gap: 11px;
 
       align-items: center;
       justify-content: center;
-      margin-bottom: 1.9444vh;
+      margin-bottom: 21px;
 
       box-sizing: border-box;
-
-      p {
-        color: #000;
-
-        /* Paragraph/Large/Medium */
-        font-family: Pretendard;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 28px; /* 155.556% */
-      }
     }
     .info {
       display: flex;
       flex-direction: column;
       gap: 2px;
-
-      color: var(--ect-black, #000);
-
-      font-family: Pretendard;
-      font-size: 0.875rem;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 1.25rem; /* 142.857% */
 
       span {
         text-decoration-line: underline;
@@ -232,7 +203,6 @@
   align-items: center;
 
   // FileInputBox에 상단 margin 존재 - 제거 예정, 0.63rem만큼의 차 필요
-  margin-bottom: calc(16px - 0.63rem);
 }
 
 .post-work .upload-title h6 {

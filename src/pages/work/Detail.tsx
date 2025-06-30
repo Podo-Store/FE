@@ -322,7 +322,7 @@ const Detail = () => {
     <div className="detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
 
-      <div className="detail-wrap f-dir-column a-items-center max-w-[1225px] ">
+      <div className="detail-wrap f-dir-column a-items-center w-[1280px] ">
         <div className="w-full content">
           <div className=" detail-thumbnail-wrap">
             <div

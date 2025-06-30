@@ -121,7 +121,8 @@ const PostManageDetail: React.FC = () => {
       formData.append("id", scriptId);
       formData.append("title", form.title ?? "");
       formData.append("plot", form.plot ?? "");
-      formData.append("script", form.script ? "true" : "false");
+      // formData.append("script", form.script ? "true" : "false");
+      formData.append("script", "true");
       formData.append("performance", form.performance ? "true" : "false");
       formData.append("scriptPrice", String(Number(form.scriptPrice ?? 0)));
       formData.append(

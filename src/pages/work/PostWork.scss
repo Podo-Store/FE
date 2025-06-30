@@ -3,19 +3,15 @@
 
 .post-work {
   width: 100vw;
-  // 이미지를 absolute로 설정하여 높이 직접 입력 필요
-  // height: fit-content;
-  @include r.media-desktop {
-    height: calc(58px + 938px);
-  }
-  @include r.media-laptop {
-    height: calc(75px + 869px);
-  }
+
+  height: 1080px;
 }
 
 .post-work .post-work-wrap {
   display: flex;
   height: 100%;
+
+  position: relative;
 }
 
 .post-work .post-work-wrap .loading-dialog {
@@ -27,8 +23,11 @@
 }
 
 .post-work .left-side {
-  width: 100%;
+  width: 520px;
+
+  z-index: 10;
   @include r.media-laptop {
+    margin-left: 90px;
   }
   @include r.media-tablet {
     flex: 1;
@@ -40,19 +39,25 @@
 }
 
 .post-work .right-side {
-  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 
-  position: relative;
+  position: absolute;
+  right: 0;
+  @include r.media-laptop {
+    top: 75px;
+  }
   @include r.media-tablet {
     display: none;
   }
 }
 
 .post-work .right-side img {
-  height: 100%;
+  width: 796px;
 
   @include r.media-laptop {
-    top: 75px;
+    width: 517px;
+    height: 869px;
   }
 }
 
@@ -61,8 +66,7 @@
   flex-direction: column;
   justify-content: space-between;
 
-  margin-right: 3.5%;
-
+  width: 100%;
   height: auto;
 }
 

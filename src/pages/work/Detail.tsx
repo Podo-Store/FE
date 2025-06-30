@@ -36,6 +36,7 @@ import vector23 from "./../../assets/image/post/vector23.svg";
 import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+import { LIKE } from "@/constants/alertTexts";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -303,7 +304,7 @@ const Detail = () => {
     const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
-      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      alert(LIKE);
 
       navigate("/signin");
       return;

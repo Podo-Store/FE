@@ -45,6 +45,8 @@
   }
   @include r.media-mobile {
     width: 380px;
+
+    margin: 0 auto;
   }
 }
 

@@ -29,8 +29,7 @@
   position: relative;
 
   width: 407px;
-  min-height: 580px;
-  height: 58.796vh; /* 635px */
+  height: 635px;
   @include r.media-laptop {
     width: 382px;
     height: 596px;

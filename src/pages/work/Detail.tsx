@@ -602,7 +602,7 @@ const Detail = () => {
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
                   {/*<button id="cart-btn">장바구니</button>*/}
                   <button id="purchase-btn" onClick={onClickScriptView}>
-                    대본열람하기
+                    대본 열람하기
                   </button>
                   <button
                     id="purchase-btn"

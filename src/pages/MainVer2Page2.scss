@@ -129,7 +129,7 @@
   position: relative; /* z-index */
 
   margin-top: 17px;
-  margin-left: 33px;
+  margin-left: 20px;
 
   z-index: 10;
   @include r.media-mobile {
@@ -175,7 +175,7 @@
   position: absolute;
   bottom: 0;
 
-  margin-left: 30px;
+  margin-left: 20px;
   margin-bottom: 13px;
 
   z-index: 10;
@@ -234,7 +234,7 @@
   margin-right: 32px;
 
   z-index: 10;
-  @include r.media-tablet {
+  @include r.media-laptop {
     margin-right: 22px;
   }
   @include r.media-mobile {

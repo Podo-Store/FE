@@ -1,8 +1,8 @@
 @use "./../styles/_responsive.scss" as r;
 
 .main-ver2 .page1 {
-  margin-bottom: 98px;
   background: linear-gradient(180deg, #f5f0ff 0%, #fff 100%);
+
   @include r.media-tablet {
     display: flex;
     flex-direction: column;

@@ -111,23 +111,23 @@ const PostWork = () => {
         )}
         <div className=" left-side">
           <div className=" inside-field">
-            <div className="inside-field-title">
-              <h1>자신만의</h1>
-              <h1>작품을</h1>
-              <h1>등록해주세요!</h1>
+            <div className="inside-field-title h1-bold">
+              <p>자신만의</p>
+              <p>작품을</p>
+              <p>등록해주세요!</p>
             </div>
 
-            <div className="stage-info-container">
-              <h5 className="title">스테이지 시스템 안내</h5>
+            <div className=" stage-info-container">
+              <h5 className="title h5-bold">스테이지 시스템 안내</h5>
 
-              <div className="contants">
+              <div className=" contants">
                 {/* 포도알 */}
-                <div className="step">
+                <div className=" step">
                   <div className="icon">
                     <img src={podoalIcon} alt="podoal" />
-                    <p>포도알</p>
+                    <p className="p-large-medium">포도알</p>
                   </div>
-                  <div className="info">
+                  <div className="p-small-medium info">
                     <p>
                       • 대본 가격 <span>무료</span>만 설정 가능
                     </p>
@@ -145,10 +145,10 @@ const PostWork = () => {
                 </div>
 
                 {/* 포도송이 */}
-                <div className="step">
+                <div className="step ">
                   <div className="icon">
                     <img src={podoSongIIcon} alt="podoSongI" />
-                    <p>포도송이</p>{" "}
+                    <p className="p-large-medium">포도송이</p>{" "}
                   </div>
                   <div className="info">
                     <div className="TBD-info">
@@ -165,14 +165,14 @@ const PostWork = () => {
                 <div className="step">
                   <div className="icon">
                     <img src={wine} alt="wine" style={{ height: "43px" }} />
-                    <p>와인</p>
+                    <p className="p-large-medium">와인</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div>
-              <div className="upload-title items-center gap-[8px] relative">
+              <div className="upload-title items-center gap-[8px] relative ">
                 <h6>작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
                 <button

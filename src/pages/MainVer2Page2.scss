@@ -31,8 +31,8 @@
   width: 407px;
   height: 635px;
   @include r.media-laptop {
-    width: 382px;
-    height: 596px;
+    width: 407px;
+    height: 635px; /* 635px */
   }
   @include r.media-tablet {
     width: 608px;

@@ -92,7 +92,7 @@ const PolicyPopup = ({
     if (page === 3) {
       if (width >= 1280) {
         return {
-          width: "91.5%",
+          width: "476px",
           height: "447px",
         };
       } else if (width >= 768) {

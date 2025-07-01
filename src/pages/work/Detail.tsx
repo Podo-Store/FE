@@ -36,6 +36,7 @@ import vector23 from "./../../assets/image/post/vector23.svg";
 import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+import { LIKE } from "@/constants/alertTexts";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -303,7 +304,7 @@ const Detail = () => {
     const accessToken = Cookies.get("accessToken");
 
     if (!accessToken) {
-      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      alert(LIKE);
 
       navigate("/signin");
       return;
@@ -322,7 +323,7 @@ const Detail = () => {
     <div className="detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
 
-      <div className="detail-wrap f-dir-column a-items-center max-w-[1225px] ">
+      <div className="detail-wrap f-dir-column a-items-center w-[1280px] ">
         <div className="w-full content">
           <div className=" detail-thumbnail-wrap">
             <div
@@ -602,7 +603,7 @@ const Detail = () => {
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
                   {/*<button id="cart-btn">장바구니</button>*/}
                   <button id="purchase-btn" onClick={onClickScriptView}>
-                    대본열람하기
+                    대본 열람하기
                   </button>
                   <button
                     id="purchase-btn"

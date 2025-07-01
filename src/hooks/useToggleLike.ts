@@ -4,6 +4,7 @@ import { toggleLikeScript } from "@/api/user/postListApi";
 import { ScriptItem } from "@/api/user/postListApi";
 import { PostDetail } from "@/pages/work/Detail";
 import { useNavigate } from "react-router-dom";
+import { LIKE } from "@/constants/alertTexts";
 
 /**
  * 좋아요 토글 훅
@@ -35,7 +36,7 @@ export const useToggleLike = (
         );
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
-        alert("좋아요는 로그인 후 이용할 수 있어요.");
+        alert(LIKE);
         navigate("/signin");
       }
     },
@@ -58,7 +59,7 @@ export const useSingleToggleLike = (
         await toggleLikeScript(postId, accessToken);
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
-        alert("좋아요는 로그인 후 이용할 수 있어요.");
+        alert(LIKE);
         navigate("/signin");
       }
     },

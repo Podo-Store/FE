@@ -20,6 +20,8 @@
 .post-work .post-work-wrap {
   display: flex;
   height: 100%;
+
+  position: relative;
 }
 
 .post-work .post-work-wrap .loading-dialog {
@@ -31,34 +33,41 @@
 }
 
 .post-work .left-side {
-  width: 100%;
+  width: 520px;
 
+  z-index: 10;
   @include r.media-laptop {
+    margin-left: 90px;
   }
   @include r.media-tablet {
-    width: 768px;
+    width: 588px;
     margin: 0 auto;
   }
   @include r.media-mobile {
-    width: 480px;
-    margin: 0 auto;
+    width: 380px;
   }
 }
 
 .post-work .right-side {
-  flex: 1;
+  display: flex;
+  justify-content: flex-end;
 
-  position: relative;
+  position: absolute;
+  right: 0;
+  @include r.media-laptop {
+    top: 75px;
+  }
   @include r.media-tablet {
     display: none;
   }
 }
 
 .post-work .right-side img {
-  height: 100%;
+  width: 796px;
 
   @include r.media-laptop {
-    top: 75px;
+    width: 517px;
+    height: 869px;
   }
 }
 
@@ -67,6 +76,7 @@
   flex-direction: column;
   justify-content: space-between;
 
+  width: 100%;
   height: auto;
 }
 

@@ -8,7 +8,7 @@
 
 .detail .detail-wrap .content {
   display: grid;
-  grid-template-columns: 466px 734px;
+  grid-template-columns: 1fr 737px;
   grid-template-rows: auto auto;
   column-gap: 22px;
 
@@ -26,8 +26,12 @@
 .detail .detail-thumbnail-wrap {
   grid-column: 1;
   grid-row: 1 / span 2; // row 1부터 2개의 row 차지
+
+  padding-left: 44px;
   @include r.media-tablet {
     grid-row: 1;
+
+    padding: 0;
   }
 }
 
@@ -70,8 +74,6 @@
 
 .detail .detail-title hr#detail-hr-1 {
   margin: 0;
-
-  width: 100%;
 
   border: 1px solid #caabff;
 }
@@ -264,7 +266,6 @@
 
   text-align: center;
 
-
   /* 화살표 커스텀 */
   /* Remove default arrow */
   appearance: none;
@@ -291,10 +292,10 @@
 
 .detail .detail-btn-wrap {
   display: flex;
-  gap: 0.5em;
+  gap: 14px;
 
   margin-top: 1.852vh; /* 20px */
-  padding-left: 25px;
+  padding: 0 25px;
 }
 
 .detail .detail-btn-wrap button,
@@ -316,7 +317,6 @@
 
 .detail .detail-btn-wrap button {
   flex: 1;
-  margin-right: 15px;
 }
 
 /*

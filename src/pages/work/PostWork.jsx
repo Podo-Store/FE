@@ -12,6 +12,10 @@ import InfoPopup from "@/components/popup/InfoPopup";
 import PolicyPopup from "@/components/popup/PolicyPopup";
 import { SERVER_URL } from "../../constants/ServerURL";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import { toastAlert } from "@/utils/ToastAlert";
+
 import infoBtn from "@/assets/image/button/circleInfoBlackBtn.svg";
 import postingProcess from "../../assets/image/post/postingProcess.png";
 import postingProcess2 from "../../assets/image/post/postingProcess2.png";
@@ -23,7 +27,6 @@ import checkSquare from "../../assets/image/ic_check_square.svg";
 import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
 import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
-import { toastAlert } from "@/utils/ToastAlert";
 import "./PostWork.scss";
 
 const PostWork = () => {
@@ -38,6 +41,8 @@ const PostWork = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [authorPopup, setAuthorPopup] = useState(false);
   const popupRef = useRef(null);
+
+  const { width } = useWindowDimensions();
 
   const navigate = useNavigate();
 
@@ -182,7 +187,7 @@ const PostWork = () => {
                     <InfoPopup
                       message={
                         <img
-                          className="popup-process"
+                          className="popup-process w-[315px]"
                           src={postingProcess2}
                           alt="작품 등록 도식화"
                         />
@@ -267,7 +272,10 @@ const PostWork = () => {
           </div>
         </div>
         <div className=" right-side">
-          <img src={postingProcess} alt="작품 등록 도식화"></img>
+          <img
+            src={width >= 1920 ? postingProcess : postingProcess2}
+            alt="작품 등록 도식화"
+          ></img>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 import MainNav from "../../pages/MainNav";
+import { LIKE } from "@/constants/alertTexts";
 
 const PostView: React.FC = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -75,7 +76,7 @@ const PostView: React.FC = () => {
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!accessToken) {
-      alert("좋아요는 로그인 후 이용할 수 있어요.");
+      alert(LIKE);
       navigate("/signin");
       return;
     }

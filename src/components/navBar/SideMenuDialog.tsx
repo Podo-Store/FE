@@ -50,6 +50,12 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
       onClose={onClose}
       TransitionComponent={Transition}
       keepMounted
+      sx={{
+        "& .MuiDialog-container": {
+          alignItems: "stretch",
+          padding: 0,
+        },
+      }}
       slotProps={{
         paper: {
           style: {
@@ -60,6 +66,8 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             width: `${width < 768 ? "350px" : "540px"} `,
             height: "100%",
             borderRadius: 0,
+            maxWidth: "none",
+            maxHeight: "none",
           },
         },
       }}
@@ -72,20 +80,24 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
               navigate(event, "/");
             }}
           >
-            <img className="icon" src={navLogo} alt="logo" style={{ height: "2.786vh" }} />
-            <img src={navTitle} alt="포도상점" style={{ height: "2.593vh" }}></img>
+            <img className="icon w-[23px]" src={navLogo} alt="logo" />
+            <img
+              className="w-[108px] h-[28px]"
+              src={navTitle}
+              alt="포도상점"
+            ></img>
           </div>
           <ImageBtn src={closeBtn} alt="X" onClick={onClose} size="32px" />
         </div>
 
-        <hr className="hr-outside" />
+        <div className="div-outside" />
         {isAuthenticated && (
           <div>
             <div className="side-menu-greeting f-dir-column">
               <h3 className="h3-bold">{userNickname} 님,</h3>
               <h5 className="h5-regular">오늘도 달콤한 하루 되세요!</h5>
             </div>
-            <hr className="hr-outside" />
+            <div className="div-outside" />
           </div>
         )}
         <SideDialogBtn
@@ -95,7 +107,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         >
           작품 둘러보기
         </SideDialogBtn>
-        <hr className="hr-inside" />
+        <div className="div-inside" />
         <SideDialogBtn
           onClick={(event: React.MouseEvent) => {
             navigate(event, "/post");
@@ -103,7 +115,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         >
           작품 등록하기
         </SideDialogBtn>
-        <hr className="hr-outside" />
+        <div className="div-outside" />
       </div>
 
       {isAuthenticated && (
@@ -111,7 +123,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <div>
             <div className="authenticated-title">
               <h5 className="h5-regular">마이페이지</h5>
-              <hr className="hr-outside" />
+              <div className="div-outside" />
             </div>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
@@ -120,7 +132,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             >
               구매한 작품
             </SideDialogBtn>
-            <hr className="hr-inside" />
+            <div className="div-inside" />
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
                 navigate(event, "/mypage/scriptmanage");
@@ -128,7 +140,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             >
               작품 관리
             </SideDialogBtn>
-            <hr className="hr-outside" />
+            <div className="div-outside" />
           </div>
         </>
       )}
@@ -139,7 +151,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           ) : (
             <h5 className="h5-regular">&nbsp;</h5>
           )}
-          <hr className="hr-outside" />
+          <div className="div-outside" />
         </div>
         {isAuthenticated ? (
           <>
@@ -150,7 +162,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             >
               회원 정보 수정
             </SideDialogBtn>
-            <hr className="hr-inside" />
+            <div className="div-inside" />
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
                 logout();
@@ -159,7 +171,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             >
               로그아웃
             </SideDialogBtn>
-            <hr className="hr-outside" />
+            <div className="div-outside" />
           </>
         ) : (
           <>
@@ -170,7 +182,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             >
               로그인
             </SideDialogBtn>
-            <hr className="hr-inside" />
+            <div className="div-inside" />
           </>
         )}
       </div>

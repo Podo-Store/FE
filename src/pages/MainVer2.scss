@@ -2,7 +2,7 @@
 
 .main-ver2 .page1 {
   background: linear-gradient(180deg, #f5f0ff 0%, #fff 100%);
-
+  height: 1010px;
   @include r.media-tablet {
     display: flex;
     flex-direction: column;
@@ -17,13 +17,20 @@
 .main-ver2 .page1-width {
   height: 85vh;
 
+  @include r.media-laptop {
+    width: 1280px;
+    margin: 0 auto;
+  }
   @include r.media-tablet {
     // width: calc(100% - 80px);
-    width: 100%;
+    width: 768px;
+    margin: 0 auto;
+
     height: auto;
   }
   @include r.media-mobile {
-    width: 100%;
+    width: 480px;
+    margin: 0 auto;
   }
 }
 
@@ -221,6 +228,10 @@
 .page4-size {
   @include r.media-tablet {
     width: 768px;
+    margin: auto;
+  }
+  @include r.media-mobile {
+    width: 468px;
     margin: auto;
   }
 }

@@ -1,5 +1,12 @@
 @use "./../styles/_responsive.scss" as r;
 
+.page2 {
+  @include r.media-tablet {
+    margin: 270px auto 105px;
+    height: 1148px;
+    width: 768px;
+  }
+}
 .main-ver2 .page2 .page2-title {
   margin: 8.981vh 0; /* 97px */
   @media (max-width: 1920px) {
@@ -7,6 +14,9 @@
   }
   @media (max-width: 1600px) {
     margin: 4.5vh 0;
+  }
+  @include r.media-tablet {
+    margin: 0 0 78px 0;
   }
 }
 

@@ -91,14 +91,17 @@ const CardsContent: React.FC<CardsContentProps> = ({
 
   return isOpened ? (
     <div
-      className="cards-wrap d-flex"
+      className=" cards-wrap d-flex"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div id="opened" className="cards-content f-dir-column j-content-between">
+      <div
+        id="opened"
+        className=" cards-content f-dir-column j-content-between"
+      >
         {/* 배경 이미지용 div */}
         <div
-          className={`background-image ${showPhoto ? "visible" : ""}`}
+          className={`background-image   ${showPhoto ? "visible" : ""}`}
           style={{
             backgroundImage: `url(${organizationsExport[pageNum]?.photo?.src})`,
             ...organizationsExport[pageNum]?.photo?.style,
@@ -114,7 +117,7 @@ const CardsContent: React.FC<CardsContentProps> = ({
             {organizationsExport[pageNum]?.keywords?.map((keyword, index) => (
               <Fragment key={index}>
                 <div
-                  className={`label c-white ${
+                  className={`label c-white  ${
                     !widthConditions.isMobile
                       ? "p-medium-regular"
                       : "p-xs-medium"

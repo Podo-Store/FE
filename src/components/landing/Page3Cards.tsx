@@ -72,7 +72,12 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
     const cards = [];
     for (let i = pageStartNum; i < pageStartNum + slidesPerPage; ++i) {
       cards.push(
-        <CardsContent key={i} pageNum={i} isOpened={isOpened[i]} setIsOpened={setIsOpened} />
+        <CardsContent
+          key={i}
+          pageNum={i}
+          isOpened={isOpened[i]}
+          setIsOpened={setIsOpened}
+        />
       );
     }
     return cards;
@@ -80,11 +85,11 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
 
   return (
     <div className="cards j-content-center">
-      <div className="cards-arrow-wrap a-items-center">
+      <div className=" cards-arrow-wrap a-items-center">
         {!setLeftArrowDisappear && (
           <img
             id="left"
-            className="cards-arrow c-pointer"
+            className=" cards-arrow c-pointer"
             src={rightArrow}
             alt="<"
             onClick={onPrevSlide}
@@ -92,10 +97,15 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
         )}
       </div>
 
-      <div className="cards-content-wrap">{renderCardsContents()}</div>
+      <div className=" cards-content-wrap">{renderCardsContents()}</div>
       <div className="cards-arrow-wrap a-items-center">
         {!setRightArrowDisappear && (
-          <img className="cards-arrow c-pointer" src={rightArrow} alt=">" onClick={onNextSlide} />
+          <img
+            className="cards-arrow c-pointer"
+            src={rightArrow}
+            alt=">"
+            onClick={onNextSlide}
+          />
         )}
       </div>
     </div>

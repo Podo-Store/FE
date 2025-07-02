@@ -207,6 +207,7 @@
   }
   @include r.media-tablet {
     height: calc(534px + 60px);
+    width: fit;
   }
   @include r.media-mobile {
     height: calc(351px + 36px);
@@ -217,6 +218,12 @@
   }
 }
 
+.page4-size {
+  @include r.media-tablet {
+    width: 768px;
+    margin: auto;
+  }
+}
 .main-ver2 .page4 .title_64px {
   padding-top: 7.5vh; /* 81px */
   @include r.media-tablet {

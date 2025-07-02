@@ -5,10 +5,12 @@
   background: linear-gradient(180deg, #fff 0%, #f5f0ff 100%);
 }
 
-.main-ver2 .page3.page-size {
+.main-ver2 .page3 .page-size {
+  height: 768px;
   overflow-x: auto;
   @include r.media-tablet {
-    min-height: 1056px;
+    height: 768px;
+    margin: auto;
   }
   @include r.media-mobile {
     min-height: 0;
@@ -20,12 +22,24 @@
   @include r.media-mobile {
     padding: 0;
   }
+  @include r.media-tablet {
+    padding: 0;
+  }
 }
 
 .main-ver2 .page3 > .title_20px {
   margin-top: 1.204vh;
+
+  @include r.media-tablet {
+    margin-top: 15px;
+  }
 }
 
+.slide {
+  @include r.media-tablet {
+    width: fit;
+  }
+}
 .page3 .slider-wrapper {
   position: relative;
 

@@ -63,14 +63,14 @@ const MainVer2 = () => {
       <FloatingBtn />
 
       <div>
-        <div className=" page1 h-[1010px]">
-          <section className="page1-width">
+        <div className=" page1 h-[1010px] ">
+          <section className=" page1-width">
             <div
-              className={`page1-title-img pt-[136px]  ${
+              className={`page1-title-img pt-[136px]   ${
                 isLaptop
                   ? " gap-[80px]"
                   : isTablet
-                  ? "gap-[60px]"
+                  ? "gap-[60px]  w-[768px]"
                   : "gap-[42px]"
               }  justify-between`}
             >
@@ -96,7 +96,7 @@ const MainVer2 = () => {
               {!isTablet && !isMobile ? (
                 <img src={circleIcon} alt="circle" className=" circle-icon" />
               ) : (
-                <div className="flex justify-end">
+                <div className="flex justify-end w-full ">
                   <img
                     src={circleIcon}
                     alt="circle"
@@ -111,7 +111,9 @@ const MainVer2 = () => {
           </div>
         </div>
 
-        <div className={`page2  ${window.innerWidth >= 1600 && "page-size"}`}>
+        <div
+          className={`page2  ${window.innerWidth >= 1600 && "page-size"}`}
+        >
           <h1 className="page2-title title_64px">
             포도상점에서는 이런 것들이 가능해요
           </h1>
@@ -199,12 +201,12 @@ const MainVer2 = () => {
 
         <Page3 />
 
-        <div className="page4 page-size">
-          <div>
-            <h1 className="title_64px">포도상점을 더 알고 싶다면?</h1>
+        <div className=" page4 page-size">
+          <div className=" page4-size">
+            <h1 className=" title_64px">포도상점을 더 알고 싶다면?</h1>
             <h3 className="title_20px">포도상점만의 이야기를 들려드릴게요.</h3>
           </div>
-          <div className="page4-button-wrap j-content-center">
+          <div className=" page4-button-wrap j-content-center page4-size">
             <Page4Button
               src={instagram}
               alt="instagram"

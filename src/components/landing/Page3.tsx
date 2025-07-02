@@ -29,7 +29,8 @@ const Page3 = () => {
       newSlide = currentSlide !== 0 ? currentSlide - 1 : currentSlide;
       setCurrentSlide(newSlide);
     } else {
-      newSlide = currentSlide !== totalSlides - 1 ? currentSlide + 1 : currentSlide;
+      newSlide =
+        currentSlide !== totalSlides - 1 ? currentSlide + 1 : currentSlide;
       setCurrentSlide(newSlide);
     }
 
@@ -69,14 +70,18 @@ const Page3 = () => {
   };
 
   return (
-    <div className="page3 page-size">
-      <h1 className="title_64px">포도상점과 함께하고 있어요</h1>
-      <h3 className="title_20px">포도상점은 다양한 공연 단체와 협력하고 있어요.</h3>
+    <div className=" main-ver2">
+      <div className=" page3 page-size">
+        <h1 className=" title_64px">포도상점과 함께하고 있어요</h1>
+        <h3 className="title_20px">
+          포도상점은 다양한 공연 단체와 협력하고 있어요.
+        </h3>
 
-      <div className="j-content-center">
-        <div className="slider-wrapper">
-          <div className="slider" ref={sliderRef}>
-            {renderPage3Cards()}
+        <div className="slider j-content-center">
+          <div className=" slider-wrapper">
+            <div className="slider" ref={sliderRef}>
+              {renderPage3Cards()}
+            </div>
           </div>
         </div>
       </div>

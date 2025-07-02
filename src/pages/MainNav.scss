@@ -17,6 +17,9 @@
   @include r.media-tablet {
     padding-left: 44px;
   }
+  @include r.media-mobile {
+    display: none;
+  }
 }
 
 .navbar a {

@@ -27,7 +27,7 @@ function Footer() {
   return (
     <>
       <MyPageInterceptor footerRef={footerRef}></MyPageInterceptor>
-      <div className="footer j-content-center" ref={footerRef}>
+      <div className="footer" ref={footerRef}>
         <div className="footer-inner">
           <div className="footer-upper">
             <img src={logo} alt="navLogo" />

@@ -5,6 +5,7 @@ import FloatingBtn from "@/components/button/FloatingBtn";
 import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import Page3 from "@/components/landing/Page3";
+import MobileError from "./MobileError";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
@@ -57,6 +58,10 @@ const MainVer2 = () => {
   const page2TextsClassName = !isMobile
     ? "h4-regular c-white"
     : "p-large-regular c-white";
+
+  if (isMobile) {
+    return <MobileError />;
+  }
 
   return (
     <div className=" main-ver2">

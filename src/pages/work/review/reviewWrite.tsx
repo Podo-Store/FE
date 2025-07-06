@@ -1,26 +1,65 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { postReview, postReviewProops } from "@/api/user/review/reviewWrite";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import GoBack from "@/components/button/GoBack";
 import defaultImg from "@/assets/image/post/list/defaultProfile.png";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
+
+import { toastAlert } from "@/utils/ToastAlert";
 import "./reviewWrite.scss";
 const reviewWrite = () => {
   const { id } = useParams<string>();
   const [text, setText] = useState("");
   const [selectedStar, setSelectedStar] = useState(0);
-  const [reason, setEeason] = useState<Record<string, boolean>>({
-    "캐릭터가 매력적이에요": false,
-    "관계성이 탄탄해요": false,
-    "스토리가 좋아요": false,
+  const [reason, setReason] = useState<Record<string, boolean>>({
+    CHARACTER: false, //    "캐릭터가 매력적이에요"
+    RELATION: false, // "관계성이 탄탄해요"
+    STORY: false, // "스토리가 좋아요"
   });
+
   const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     setText(e.target.value);
   };
 
+  const handleSelectReason = (key: string) => {
+    setReason({
+      CHARACTER: false,
+      RELATION: false,
+      STORY: false,
+      [key]: true, // 선택한 것만 true
+    });
+  };
+
   const hasSelectedReason = Object.values(reason).some((value) => value);
+
+  const handleSubmit = async () => {
+    const selectedStandardType =
+      Object.keys(reason).find((key) => reason[key]) ?? "";
+
+    const reviewData: postReviewProops = {
+      productId: id ?? "",
+      rating: selectedStar,
+      standardType: selectedStandardType,
+      content: text,
+    };
+
+    try {
+      const success = await postReview(reviewData);
+      if (success) {
+        toastAlert("리뷰 등록을 성공하였습니다", "success");
+
+        setTimeout(() => {
+          navigate(-1);
+        }, 500);
+      }
+    } catch (error) {
+      toastAlert("리뷰 등록 중 오류가 발생하였습니다.", "error");
+    }
+  };
   return (
     <div className="mx-auto all pb-[92px]">
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
@@ -111,11 +150,36 @@ const reviewWrite = () => {
                   이 작품은 특히...
                 </span>
                 <span className="flex flex-row gap-[20px] whitespace-nowrap">
-                  {Object.entries(reason).map(([label, selected]) => (
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["CHARACTER"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("CHARACTER")}
+                  >
+                    캐릭터가 매력적이에요
+                  </button>
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["RELATION"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("RELATION")}
+                  >
+                    관계성이 탄탄해요
+                  </button>
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["STORY"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("STORY")}
+                  >
+                    스토리가 좋아요
+                  </button>
+
+                  {/* {Object.entries(reason).map(([label, selected]) => (
                     <button
                       key={label}
                       onClick={() =>
-                        setEeason((prev) => ({
+                        setReason((prev) => ({
                           ...prev,
                           [label]: !prev[label],
                         }))
@@ -126,7 +190,7 @@ const reviewWrite = () => {
                     >
                       {label}
                     </button>
-                  ))}
+                  ))} */}
                 </span>
               </div>
             </div>
@@ -167,7 +231,10 @@ const reviewWrite = () => {
             disabled={
               text.length < 50 || selectedStar < 1 || !hasSelectedReason
             }
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              handleSubmit();
+              // navigate(-1);
+            }}
           >
             작성하기
           </SmallOnOffBtn>

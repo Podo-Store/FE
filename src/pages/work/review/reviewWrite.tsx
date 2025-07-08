@@ -1,26 +1,155 @@
 import { useState, useRef, useEffect, useContext } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import {
+  postReview,
+  postReviewProops,
+  getProfile,
+  patchReview,
+  deleteReview,
+  patchReviewProps,
+} from "@/api/user/review/reviewWriteApi";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 import GoBack from "@/components/button/GoBack";
 import defaultImg from "@/assets/image/post/list/defaultProfile.png";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
+
+import { toastAlert } from "@/utils/ToastAlert";
 import "./reviewWrite.scss";
 const reviewWrite = () => {
   const { id } = useParams<string>();
-  const [text, setText] = useState("");
+  const [reviewId, setReviewId] = useState("");
+  const [title, setTitle] = useState("");
+  const [author, setAuthor] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [text, setText] = useState<string>("");
   const [selectedStar, setSelectedStar] = useState(0);
-  const [reason, setEeason] = useState<Record<string, boolean>>({
-    "캐릭터가 매력적이에요": false,
-    "관계성이 탄탄해요": false,
-    "스토리가 좋아요": false,
+  const [reason, setReason] = useState<Record<string, boolean>>({
+    CHARACTER: false, //    "캐릭터가 매력적이에요"
+    RELATION: false, // "관계성이 탄탄해요"
+    STORY: false, // "스토리가 좋아요"
   });
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const mode = searchParams.get("mode") ?? "create";
+  // navigate(`/review/${productId}?mode=edit`);이면 수정,
+  // navigate(`/review/${productId}?mode=create`);이면 작성
+
+  const [originalReview, setOriginalReview] = useState({
+    rating: 0,
+    standardType: "",
+    content: "",
+  });
+
   const navigate = useNavigate();
 
   const handleChange = (e: any) => {
     setText(e.target.value);
   };
 
+  const handleSelectReason = (key: string) => {
+    setReason({
+      CHARACTER: false,
+      RELATION: false,
+      STORY: false,
+      [key]: true, // 선택한 것만 true
+    });
+  };
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        console.log(id);
+        const getInfo = await getProfile(id ?? "");
+
+        setOriginalReview({
+          rating: getInfo.rating ?? 0,
+          standardType: getInfo.standardType ?? "",
+          content: getInfo.content ?? "",
+        });
+
+        setReviewId(getInfo.id);
+        setThumbnail(getInfo.imagePath);
+        if (getInfo.content) {
+          setText(getInfo.content);
+        }
+
+        if (getInfo.standardType) {
+          setReason({
+            CHARACTER: getInfo.standardType === "CHARACTER",
+            RELATION: getInfo.standardType === "RELATION",
+            STORY: getInfo.standardType === "STORY",
+          });
+        }
+
+        // 선택된 별점도 있으면 적용
+        if (getInfo.rating) {
+          setSelectedStar(getInfo.rating);
+        }
+      } catch (error) {
+        console.error();
+        throw new Error(`작품 정보 가져오기 실패: ${(error as Error).message}`);
+      }
+    };
+
+    fetchInfo();
+  }, [id]);
   const hasSelectedReason = Object.values(reason).some((value) => value);
+
+  const handleSubmit = async () => {
+    const selectedStandardType =
+      Object.keys(reason).find((key) => reason[key]) ?? "";
+
+    const reviewData: postReviewProops = {
+      productId: id ?? "",
+      rating: selectedStar,
+      standardType: selectedStandardType,
+      content: text,
+    };
+    const patchData: patchReviewProps = {
+      reviewId: reviewId ?? "",
+      ...(selectedStar !== originalReview.rating && { rating: selectedStar }),
+      ...(selectedStandardType !== originalReview.standardType && {
+        standardType: selectedStandardType,
+      }),
+      ...(text !== originalReview.content && { content: text }),
+    };
+
+    try {
+      const success =
+        mode === "edit"
+          ? await patchReview(patchData) // 수정
+          : await postReview(reviewData); // 작성
+
+      if (success) {
+        toastAlert(
+          mode === "edit" ? "리뷰를 수정했어요." : "리뷰를 작성했어요.",
+          "success"
+        );
+        setTimeout(() => {
+          navigate(-1);
+        }, 500);
+      }
+    } catch (error) {
+      toastAlert("리뷰 등록 중 오류가 발생하였습니다.", "error");
+    }
+  };
+
+  const hendelDelete = async () => {
+    try {
+      const success = await deleteReview(reviewId);
+
+      if (success) {
+        toastAlert("리뷰를 삭제했어요.", "success");
+        setTimeout(() => {
+          navigate(-1);
+        }, 500);
+      }
+    } catch (error) {
+      toastAlert("리뷰 삭제 중 오류가 발생하였습니다.", "error");
+    }
+  };
+
   return (
     <div className="mx-auto all pb-[92px]">
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
@@ -37,16 +166,12 @@ const reviewWrite = () => {
           <div className="flex flex-row gap-[34px]">
             <div className={`flex flex-col  content-img gap-[7px] `}>
               <img
-                src={defaultImg}
+                src={thumbnail ?? defaultImg}
                 className="border border-[var(--grey3)] rounded-[20px]"
               ></img>
               <div className="flex flex-col gap-[3px]">
-                <span className="w-full truncate p-large-bold">
-                  제목제목제목제목제목제목제목제목
-                </span>
-                <span className="w-full truncate p-medium-bold">
-                  작가작가작가작가작가작가자가자가작
-                </span>
+                <span className="w-full truncate p-large-bold">{title}</span>
+                <span className="w-full truncate p-medium-bold">{author}</span>
               </div>
             </div>
 
@@ -111,11 +236,36 @@ const reviewWrite = () => {
                   이 작품은 특히...
                 </span>
                 <span className="flex flex-row gap-[20px] whitespace-nowrap">
-                  {Object.entries(reason).map(([label, selected]) => (
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["CHARACTER"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("CHARACTER")}
+                  >
+                    캐릭터가 매력적이에요
+                  </button>
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["RELATION"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("RELATION")}
+                  >
+                    관계성이 탄탄해요
+                  </button>
+                  <button
+                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
+                      reason["STORY"] ? "text-[var(--purple5)] " : ""
+                    }`}
+                    onClick={() => handleSelectReason("STORY")}
+                  >
+                    스토리가 좋아요
+                  </button>
+
+                  {/* {Object.entries(reason).map(([label, selected]) => (
                     <button
                       key={label}
                       onClick={() =>
-                        setEeason((prev) => ({
+                        setReason((prev) => ({
                           ...prev,
                           [label]: !prev[label],
                         }))
@@ -126,7 +276,7 @@ const reviewWrite = () => {
                     >
                       {label}
                     </button>
-                  ))}
+                  ))} */}
                 </span>
               </div>
             </div>
@@ -138,6 +288,7 @@ const reviewWrite = () => {
               <textarea
                 className=" p-medeim-regular h-[203px] p-[20px] border-none box-border resize-none  rounded-[5px] focus:outline-none focus:ring-0 "
                 onChange={handleChange}
+                value={text}
               ></textarea>
               <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-[5px] ">
                 <p className="flex my-auto ml-[20px] w-fit p-medium-regular">
@@ -167,18 +318,25 @@ const reviewWrite = () => {
             disabled={
               text.length < 50 || selectedStar < 1 || !hasSelectedReason
             }
-            onClick={() => navigate(-1)}
+            onClick={() => {
+              handleSubmit();
+            }}
           >
-            작성하기
+            {mode === "edit" ? "수정하기" : "작성하기"}
           </SmallOnOffBtn>
         </div>
-
-        <span
-          className="flex justify-end p-small-under mt-[80px] cursor-pointer"
-          onClick={() => navigate(-1)}
-        >
-          후기 삭제
-        </span>
+        {mode === "edit" ? (
+          <span
+            className="flex justify-end p-small-under mt-[80px] cursor-pointer"
+            onClick={() => {
+              hendelDelete();
+            }}
+          >
+            후기 삭제
+          </span>
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

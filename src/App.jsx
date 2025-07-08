@@ -85,7 +85,7 @@ function App() {
 
               <Route path="list/detail/:id" element={<Detail />} />
               <Route path="list/view/:id" element={<PostView />} />
-              <Route path="list/review/write/:id" element={<ReviewWrite />} />
+              <Route path="list/review/:id" element={<ReviewWrite />} />
               <Route
                 path="purchase/:id"
                 element={<ProtectedRoute element={<Purchase />} />}

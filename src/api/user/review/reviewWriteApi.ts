@@ -86,13 +86,13 @@ export const getProfile = async (
   }
 };
 
-interface patchReviewProps {
+export interface patchReviewProps {
+
   reviewId: string;
   rating?: number;
   standardType?: string;
   content?: string;
 }
-
 
 
 export const patchReview = async ({

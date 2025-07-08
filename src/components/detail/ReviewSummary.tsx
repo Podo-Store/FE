@@ -181,6 +181,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
               fill="#E5E5E5"
               barSize={8}
               radius={[4, 4, 4, 4]}
+              isAnimationActive={false}
             >
               <LabelList
                 dataKey="value"

@@ -238,8 +238,9 @@ const PostGallery = () => {
         isSorted={true}
         sortType={sortType}
         setSortType={setSortType}
-        stageBottomBorderWidth={"w-[140vw]"}
+        stageBottomBorderWidth={"w-[100vw]"}
       />
+      
 
       {/*----- post list -----*/}
       {isLoading ? (

@@ -103,7 +103,7 @@ const Detail = () => {
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
 
-  const [sort, setSort] = useState("like");
+  const [sort, setSort] = useState<"LIKE_COUNT" | "LATEST">("LIKE_COUNT");
   const [openSort, setOpenSort] = useState(false);
 
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
@@ -111,67 +111,73 @@ const Detail = () => {
 
   const accessToken = Cookies.get("accessToken");
 
-  useRequest(async () => {
-    if (!id) return;
-    try {
-      setIsLoading(true);
+  useEffect(() => {
+    const getDetail = async () => {
+      if (!id) return;
+      try {
+        setIsLoading(true);
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
 
-      const token = Cookies.get("accessToken");
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
+        const token = Cookies.get("accessToken");
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers: headers,
+          params: {
+            script: id,
+            sortType: sort,
+            page: 0,
+          },
+        });
+
+        console.log(response.data);
+        setScript({
+          id: id || "", // 혹은 response.data.id 가 있다면 사용
+          title: response.data.title,
+          writer: response.data.writer,
+          plot: response.data.plot,
+          script: response.data.script,
+          scriptPrice: response.data.scriptPrice ?? 0,
+          performance: response.data.performance,
+          performancePrice: response.data.performancePrice ?? 0,
+          playType: response.data.playType,
+          imagePath: response.data.imagePath,
+          descriptionPath: response.data.descriptionPath,
+          buyStatus: response.data.buyStatus,
+          like: response.data.like,
+          likeCount: response.data.likeCount,
+          viewCount: response.data.viewCount,
+          any: response.data.any,
+          male: response.data.male,
+          female: response.data.female,
+          stageComment: response.data.stageComment,
+          runningTime: response.data.runningTime,
+          scene: response.data.scene,
+          act: response.data.act,
+          reviewStatistics: response.data.reviewStatistics,
+          reviews: response.data.reviews,
+        });
+      } catch (error: any) {
+        const errMsg = error.response?.data?.error;
+        if (errMsg?.includes("rollback")) {
+          alert(
+            "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
+          );
+        } else {
+          alert("작품 정보를 불러오는데 실패했습니다.");
+        }
+        console.error("❌ 서버 응답:", errMsg);
       }
+      setIsLoading(false);
+    };
 
-      const response = await axios.get(`${SERVER_URL}scripts/detail`, {
-        headers: headers,
-        params: {
-          script: id,
-        },
-      });
-
-      console.log(response.data);
-      setScript({
-        id: id || "", // 혹은 response.data.id 가 있다면 사용
-        title: response.data.title,
-        writer: response.data.writer,
-        plot: response.data.plot,
-        script: response.data.script,
-        scriptPrice: response.data.scriptPrice ?? 0,
-        performance: response.data.performance,
-        performancePrice: response.data.performancePrice ?? 0,
-        playType: response.data.playType,
-        imagePath: response.data.imagePath,
-        descriptionPath: response.data.descriptionPath,
-        buyStatus: response.data.buyStatus,
-        like: response.data.like,
-        likeCount: response.data.likeCount,
-        viewCount: response.data.viewCount,
-        any: response.data.any,
-        male: response.data.male,
-        female: response.data.female,
-        stageComment: response.data.stageComment,
-        runningTime: response.data.runningTime,
-        scene: response.data.scene,
-        act: response.data.act,
-        reviewStatistics: response.data.reviewStatistics,
-        reviews: response.data.reviews,
-      });
-    } catch (error: any) {
-      const errMsg = error.response?.data?.error;
-      if (errMsg?.includes("rollback")) {
-        alert(
-          "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
-        );
-      } else {
-        alert("작품 정보를 불러오는데 실패했습니다.");
-      }
-      console.error("❌ 서버 응답:", errMsg);
-    }
-    setIsLoading(false);
-  });
+    getDetail();
+  }, [id, sort]);
 
   const onChangeSelectOption = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -722,7 +728,7 @@ const Detail = () => {
                 className="flex items-center gap-[4px] p-medium-regular"
                 onClick={() => setOpenSort(!openSort)}
               >
-                {sort === "like" ? "좋아요순" : "최신순"}
+                {sort === "LIKE_COUNT" ? "좋아요순" : "최신순"}
                 <img
                   className="size-[18px]"
                   src={openSort ? closeImg : openImg}
@@ -736,11 +742,11 @@ const Detail = () => {
                     className={clsx(
                       "flex items-center gap-[4px] p-medium-medium",
                       {
-                        "text-[#777]": sort !== "like",
+                        "text-[#777]": sort !== "LIKE_COUNT",
                       }
                     )}
                     onClick={() => {
-                      setSort("like");
+                      setSort("LIKE_COUNT");
                       setOpenSort(false);
                     }}
                   >
@@ -750,11 +756,11 @@ const Detail = () => {
                     className={clsx(
                       "flex items-center gap-[4px] p-medium-medium",
                       {
-                        "text-[#777]": sort !== "date",
+                        "text-[#777]": sort !== "LATEST",
                       }
                     )}
                     onClick={() => {
-                      setSort("date");
+                      setSort("LATEST");
                       setOpenSort(false);
                     }}
                   >

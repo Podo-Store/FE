@@ -20,7 +20,9 @@ interface ReviewSummaryProps {
 const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
   // 없으면 에러
   if (!stats) {
-    return null;
+    return (
+      <div className="flex relative pt-[50px] pb-[45px] bg-white border-[3px] border-[#E2E2E2] rounded-[9px] "></div>
+    );
   }
 
   const {

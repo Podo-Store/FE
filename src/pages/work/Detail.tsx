@@ -15,17 +15,23 @@ import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
 import InfoItem from "@/components/detail/InfoItem";
+import ReviewSummary from "@/components/detail/ReviewSummary";
+import LikeViewCount from "@/components/list/LikeViewCount";
+
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import LikeViewCount from "@/components/list/LikeViewCount";
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
+
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
+import { Review, ReviewStatistics } from "@/types/review";
+
 import {
   DETAIL_SCRIPT_TEXT,
   DETAIL_PERFORM_TEXT,
 } from "../../constants/PopupTexts/DetailTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
+import { LIKE } from "@/constants/alertTexts";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import closeBtn from "./../../assets/image/button/aiOutlineClose.svg";
@@ -33,13 +39,14 @@ import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import vector23 from "./../../assets/image/post/vector23.svg";
 import rightArrow from "./../../assets/image/post/list/ic_right_arrow.svg";
+import openImg from "./../../assets/image/button/listOpenBtn.svg";
+import closeImg from "./../../assets/image/button/listCloseBtn.svg";
 
 import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import { LIKE } from "@/constants/alertTexts";
-import ReviewSummary from "@/components/detail/ReviewSummary";
-import { Review, ReviewStatistics } from "@/types/review";
+import ReviewList from "@/components/detail/ReviewList";
+import clsx from "clsx";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -95,6 +102,9 @@ const Detail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
+
+  const [sort, setSort] = useState("like");
+  const [openSort, setOpenSort] = useState(false);
 
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
@@ -704,6 +714,60 @@ const Detail = () => {
             </button>
           </section>
           <ReviewSummary stats={script?.reviewStatistics!} />
+
+          <section className="mt-[50px] w-full">
+            <div className="flex justify-between w-full mb-[8px] relative">
+              <p className="ml-[20px] p-large-bold">전체 후기</p>
+              <button
+                className="flex items-center gap-[4px] p-medium-regular"
+                onClick={() => setOpenSort(!openSort)}
+              >
+                {sort === "like" ? "좋아요순" : "최신순"}
+                <img
+                  className="size-[18px]"
+                  src={openSort ? closeImg : openImg}
+                  alt=""
+                ></img>
+              </button>
+
+              {openSort && (
+                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap">
+                  <button
+                    className={clsx(
+                      "flex items-center gap-[4px] p-medium-medium",
+                      {
+                        "text-[#777]": sort !== "like",
+                      }
+                    )}
+                    onClick={() => {
+                      setSort("like");
+                      setOpenSort(false);
+                    }}
+                  >
+                    좋아요순
+                  </button>
+                  <button
+                    className={clsx(
+                      "flex items-center gap-[4px] p-medium-medium",
+                      {
+                        "text-[#777]": sort !== "date",
+                      }
+                    )}
+                    onClick={() => {
+                      setSort("date");
+                      setOpenSort(false);
+                    }}
+                  >
+                    최신순
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {script?.reviews?.map((review) => (
+              <ReviewList review={review} />
+            ))}
+          </section>
         </section>
       </div>
 

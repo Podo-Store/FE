@@ -1,7 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
 import throttle from "lodash/throttle";
 import clsx from "clsx";
 
+import AuthContext from "@/contexts/AuthContext";
+import { SERVER_URL } from "@/constants/ServerURL";
 import { Review } from "@/types/review";
 import formatDate3 from "@/utils/formatDate3";
 
@@ -12,11 +17,9 @@ import openImg from "./../../assets/image/button/listOpenBtn.svg";
 import closeImg from "../../assets/image/button/listCloseBtn.svg";
 import blackHeart from "../../assets/image/post/ic_black_heart.svg";
 import emptyHeart from "../../assets/image/post/ic_heart2.svg";
-import axios from "axios";
-import Cookies from "js-cookie";
-import AuthContext from "@/contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
-import { SERVER_URL } from "@/constants/ServerURL";
+import single_graph from "../../assets/image/post/ic_podoal.svg";
+import graph_cluster from "../../assets/image/post/ic_podosongi.svg";
+import wine from "../../assets/image/post/Wine.png";
 
 interface Props {
   review: Review;
@@ -42,6 +45,19 @@ const ReviewList: React.FC<Props> = React.memo(({ review }) => {
     const visible = name.slice(0, 2);
     return visible + "*".repeat(name.length - 2);
   }, [review.nickname]);
+
+  const parseStageType = useMemo(() => {
+    switch (review.stageType) {
+      case "SINGLE_GRAPE":
+        return single_graph;
+      case "GRAPE_CLUSTER":
+        return graph_cluster;
+      case "WINE":
+        return wine;
+      default:
+        return null;
+    }
+  }, [review.stageType]);
 
   const standardText = useMemo(() => {
     switch (review.standardType) {
@@ -116,9 +132,16 @@ const ReviewList: React.FC<Props> = React.memo(({ review }) => {
     <div className="w-full border-t-1 border-[#9E9E9E] pl-[20px]">
       <div className="flex pt-[15px] justify-between">
         <div className="flex items-center gap-[10px]">
-          <p className="p-small-medium">{parsedName}</p>
+          <p className="flex items-center gap-[2px] p-small-medium">
+            {parsedName}
+            {parseStageType && (
+              <img className="size-[13px]" src={parseStageType} alt="" />
+            )}
+          </p>
           <img src={divisionBar} alt="|" />
-          <p className="p-xs-medium">{formatDate3(review.date)}</p>
+          <p className="p-xs-medium">
+            {formatDate3(review.date)} {review.isEdited && "수정"}
+          </p>
           {review.myself && (
             <button className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline">
               수정/삭제

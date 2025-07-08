@@ -87,11 +87,13 @@ export const getProfile = async (
 };
 
 export interface patchReviewProps {
+
   reviewId: string;
   rating?: number;
   standardType?: string;
   content?: string;
 }
+
 
 export const patchReview = async ({
   reviewId,

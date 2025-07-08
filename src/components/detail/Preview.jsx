@@ -103,7 +103,7 @@ const Preview = ({ id, lengthType }) => {
   }
 
   return (
-    <div className="f-dir-column preview">
+    <div className="preview flex flex-col items-center">
       {pdfData ? (
         <Document
           file={pdfData || samplePDF}

@@ -32,11 +32,14 @@ import closeBtn from "./../../assets/image/button/aiOutlineClose.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import vector23 from "./../../assets/image/post/vector23.svg";
+import rightArrow from "./../../assets/image/post/list/ic_right_arrow.svg";
 
 import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 import { LIKE } from "@/constants/alertTexts";
+import ReviewSummary from "@/components/detail/ReviewSummary";
+import { Review, ReviewStatistics } from "@/types/review";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -64,6 +67,8 @@ export interface PostDetail {
   runningTime: number;
   scene: number;
   act: number;
+  reviewStatistics: ReviewStatistics;
+  reviews: Review[];
 }
 
 const Detail = () => {
@@ -141,6 +146,8 @@ const Detail = () => {
         runningTime: response.data.runningTime,
         scene: response.data.scene,
         act: response.data.act,
+        reviewStatistics: response.data.reviewStatistics,
+        reviews: response.data.reviews,
       });
     } catch (error: any) {
       const errMsg = error.response?.data?.error;
@@ -317,6 +324,13 @@ const Detail = () => {
     }));
 
     toggleLike(postId);
+  };
+
+  const parseReviewCount = (count: number) => {
+    if (count > 999) {
+      return "999+";
+    }
+    return count;
   };
 
   return (
@@ -676,7 +690,23 @@ const Detail = () => {
             )}
           </div>
         </div>
+        <section className="w-full">
+          <section className="mt-[24px] mb-[16px] w-full">
+            <p className="ml-[20px] w-full p-large-bold">
+              후기 (
+              {parseReviewCount(
+                script?.reviewStatistics?.totalReviewCount ?? 0
+              )}
+              )
+            </p>
+            <button className="p-large-medium w-full flex justify-end items-center gap-[10px] cursor-pointer">
+              후기 작성하기 <img src={rightArrow} alt=">"></img>
+            </button>
+          </section>
+          <ReviewSummary stats={script?.reviewStatistics!} />
+        </section>
       </div>
+
       {!isDetailBtnVisible && (
         <div className="detail-bottom-bar" style={bottomBarStyle}>
           <div className="bottom-bar-left">

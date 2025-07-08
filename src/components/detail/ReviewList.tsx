@@ -1,32 +1,50 @@
-import { useState } from "react";
+import React, { useState, useRef, useEffect, useMemo, useContext } from "react";
+import throttle from "lodash/throttle";
 import clsx from "clsx";
 
 import { Review } from "@/types/review";
-
 import formatDate3 from "@/utils/formatDate3";
 
 import divisionBar from "../../assets/image/post/ic_division_bar.svg";
 import starFilled from "../../assets/image/post/list/ic_star_filled.svg";
 import starOutlined from "../../assets/image/post/list/ic_star_outlined.svg";
 import openImg from "./../../assets/image/button/listOpenBtn.svg";
-import closeImg from "./../../assets/image/button/listCloseBtn.svg";
+import closeImg from "../../assets/image/button/listCloseBtn.svg";
 import blackHeart from "../../assets/image/post/ic_black_heart.svg";
 import emptyHeart from "../../assets/image/post/ic_heart2.svg";
+import axios from "axios";
+import Cookies from "js-cookie";
+import AuthContext from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { SERVER_URL } from "@/constants/ServerURL";
 
-const ReviewList = ({ review }: { review: Review }) => {
+interface Props {
+  review: Review;
+}
+
+const ReviewList: React.FC<Props> = React.memo(({ review }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(review.isLike);
+  const [likeCount, setLikeCount] = useState(review.likeCount);
+  const [loading, setLoading] = useState(false);
 
-  const nameParse = (name: string) => {
-    const length = name.length;
-    const visibleLength = 2;
-    const hiddenLength = length - visibleLength;
-    const hiddenPart = "*".repeat(hiddenLength);
-    return `${name.slice(0, visibleLength)}${hiddenPart}`;
-  };
+  const { isAuthenticated } = useContext(AuthContext);
 
-  const standardTypeParse = (standardType: string) => {
-    switch (standardType) {
+  const navigate = useNavigate();
+
+  const loadingRef = useRef(loading);
+  useEffect(() => {
+    loadingRef.current = loading;
+  }, [loading]);
+
+  const parsedName = useMemo(() => {
+    const name = review.nickname;
+    const visible = name.slice(0, 2);
+    return visible + "*".repeat(name.length - 2);
+  }, [review.nickname]);
+
+  const standardText = useMemo(() => {
+    switch (review.standardType) {
       case "CHARACTER":
         return "캐릭터가 매력적이에요";
       case "RELATION":
@@ -36,16 +54,69 @@ const ReviewList = ({ review }: { review: Review }) => {
       default:
         return "";
     }
-  };
+  }, [review.standardType]);
 
-  const starIcons = Array.from({ length: 5 }, (_, i) =>
-    i < review.rating ? starFilled : starOutlined
+  const starIcons = useMemo(
+    () =>
+      Array.from({ length: 5 }, (_, i) =>
+        i < review.rating ? starFilled : starOutlined
+      ),
+    [review.rating]
   );
+
+  const handleLike = useMemo(
+    () =>
+      throttle(
+        async () => {
+          if (loadingRef.current) {
+            return;
+          }
+          setLoading(true);
+
+          if (!isAuthenticated) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/signin");
+            return;
+          }
+
+          // Optimistic UI
+          setIsLiked((prev) => {
+            setLikeCount((cnt) => cnt + (prev ? -1 : 1));
+            return !prev;
+          });
+
+          try {
+            const response = await axios.post(
+              `${SERVER_URL}scripts/review/like/${review.id}`,
+              {},
+              {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${Cookies.get("accessToken")}`,
+                },
+              }
+            );
+          } catch (error) {
+            console.error(error);
+            alert("좋아요 처리 중 오류가 발생했습니다.");
+          } finally {
+            setLoading(false);
+          }
+        },
+        1000,
+        {
+          leading: true,
+          trailing: false,
+        }
+      ),
+    [review.id]
+  );
+
   return (
     <div className="w-full border-t-1 border-[#9E9E9E] pl-[20px]">
       <div className="flex pt-[15px] justify-between">
         <div className="flex items-center gap-[10px]">
-          <p className="p-small-medium">{nameParse(review.nickname)}</p>
+          <p className="p-small-medium">{parsedName}</p>
           <img src={divisionBar} alt="|" />
           <p className="p-xs-medium">{formatDate3(review.date)}</p>
           <button className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline">
@@ -65,9 +136,7 @@ const ReviewList = ({ review }: { review: Review }) => {
             ))}
           </div>
           <img src={divisionBar} alt="|" />
-          <p className="p-small-medium">
-            {standardTypeParse(review.standardType)}
-          </p>
+          <p className="p-small-medium">{standardText}</p>
         </div>
       </div>
 
@@ -92,10 +161,12 @@ const ReviewList = ({ review }: { review: Review }) => {
 
         <div className="flex items-center gap-[5px]">
           <button
-            className="flex items-center"
-            onClick={() => {
-              setIsLiked(!isLiked);
-            }}
+            onClick={() => handleLike()}
+            disabled={loading}
+            className={clsx(
+              "flex items-center",
+              loading && "opacity-50 cursor-not-allowed"
+            )}
           >
             <img
               className="w-[16.873px] h-[15.116px]"
@@ -103,12 +174,11 @@ const ReviewList = ({ review }: { review: Review }) => {
               alt=""
             />
           </button>
-
-          <p className="p-small-regular">{review.likeCount}</p>
+          <p className="p-small-regular">{likeCount}</p>
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ReviewList;

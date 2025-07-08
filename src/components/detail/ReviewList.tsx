@@ -119,9 +119,11 @@ const ReviewList: React.FC<Props> = React.memo(({ review }) => {
           <p className="p-small-medium">{parsedName}</p>
           <img src={divisionBar} alt="|" />
           <p className="p-xs-medium">{formatDate3(review.date)}</p>
-          <button className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline">
-            수정/삭제
-          </button>
+          {review.myself && (
+            <button className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline">
+              수정/삭제
+            </button>
+          )}
         </div>
 
         <div className="flex items-center gap-[8px]">

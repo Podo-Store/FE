@@ -18,7 +18,6 @@ import InfoItem from "@/components/detail/InfoItem";
 import ReviewSummary from "@/components/detail/ReviewSummary";
 import LikeViewCount from "@/components/list/LikeViewCount";
 
-import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
 
@@ -106,6 +105,12 @@ const Detail = () => {
   const [sort, setSort] = useState<"LIKE_COUNT" | "LATEST">("LIKE_COUNT");
   const [openSort, setOpenSort] = useState(false);
 
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewPage, setReviewPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
@@ -114,6 +119,11 @@ const Detail = () => {
   useEffect(() => {
     const getDetail = async () => {
       if (!id) return;
+      setIsLoading(true);
+      setReviews([]);
+      setReviewPage(0);
+      setHasMore(true);
+
       try {
         setIsLoading(true);
 
@@ -162,6 +172,9 @@ const Detail = () => {
           reviewStatistics: response.data.reviewStatistics,
           reviews: response.data.reviews,
         });
+
+        setReviews(response.data.reviews);
+        setHasMore(response.data.reviews.length > 0);
       } catch (error: any) {
         const errMsg = error.response?.data?.error;
         if (errMsg?.includes("rollback")) {
@@ -178,6 +191,51 @@ const Detail = () => {
 
     getDetail();
   }, [id, sort]);
+
+  // 리뷰 다음 페이지 Fetch
+  useEffect(() => {
+    if (reviewPage === 0) return;
+    const fetchMore = async () => {
+      setLoadingMore(true);
+      try {
+        const token = Cookies.get("accessToken");
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        };
+        const { data } = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers,
+          params: { script: id, sortType: sort, page: reviewPage },
+        });
+        if (data.reviews.length === 0) {
+          setHasMore(false);
+        } else {
+          setReviews((prev) => [...prev, ...data.reviews]);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingMore(false);
+      }
+    };
+
+    fetchMore();
+  }, [reviewPage]);
+
+  // 무한스크롤
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasMore) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !loadingMore) {
+          setReviewPage((p) => p + 1);
+        }
+      },
+      { root: null, threshold: 1 }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore]);
 
   const onChangeSelectOption = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -770,12 +828,15 @@ const Detail = () => {
               )}
             </div>
 
-            {script?.reviews?.map((review) => (
-              <ReviewList review={review} />
+            {reviews.map((review) => (
+              <ReviewList key={review.id} review={review} />
             ))}
           </section>
         </section>
       </div>
+
+      {(isLoading || loadingMore) && <PartialLoading />}
+      <div ref={loadMoreRef} />
 
       {!isDetailBtnVisible && (
         <div className="detail-bottom-bar" style={bottomBarStyle}>

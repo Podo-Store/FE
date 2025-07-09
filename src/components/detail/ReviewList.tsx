@@ -21,11 +21,12 @@ import single_graph from "../../assets/image/post/ic_podoal.svg";
 import graph_cluster from "../../assets/image/post/ic_podosongi.svg";
 import wine from "../../assets/image/post/Wine.png";
 
-interface Props {
+interface ReviewLitProps {
+  scriptId: string;
   review: Review;
 }
 
-const ReviewList: React.FC<Props> = React.memo(({ review }) => {
+const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLiked, setIsLiked] = useState(review.isLike);
   const [likeCount, setLikeCount] = useState(review.likeCount);
@@ -143,7 +144,10 @@ const ReviewList: React.FC<Props> = React.memo(({ review }) => {
             {formatDate3(review.date)} {review.isEdited && "수정"}
           </p>
           {review.myself && (
-            <button className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline">
+            <button
+              className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline"
+              onClick={() => navigate(`/list/review/${scriptId}?mode=edit`)}
+            >
               수정/삭제
             </button>
           )}

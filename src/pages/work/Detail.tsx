@@ -773,9 +773,14 @@ const Detail = () => {
               )}
               )
             </p>
-            <button className="p-large-medium w-full flex justify-end items-center gap-[10px] cursor-pointer">
-              후기 작성하기 <img src={rightArrow} alt=">"></img>
-            </button>
+            <div className="flex justify-end w-full">
+              <button
+                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer"
+                onClick={() => navigate(`/list/review/${id}?mode=create`)}
+              >
+                후기 작성하기 <img src={rightArrow} alt=">"></img>
+              </button>
+            </div>
           </section>
           <ReviewSummary stats={script?.reviewStatistics!} />
 
@@ -829,7 +834,11 @@ const Detail = () => {
             </div>
 
             {reviews.map((review) => (
-              <ReviewList key={review.id} review={review} />
+              <ReviewList
+                key={review.id}
+                scriptId={script?.id!}
+                review={review}
+              />
             ))}
           </section>
         </section>

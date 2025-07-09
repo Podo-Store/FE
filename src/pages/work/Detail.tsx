@@ -786,6 +786,7 @@ const Detail = () => {
                   if (!isAuthenticated) {
                     alert("로그인이 필요한 서비스입니다.");
                     navigate("/signin");
+                    return;
                   }
 
                   navigate(`/list/review/${id}?mode=create`);

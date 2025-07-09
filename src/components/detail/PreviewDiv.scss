@@ -1,11 +1,22 @@
 @use "./../../styles/responsive.scss" as r;
 
 .preview div#selected-page {
+  display: flex;
+  margin: 0 auto;
+  width: 1120px;
   padding: 67px 0;
 
   position: relative;
 
   background: var(--grey-grey-5, #9e9e9e);
+
+  @include r.media-tablet {
+    width: 658px;
+  }
+
+  @include r.media-mobile {
+    width: 440px;
+  }
 }
 
 .preview div#selected-page img#close-btn {
@@ -23,11 +34,16 @@
   bottom: 98px;
 
   width: 674px;
+
   @include r.media-tablet {
-    width: calc(467px + 23px * 2);
+    width: 513px;
   }
   & {
     z-index: 10;
+  }
+
+  @include r.media-mobile {
+    width: 357px;
   }
 }
 
@@ -44,11 +60,24 @@
   @include r.media-tablet {
     gap: 46px;
   }
+
+  @include r.media-mobile {
+    gap: 20px;
+  }
 }
 
 .preview div#selected-page div#page img {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+
+  @include r.media-tablet {
+    width: 35px;
+    height: 56px;
+  }
+  @include r.media-mobile {
+    width: 38px;
+    height: 38px;
+  }
 }
 
 .preview div#selected-page div#page div#preview-page h3#select-page {

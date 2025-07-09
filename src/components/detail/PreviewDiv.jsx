@@ -29,11 +29,11 @@ const PreviewDiv = ({
   const { width } = useWindowDimensions();
 
   return (
-    <div>
+    <div className="w-full">
       <hr id="selected-page-hr" />
 
-      <div id="selected-page">
-        <div className="f-dir-column f-center">
+      <div id="selected-page" className="">
+        <div className="w-full f-dir-column f-center">
           <img
             className="c-pointer"
             id="close-btn"
@@ -54,7 +54,7 @@ const PreviewDiv = ({
             ></div>
           </div>
           <div
-            className="f-center no-drag"
+            className="w-full f-center no-drag"
             id="page"
             onClick={(e) => e.stopPropagation()}
           >
@@ -62,7 +62,7 @@ const PreviewDiv = ({
               <img
                 src={inequalityLeft}
                 alt="left-btn"
-                className="c-pointer"
+                className=" c-pointer"
                 onClick={() => {
                   if (selectedPage > 1) {
                     setSelectedPage(selectedPage - 1);
@@ -71,11 +71,11 @@ const PreviewDiv = ({
               />
             )}
 
-            <div className="p-relative" id="preview-page">
+            <div className=" p-relative" id="preview-page">
               <Page
                 renderMode="canvas"
                 pageNumber={selectedPage}
-                width={width > 1280 ? 609 : 467}
+                width={width >= 1280 ? 609 : width >= 768 ? 467 : 323}
               />
               <h3 className="p-small-regular" id="select-page">
                 {selectedPage}

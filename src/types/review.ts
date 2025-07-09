@@ -14,7 +14,7 @@ export interface ReviewStatistics {
 export interface Review {
   id: string;
   nickname: string;
-  stageType: null | "SINGLE_GRAPE" | "GRAPE_CLUSTER" | "WINE";
+  stageType: "DEFAULT" | "SINGLE_GRAPE" | "GRAPE_CLUSTER" | "WINE";
   date: string;
   isEdited: boolean;
   myself: boolean;

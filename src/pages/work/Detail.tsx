@@ -73,6 +73,7 @@ export interface PostDetail {
   runningTime: number;
   scene: number;
   act: number;
+  isReviewWritten: boolean;
   reviewStatistics: ReviewStatistics;
   reviews: Review[];
 }
@@ -94,7 +95,7 @@ const Detail = () => {
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
-  const isAuthenticated = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const toggleLike = useSingleToggleLike();
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
@@ -169,6 +170,7 @@ const Detail = () => {
           runningTime: response.data.runningTime,
           scene: response.data.scene,
           act: response.data.act,
+          isReviewWritten: response.data.isReviewWritten,
           reviewStatistics: response.data.reviewStatistics,
           reviews: response.data.reviews,
         });
@@ -776,7 +778,18 @@ const Detail = () => {
             <div className="flex justify-end w-full">
               <button
                 className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer"
-                onClick={() => navigate(`/list/review/${id}?mode=create`)}
+                onClick={() => {
+                  if (script?.isReviewWritten) {
+                    alert("이미 작성된 후기가 있습니다.");
+                    return;
+                  }
+                  if (!isAuthenticated) {
+                    alert("로그인이 필요한 서비스입니다.");
+                    navigate("/signin");
+                  }
+
+                  navigate(`/list/review/${id}?mode=create`);
+                }}
               >
                 후기 작성하기 <img src={rightArrow} alt=">"></img>
               </button>

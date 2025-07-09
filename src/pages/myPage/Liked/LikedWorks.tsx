@@ -205,7 +205,7 @@ const LikedWorks = () => {
   return (
     <div className=" purchased-script myPage-contents-default">
       <FloatingBtn />
-      <div className="myPage-contents-default-wrap">
+      <div className=" myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="3" />
         <div className="content-side">
           <div className="content-side-grid">

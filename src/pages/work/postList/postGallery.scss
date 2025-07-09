@@ -6,10 +6,10 @@
     width: 1280px;
   }
   @include r.media-laptop {
-    width: 1280px;
+    width: 1180px;
   }
   @include r.media-tablet {
-    width: 768px;
+    width: 668px;
   }
   @include r.media-mobile {
     width: 100%;

@@ -410,23 +410,23 @@ const Detail = () => {
   };
 
   return (
-    <div className="detail f-dir-column a-items-center">
+    <div className=" detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
 
-      <div className="detail-wrap f-dir-column a-items-center w-[1280px] ">
+      <div className="w-full detail-wrap f-dir-column a-items-center">
         <div className="w-full content">
           <div className=" detail-thumbnail-wrap">
             <div
-              className={`flex  relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
+              className={`flex   relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
                 script?.imagePath !== "" ? "border border-[var(--grey3)]" : ""
               }`}
             >
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}
-                className="object-contain  shrink-0 rounded-[20px]  w-full"
+                className="object-contain  shrink-0 rounded-[20px]  w-full thumbnail"
               />
-              <div className="absolute bottom-[6.3%] right-[6.4%] borde">
+              <div className="absolute bottom-[6.3%] right-[6.4%] ">
                 <button
                   onClick={() => {
                     if (script?.id) {
@@ -455,7 +455,7 @@ const Detail = () => {
                   ? script?.title
                   : truncateText({ text: script?.title || "", maxLength: 6 })}
               </h1>
-              <div className="flex flex-row items-end justify-between">
+              <div className=" like-view">
                 <h3 className="h3-bold">{script?.writer}</h3>
 
                 <LikeViewCount
@@ -468,13 +468,13 @@ const Detail = () => {
 
           <div
             id="content"
-            className="detail-title f-dir-column j-content-between"
+            className="w-full detail-title f-dir-column j-content-between"
           >
             {/* 줄거리 */}
             <div className=" _content-detail">
               <hr id="detail-hr-1"></hr>
-              <div className="detail-price-wrap">
-                <div className="detail-plot pr-[46px] ">
+              <div className=" detail-price-wrap">
+                <div className=" detail-plot pr-[46px] ">
                   <p className="w-full p-medium-regular">{script?.plot}</p>
                 </div>
                 <hr id="detail-hr-2"></hr>
@@ -683,7 +683,7 @@ const Detail = () => {
 
                 {selectedOption ? <hr id="detail-hr-2"></hr> : null}
 
-                <div className="total-price j-content-between a-items-center">
+                <div className=" total-price j-content-between a-items-center">
                   <p className="p-large-bold c-grey7">총 금액</p>
                   <div className="a-items-end" id="total-price-won">
                     <h4 className="h4-bold">{totalPrice}</h4>
@@ -737,15 +737,15 @@ const Detail = () => {
           </div>
 
           <hr></hr>
-          <div className="mb-[40px]">
-            <p className="p-large-bold" id="preview-title">
+          <div className="mb-[40px]  ">
+            <p className=" w-fit p-large-bold" id="preview-title">
               미리보기
             </p>
             <Preview id={id!} lengthType={script?.playType ?? ""} />
           </div>
           <hr></hr>
 
-          <div className="j-content-center">
+          <div className=" j-content-center">
             {/* PDF 삽입 */}
             {script?.descriptionPath ? (
               <Document

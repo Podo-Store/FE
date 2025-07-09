@@ -1,6 +1,17 @@
 @use "./../../components/button/mixins.scss" as m;
 @use "./../../styles/responsive.scss" as r;
 
+.detail {
+  width: 1170px;
+  margin: 0 auto;
+  @include r.media-tablet {
+    width: 698px;
+  }
+
+  @include r.media-mobile {
+    width: 440px;
+  }
+}
 .detail .detail-wrap {
   margin: 6.5vh 0;
   margin-bottom: 5%;
@@ -8,18 +19,18 @@
 
 .detail .detail-wrap .content {
   display: grid;
-  grid-template-columns: 1fr 737px;
+  grid-template-columns: 466px 682px;
   grid-template-rows: auto auto;
   column-gap: 22px;
 
   @include r.media-tablet {
-    grid-template-columns: 405px calc(682px - 405px);
-    column-gap: 5.339vw; /* 41px */
+    grid-template-columns: 425px 232px;
+    column-gap: 41px;
   }
 
   @include r.media-mobile {
-    grid-template-columns: 210px calc(430px - 210px);
-    column-gap: 5.417vw; /* 26px */
+    grid-template-columns: 218px 196px;
+    column-gap: 26px;
   }
 }
 
@@ -27,11 +38,14 @@
   grid-column: 1;
   grid-row: 1 / span 2; // row 1부터 2개의 row 차지
 
-  padding-left: 44px;
   @include r.media-tablet {
     grid-row: 1;
+    padding-left: 20px;
+  }
 
-    padding: 0;
+  @include r.media-mobile {
+    grid-row: 1;
+    padding-left: 8px;
   }
 }
 
@@ -74,13 +88,21 @@
 
 .detail .detail-title hr#detail-hr-1 {
   margin: 0;
-
   border: 1px solid #caabff;
 }
 
 .detail .detail-title hr#detail-hr-1:nth-of-type(1) {
   margin-top: 21px;
   margin-bottom: 22px;
+
+  @include r.media-tablet {
+    margin-top: 40px;
+    margin-bottom: 22px;
+  }
+  @include r.media-mobile {
+    margin-top: 40px;
+    margin-bottom: 22px;
+  }
 }
 
 .detail .detail-title hr#detail-hr-1:last-child {
@@ -89,11 +111,34 @@
 
 .detail .detail-plot {
   padding-left: 25px;
+  padding-right: 46px;
   height: 96px;
+
+  @include r.media-tablet {
+    padding: 0;
+  }
+  @include r.media-mobile {
+    padding: 0;
+  }
 }
 
 .detail .detail-price-wrap {
   padding-left: 22px;
+
+  @include r.media-tablet {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding-left: 0;
+    width: 638px;
+  }
+  @include r.media-mobile {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding-left: 0;
+    width: 386px;
+  }
 }
 
 .detail hr#detail-hr-2 {
@@ -102,6 +147,13 @@
   width: calc(100% + 2.315vh - 31px);
 
   border: 1px solid var(--grey-grey-5, #9e9e9e);
+
+  @include r.media-tablet {
+    width: 100%;
+  }
+  @include r.media-mobile {
+    width: 100%;
+  }
 }
 
 .detail .detail-title hr#detail-hr-3 {
@@ -114,6 +166,10 @@
   gap: 17px;
 
   margin-left: 25px;
+
+  @include r.media-mobile {
+    margin-left: 11px;
+  }
 }
 
 .detail .detail-price .price {
@@ -150,6 +206,7 @@
 .detail div#detail-amount-wrap {
   margin-left: 72px;
   margin-right: 19px;
+
   @include r.media-mobile {
     margin-left: 30px;
   }
@@ -205,6 +262,7 @@
 
 .detail #detail-amount-wrap .price-wrapper {
   gap: 39px;
+
   @include r.media-tablet {
     gap: 20px;
   }
@@ -225,6 +283,11 @@
 .detail .total-price {
   padding-left: 25px;
   margin-right: 14px;
+
+  @include r.media-mobile {
+    padding: 0 13px;
+    margin-right: 0px;
+  }
 }
 
 .detail div#total-price-won {
@@ -255,6 +318,19 @@
   margin-bottom: 23px;
   margin-right: 15px;
   padding-left: 25px;
+
+  @include r.media-tablet {
+    margin-bottom: 0;
+    padding-left: 0;
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+
+  @include r.media-mobile {
+    margin-bottom: 0;
+    padding-left: 0;
+    margin-left: 13px;
+  }
 }
 
 /* select 공용 설정 */
@@ -456,5 +532,23 @@
   font-size: 1.852vh;
   @include r.media-tablet {
     width: 159px;
+  }
+}
+
+.like-view {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: space-between;
+  @include r.media-tablet {
+    flex-direction: column;
+    height: 346px;
+    align-items: start;
+  }
+
+  @include r.media-mobile {
+    flex-direction: column;
+    height: 153px;
+    align-items: start;
   }
 }

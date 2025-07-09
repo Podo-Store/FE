@@ -42,8 +42,12 @@ const Preview = ({ id, lengthType }) => {
   const showThreshold = lengthType === "SHORT" ? 1 : 3;
 
   // for Responsive design
-  const totalRevealedPages = width > 1280 ? 5 : width > 768 ? 3 : 2;
+  const totalRevealedPages = width >= 1280 ? 5 : width >= 768 ? 3 : 2;
 
+  console.log(`width: ${width}`);
+  console.log(`lengthType: ${lengthType}`);
+  console.log(`totalRevealedPages: ${totalRevealedPages}`);
+  console.log(`totalPage: ${totalPage}`);
   useRequest(async () => {
     try {
       setIsLoading(true);
@@ -103,7 +107,7 @@ const Preview = ({ id, lengthType }) => {
   }
 
   return (
-    <div className="f-dir-column preview">
+    <div className="m-auto f-dir-column preview w-fit">
       {pdfData ? (
         <Document
           file={pdfData || samplePDF}
@@ -114,7 +118,7 @@ const Preview = ({ id, lengthType }) => {
           {/* 썸네일로 상위 5개 페이지 표시 */}
           {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
           {numPages && (
-            <div className="j-content-start" id="wrap">
+            <div className="flex flex-row gap-[20px] j-content-start" id="wrap">
               {Array.from(
                 new Array(Math.min(totalPage, totalRevealedPages)),
                 (_, index) => {
@@ -125,7 +129,7 @@ const Preview = ({ id, lengthType }) => {
                     // 첫 페이지만 렌더링
                     isPageAvailable = index + 1 === showThreshold;
                   } else {
-                    if (width > 1280) {
+                    if (width >= 1280) {
                       isPageAvailable = index + 1 <= showThreshold;
                     } else {
                       isPageAvailable = index + 1 < totalRevealedPages;
@@ -135,7 +139,7 @@ const Preview = ({ id, lengthType }) => {
                   return (
                     <div
                       key={index + 1}
-                      className={`c-pointer no-drag ${
+                      className={` c-pointer no-drag ${
                         !isPageAvailable ? "content-disabled" : ""
                       }`}
                       id="thumbnail-content"

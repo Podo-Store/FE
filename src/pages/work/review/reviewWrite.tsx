@@ -292,7 +292,7 @@ const reviewWrite = () => {
               ></textarea>
               <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-[5px] ">
                 <p className="flex my-auto ml-[20px] w-fit p-medium-regular">
-                  EX) 내용이 재밌었요!
+                  EX) 내용이 재밌었어요!
                 </p>
                 <span className="my-auto mr-[13px]">
                   {text.length} / 50자 이상

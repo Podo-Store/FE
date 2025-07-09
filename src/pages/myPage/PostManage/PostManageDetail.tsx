@@ -27,6 +27,7 @@ import Cookies from "js-cookie";
 
 import { toastAlert } from "@/utils/ToastAlert";
 
+import "./PostMangeDetail.scss";
 type WorkFormState = Partial<
   Pick<
     WorkDetailResponse,
@@ -232,7 +233,7 @@ const PostManageDetail: React.FC = () => {
       <OverLapPartialLoading isLoading={isPartialLoading} />
 
       {/* main */}
-      <div className="mt-[3.426vh]">
+      <div className=" main">
         <HeaderWithBack
           backUrl="/mypage/scriptmanage"
           headerTitle="등록한 작품들을 관리할 수 있어요!"
@@ -243,12 +244,12 @@ const PostManageDetail: React.FC = () => {
           <p id="p-medium-regular">작품 상세 페이지 수정</p>
         </div>
         {/* detail */}
-        <div className="m-auto flex w-[32.8vw] min-w-[630px] flex-col pt-[3.241vh] pb-[11.389%]">
+        <div className=" detail">
           {/* top info */}
-          <div className=" grid grid-cols-[31%_69%]">
+          <div className=" top-info">
             {/* 이미지 */}
             <ThumbnailImg
-              className="flex items-end justify-end w-full h-full "
+              className="flex thumbnail aspect-square"
               imagePath={
                 InputtedThumbnailImgFile
                   ? InputtedThumbnailImgUrl
@@ -265,11 +266,11 @@ const PostManageDetail: React.FC = () => {
 
             {/* 작품 정보 */}
             <div className="w-full cript-info-detail">
-              <p className="p-medium-bold mb-[0.926vh] pl-[4.6%]">작품 정보</p>
+              <p className="p-medium-bold mb-[0.926vh]">작품 정보</p>
 
               <div className="f-dir-column gap-[1.11vh]  ">
                 {/* 제목 */}
-                <div className="relative pl-[4.6%]">
+                <div className="relative">
                   <RectInputField
                     type="text"
                     placeholder="작품 제목을 입력해주세요. (최대 20자)"
@@ -289,9 +290,9 @@ const PostManageDetail: React.FC = () => {
                 </div>
 
                 {/* 설명 */}
-                <div className="relative h-[10vh]  pl-[4.6%]">
+                <div className="relative h-[108px] focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
                   <textarea
-                    className=" focus:outline-none focus:border-[0.5px] focus:border-[#caabff] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] resize-none h-full w-full rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[1.15vw] py-[1.20vh] p-small-regular  box-border "
+                    className="focus:outline-none  border-none flex mx-[22px] my-[13px] placeholder:text-[rgba(0,0,0,0.17)] resize-none h-[82px] w-[366px]  bg-[#FFF]  p-small-regular  box-border "
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
                     value={form.plot ?? ""}
                     onChange={(e) => {
@@ -312,11 +313,11 @@ const PostManageDetail: React.FC = () => {
           {/* bottom info */}
           <div className="flex flex-col ">
             {/* --- 개요 --- */}
-            <div className="flex flex-col mt-[15px] mb-[6px]">
+            <div className="flex flex-col mt-[15px] mb-[21px]">
               <h2 className="p-medium-bold">개요</h2>
-              <div className="relative pl-[0.52vw]  grid grid-cols-[60%_40%] grid-rows-[40%_60%] h-[90px]">
+              <div className="box-border relative outline1">
                 {/* 등장인물 */}
-                <div className="grid grid-cols-[24%_76%] ">
+                <div className="characters ">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -327,9 +328,8 @@ const PostManageDetail: React.FC = () => {
                     <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
                       등장인물
                     </span>
-                    <img src={stickIcon} className="" />
                   </div>
-
+                  <img src={stickIcon} className="" />
                   <div className=" flex flex-row items-center pl-[5.24%] p-small-regular whitespace-nowrap">
                     <span>성별 무관</span>
                     <input
@@ -407,7 +407,7 @@ const PostManageDetail: React.FC = () => {
                   </div>
                 </div>
                 {/* 공연 시간*/}
-                <div className="  grid grid-cols-[44.5%_55.5%] pl-[15.625%]">
+                <div className="performance-time">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -418,9 +418,8 @@ const PostManageDetail: React.FC = () => {
                     <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
                       공연 시간
                     </span>
-                    <img src={stickIcon} className="" />
                   </div>
-
+                  <img src={stickIcon} className="" />
                   <div className=" flex flex-row items-center pl-[6.14%] p-small-regular whitespace-nowrap">
                     <span>약</span>
                     <input
@@ -458,7 +457,7 @@ const PostManageDetail: React.FC = () => {
                   </div>
                 </div>
                 {/* 무대 */}
-                <div className="grid grid-cols-[17%_83%]  ">
+                <div className="stage ">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -471,11 +470,10 @@ const PostManageDetail: React.FC = () => {
                     <span className="  ml-[9.09%]  p-small-medium whitespace-nowrap translate-y-[1px] flex-grow">
                       무대
                     </span>
-                    <img src={stickIcon} alt="구분선" />
                   </div>
-
+                  <img className="my-auto" src={stickIcon} alt="구분선" />
                   <textarea
-                    className="focus:outline-none  focus:border-[0.5px] focus:border-[#caabff] p-xs-regular resize-none mt-[9px]  mb-[5px] ml-[4.83%] mr-[5.3%] rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[10px] py-[8px] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] "
+                    className=" h-full focus:outline-none  focus:border-[0.5px] focus:border-[#caabff] p-xs-regular resize-none   rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[10px] py-[8px] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] box-border"
                     placeholder="시기, 장소 등을 자유롭게 적어주세요."
                     value={form.stageComment ?? ""}
                     onChange={(e) => {
@@ -487,7 +485,7 @@ const PostManageDetail: React.FC = () => {
                   />
                 </div>
                 {/* 장과 막 */}
-                <div className="  pl-[15.625%] grid grid-cols-[39%_61%]">
+                <div className="scene-act">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -498,9 +496,8 @@ const PostManageDetail: React.FC = () => {
                     <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
                       장과 막
                     </span>
-                    <img src={stickIcon} className="" />
                   </div>
-
+                  <img src={stickIcon} className="my-auto" />
                   <div className=" flex flex-row items-center  pl-[6.14%] p-small-regular whitespace-nowrap">
                     <input
                       type="text"
@@ -557,7 +554,10 @@ const PostManageDetail: React.FC = () => {
                   </div>
                 </div>
 
-                <img src={puppleLine} className="absolute left-[62%]"></img>
+                <img
+                  src={puppleLine}
+                  className="absolute left-[376px] pupple-contour"
+                ></img>
               </div>
 
               {/* 공연 시간 */}
@@ -566,7 +566,7 @@ const PostManageDetail: React.FC = () => {
 
             {/* --- 판매 상태 --- */}
             <div className="min-h-[103px] mb-[12px] ">
-              <div className="mb-[2%] flex items-center gap-[7px] relative">
+              <div className="mb-[12px] flex items-center gap-[7px] relative">
                 <h2 className="p-medium-bold">판매 상태 </h2>
                 <img
                   id="info-btn1"
@@ -596,8 +596,8 @@ const PostManageDetail: React.FC = () => {
                 ) : null}
               </div>
 
-              <div className="relative pl-[0.52vw] grid grid-cols-[61%_39%] h-auto gap-y-[22.38%]">
-                <div className="   grid grid-cols-[17.5%_82.5%] ">
+              <div className="sales-status   h-[67px] relative pl-[10px] ">
+                <div className="script h-[26px] ">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -611,24 +611,24 @@ const PostManageDetail: React.FC = () => {
                     <span className="  ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
                       대본
                     </span>
-                    <img src={stickIcon} className="" />
                   </div>
+                  <img src={stickIcon} className="my-auto" />
                   <input
                     type="text"
                     value="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
                     disabled
                     placeholder="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
-                    className=" p-xs-regular ml-[4.82%] px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                    className=" p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] focus:border-[#caabff]    placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                     // onChange={(e) => {
                     //   setForm((prev) => ({
                     //     ...prev,
                     //     scriptPrice: Number(e.target.value),
                     //   }));
                     // }}
-                  ></input>
+                  />
                 </div>
                 <select
-                  className="ml-[9.05%] cursor-pointer mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
+                  className="w-full  h-[26px] cursor-pointer  text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
                   value={
                     podoStudioOpen ? "true" : form.script ? "true" : "false"
                   }
@@ -645,7 +645,7 @@ const PostManageDetail: React.FC = () => {
                   <option value="false">판매 중지</option>
                   <option value="true"> 판매 중</option>
                 </select>
-                <div className="grid grid-cols-[20.7%_79.3%] ">
+                <div className="performance  h-[26px]">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -666,25 +666,25 @@ const PostManageDetail: React.FC = () => {
                     >
                       공연권
                     </span>
-                    <img
-                      src={stickIcon}
-                      className={` ${
-                        form.script === false ? "opacity-50" : ""
-                      }`}
-                    />
                   </div>
-                  <div className="relative pr-[33px]">
+                  <img
+                    src={stickIcon}
+                    className={` ${
+                      form.script === false ? "opacity-50" : ""
+                    } my-auto`}
+                  />
+                  <div className="relative h-[26px] my-auto  ">
                     <input
                       type="text"
                       disabled={
                         form.performance === false || form.script === false
                       }
                       placeholder="공연권 가격을 입력하세요."
-                      className={`ml-[5.02%] p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px]  ${
+                      className={` my-auto h-full w-full box-border p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px]  ${
                         (form.performancePrice ?? 0) > 50000
                           ? "focus:border-[#fc040477] border-[#fc040477]"
                           : "border-[#BABABA] focus:border-[#caabff]"
-                      }    placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px] w-full `}
+                      }    placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px]`}
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) {
@@ -714,9 +714,9 @@ const PostManageDetail: React.FC = () => {
                   </div>
                 </div>
                 <select
-                  className={`${
+                  className={`w-full  h-[26px] ${
                     form.script === false ? "" : "cursor-pointer"
-                  } ml-[9.05%] mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
+                  }  mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
                   value={form.performance ? "true" : "false"}
                   disabled={podoStudioOpen ? true : form.script === false}
                   onChange={(e) =>
@@ -774,7 +774,7 @@ const PostManageDetail: React.FC = () => {
             </div>
 
             <div
-              className="j-content-end mt-[7.99%] p-small-under cursor-pointer"
+              className="j-content-end mt-[80px] p-small-under cursor-pointer"
               onClick={() => {
                 setShowDeleteAlertBox(true);
               }}

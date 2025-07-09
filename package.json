@@ -8,6 +8,7 @@
     "@fontsource/pretendard": "^5.1.0",
     "@mui/icons-material": "^6.4.4",
     "@mui/material": "^6.4.4",
+    "@tailwindcss/line-clamp": "^0.4.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -16,6 +17,7 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "js-cookie": "^3.0.5",
+    "lodash": "^4.17.21",
     "pdfjs-dist": "^2.6.347",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
@@ -27,6 +29,7 @@
     "react-router-dom": "^6.22.3",
     "react-spinners": "^0.14.1",
     "react-table": "^7.8.0",
+    "recharts": "^3.0.2",
     "sass": "^1.83.0",
     "valtio": "^2.1.5",
     "web-vitals": "^2.1.4"
@@ -58,6 +61,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.5",
     "@types/js-cookie": "^3.0.6",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^22.10.8",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",

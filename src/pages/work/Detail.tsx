@@ -15,28 +15,37 @@ import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
 import InfoItem from "@/components/detail/InfoItem";
-import { useRequest } from "../../hooks/useRequest";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
+import ReviewSummary from "@/components/detail/ReviewSummary";
 import LikeViewCount from "@/components/list/LikeViewCount";
+
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
+
 import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
+import { Review, ReviewStatistics } from "@/types/review";
+
 import {
   DETAIL_SCRIPT_TEXT,
   DETAIL_PERFORM_TEXT,
 } from "../../constants/PopupTexts/DetailTexts";
 import { SERVER_URL } from "../../constants/ServerURL";
+import { LIKE } from "@/constants/alertTexts";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import closeBtn from "./../../assets/image/button/aiOutlineClose.svg";
 import scriptImg from "./../../assets/image/post/list/script.svg";
 import performImg from "./../../assets/image/post/list/perform.svg";
 import vector23 from "./../../assets/image/post/vector23.svg";
+import rightArrow from "./../../assets/image/post/list/ic_right_arrow.svg";
+import openImg from "./../../assets/image/button/listOpenBtn.svg";
+import closeImg from "./../../assets/image/button/listCloseBtn.svg";
 
 import "./Detail.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import { LIKE } from "@/constants/alertTexts";
+import ReviewList from "@/components/detail/ReviewList";
+import clsx from "clsx";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -64,6 +73,9 @@ export interface PostDetail {
   runningTime: number;
   scene: number;
   act: number;
+  isReviewWritten: boolean;
+  reviewStatistics: ReviewStatistics;
+  reviews: Review[];
 }
 
 const Detail = () => {
@@ -83,7 +95,7 @@ const Detail = () => {
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
-  const isAuthenticated = useContext(AuthContext);
+  const { isAuthenticated } = useContext(AuthContext);
   const toggleLike = useSingleToggleLike();
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
@@ -91,70 +103,141 @@ const Detail = () => {
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
 
+  const [sort, setSort] = useState<"LIKE_COUNT" | "LATEST">("LIKE_COUNT");
+  const [openSort, setOpenSort] = useState(false);
+
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewPage, setReviewPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const loadMoreRef = useRef<HTMLDivElement>(null);
+
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
   const accessToken = Cookies.get("accessToken");
 
-  useRequest(async () => {
-    if (!id) return;
-    try {
+  useEffect(() => {
+    const getDetail = async () => {
+      if (!id) return;
       setIsLoading(true);
+      setReviews([]);
+      setReviewPage(0);
+      setHasMore(true);
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
+      try {
+        setIsLoading(true);
 
-      const token = Cookies.get("accessToken");
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+        };
+
+        const token = Cookies.get("accessToken");
+        if (token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
+
+        const response = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers: headers,
+          params: {
+            script: id,
+            sortType: sort,
+            page: 0,
+          },
+        });
+
+        console.log(response.data);
+        setScript({
+          id: id || "", // 혹은 response.data.id 가 있다면 사용
+          title: response.data.title,
+          writer: response.data.writer,
+          plot: response.data.plot,
+          script: response.data.script,
+          scriptPrice: response.data.scriptPrice ?? 0,
+          performance: response.data.performance,
+          performancePrice: response.data.performancePrice ?? 0,
+          playType: response.data.playType,
+          imagePath: response.data.imagePath,
+          descriptionPath: response.data.descriptionPath,
+          buyStatus: response.data.buyStatus,
+          like: response.data.like,
+          likeCount: response.data.likeCount,
+          viewCount: response.data.viewCount,
+          any: response.data.any,
+          male: response.data.male,
+          female: response.data.female,
+          stageComment: response.data.stageComment,
+          runningTime: response.data.runningTime,
+          scene: response.data.scene,
+          act: response.data.act,
+          isReviewWritten: response.data.isReviewWritten,
+          reviewStatistics: response.data.reviewStatistics,
+          reviews: response.data.reviews,
+        });
+
+        setReviews(response.data.reviews);
+        setHasMore(response.data.reviews.length > 0);
+      } catch (error: any) {
+        const errMsg = error.response?.data?.error;
+        if (errMsg?.includes("rollback")) {
+          alert(
+            "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
+          );
+        } else {
+          alert("작품 정보를 불러오는데 실패했습니다.");
+        }
+        console.error("❌ 서버 응답:", errMsg);
       }
+      setIsLoading(false);
+    };
 
-      const response = await axios.get(`${SERVER_URL}scripts/detail`, {
-        headers: headers,
-        params: {
-          script: id,
-        },
-      });
+    getDetail();
+  }, [id, sort]);
 
-      console.log(response.data);
-      setScript({
-        id: id || "", // 혹은 response.data.id 가 있다면 사용
-        title: response.data.title,
-        writer: response.data.writer,
-        plot: response.data.plot,
-        script: response.data.script,
-        scriptPrice: response.data.scriptPrice ?? 0,
-        performance: response.data.performance,
-        performancePrice: response.data.performancePrice ?? 0,
-        playType: response.data.playType,
-        imagePath: response.data.imagePath,
-        descriptionPath: response.data.descriptionPath,
-        buyStatus: response.data.buyStatus,
-        like: response.data.like,
-        likeCount: response.data.likeCount,
-        viewCount: response.data.viewCount,
-        any: response.data.any,
-        male: response.data.male,
-        female: response.data.female,
-        stageComment: response.data.stageComment,
-        runningTime: response.data.runningTime,
-        scene: response.data.scene,
-        act: response.data.act,
-      });
-    } catch (error: any) {
-      const errMsg = error.response?.data?.error;
-      if (errMsg?.includes("rollback")) {
-        alert(
-          "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
-        );
-      } else {
-        alert("작품 정보를 불러오는데 실패했습니다.");
+  // 리뷰 다음 페이지 Fetch
+  useEffect(() => {
+    if (reviewPage === 0) return;
+    const fetchMore = async () => {
+      setLoadingMore(true);
+      try {
+        const token = Cookies.get("accessToken");
+        const headers: Record<string, string> = {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        };
+        const { data } = await axios.get(`${SERVER_URL}scripts/detail`, {
+          headers,
+          params: { script: id, sortType: sort, page: reviewPage },
+        });
+        if (data.reviews.length === 0) {
+          setHasMore(false);
+        } else {
+          setReviews((prev) => [...prev, ...data.reviews]);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingMore(false);
       }
-      console.error("❌ 서버 응답:", errMsg);
-    }
-    setIsLoading(false);
-  });
+    };
+
+    fetchMore();
+  }, [reviewPage]);
+
+  // 무한스크롤
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasMore) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !loadingMore) {
+          setReviewPage((p) => p + 1);
+        }
+      },
+      { root: null, threshold: 1 }
+    );
+    observer.observe(loadMoreRef.current);
+    return () => observer.disconnect();
+  }, [hasMore, loadingMore]);
 
   const onChangeSelectOption = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -317,6 +400,13 @@ const Detail = () => {
     }));
 
     toggleLike(postId);
+  };
+
+  const parseReviewCount = (count: number) => {
+    if (count > 999) {
+      return "999+";
+    }
+    return count;
   };
 
   return (
@@ -676,7 +766,101 @@ const Detail = () => {
             )}
           </div>
         </div>
+        <section className="w-full">
+          <section className="mt-[24px] mb-[16px] w-full">
+            <p className="ml-[20px] w-full p-large-bold">
+              후기 (
+              {parseReviewCount(
+                script?.reviewStatistics?.totalReviewCount ?? 0
+              )}
+              )
+            </p>
+            <div className="flex justify-end w-full">
+              <button
+                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer"
+                onClick={() => {
+                  if (script?.isReviewWritten) {
+                    alert("이미 작성된 후기가 있습니다.");
+                    return;
+                  }
+                  if (!isAuthenticated) {
+                    alert("로그인이 필요한 서비스입니다.");
+                    navigate("/signin");
+                    return;
+                  }
+
+                  navigate(`/list/review/${id}?mode=create`);
+                }}
+              >
+                후기 작성하기 <img src={rightArrow} alt=">"></img>
+              </button>
+            </div>
+          </section>
+          <ReviewSummary stats={script?.reviewStatistics!} />
+
+          <section className="mt-[50px] w-full">
+            <div className="flex justify-between w-full mb-[8px] relative">
+              <p className="ml-[20px] p-large-bold">전체 후기</p>
+              <button
+                className="flex items-center gap-[4px] p-medium-regular"
+                onClick={() => setOpenSort(!openSort)}
+              >
+                {sort === "LIKE_COUNT" ? "좋아요순" : "최신순"}
+                <img
+                  className="size-[18px]"
+                  src={openSort ? closeImg : openImg}
+                  alt=""
+                ></img>
+              </button>
+
+              {openSort && (
+                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap">
+                  <button
+                    className={clsx(
+                      "flex items-center gap-[4px] p-medium-medium",
+                      {
+                        "text-[#777]": sort !== "LIKE_COUNT",
+                      }
+                    )}
+                    onClick={() => {
+                      setSort("LIKE_COUNT");
+                      setOpenSort(false);
+                    }}
+                  >
+                    좋아요순
+                  </button>
+                  <button
+                    className={clsx(
+                      "flex items-center gap-[4px] p-medium-medium",
+                      {
+                        "text-[#777]": sort !== "LATEST",
+                      }
+                    )}
+                    onClick={() => {
+                      setSort("LATEST");
+                      setOpenSort(false);
+                    }}
+                  >
+                    최신순
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {reviews.map((review) => (
+              <ReviewList
+                key={review.id}
+                scriptId={script?.id!}
+                review={review}
+              />
+            ))}
+          </section>
+        </section>
       </div>
+
+      {(isLoading || loadingMore) && <PartialLoading />}
+      <div ref={loadMoreRef} />
+
       {!isDetailBtnVisible && (
         <div className="detail-bottom-bar" style={bottomBarStyle}>
           <div className="bottom-bar-left">

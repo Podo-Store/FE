@@ -1,146 +1,148 @@
 @use "../../../styles/responsive" as r;
 
-.main {
-  display: flex;
-  flex-direction: column;
-  margin: 72px auto;
-  width: 1180px;
-  @include r.media-tablet {
-    width: 668px;
-  }
-  @include r.media-mobile {
-    width: 430px;
-  }
-}
-
-.detail {
-  display: flex;
-  flex-direction: column;
-  width: 630px;
-  padding-top: 35px;
-  padding-bottom: 81px;
-  @include r.media-mobile {
-    width: 430px;
-    padding-top: 30px;
-  }
-}
-
-.top-info {
-  display: grid;
-  grid-template-columns: 197px 413px;
-  column-gap: 20px;
-
-  @include r.media-mobile {
+.post-manage.detail {
+  .main {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    margin: 72px auto;
+    width: 1180px;
+    @include r.media-tablet {
+      width: 668px;
+    }
+    @include r.media-mobile {
+      width: 430px;
+    }
   }
-}
 
-.thumbnail {
-  width: 100%;
-  height: 100%;
-  align-items: end;
-  justify-content: end;
-
-  @include r.media-mobile {
-    width: 197px;
+  .detail {
+    display: flex;
+    flex-direction: column;
+    width: 630px;
+    padding-top: 35px;
+    padding-bottom: 81px;
+    @include r.media-mobile {
+      width: 430px;
+      padding-top: 30px;
+    }
   }
-}
 
-.outline1 {
-  display: grid;
-  grid-template-rows: 20px 40px;
-  row-gap: 19px;
-  grid-template-columns: 341px 177px;
-  column-gap: 70px;
-
-  width: 599px;
-  height: 90px;
-  margin: 0 auto;
-
-  @include r.media-mobile {
-    grid-template-rows: 20px 39px 20px 20px;
-    grid-template-columns: none;
-    column-gap: 0;
-    row-gap: 21px;
-    width: 430px;
-    padding-left: 10px;
-    height: 163px;
-  }
-}
-
-.characters {
-  display: grid;
-  grid-template-columns: 75px 1px 236px;
-  column-gap: 15px;
-  @include r.media-mobile {
-    order: 1; // ✅ 등장인물 → 첫 번째
-  }
-}
-
-.performance-time {
-  display: grid;
-  grid-template-columns: 78px 1px 69px;
-  column-gap: 15px;
-  @include r.media-mobile {
-    order: 3;
-  }
-}
-
-.stage {
-  display: grid;
-  grid-template-columns: 51px 1px 260px;
-  column-gap: 15px;
-  @include r.media-mobile {
-    order: 2;
-  }
-}
-
-.scene-act {
-  display: grid;
-  grid-template-columns: 66px 1px 89px;
-  column-gap: 15px;
-  @include r.media-mobile {
-    order: 4;
-  }
-}
-
-.pupple-contour {
-  @include r.media-mobile {
-    display: none;
-  }
-}
-
-.sales-status {
-  display: grid;
-  grid-template-columns: 377px 197px;
-  column-gap: 22px;
-  // grid grid-cols-[61%_39%] gap-y-[22.38%]
-
-  @include r.media-mobile {
-    grid-template-columns: 238px 162px;
+  .top-info {
+    display: grid;
+    grid-template-columns: 197px 413px;
     column-gap: 20px;
+
+    @include r.media-mobile {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
   }
-}
-.script {
-  display: grid;
-  grid-template-columns: 51px 1px 296px;
-  column-gap: 15px;
 
-  @include r.media-mobile {
-    grid-template-columns: 51px 1px 157px;
-    column-gap: 20px;
+  .thumbnail {
+    width: 100%;
+    height: 100%;
+    align-items: end;
+    justify-content: end;
+
+    @include r.media-mobile {
+      width: 197px;
+    }
   }
-}
 
-.performance {
-  display: grid;
-  grid-template-columns: 63px 1px 284px;
-  column-gap: 15px;
+  .outline1 {
+    display: grid;
+    grid-template-rows: 20px 40px;
+    row-gap: 19px;
+    grid-template-columns: 341px 177px;
+    column-gap: 70px;
 
-  @include r.media-mobile {
-    grid-template-columns: 63px 1px 145px;
-    column-gap: 20px;
+    width: 599px;
+    height: 90px;
+    margin: 0 auto;
+
+    @include r.media-mobile {
+      grid-template-rows: 20px 39px 20px 20px;
+      grid-template-columns: none;
+      column-gap: 0;
+      row-gap: 21px;
+      width: 430px;
+      padding-left: 10px;
+      height: 163px;
+    }
+  }
+
+  .characters {
+    display: grid;
+    grid-template-columns: 75px 1px 236px;
+    column-gap: 15px;
+    @include r.media-mobile {
+      order: 1; // ✅ 등장인물 → 첫 번째
+    }
+  }
+
+  .performance-time {
+    display: grid;
+    grid-template-columns: 78px 1px 69px;
+    column-gap: 15px;
+    @include r.media-mobile {
+      order: 3;
+    }
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: 51px 1px 260px;
+    column-gap: 15px;
+    @include r.media-mobile {
+      order: 2;
+    }
+  }
+
+  .scene-act {
+    display: grid;
+    grid-template-columns: 66px 1px 89px;
+    column-gap: 15px;
+    @include r.media-mobile {
+      order: 4;
+    }
+  }
+
+  .pupple-contour {
+    @include r.media-mobile {
+      display: none;
+    }
+  }
+
+  .sales-status {
+    display: grid;
+    grid-template-columns: 377px 197px;
+    column-gap: 22px;
+    // grid grid-cols-[61%_39%] gap-y-[22.38%]
+
+    @include r.media-mobile {
+      grid-template-columns: 238px 162px;
+      column-gap: 20px;
+    }
+  }
+  .script {
+    display: grid;
+    grid-template-columns: 51px 1px 296px;
+    column-gap: 15px;
+
+    @include r.media-mobile {
+      grid-template-columns: 51px 1px 157px;
+      column-gap: 20px;
+    }
+  }
+
+  .performance {
+    display: grid;
+    grid-template-columns: 63px 1px 284px;
+    column-gap: 15px;
+
+    @include r.media-mobile {
+      grid-template-columns: 63px 1px 145px;
+      column-gap: 20px;
+    }
   }
 }

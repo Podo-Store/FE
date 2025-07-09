@@ -229,7 +229,7 @@ const PostManageDetail: React.FC = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="post-manage-detail w-full">
       <OverLapPartialLoading isLoading={isPartialLoading} />
 
       {/* main */}

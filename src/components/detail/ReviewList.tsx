@@ -31,6 +31,8 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
   const [isLiked, setIsLiked] = useState(review.isLike);
   const [likeCount, setLikeCount] = useState(review.likeCount);
   const [loading, setLoading] = useState(false);
+  const [isOverflow, setIsOverflow] = useState(false);
+  const contentRef = useRef<HTMLParagraphElement>(null);
 
   const { isAuthenticated } = useContext(AuthContext);
 
@@ -129,6 +131,15 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
     [review.id]
   );
 
+  useEffect(() => {
+    if (contentRef.current) {
+      const lineHeight = parseFloat(getComputedStyle(contentRef.current).lineHeight);
+      const contentHeight = contentRef.current.scrollHeight;
+      // Check if content is more than 3 lines
+      setIsOverflow(contentHeight > lineHeight * 3);
+    }
+  }, [review.content]);
+
   return (
     <div className="w-full border-t-1 border-[#9E9E9E] pl-[20px]">
       <div className="flex pt-[15px] justify-between">
@@ -170,23 +181,28 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
       </div>
 
       <article className="mt-[20px] mb-[25px]">
-        <p className={clsx("p-small-medium", { "line-clamp-3": !isExpanded })}>
+        <p 
+          ref={contentRef}
+          className={clsx("p-small-medium", { "line-clamp-3": !isExpanded })}
+        >
           {review.content}
         </p>
       </article>
 
       <div className="flex justify-between mb-[20px]">
-        <button
-          className="flex items-center gap-[6px] text-[#777] p-small-medium cursor-pointer"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          {isExpanded ? "접기" : "펼쳐보기"}
-          <img
-            className="w-[15px]"
-            src={isExpanded ? closeImg : openImg}
-            alt=""
-          />
-        </button>
+        {isOverflow && (
+          <button
+            className="flex items-center gap-[6px] text-[#777] p-small-medium cursor-pointer"
+            onClick={() => setIsExpanded(!isExpanded)}
+          >
+            {isExpanded ? "접기" : "펼쳐보기"}
+            <img
+              className="w-[15px]"
+              src={isExpanded ? closeImg : openImg}
+              alt=""
+            />
+          </button>
+        )}
 
         <div className="flex items-center gap-[5px]">
           <button

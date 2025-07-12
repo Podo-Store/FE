@@ -12,7 +12,7 @@ import {
 
 import GoBack from "@/components/button/GoBack";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
-import defaultImg from "@/assets/image/post/list/defaultProfile.png";
+import defaultThumbnail from "@/assets/image/defaultThumbnail.svg";
 import { toastAlert } from "@/utils/ToastAlert";
 import "./reviewWrite.scss";
 
@@ -166,21 +166,21 @@ const reviewWrite = () => {
 
       {/* top contents*/}
       <div className="mx-auto content mt-[35px]">
-        <div className="  flex flex-col gap-[35px]">
+        <div className="flex flex-col gap-[35px] ">
           <div className="flex flex-row gap-[34px]">
             {/* 작품 내용 */}
-            <div className={`flex flex-col  content-img gap-[7px] `}>
+            <div className={`flex flex-col gap-[7px]`}>
               <img
-                src={thumbnail ?? defaultImg}
-                className="border border-[var(--grey3)] rounded-[20px]"
-              ></img>
+                src={thumbnail ? thumbnail : defaultThumbnail}
+                className="border border-[var(--grey3)]  box-border w-[197px] h-[197px] rounded-[20px]  object-cover"
+              />
               <div className="flex flex-col gap-[3px]">
                 <span className="w-full truncate p-large-bold">{title}</span>
                 <span className="w-full truncate p-medium-bold">{writer}</span>
               </div>
             </div>
 
-            <div className="flex flex-col w-full gap-[47px]">
+            <div className="flex flex-col w-full gap-[47px] pt-[20px] ">
               {/*  평점 */}
               <div>
                 <span className="p-large-bold mb-[11px]">작품의 평점</span>
@@ -235,11 +235,9 @@ const reviewWrite = () => {
                 </div>
               </div>
 
-              {/* 이 작품은 특히*/}
+              {/* 장점*/}
               <div>
-                <span className=" p-large-bold  mb-[10px]">
-                  이 작품은 특히...
-                </span>
+                <span className=" p-large-bold  mb-[10px]">작품의 장점</span>
                 <span className="flex flex-wrap whitespace-nowrap reason">
                   <button
                     className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
@@ -303,7 +301,7 @@ const reviewWrite = () => {
                 onChange={handleChange}
                 value={text}
               ></textarea>
-              <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-[5px] ">
+              <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-b-[5px] ">
                 <p className="flex my-auto ml-[20px] w-fit p-medium-regular">
                   EX) 내용이 재밌었어요!
                 </p>

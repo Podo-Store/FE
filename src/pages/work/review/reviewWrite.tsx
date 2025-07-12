@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   postReview,
@@ -154,7 +154,7 @@ const reviewWrite = () => {
   };
 
   return (
-    <div className="mx-auto all pb-[92px]">
+    <div className="mx-auto review-write-div pb-[92px] ">
       {/* 배너 */}
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
         <GoBack url="-1" />
@@ -240,30 +240,36 @@ const reviewWrite = () => {
                 <span className=" p-large-bold  mb-[10px]">
                   이 작품은 특히...
                 </span>
-                <span className="flex flex-row gap-[20px] whitespace-nowrap">
+                <span className="flex flex-wrap whitespace-nowrap reason">
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["CHARACTER"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["CHARACTER"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("CHARACTER")}
                   >
-                    캐릭터가 매력적이에요
+                    <p className="p-medium-bold"> 캐릭터가 매력적이에요</p>
                   </button>
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["RELATION"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["RELATION"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("RELATION")}
                   >
-                    관계성이 탄탄해요
+                    <p className="p-medium-bold"> 관계성이 탄탄해요</p>
                   </button>
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["STORY"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["STORY"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("STORY")}
                   >
-                    스토리가 좋아요
+                    <p className="p-medium-bold"> 스토리가 좋아요</p>
                   </button>
 
                   {/* {Object.entries(reason).map(([label, selected]) => (

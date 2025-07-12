@@ -14,11 +14,10 @@ import heartIcon from "@/assets/image/post/ic_heart.svg";
 import commmentIcon from "@/assets/image/post/ic_comment.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
-
 import MainNav from "../../pages/MainNav";
 import { LIKE } from "@/constants/alertTexts";
 import "./PostView.scss";
-
+import WarningModal from "@/components/post/postView/warningModal";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const PostView: React.FC = () => {
@@ -45,6 +44,7 @@ const PostView: React.FC = () => {
   const [isHeaderTouchTop, setIsHeaderTouchTop] = useState(true);
   const [offset, setOffset] = useState(barHeight);
   const [pdfWidth, setPdfWidth] = useState(getPdfWidth());
+  const [showWarningModal, setShowWarningModal] = useState(true);
 
   const lastScrollY = useRef(0);
   const topControlRef = useRef<HTMLDivElement>(null);
@@ -302,6 +302,11 @@ const PostView: React.FC = () => {
         </div>
 
         <div className="relative w-full pt-[179px]   ">
+          {showWarningModal && (
+            <>
+              <WarningModal onClose={() => setShowWarningModal(false)} />
+            </>
+          )}
           {pdfBlobUrl ? (
             <div className="mx-auto w-fit">
               <PdfDocument

@@ -25,8 +25,6 @@ export const fetchLikedPost = async (
     });
 
     const { longPlay, shortPlay } = response.data;
-    console.log(longPlay);
-    console.log(shortPlay);
     return {
       longPlay: Array.isArray(longPlay) ? longPlay : [],
       shortPlay: Array.isArray(shortPlay) ? shortPlay : [],
@@ -79,7 +77,6 @@ export const getLikedShortWorks = async (
       params: { page },
       headers,
     });
-    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching liked short works:", error);
@@ -104,8 +101,6 @@ export const getLikeStatus = async (
     const response = await api.get<boolean>(`/scripts/likeStatus/${id}`, {
       headers,
     });
-    console.log(response.data);
-    console.log(document.cookie);
 
     return response.data; // true 또는 false
   } catch (error) {

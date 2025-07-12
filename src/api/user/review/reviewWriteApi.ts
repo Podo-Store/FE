@@ -73,7 +73,7 @@ export const getProfile = async (
         headers,
       }
     );
-    console.log(response.data);
+
     return response.data;
   } catch (error) {
     const err = error as AxiosError;
@@ -87,13 +87,11 @@ export const getProfile = async (
 };
 
 export interface patchReviewProps {
-
   reviewId: string;
   rating?: number;
   standardType?: string;
   content?: string;
 }
-
 
 export const patchReview = async ({
   reviewId,

@@ -62,9 +62,9 @@ const MainVer2 = () => {
     ? "h4-regular c-white"
     : "p-large-regular c-white";
 
-  // if (isMobile) {
-  //   return <MobileError />;
-  // }
+  if (isMobile) {
+    return <MobileError />;
+  }
 
   return (
     <div className=" main-ver2">

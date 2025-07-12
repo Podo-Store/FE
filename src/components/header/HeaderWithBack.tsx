@@ -1,5 +1,6 @@
-import React from "react";
 import GoBack from "@/components/button/GoBack";
+
+import "./HeaderWithBack.scss";
 
 interface Props {
   backUrl: string;
@@ -19,7 +20,7 @@ const HeaderWithBack = ({
   className,
 }: Props) => {
   return (
-    <div className={`flex flex-col gap-[14px] ${className}`}>
+    <div className={`flex flex-col gap-[14px] headerWithBack ${className}`}>
       <GoBack url={backUrl} />
       <div className="flex flex-col gap-[4px]">
         <h1 className={headerFont}>{headerTitle}</h1>

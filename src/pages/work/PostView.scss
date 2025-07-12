@@ -1,0 +1,10 @@
+@use "./../../styles/_responsive.scss" as r;
+
+
+.postView .pdfSize {
+  width: 653px;
+
+  @include r.media-mobile {
+    width: 430px;
+  }
+}

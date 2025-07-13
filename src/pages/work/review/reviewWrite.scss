@@ -1,34 +1,31 @@
 @use "../../../styles/_responsive.scss" as r;
 
-.all {
-  @include r.media-desktop {
-    width: 1280px;
-  }
-  @include r.media-laptop {
-    width: 1280px;
-  }
+.review-write-div {
+  width: 1180px;
   @include r.media-tablet {
-    width: 780px;
+    width: 668px;
   }
   @include r.media-mobile {
-    width: 88.3%;
+    width: 430px;
   }
 }
 
 .content {
-  @include r.media-desktop {
-    width: 630px;
-  }
-  @include r.media-laptop {
-    width: 630px;
+  width: 630px;
+
+  @include r.media-mobile {
+    width: 430px;
   }
 }
 
 .content-img {
-  @include r.media-desktop {
-    width: 197px;
-  }
-  @include r.media-laptop {
-    width: 197px;
+  width: 197px;
+}
+
+.content .reason {
+  row-gap: 15px;
+  column-gap: 20px;
+  @include r.media-mobile {
+    row-gap: 10px;
   }
 }

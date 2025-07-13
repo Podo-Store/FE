@@ -146,7 +146,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
           {review.myself && (
             <button
               className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline"
-              onClick={() => navigate(`/list/review/${scriptId}?mode=edit`)}
+              onClick={() => navigate(`/list/review/${scriptId}`)}
             >
               수정/삭제
             </button>

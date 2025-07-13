@@ -1,0 +1,10 @@
+@use "./../../styles/_responsive.scss" as r;
+.headerWithBack {
+  width: 1180px;
+  @include r.media-tablet {
+    width: 668px;
+  }
+  @include r.media-mobile {
+    width: 430px;
+  }
+}

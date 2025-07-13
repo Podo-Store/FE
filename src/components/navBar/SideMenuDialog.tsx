@@ -127,6 +127,14 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             </div>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
+                navigate(event, "/mypage/liked");
+              }}
+            >
+              좋아한 작품
+            </SideDialogBtn>
+            <div className="div-inside" />
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
                 navigate(event, "/mypage/purchased");
               }}
             >

@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect, useContext } from "react";
-import { useParams, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
 import {
   postReview,
   postReviewProops,
@@ -9,65 +9,52 @@ import {
   deleteReview,
   patchReviewProps,
 } from "@/api/user/review/reviewWriteApi";
-import HeaderWithBack from "@/components/header/HeaderWithBack";
-import GoBack from "@/components/button/GoBack";
-import defaultImg from "@/assets/image/post/list/defaultProfile.png";
-import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 
+import GoBack from "@/components/button/GoBack";
+import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
+import defaultThumbnail from "@/assets/image/defaultThumbnail.svg";
 import { toastAlert } from "@/utils/ToastAlert";
 import "./reviewWrite.scss";
+
 const reviewWrite = () => {
   const { id } = useParams<string>();
   const [reviewId, setReviewId] = useState("");
   const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+  const [writer, setWriter] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [text, setText] = useState<string>("");
   const [selectedStar, setSelectedStar] = useState(0);
   const [reason, setReason] = useState<Record<string, boolean>>({
-    CHARACTER: false, //    "캐릭터가 매력적이에요"
+    CHARACTER: false, // "캐릭터가 매력적이에요"
     RELATION: false, // "관계성이 탄탄해요"
     STORY: false, // "스토리가 좋아요"
   });
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const mode = searchParams.get("mode") ?? "create";
-  // navigate(`/review/${productId}?mode=edit`);이면 수정,
-  // navigate(`/review/${productId}?mode=create`);이면 작성
-
+  const [mode, setMode] = useState<"edit" | "create">("create");
   const [originalReview, setOriginalReview] = useState({
     rating: 0,
     standardType: "",
     content: "",
   });
 
+  const hasSelectedReason = Object.values(reason).some((value) => value);
   const navigate = useNavigate();
 
-  const handleChange = (e: any) => {
-    setText(e.target.value);
-  };
-
-  const handleSelectReason = (key: string) => {
-    setReason({
-      CHARACTER: false,
-      RELATION: false,
-      STORY: false,
-      [key]: true, // 선택한 것만 true
-    });
-  };
-
+  // 리뷰 내용 가져오기
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        console.log(id);
         const getInfo = await getProfile(id ?? "");
 
+        if (getInfo.id) {
+          setMode("edit");
+        }
         setOriginalReview({
           rating: getInfo.rating ?? 0,
           standardType: getInfo.standardType ?? "",
           content: getInfo.content ?? "",
         });
-
+        setTitle(getInfo.title);
+        setWriter(getInfo.writer);
         setReviewId(getInfo.id);
         setThumbnail(getInfo.imagePath);
         if (getInfo.content) {
@@ -94,8 +81,23 @@ const reviewWrite = () => {
 
     fetchInfo();
   }, [id]);
-  const hasSelectedReason = Object.values(reason).some((value) => value);
 
+  // 이유
+  const handleSelectReason = (key: string) => {
+    setReason({
+      CHARACTER: false,
+      RELATION: false,
+      STORY: false,
+      [key]: true, // 선택한 것만 true
+    });
+  };
+
+  // 내용
+  const handleChange = (e: any) => {
+    setText(e.target.value);
+  };
+
+  // 수정하기
   const handleSubmit = async () => {
     const selectedStandardType =
       Object.keys(reason).find((key) => reason[key]) ?? "";
@@ -135,6 +137,7 @@ const reviewWrite = () => {
     }
   };
 
+  // 삭제하기
   const hendelDelete = async () => {
     try {
       const success = await deleteReview(reviewId);
@@ -151,33 +154,35 @@ const reviewWrite = () => {
   };
 
   return (
-    <div className="mx-auto all pb-[92px]">
+    <div className="mx-auto review-write-div pb-[92px] ">
+      {/* 배너 */}
       <div className="mt-[37px]  flex  flex-col  gap-[14px]">
         <GoBack url="-1" />
-
         <div className="flex flex-col gap-[75px] border-b-1 border-[#B489FF] ">
           <h1 className="h4-bold">후기를 작성해 주세요!</h1>
           <span></span>
         </div>
       </div>
 
+      {/* top contents*/}
       <div className="mx-auto content mt-[35px]">
-        <div className="  flex flex-col gap-[35px]">
+        <div className="flex flex-col gap-[35px] ">
           <div className="flex flex-row gap-[34px]">
-            <div className={`flex flex-col  content-img gap-[7px] `}>
+            {/* 작품 내용 */}
+            <div className={`flex flex-col gap-[7px]`}>
               <img
-                src={thumbnail ?? defaultImg}
-                className="border border-[var(--grey3)] rounded-[20px]"
-              ></img>
+                src={thumbnail ? thumbnail : defaultThumbnail}
+                className="border border-[var(--grey3)]  box-border w-[197px] h-[197px] rounded-[20px]  object-cover"
+              />
               <div className="flex flex-col gap-[3px]">
                 <span className="w-full truncate p-large-bold">{title}</span>
-                <span className="w-full truncate p-medium-bold">{author}</span>
+                <span className="w-full truncate p-medium-bold">{writer}</span>
               </div>
             </div>
 
-            <div className="flex flex-col w-full gap-[47px]">
+            <div className="flex flex-col w-full gap-[47px] pt-[20px] ">
+              {/*  평점 */}
               <div>
-                {/* 작품의 평점 */}
                 <span className="p-large-bold mb-[11px]">작품의 평점</span>
                 <div className="flex flex-row gap-[15px]">
                   <div className="flex flex-row gap-[2px]">
@@ -230,35 +235,39 @@ const reviewWrite = () => {
                 </div>
               </div>
 
-              {/* 이 작품은 특히*/}
+              {/* 장점*/}
               <div>
-                <span className=" p-large-bold  mb-[10px]">
-                  이 작품은 특히...
-                </span>
-                <span className="flex flex-row gap-[20px] whitespace-nowrap">
+                <span className=" p-large-bold  mb-[10px]">작품의 장점</span>
+                <span className="flex flex-wrap whitespace-nowrap reason">
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["CHARACTER"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["CHARACTER"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("CHARACTER")}
                   >
-                    캐릭터가 매력적이에요
+                    <p className="p-medium-bold"> 캐릭터가 매력적이에요</p>
                   </button>
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["RELATION"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["RELATION"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("RELATION")}
                   >
-                    관계성이 탄탄해요
+                    <p className="p-medium-bold"> 관계성이 탄탄해요</p>
                   </button>
                   <button
-                    className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                      reason["STORY"] ? "text-[var(--purple5)] " : ""
+                    className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                      reason["STORY"]
+                        ? "bg-[var(--purple5)] text-[var(--white)]"
+                        : ""
                     }`}
                     onClick={() => handleSelectReason("STORY")}
                   >
-                    스토리가 좋아요
+                    <p className="p-medium-bold"> 스토리가 좋아요</p>
                   </button>
 
                   {/* {Object.entries(reason).map(([label, selected]) => (
@@ -282,7 +291,9 @@ const reviewWrite = () => {
             </div>
           </div>
 
+          {/* bottom contents */}
           <div className="flex flex-col">
+            {/* 내용 작성 */}
             <span className="p-large-bold mb-[10px]"> 내용 작성</span>
             <div className="flex flex-col border-[0.5px] rounded-[5px] h-[250px] ">
               <textarea
@@ -290,7 +301,7 @@ const reviewWrite = () => {
                 onChange={handleChange}
                 value={text}
               ></textarea>
-              <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-[5px] ">
+              <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-b-[5px] ">
                 <p className="flex my-auto ml-[20px] w-fit p-medium-regular">
                   EX) 내용이 재밌었어요!
                 </p>
@@ -302,6 +313,7 @@ const reviewWrite = () => {
           </div>
         </div>
 
+        {/* 유의사항 */}
         <ul className="text-[var(--grey5)] p-small-bold  p-[0] m-[0] list-none  mt-[30px]">
           <li>• 후기 작성 시 유의사항</li>
           <li className="list-none">
@@ -309,6 +321,7 @@ const reviewWrite = () => {
           </li>
         </ul>
 
+        {/* 버튼 */}
         <div className="flex flex-row gap-[15px] justify-end mt-[80px]">
           <SmallOnOffBtn color="white" onClick={() => navigate(-1)}>
             취소하기

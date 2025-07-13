@@ -1,9 +1,7 @@
-import { useState, useRef, useEffect, useContext } from "react";
+import Cookies from "js-cookie";
+import { useState, useRef, useEffect } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { Document as PdfDocument, Page, pdfjs } from "react-pdf";
-import Cookies from "js-cookie";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 import { getPostView } from "@/api/user/postListApi";
 import { getLikeStatus } from "@/api/user/profile/likeApi";
@@ -13,76 +11,62 @@ import { useSingleToggleLike } from "@/hooks/useToggleLike";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 
 import heartIcon from "@/assets/image/post/ic_heart.svg";
-import bookMarkIcon from "@/assets/image/post/ic_book_mark.svg";
+import commmentIcon from "@/assets/image/post/ic_comment.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 import MainNav from "../../pages/MainNav";
 import { LIKE } from "@/constants/alertTexts";
+import "./PostView.scss";
+import WarningModal from "@/components/post/postView/warningModal";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const PostView: React.FC = () => {
+  const location = useLocation();
+  const { id } = useParams<string>();
+  const { script } = location.state;
+
+  const navigate = useNavigate();
+  const accessToken = Cookies.get("accessToken");
+  const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
+  const getPdfWidth = () => (window.innerWidth <= 768 ? 430 : 653);
+  const HEADER_HEIGHT = 179; // 헤더 높이
+
   const [numPages, setNumPages] = useState<number | null>(null);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [isMoreBtn, setIsMoreBtn] = useState(false);
-  const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
-  const [offset, setOffset] = useState(barHeight);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isControlVisible, setIsControlVisible] = useState(true);
   const [scale, setScale] = useState(1.0);
+  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
+  const [headerOffset, setHeaderOffset] = useState(0);
+  const [isHeaderTouchTop, setIsHeaderTouchTop] = useState(true);
+  const [offset, setOffset] = useState(barHeight);
+  const [pdfWidth, setPdfWidth] = useState(getPdfWidth());
+  const [showWarningModal, setShowWarningModal] = useState(true);
+
   const lastScrollY = useRef(0);
   const topControlRef = useRef<HTMLDivElement>(null);
   const footerControlRef = useRef<HTMLDivElement>(null);
   const isProgrammaticScroll = useRef<boolean>(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
-  const { id } = useParams<string>();
-  const [loading, setLoading] = useState(true);
-
-  const location = useLocation();
-  const { script } = location.state;
-  const [isLiked, setIsLiked] = useState<boolean>(false);
-  const accessToken = Cookies.get("accessToken");
-
-  const HEADER_HEIGHT = 179; // 헤더 높이
-  const [headerOffset, setHeaderOffset] = useState(0);
-  const [isHeaderTouchTop, setIsHeaderTouchTop] = useState(true);
-
-  const navigate = useNavigate();
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
-  };
   const topMarkerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const rawToggleLike = useSingleToggleLike();
 
-  const handlePageChange = (page: number) => {
-    const target = document.getElementById(`page-${page}`);
-    if (target) {
-      isProgrammaticScroll.current = true;
+  useEffect(() => {
+    const handleResize = () => {
+      setPdfWidth(getPdfWidth());
+    };
 
-      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
-      scrollTimeout.current = setTimeout(() => {
-        isProgrammaticScroll.current = false;
-      }, 1000); // 스크롤이 끝난 후 감지할 시간 확보
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
-      setCurrentPage(page);
-    }
-  };
-
-  const handleToggleLike = (postId: string) => {
-    rawToggleLike(postId);
-  };
-
-  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!accessToken) {
-      alert(LIKE);
-      navigate("/signin");
-      return;
-    }
-
-    setIsLiked((prev) => !prev);
-    handleToggleLike(id!); // 부모에게 '나 클릭했어' 알려줌
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages);
   };
 
   useEffect(() => {
@@ -232,9 +216,35 @@ const PostView: React.FC = () => {
     };
   }, [numPages, pdfBlobUrl]);
 
-  if (loading) {
-    return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
-  }
+  const handlePageChange = (page: number) => {
+    const target = document.getElementById(`page-${page}`);
+    if (target) {
+      isProgrammaticScroll.current = true;
+
+      if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
+      scrollTimeout.current = setTimeout(() => {
+        isProgrammaticScroll.current = false;
+      }, 1000); // 스크롤이 끝난 후 감지할 시간 확보
+
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      setCurrentPage(page);
+    }
+  };
+
+  const handleToggleLike = (postId: string) => {
+    rawToggleLike(postId);
+  };
+
+  const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!accessToken) {
+      alert(LIKE);
+      navigate("/signin");
+      return;
+    }
+
+    setIsLiked((prev) => !prev);
+    handleToggleLike(id!); // 부모에게 '나 클릭했어' 알려줌
+  };
 
   const handleZoom = (direction: "in" | "out") => {
     isProgrammaticScroll.current = true;
@@ -254,6 +264,10 @@ const PostView: React.FC = () => {
     }, 600); // 확대/축소에 따른 layout 변화가 마무리되는 시간
   };
 
+  if (loading) {
+    return <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>;
+  }
+
   return (
     <>
       <div
@@ -263,7 +277,7 @@ const PostView: React.FC = () => {
         }}
       />
       {/* 1280px */}
-      <div ref={scrollContainerRef} className=" w-screen mb-[7vh]">
+      <div ref={scrollContainerRef} className="postView w-screen mb-[7vh]">
         {/* header */}
 
         <div
@@ -282,12 +296,17 @@ const PostView: React.FC = () => {
             headerFont="h1-bold"
             subtitle={script.writer}
             subFont="h3-bold"
-            className={` mx-auto mb-[23px] mt-[37px] max-w-[1280px] `}
+            className={` mb-[23px] mt-[37px] mx-auto `}
           />
           <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
         </div>
 
-        <div className="relative w-full pt-[179px] ">
+        <div className="relative w-full pt-[179px]   ">
+          {showWarningModal && (
+            <>
+              <WarningModal onClose={() => setShowWarningModal(false)} />
+            </>
+          )}
           {pdfBlobUrl ? (
             <div className="mx-auto w-fit">
               <PdfDocument
@@ -297,13 +316,13 @@ const PostView: React.FC = () => {
               >
                 {Array.from(new Array(numPages), (_, index) => (
                   <div
-                    className="z-0 "
+                    className="z-0"
                     id={`page-${index + 1}`}
                     key={`page-${index + 1}`}
                   >
                     <Page
                       pageNumber={index + 1}
-                      width={653}
+                      width={pdfWidth}
                       scale={scale}
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
@@ -320,7 +339,7 @@ const PostView: React.FC = () => {
           {/* 653px */}
           <div
             ref={footerControlRef}
-            className={` w-screen ${
+            className={` w-screen  ${
               isFooterVisible
                 ? "absolute"
                 : "fixed transition-transform duration-100 ease-linear"
@@ -337,7 +356,7 @@ const PostView: React.FC = () => {
           >
             <span className="absolute w-[100vw] border border-[var(--purple7)] " />
             <div
-              className=" relative m-auto  w-[653px] min-w-[653px] flex flex-row h-full gap-[1.53%] items-center"
+              className=" relative m-auto  pdfSize  flex flex-row h-full gap-[1.53%] items-center"
               style={{
                 pointerEvents: isMoreBtn ? "none" : "auto",
               }}
@@ -405,11 +424,7 @@ const PostView: React.FC = () => {
                   alt="좋아요"
                 ></img>
               </button>
-              <img
-                src={bookMarkIcon}
-                alt="북마크"
-                className="w-[4.9%] no-drag"
-              />
+              <img src={commmentIcon} alt="후기" className=" no-drag" />
 
               {/* 페이지네이션 */}
               <div className="flex items-center justify-between w-full">

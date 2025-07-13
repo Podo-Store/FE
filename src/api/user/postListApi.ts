@@ -50,8 +50,6 @@ export const fetchExploreScripts = async (
     });
 
     const { longPlay, shortPlay } = response.data;
-    console.log(longPlay);
-    console.log(shortPlay);
     return {
       longPlay: Array.isArray(longPlay) ? longPlay : [],
       shortPlay: Array.isArray(shortPlay) ? shortPlay : [],
@@ -79,7 +77,7 @@ export const getLongWorks = async (
       params: { page, sortType },
       headers,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching long works:", error);
@@ -104,7 +102,7 @@ export const getShortWorks = async (
       params: { page, sortType },
       headers,
     });
-    console.log(response);
+
     return response.data;
   } catch (error) {
     console.error("Error fetchin short works:", error);

@@ -17,7 +17,9 @@ import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 import MainNav from "../../pages/MainNav";
 import { LIKE } from "@/constants/alertTexts";
 import "./PostView.scss";
-import WarningModal from "@/components/post/postView/warningModal";
+
+import WarningModal from "@/components/post/postView/WarningModal";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 const PostView: React.FC = () => {

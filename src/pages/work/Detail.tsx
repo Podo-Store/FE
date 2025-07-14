@@ -143,7 +143,6 @@ const Detail = () => {
           },
         });
 
-        console.log(response.data);
         setScript({
           id: id || "", // 혹은 response.data.id 가 있다면 사용
           title: response.data.title,

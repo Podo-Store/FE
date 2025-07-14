@@ -45,7 +45,7 @@ const ScriptContent = ({
   const { widthConditions } = useWindowDimensions();
 
   const navigate = useNavigate();
-  console.log("items:", items);
+
 
   return (
     <div key={index} className="script-content ">

@@ -44,10 +44,6 @@ const Preview = ({ id, lengthType }) => {
   // for Responsive design
   const totalRevealedPages = width >= 1280 ? 5 : width >= 768 ? 3 : 2;
 
-  console.log(`width: ${width}`);
-  console.log(`lengthType: ${lengthType}`);
-  console.log(`totalRevealedPages: ${totalRevealedPages}`);
-  console.log(`totalPage: ${totalPage}`);
   useRequest(async () => {
     try {
       setIsLoading(true);

@@ -57,7 +57,6 @@ const SignUpDefault = () => {
       navigate("/signup/success");
     } catch (error) {
       alert(error.response.data.error);
-      console.log(userInfo);
     } finally {
       setIsLoading(false);
     }

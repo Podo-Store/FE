@@ -6,7 +6,7 @@ const PriceTextsVertical = ({
   script = true,
   performance = true,
 }) => {
-  console.log(script);
+
   return (
     <div className="price-texts-vertical">
       {script ? (

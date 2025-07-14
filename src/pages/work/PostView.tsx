@@ -11,7 +11,7 @@ import { useSingleToggleLike } from "@/hooks/useToggleLike";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 
 import heartIcon from "@/assets/image/post/ic_heart.svg";
-import commmentIcon from "@/assets/image/post/ic_comment.svg";
+import commentIcon from "@/assets/image/post/ic_comment.svg";
 import redHeartIcon from "@/assets/image/post/ic_red_heart.svg";
 import moreBtn from "@/assets/image/button/ic_postView_more.svg";
 import MainNav from "../../pages/MainNav";
@@ -426,7 +426,14 @@ const PostView: React.FC = () => {
                   alt="좋아요"
                 ></img>
               </button>
-              <img src={commmentIcon} alt="후기" className=" no-drag" />
+              <button
+                className="no-drag"
+                onClick={() => {
+                  navigate(`/list/review/${id}`);
+                }}
+              >
+                <img src={commentIcon} alt="후기" className="no-drag" />
+              </button>
 
               {/* 페이지네이션 */}
               <div className="flex items-center justify-between w-full">

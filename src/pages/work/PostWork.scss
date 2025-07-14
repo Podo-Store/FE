@@ -239,9 +239,8 @@
 }
 
 .post-work #info-btn {
-  @include r.media-laptop {
-    display: none;
-  }
+  display: none;
+
   @include r.media-tablet {
     display: block;
   }

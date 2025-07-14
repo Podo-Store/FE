@@ -203,9 +203,7 @@
   bottom: -2px;
 
   transform: rotateX(180deg);
-  @include r.media-tablet {
-    transform: scale(-1, -1);
-  }
+  transform: scale(-1, -1);
   @include r.media-mobile {
     width: 244.605px;
     height: 83.016px;
@@ -227,9 +225,7 @@
   position: absolute;
   top: -2px;
   right: -2px;
-  @include r.media-tablet {
-    transform: scale(-1, 1);
-  }
+  transform: scale(-1, 1);
   @include r.media-mobile {
     width: 217.829px;
     height: 83.016px;

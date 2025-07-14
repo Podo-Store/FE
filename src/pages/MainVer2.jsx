@@ -14,10 +14,13 @@ import circleIcon from "../assets/image/landing/page1.svg";
 import {
   content1,
   content1_768,
+  content1_480,
   content2,
   content2_768,
+  content2_480,
   content3,
   content3_768,
+  content3_480,
   page2ButtonImg,
   title,
   title_right,
@@ -122,18 +125,23 @@ const MainVer2 = () => {
           </h1>
           <div className=" page2-content-wrap j-content-center">
             <div className="page2-content" onClick={() => navigate("/post")}>
-              <img
-                src={!isTablet ? null : title}
-                alt=""
-                className="page2-content-title"
-              />
+              <img src={title} alt="" className="page2-content-title" />
               <h1 className={page2TitleClassName}>작품 등록하기</h1>
               <h4 className={page2TextsClassName}>
                 여러분의 톡톡 튀는 아이디어, <br />
                 포도상점에 올려주세요!
               </h4>
               <div className="page2-img-wrap j-content-center">
-                <img src={!isTablet ? null : content1_768} alt="" />
+                <img
+                  src={
+                    !isTablet
+                      ? !isMobile
+                        ? content1
+                        : content1_480
+                      : content1_768
+                  }
+                  alt=""
+                />
               </div>
               <ImageBtn
                 src={page2ButtonImg}
@@ -149,26 +157,31 @@ const MainVer2 = () => {
                 !isTablet ? navigate("/list") : navigate("/myPage/purchased")
               }
             >
-              <img
-                src={!isTablet ? null : title_right}
-                alt=""
-                className="page2-content-title"
-              />
+              <img src={title_right} alt="" className="page2-content-title" />
               <div className="page2-img-wrap j-content-end">
-                <img src={!isTablet ? null : content3_768} alt="" />
+                <img
+                  src={
+                    !isTablet
+                      ? !isMobile
+                        ? content2
+                        : content3_480
+                      : content3_768
+                  }
+                  alt=""
+                />
               </div>
               <div>
-                {!isTablet ? content2Texts() : content3Texts()}
+                {!(isTablet || isMobile) ? content2Texts() : content3Texts()}
 
                 <h1 className={page2TitleClassName}>
-                  {!isTablet ? content2Title() : content3Title()}
+                  {!(isTablet || isMobile) ? content2Title() : content3Title()}
                 </h1>
 
-                {/* <ImageBtn
+                <ImageBtn
                   src={page2ButtonImg}
                   alt="->"
                   className="page2-button"
-                /> */}
+                />
               </div>
             </div>
 
@@ -178,26 +191,31 @@ const MainVer2 = () => {
                 !isTablet ? navigate("/mypage/purchased") : navigate("/list")
               }
             >
-              <img
-                src={!isTablet ? null : title}
-                alt=""
-                className="page2-content-title"
-              />
+              <img src={title} alt="" className="page2-content-title" />
               <div className="page2-img-wrap j-content-center">
-                <img src={!isTablet ? null : content2_768} alt="" />
+                <img
+                  src={
+                    !isTablet
+                      ? !isMobile
+                        ? content3
+                        : content2_480
+                      : content2_768
+                  }
+                  alt=""
+                />
               </div>
 
               <h1 className={page2TitleClassName + " t-right"}>
-                {!isTablet ? content3Title() : content2Title()}
+                {!(isTablet || isMobile) ? content3Title() : content2Title()}
               </h1>
 
-              {!isTablet ? content3Texts() : content2Texts()}
+              {!(isTablet || isMobile) ? content3Texts() : content2Texts()}
 
-              {/* <ImageBtn
+              <ImageBtn
                 src={page2ButtonImg}
                 alt="->"
                 className="page2-button"
-              /> */}
+              />
             </div>
           </div>
         </div>

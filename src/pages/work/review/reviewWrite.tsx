@@ -15,6 +15,7 @@ import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 import defaultThumbnail from "@/assets/image/defaultThumbnail.svg";
 import { toastAlert } from "@/utils/ToastAlert";
 import "./reviewWrite.scss";
+import Loading from "@/pages/Loading";
 
 const reviewWrite = () => {
   const { id } = useParams<string>();
@@ -36,6 +37,8 @@ const reviewWrite = () => {
     content: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const hasSelectedReason = Object.values(reason).some((value) => value);
   const navigate = useNavigate();
 
@@ -43,6 +46,7 @@ const reviewWrite = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       try {
+        setLoading(true);
         const getInfo = await getProfile(id ?? "");
 
         if (getInfo.id) {
@@ -76,6 +80,8 @@ const reviewWrite = () => {
       } catch (error) {
         console.error();
         throw new Error(`작품 정보 가져오기 실패: ${(error as Error).message}`);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -138,7 +144,7 @@ const reviewWrite = () => {
   };
 
   // 삭제하기
-  const hendelDelete = async () => {
+  const handleDelete = async () => {
     try {
       const success = await deleteReview(reviewId);
 
@@ -152,6 +158,10 @@ const reviewWrite = () => {
       toastAlert("리뷰 삭제 중 오류가 발생하였습니다.", "error");
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className="mx-auto review-write-div pb-[92px] ">
@@ -342,7 +352,7 @@ const reviewWrite = () => {
           <span
             className="flex justify-end p-small-under mt-[80px] cursor-pointer"
             onClick={() => {
-              hendelDelete();
+              handleDelete();
             }}
           >
             후기 삭제

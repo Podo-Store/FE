@@ -283,7 +283,7 @@ const PostView: React.FC = () => {
         {/* header */}
 
         <div
-          className={` fixed top-[71px] left-0 w-full z-50 ransition-transform duration-70 ease-out  bg-[#fff]`}
+          className={` fixed top-[71px] left-0 w-full z-50 transition-transform duration-70 ease-out  bg-[#fff]`}
           style={{
             transform: isHeaderTouchTop
               ? `translateY(0)` // 마커에 닿았을 때
@@ -416,10 +416,14 @@ const PostView: React.FC = () => {
                   setIsMoreBtn(!isMoreBtn);
                 }}
                 style={{ pointerEvents: "auto" }}
+                className="transition-all duration-100 hover:scale-[1.15]"
               >
                 <img src={moreBtn} alt="더보기" className="no-drag"></img>
               </button>
-              <button onClick={handleLikeClick}>
+              <button
+                onClick={handleLikeClick}
+                className="transition-all duration-100 hover:scale-[1.1]"
+              >
                 <img
                   className="no-drag"
                   src={isLiked ? redHeartIcon : heartIcon}
@@ -427,7 +431,7 @@ const PostView: React.FC = () => {
                 ></img>
               </button>
               <button
-                className="no-drag"
+                className="no-drag transition-all duration-100 hover:scale-[1.1]"
                 onClick={() => {
                   navigate(`/list/review/${id}`);
                 }}
@@ -436,7 +440,7 @@ const PostView: React.FC = () => {
               </button>
 
               {/* 페이지네이션 */}
-              <div className="flex items-center justify-between w-full">
+              <div className="flex items-center justify-between w-full ">
                 <input
                   type="range"
                   min={1}

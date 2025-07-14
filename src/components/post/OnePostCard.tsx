@@ -35,7 +35,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
     >
       {/* 이미지 */}
       <div
-        className={`flex relative rounded-[20px] bg-white mb-[7px] ${
+        className={`flex relative rounded-[20px] bg-white mb-[7px]   ${
           posts.imagePath !== "" ? "border border-[var(--grey3)]" : ""
         }`}
       >
@@ -44,10 +44,10 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
           alt={posts.title}
           className="object-contain w-[197px] h-[197px] shrink-0 rounded-[20px]"
         />
-        <div className="absolute h-[35px] bottom-[8px] right-[10px]">
+        <div className="absolute h-[35px] bottom-[8px] right-[10px] ">
           <button onClick={handleLikeClick}>
             <img
-              className=""
+              className=" transition-all duration-100 hover:scale-[1.2]"
               src={posts.like ? redHeartIcon : heartIcon}
               alt="좋아요"
             ></img>
@@ -73,7 +73,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
         <></>
       )}
 
-      <div className="w-full mt-[10px]">
+      <div className="w-full mt-[10px] ">
         <LikeViewCount likes={posts.likeCount} views={posts.viewCount} />
       </div>
     </div>

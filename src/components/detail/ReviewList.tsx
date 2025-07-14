@@ -156,7 +156,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
           </p>
           {review.myself && (
             <button
-              className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline"
+              className="ml-[5px] text-[#BABABA] text-[14px] font-medium underline hover:text-[#c4aaf0]"
               onClick={() => navigate(`/list/review/${scriptId}`)}
             >
               수정/삭제
@@ -214,7 +214,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
             )}
           >
             <img
-              className="w-[16.873px] h-[15.116px]"
+              className="w-[16.873px] h-[15.116px] transition-all duration-100 hover:scale-[1.1]"
               src={isLiked ? blackHeart : emptyHeart}
               alt=""
             />

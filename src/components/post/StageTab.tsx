@@ -31,12 +31,12 @@ const StageTab = ({ activeStage, setActiveStage }: Props) => {
               className={`z-10 px-[15px] py-[10px]  leading-[28px] h5-medium
               ${
                 isActive
-                  ? " border-b-4 border-[#6A39C0] rounded-[1px] "
+                  ? " border-b-4 border-[#6A39C0] rounded-[1px]"
                   : "text-black"
               }
                ${
                  isAvailable
-                   ? "cursor-pointer text-black"
+                   ? "cursor-pointer text-black hover:text-[#6A39C0]"
                    : "text-[var(--grey6)]"
                }
             

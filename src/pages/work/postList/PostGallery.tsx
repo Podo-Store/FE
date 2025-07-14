@@ -219,7 +219,7 @@ const PostGallery = () => {
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px] ">
       {/*------ 작품 둘러보기 ------*/}
-      <h1 className="text-[20px] font-bold leading-[28px] tracking-[-0.4px] text-black font-['Pretendard'] mb-[30px]">
+      <h1 className="h5-regular mb-[30px]">
         작품 둘러보기
       </h1>
 

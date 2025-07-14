@@ -57,7 +57,7 @@ function MainNav() {
           <li>
             <Link
               to="/list"
-              className="h5-regular"
+              className="h5-regular hover:text-[#6A39C0]"
               onClick={(event) => {
                 navigateWithRefresh(event, "/list");
               }}
@@ -73,7 +73,7 @@ function MainNav() {
           <li>
             <Link
               to="/post"
-              className="h5-regular"
+              className="h5-regular hover:text-[#6A39C0]"
               onClick={(event) => {
                 navigateWithRefresh(event, "/post");
               }}

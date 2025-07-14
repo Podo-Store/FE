@@ -1,6 +1,6 @@
 import React from "react";
 import { formatNumber } from "@/utils/formatNumber";
-import liekIcon from "./../../assets/image/post/list/ic-fill-heart.svg";
+import likeIcon from "./../../assets/image/post/list/ic-fill-heart.svg";
 import viewIcon from "./../../assets/image/post/list/ic-outline-eye.svg";
 
 interface LikeViewCountProps {
@@ -10,10 +10,10 @@ interface LikeViewCountProps {
 
 function LikeViewCount({ likes, views }: LikeViewCountProps) {
   return (
-    <div className="flex items-center text-basetext-black gap-[10px] ">
+    <div className="flex items-center text-base text-black gap-[10px] ">
       <div className="flex items-center gap-[5px]">
         <img
-          src={liekIcon}
+          src={likeIcon}
           alt="Like"
           className="flex-shrink-0 w-[18px] aspect-square"
         />

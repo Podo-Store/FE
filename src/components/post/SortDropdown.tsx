@@ -45,7 +45,7 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
       {/* 선택 영역 */}
       <button
         onClick={toggleDropdown}
-        className="flex  flex-row items-center gap-[4px] whitespace-nowrap p-medium-regular"
+        className="flex  flex-row items-center gap-[4px] whitespace-nowrap p-medium-regular hover:text-[#6A39C0]"
       >
         <span className="align-middle">
           {LABEL_MAP[selected as "POPULAR" | "LIKE_COUNT" | "LATEST"]}
@@ -65,10 +65,10 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
           {SORT_OPTIONS.map((option) => (
             <li
               key={option}
-              className={`cursor-pointer ${
+              className={`cursor-pointer   ${
                 selected === option
                   ? "p-medium-medium"
-                  : "p-medium-regular text-[var(--grey6)]"
+                  : "p-medium-regular text-[var(--grey6)] hover:text-[#6A39C0]"
               } hover:bg-gray-100`}
               onClick={() =>
                 handleSelect(option as "POPULAR" | "LIKE_COUNT" | "LATEST")

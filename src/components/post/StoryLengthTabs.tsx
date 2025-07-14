@@ -41,7 +41,7 @@ const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
                 setActiveStoryLength(length);
               }
             }}
-            className={`cursor-pointer z-10 px-[15px] py-[10px] text-[20px] leading-[28px] font-medium tracking-[-0.4px] font-['Pretendard']  ${
+            className={`cursor-pointer z-10 px-[15px] py-[10px] h5-medium hover:text-[#6A39C0] ${
               isActive
                 ? "border-b-2 border-[#6A39C0] rounded-[1px] "
                 : "text-black"

@@ -217,7 +217,7 @@ const PostWork = () => {
               />
 
               <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
-                <label className=" flex gap-[5px] items-center ">
+                <label className=" flex gap-[5px] items-center cursor-pointer  hover:text-[#6A39C0]">
                   <div className="relative w-[20px] h-[20px]">
                     <input
                       type="checkbox"
@@ -238,7 +238,7 @@ const PostWork = () => {
                   </div>
 
                   <p
-                    className={`${
+                    className={` ${
                       isChecked ? "text-[#6A39C0]" : ""
                     } p-small-medium `}
                   >
@@ -247,7 +247,7 @@ const PostWork = () => {
                 </label>
 
                 <span
-                  className="cursor-pointer p-xs-under"
+                  className="cursor-pointer p-xs-under hover:text-[#777]"
                   onClick={() => setAuthorPopup(true)}
                 >
                   자세히 보기

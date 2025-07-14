@@ -18,7 +18,7 @@ const ViewToggleButton = ({ viewType, setViewType }: Props) => {
       src={viewType === "grid" ? gridView : cardView}
       alt={viewType === "grid" ? "그리드 보기로 전환" : "카드 보기로 전환"}
       onClick={toggleViewType}
-      className="cursor-pointer"
+      className="cursor-pointer hover:bg-[#f4f2f3]"
     />
   );
 };

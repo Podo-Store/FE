@@ -400,7 +400,7 @@ const Detail = () => {
                 alt={script?.title}
                 className="object-contain  shrink-0 rounded-[20px]  w-full thumbnail"
               />
-              <div className="absolute bottom-[6.3%] right-[6.4%] ">
+              <div className="absolute bottom-[6.3%] right-[6.4%] transition-all duration-100 hover:scale-[1.2]">
                 <button
                   onClick={() => {
                     if (script?.id) {
@@ -751,7 +751,7 @@ const Detail = () => {
             </p>
             <div className="flex justify-end w-full">
               <button
-                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer"
+                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
                 onClick={() => {
                   if (script?.isReviewWritten) {
                     alert("이미 작성된 후기가 있습니다.");
@@ -776,7 +776,7 @@ const Detail = () => {
             <div className="flex justify-between w-full mb-[8px] relative">
               <p className="ml-[20px] p-large-bold">전체 후기</p>
               <button
-                className="flex items-center gap-[4px] p-medium-regular"
+                className="flex items-center gap-[4px] p-medium-regular hover:text-[#6A39C0]"
                 onClick={() => setOpenSort(!openSort)}
               >
                 {sort === "LIKE_COUNT" ? "좋아요순" : "최신순"}
@@ -788,12 +788,12 @@ const Detail = () => {
               </button>
 
               {openSort && (
-                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap">
+                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
                   <button
                     className={clsx(
                       "flex items-center gap-[4px] p-medium-medium",
                       {
-                        "text-[#777]": sort !== "LIKE_COUNT",
+                        "text-[#777] hover:text-[#6A39C0]": sort !== "LIKE_COUNT",
                       }
                     )}
                     onClick={() => {
@@ -807,7 +807,7 @@ const Detail = () => {
                     className={clsx(
                       "flex items-center gap-[4px] p-medium-medium",
                       {
-                        "text-[#777]": sort !== "LATEST",
+                        "text-[#777] hover:text-[#6A39C0]": sort !== "LATEST",
                       }
                     )}
                     onClick={() => {

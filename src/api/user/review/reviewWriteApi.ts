@@ -66,6 +66,9 @@ export const getProfile = async (
       Authorization: `Bearer ${accessToken}`,
     };
 
+    if (!accessToken) {
+      window.location.reload()
+    }
     const response = await api.get<getReviewProfileProops>(
       `/scripts/review/${productId}`,
 

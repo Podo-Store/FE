@@ -29,6 +29,7 @@ export interface WorkDetailResponse {
   runningTime: number;
   scene: number; // 장
   act: number; // 막
+  intention: string;
 }
 
 export const getWorkDetail = async (

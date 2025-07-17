@@ -572,7 +572,7 @@ const PostManageDetail: React.FC = () => {
               <div className="relative h-[58px] focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
                 <textarea
                   className="intention focus:outline-none border-none flex pl-[22px] pr-[50px] my-[8px] placeholder:text-[rgba(0,0,0,0.17)] resize-none h-[42px] w-[100%] bg-[#FFF]  p-small-regular  box-border "
-                  placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
+                  placeholder="작가의 의도를 입력해주세요. (최대 300자)"
                   value={form.intention ?? ""}
                   onChange={(e) => {
                     const value = e.target.value;

@@ -69,7 +69,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
       case "RELATION":
         return "관계성이 훌륭해요";
       case "STORY":
-        return "스토리가 좋어요";
+        return "스토리가 좋아요";
       default:
         return "";
     }
@@ -133,7 +133,9 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
 
   useEffect(() => {
     if (contentRef.current) {
-      const lineHeight = parseFloat(getComputedStyle(contentRef.current).lineHeight);
+      const lineHeight = parseFloat(
+        getComputedStyle(contentRef.current).lineHeight
+      );
       const contentHeight = contentRef.current.scrollHeight;
       // Check if content is more than 3 lines
       setIsOverflow(contentHeight > lineHeight * 3);
@@ -181,7 +183,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
       </div>
 
       <article className="mt-[20px] mb-[25px]">
-        <p 
+        <p
           ref={contentRef}
           className={clsx("p-small-medium", { "line-clamp-3": !isExpanded })}
         >

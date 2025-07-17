@@ -141,6 +141,7 @@ const PostManageDetail: React.FC = () => {
       formData.append("act", String(Number(form.act ?? 0)));
       formData.append("intention", form.intention ?? "");
 
+      console.log(form.intention);
       if (InputtedThumbnailImgFile) {
         formData.append("scriptImage", InputtedThumbnailImgFile);
       } else if (form.imagePath) {
@@ -193,7 +194,12 @@ const PostManageDetail: React.FC = () => {
             ? data.title.slice(0, 20)
             : data.title;
 
-        setForm({ ...data, title: trimmedTitle });
+        setForm({
+          ...data,
+          title: trimmedTitle,
+          intention: normalizeLineBreaks(data.intention),
+          plot: normalizeLineBreaks(data.plot),
+        });
       } catch (err: any) {
         alert(err.message);
       } finally {
@@ -230,6 +236,8 @@ const PostManageDetail: React.FC = () => {
       hasValidPerformancePrice
     );
   };
+
+  const normalizeLineBreaks = (text: string) => text.replace(/\r\n/g, "\n");
 
   return (
     <div className="w-full post-manage-detail">
@@ -280,7 +288,7 @@ const PostManageDetail: React.FC = () => {
                     value={form.title ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (value.length <= 20) {
+                      if ([...value].length <= 20) {
                         setForm((prev) => ({ ...prev, title: value }));
                       }
                     }}
@@ -288,7 +296,7 @@ const PostManageDetail: React.FC = () => {
                     className="placeholder:text-[rgba(0,0,0,0.17)] "
                   />
                   <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]  ">
-                    {form.title ? form.title.length : 0} / 20자
+                    {form.title ? [...form.title].length : 0} / 20자
                   </div>
                 </div>
 
@@ -300,13 +308,13 @@ const PostManageDetail: React.FC = () => {
                     value={form.plot ?? ""}
                     onChange={(e) => {
                       const value = e.target.value;
-                      if (value.length <= 150) {
+                      if ([...value].length <= 150) {
                         setForm((prev) => ({ ...prev, plot: value }));
                       }
                     }}
                   />
                   <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]">
-                    {form.plot ? form.plot.length : 0} / 150자
+                    {form.plot ? [...form.plot].length : 0} / 150자
                   </div>
                 </div>
               </div>
@@ -569,20 +577,20 @@ const PostManageDetail: React.FC = () => {
 
             <div className="flex flex-col gap-[9px] mb-[15px]">
               <span className="p-medium-bold">작가 의도 </span>
-              <div className="relative h-[58px] focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
+              <div className="intention-div relative  focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
                 <textarea
-                  className="intention focus:outline-none border-none flex pl-[22px] pr-[50px] my-[8px] placeholder:text-[rgba(0,0,0,0.17)] resize-none h-[42px] w-[100%] bg-[#FFF]  p-small-regular  box-border "
+                  className="intention-text focus:outline-none border-none flex pl-[22px] pr-[50px] my-[8px] placeholder:text-[rgba(0,0,0,0.17)] resize-none bg-[#FFF]  p-small-regular  box-border "
                   placeholder="작품에 대한 작가의 의도를 입력해주세요. (최대 300자)"
                   value={form.intention ?? ""}
                   onChange={(e) => {
                     const value = e.target.value;
-                    if (value.length <= 300) {
+                    if ([...value].length <= 300) {
                       setForm((prev) => ({ ...prev, intention: value }));
                     }
                   }}
                 />
                 <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]">
-                  {form.intention ? form.intention.length : 0} / 300자
+                  {form.intention ? [...form.intention].length : 0} / 300자
                 </div>
               </div>
             </div>

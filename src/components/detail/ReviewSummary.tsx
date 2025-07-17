@@ -86,7 +86,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
   // 특징별 데이터: 수직 바 차트용
   const featureData = [
     { name: "캐릭터가\n매력적이에요", value: characterPercent },
-    { name: "관계성이\n탄탄해요", value: relationPercent },
+    { name: "관계성이\n훌륭해요", value: relationPercent },
     { name: "스토리가\n좋아요", value: storyPercent },
   ];
 
@@ -223,7 +223,13 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         <h3 className="p-medium-regular mb-[48px]">
           이 작품은 특히{" "}
           <span className="relative p-medium-bold">
-            캐릭터가 매력적이에요
+            {
+              featureDataWithFull.find(
+                (d) =>
+                  d.value ===
+                  Math.max(...featureDataWithFull.map((d) => d.value))
+              )?.name
+            }
             <div className="absolute right-[0px] my-[0px] w-full h-[1px] bg-[#6A39C0]" />
           </span>
         </h3>

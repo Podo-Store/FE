@@ -77,6 +77,7 @@ export interface PostDetail {
   isReviewWritten: boolean;
   reviewStatistics: ReviewStatistics;
   reviews: Review[];
+  intention: string;
 }
 
 const Detail = () => {
@@ -169,6 +170,7 @@ const Detail = () => {
           isReviewWritten: response.data.isReviewWritten,
           reviewStatistics: response.data.reviewStatistics,
           reviews: response.data.reviews,
+          intention: response.data.intention,
         });
 
         setReviews(response.data.reviews);
@@ -710,6 +712,14 @@ const Detail = () => {
             </div>
           </div>
 
+          <div className="script-intention w-full">
+            <hr></hr>
+            <div className="flex flex-col pl-[20px] gap-[19px]">
+              <h2 className="p-large-bold">작가 의도</h2>
+              <p className="p-medium-regular">{script?.intention}</p>
+            </div>
+          </div>
+
           <hr></hr>
           <div className="mb-[40px]  ">
             <p className=" w-fit p-large-bold" id="preview-title">
@@ -793,7 +803,8 @@ const Detail = () => {
                     className={clsx(
                       "flex items-center gap-[4px] p-medium-medium",
                       {
-                        "text-[#777] hover:text-[#6A39C0]": sort !== "LIKE_COUNT",
+                        "text-[#777] hover:text-[#6A39C0]":
+                          sort !== "LIKE_COUNT",
                       }
                     )}
                     onClick={() => {

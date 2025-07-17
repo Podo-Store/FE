@@ -485,6 +485,13 @@
   margin-bottom: 3.889vh;
 }
 
+.detail .script-intention p {
+  padding-right: 75px;
+  @include r.media-laptop {
+    padding-right: 40px;
+  }
+}
+
 .detail .detail-description p#preview-title {
   margin-left: 1.852vh;
   margin-bottom: 2.593vh;

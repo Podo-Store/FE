@@ -48,6 +48,7 @@ type WorkFormState = Partial<
     | "playType"
     | "imagePath"
     | "descriptionPath"
+    | "intention"
   >
 >;
 
@@ -82,6 +83,7 @@ const PostManageDetail: React.FC = () => {
     act: 0,
     imagePath: "",
     descriptionPath: "",
+    intention: "",
   });
 
   const [isTouched, setIsTouched] = useState({
@@ -137,6 +139,7 @@ const PostManageDetail: React.FC = () => {
       formData.append("runningTime", String(Number(form.runningTime ?? 0)));
       formData.append("scene", String(Number(form.scene ?? 0)));
       formData.append("act", String(Number(form.act ?? 0)));
+      formData.append("intention", form.intention ?? "");
 
       if (InputtedThumbnailImgFile) {
         formData.append("scriptImage", InputtedThumbnailImgFile);
@@ -229,7 +232,7 @@ const PostManageDetail: React.FC = () => {
   };
 
   return (
-    <div className="post-manage-detail w-full">
+    <div className="w-full post-manage-detail">
       <OverLapPartialLoading isLoading={isPartialLoading} />
 
       {/* main */}
@@ -265,7 +268,7 @@ const PostManageDetail: React.FC = () => {
             </ThumbnailImg>
 
             {/* 작품 정보 */}
-            <div className="w-full cript-info-detail">
+            <div className="w-full ">
               <p className="p-medium-bold mb-[0.926vh]">작품 정보</p>
 
               <div className="f-dir-column gap-[1.11vh]  ">
@@ -313,7 +316,7 @@ const PostManageDetail: React.FC = () => {
           {/* bottom info */}
           <div className="flex flex-col ">
             {/* --- 개요 --- */}
-            <div className="flex flex-col mt-[15px] mb-[21px]">
+            <div className="flex flex-col mt-[15px] mb-[11px]">
               <h2 className="p-medium-bold">개요</h2>
               <div className="box-border relative outline1">
                 {/* 등장인물 */}
@@ -562,6 +565,26 @@ const PostManageDetail: React.FC = () => {
 
               {/* 공연 시간 */}
               {/* 장과 막 */}
+            </div>
+
+            <div className="flex flex-col gap-[9px] mb-[15px]">
+              <span className="p-medium-bold">작가 의도 </span>
+              <div className="relative h-[58px] focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
+                <textarea
+                  className="intention focus:outline-none border-none flex pl-[22px] pr-[50px] my-[8px] placeholder:text-[rgba(0,0,0,0.17)] resize-none h-[42px] w-[100%] bg-[#FFF]  p-small-regular  box-border "
+                  placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
+                  value={form.intention ?? ""}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    if (value.length <= 300) {
+                      setForm((prev) => ({ ...prev, intention: value }));
+                    }
+                  }}
+                />
+                <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]">
+                  {form.intention ? form.intention.length : 0} / 300자
+                </div>
+              </div>
             </div>
 
             {/* --- 판매 상태 --- */}

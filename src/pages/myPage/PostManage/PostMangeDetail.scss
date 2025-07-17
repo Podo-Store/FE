@@ -145,4 +145,18 @@
       column-gap: 20px;
     }
   }
+
+  .intention-div {
+    height: 58px;
+    @include r.media-mobile {
+      height: 108px;
+    }
+  }
+  .intention-text {
+    height: 42px;
+    width: 100%;
+    @include r.media-mobile {
+      height: 82px;
+    }
+  }
 }

@@ -14,7 +14,6 @@ interface Props {
   viewType: "grid" | "card";
   postNum?: number; // <- optional
   colNum: number;
-  gapX?: number;
   gapY?: number;
   onToggleLike: (postId: string) => void;
 }
@@ -23,7 +22,6 @@ export const AllPostCard = ({
   posts,
   viewType,
   colNum,
-  gapX,
   gapY,
   onToggleLike,
 }: Props) => {
@@ -59,7 +57,6 @@ export const PostCardPreview = ({
   viewType,
   postNum,
   colNum,
-  gapX,
   gapY,
   onToggleLike,
 }: Props) => {
@@ -78,7 +75,7 @@ export const PostCardPreview = ({
       }}
     >
       {posts.slice(0, postNum).map((post, index) => (
-        <div key={`${post.id}-${index}`} className="flex justify-center">
+        <div key={`${post.id}-${index}`} className="flex justify-center ">
           <OnePostCard
             posts={post}
             viewType={viewType}

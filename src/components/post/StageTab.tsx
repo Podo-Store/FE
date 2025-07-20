@@ -1,6 +1,6 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { useSearchParams } from "react-router-dom";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+import "./StageTab.scss";
+
 interface Props {
   activeStage: string;
   setActiveStage: (value: string) => void;
@@ -10,6 +10,10 @@ const stages = ["포도밭", "포도알", "포도송이", "와인"];
 const availableStages = ["포도밭", "포도알"];
 
 const StageTab = ({ activeStage, setActiveStage }: Props) => {
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
+
   const handleStageClick = (stage: string) => {
     if (!availableStages.includes(stage)) return;
     setActiveStage(stage);
@@ -18,7 +22,7 @@ const StageTab = ({ activeStage, setActiveStage }: Props) => {
   return (
     <>
       <ul
-        className="flex relative list-none mt-[10px] mb-[-4px]"
+        className="flex relative list-none mt-[10px] mb-[-4px] stage-tab"
         style={{ padding: 0 }}
       >
         {stages.map((stage) => {
@@ -28,7 +32,9 @@ const StageTab = ({ activeStage, setActiveStage }: Props) => {
           return (
             <li
               key={stage}
-              className={`z-10 px-[15px] py-[10px]  leading-[28px] h5-medium
+              className={` stage-tab-li z-10  whitespace-nowrap ${
+                isSmallMobile ? "p-small-medium" : " h5-medium"
+              }
               ${
                 isActive
                   ? " border-b-4 border-[#6A39C0] rounded-[1px]"

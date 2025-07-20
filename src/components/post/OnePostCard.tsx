@@ -9,6 +9,9 @@ import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import { ScriptItem } from "@/api/user/postListApi";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+import "./OnePostCard.scss";
+
 interface Props {
   posts: ScriptItem;
   viewType: "grid" | "card";
@@ -17,6 +20,8 @@ interface Props {
 
 export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
   const navigate = useNavigate();
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile } = widthConditions;
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // 좋아요 클릭 시 navigate 막기
@@ -30,24 +35,24 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
   return (
     <div
       key={posts.id}
-      className="flex flex-col items-center max-w-[197px] min-w-[197px] cursor-pointer  "
+      className="flex flex-col items-center cursor-pointer one-post-card"
       onClick={handleCardClick}
     >
       {/* 이미지 */}
       <div
-        className={`flex relative rounded-[20px] bg-white mb-[7px]   ${
+        className={`flex relative rounded-[20px] bg-white mb-[7px]  w-full  ${
           posts.imagePath !== "" ? "border border-[var(--grey3)]" : ""
         }`}
       >
         <img
           src={posts.imagePath === "" ? defaultImg : posts.imagePath}
           alt={posts.title}
-          className="object-contain w-[197px] h-[197px] shrink-0 rounded-[20px]"
+          className="object-contain w-full h-auto shrink-0 rounded-[20px]  aspect-square "
         />
-        <div className="absolute h-[35px] bottom-[8px] right-[10px] ">
+        <div className="absolute heart aspect-square">
           <button onClick={handleLikeClick}>
             <img
-              className=" transition-all duration-100 hover:scale-[1.2]"
+              className=" transition-all duration-100 hover:scale-[1.2] w-full "
               src={posts.like ? redHeartIcon : heartIcon}
               alt="좋아요"
             ></img>
@@ -56,10 +61,18 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
       </div>
 
       {/* 내용 */}
-      <h2 className="p-large-bold text-black w-full mb-[3px] truncate ">
+      <h2
+        className={` text-black w-full mb-[3px] truncate ${
+          isSmallMobile ? "p-small-bold" : "p-large-bold"
+        }`}
+      >
         {posts.title}
       </h2>
-      <h3 className="w-full text-black truncate p-medium-bold">
+      <h3
+        className={`w-full text-black truncate  ${
+          isSmallMobile ? "p-12-bold " : "p-medium-bold"
+        }`}
+      >
         {posts.writer}
       </h3>
       {viewType === "card" ? (

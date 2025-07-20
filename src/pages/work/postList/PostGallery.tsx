@@ -21,6 +21,7 @@ import PostHeaderControl from "@/components/post/PostHeaderControl";
 import BannerImage1 from "@/assets/image/listBanner.jpg";
 import BannerImage2 from "@/assets/image/postList_banner.png";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useToggleLike } from "@/hooks/useToggleLike";
 import "./postGallery.scss";
 
@@ -68,6 +69,10 @@ const PostGallery = () => {
     fallbackInView: true,
     initialInView: false,
   });
+
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
 
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
@@ -217,11 +222,11 @@ const PostGallery = () => {
   }, [resetFlag]);
 
   return (
-    <div className="flex flex-col m-auto list-wrap-wrap py-[72px] ">
+    <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
       {/*------ 작품 둘러보기 ------*/}
-      <h1 className="h5-regular mb-[30px]">
+      <p className={`${isSmallMobile ? "p-medium-bold" : "h5-bold"} mb-[30px]`}>
         작품 둘러보기
-      </h1>
+      </p>
 
       {/*------ 배너 ------*/}
       <InfiniteBanner images={bannerImages} />
@@ -240,7 +245,6 @@ const PostGallery = () => {
         setSortType={setSortType}
         stageBottomBorderWidth={"w-[100vw]"}
       />
-      
 
       {/*----- post list -----*/}
       {isLoading ? (
@@ -275,7 +279,9 @@ const PostGallery = () => {
       ) : activeCategory === "장편" ? (
         <>
           <div className="mb-[24px]">
-            <p className="h5-medium ">장편극</p>
+            <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
+              장편극
+            </p>
           </div>
 
           <div
@@ -311,7 +317,9 @@ const PostGallery = () => {
       ) : (
         <>
           <div className="mb-[24px]">
-            <p className="h5-medium ">단편극</p>
+            <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
+              단편극
+            </p>
           </div>
           <div
             className={`transition-opacity duration-300 ${

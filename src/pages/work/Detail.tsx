@@ -713,7 +713,7 @@ const Detail = () => {
             </div>
           </div>
 
-          <div className="script-intention w-full">
+          <div className="w-full script-intention">
             <hr></hr>
             <div className="flex flex-col pl-[20px] gap-[19px]">
               <h2 className="p-large-bold">작가 의도</h2>
@@ -764,10 +764,6 @@ const Detail = () => {
               <button
                 className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
                 onClick={() => {
-                  if (script?.isReviewWritten) {
-                    alert("이미 작성된 후기가 있습니다.");
-                    return;
-                  }
                   if (!isAuthenticated) {
                     alert("로그인이 필요한 서비스입니다.");
                     navigate("/signin");

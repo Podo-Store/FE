@@ -84,6 +84,7 @@ const Detail = () => {
   const [script, setScript] = useState<PostDetail>();
   const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
+    display: "none", // bottom bar 비활성화
   });
   const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
@@ -855,9 +856,8 @@ const Detail = () => {
         />
       </div>
 
-      {/* bottom bar 비활성화 */}
       {!isDetailBtnVisible && (
-        <div className="detail-bottom-bar hidden" style={bottomBarStyle}>
+        <div className="detail-bottom-bar" style={bottomBarStyle}>
           <div className="bottom-bar-left">
             <h5 className="h5-regular c-grey">총 금액</h5>
             <h4 className="h4-bold" id="bottom-total-price">

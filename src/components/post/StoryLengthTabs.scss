@@ -1,0 +1,8 @@
+@use "../../styles/responsive" as r;
+
+.story-length li {
+  padding: 10px 19px;
+  @include r.media-small-mobile {
+    padding: 10px 17px 6px;
+  }
+}

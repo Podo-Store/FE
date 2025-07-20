@@ -1,0 +1,24 @@
+@use "../../styles/responsive" as r;
+
+.one-post-card {
+  width: 100%;
+  max-width: 197px;
+  @include r.media-small-mobile {
+    width: 37.5vw;
+    min-width: 120px;
+  }
+}
+
+.one-post-card .heart {
+  width: 35px;
+  bottom: 8px;
+  right: 10px;
+
+  @include r.media-small-mobile {
+    width: 8.43vw;
+    min-width: 27px;
+
+    bottom: 5%;
+    right: 5.8%;
+  }
+}

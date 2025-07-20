@@ -8,6 +8,7 @@ import InfoPopup from "../popup/InfoPopup";
 import download from "./../../assets/image/fileInput/ic_download.svg";
 import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
+import circleInfoGrayBtn from "./../../assets/image/button/circleInfoGrayBtn.svg";
 
 import "./FileInputBox.css";
 
@@ -17,6 +18,7 @@ interface FileInputBoxProps {
   onFileUpload: (file: File) => void;
   style: React.CSSProperties;
   titleStyle?: React.CSSProperties;
+  grayInfoBtn?: boolean;
 }
 
 const FileInputBox: React.FC<FileInputBoxProps> = ({
@@ -25,6 +27,7 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
   onFileUpload,
   style,
   titleStyle,
+  grayInfoBtn = false,
 }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
@@ -81,9 +84,9 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
         {infoText ? (
           <>
             <img
-              id="info-btn"
+              id="_info-btn"
               className="c-pointer"
-              src={circleInfoBtn}
+              src={grayInfoBtn ? circleInfoBtn : circleInfoBtn}
               alt="circleInfoBtn"
               onClick={() => {
                 setShowPopup(!showPopup);
@@ -101,7 +104,7 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
                   padding: "11px",
                   transform: "translate(calc(20px + 75px), 0)",
                 }}
-                buttonId="info-btn"
+                buttonId="_info-btn"
               />
             ) : null}
           </>

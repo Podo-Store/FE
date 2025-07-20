@@ -784,6 +784,7 @@ const PostManageDetail: React.FC = () => {
                   fontWeight: "700",
                   lineHeight: "1.5rem",
                 }}
+                grayInfoBtn={true}
               />
             </div>
 

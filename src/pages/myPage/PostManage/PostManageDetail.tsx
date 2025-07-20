@@ -441,7 +441,7 @@ const PostManageDetail: React.FC = () => {
                           ? ""
                           : String(form.runningTime ?? "")
                       }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[4.31%] mr-[1.72%] w-[31%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[5px] mr-[2px] w-[36px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
                         const value = e.target.value;
 
@@ -505,37 +505,11 @@ const PostManageDetail: React.FC = () => {
                       alt="입력 체크"
                     />
                     <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
-                      장과 막
+                      막과 장
                     </span>
                   </div>
                   <img src={stickIcon} className="my-auto" />
-                  <div className=" flex flex-row items-center  pl-[6.14%] p-small-regular whitespace-nowrap">
-                    <input
-                      type="text"
-                      placeholder="00"
-                      value={
-                        form.scene === 0 && !isTouched.scene
-                          ? ""
-                          : String(form.scene ?? "")
-                      }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        setIsTouched((prev) => ({ ...prev, scene: true }));
-
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, scene: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            scene: Number(value),
-                          }));
-                        }
-                      }}
-                    />
-                    <span>장</span>
+                  <div className="flex flex-row items-center p-small-regular whitespace-nowrap">
                     <input
                       type="text"
                       placeholder="00"
@@ -544,7 +518,7 @@ const PostManageDetail: React.FC = () => {
                           ? ""
                           : String(form.act ?? "")
                       }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[3.9%]  mr-[1.56%] w-[21.1%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  mr-[2px] w-[27px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
                       onChange={(e) => {
                         const value = e.target.value;
 
@@ -562,6 +536,32 @@ const PostManageDetail: React.FC = () => {
                       }}
                     />
                     <span>막</span>
+                    <input
+                      type="text"
+                      placeholder="00"
+                      value={
+                        form.scene === 0 && !isTouched.scene
+                          ? ""
+                          : String(form.scene ?? "")
+                      }
+                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[5px] mr-[2px] w-[27px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        setIsTouched((prev) => ({ ...prev, scene: true }));
+
+                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                        if (value === "") {
+                          setForm((prev) => ({ ...prev, scene: undefined })); // 또는 null
+                        } else if (/^\d{0,2}$/.test(value)) {
+                          setForm((prev) => ({
+                            ...prev,
+                            scene: Number(value),
+                          }));
+                        }
+                      }}
+                    />
+                    <span>장</span>
                   </div>
                 </div>
 

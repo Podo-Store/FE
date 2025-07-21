@@ -2,7 +2,10 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
-import { AuthInputField, AuthPwInputField } from "../../../components/inputField";
+import {
+  AuthInputField,
+  AuthPwInputField,
+} from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
 import PartialLoading from "../../../components/loading/PartialLoading";
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
@@ -137,8 +140,8 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   };
 
   const onChangeDisableCondition = () => {
-    // 모든 필드가 공란일 경우
-    if (!pw && !pwCheck && !name) {
+    // 비밀번호 필드들이 공란일 경우 disabled
+    if (!pw && !pwCheck) {
       return true;
     }
 

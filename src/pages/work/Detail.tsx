@@ -385,6 +385,29 @@ const Detail = () => {
     return count;
   };
 
+  const renderReviewWriteButton = () => {
+    return (
+      <button
+        className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
+        onClick={() => {
+          if (script?.isReviewWritten) {
+            alert("이미 작성된 후기가 있습니다.");
+            return;
+          }
+          if (!isAuthenticated) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/signin");
+            return;
+          }
+
+          navigate(`/list/review/${id}`);
+        }}
+      >
+        후기 작성하기 <img src={rightArrow} alt=">"></img>
+      </button>
+    );
+  };
+
   return (
     <div className=" detail f-dir-column a-items-center">
       <FloatingBtn style={{ bottom: "100px" }} />
@@ -760,24 +783,7 @@ const Detail = () => {
               )
             </p>
             <div className="flex justify-end w-full">
-              <button
-                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
-                onClick={() => {
-                  if (script?.isReviewWritten) {
-                    alert("이미 작성된 후기가 있습니다.");
-                    return;
-                  }
-                  if (!isAuthenticated) {
-                    alert("로그인이 필요한 서비스입니다.");
-                    navigate("/signin");
-                    return;
-                  }
-
-                  navigate(`/list/review/${id}`);
-                }}
-              >
-                후기 작성하기 <img src={rightArrow} alt=">"></img>
-              </button>
+              {renderReviewWriteButton()}
             </div>
           </section>
           <ReviewSummary stats={script?.reviewStatistics!} />
@@ -832,27 +838,42 @@ const Detail = () => {
               )}
             </div>
 
-            {reviews.map((review) => (
-              <ReviewList
-                key={review.id}
-                scriptId={script?.id!}
-                review={review}
-              />
-            ))}
+            {reviews.length > 0 ? (
+              reviews.map((review) => (
+                <ReviewList
+                  key={review.id}
+                  scriptId={script?.id!}
+                  review={review}
+                />
+              ))
+            ) : (
+              <div className="flex flex-col w-full">
+                <hr className="m-[0px] mb-[74px] w-full bg-[#9E9E9E]" />
+                <p className="p-large-bold text-center">
+                  작품의 후기를 남겨주세요.
+                </p>
+                <div className="mt-[25px] flex justify-center w-full">
+                  {renderReviewWriteButton()}
+                </div>
+              </div>
+            )}
           </section>
         </section>
 
-        <ReviewPagination
-          currentPage={reviewPage + 1}
-          totalPages={
-            Math.ceil((script?.reviewStatistics?.totalReviewCount ?? 5) / 5) ??
-            1
-          }
-          onPageChange={(page) => {
-            // 0 base로 parsing 필요
-            setReviewPage(page - 1);
-          }}
-        />
+        {reviews.length > 0 && (
+          <ReviewPagination
+            currentPage={reviewPage + 1}
+            totalPages={
+              Math.ceil(
+                (script?.reviewStatistics?.totalReviewCount ?? 5) / 5
+              ) ?? 1
+            }
+            onPageChange={(page) => {
+              // 0 base로 parsing 필요
+              setReviewPage(page - 1);
+            }}
+          />
+        )}
       </div>
 
       {!isDetailBtnVisible && (

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 
 const getWidthConditions = (width: number) => ({
-  isMobile: width < 768,
+  isSmallMobile: width < 480,
+  isMobile: width >= 480 && width < 768,
   isTablet: width >= 768 && width < 1280,
   isLaptop: width >= 1280 && width < 1920,
   isDesktop: width >= 1920,
@@ -13,6 +14,7 @@ const getWindowDimensions = () => {
       width: 0,
       height: 0,
       widthConditions: {
+        isSmallMobile: false,
         isMobile: false,
         isTablet: false,
         isLaptop: false,

@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+import "./StoryLengthTabs.scss";
 
 interface Props {
   activeStoryLength: string;
@@ -9,28 +8,16 @@ interface Props {
 
 const storyLength = ["전체", "단편", "장편"];
 
-const pathMap: Record<string, string> = {
-  전체: "",
-  장편: "/long",
-  단편: "/short",
-};
-
 const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  // useEffect(() => {
-  //   if (location.pathname.includes("/long")) {
-  //     setActiveStoryLength("장편");
-  //   } else if (location.pathname.includes("/short")) {
-  //     setActiveStoryLength("단편");
-  //   } else {
-  //     setActiveStoryLength("전체");
-  //   }
-  // }, [location.pathname, setActiveStoryLength]);
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
 
   return (
-    <ul className="flex list-none " style={{ padding: 0, margin: 0 }}>
+    <ul
+      className="flex list-none story-length"
+      style={{ padding: 0, margin: 0 }}
+    >
       {storyLength.map((length) => {
         const isActive = activeStoryLength === length;
         return (
@@ -41,7 +28,9 @@ const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
                 setActiveStoryLength(length);
               }
             }}
-            className={`cursor-pointer z-10 px-[15px] py-[10px] h5-medium hover:text-[#6A39C0] ${
+            className={`cursor-pointer z-10  whitespace-nowrap ${
+              isSmallMobile ? "p-small-medium" : " h5-medium"
+            } hover:text-[#6A39C0] ${
               isActive
                 ? "border-b-2 border-[#6A39C0] rounded-[1px] "
                 : "text-black"

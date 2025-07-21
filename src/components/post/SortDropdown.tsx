@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import downDropIcon from "@/assets/image/post/ic_arrow_down.svg";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import "./SortDropdown.scss";
 const SORT_OPTIONS = ["POPULAR", "LIKE_COUNT", "LATEST"];
 
 interface SortDropdownProps {
@@ -17,6 +20,9 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   selected = "POPULAR",
   onChange = () => {},
 }) => {
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -41,11 +47,13 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
   }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative sort-drop-down" ref={dropdownRef}>
       {/* 선택 영역 */}
       <button
         onClick={toggleDropdown}
-        className="flex  flex-row items-center gap-[4px] whitespace-nowrap p-medium-regular hover:text-[#6A39C0]"
+        className={`sort-drop-down-button flex flex-row items-center  whitespace-nowrap  hover:text-[#6A39C0] ${
+          isSmallMobile ? "p-xs-regular" : "p-medium-regular"
+        }`}
       >
         <span className="align-middle">
           {LABEL_MAP[selected as "POPULAR" | "LIKE_COUNT" | "LATEST"]}
@@ -61,14 +69,20 @@ const SortDropdown: React.FC<SortDropdownProps> = ({
 
       {/* 드롭다운 메뉴 */}
       {isOpen && (
-        <ul className="absolute z-10 mt-[5px] flex flex-col gap-[10px] p-medium-regular list-none text-center py-[14px] px-[0px] w-[84px] bg-[var(--white)] border border-[var(--grey3)] rounded-[5px] ">
+        <ul
+          className={`sort-drop-down-menu absolute z-10 mt-[5px] flex flex-col  list-none text-center px-[0px]  bg-[var(--white)] border border-[var(--grey3)] rounded-[5px] ${
+            isSmallMobile ? "p-xs-medium" : "p-medium-medium"
+          }`}
+        >
           {SORT_OPTIONS.map((option) => (
             <li
               key={option}
               className={`cursor-pointer   ${
                 selected === option
-                  ? "p-medium-medium"
-                  : "p-medium-regular text-[var(--grey6)] hover:text-[#6A39C0]"
+                  ? `${isSmallMobile ? "p-xs-medium" : "p-medium-medium"}`
+                  : `${
+                      isSmallMobile ? "p-xs-regular" : "p-medium-regular"
+                    } text-[var(--grey6)] hover:text-[#6A39C0]`
               } hover:bg-gray-100`}
               onClick={() =>
                 handleSelect(option as "POPULAR" | "LIKE_COUNT" | "LATEST")

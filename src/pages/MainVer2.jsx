@@ -35,7 +35,7 @@ import "./MainVer2Page2.scss";
 const MainVer2 = () => {
   const navigate = useNavigate();
   const {
-    widthConditions: { isDesktop, isLaptop, isTablet, isMobile },
+    widthConditions: { isDesktop, isLaptop, isTablet, isMobile, isSmallMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
@@ -62,7 +62,7 @@ const MainVer2 = () => {
     ? "h4-regular c-white"
     : "p-large-regular c-white";
 
-  if (isMobile) {
+  if (isMobile || isSmallMobile) {
     return <MobileError />;
   }
 

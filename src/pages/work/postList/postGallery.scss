@@ -12,7 +12,10 @@
     width: 668px;
   }
   @include r.media-mobile {
-    width: 100%;
-    padding: 0 5.52%;
+    width: 428px;
+  }
+  @include r.media-small-mobile {
+    width: 87.5vw;
+    min-width: 280px;
   }
 }

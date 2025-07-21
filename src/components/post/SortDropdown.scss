@@ -1,0 +1,27 @@
+@use "../../styles/responsive" as r;
+
+.sort-drop-down .sort-drop-down-button {
+  gap: 4px;
+  @include r.media-small-mobile {
+    gap: 5px;
+  }
+}
+
+.sort-drop-down .sort-drop-down-button img {
+  width: 18px;
+  @include r.media-small-mobile {
+    width: 14px;
+  }
+}
+
+.sort-drop-down .sort-drop-down-menu {
+  width: 84px;
+  gap: 10px;
+  padding: 14px 0;
+  @include r.media-small-mobile {
+    width: 15.93vw;
+    min-width: 51px;
+    gap: 8px;
+    padding: 11% 0;
+  }
+}

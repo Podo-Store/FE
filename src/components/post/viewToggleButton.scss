@@ -1,0 +1,7 @@
+@use "../../styles/responsive" as r;
+
+.view-toggle {
+  @include r.media-small-mobile {
+    width: 20.001px;
+  }
+}

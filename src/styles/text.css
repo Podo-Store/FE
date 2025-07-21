@@ -218,6 +218,13 @@
   line-height: 18px; /* 150% */
 }
 
+.p-12-bold {
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1rem; /* 133.333% */
+}
+
 .t-align-start,
 .t-start {
   text-align: start;

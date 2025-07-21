@@ -1,0 +1,8 @@
+@use "../../styles/responsive" as r;
+
+.stage-tab .stage-tab-li {
+  padding: 10px 15px;
+  @include r.media-small-mobile {
+    padding: 6px 11px;
+  }
+}

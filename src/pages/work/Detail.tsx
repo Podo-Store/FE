@@ -85,6 +85,7 @@ const Detail = () => {
   const [description, setDescription] = useState<string>("");
   const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
+    display: "none", // bottom bar 비활성화
   });
   const [selectedOption, setSelectedOption] = useState("");
   const [isOptionSelected, setIsOptionSelected] = useState(false);
@@ -741,13 +742,13 @@ const Detail = () => {
                 value={`약 ${script?.runningTime}분`}
               />
               <InfoItem
-                label="장과 막"
-                value={`${script?.scene}막 ${script?.act}장`}
+                label="막과 장"
+                value={`${script?.act}막 ${script?.scene}장`}
               />
             </div>
           </div>
 
-          <div className="script-intention w-full">
+          <div className="w-full script-intention">
             <hr></hr>
             <div className="flex flex-col pl-[20px] gap-[19px]">
               <h2 className="p-large-bold">작가 의도</h2>

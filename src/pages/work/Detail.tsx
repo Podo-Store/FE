@@ -82,6 +82,7 @@ export interface PostDetail {
 
 const Detail = () => {
   const [script, setScript] = useState<PostDetail>();
+  const [description, setDescription] = useState<string>("");
   const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
   });
@@ -123,17 +124,16 @@ const Detail = () => {
       setReviews([]);
       setReviewPage(0);
 
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      const token = Cookies.get("accessToken");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       try {
         setIsLoading(true);
-
-        const headers: Record<string, string> = {
-          "Content-Type": "application/json",
-        };
-
-        const token = Cookies.get("accessToken");
-        if (token) {
-          headers["Authorization"] = `Bearer ${token}`;
-        }
 
         const response = await axios.get(`${SERVER_URL}scripts/detail`, {
           headers: headers,
@@ -155,7 +155,6 @@ const Detail = () => {
           performancePrice: response.data.performancePrice ?? 0,
           playType: response.data.playType,
           imagePath: response.data.imagePath,
-          descriptionPath: response.data.descriptionPath,
           buyStatus: response.data.buyStatus,
           like: response.data.like,
           likeCount: response.data.likeCount,
@@ -186,6 +185,19 @@ const Detail = () => {
         console.error("❌ 서버 응답:", errMsg);
       }
       setIsLoading(false);
+
+      const { data: description } = await axios.get(
+        `${SERVER_URL}scripts/description`,
+        {
+          headers: headers,
+          params: {
+            script: id,
+          },
+          responseType: "blob",
+        }
+      );
+
+      setDescription(URL.createObjectURL(description));
     };
 
     getDetail();
@@ -754,9 +766,9 @@ const Detail = () => {
 
           <div className=" j-content-center">
             {/* PDF 삽입 */}
-            {script?.descriptionPath ? (
+            {description ? (
               <Document
-                file={script.descriptionPath}
+                file={description}
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={<PartialLoading />}
               >

@@ -222,7 +222,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
       <div className="flex flex-col items-center w-1/2">
         {totalReviewCount > 0 ? (
           <h3 className="p-medium-regular mb-[48px]">
-            이 작품은 특히
+            이 작품은 특히&nbsp;&nbsp;
             <span className="relative p-medium-bold">
               {
                 featureDataWithFull.find(

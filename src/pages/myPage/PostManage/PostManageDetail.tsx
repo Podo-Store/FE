@@ -237,7 +237,9 @@ const PostManageDetail: React.FC = () => {
     );
   };
 
-  const normalizeLineBreaks = (text: string) => text.replace(/\r\n/g, "\n");
+  // null일 때 함수 실행 고려 필요
+  const normalizeLineBreaks = (text: string | null | undefined) =>
+    (text ?? "").replace(/\r\n/g, "\n");
 
   return (
     <div className="w-full post-manage-detail">

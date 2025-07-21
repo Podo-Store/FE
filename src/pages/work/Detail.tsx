@@ -707,8 +707,8 @@ const Detail = () => {
                 value={`약 ${script?.runningTime}분`}
               />
               <InfoItem
-                label="장과 막"
-                value={`${script?.scene}막 ${script?.act}장`}
+                label="막과 장"
+                value={`${script?.act}막 ${script?.scene}장`}
               />
             </div>
           </div>

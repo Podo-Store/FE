@@ -206,7 +206,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
           </button>
         )}
 
-        <div className="flex items-center gap-[5px]">
+        <div className="flex justify-end items-center gap-[5px] w-full">
           <button
             onClick={() => handleLike()}
             disabled={loading}

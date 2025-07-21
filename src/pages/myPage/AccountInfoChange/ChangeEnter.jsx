@@ -57,7 +57,6 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
         <h6>회원 정보 수정을 위해서 비밀번호를 다시 한 번 입력해주세요.</h6>
         <div className="a-items-start" id="enter-input">
           <AuthPwInputField
-            type="password"
             placeholder="비밀번호를 입력해주세요."
             value={typedPassword}
             onChange={(event) => {

@@ -82,6 +82,7 @@ export interface PostDetail {
 
 const Detail = () => {
   const [script, setScript] = useState<PostDetail>();
+  const [description, setDescription] = useState<string>("");
   const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
     display: "none", // bottom bar 비활성화
@@ -124,17 +125,16 @@ const Detail = () => {
       setReviews([]);
       setReviewPage(0);
 
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+
+      const token = Cookies.get("accessToken");
+      if (token) {
+        headers["Authorization"] = `Bearer ${token}`;
+      }
       try {
         setIsLoading(true);
-
-        const headers: Record<string, string> = {
-          "Content-Type": "application/json",
-        };
-
-        const token = Cookies.get("accessToken");
-        if (token) {
-          headers["Authorization"] = `Bearer ${token}`;
-        }
 
         const response = await axios.get(`${SERVER_URL}scripts/detail`, {
           headers: headers,
@@ -156,7 +156,6 @@ const Detail = () => {
           performancePrice: response.data.performancePrice ?? 0,
           playType: response.data.playType,
           imagePath: response.data.imagePath,
-          descriptionPath: response.data.descriptionPath,
           buyStatus: response.data.buyStatus,
           like: response.data.like,
           likeCount: response.data.likeCount,
@@ -187,6 +186,19 @@ const Detail = () => {
         console.error("❌ 서버 응답:", errMsg);
       }
       setIsLoading(false);
+
+      const { data: description } = await axios.get(
+        `${SERVER_URL}scripts/description`,
+        {
+          headers: headers,
+          params: {
+            script: id,
+          },
+          responseType: "blob",
+        }
+      );
+
+      setDescription(URL.createObjectURL(description));
     };
 
     getDetail();
@@ -384,6 +396,29 @@ const Detail = () => {
       return "999+";
     }
     return count;
+  };
+
+  const renderReviewWriteButton = () => {
+    return (
+      <button
+        className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
+        onClick={() => {
+          if (script?.isReviewWritten) {
+            alert("이미 작성된 후기가 있습니다.");
+            return;
+          }
+          if (!isAuthenticated) {
+            alert("로그인이 필요한 서비스입니다.");
+            navigate("/signin");
+            return;
+          }
+
+          navigate(`/list/review/${id}`);
+        }}
+      >
+        후기 작성하기 <img src={rightArrow} alt=">"></img>
+      </button>
+    );
   };
 
   return (
@@ -732,9 +767,9 @@ const Detail = () => {
 
           <div className=" j-content-center">
             {/* PDF 삽입 */}
-            {script?.descriptionPath ? (
+            {description ? (
               <Document
-                file={script.descriptionPath}
+                file={description}
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={<PartialLoading />}
               >
@@ -761,20 +796,7 @@ const Detail = () => {
               )
             </p>
             <div className="flex justify-end w-full">
-              <button
-                className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    alert("로그인이 필요한 서비스입니다.");
-                    navigate("/signin");
-                    return;
-                  }
-
-                  navigate(`/list/review/${id}`);
-                }}
-              >
-                후기 작성하기 <img src={rightArrow} alt=">"></img>
-              </button>
+              {renderReviewWriteButton()}
             </div>
           </section>
           <ReviewSummary stats={script?.reviewStatistics!} />
@@ -829,27 +851,42 @@ const Detail = () => {
               )}
             </div>
 
-            {reviews.map((review) => (
-              <ReviewList
-                key={review.id}
-                scriptId={script?.id!}
-                review={review}
-              />
-            ))}
+            {reviews.length > 0 ? (
+              reviews.map((review) => (
+                <ReviewList
+                  key={review.id}
+                  scriptId={script?.id!}
+                  review={review}
+                />
+              ))
+            ) : (
+              <div className="flex flex-col w-full">
+                <hr className="m-[0px] mb-[74px] w-full bg-[#9E9E9E]" />
+                <p className="p-large-bold text-center">
+                  작품의 후기를 남겨주세요.
+                </p>
+                <div className="mt-[25px] flex justify-center w-full">
+                  {renderReviewWriteButton()}
+                </div>
+              </div>
+            )}
           </section>
         </section>
 
-        <ReviewPagination
-          currentPage={reviewPage + 1}
-          totalPages={
-            Math.ceil((script?.reviewStatistics?.totalReviewCount ?? 5) / 5) ??
-            1
-          }
-          onPageChange={(page) => {
-            // 0 base로 parsing 필요
-            setReviewPage(page - 1);
-          }}
-        />
+        {reviews.length > 0 && (
+          <ReviewPagination
+            currentPage={reviewPage + 1}
+            totalPages={
+              Math.ceil(
+                (script?.reviewStatistics?.totalReviewCount ?? 5) / 5
+              ) ?? 1
+            }
+            onPageChange={(page) => {
+              // 0 base로 parsing 필요
+              setReviewPage(page - 1);
+            }}
+          />
+        )}
       </div>
 
       {!isDetailBtnVisible && (

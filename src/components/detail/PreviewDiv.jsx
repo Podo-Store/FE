@@ -68,6 +68,7 @@ const PreviewDiv = ({
                     setSelectedPage(selectedPage - 1);
                   }
                 }}
+                style={selectedPage === 1 ? { opacity: "0" } : null}
               />
             )}
 
@@ -111,6 +112,7 @@ const PreviewDiv = ({
                     setSelectedPage(selectedPage + 1);
                   }
                 }}
+                style={selectedPage === showThreshold ? { opacity: "0" } : null}
               />
             )}
           </div>

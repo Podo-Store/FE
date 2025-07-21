@@ -220,19 +220,23 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
       <div className="absolute left-1/2 -translate-x-1/2 mt-[-10px] w-[1px] h-[267px] bg-[#9E9E9E]"></div>
 
       <div className="flex flex-col items-center w-1/2">
-        <h3 className="p-medium-regular mb-[48px]">
-          이 작품은 특히{" "}
-          <span className="relative p-medium-bold">
-            {
-              featureDataWithFull.find(
-                (d) =>
-                  d.value ===
-                  Math.max(...featureDataWithFull.map((d) => d.value))
-              )?.name
-            }
-            <div className="absolute right-[0px] my-[0px] w-full h-[1px] bg-[#6A39C0]" />
-          </span>
-        </h3>
+        {totalReviewCount > 0 ? (
+          <h3 className="p-medium-regular mb-[48px]">
+            이 작품은 특히&nbsp;&nbsp;
+            <span className="relative p-medium-bold">
+              {
+                featureDataWithFull.find(
+                  (d) =>
+                    d.value ===
+                    Math.max(...featureDataWithFull.map((d) => d.value))
+                )?.name
+              }
+              <div className="absolute right-[0px] my-[0px] w-full h-[1px] bg-[#6A39C0]" />
+            </span>
+          </h3>
+        ) : (
+          <h3 className="p-medium-regular mb-[48px]">등록된 후기가 없어요.</h3>
+        )}
         <ResponsiveContainer width={339} height={200}>
           <BarChart
             data={featureDataWithFull}

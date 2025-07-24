@@ -194,7 +194,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
       <div className="flex justify-between mb-[20px]">
         {isOverflow && (
           <button
-            className="flex items-center gap-[6px] text-[#777] p-small-medium cursor-pointer"
+            className="flex items-center gap-[6px] text-[#777] p-small-medium cursor-pointer whitespace-nowrap"
             onClick={() => setIsExpanded(!isExpanded)}
           >
             {isExpanded ? "접기" : "펼쳐보기"}

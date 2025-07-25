@@ -74,6 +74,7 @@ export interface PostDetail {
   runningTime: number;
   scene: number;
   act: number;
+  isMine: boolean;
   isReviewWritten: boolean;
   reviewStatistics: ReviewStatistics;
   reviews: Review[];
@@ -167,6 +168,7 @@ const Detail = () => {
           runningTime: response.data.runningTime,
           scene: response.data.scene,
           act: response.data.act,
+          isMine: response.data.isMine,
           isReviewWritten: response.data.isReviewWritten,
           reviewStatistics: response.data.reviewStatistics,
           reviews: response.data.reviews,
@@ -403,6 +405,10 @@ const Detail = () => {
       <button
         className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
         onClick={() => {
+          if (script?.isMine) {
+            alert("본인의 작품은 후기를 작성할 수 없습니다.");
+            return;
+          }
           if (script?.isReviewWritten) {
             alert("이미 작성된 후기가 있습니다.");
             return;

@@ -7,4 +7,7 @@
   @include r.media-mobile {
     width: 430px;
   }
+  @include r.media-small-mobile {
+    width: 100vw;
+  }
 }

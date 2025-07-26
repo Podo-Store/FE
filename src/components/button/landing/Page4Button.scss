@@ -1,6 +1,10 @@
 @use "./../../../styles/_responsive.scss" as r;
 
 .page4-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   width: 195px;
   height: 195px;
   flex-shrink: 0;
@@ -12,6 +16,12 @@
   @include r.media-mobile {
     width: 130px;
     height: 130px;
+
+    border-radius: 30px;
+  }
+  @include r.media-small-mobile {
+    width: 80px;
+    height: 80px;
   }
 }
 
@@ -27,4 +37,8 @@
 
 .page4-button img {
   width: 65%;
+
+  @include r.media-small-mobile {
+    width: 50.204px;
+  }
 }

@@ -79,7 +79,7 @@ const MainVer2 = () => {
     <div className=" main-ver2">
       <FloatingBtn />
 
-      <div>
+      <div className="flex flex-col items-center">
         <div className="page1">
           <section className=" page1-width">
             <div className="page1-title-img">

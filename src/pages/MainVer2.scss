@@ -2,6 +2,7 @@
 
 .main-ver2 .page1 {
   background: linear-gradient(180deg, #f5f0ff 0%, #fff 100%);
+  width: 100%;
   height: 1010px;
   @include r.media-tablet {
     display: flex;
@@ -276,6 +277,10 @@
     width: 468px;
     margin: auto;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+    margin: auto;
+  }
 }
 .main-ver2 .page4 .title_64px {
   padding-top: 7.5vh; /* 81px */
@@ -299,5 +304,9 @@
   }
   @include r.media-mobile {
     gap: 27px;
+  }
+
+  @include r.media-small-mobile {
+    margin-top: 30px;
   }
 }

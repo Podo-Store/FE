@@ -7,7 +7,7 @@ import { getPostView } from "@/api/user/postListApi";
 import { getLikeStatus } from "@/api/user/profile/likeApi";
 
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import HeaderWithBack from "@/components/header/HeaderWithBack";
 
 import heartIcon from "@/assets/image/post/ic_heart.svg";
@@ -60,6 +60,10 @@ const PostView: React.FC = () => {
   const topMarkerRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
 
   const rawToggleLike = useSingleToggleLike();
 
@@ -142,8 +146,16 @@ const PostView: React.FC = () => {
       }
 
       setOffset((prev) => {
-        const next = prev - deltaY;
-        return Math.max(0, Math.min(barHeight, next));
+        const next = Math.max(0, Math.min(barHeight, prev - deltaY));
+        console.log(
+          "🔥 scrollY:",
+          currentY,
+          "deltaY:",
+          deltaY,
+          "offset:",
+          next
+        );
+        return next;
       });
 
       lastScrollY.current = currentY;
@@ -170,6 +182,26 @@ const PostView: React.FC = () => {
       window.removeEventListener("click", handleClick);
     };
   });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterVisible(entry.isIntersecting);
+      },
+      {
+        root: null,
+        threshold: 0.01, // 1%만 보여도 true
+      }
+    );
+
+    if (footerControlRef.current) {
+      observer.observe(footerControlRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -292,7 +324,7 @@ const PostView: React.FC = () => {
           style={{
             transform: isHeaderTouchTop
               ? `translateY(0)` // 마커에 닿았을 때
-              : `translateY(-${headerOffset + 72}px)`, // 그 외
+              : `translateY(-${headerOffset + 72}px )`, // 그 외
           }}
         >
           {!isHeaderTouchTop ? <MainNav /> : <></>}
@@ -300,11 +332,14 @@ const PostView: React.FC = () => {
           <HeaderWithBack
             backUrl={id ? `/list/detail/${id}` : "/list"}
             headerTitle={script.title}
-            headerFont="h1-bold"
+            headerFont={`${isSmallMobile ? "h5-bold" : "h1-bold"}`}
             subtitle={script.writer}
-            subFont="h3-bold"
-            className={` mb-[23px] mt-[37px] mx-auto `}
+            subFont={`${isSmallMobile ? "p-large-bold" : "h3-bold"}`}
+            className={`${
+              isSmallMobile ? "mb-[20px] mt-[25px]  " : "mb-[23px] mt-[37px] "
+            } mx-auto `}
           />
+
           <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
         </div>
 
@@ -348,7 +383,7 @@ const PostView: React.FC = () => {
             ref={footerControlRef}
             className={` w-screen  ${
               isFooterVisible
-                ? "absolute"
+                ? "absolute "
                 : "fixed transition-transform duration-100 ease-linear"
             }  top-[100%] bg-[#FFF] h-[7vh]`}
             style={{
@@ -363,14 +398,18 @@ const PostView: React.FC = () => {
           >
             <span className="absolute w-[100vw] border border-[var(--purple7)] " />
             <div
-              className=" relative m-auto  pdfSize  flex flex-row h-full gap-[1.53%] items-center"
+              className={`relative m-auto  pdfSize  flex flex-row h-full gap-[1.53%] items-center box-border ${
+                isSmallMobile ? "px-[4.7vw]" : ""
+              }`}
               style={{
                 pointerEvents: isMoreBtn ? "none" : "auto",
               }}
             >
               {isMoreBtn ? (
                 <div
-                  className="absolute left-[30px] z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear"
+                  className={`absolute z-10 flex bg-[var(--white)] border border-[var(--grey3)] w-fit  rounded-[5px] items-center gap-[10px] px-[7px] py-[7px] transition-transform duration-100 ease-linear ${
+                    isSmallMobile ? "left-[12.18vw]" : "left-[30px]"
+                  }`}
                   style={{ pointerEvents: "auto" }}
                 >
                   <button onClick={() => handleZoom("out")}>
@@ -430,18 +469,22 @@ const PostView: React.FC = () => {
                 className="transition-all duration-100 hover:scale-[1.1]"
               >
                 <img
-                  className="no-drag"
+                  className={`no-drag ${isSmallMobile ? "w-[27px]" : ""}`}
                   src={isLiked ? redHeartIcon : heartIcon}
                   alt="좋아요"
                 ></img>
               </button>
               <button
-                className="no-drag transition-all duration-100 hover:scale-[1.1]"
+                className={`no-drag transition-all duration-100 hover:scale-[1.1] `}
                 onClick={() => {
                   navigate(`/list/review/${id}`);
                 }}
               >
-                <img src={commentIcon} alt="후기" className="no-drag" />
+                <img
+                  src={commentIcon}
+                  alt="후기"
+                  className={`no-drag  ${isSmallMobile ? "w-[34px]" : ""}`}
+                />
               </button>
 
               {/* 페이지네이션 */}
@@ -454,7 +497,11 @@ const PostView: React.FC = () => {
                   onChange={(e) => handlePageChange(Number(e.target.value))}
                   className="w-full accent-[#6A39C0] h-[3px]"
                 />
-                <span className="ml-[32px] text-black whitespace-nowrap p-large-medium no-drag">
+                <span
+                  className={` text-black whitespace-nowrap p-large-medium no-drag ${
+                    isSmallMobile ? "ml-[7vw]" : "ml-[32px]"
+                  } `}
+                >
                   {currentPage} / {numPages}
                 </span>
               </div>

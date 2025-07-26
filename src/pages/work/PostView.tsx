@@ -30,7 +30,12 @@ const PostView: React.FC = () => {
   const navigate = useNavigate();
   const accessToken = Cookies.get("accessToken");
   const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
-  const getPdfWidth = () => (window.innerWidth <= 768 ? 430 : 653);
+  const getPdfWidth = () => {
+    const width = window.innerWidth;
+    if (width <= 320) return 320;
+    if (width <= 768) return width;
+    return 653;
+  };
   const HEADER_HEIGHT = 179; // 헤더 높이
 
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -279,11 +284,11 @@ const PostView: React.FC = () => {
         }}
       />
       {/* 1280px */}
-      <div ref={scrollContainerRef} className="postView w-screen mb-[7vh]">
+      <div ref={scrollContainerRef} className="postView w-screen mb-[7vh] ">
         {/* header */}
 
         <div
-          className={` fixed top-[71px] left-0 w-full z-50 transition-transform duration-70 ease-out  bg-[#fff]`}
+          className={` fixed top-[71px] left-0 w-full z-50 transition-transform duration-70 ease-out  bg-[#fff] `}
           style={{
             transform: isHeaderTouchTop
               ? `translateY(0)` // 마커에 닿았을 때
@@ -303,7 +308,7 @@ const PostView: React.FC = () => {
           <span className="absolute z-100 w-[200vw] border border-[var(--purple7)] left-[-50%]" />
         </div>
 
-        <div className="relative w-full pt-[179px]   ">
+        <div className="relative w-full pt-[179px] ">
           {showWarningModal && (
             <>
               <WarningModal onClose={() => setShowWarningModal(false)} />
@@ -318,7 +323,7 @@ const PostView: React.FC = () => {
               >
                 {Array.from(new Array(numPages), (_, index) => (
                   <div
-                    className="z-0"
+                    className="z-0 "
                     id={`page-${index + 1}`}
                     key={`page-${index + 1}`}
                   >

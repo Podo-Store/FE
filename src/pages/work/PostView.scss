@@ -6,9 +6,17 @@
   @include r.media-mobile {
     width: 430px;
   }
+  @include r.media-small-mobile {
+    width: 100%;
+  }
 }
 
 .postView .pdf-warning {
   width: 340px;
   height: 138px;
+
+  @include r.media-small-mobile {
+    width: 73.4%;
+    aspect-ratio: 235 / 126;
+  }
 }

@@ -31,6 +31,7 @@ import youtube from "../assets/image/landing/page4/youtube.svg";
 
 import "./MainVer2.scss";
 import "./MainVer2Page2.scss";
+import clsx from "clsx";
 
 const MainVer2 = () => {
   const navigate = useNavigate();
@@ -57,43 +58,39 @@ const MainVer2 = () => {
     );
   };
 
-  const page2TitleClassName = !isMobile ? "h1-medium" : "h4-medium";
-  const page2TextsClassName = !isMobile
-    ? "h4-regular c-white"
-    : "p-large-regular c-white";
+  const page2TitleClassName =
+    !isMobile && !isSmallMobile
+      ? "h1-medium"
+      : !isSmallMobile
+      ? "h4-medium"
+      : "p-medium-medium";
+  const page2TextsClassName =
+    !isMobile && !isSmallMobile
+      ? "h4-regular c-white"
+      : !isSmallMobile
+      ? "p-large-regular c-white"
+      : "p-xs-regular c-white";
 
-  if (isMobile || isSmallMobile) {
-    return <MobileError />;
-  }
+  // if (isMobile || isSmallMobile) {
+  //   return <MobileError />;
+  // }
 
   return (
     <div className=" main-ver2">
       <FloatingBtn />
 
       <div>
-        <div className=" page1">
+        <div className="page1">
           <section className=" page1-width">
-            <div
-              className={`page1-title-img pt-[136px]   ${
-                isLaptop
-                  ? " gap-[80px]"
-                  : isTablet
-                  ? "gap-[60px]  w-[768px]"
-                  : "gap-[42px]"
-              }  justify-between`}
-            >
-              <div
-                className={`  ${
-                  isLaptop ? "" : ""
-                }  h-fit title-wrap f-dir-column p-relative`}
-              >
-                <h1 className=" title">
+            <div className="page1-title-img">
+              <div className="title-wrap h-fit f-dir-column p-relative">
+                <h1 className="title">
                   대본과 {isLaptop && <br />}공연권 거래
                   <br />
                   포도상점에서
                 </h1>
 
-                <h5 className=" sub-title whitespace-nowrap">
+                <h5 className="sub-title whitespace-nowrap">
                   편리하게 대본과 공연권을 거래해요.
                   <br />
                   여러분들이 원하던 스토리 IP 플랫폼,
@@ -101,26 +98,27 @@ const MainVer2 = () => {
                   포도상점을 시작하세요!
                 </h5>
               </div>
-              {!isTablet && !isMobile ? (
-                <img src={circleIcon} alt="circle" className=" circle-icon" />
+              {!isTablet && !isMobile && !isSmallMobile ? (
+                <img src={circleIcon} alt="circle" className="circle-icon" />
               ) : (
-                <div className="flex justify-end w-full ">
-                  <img
-                    src={circleIcon}
-                    alt="circle"
-                    className=" circle-icon w-[438px]"
-                  />
+                <div
+                  className={clsx(
+                    "flex w-full",
+                    isSmallMobile ? "justify-center" : "justify-end"
+                  )}
+                >
+                  <img src={circleIcon} alt="circle" className="circle-icon" />
                 </div>
               )}
             </div>
-            <div className="flex justify-center w-full  h-content mt-[50px]  p">
+            <div className="flex justify-center w-full h-content">
               <img src={arrow} alt="First" className=" arrow" />
             </div>
           </section>
         </div>
 
-        <div className={`page2 `}>
-          <h1 className=" page2-title title_64px">
+        <div className="page2">
+          <h1 className="page2-title title_64px">
             포도상점에서는 이런 것들이 가능해요
           </h1>
           <div className=" page2-content-wrap j-content-center">
@@ -162,7 +160,7 @@ const MainVer2 = () => {
                 <img
                   src={
                     !isTablet
-                      ? !isMobile
+                      ? !isMobile && !isSmallMobile
                         ? content2
                         : content3_480
                       : content3_768
@@ -171,10 +169,14 @@ const MainVer2 = () => {
                 />
               </div>
               <div>
-                {!(isTablet || isMobile) ? content2Texts() : content3Texts()}
+                {!(isTablet || isMobile || isSmallMobile)
+                  ? content2Texts()
+                  : content3Texts()}
 
                 <h1 className={page2TitleClassName}>
-                  {!(isTablet || isMobile) ? content2Title() : content3Title()}
+                  {!(isTablet || isMobile || isSmallMobile)
+                    ? content2Title()
+                    : content3Title()}
                 </h1>
 
                 <ImageBtn
@@ -196,7 +198,7 @@ const MainVer2 = () => {
                 <img
                   src={
                     !isTablet
-                      ? !isMobile
+                      ? !isMobile && !isSmallMobile
                         ? content3
                         : content2_480
                       : content2_768
@@ -206,10 +208,14 @@ const MainVer2 = () => {
               </div>
 
               <h1 className={page2TitleClassName + " t-right"}>
-                {!(isTablet || isMobile) ? content3Title() : content2Title()}
+                {!(isTablet || isMobile || isSmallMobile)
+                  ? content3Title()
+                  : content2Title()}
               </h1>
 
-              {!(isTablet || isMobile) ? content3Texts() : content2Texts()}
+              {!(isTablet || isMobile || isSmallMobile)
+                ? content3Texts()
+                : content2Texts()}
 
               <ImageBtn
                 src={page2ButtonImg}

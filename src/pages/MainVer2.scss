@@ -12,6 +12,9 @@
     align-items: center;
     height: 1058px;
   }
+  @include r.media-small-mobile {
+    height: 643px;
+  }
 }
 
 .main-ver2 .page1-width {
@@ -32,26 +35,33 @@
     width: 480px;
     margin: 0 auto;
   }
+  @include r.media-small-mobile {
+    width: 320px;
+  }
 }
 
 .main-ver2 .page1-title-img {
   display: flex;
+  justify-content: space-between;
   flex-direction: row;
+  gap: 42px;
 
+  padding-top: 136px;
   margin: auto;
 
   width: 1280px;
   @include r.media-laptop {
+    gap: 80px;
     width: 1120px;
   }
   @include r.media-tablet {
     flex-direction: column;
     gap: 0px;
 
-    width: 768px;
+    width: 100%;
   }
-  @include r.media-mobile {
-    width: 480px;
+  @include r.media-small-mobile {
+    padding-top: 40px;
   }
 }
 .main-ver2 .page1 .title-wrap {
@@ -93,6 +103,13 @@
 
     font-size: 48px;
   }
+  @include r.media-small-mobile {
+    margin-bottom: 20px;
+
+    font-size: 28px;
+    line-height: 36px; /* 128.571% */
+    letter-spacing: -0.56px;
+  }
 }
 
 .main-ver2 .page1 .sub-title {
@@ -111,14 +128,26 @@
   @include r.media-mobile {
     font-size: 24px;
   }
+  @include r.media-small-mobile {
+    font-size: 16px;
+    line-height: 24px; /* 150% */
+  }
 }
 
 .main-ver2 .page1 img.arrow {
+  margin-top: 50px;
+
   width: 80px;
   height: 26px;
   flex-shrink: 0;
 
   animation: moveArrow 1.5s infinite ease-in-out;
+  @include r.media-small-mobile {
+    margin-top: 40px;
+
+    width: 40px;
+    height: 13px;
+  }
 }
 
 @keyframes moveArrow {
@@ -152,6 +181,13 @@
 
     transform: translateX(0);
   }
+
+  @include r.media-small-mobile {
+    margin-top: 20px;
+
+    width: 219px;
+    height: 215px;
+  }
 }
 .resized-image {
   width: 100%;
@@ -180,6 +216,9 @@
   }
   @include r.media-mobile {
     font-size: 28px;
+  }
+  @include r.media-small-mobile {
+    font-size: 20px;
   }
 }
 

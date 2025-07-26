@@ -39,13 +39,6 @@
   border: 1px solid var(--grey4, #bababa);
 
   color: #000;
-
-  /* Paragraph/Small/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 0.875rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.25rem; /* 142.857% */
 }
 
 .auth-input-field .input-wrap input.non-right-element {

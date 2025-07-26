@@ -4,11 +4,13 @@ import ErrorMessage from "../../auth/signUp/ErrorMessages/ErrorMessage.jsx";
 import { AuthInputFieldProps } from "./types";
 
 import "./AuthInputField.css";
+import clsx from "clsx";
 
 /**
  * @param {object} props
  * @param {string} [props.title] - [deprecated] title
  * @param {object} [props.style] - style
+ * @param {string} [props.fontMode] - "default" | "12" | "xs"
  * @param {boolean} [props.readOnly] - 읽기 전용 여부
  * @param {boolean} [props.disabledMode] - 선택 가능 여부
  * @param {object} [props.rightElement] - input field 우측 element
@@ -23,6 +25,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
   title,
   style,
   // 추가 요소
+  fontMode = "default",
   readOnly = false,
   disabledMode = false, // ✅ 새로운 prop
   rightElement,
@@ -41,7 +44,17 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
       <label htmlFor={title}>{title}</label>
       <div className="input-wrap" style={{ ...style }}>
         <input
-          className={"input" + rightElement ? " non-right-element" : ""}
+          className={clsx(
+            "input",
+            rightElement && "non-right-element",
+            fontMode === "default"
+              ? "p-small-regular"
+              : fontMode === "12"
+              ? "p-12-400"
+              : fontMode === "xs"
+              ? "p-xs-regular"
+              : "p-small-regular"
+          )}
           readOnly={readOnly || disabledMode}
           tabIndex={disabledMode ? -1 : props.tabIndex}
           style={{
@@ -54,7 +67,14 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
           {...props}
         />
         {rightElement ? (
-          <div className="right-element">{rightElement}</div>
+          <div
+            className="right-element"
+            style={
+              fontMode === "12" || fontMode === "xs" ? { right: "13px" } : {}
+            }
+          >
+            {rightElement}
+          </div>
         ) : null}
       </div>
 
@@ -68,13 +88,17 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
                   key={index}
                   checkedFlag={checker.checkedFlag}
                   message={checker.message}
+                  smallMessage={fontMode === "12" || fontMode === "xs"}
                 />
               ))}
             </div>
           ) : null}
           {errorFlag ? (
             <div id="error-wrap">
-              <ErrorMessage message={errorMessage} />
+              <ErrorMessage
+                message={errorMessage}
+                smallMessage={fontMode === "12" || fontMode === "xs"}
+              />
             </div>
           ) : null}
         </div>

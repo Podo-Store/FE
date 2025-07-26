@@ -2,8 +2,9 @@ export interface AuthInputFieldProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   title?: string;
   style?: React.CSSProperties;
+  fontMode?: "default" | "12" | "xs";
   readOnly?: boolean;
-  disabledMode?: boolean; 
+  disabledMode?: boolean;
   rightElement?: React.ReactNode;
   checkerShowFlag?: boolean;
   checkerMessages?: { checkedFlag: boolean; message: string }[];

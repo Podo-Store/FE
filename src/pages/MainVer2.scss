@@ -235,6 +235,9 @@
   @include r.media-mobile {
     font-size: 16px;
   }
+  @include r.media-small-mobile {
+    font-size: 12px;
+  }
 }
 
 .main-ver2 .bottom-position {

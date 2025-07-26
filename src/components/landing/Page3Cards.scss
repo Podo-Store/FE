@@ -21,6 +21,9 @@
   @include r.media-mobile {
     margin-top: 0;
   }
+  @include r.media-small-mobile {
+    height: 500px;
+  }
 }
 
 .main-ver2 .cards .cards-arrow-wrap {
@@ -34,6 +37,11 @@
 .main-ver2 .cards .cards-arrow {
   width: 26px;
   height: 80px;
+
+  @include r.media-small-mobile {
+    width: 13px;
+    height: 40px;
+  }
 }
 
 .main-ver2 .cards .cards-arrow#left {
@@ -52,5 +60,8 @@
   }
   @include r.media-mobile {
     height: fit-content;
+  }
+  @include r.media-small-mobile {
+    gap: 20px;
   }
 }

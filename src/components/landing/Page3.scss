@@ -24,6 +24,9 @@
 
 .main-ver2 .page3 > .title_20px {
   margin-top: 1.204vh;
+  @include r.media-small-mobile {
+    margin-top: 8px;
+  }
 }
 
 .page3 .slider-wrapper {
@@ -37,6 +40,9 @@
   }
   @include r.media-mobile {
     max-height: 700px;
+  }
+  @include r.media-small-mobile {
+    max-height: 500px;
   }
 }
 

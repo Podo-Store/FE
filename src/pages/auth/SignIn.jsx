@@ -13,8 +13,10 @@ import { SERVER_URL } from "../../constants/ServerURL.js";
 
 import bar from "../../assets/image/auth/bar.svg";
 
-import "./SignIn.css";
+import "./SignIn.scss";
 import "./../../styles/utilities.css";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+import clsx from "clsx";
 
 function SignIn() {
   const { login } = useContext(AuthContext);
@@ -30,6 +32,8 @@ function SignIn() {
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   const from = location.state?.from?.pathname || "/"; // 이전 페이지로 이동
 
@@ -87,7 +91,14 @@ function SignIn() {
         <Box>
           <RectangleForm onSubmit={onClickConfirmButton}>
             {/* Form 요소에 onSubmit을 사용 */}
-            <div className="title h2-medium t-center">로그인</div>
+            <div
+              className={clsx(
+                "title t-center",
+                !isSmallMobile ? "h2-medium" : "h5-medium"
+              )}
+            >
+              로그인
+            </div>
             <div className="contentWrap">
               <AuthInputField
                 type="text"
@@ -96,12 +107,22 @@ function SignIn() {
                 onChange={(event) => {
                   setId(event.target.value);
                 }}
+                fontMode={isSmallMobile ? "12" : "default"}
+                style={{
+                  width: "100%",
+                  ...(isSmallMobile ? { height: "48px" } : {}),
+                }}
               />
               <AuthPwInputField
                 placeholder="비밀번호를 입력해주세요."
                 value={pw}
                 onChange={(event) => {
                   setPw(event.target.value);
+                }}
+                fontMode={isSmallMobile ? "12" : "default"}
+                style={{
+                  width: "100%",
+                  ...(isSmallMobile ? { height: "48px" } : {}),
                 }}
                 errorFlag={showErrorMsg && !isIdPwMatch}
                 errorMessage="아이디 혹은 비밀번호가 일치하지 않습니다."
@@ -110,15 +131,22 @@ function SignIn() {
 
             <div style={{ height: "32px" }}></div>
 
-            <div>
-              <BottomBtn type="submit" disabled={idPwNull}>
+            <div className="w-full">
+              <BottomBtn
+                type="submit"
+                disabled={idPwNull}
+                style={{ width: "100%" }}
+              >
                 로그인
               </BottomBtn>
             </div>
             <div className="extraLink">
               <div className="d-flex">
                 <p
-                  className="p-small-regular c-pointer"
+                  className={clsx(
+                    "c-pointer",
+                    !isSmallMobile ? "p-small-regular" : "p-xs-regular"
+                  )}
                   onClick={() => {
                     navigate("/signin/find/0");
                   }}
@@ -128,7 +156,10 @@ function SignIn() {
               </div>
               <img src={bar} alt="|" />
               <p
-                className="p-small-regular c-pointer"
+                className={clsx(
+                  "c-pointer",
+                  !isSmallMobile ? "p-small-regular" : "p-xs-regular"
+                )}
                 onClick={() => {
                   navigate("/signup");
                 }}

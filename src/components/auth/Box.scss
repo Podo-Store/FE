@@ -16,6 +16,9 @@
   @include r.media-mobile {
     width: 450px;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+  }
   & {
     flex-shrink: 0;
 

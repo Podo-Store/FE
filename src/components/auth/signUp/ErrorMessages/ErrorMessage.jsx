@@ -11,7 +11,7 @@ const errorMessage = ({ message, smallMessage = false }) => {
       <img
         src={errorChecked}
         alt="errorChecked"
-        style={smallMessage && { width: "14px", height: "14px" }}
+        style={smallMessage ? { width: "14px", height: "14px" } : {}}
       ></img>
       <p
         className={clsx(

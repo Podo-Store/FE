@@ -15,7 +15,7 @@ const CheckerMessage = ({
       <img
         src={checkedFlag ? checked : nonChecked}
         alt="checked"
-        style={smallMessage && { width: "14px", height: "14px" }}
+        style={smallMessage ? { width: "14px", height: "14px" } : {}}
       ></img>
       <p
         className={clsx(

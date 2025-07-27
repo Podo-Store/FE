@@ -8,24 +8,97 @@
   @include r.media-mobile {
     width: 430px;
   }
-}
-
-.content {
-  width: 630px;
-
-  @include r.media-mobile {
-    width: 430px;
+  @include r.media-small-mobile {
+    width: 87.5vw;
+    min-width: 280px;
   }
 }
 
-.content-img {
-  width: 197px;
+.review-write-div .review-write-banner {
+  margin-top: 72px;
+
+  @include r.media-small-mobile {
+    margin-top: 25px;
+  }
 }
 
-.content .reason {
+.review-write-div .review-write-banner .banner-body {
+  gap: 75px;
+  @include r.media-small-mobile {
+    gap: 56px;
+  }
+}
+
+.review-write-div .content {
+  width: 630px;
+  margin-top: 35px;
+
+  @include r.media-mobile {
+    width: 430px;
+    margin-top: 30px;
+  }
+  @include r.media-small-mobile {
+    width: 87.5vw;
+    min-width: 280px;
+    margin-top: 15px;
+  }
+}
+
+.review-write-div .content .content-div {
+  gap: 35px;
+
+  @include r.media-mobile {
+    gap: 30px;
+  }
+  @include r.media-small-mobile {
+    gap: 4.68vw;
+  }
+}
+
+.review-write-div .content .info {
+  gap: 7px;
+
+  @include r.media-small-mobile {
+    gap: 8px;
+  }
+}
+
+.review-write-div .content .evaluation {
+  padding-top: 20px;
+
+  @include r.media-mobile {
+    padding-top: 10px;
+  }
+  @include r.media-small-mobile {
+    padding-top: 11px;
+  }
+}
+
+.review-write-div .content-img {
+  width: 197px;
+
+  @include r.media-small-mobile {
+    width: 37.5vw;
+    min-width: 120px;
+  }
+}
+
+.review-write-div .reason {
   row-gap: 15px;
   column-gap: 20px;
+
   @include r.media-mobile {
     row-gap: 10px;
+  }
+
+  @include r.media-small-mobile {
+    column-gap: 10px;
+    row-gap: 10px;
+
+    button {
+      width: 40.625vw; // 87.5vw 중 두 개
+      min-width: 130px;
+      aspect-ratio: 130 / 32;
+    }
   }
 }

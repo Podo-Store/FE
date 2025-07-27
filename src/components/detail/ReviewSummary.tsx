@@ -13,6 +13,8 @@ import starOutlined from "../../assets/image/post/list/ic_star_outlined.svg";
 
 import { ReviewStatistics } from "@/types/review";
 
+import "./ReviewSummary.scss";
+
 interface ReviewSummaryProps {
   stats: ReviewStatistics;
 }
@@ -142,7 +144,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
   };
 
   return (
-    <div className="flex relative pt-[50px] pb-[45px] bg-white border-[3px] border-[#E2E2E2] rounded-[9px] ">
+    <div className="review-summary flex relative bg-white border-[3px] border-[#E2E2E2] rounded-[9px] ">
       <div className="flex flex-col items-center w-1/2">
         <p className="mb-[16px] p-medium-bold">평점</p>
         <div className="flex items-center gap-[15px]">
@@ -217,11 +219,11 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 mt-[-10px] w-[1px] h-[267px] bg-[#9E9E9E]"></div>
+      <div className="bar absolute left-1/2 -translate-x-1/2 mt-[-10px] w-[1px] h-[267px] bg-[#9E9E9E]"></div>
 
       <div className="flex flex-col items-center w-1/2">
         {totalReviewCount > 0 ? (
-          <h3 className="p-medium-regular mb-[48px]">
+          <h3 className="p-medium-regular mb-[48px] whitespace-nowrap">
             이 작품은 특히&nbsp;&nbsp;
             <span className="relative p-medium-bold">
               {

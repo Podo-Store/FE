@@ -19,6 +19,7 @@ const CheckerMessage = ({
       ></img>
       <p
         className={clsx(
+          "whitespace-nowrap",
           !smallMessage ? "p-small-medium" : "p-xs-medium",
           checkedFlag ? "c-main" : "c-grey"
         )}

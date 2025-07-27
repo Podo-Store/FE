@@ -5,7 +5,7 @@ import {
   fourthSelect,
 } from "../../../assets/image/auth/signUp";
 
-import "./Selector.css";
+import "./Selector.scss";
 import "./../../../styles/utilities.css";
 
 const Selector = ({ index = 1 }) => {

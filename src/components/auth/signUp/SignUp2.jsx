@@ -10,6 +10,7 @@ import {
   PW_SPECIAL_REGEX,
   PW_LENGTH_REGEX,
 } from "../../../constants/regex";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
   const [pw, setPw] = useState(userInfo.pw);
@@ -26,6 +27,8 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
     show: false,
     equal: false,
   });
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useEffect(() => {
     /*
@@ -86,6 +89,8 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         onBlur={() => {
           setPwChecker({ ...pwChecker, show: false });
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={pw.length > 0}
         checkerMessages={[
           {
@@ -115,6 +120,8 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
             setPwCheckChecker({ ...pwCheckChecker, show: true });
           }
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
         errorMessage="비밀번호가 일치하지 않습니다."
       />

@@ -5,6 +5,21 @@
   height: 100vh;
 }
 
+.sign-up-default ._content-wrap {
+  padding: 0 43px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  @include r.media-mobile {
+    padding: 0 30px;
+  }
+  @include r.media-small-mobile {
+    padding: 0 20px;
+  }
+}
+
 .sign-up-default h2#title {
   margin-top: 3.889vh;
 }
@@ -19,6 +34,11 @@
 .sign-up-default div#next-button img {
   width: 1.5625rem;
   height: 1.5625rem;
+
+  @include r.media-small-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 /* input field responsive */

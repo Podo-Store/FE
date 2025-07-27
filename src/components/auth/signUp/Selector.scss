@@ -1,0 +1,13 @@
+@use "./../../../styles/_responsive.scss" as r;
+
+.selector {
+  margin-top: 0.87rem;
+  margin-bottom: 1.87rem;
+}
+
+.selector img {
+  @include r.media-small-mobile {
+    width: 10px;
+    height: 10px;
+  }
+}

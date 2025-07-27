@@ -23,7 +23,7 @@ import "../../styles/text.css";
 import "../../styles/utilities.css";
 
 const SignUpDefault = () => {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
     id: "",
     pw: "",

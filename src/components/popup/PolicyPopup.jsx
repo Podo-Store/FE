@@ -1,5 +1,7 @@
 import Draggable from "react-draggable";
 
+import useWindowDimensions from "./../../hooks/useWindowDimensions";
+
 import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 
 import "./PolicyPopup.css";
@@ -18,6 +20,8 @@ const PolicyPopup = ({
   page = 0,
   isPerformSelected = true,
 }) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
   const getPopupSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
@@ -27,12 +31,21 @@ const PolicyPopup = ({
     }
 
     if (page === 0) {
-      return {
-        width: "500px",
-        height: "735px",
-        top: "0",
-        left: "calc(50% - 250px)",
-      };
+      if (!isSmallMobile) {
+        return {
+          width: "500px",
+          height: "735px",
+          top: "0",
+          left: "calc(50% - 250px)",
+        };
+      } else {
+        return {
+          width: "280px",
+          height: "591px",
+          top: "0",
+          left: "calc(50% - 140px)",
+        };
+      }
     }
 
     if (page === 1) {
@@ -82,7 +95,11 @@ const PolicyPopup = ({
     }
 
     if (page === 0) {
-      return { width: "447.137px", height: "642px" };
+      if (!isSmallMobile) {
+        return { width: "447.137px", height: "642px" };
+      } else {
+        return { width: "236px", height: "498px" };
+      }
     }
 
     if (page === 1) {
@@ -124,7 +141,11 @@ const PolicyPopup = ({
     }
 
     if (page === 0) {
-      return { maxHeight: "620px" };
+      if (!isSmallMobile) {
+        return { maxHeight: "620px" };
+      } else {
+        return { maxHeight: "462px" };
+      }
     }
 
     if (page === 1) {

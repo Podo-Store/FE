@@ -225,6 +225,14 @@
   line-height: 1rem; /* 133.333% */
 }
 
+.p-12-regular {
+  font-family: Pretendard;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px; /* 133.333% */
+}
+
 .t-align-start,
 .t-start {
   text-align: start;

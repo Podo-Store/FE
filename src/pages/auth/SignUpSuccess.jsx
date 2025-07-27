@@ -9,7 +9,7 @@ import AuthContext from "@/contexts/AuthContext";
 
 import signUpSuccess from "../../assets/image/auth/signUp/signUpSuccess.png";
 
-import "./SignUpSuccess.css";
+import "./SignUpSuccess.scss";
 import Loading from "../Loading";
 
 function SignUpSuccess() {
@@ -37,7 +37,12 @@ function SignUpSuccess() {
           <RectangleForm>
             <h1>회원가입 완료</h1>
             <img src={signUpSuccess} alt="회원가입 완료" />
-            <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
+            <BottomBtn
+              onClick={() => navigate("/signin")}
+              style={{ width: "100%" }}
+            >
+              로그인하러 가기
+            </BottomBtn>
           </RectangleForm>
         </Box>
       </div>

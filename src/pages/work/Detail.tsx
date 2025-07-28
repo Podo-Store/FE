@@ -47,6 +47,7 @@ import "./../../styles/utilities.css";
 import ReviewList from "@/components/detail/ReviewList";
 import clsx from "clsx";
 import ReviewPagination from "@/components/detail/ReviewPagination";
+import PreviewSingle from "@/components/detail/PreviewSingle";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -889,6 +890,7 @@ const Detail = () => {
             >
               미리보기
             </p>
+
             <Preview id={id!} lengthType={script?.playType ?? ""} />
           </div>
           <hr></hr>

@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
-//import Modal from "./Modal";
+import Modal from "./Modal";
 import PreviewDiv from "./PreviewDiv";
 import PartialLoading from "../loading/PartialLoading";
 
@@ -18,7 +18,7 @@ import previewGlass from "./../../assets/image/glass.svg";
 import "./Preview.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import Modal from "./Modal";
+import PreviewSingle from "./PreviewSingle";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -108,89 +108,105 @@ const Preview = ({ id, lengthType }) => {
   return (
     <div className="m-auto f-dir-column preview w-fit">
       {pdfData ? (
-        <Document
-          file={pdfData || samplePDF}
-          onLoadSuccess={onDocumentLoadSuccess}
-          options={{ cMapUrl: "cmaps/", cMapPacked: true }}
-          loading={<PartialLoading />}
-        >
-          {/* 썸네일로 상위 5개 페이지 표시 */}
-          {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
-          {numPages && (
-            <div className="flex flex-row gap-[20px] j-content-start" id="wrap">
-              {Array.from(
-                new Array(Math.min(totalPage, totalRevealedPages)),
-                (_, index) => {
-                  const isShort = lengthType === "SHORT";
+        isSmallMobile ? (
+          // 모바일: 한 페이지씩
+          <PreviewSingle
+            fileBlobUrl={pdfData}
+            width={210}
+            totalPages={totalPage}
+            selectedPage={selectedPage}
+            setSelectedPage={setSelectedPage}
+            showThreshold={showThreshold}
+          />
+        ) : (
+          <Document
+            file={pdfData || samplePDF}
+            onLoadSuccess={onDocumentLoadSuccess}
+            options={{ cMapUrl: "cmaps/", cMapPacked: true }}
+            loading={<PartialLoading />}
+          >
+            {/* 썸네일로 상위 5개 페이지 표시 */}
+            {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
+            {numPages && (
+              <div
+                className="flex flex-row gap-[20px] j-content-start"
+                id="wrap"
+              >
+                {Array.from(
+                  new Array(Math.min(totalPage, totalRevealedPages)),
+                  (_, index) => {
+                    const isShort = lengthType === "SHORT";
 
-                  let isPageAvailable = true;
-                  if (lengthType === "SHORT") {
-                    // 첫 페이지만 렌더링
-                    isPageAvailable = index + 1 === showThreshold;
-                  } else {
-                    if (width >= 1280) {
-                      isPageAvailable = index + 1 <= showThreshold;
-                    } else if (!isSmallMobile) {
-                      isPageAvailable = index + 1 < totalRevealedPages;
+                    let isPageAvailable = true;
+                    if (lengthType === "SHORT") {
+                      // 첫 페이지만 렌더링
+                      isPageAvailable = index + 1 === showThreshold;
                     } else {
-                      isPageAvailable = 1;
+                      if (width >= 1280) {
+                        isPageAvailable = index + 1 <= showThreshold;
+                      } else if (!isSmallMobile) {
+                        isPageAvailable = index + 1 < totalRevealedPages;
+                      } else {
+                        isPageAvailable = 1;
+                      }
                     }
-                  }
 
-                  return (
-                    <div
-                      key={index + 1}
-                      className={` c-pointer no-drag ${
-                        !isPageAvailable ? "content-disabled" : ""
-                      }`}
-                      id="thumbnail-content"
-                      onClick={() => {
-                        if (isPageAvailable) {
-                          onClickPage(isShort ? showThreshold : index + 1);
-                        }
-                      }}
-                    >
-                      {!isPageAvailable && <div id="shadow-box"></div>}
-                      <div id={!isPageAvailable ? "blur" : undefined}>
-                        <Page
-                          renderMode="canvas"
-                          pageNumber={
-                            isShort
-                              ? showThreshold
-                              : isPageAvailable
-                              ? index + 1
-                              : showThreshold
+                    return (
+                      <div
+                        key={index + 1}
+                        className={` c-pointer no-drag ${
+                          !isPageAvailable ? "content-disabled" : ""
+                        }`}
+                        id="thumbnail-content"
+                        onClick={() => {
+                          if (isPageAvailable) {
+                            onClickPage(isShort ? showThreshold : index + 1);
                           }
-                          width={210}
-                        />
-                      </div>
-                      <p
-                        className="p-small-regular t-align-center"
-                        id="page-number"
+                        }}
                       >
-                        {index + 1}
-                      </p>
-                      {index + 1 === totalRevealedPages && (
-                        <p className="p-large-regular c-white" id="last-number">
-                          {totalPage - totalRevealedPages} +
+                        {!isPageAvailable && <div id="shadow-box"></div>}
+                        <div id={!isPageAvailable ? "blur" : undefined}>
+                          <Page
+                            renderMode="canvas"
+                            pageNumber={
+                              isShort
+                                ? showThreshold
+                                : isPageAvailable
+                                ? index + 1
+                                : showThreshold
+                            }
+                            width={210}
+                          />
+                        </div>
+                        <p
+                          className="p-small-regular t-align-center"
+                          id="page-number"
+                        >
+                          {index + 1}
                         </p>
-                      )}
-                      {isPageAvailable && (
-                        <img
-                          src={previewGlass}
-                          alt="Preview Glass"
-                          id="preview-glass"
-                        />
-                      )}
-                    </div>
-                  );
-                }
-              )}
-            </div>
-          )}
+                        {index + 1 === totalRevealedPages && (
+                          <p
+                            className="p-large-regular c-white"
+                            id="last-number"
+                          >
+                            {totalPage - totalRevealedPages} +
+                          </p>
+                        )}
+                        {isPageAvailable && (
+                          <img
+                            src={previewGlass}
+                            alt="Preview Glass"
+                            id="preview-glass"
+                          />
+                        )}
+                      </div>
+                    );
+                  }
+                )}
+              </div>
+            )}
 
-          {selectedPage &&
-            (!isSmallMobile ? (
+            {selectedPage && (
               <PreviewDiv
                 Page={Page}
                 showThreshold={showThreshold}
@@ -199,15 +215,9 @@ const Preview = ({ id, lengthType }) => {
                 numPages={numPages}
                 lengthType={lengthType}
               />
-            ) : (
-              <Modal
-                Page={Page}
-                showThreshold={showThreshold}
-                selectedPage={selectedPage}
-                setSelectedPage={setSelectedPage}
-              />
-            ))}
-        </Document>
+            )}
+          </Document>
+        )
       ) : (
         <p>PDF 파일을 로드할 수 없습니다.</p>
       )}

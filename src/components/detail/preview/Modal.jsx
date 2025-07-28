@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, IconButton } from "@mui/material";
-import inequalityLeft from "./../../assets/image/button/arrow/ic_black_left_arrow.svg";
-import inequalityRight from "./../../assets/image/button/arrow/ic_black_right_arrow.svg";
-import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
+import inequalityLeft from "@/assets/image/button/arrow/ic_black_left_arrow.svg";
+import inequalityRight from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
+import CloseBtn from "@/assets/image/button/CloseBtn.svg";
 
 /**
  * deprecated 였던 것

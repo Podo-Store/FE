@@ -5,19 +5,19 @@ import { Document, Page, pdfjs } from "react-pdf";
 
 import Modal from "./Modal";
 import PreviewDiv from "./PreviewDiv";
-import PartialLoading from "../loading/PartialLoading";
+import PartialLoading from "../../loading/PartialLoading";
 
-import { useRequest } from "../../hooks/useRequest";
+import { useRequest } from "@/hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
-import { SERVER_URL } from "../../constants/ServerURL";
+import { SERVER_URL } from "@/constants/ServerURL";
 
-import samplePDF from "./../../assets/sample.pdf";
-import previewGlass from "./../../assets/image/glass.svg";
+import samplePDF from "@/assets/sample.pdf";
+import previewGlass from "@/assets/image/glass.svg";
 
 import "./Preview.css";
-import "./../../styles/text.css";
-import "./../../styles/utilities.css";
+import "@/styles/text.css";
+import "@/styles/utilities.css";
 import PreviewSingle from "./PreviewSingle";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)

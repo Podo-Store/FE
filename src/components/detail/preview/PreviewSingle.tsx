@@ -1,9 +1,9 @@
 // components/PreviewSingle.tsx
 import React, { useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import PartialLoading from "../loading/PartialLoading";
-import leftArrow from "../../assets/image/button/arrow/ic_black_left_arrow.svg";
-import rightArrow from "../../assets/image/button/arrow/ic_black_right_arrow.svg";
+import PartialLoading from "../../loading/PartialLoading";
+import leftArrow from "@/assets/image/button/arrow/ic_black_left_arrow.svg";
+import rightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import Modal from "./Modal";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

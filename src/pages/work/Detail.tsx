@@ -10,7 +10,7 @@ import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
-import Preview from "../../components/detail/Preview";
+import Preview from "../../components/detail/preview/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
@@ -47,7 +47,7 @@ import "./../../styles/utilities.css";
 import ReviewList from "@/components/detail/ReviewList";
 import clsx from "clsx";
 import ReviewPagination from "@/components/detail/ReviewPagination";
-import PreviewSingle from "@/components/detail/PreviewSingle";
+import PreviewSingle from "@/components/detail/preview/PreviewSingle";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;

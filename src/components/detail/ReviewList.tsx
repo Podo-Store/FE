@@ -21,6 +21,8 @@ import single_graph from "../../assets/image/post/ic_podoal.svg";
 import graph_cluster from "../../assets/image/post/ic_podosongi.svg";
 import wine from "../../assets/image/post/Wine.png";
 
+import "./ReviewList.scss";
+
 interface ReviewLitProps {
   scriptId: string;
   review: Review;
@@ -143,8 +145,8 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
   }, [review.content]);
 
   return (
-    <div className="w-full border-t-1 border-[#9E9E9E] pl-[20px]">
-      <div className="flex pt-[15px] justify-between">
+    <div className="review-list w-full border-t-1 border-[#9E9E9E] pl-[20px] box-border">
+      <div className="review-list-title flex pt-[15px]">
         <div className="flex items-center gap-[10px]">
           <p className="flex items-center gap-[2px] p-small-medium">
             {parsedName}

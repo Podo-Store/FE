@@ -1,0 +1,11 @@
+@use "./../../styles/_responsive.scss" as r;
+
+.review-list .review-list-title {
+  justify-content: space-between;
+
+  @include r.media-tablet {
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+  }
+}

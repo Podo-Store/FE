@@ -572,6 +572,13 @@
   margin-bottom: 2.593vh;
 }
 
+.detail .review-write-btn img {
+  @include r.media-small-mobile {
+    width: 9px;
+    height: 14px;
+  }
+}
+
 .detail .bottom-bar-left,
 .detail .bottom-bar-right {
   display: flex;

@@ -406,7 +406,10 @@ const Detail = () => {
   const renderReviewWriteButton = () => {
     return (
       <button
-        className="p-large-medium flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]"
+        className={clsx(
+          "review-write-btn flex justify-end items-center gap-[10px] cursor-pointer hover:text-[#6A39C0]",
+          !isSmallMobile ? "p-large-medium" : "p-small-medium"
+        )}
         onClick={() => {
           if (script?.isMine) {
             alert("본인의 작품은 후기를 작성할 수 없습니다.");
@@ -928,7 +931,14 @@ const Detail = () => {
 
           <section className="mt-[50px] w-full">
             <div className="flex justify-between w-full mb-[8px] relative">
-              <p className="ml-[20px] p-large-bold">전체 후기</p>
+              <p
+                className={clsx(
+                  "ml-[20px]",
+                  !isSmallMobile ? "p-large-bold" : "p-medium-bold"
+                )}
+              >
+                전체 후기
+              </p>
               <button
                 className="flex items-center gap-[4px] p-medium-regular hover:text-[#6A39C0]"
                 onClick={() => setOpenSort(!openSort)}

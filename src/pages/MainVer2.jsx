@@ -87,18 +87,32 @@ const MainVer2 = () => {
                   isLaptop ? "" : ""
                 }  h-fit title-wrap f-dir-column p-relative`}
               >
-                <h1 className=" title">
+                {/* <h1 className=" title">
                   대본과 {isLaptop && <br />}공연권 거래
                   <br />
                   포도상점에서
                 </h1>
-
-                <h5 className=" sub-title whitespace-nowrap">
+                
+                 <h5 className=" sub-title whitespace-nowrap">
                   편리하게 대본과 공연권을 거래해요.
                   <br />
                   여러분들이 원하던 스토리 IP 플랫폼,
                   <br />
                   포도상점을 시작하세요!
+                </h5>*/}
+
+                <h1 className=" title">
+                  당신의 대본이
+                  <br />
+                  무대위에 오르기까지
+                </h1>
+
+                <h5 className=" sub-title whitespace-nowrap">
+                  동료 작가와 독자의 피드백으로 성장하고,
+                  <br />
+                  공연으로 연결되는 스토리 IP 플랫폼
+                  <br />
+                  포도상점과 함께해요.
                 </h5>
               </div>
               {!isTablet && !isMobile ? (

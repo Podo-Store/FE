@@ -190,7 +190,7 @@ const reviewWrite = () => {
         >
           <div className="flex flex-row content-div">
             {/* 작품 내용 */}
-            <div className={`flex flex-col info content-img`}>
+            <div className={`flex flex-col info `}>
               <img
                 src={thumbnail ? thumbnail : defaultThumbnail}
                 className="content-img border border-[var(--grey3)]  box-border rounded-[20px]  object-cover aspect-square "

@@ -6,17 +6,22 @@ import rightBtn from "../../assets/image/post/list/rightBtn.svg";
 import "./infiniteBanner.scss";
 
 // bannerImages를 props로 받을 수 있게 처리
-interface InfiniteBannerProps {
-  images: string[];
+interface BannerItem {
+  image: string;
+  link: string;
 }
 
-const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
-  const realBannerCount = images.length;
+interface InfiniteBannerProps {
+  banners: BannerItem[];
+}
+
+const InfiniteBanner = ({ banners }: InfiniteBannerProps) => {
+  const realBannerCount = banners.length;
 
   const clonedBannerImages = [
-    images[realBannerCount - 1],
-    ...images,
-    images[0],
+    banners[realBannerCount - 1],
+    ...banners,
+    banners[0],
   ];
 
   const [fakeIndex, setFakeIndex] = useState(1);
@@ -90,12 +95,14 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
           }}
           onTransitionEnd={handleTransitionEnd}
         >
-          {clonedBannerImages.map((img, idx) => (
+          {clonedBannerImages.map((banner, idx) => (
             <div className="flex-none w-full h-full " key={idx}>
-              <div
-                className="w-full h-full bg-center bg-no-repeat bgImg"
-                style={{ backgroundImage: `url(${img})` }}
-              />
+              <a href={banner.link} className="block w-full h-full">
+                <div
+                  className="w-full h-full bg-center bg-no-repeat bgImg"
+                  style={{ backgroundImage: `url(${banner.image})` }}
+                />
+              </a>
             </div>
           ))}
         </div>
@@ -117,7 +124,7 @@ const InfiniteBanner = ({ images }: InfiniteBannerProps) => {
 
       {/* 인디케이터 */}
       <div className="flex absolute bottom-[10px] left-[50%] translate-x-[-50%] gap-[8px]">
-        {images.map((_, idx) => (
+        {banners.map((_, idx) => (
           <span
             key={idx}
             className={`w-[10px] h-[10px] rounded-full cursor-pointer transition-colors duration-300 ease-in-out ${

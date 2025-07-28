@@ -18,6 +18,7 @@ import previewGlass from "./../../assets/image/glass.svg";
 import "./Preview.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
+import Modal from "./Modal";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -37,12 +38,14 @@ const Preview = ({ id, lengthType }) => {
 
   const previousPdfDataRef = useRef(null);
   const { width } = useWindowDimensions();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   // 단편극: 1장까지만, 장편극: 3장까지만
   const showThreshold = lengthType === "SHORT" ? 1 : 3;
 
   // for Responsive design
-  const totalRevealedPages = width >= 1280 ? 5 : width >= 768 ? 3 : 2;
+  const totalRevealedPages =
+    width >= 1280 ? 5 : width >= 768 ? 3 : !isSmallMobile ? 2 : 1;
 
   useRequest(async () => {
     try {
@@ -127,8 +130,10 @@ const Preview = ({ id, lengthType }) => {
                   } else {
                     if (width >= 1280) {
                       isPageAvailable = index + 1 <= showThreshold;
-                    } else {
+                    } else if (!isSmallMobile) {
                       isPageAvailable = index + 1 < totalRevealedPages;
+                    } else {
+                      isPageAvailable = 1;
                     }
                   }
 
@@ -184,16 +189,24 @@ const Preview = ({ id, lengthType }) => {
             </div>
           )}
 
-          {selectedPage && (
-            <PreviewDiv
-              Page={Page}
-              showThreshold={showThreshold}
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              numPages={numPages}
-              lengthType={lengthType}
-            />
-          )}
+          {selectedPage &&
+            (!isSmallMobile ? (
+              <PreviewDiv
+                Page={Page}
+                showThreshold={showThreshold}
+                selectedPage={selectedPage}
+                setSelectedPage={setSelectedPage}
+                numPages={numPages}
+                lengthType={lengthType}
+              />
+            ) : (
+              <Modal
+                Page={Page}
+                showThreshold={showThreshold}
+                selectedPage={selectedPage}
+                setSelectedPage={setSelectedPage}
+              />
+            ))}
         </Document>
       ) : (
         <p>PDF 파일을 로드할 수 없습니다.</p>

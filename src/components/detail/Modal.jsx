@@ -1,44 +1,96 @@
-import inequalityLeft from "./../../assets/image/button/inequalityLeft.svg";
-import inequalityRight from "./../../assets/image/button/inequalityRight.svg";
-
-import "./Modal.css";
+import { Dialog, DialogContent, IconButton } from "@mui/material";
+import inequalityLeft from "./../../assets/image/button/arrow/ic_black_left_arrow.svg";
+import inequalityRight from "./../../assets/image/button/arrow/ic_black_right_arrow.svg";
+import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 
 /**
- * @deprecated
+ * deprecated 였던 것
+ * 320 화면에서의 미리보기
  */
 const Modal = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
-  const closeModal = () => {
-    setSelectedPage(null); // modal 닫기
+  const isOpen = selectedPage !== null;
+
+  const handleClose = () => setSelectedPage(null);
+  const handlePrev = () => {
+    if (selectedPage > 1) {
+      setSelectedPage(selectedPage - 1);
+    }
+  };
+  const handleNext = () => {
+    if (selectedPage < showThreshold) {
+      setSelectedPage(selectedPage + 1);
+    }
   };
 
   return (
-    <div className="f-center modal-overlay" onClick={closeModal}>
-      <img
-        src={inequalityLeft}
-        alt="left-btn"
-        className={selectedPage !== 1 ? "c-pointer" : null}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (selectedPage > 1) {
-            setSelectedPage(selectedPage - 1);
-          }
+    <Dialog
+      open={isOpen}
+      onClose={handleClose}
+      PaperProps={{
+        sx: {
+          margin: 0,
+          position: "relative",
+          backgroundColor: "transparent",
+          boxShadow: "none",
+        },
+      }}
+      BackdropProps={{ sx: { backgroundColor: "rgba(0,0,0,0.7)" } }}
+    >
+      <button
+        className="absolute top-[15px] right-[15px] z-20"
+        onClick={() => {
+          setSelectedPage(null);
         }}
-      />
-      <div className="no-drag modal-content" onClick={(e) => e.stopPropagation()}>
-        <Page renderMode="canvas" pageNumber={selectedPage} width={600} />
-      </div>
-      <img
-        src={inequalityRight}
-        alt="right-btn"
-        className={selectedPage !== showThreshold ? "c-pointer" : null}
-        onClick={(e) => {
-          e.stopPropagation();
-          if (selectedPage < showThreshold) {
-            setSelectedPage(selectedPage + 1);
-          }
+      >
+        <img src={CloseBtn} alt="close" />
+      </button>
+      <IconButton
+        disabled={selectedPage === 1}
+        onClick={handlePrev}
+        sx={{
+          position: "absolute",
+          left: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "white",
+          "&.Mui-disabled": { opacity: 0.5 },
+          zIndex: 10,
         }}
-      />
-    </div>
+      >
+        <img src={inequalityLeft} alt="prev" />
+      </IconButton>
+
+      <DialogContent
+        onClick={(e) => e.stopPropagation()}
+        sx={{
+          p: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "transparent",
+        }}
+      >
+        {selectedPage != null && (
+          <Page renderMode="canvas" pageNumber={selectedPage} width={320} />
+        )}
+      </DialogContent>
+
+      <IconButton
+        disabled={selectedPage === showThreshold}
+        onClick={handleNext}
+        sx={{
+          position: "absolute",
+          right: 8,
+          top: "50%",
+          transform: "translateY(-50%)",
+          color: "white",
+          "&.Mui-disabled": { opacity: 0.5 },
+          zIndex: 10,
+        }}
+      >
+        <img src={inequalityRight} alt="next" />
+      </IconButton>
+    </Dialog>
   );
 };
 

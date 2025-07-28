@@ -238,6 +238,13 @@
   font-style: normal;
   font-weight: 500;
   line-height: 1.75rem; /* 155.556% */
+  @include r.media-small-mobile {
+    /* Paragraph/Small/Medium */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 142.857% */
+  }
 }
 
 .detail div#detail-amount-wrap {
@@ -359,6 +366,11 @@
 
   width: 20px;
   height: 20px;
+
+  @include r.media-small-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .detail .option-select {

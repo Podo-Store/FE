@@ -524,8 +524,15 @@ const Detail = () => {
             <div className=" _content-detail">
               <hr id="detail-hr-1"></hr>
               <div className=" detail-price-wrap">
-                <div className=" detail-plot pr-[46px] ">
-                  <p className="w-full p-medium-regular">{script?.plot}</p>
+                <div className="detail-plot pr-[46px] ">
+                  <p
+                    className={clsx(
+                      "w-full",
+                      !isSmallMobile ? "p-medium-regular" : "p-small-medium"
+                    )}
+                  >
+                    {script?.plot}
+                  </p>
                 </div>
                 <hr id="detail-hr-2"></hr>
 
@@ -539,7 +546,11 @@ const Detail = () => {
                       대본
                     </p>
                   </div>
-                  <p className="p-large-medium">
+                  <p
+                    className={
+                      !isSmallMobile ? "p-large-medium" : "p-small-medium"
+                    }
+                  >
                     {formatPrice(script?.scriptPrice) === "0"
                       ? "무료"
                       : `${formatPrice(script?.scriptPrice)}원`}
@@ -551,7 +562,11 @@ const Detail = () => {
                       <img id="perform" src={performImg} alt="perform"></img>
                       <p className="whitespace-nowrap">공연권</p>
                     </div>
-                    <p className="p-large-medium">
+                    <p
+                      className={
+                        !isSmallMobile ? "p-large-medium" : "p-small-medium"
+                      }
+                    >
                       {formatPrice(script?.performancePrice) === "0"
                         ? "무료"
                         : `${formatPrice(script?.performancePrice)}원`}
@@ -588,7 +603,14 @@ const Detail = () => {
                 {selectedOption ? (
                   <>
                     <div className="select-amount-wrap a-items-center">
-                      <p className="p-large-bold c-grey7">수량 선택</p>
+                      <p
+                        className={clsx(
+                          "c-grey7",
+                          !isSmallMobile ? "p-large-bold" : "p-medium-bold"
+                        )}
+                      >
+                        수량 선택
+                      </p>
                       <div className="j-content-start" id="info-wrap">
                         <img
                           className="c-pointer"
@@ -771,10 +793,26 @@ const Detail = () => {
                 {selectedOption ? <hr id="detail-hr-2"></hr> : null}
 
                 <div className=" total-price j-content-between a-items-center">
-                  <p className="p-large-bold c-grey7">총 금액</p>
+                  <p
+                    className={clsx(
+                      "c-grey7",
+                      !isSmallMobile ? "p-large-bold" : "p-medium-bold"
+                    )}
+                  >
+                    총 금액
+                  </p>
                   <div className="a-items-end" id="total-price-won">
-                    <h4 className="h4-bold">{totalPrice}</h4>
-                    <p className="p-large-bold c-grey7">원</p>
+                    <h4 className={!isSmallMobile ? "h4-bold" : "h5-bold"}>
+                      {totalPrice}
+                    </h4>
+                    <p
+                      className={clsx(
+                        "c-grey7",
+                        !isSmallMobile ? "p-large-bold" : "p-medium-bold"
+                      )}
+                    >
+                      원
+                    </p>
                   </div>
                 </div>
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
@@ -799,7 +837,9 @@ const Detail = () => {
         <div className="w-full detail-description" ref={pdfContainerRef}>
           <hr></hr>
           <div className="flex flex-col pl-[20px] gap-[19px]">
-            <h2 className="p-large-bold">개요</h2>
+            <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>
+              개요
+            </h2>
             <div className="flex flex-col gap-[18px]">
               <InfoItem
                 label="등장인물"
@@ -826,14 +866,24 @@ const Detail = () => {
           <div className="w-full script-intention">
             <hr></hr>
             <div className="flex flex-col pl-[20px] gap-[19px]">
-              <h2 className="p-large-bold">작가 의도</h2>
-              <p className="p-medium-regular">{script?.intention}</p>
+              <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>
+                작가 의도
+              </h2>
+              <p className={!isSmallMobile ? "p-medium-regular" : "p-12-400"}>
+                {script?.intention}
+              </p>
             </div>
           </div>
 
           <hr></hr>
           <div className="mb-[40px]  ">
-            <p className=" w-fit p-large-bold" id="preview-title">
+            <p
+              className={clsx(
+                "w-fit",
+                !isSmallMobile ? "p-large-bold" : "p-medium-bold"
+              )}
+              id="preview-title"
+            >
               미리보기
             </p>
             <Preview id={id!} lengthType={script?.playType ?? ""} />

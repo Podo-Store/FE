@@ -195,6 +195,10 @@
     flex-direction: row;
     gap: 26px;
   }
+  @include r.media-small-mobile {
+    flex-direction: column;
+    gap: 15px;
+  }
 }
 
 .footer .sitemap ul#us div:nth-of-type(1) {

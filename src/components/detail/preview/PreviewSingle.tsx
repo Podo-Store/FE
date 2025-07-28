@@ -5,6 +5,7 @@ import PartialLoading from "../../loading/PartialLoading";
 import leftArrow from "@/assets/image/button/arrow/ic_black_left_arrow.svg";
 import rightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import Modal from "./Modal";
+import PreviewNotice from "./PreviewNotice";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -82,7 +83,7 @@ const PreviewSingle: React.FC<PreviewSingleProps> = ({
                     renderAnnotationLayer={false}
                   />
                 ) : (
-                  <>
+                  <div className="relative">
                     <Page
                       pageNumber={overlayPageNum}
                       width={width}
@@ -100,11 +101,15 @@ const PreviewSingle: React.FC<PreviewSingleProps> = ({
                     >
                       {remainingCount} +
                     </p>
-                  </>
+                    <PreviewNotice
+                      totalPage={totalPages}
+                      showThreshold={showThreshold}
+                      className="absolute left-[50%] bottom-[15px] transform -translate-x-1/2 z-10"
+                    />
+                  </div>
                 )}
               </div>
 
-              {/* NEXT → 버튼 */}
               <button
                 onClick={goNext}
                 disabled={numPages !== null && currentPage >= numPages + 1}
@@ -121,6 +126,7 @@ const PreviewSingle: React.FC<PreviewSingleProps> = ({
               showThreshold={showThreshold}
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
+              numPages={numPages}
             />
           )}
         </Document>

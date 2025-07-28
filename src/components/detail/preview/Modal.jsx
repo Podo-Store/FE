@@ -2,12 +2,19 @@ import { Dialog, DialogContent, IconButton } from "@mui/material";
 import inequalityLeft from "@/assets/image/button/arrow/ic_black_left_arrow.svg";
 import inequalityRight from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import CloseBtn from "@/assets/image/button/CloseBtn.svg";
+import PreviewNotice from "./PreviewNotice";
 
 /**
  * deprecated 였던 것
  * 320 화면에서의 미리보기
  */
-const Modal = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
+const Modal = ({
+  Page,
+  showThreshold,
+  selectedPage,
+  setSelectedPage,
+  numPages,
+}) => {
   const isOpen = selectedPage !== null;
 
   const handleClose = () => setSelectedPage(null);
@@ -67,11 +74,19 @@ const Modal = ({ Page, showThreshold, selectedPage, setSelectedPage }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          position: "relative",
           backgroundColor: "transparent",
         }}
       >
         {selectedPage != null && (
           <Page renderMode="canvas" pageNumber={selectedPage} width={320} />
+        )}
+        {selectedPage === showThreshold && (
+          <PreviewNotice
+            className="absolute left-[50%] bottom-[15px] transform -translate-x-1/2 z-10"
+            totalPage={numPages}
+            showThreshold={showThreshold}
+          />
         )}
       </DialogContent>
 

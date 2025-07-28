@@ -2,10 +2,13 @@ import circleAddBtn from "../../assets/image/button/circleAddBtn.svg";
 import circleSubBtn from "../../assets/image/button/circleSubBtn.svg";
 
 import "./AmountChange.scss";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const AmountChange = ({ purchasePerformAmount, setPurchasePerformAmount }) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
   return (
-    <div className="amount-change flex justify-content items-center gap-[10px]">
+    <div className="amount-change flex justify-content items-center">
       <img
         src={circleSubBtn}
         alt="minus"
@@ -21,7 +24,9 @@ const AmountChange = ({ purchasePerformAmount, setPurchasePerformAmount }) => {
           setPurchasePerformAmount(purchasePerformAmount - 1);
         }}
       ></img>
-      <p className="p-large-medium">{purchasePerformAmount}</p>
+      <p className={!isSmallMobile ? "p-large-medium" : "p-xs-medium"}>
+        {purchasePerformAmount}
+      </p>
       <img
         src={circleAddBtn}
         alt="plus"

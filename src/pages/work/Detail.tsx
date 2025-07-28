@@ -114,6 +114,9 @@ const Detail = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewPage, setReviewPage] = useState(0);
 
+  const { isTablet, isMobile, isSmallMobile } =
+    useWindowDimensions().widthConditions;
+
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
@@ -433,16 +436,16 @@ const Detail = () => {
 
       <div className="w-full detail-wrap f-dir-column a-items-center">
         <div className="w-full content">
-          <div className=" detail-thumbnail-wrap">
+          <div className="detail-thumbnail-wrap">
             <div
-              className={`flex   relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
+              className={`flex relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
                 script?.imagePath !== "" ? "border border-[var(--grey3)]" : ""
               }`}
             >
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}
-                className="object-contain  shrink-0 rounded-[20px]  w-full thumbnail"
+                className="object-contain shrink-0 rounded-[20px] w-full thumbnail"
               />
               <div className="absolute bottom-[6.3%] right-[6.4%] transition-all duration-100 hover:scale-[1.2]">
                 <button
@@ -465,22 +468,51 @@ const Detail = () => {
           {/* 제목, 이름 */}
           <div
             id="title"
-            className="w-full detail-title f-dir-column j-content-between"
+            className="w-full h-full detail-title f-dir-column j-content-between"
           >
-            <div className="title-wrap ">
-              <h1 className="h1-bold">
-                {width > 769
-                  ? script?.title
-                  : truncateText({ text: script?.title || "", maxLength: 6 })}
-              </h1>
-              <div className=" like-view">
-                <h3 className="h3-bold">{script?.writer}</h3>
-
-                <LikeViewCount
-                  likes={script?.likeCount ?? 0}
-                  views={script?.viewCount ?? 0}
-                />
-              </div>
+            <div className="h-full">
+              {!isTablet && !isMobile && !isSmallMobile && (
+                <>
+                  <h1 className={!isSmallMobile ? "h1-bold" : "p-large-bold"}>
+                    {width > 769
+                      ? script?.title
+                      : truncateText({
+                          text: script?.title || "",
+                          maxLength: 6,
+                        })}
+                  </h1>
+                  <div className="like-view">
+                    <h3 className={!isSmallMobile ? "h3-bold" : "p-small-bold"}>
+                      {script?.writer}
+                    </h3>
+                    <LikeViewCount
+                      likes={script?.likeCount ?? 0}
+                      views={script?.viewCount ?? 0}
+                    />
+                  </div>
+                </>
+              )}
+              {(isTablet || isMobile || isSmallMobile) && (
+                <section className="flex flex-col justify-between h-full">
+                  <div>
+                    <h1 className={!isSmallMobile ? "h1-bold" : "p-large-bold"}>
+                      {width > 769
+                        ? script?.title
+                        : truncateText({
+                            text: script?.title || "",
+                            maxLength: 6,
+                          })}
+                    </h1>
+                    <h3 className={!isSmallMobile ? "h3-bold" : "p-small-bold"}>
+                      {script?.writer}
+                    </h3>
+                  </div>
+                  <LikeViewCount
+                    likes={script?.likeCount ?? 0}
+                    views={script?.viewCount ?? 0}
+                  />
+                </section>
+              )}
             </div>
           </div>
 
@@ -545,10 +577,10 @@ const Detail = () => {
                     script.script &&
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
-                    ) : null} */}
+                    ) : null}
                     {script?.buyStatus === 0 && script.performance ? (
                       <option value="perform">공연권</option>
-                    ) : null}
+                    ) : null} */}
                   </Select>
                 </div>
 
@@ -595,7 +627,7 @@ const Detail = () => {
                       {selectedOption === "script" ||
                       selectedOption === "scriptPerform" ? (
                         <div
-                          className="relative j-content-between"
+                          className="relative flex justify-between items-center"
                           id="detail-amount"
                         >
                           <div
@@ -608,9 +640,24 @@ const Detail = () => {
                               src={scriptImg}
                               alt="script amount"
                             ></img>
-                            <p className="p-large-medium">대본</p>
+                            <p
+                              className={
+                                !isSmallMobile
+                                  ? "p-large-medium"
+                                  : "p-small-medium"
+                              }
+                            >
+                              대본
+                            </p>
                           </div>
-                          <p className="amount-change p-large-medium absolute translate-x-[35px]">
+                          <p
+                            className={clsx(
+                              "amount-change absolute translate-x-[35px]",
+                              !isSmallMobile
+                                ? " p-large-medium"
+                                : " p-xs-medium"
+                            )}
+                          >
                             1
                           </p>
 
@@ -619,7 +666,14 @@ const Detail = () => {
                             id="detail-amount-price"
                           >
                             <div className="flex items-center price-wrapper">
-                              <p className="p-large-medium" id="price">
+                              <p
+                                className={
+                                  !isSmallMobile
+                                    ? "p-large-medium"
+                                    : "p-xs-medium"
+                                }
+                                id="price"
+                              >
                                 {formatPrice(script?.scriptPrice)} 원
                               </p>
                               <img
@@ -645,7 +699,7 @@ const Detail = () => {
                       {selectedOption === "perform" ||
                       selectedOption === "scriptPerform" ? (
                         <div
-                          className="relative flex justify-between"
+                          className="relative flex justify-between items-center"
                           id="detail-amount"
                         >
                           <div
@@ -658,7 +712,15 @@ const Detail = () => {
                               src={performImg}
                               alt="perform amount"
                             ></img>
-                            <p className="p-large-medium">공연권</p>
+                            <p
+                              className={
+                                !isSmallMobile
+                                  ? "p-large-medium"
+                                  : "p-small-medium"
+                              }
+                            >
+                              공연권
+                            </p>
                           </div>
 
                           <AmountChange
@@ -671,7 +733,14 @@ const Detail = () => {
                             id="detail-amount-price"
                           >
                             <div className="flex items-center price-wrapper">
-                              <p className="p-large-medium" id="price">
+                              <p
+                                className={
+                                  !isSmallMobile
+                                    ? "p-large-medium"
+                                    : "p-xs-medium"
+                                }
+                                id="price"
+                              >
                                 {formatPrice(
                                   purchasePerformAmount *
                                     (script?.performancePrice ?? 0)
@@ -729,9 +798,9 @@ const Detail = () => {
 
         <div className="w-full detail-description" ref={pdfContainerRef}>
           <hr></hr>
-          <div className="flex  flex-col pl-[20px] gap-[19px]">
+          <div className="flex flex-col pl-[20px] gap-[19px]">
             <h2 className="p-large-bold">개요</h2>
-            <div className="flex flex-col  gap-[18px]">
+            <div className="flex flex-col gap-[18px]">
               <InfoItem
                 label="등장인물"
                 value={[

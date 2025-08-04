@@ -11,7 +11,7 @@ import { AllPostCard } from "@/components/post/PostList.js";
 import PartialLoading from "@/components/loading/PartialLoading";
 import { useInView } from "react-intersection-observer";
 import { useToggleLike } from "@/hooks/useToggleLike";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { ScriptItem } from "@/api/user/postListApi";
 import {
   fetchLikedPost,
@@ -61,6 +61,10 @@ const LikedWorks = () => {
     fallbackInView: true,
     initialInView: false,
   });
+
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
 
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
@@ -207,9 +211,17 @@ const LikedWorks = () => {
       <FloatingBtn />
       <div className=" myPage-contents-default-wrap">
         <MyPageMenu nickname={userNickname} currentPage="3" />
-        <div className="content-side">
-          <div className="content-side-grid">
-            <h4 className="h4-bold">좋아한 작품들을 볼 수 있어요!</h4>
+        <div className=" content-side">
+          <div
+            className={`${isSmallMobile ? "mb-[20px]" : "mb-[10px]"} w-full `}
+          >
+            <h4
+              className={`${
+                isSmallMobile ? "p-medium-bold" : "h4-bold"
+              } whitespace-normal   `}
+            >
+              좋아한 작품들을 볼 수 있어요!
+            </h4>
           </div>
 
           {isLoading ? (

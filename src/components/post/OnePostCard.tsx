@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 import LikeViewCount from "@/components/list/LikeViewCount";
 
-import defaultImg from "../../assets/image/post/list/defaultProfile.png";
+import defaultImg_noneBorder from "../../assets/image/post/list/defaultProfile_noneBorder.png";
 import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import { ScriptItem } from "@/api/user/postListApi";
@@ -40,12 +40,10 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
     >
       {/* 이미지 */}
       <div
-        className={`flex relative rounded-[20px] bg-white mb-[7px]  w-full  ${
-          posts.imagePath !== "" ? "border border-[var(--grey3)]" : ""
-        }`}
+        className={`flex relative rounded-[20px] bg-white mb-[7px]  w-full border border-[var(--grey3)] `}
       >
         <img
-          src={posts.imagePath === "" ? defaultImg : posts.imagePath}
+          src={posts.imagePath === "" ? defaultImg_noneBorder : posts.imagePath}
           alt={posts.title}
           className="object-contain w-full h-auto shrink-0 rounded-[20px]  aspect-square "
         />

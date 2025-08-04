@@ -69,6 +69,13 @@
 .detail .detail-title#title {
   grid-column: 2;
   grid-row: 1;
+
+  padding-left: 38px;
+
+  box-sizing: border-box;
+  @include r.media-tablet {
+    padding-left: 0;
+  }
 }
 
 .detail .like-view {

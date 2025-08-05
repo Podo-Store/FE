@@ -56,7 +56,7 @@ const PostManageDetail: React.FC = () => {
   const { scriptId } = useParams();
   const accessToken = Cookies.get("accessToken");
   const {
-    widthConditions: { isMobile },
+    widthConditions: { isMobile, isSmallMobile },
   } = useWindowDimensions();
   const navigate = useNavigate();
 
@@ -250,14 +250,22 @@ const PostManageDetail: React.FC = () => {
         <HeaderWithBack
           backUrl="/mypage/scriptmanage"
           headerTitle="등록한 작품들을 관리할 수 있어요!"
-          headerFont="h4-bold"
+          headerFont={isSmallMobile ? "p-medium-bold" : `h4-bold `}
         />
         {/* head */}
-        <div className="flex mt-[46px] border-b-1 border-[#B489FF] pb-[0.463vh]">
-          <p id="p-medium-regular">작품 상세 페이지 수정</p>
+        <div
+          className={`flex border-b-1 border-[#B489FF] ${
+            isSmallMobile ? "mt-[34px] pb-[8px] " : "mt-[46px] pb-[5px]"
+          }`}
+        >
+          <p
+            className={`${isSmallMobile ? "p-xs-regular" : "p-medium-regular"}`}
+          >
+            작품 상세 페이지 수정
+          </p>
         </div>
         {/* detail */}
-        <div className=" detail">
+        <div className="detail">
           {/* top info */}
           <div className=" top-info">
             {/* 이미지 */}
@@ -270,7 +278,7 @@ const PostManageDetail: React.FC = () => {
               }
             >
               <p
-                className="p-xs-under c-pointer mb-[7.106%] mr-[10.66%]"
+                className={`p-xs-under c-pointer mb-[7.106%] mr-[10.66%]`}
                 onClick={onClickChangeThumbnailImg}
               >
                 대표 이미지 수정하기
@@ -279,9 +287,21 @@ const PostManageDetail: React.FC = () => {
 
             {/* 작품 정보 */}
             <div className="w-full ">
-              <p className="p-medium-bold mb-[0.926vh]">작품 정보</p>
+              <p
+                className={` ${
+                  isSmallMobile
+                    ? "p-small-bold mb-[8px]"
+                    : "p-medium-bold mb-[10px]"
+                }`}
+              >
+                작품 정보
+              </p>
 
-              <div className="f-dir-column gap-[1.11vh]  ">
+              <div
+                className={`f-dir-column ${
+                  isSmallMobile ? "gap-[8px]" : "gap-[10px]"
+                }`}
+              >
                 {/* 제목 */}
                 <div className="relative">
                   <RectInputField
@@ -295,7 +315,8 @@ const PostManageDetail: React.FC = () => {
                       }
                     }}
                     style={!isMobile ? {} : { width: "100%" }}
-                    className="placeholder:text-[rgba(0,0,0,0.17)] "
+                    className="placeholder:text-[rgba(0,0,0,0.17)]  "
+                    fontMode={isSmallMobile ? "xs" : "default"}
                   />
                   <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]  ">
                     {form.title ? [...form.title].length : 0} / 20자
@@ -303,9 +324,15 @@ const PostManageDetail: React.FC = () => {
                 </div>
 
                 {/* 설명 */}
-                <div className="relative h-[108px] focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
+                <div
+                  className={`box-border relative focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA]  ${
+                    isSmallMobile ? " h-[85px]" : " h-[108px]"
+                  }`}
+                >
                   <textarea
-                    className="focus:outline-none  border-none flex mx-[22px] my-[13px] placeholder:text-[rgba(0,0,0,0.17)] resize-none h-[82px] w-[366px]  bg-[#FFF]  p-small-regular  box-border "
+                    className={`contents-textarea focus:outline-none  border-none flex  placeholder:text-[rgba(0,0,0,0.17)] resize-none   bg-[#FFF]   box-border  ${
+                      isSmallMobile ? "  p-xs-regular" : "  p-small-regular"
+                    } `}
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
                     value={form.plot ?? ""}
                     onChange={(e) => {
@@ -327,114 +354,280 @@ const PostManageDetail: React.FC = () => {
           <div className="flex flex-col ">
             {/* --- 개요 --- */}
             <div className="flex flex-col mt-[15px] mb-[11px]">
-              <h2 className="p-medium-bold">개요</h2>
+              <h2
+                className={`${
+                  isSmallMobile ? "p-small-bold" : "p-medium-bold "
+                }`}
+              >
+                개요
+              </h2>
               <div className="box-border relative outline1">
                 {/* 등장인물 */}
-                <div className="characters ">
-                  <div className="box-border flex flex-row items-center ">
+                <div className=" characters">
+                  <div
+                    className={`box-border flex flex-row  ${
+                      isSmallMobile ? "" : "items-center"
+                    }`}
+                  >
                     {" "}
                     <img
                       src={hasActors ? puppleCheckIcon : grayCheckIcon}
-                      className=" aspect-square"
+                      className={`aspect-square h-fit ${
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
+                    <span
+                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[1.56vw]"
+                          : " p-small-medium ml-[6px]"
+                      }`}
+                    >
                       등장인물
                     </span>
                   </div>
-                  <img src={stickIcon} className="" />
-                  <div className=" flex flex-row items-center pl-[5.24%] p-small-regular whitespace-nowrap">
-                    <span>성별 무관</span>
-                    <input
-                      type="text"
-                      placeholder="00"
-                      value={
-                        form.any === 0 && !isTouched.any
-                          ? ""
-                          : String(form.any ?? "")
-                      }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                      onChange={(e) => {
-                        const value = e.target.value;
 
-                        setIsTouched((prev) => ({ ...prev, any: true }));
+                  <img
+                    src={stickIcon}
+                    className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
+                  />
 
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, any: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({ ...prev, any: Number(value) }));
+                  <div
+                    className={`flex whitespace-nowrap translate-y-[-2px]  ${
+                      isSmallMobile
+                        ? "p-12-regular flex-col "
+                        : "p-small-regular  flex-row"
+                    }`}
+                  >
+                    <div>
+                      <span
+                        className={`whitespace-nowrap  ${
+                          isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                        }`}
+                      >
+                        성별 무관
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="00"
+                        id="no-gender"
+                        value={
+                          form.any === 0 && !isTouched.any
+                            ? ""
+                            : String(form.any ?? "")
                         }
-                      }}
-                    />
-                    <span>명 / 남</span>
-                    <input
-                      type="text"
-                      placeholder="00"
-                      value={
-                        form.male === 0 && !isTouched.male
-                          ? ""
-                          : String(form.male ?? "")
-                      }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                      onChange={(e) => {
-                        const value = e.target.value;
+                        className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                          isSmallMobile
+                            ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
+                            : "ml-[5px] mr-[2px] w-[27px] p-small-regular"
+                        }`}
+                        onChange={(e) => {
+                          const value = e.target.value;
 
-                        setIsTouched((prev) => ({ ...prev, male: true }));
+                          setIsTouched((prev) => ({ ...prev, any: true }));
 
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, male: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({ ...prev, male: Number(value) }));
+                          // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                          if (value === "") {
+                            setForm((prev) => ({ ...prev, any: undefined })); // 또는 null
+                          } else if (/^\d{0,2}$/.test(value)) {
+                            setForm((prev) => ({
+                              ...prev,
+                              any: Number(value),
+                            }));
+                          }
+                        }}
+                      />
+                      <span
+                        className={`whitespace-nowrap  ${
+                          isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                        }`}
+                      >
+                        명 / 남
+                      </span>
+                      <input
+                        type="text"
+                        placeholder="00"
+                        id="male"
+                        value={
+                          form.male === 0 && !isTouched.male
+                            ? ""
+                            : String(form.male ?? "")
                         }
-                      }}
-                    />
-                    <span>명 / 여</span>
-                    <input
-                      value={
-                        form.female === 0 && !isTouched.female
-                          ? ""
-                          : String(form.female ?? "")
-                      }
-                      type="text"
-                      placeholder="00"
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[1.74%] mr-[0.7%] w-[9.44%] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
-                      onChange={(e) => {
-                        const value = e.target.value;
+                        className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                          isSmallMobile
+                            ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
+                            : "ml-[5px] mr-[2px] w-[27px] p-small-regular"
+                        }`}
+                        onChange={(e) => {
+                          const value = e.target.value;
 
-                        setIsTouched((prev) => ({ ...prev, female: true }));
+                          setIsTouched((prev) => ({ ...prev, male: true }));
 
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, female: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            female: Number(value),
-                          }));
-                        }
-                      }}
-                    />
-                    <span>명</span>
+                          // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                          if (value === "") {
+                            setForm((prev) => ({ ...prev, male: undefined })); // 또는 null
+                          } else if (/^\d{0,2}$/.test(value)) {
+                            setForm((prev) => ({
+                              ...prev,
+                              male: Number(value),
+                            }));
+                          }
+                        }}
+                      />
+                      {isSmallMobile ? (
+                        <span
+                          className={`whitespace-nowrap  ${
+                            isSmallMobile
+                              ? "p-12-regular  "
+                              : "p-small-regular  "
+                          }`}
+                        >
+                          명{" "}
+                        </span>
+                      ) : (
+                        <span
+                          className={`whitespace-nowrap  ${
+                            isSmallMobile
+                              ? "p-12-regular  "
+                              : "p-small-regular  "
+                          }`}
+                        >
+                          명 / 여
+                        </span>
+                      )}
+                    </div>
+                    {isSmallMobile ? (
+                      <div>
+                        <span
+                          className={`whitespace-nowrap  ${
+                            isSmallMobile
+                              ? "p-12-regular  "
+                              : "p-small-regular  "
+                          }`}
+                        >
+                          {" "}
+                          / 여{" "}
+                        </span>
+                        <input
+                          value={
+                            form.female === 0 && !isTouched.female
+                              ? ""
+                              : String(form.female ?? "")
+                          }
+                          id="female"
+                          type="text"
+                          placeholder="00"
+                          className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                            isSmallMobile
+                              ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
+                              : "ml-[5px] mr-[2px] w-[27px] p-small-regular"
+                          }`}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            setIsTouched((prev) => ({ ...prev, female: true }));
+
+                            // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                            if (value === "") {
+                              setForm((prev) => ({
+                                ...prev,
+                                female: undefined,
+                              })); // 또는 null
+                            } else if (/^\d{0,2}$/.test(value)) {
+                              setForm((prev) => ({
+                                ...prev,
+                                female: Number(value),
+                              }));
+                            }
+                          }}
+                        />
+                        <span
+                          className={`whitespace-nowrap  ${
+                            isSmallMobile
+                              ? "p-12-regular  "
+                              : "p-small-regular  "
+                          }`}
+                        >
+                          명
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <input
+                          value={
+                            form.female === 0 && !isTouched.female
+                              ? ""
+                              : String(form.female ?? "")
+                          }
+                          id="female"
+                          type="text"
+                          placeholder="00"
+                          className={`focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] box-border ${
+                            isSmallMobile
+                              ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
+                              : "ml-[5px] mr-[2px] w-[27px] p-small-regular"
+                          }`}
+                          onChange={(e) => {
+                            const value = e.target.value;
+
+                            setIsTouched((prev) => ({ ...prev, female: true }));
+
+                            // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
+                            if (value === "") {
+                              setForm((prev) => ({
+                                ...prev,
+                                female: undefined,
+                              })); // 또는 null
+                            } else if (/^\d{0,2}$/.test(value)) {
+                              setForm((prev) => ({
+                                ...prev,
+                                female: Number(value),
+                              }));
+                            }
+                          }}
+                        />
+                        <span>명</span>
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* 공연 시간*/}
                 <div className="performance-time">
                   <div className="box-border flex flex-row items-center ">
-                    {" "}
                     <img
                       src={hasRunningTime ? puppleCheckIcon : grayCheckIcon}
-                      className="aspect-square"
+                      className={`aspect-square ${
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
+                    <span
+                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[1.56vw]"
+                          : " p-small-medium ml-[6px]"
+                      }`}
+                    >
                       공연 시간
                     </span>
                   </div>
-                  <img src={stickIcon} className="" />
-                  <div className=" flex flex-row items-center pl-[6.14%] p-small-regular whitespace-nowrap">
-                    <span>약</span>
+                  <img
+                    src={stickIcon}
+                    className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
+                  />
+                  <div
+                    className={`flex flex-row items-center whitespace-nowrap ${
+                      isSmallMobile ? "p-12-regular" : "p-small-regular"
+                    }`}
+                  >
+                    <span
+                      className={`whitespace-nowrap  ${
+                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                      }`}
+                    >
+                      약
+                    </span>
                     <input
                       type="text"
                       placeholder="000"
@@ -443,7 +636,11 @@ const PostManageDetail: React.FC = () => {
                           ? ""
                           : String(form.runningTime ?? "")
                       }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center ml-[5px] mr-[2px] w-[36px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                        isSmallMobile
+                          ? "ml-[1.56vw] mr-[0.94vw] w-[10vw] p-12-regular "
+                          : "ml-[5px] mr-[2px] w-[36px] p-small-regular "
+                      }`}
                       onChange={(e) => {
                         const value = e.target.value;
 
@@ -466,7 +663,13 @@ const PostManageDetail: React.FC = () => {
                         }
                       }}
                     />
-                    <span>분</span>
+                    <span
+                      className={`whitespace-nowrap  ${
+                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                      }`}
+                    >
+                      분
+                    </span>
                   </div>
                 </div>
                 {/* 무대 */}
@@ -477,16 +680,32 @@ const PostManageDetail: React.FC = () => {
                       src={
                         hasValidStageComment ? puppleCheckIcon : grayCheckIcon
                       }
-                      className=" aspect-square"
+                      className={`aspect-square ${
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className="  ml-[9.09%]  p-small-medium whitespace-nowrap translate-y-[1px] flex-grow">
+                    <span
+                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[1.56vw]"
+                          : " p-small-medium ml-[6px]"
+                      }`}
+                    >
                       무대
                     </span>
                   </div>
-                  <img className="my-auto" src={stickIcon} alt="구분선" />
+                  <img
+                    className={` my-auto ${
+                      isSmallMobile ? "h-[16px]" : "h-[20px]"
+                    }`}
+                    src={stickIcon}
+                    alt="구분선"
+                  />
                   <textarea
-                    className=" h-full focus:outline-none  focus:border-[0.5px] focus:border-[#caabff] p-xs-regular resize-none   rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF] px-[10px] py-[8px] p-small-regular placeholder:text-[rgba(0,0,0,0.17)] box-border"
+                    className={`h-full focus:outline-none  focus:border-[0.5px] py-[8px] focus:border-[#caabff] p-xs-regular resize-none   rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF]   placeholder:text-[rgba(0,0,0,0.17)] box-border ${
+                      isSmallMobile ? "px-[3.125vw]   " : "px-[10px] w-[260px] "
+                    }`}
                     placeholder="시기, 장소 등을 자유롭게 적어주세요."
                     value={form.stageComment ?? ""}
                     onChange={(e) => {
@@ -503,24 +722,42 @@ const PostManageDetail: React.FC = () => {
                     {" "}
                     <img
                       src={hasSceneOrAct ? puppleCheckIcon : grayCheckIcon}
-                      className="aspect-square"
+                      className={`aspect-square ${
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className=" ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
+                    <span
+                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[1.56vw]"
+                          : " p-small-medium ml-[6px]"
+                      }`}
+                    >
                       막과 장
                     </span>
                   </div>
-                  <img src={stickIcon} className="my-auto" />
-                  <div className="flex flex-row items-center p-small-regular whitespace-nowrap">
+                  <img
+                    src={stickIcon}
+                    className={` my-auto ${
+                      isSmallMobile ? "h-[16px]" : "h-[20px]"
+                    }`}
+                  />
+                  <div className="flex flex-row items-center whitespace-nowrap">
                     <input
                       type="text"
                       placeholder="00"
+                      id="act"
                       value={
                         form.act === 0 && !isTouched.act
                           ? ""
                           : String(form.act ?? "")
                       }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  mr-[2px] w-[27px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                        isSmallMobile
+                          ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
+                          : "ml-[5px] mr-[2px] w-[27px] p-small-regular "
+                      }`}
                       onChange={(e) => {
                         const value = e.target.value;
 
@@ -537,16 +774,27 @@ const PostManageDetail: React.FC = () => {
                         }
                       }}
                     />
-                    <span>막</span>
+                    <span
+                      className={`whitespace-nowrap  ${
+                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                      }`}
+                    >
+                      막
+                    </span>
                     <input
                       type="text"
                       placeholder="00"
+                      id="scene"
                       value={
                         form.scene === 0 && !isTouched.scene
                           ? ""
                           : String(form.scene ?? "")
                       }
-                      className="focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  ml-[5px] mr-[2px] w-[27px] placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px]"
+                      className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                        isSmallMobile
+                          ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
+                          : "ml-[5px] mr-[2px] w-[27px] p-small-regular "
+                      }`}
                       onChange={(e) => {
                         const value = e.target.value;
 
@@ -563,7 +811,13 @@ const PostManageDetail: React.FC = () => {
                         }
                       }}
                     />
-                    <span>장</span>
+                    <span
+                      className={`whitespace-nowrap  ${
+                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
+                      }`}
+                    >
+                      장
+                    </span>
                   </div>
                 </div>
 
@@ -572,13 +826,16 @@ const PostManageDetail: React.FC = () => {
                   className="absolute left-[376px] pupple-contour"
                 ></img>
               </div>
-
-              {/* 공연 시간 */}
-              {/* 장과 막 */}
             </div>
 
             <div className="flex flex-col gap-[9px] mb-[15px]">
-              <span className="p-medium-bold">작가 의도 </span>
+              <span
+                className={`${
+                  isSmallMobile ? "p-small-bold" : "p-medium-bold "
+                }`}
+              >
+                작가 의도{" "}
+              </span>
               <div className="intention-div relative  focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
                 <textarea
                   className="intention-text focus:outline-none border-none flex pl-[22px] pr-[50px] my-[8px] placeholder:text-[rgba(0,0,0,0.17)] resize-none bg-[#FFF]  p-small-regular  box-border "
@@ -600,7 +857,13 @@ const PostManageDetail: React.FC = () => {
             {/* --- 판매 상태 --- */}
             <div className="min-h-[103px] mb-[12px] ">
               <div className="mb-[12px] flex items-center gap-[7px] relative">
-                <h2 className="p-medium-bold">판매 상태 </h2>
+                <h2
+                  className={`${
+                    isSmallMobile ? "p-small-bold" : "p-medium-bold "
+                  }`}
+                >
+                  판매 상태{" "}
+                </h2>
                 <img
                   id="info-btn1"
                   className="cursor-pointer c-pointer w-[20px] h-[20px] [filter:invert(74%)_sepia(13%)_saturate(0%)_hue-rotate(220deg)_brightness(99%)_contrast(91%)]"
@@ -621,16 +884,17 @@ const PostManageDetail: React.FC = () => {
                     style={{
                       top: "unset",
                       left: "0%",
-                      padding: "11px",
+                      padding: "10px",
                       transform: "translate(calc(20px + 75px), 0)",
+                      width: `${isSmallMobile ? "52vw" : "299px"}`,
                     }}
                     buttonId="info-btn1"
                   />
                 ) : null}
               </div>
 
-              <div className="sales-status   h-[67px] relative pl-[10px] ">
-                <div className="script h-[26px] ">
+              <div className={`sales-status  relative  items-center`}>
+                <div className="script ">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -638,14 +902,27 @@ const PostManageDetail: React.FC = () => {
                       //   form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
                       // }
                       src={puppleCheckIcon}
-                      className=" aspect-square"
+                      className={`aspect-square ${
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }`}
                       alt="입력 체크"
                     />
-                    <span className="  ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ">
+                    <span
+                      className={`  whitespace-nowrap translate-y-[1px] flex-grow ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[0.94vw]"
+                          : " p-small-medium ml-[6px]"
+                      }`}
+                    >
                       대본
                     </span>
                   </div>
-                  <img src={stickIcon} className="my-auto" />
+                  <img
+                    src={stickIcon}
+                    className={` my-auto ${
+                      isSmallMobile ? "h-[16px]" : "h-[20px]"
+                    }`}
+                  />
                   <input
                     type="text"
                     value="무료 (포도알 스테이지에서는 대본 가격이 무료로 고정됩니다.)"
@@ -660,25 +937,31 @@ const PostManageDetail: React.FC = () => {
                     // }}
                   />
                 </div>
-                <select
-                  className="w-full  h-[26px] cursor-pointer  text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]"
-                  value={
-                    podoStudioOpen ? "true" : form.script ? "true" : "false"
-                  }
-                  onChange={(e) => {
-                    const isScript = e.target.value === "true";
-                    setForm((prev) => ({
-                      ...prev,
-                      script: isScript,
-                      performance: isScript ? prev.performance : false, // script가 false면 performance도 false로
-                    }));
-                  }}
-                  disabled={podoStudioOpen ? true : false}
-                >
-                  <option value="false">판매 중지</option>
-                  <option value="true"> 판매 중</option>
-                </select>
-                <div className="performance  h-[26px]">
+                <div className="flex items-center justify-end w-full ">
+                  <select
+                    className={`cursor-pointer  text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px] ${
+                      isSmallMobile
+                        ? "h-[32px] w-[64vw]  p-xs-regular"
+                        : "h-[26px] w-full p-small-regular "
+                    }`}
+                    value={
+                      podoStudioOpen ? "true" : form.script ? "true" : "false"
+                    }
+                    onChange={(e) => {
+                      const isScript = e.target.value === "true";
+                      setForm((prev) => ({
+                        ...prev,
+                        script: isScript,
+                        performance: isScript ? prev.performance : false, // script가 false면 performance도 false로
+                      }));
+                    }}
+                    disabled={podoStudioOpen ? true : false}
+                  >
+                    <option value="false">판매 중지</option>
+                    <option value="true"> 판매 중</option>
+                  </select>
+                </div>
+                <div className="performance ">
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
@@ -688,25 +971,32 @@ const PostManageDetail: React.FC = () => {
                           : grayCheckIcon
                       }
                       className={`aspect-square ${
-                        form.script === false ? "opacity-50" : ""
-                      }`}
+                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
+                      }${form.script === false ? "opacity-50" : ""}`}
                       alt="입력 체크"
                     />
                     <span
-                      className={` ml-[6.67%] p-small-medium whitespace-nowrap translate-y-[1px] flex-grow ${
-                        form.script === false ? "opacity-50" : "text-black"
-                      }`}
+                      className={`  whitespace-nowrap translate-y-[1px] flex-grow  ${
+                        isSmallMobile
+                          ? "p-12-bold  ml-[0.94vw]"
+                          : " p-small-medium ml-[6px]"
+                      } ${form.script === false ? "opacity-50" : "text-black"}`}
                     >
                       공연권
                     </span>
                   </div>
                   <img
                     src={stickIcon}
-                    className={` ${
-                      form.script === false ? "opacity-50" : ""
+                    className={` ${form.script === false ? "opacity-50" : ""} ${
+                      isSmallMobile ? "h-[16px]" : "h-[20px]"
                     } my-auto`}
                   />
-                  <div className="relative h-[26px] my-auto  ">
+
+                  <div
+                    className={`relative ${
+                      isSmallMobile ? "h-full" : "h-[26px]  my-auto "
+                    }`}
+                  >
                     <input
                       type="text"
                       disabled={
@@ -746,22 +1036,28 @@ const PostManageDetail: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <select
-                  className={`w-full  h-[26px] ${
-                    form.script === false ? "" : "cursor-pointer"
-                  }  mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
-                  value={form.performance ? "true" : "false"}
-                  disabled={podoStudioOpen ? true : form.script === false}
-                  onChange={(e) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      performance: e.target.value === "true",
-                    }))
-                  }
-                >
-                  <option value="false">판매 중지</option>
-                  <option value="true"> 판매 중</option>
-                </select>
+                <div className="flex items-center justify-end w-full ">
+                  <select
+                    className={`  ${
+                      form.script === false ? "" : "cursor-pointer"
+                    }   ${
+                      isSmallMobile
+                        ? "h-[32px] w-[64vw]  p-xs-regular "
+                        : "h-[26px] w-full  p-small-regular"
+                    } not-last:mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
+                    value={form.performance ? "true" : "false"}
+                    disabled={podoStudioOpen ? true : form.script === false}
+                    onChange={(e) =>
+                      setForm((prev) => ({
+                        ...prev,
+                        performance: e.target.value === "true",
+                      }))
+                    }
+                  >
+                    <option value="false">판매 중지</option>
+                    <option value="true"> 판매 중</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -780,18 +1076,13 @@ const PostManageDetail: React.FC = () => {
                     ? { width: "100%", height: "180px" }
                     : { width: "430px", height: "180px" }
                 }
-                titleStyle={{
-                  fontSize: "1rem",
-                  fontStyle: "normal",
-                  fontWeight: "700",
-                  lineHeight: "1.5rem",
-                }}
+                className={isSmallMobile ? "p-small-bold" : "p-medium-bold "}
                 grayInfoBtn={true}
               />
             </div>
 
             {/* 버튼 */}
-            <div className="flex flex-row mt-[3.99%] justify-end gap-[2.38%]">
+            <div className="flex flex-row mt-[40px] justify-end gap-[2.38%]">
               <SmallOnOffBtn
                 color="white"
                 onClick={() => navigate("/mypage/scriptmanage")}

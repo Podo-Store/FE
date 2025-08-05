@@ -25,7 +25,6 @@ const InfoPopup = ({
     const handleClickOutside = (event: MouseEvent) => {
       const buttonElement = document.getElementById(buttonId); // 동적으로 받은 id로 버튼 선택
 
-
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target as Node) &&
@@ -45,7 +44,7 @@ const InfoPopup = ({
   }, [onClose, buttonId]);
 
   return (
-    <div className="info-popup" style={{ ...style }} ref={popupRef}>
+    <div className="box-border info-popup" style={{ ...style }} ref={popupRef}>
       {typeof message !== "string"
         ? message
         : // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력

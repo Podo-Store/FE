@@ -1,0 +1,52 @@
+@use "../../styles/responsive" as r;
+
+.dialog-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 350px;
+  height: 235px;
+
+  border-radius: 20px;
+  background: var(--grey-grey-1, #fbfbfb);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+
+  @include r.media-small-mobile {
+    width: 91.9vw;
+    aspect-ratio: 294 / 198;
+    height: auto;
+  }
+}
+
+.dialog-popup p {
+  margin-top: 42px;
+  @include r.media-small-mobile {
+    margin-top: 17.67%;
+  }
+}
+
+.dialog-popup .btn-wrap {
+  gap: 15px;
+  padding-bottom: 31px;
+
+  @include r.media-small-mobile {
+    gap: 3.125vw;
+    padding-bottom: 12.6%;
+  }
+}
+.dialog-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999; // 팝업보다 아래면 안 돼요
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); // dim 처리
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  touch-action: none; // 모바일 드래그 방지
+}

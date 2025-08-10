@@ -14,12 +14,13 @@
   @media (max-width: 1279px) {
     width: clamp(688px, 55.417vw, 66.5rem);
   }
-  @media (max-width: 767px) {
+  @media (max-width: 768px) and (min-width: 480px) {
     width: clamp(440px, 35.833vw, 688px);
   }
   @media (max-width: 480px) {
-    width: 440px;
+    width: 280px;
   }
+
   & {
     height: 3.75rem;
     align-self: stretch;

@@ -1,5 +1,10 @@
+@use "../../../styles/responsive" as r;
 .info-change-main {
   width: 414px;
+  margin: 0 auto;
+  @include r.media-small-mobile {
+    width: 280px;
+  }
 }
 
 .info-change-main div#margin {
@@ -8,12 +13,6 @@
 
 .info-change-main p#limit {
   color: var(--grey6, #777);
-
-  font-family: "Noto Sans KR";
-  font-size: 0.75rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.125rem; /* 150% */
 }
 
 .info-change-main div#btn-wrap {

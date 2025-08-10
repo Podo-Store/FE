@@ -11,7 +11,7 @@ import PartialLoading from "../../../components/loading/PartialLoading";
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { useRequest } from "../../../hooks/useRequest";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { SERVER_URL } from "../../../constants/ServerURL";
 import {
   PW_ALPHABET_REGEX,
@@ -22,7 +22,7 @@ import {
   NAME_LENGTH_REGEX,
 } from "../../../constants/regex";
 
-import "./ChangeMain.css";
+import "./ChangeMain.scss";
 
 const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   // 회원 정보 수정
@@ -56,7 +56,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   const [hasClickedNameInputFlag, setHasClickedNameInputFlag] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
-
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   useEffect(() => {
     const checker = {
       ...pwChecker,
@@ -245,10 +245,20 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
 
   return (
     <EnterForm onSubmit={onClickCompleteBtn}>
-      <div className="info-change-main">
-        <h1>회원 정보 수정</h1>
-        <p id="limit">아이디와 이메일은 수정이 불가합니다.</p>
-        <p id="limit">문의가 있으시면 포도상점 메일로 문의해주세요.</p>
+      <div className=" info-change-main">
+        <p
+          className={`mb-[10px] ${
+            isSmallMobile ? "p-medium-bold " : "h4-bold"
+          }`}
+        >
+          회원 정보 수정
+        </p>
+        <p className={`${isSmallMobile ? "p-xs-medium" : "p-12-bold"}`}>
+          아이디와 이메일은 수정이 불가합니다.
+        </p>
+        <p className={`${isSmallMobile ? "p-xs-medium" : "p-12-bold"}`}>
+          문의가 있으시면 포도상점 메일로 문의해주세요.
+        </p>
         <div style={{ marginBottom: "4.722vh" }}></div>
 
         {/* 수정 페이지 */}
@@ -258,6 +268,11 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           placeholder={id}
           errorMessageCustomFlag={true}
           disabledMode={true}
+          fontMode={isSmallMobile ? "12" : "default"}
+          style={{
+            width: "100%",
+            ...(isSmallMobile ? { height: "48px" } : {}),
+          }}
         />
 
         <div id="margin"></div>
@@ -268,6 +283,11 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           readOnly={true}
           errorMessageCustomFlag={true}
           disabledMode={true}
+          fontMode={isSmallMobile ? "12" : "default"}
+          style={{
+            width: "100%",
+            ...(isSmallMobile ? { height: "48px" } : {}),
+          }}
         />
 
         <div id="margin"></div>
@@ -344,6 +364,11 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
           ]}
           errorFlag={nameDuplicated}
           errorMessage="중복된 닉네임입니다."
+          fontMode={isSmallMobile ? "12" : "default"}
+          style={{
+            width: "100%",
+            ...(isSmallMobile ? { height: "48px" } : {}),
+          }}
         />
 
         <div className="j-content-end" id="btn-wrap">

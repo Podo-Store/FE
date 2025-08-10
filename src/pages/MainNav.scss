@@ -20,6 +20,9 @@
   @include r.media-mobile {
     display: none;
   }
+  @include r.media-small-mobile {
+    padding: 0 20px;
+  }
 }
 
 .navbar a {

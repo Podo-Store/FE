@@ -38,6 +38,9 @@
   @include r.media-mobile {
     padding-left: 38.5px;
   }
+  @include r.media-small-mobile {
+    padding: 0 20px;
+  }
 }
 
 .footer .footer-upper {

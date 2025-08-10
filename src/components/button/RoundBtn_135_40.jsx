@@ -1,4 +1,6 @@
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./RoundBtn_135_40.scss";
+import clsx from "clsx";
 
 /**
  * @param {Object} props - Component properties
@@ -11,10 +13,25 @@ import "./RoundBtn_135_40.scss";
  * @param {Object} [props.style] - additional style
  * @returns
  */
-const RoundBtn_135_40 = ({ children, text, onClick, type, color, disabled = false, style }) => {
+const RoundBtn_135_40 = ({
+  children,
+  text,
+  onClick,
+  type,
+  color,
+  disabled = false,
+  style,
+}) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
+  const baseClassName = clsx(
+    "small-on-off-btn cursor-pointer f-center",
+    !isSmallMobile ? "p-medium-bold" : "p-small-bold"
+  );
+
   return color === "white" ? (
     <button
-      className="small-on-off-btn c-pointer p-medium-bold c-main f-center"
+      className={clsx(baseClassName, "c-main")}
       id="white"
       onClick={onClick}
       type={type}
@@ -24,7 +41,7 @@ const RoundBtn_135_40 = ({ children, text, onClick, type, color, disabled = fals
     </button>
   ) : color === "grey" || color === "gray" ? (
     <button
-      className="small-on-off-btn c-pointer p-medium-bold c-white f-center"
+      className={clsx(baseClassName, "c-white")}
       id="grey"
       onClick={onClick}
       type={type}
@@ -34,7 +51,7 @@ const RoundBtn_135_40 = ({ children, text, onClick, type, color, disabled = fals
     </button>
   ) : (
     <button
-      className="small-on-off-btn c-pointer p-medium-bold c-white f-center"
+      className={clsx(baseClassName, "c-white")}
       id="purple"
       onClick={onClick}
       type={type}

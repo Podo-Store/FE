@@ -9,10 +9,13 @@
     width: clamp(688px, 55.417vw, 66.5rem);
   }
   @include r.media-tablet {
-    width: clamp(440px, 35.833vw, 688px);
+    width: 688px;
   }
   @include r.media-mobile {
     width: 440px;
+  }
+  @include r.media-small-mobile {
+    width: 280px;
   }
   & {
     border: 1px solid var(--grey-grey7, #3c3c3c);

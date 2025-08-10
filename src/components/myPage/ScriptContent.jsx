@@ -140,8 +140,12 @@ const ScriptContent = ({
                       type="perform"
                       value={script.performancePrice || 0}
                     />
-                    <div style={{ height: "32px" }}></div>
-                    {widthConditions.isMobile && (
+                    <div
+                      style={
+                        !isSmallMobile ? { height: "32px" } : { height: "16px" }
+                      }
+                    ></div>
+                    {(isMobile || isSmallMobile) && (
                       <PurchasedPerformPossibleInfo script={script} />
                     )}
                   </>
@@ -182,7 +186,7 @@ const ScriptContent = ({
                   />
                 ) : (
                   <section className="j-content-between">
-                    {!widthConditions.isMobile ? (
+                    {!(isMobile || isSmallMobile) ? (
                       <PurchasedPerformPossibleInfo script={script} />
                     ) : (
                       <div></div>

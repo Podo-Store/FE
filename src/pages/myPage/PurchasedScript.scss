@@ -9,6 +9,9 @@
   @include r.media-mobile {
     grid-template-columns: 1fr 136px;
   }
+  @include r.media-small-mobile {
+    grid-template-columns: 1fr;
+  }
 }
 
 .purchased-script .content-side .content-side-grid h4 {
@@ -77,6 +80,7 @@
     width: 100%;
   }
   @include r.media-small-mobile {
+    width: 285px;
     height: 82px;
   }
 }

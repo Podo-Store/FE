@@ -18,9 +18,12 @@
     width: 430px;
   }
   @include r.media-small-mobile {
-    width: 81.25vw; //260px
-    min-width: 260px;
+    width: 280px;
   }
+  // @include r.media-small-mobile {
+  //   width: 81.25vw; //260px
+  //   min-width: 260px;
+  // }
 }
 
 .myPage-contents-default .content-side h1 {
@@ -31,6 +34,13 @@
   font-style: normal;
   font-weight: 700;
   line-height: 32px; /* 133.333% */
+  @include r.media-small-mobile {
+    /* Paragraph/Medium/Bold */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 150% */
+  }
 }
 
 .myPage-contents-default .content-side .m-bottom-8-88vh {

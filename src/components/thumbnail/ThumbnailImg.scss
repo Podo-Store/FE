@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .__thumbnail-img {
   width: 197px;
   height: 197px;
@@ -10,4 +12,9 @@
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+
+  @include r.media-mobile {
+    width: 120px;
+    height: 120px;
+  }
 }

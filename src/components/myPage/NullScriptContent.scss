@@ -1,0 +1,9 @@
+@use "./../../styles/_responsive.scss" as r;
+
+div#null-script-content {
+  gap: 1.44rem;
+
+  @include r.media-small-mobile {
+    gap: 20px;
+  }
+}

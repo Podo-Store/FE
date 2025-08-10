@@ -84,6 +84,7 @@ const MainVer2 = () => {
           <section className=" page1-width">
             <div className="page1-title-img">
               <div className="title-wrap h-fit f-dir-column p-relative">
+                {/*
                 <h1 className="title">
                   대본과 {isLaptop && <br />}공연권 거래
                   <br />

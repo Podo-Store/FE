@@ -57,6 +57,12 @@
   @include r.media-mobile {
     max-width: 430px;
   }
+  @include r.media-small-mobile {
+    gap: 5px;
+
+    // max-width: 280px;
+    max-width: 285px;
+  }
 }
 
 .purchased-script .warning-box.script {
@@ -70,11 +76,18 @@
   @include r.media-mobile {
     width: 100%;
   }
+  @include r.media-small-mobile {
+    height: 82px;
+  }
 }
 
 .purchased-script .warning-box img {
   width: 19px;
   height: 19px;
+  @include r.media-small-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .purchased-script .warning-box.perform.warning-box-content {

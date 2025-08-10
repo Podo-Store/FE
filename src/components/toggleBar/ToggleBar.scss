@@ -3,25 +3,34 @@
 }
 
 .toggle-bar .tab-nav-wrap {
-  margin: 16vh 0;
+  margin: 197px 0;
+  @media (max-width: 768px) and (min-width: 480px) {
+    margin: 100px 0;
+  }
+  @media (max-width: 479px) {
+    margin: 60px 0;
+  }
 }
 
 .toggle-bar .tab-nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
-
+  height: 60.5px;
   width: 66.5rem;
   @media (max-width: 1279px) {
     width: clamp(688px, 55.417vw, 66.5rem);
+    height: 60px;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 768px) and (min-width: 480px) {
     width: clamp(440px, 35.833vw, 688px);
+    height: 56.5px;
   }
-  @media (max-width: 480px) {
-    width: 440px;
+  @media (max-width: 479px) {
+    width: 280px;
+    height: 49px;
   }
+
   & {
-    height: 3.75rem;
     align-self: stretch;
   }
 }
@@ -37,13 +46,6 @@
   cursor: pointer;
 
   color: #000;
-
-  /* H5/Medium */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 1.75rem; /* 140% */
 
   position: relative;
 }

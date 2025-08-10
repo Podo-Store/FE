@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import AuthInputField from "../AuthInputField";
 import AuthInsideBtn from "./AuthInsideBtn";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { AuthSideBtnInputFieldProps } from "../types";
 
 import "./../../../../styles/colors.css";
@@ -42,7 +42,7 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
   const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
   const [timeLeft, setTimeLeft] = useState(300); // 300초 = 5분
   const [timerVisible, setTimerVisible] = useState(false);
-
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   useEffect(() => {
     if (timerStart && !timerStop && timeLeft > 0) {
       setTimerVisible(true);
@@ -89,7 +89,11 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
     <div>
       <AuthInputField
         className="input"
-        fontMode={fontMode}
+        fontMode={isSmallMobile ? "12" : fontMode}
+        style={{
+          width: "100%",
+          ...(isSmallMobile ? { height: "48px" } : {}),
+        }}
         rightElement={
           <div className="flex items-center">
             <AuthInsideBtn

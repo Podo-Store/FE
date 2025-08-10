@@ -18,7 +18,8 @@ import {
 } from "./../../constants/regex.js";
 import { SERVER_URL } from "../../constants/ServerURL";
 import AuthContext from "@/contexts/AuthContext";
-import "./FindBar.css";
+import "./FindBar.scss";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const FindPW = () => {
   const isAuthenticated = useContext(AuthContext);
@@ -56,7 +57,7 @@ const FindPW = () => {
 
   // PW 재설정
   const [receivedAccessToken, setReceivedAccessToken] = useState("");
-
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   useEffect(() => {
     if (isAuthenticated.isAuthenticated) {
       navigate("/");
@@ -175,6 +176,11 @@ const FindPW = () => {
           ]}
           errorFlag={isRegisteredId.show && !isRegisteredId.registered}
           errorMessage="가입되지 않은 아이디입니다."
+          fontMode={isSmallMobile ? "12" : "default"}
+          style={{
+            width: "100%",
+            ...(isSmallMobile ? { height: "48px" } : {}),
+          }}
         />
 
         <div style={{ height: "30px" }}></div>
@@ -212,6 +218,7 @@ const FindPW = () => {
             <CheckerMessage
               checkedFlag={true}
               message="메일이 전송되었습니다."
+              smallMessage={isSmallMobile ? true : false}
             />
           ) : null}
         </div>
@@ -244,6 +251,7 @@ const FindPW = () => {
         />
 
         <div style={{ height: "29px" }}></div>
+
         <BottomBtn
           onClick={() => {
             setResetPwPermitted(true);

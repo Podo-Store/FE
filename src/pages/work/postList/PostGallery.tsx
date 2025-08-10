@@ -25,7 +25,10 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useToggleLike } from "@/hooks/useToggleLike";
 import "./postGallery.scss";
 
-const bannerImages = [BannerImage1, BannerImage2];
+const bannerImages = [
+  { image: BannerImage1, link: "https://brunch.co.kr/@651b8cc89832412" },
+  { image: BannerImage2, link: "https://brunch.co.kr/@651b8cc89832412/14" },
+];
 
 const ScrollObserver: React.FC<{
   inViewRef: (node?: Element | null) => void;
@@ -229,7 +232,7 @@ const PostGallery = () => {
       </p>
 
       {/*------ 배너 ------*/}
-      <InfiniteBanner images={bannerImages} />
+      <InfiniteBanner banners={bannerImages} />
 
       {/*----- 스테이지 메뉴 -----*/}
 

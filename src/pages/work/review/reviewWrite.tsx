@@ -10,6 +10,7 @@ import {
   patchReviewProps,
 } from "@/api/user/review/reviewWriteApi";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import GoBack from "@/components/button/GoBack";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 import defaultThumbnail from "@/assets/image/defaultThumbnail.svg";
@@ -41,6 +42,10 @@ const reviewWrite = () => {
 
   const hasSelectedReason = Object.values(reason).some((value) => value);
   const navigate = useNavigate();
+
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
+    widthConditions;
 
   // 리뷰 내용 가져오기
   useEffect(() => {
@@ -166,35 +171,69 @@ const reviewWrite = () => {
   return (
     <div className="mx-auto review-write-div pb-[92px] ">
       {/* 배너 */}
-      <div className="mt-[37px]  flex  flex-col  gap-[14px]">
+      <div className="review-write-banner  flex  flex-col  gap-[14px] ">
         <GoBack url="-1" />
-        <div className="flex flex-col gap-[75px] border-b-1 border-[#B489FF] ">
-          <h1 className="h4-bold">후기를 작성해 주세요!</h1>
+        <div className="banner-body flex flex-col  border-b-1 border-[#B489FF] ">
+          <h1 className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"} `}>
+            후기를 작성해 주세요!
+          </h1>
           <span></span>
         </div>
       </div>
 
       {/* top contents*/}
-      <div className="mx-auto content mt-[35px]">
-        <div className="flex flex-col gap-[35px] ">
-          <div className="flex flex-row gap-[34px]">
+      <div className="mx-auto content">
+        <div
+          className={`flex flex-col  ${
+            isSmallMobile ? "gap-[25px]" : "gap-[35px]"
+          }`}
+        >
+          <div className="flex flex-row content-div">
             {/* 작품 내용 */}
-            <div className={`flex flex-col gap-[7px]`}>
+            <div className={`flex flex-col info `}>
               <img
                 src={thumbnail ? thumbnail : defaultThumbnail}
-                className="border border-[var(--grey3)]  box-border w-[197px] h-[197px] rounded-[20px]  object-cover"
+                className="content-img border border-[var(--grey3)]  box-border rounded-[20px]  object-cover aspect-square "
               />
               <div className="flex flex-col gap-[3px]">
-                <span className="w-full truncate p-large-bold">{title}</span>
-                <span className="w-full truncate p-medium-bold">{writer}</span>
+                <p
+                  className={`w-full truncate text-ellipsis  whitespace-nowrap  overflow-hidden ${
+                    isSmallMobile ? "p-small-bold" : " p-large-bold"
+                  } `}
+                >
+                  {title}
+                </p>
+                <span
+                  className={`w-full truncate  ${
+                    isSmallMobile ? "p-12-bold" : "p-medium-bold"
+                  }`}
+                >
+                  {writer}
+                </span>
               </div>
             </div>
 
-            <div className="flex flex-col w-full gap-[47px] pt-[20px] ">
+            <div className="evaluation flex flex-col w-full gap-[47px] ">
               {/*  평점 */}
-              <div>
-                <span className="p-large-bold mb-[11px]">작품의 평점</span>
-                <div className="flex flex-row gap-[15px]">
+              <div className="">
+                <span
+                  className={` flex flex-row gap-[1.6vw] ${
+                    isSmallMobile
+                      ? "p-small-bold flex flex-row"
+                      : "p-large-bold "
+                  }`}
+                >
+                  작품의 평점
+                  <div
+                    className={` ${isSmallMobile ? "p-12-regular" : "hidden"}`}
+                  >
+                    <div className="flex flex-row gap-[3px] items-center">
+                      (<p className=" p-small-bold">{selectedStar}</p>
+                      <p className="p-12-regular">/ 5</p>)
+                    </div>
+                  </div>
+                </span>
+                <div className="flex flex-row gap-[15px] mt-[10px]">
                   <div className="flex flex-row gap-[2px]">
                     {Array.from({ length: 5 }, (_, i) => (
                       <div
@@ -211,8 +250,8 @@ const reviewWrite = () => {
                         {i >= selectedStar ? (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
+                            width={` ${isSmallMobile ? "20" : "25"}`}
+                            height={` ${isSmallMobile ? "20" : "25"}`}
                             viewBox="0 0 25 25"
                             fill="none"
                           >
@@ -224,8 +263,8 @@ const reviewWrite = () => {
                         ) : (
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            width="25"
-                            height="25"
+                            width={` ${isSmallMobile ? "20" : "25"}`}
+                            height={` ${isSmallMobile ? "20" : "25"}`}
                             viewBox="0 0 25 25"
                             fill="none"
                           >
@@ -238,7 +277,11 @@ const reviewWrite = () => {
                       </div>
                     ))}
                   </div>
-                  <span className="flex flex-row gap-[9px]">
+                  <span
+                    className={`flex flex-row gap-[9px]  ${
+                      isSmallMobile ? "hidden" : ""
+                    }`}
+                  >
                     <p className="p-large-bold">{selectedStar}</p>
                     <p className="p-medium-regular">/ 5</p>
                   </span>
@@ -246,9 +289,9 @@ const reviewWrite = () => {
               </div>
 
               {/* 장점*/}
-              <div>
-                <span className=" p-large-bold  mb-[10px]">작품의 장점</span>
-                <span className="flex flex-wrap whitespace-nowrap reason">
+              <div className={`${isSmallMobile ? "hidden" : ""} `}>
+                <span className=" p-large-bold">작품의 장점</span>
+                <span className="flex flex-wrap whitespace-nowrap reason mt-[10px]">
                   <button
                     className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
                       reason["CHARACTER"]
@@ -279,43 +322,91 @@ const reviewWrite = () => {
                   >
                     <p className="p-medium-bold"> 스토리가 좋아요</p>
                   </button>
-
-                  {/* {Object.entries(reason).map(([label, selected]) => (
-                    <button
-                      key={label}
-                      onClick={() =>
-                        setReason((prev) => ({
-                          ...prev,
-                          [label]: !prev[label],
-                        }))
-                      }
-                      className={`cursor-pointer hover:text-[var(--purple5)] p-medium-medium ${
-                        selected ? "text-[var(--purple5)] " : ""
-                      }`}
-                    >
-                      {label}
-                    </button>
-                  ))} */}
                 </span>
               </div>
             </div>
           </div>
 
+          <div className={`${isSmallMobile ? "" : "hidden"} `}>
+            <span
+              className={`  ${
+                isSmallMobile ? "p-small-bold" : "p-large-bold"
+              } `}
+            >
+              작품의 장점
+            </span>
+            <span className="flex flex-wrap whitespace-nowrap reason mt-[10px]">
+              <button
+                className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                  reason["CHARACTER"]
+                    ? "bg-[var(--purple5)] text-[var(--white)]"
+                    : ""
+                }`}
+                onClick={() => handleSelectReason("CHARACTER")}
+              >
+                <p className="p-xs-bold"> 캐릭터가 매력적이에요</p>
+              </button>
+              <button
+                className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                  reason["RELATION"]
+                    ? "bg-[var(--purple5)] text-[var(--white)]"
+                    : ""
+                }`}
+                onClick={() => handleSelectReason("RELATION")}
+              >
+                <p className="p-xs-bold"> 관계성이 탄탄해요</p>
+              </button>
+              <button
+                className={`cursor-pointer py-[8px] bg-[var(--grey3)]  w-[180px] rounded-[30px] hover:text-[var(--white)] hover:bg-[var(--purple5)] ${
+                  reason["STORY"]
+                    ? "bg-[var(--purple5)] text-[var(--white)]"
+                    : ""
+                }`}
+                onClick={() => handleSelectReason("STORY")}
+              >
+                <p className="p-xs-bold"> 스토리가 좋아요</p>
+              </button>
+            </span>
+          </div>
+
           {/* bottom contents */}
           <div className="flex flex-col">
             {/* 내용 작성 */}
-            <span className="p-large-bold mb-[10px]"> 내용 작성</span>
-            <div className="flex flex-col border-[0.5px] rounded-[5px] h-[250px] ">
+            <span
+              className={` mb-[10px] ${
+                isSmallMobile ? "p-small-bold" : "p-large-bold"
+              }`}
+            >
+              {" "}
+              내용 작성
+            </span>
+            <div
+              className={`flex flex-col border-[0.5px] rounded-[5px]  ${
+                isSmallMobile ? " h-[205px]" : "h-[250px]"
+              }`}
+            >
               <textarea
-                className=" p-medeim-regular h-[203px] p-[20px] border-none box-border resize-none  rounded-[5px] focus:outline-none focus:ring-0 "
+                className={` h-[203px]  border-none box-border resize-none  rounded-[5px] focus:outline-none focus:ring-0 ${
+                  isSmallMobile
+                    ? " p-xs-regular p-[6.25vw]"
+                    : "p-medium-regular p-[20px]"
+                }`}
                 onChange={handleChange}
                 value={text}
               ></textarea>
               <span className="h-[47px] bg-[var(--purple10)] w-full flex flex-row justify-between  rounded-b-[5px] ">
-                <p className="flex my-auto ml-[20px] w-fit p-medium-regular">
+                <p
+                  className={`flex my-auto ml-[20px] w-fit ${
+                    isSmallMobile ? " p-xs-regular" : "p-medium-regular"
+                  }`}
+                >
                   EX) 내용이 재밌었어요!
                 </p>
-                <span className="my-auto mr-[13px]">
+                <span
+                  className={`my-auto mr-[13px] ${
+                    isSmallMobile ? " p-xs-regular" : "p-small-regular"
+                  }`}
+                >
                   {text.length} / 50자 이상
                 </span>
               </span>
@@ -324,7 +415,11 @@ const reviewWrite = () => {
         </div>
 
         {/* 유의사항 */}
-        <ul className="text-[var(--grey5)] p-small-bold  p-[0] m-[0] list-none  mt-[30px]">
+        <ul
+          className={`text-[var(--grey5)]  p-[0] m-[0] list-none  mt-[30px]  ${
+            isSmallMobile ? "p-xs-bold " : "p-small-bold "
+          }`}
+        >
           <li>• 후기 작성 시 유의사항</li>
           <li className="list-none">
             - 비속어 및 부적절한 내용은 별도의 고지 없이 삭제됩니다.

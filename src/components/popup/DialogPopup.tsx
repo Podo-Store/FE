@@ -1,6 +1,8 @@
 import SmallOnOffBtn from "../../components/button/RoundBtn_135_40";
 
-import "./DialogPopup.css";
+import "./DialogPopup.scss";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+import { useEffect } from "react";
 
 interface DialogPopupProps {
   text: string;
@@ -26,17 +28,38 @@ interface DialogPopupProps {
  * @param {Function} props.negativeBtn.onClick - 취소 버튼 onClick
  * @returns
  */
-const DialogPopup: React.FC<DialogPopupProps> = ({ text, positiveBtn, negativeBtn }) => {
+const DialogPopup: React.FC<DialogPopupProps> = ({
+  text,
+  positiveBtn,
+  negativeBtn,
+}) => {
+  const {
+    widthConditions: { isSmallMobile },
+  } = useWindowDimensions();
+
+  useEffect(() => {
+    // 팝업 열릴 때
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      // 팝업 닫힐 때 복원
+      document.body.style.overflow = "auto";
+    };
+  }, []);
   return (
-    <div className="dialog-popup f-dir-column j-content-between a-items-center">
-      <p className="p-medium-bold">{text}</p>
-      <div className="btn-wrap d-flex">
-        <SmallOnOffBtn color="grey" onClick={negativeBtn.onClick}>
-          {negativeBtn.text}
-        </SmallOnOffBtn>
-        <SmallOnOffBtn color="purple" onClick={positiveBtn.onClick}>
-          {positiveBtn.text}
-        </SmallOnOffBtn>
+    <div className="dialog-popup-overlay">
+      <div className="dialog-popup f-dir-column j-content-between a-items-center">
+        <p className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold"}`}>
+          {text}
+        </p>
+        <div className="btn-wrap d-flex">
+          <SmallOnOffBtn color="grey" onClick={negativeBtn.onClick}>
+            {negativeBtn.text}
+          </SmallOnOffBtn>
+          <SmallOnOffBtn color="purple" onClick={positiveBtn.onClick}>
+            {positiveBtn.text}
+          </SmallOnOffBtn>
+        </div>
       </div>
     </div>
   );

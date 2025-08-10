@@ -38,7 +38,7 @@
 .script-content .__script-content-btn {
   grid-column: 2;
   grid-row: 2;
-
+  align-self: end;
   width: 100%;
   @include r.media-mobile {
     grid-column: 1 / span 2;

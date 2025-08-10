@@ -1,7 +1,6 @@
+import clsx from "clsx";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./RoundBtn_135_40.scss";
-import clsx from "clsx";
-
 /**
  * @param {Object} props - Component properties
  * @param {string} props.children - 표시 글자

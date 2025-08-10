@@ -96,6 +96,20 @@ const MainVer2 = () => {
                   여러분들이 원하던 스토리 IP 플랫폼,
                   <br />
                   포도상점을 시작하세요!
+                </h5>*/}
+
+                <h1 className=" title">
+                  당신의 대본이
+                  <br />
+                  무대위에 오르기까지
+                </h1>
+
+                <h5 className=" sub-title whitespace-nowrap">
+                  동료 작가와 독자의 피드백으로 성장하고,
+                  <br />
+                  공연으로 연결되는 스토리 IP 플랫폼
+                  <br />
+                  포도상점과 함께해요.
                 </h5>
               </div>
               {!isTablet && !isMobile && !isSmallMobile ? (

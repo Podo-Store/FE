@@ -10,6 +10,7 @@ import inputCheck from "./../../assets/image/fileInput/inputCheck.svg";
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
 import circleInfoGrayBtn from "./../../assets/image/button/circleInfoGrayBtn.svg";
 
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./FileInputBox.css";
 
 interface FileInputBoxProps {
@@ -17,6 +18,7 @@ interface FileInputBoxProps {
   infoText?: string;
   onFileUpload: (file: File) => void;
   style: React.CSSProperties;
+  className?: string;
   titleStyle?: React.CSSProperties;
   grayInfoBtn?: boolean;
 }
@@ -28,10 +30,14 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
   style,
   titleStyle,
   grayInfoBtn = false,
+  className,
 }) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
 
   const [showPopup, setShowPopup] = useState(false);
+  const {
+    widthConditions: { isSmallMobile },
+  } = useWindowDimensions();
   const navigate = useNavigate();
 
   const onDrop = useCallback(
@@ -80,7 +86,11 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
         className="flex items-center title"
         style={!title ? { marginTop: "0" } : {}}
       >
-        {title ? <p style={{ ...titleStyle }}>{title}</p> : null}{" "}
+        {title ? (
+          <p className={className} style={{ ...titleStyle }}>
+            {title}
+          </p>
+        ) : null}{" "}
         {infoText ? (
           <>
             <img
@@ -117,18 +127,46 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
       >
         <input {...getInputProps()} />
         {isDragActive ? (
-          <p className="p-medium-medium">파일을 여기에 드롭하세요...</p>
+          <p
+            className={`${
+              isSmallMobile ? "p-small-medium" : "p-medium-medium"
+            }`}
+          >
+            파일을 여기에 드롭하세요...
+          </p>
         ) : uploadedFile ? (
-          <p className="p-medium-medium">{uploadedFile.name}</p>
+          <p
+            className={`${
+              isSmallMobile ? "p-small-medium" : "p-medium-medium"
+            }`}
+          >
+            {uploadedFile.name}
+          </p>
         ) : (
-          <p className="p-medium-medium">파일을 마우스로 끌어오세요.</p>
+          <p
+            className={`${
+              isSmallMobile ? "p-small-medium" : "p-medium-medium"
+            }`}
+          >
+            파일을 마우스로 끌어오세요.
+          </p>
         )}
 
         {uploadedFile ? (
           <div>
             <img src={inputCheck} alt="checked" />
-            <p id="pdf" className="p-medium-medium"></p>
-            <p id="find" className="p-medium-medium">
+            <p
+              id="pdf"
+              className={`${
+                isSmallMobile ? "p-small-medium" : "p-medium-medium"
+              }`}
+            ></p>
+            <p
+              id="find"
+              className={`${
+                isSmallMobile ? "p-small-medium" : "p-medium-medium"
+              }`}
+            >
               다시하기
             </p>
           </div>
@@ -138,7 +176,10 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
             <p id="pdf" className="p-small-bold">
               PDF
             </p>
-            <p id="find" className="p-small-under">
+            <p
+              id="find"
+              className={`${isSmallMobile ? "p-xs-under" : "p-small-under"}`}
+            >
               내 PC에서 찾기
             </p>
           </div>

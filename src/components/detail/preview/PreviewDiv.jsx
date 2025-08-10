@@ -1,14 +1,14 @@
-import PreviewPurchase from "../button/PreviewPurchase";
+import PreviewPurchase from "../../button/PreviewPurchase";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
-import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
-import inequalityLeft from "./../../assets/image/button/inequalityLeft.svg";
-import inequalityRight from "./../../assets/image/button/inequalityRight.svg";
+import CloseBtn from "@/assets/image/button/CloseBtn.svg";
+import inequalityLeft from "@/assets/image/button/inequalityLeft.svg";
+import inequalityRight from "@/assets/image/button/inequalityRight.svg";
 
 import "./PreviewDiv.scss";
-import "./../../styles/text.css";
-import "./../../styles/utilities.css";
+import "@/styles/text.css";
+import "@/styles/utilities.css";
 
 /**
  *

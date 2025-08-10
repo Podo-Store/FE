@@ -1,3 +1,5 @@
+@use "./../../styles/_responsive.scss" as r;
+
 .signUpSuccess .signUp-success-wrap {
   position: relative;
 
@@ -18,7 +20,15 @@
   font-style: normal;
   font-weight: 500;
   line-height: 2.5rem; /* 125% */
+
   text-align: center;
+  @include r.media-small-mobile {
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 28px; /* 140% */
+    letter-spacing: -0.4px;
+  }
 }
 
 .signUpSuccess .signUp-success-wrap img {
@@ -27,6 +37,11 @@
   width: 389px;
   height: 334px;
   flex-shrink: 0;
+
+  @include r.media-small-mobile {
+    width: 254px;
+    height: 218px;
+  }
 }
 
 .signUpSuccess .bottomButton {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import PolicyPopup from "../../popup/PolicyPopup.jsx";
 
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
+
 import unChecked from "../../../assets/image/auth/signUp/checkbox/unChecked.svg";
 import checked from "../../../assets/image/auth/signUp/checkbox/checked.svg";
 
@@ -11,9 +13,10 @@ import {
   POLICY,
 } from "../../../constants/PopupTexts/SignUp4DetailTexts.js";
 
-import "./SignUpCheckBox.css";
+import "./SignUpCheckBox.scss";
 import "./../../../styles/colors.css";
 import "./../../../styles/utilities.css";
+import clsx from "clsx";
 
 const SignUpCheckBox = ({ setCheckBoxCondition }) => {
   const [items, setItems] = useState([
@@ -52,6 +55,8 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
     policy: false,
   });
 
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
   // 개별 체크박스 선택
   const onChangeCheckbox = (id) => {
     const updatedItems = items.map(
@@ -76,7 +81,10 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
   // 전체 선택/해제 처리
   const onChangeAllSelect = () => {
     const newCheckedState = !isAllChecked;
-    const updatedItems = items.map((item) => ({ ...item, checked: newCheckedState }));
+    const updatedItems = items.map((item) => ({
+      ...item,
+      checked: newCheckedState,
+    }));
     setItems(updatedItems);
     setIsAllChecked(newCheckedState);
 
@@ -98,7 +106,11 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
           onClick={onChangeAllSelect}
         />
         <label
-          className={`c-pointer p-small-medium ${isAllChecked ? "c-main" : "c-grey"}`}
+          className={clsx(
+            "cursor-pointer",
+            !isSmallMobile ? "p-small-medium" : "p-xs-medium",
+            isAllChecked ? "c-main" : "c-grey"
+          )}
           onClick={onChangeAllSelect}
         >
           모두 동의하기
@@ -110,9 +122,12 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
       {/* 개별 항목 체크박스 */}
       {items.map((item) => (
         <div
-          className={`a-items-center p-small-medium checkbox-item ${
+          className={clsx(
+            "a-items-center",
+            !isSmallMobile ? "p-small-medium" : "p-xs-medium",
+            "checkbox-item",
             item.checked ? "c-main" : "c-grey"
-          }`}
+          )}
           key={item.id}
         >
           <img
@@ -121,7 +136,10 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
             className="c-pointer checkbox-icon"
             onClick={() => onChangeCheckbox(item.id)}
           />
-          <label className="c-pointer" onClick={() => onChangeCheckbox(item.id)}>
+          <label
+            className="c-pointer"
+            onClick={() => onChangeCheckbox(item.id)}
+          >
             {item.name}
           </label>
           {item.key !== "age" ? (
@@ -129,7 +147,10 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
               className="p-xs-under c-grey c-pointer"
               id="open"
               onClick={() => {
-                setShowPopup({ ...showPopup, [item.key]: !showPopup[item.key] });
+                setShowPopup({
+                  ...showPopup,
+                  [item.key]: !showPopup[item.key],
+                });
               }}
             >
               전문보기
@@ -137,10 +158,11 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
           ) : null}
           {item.popup && showPopup[item.key]
             ? item.popup &&
-             React .cloneElement(item.popup, {
+              React.cloneElement(item.popup, {
                 title: item.name,
                 detail: item.detail,
-                setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
+                setShowPopup: (state) =>
+                  setShowPopup({ ...showPopup, [item.key]: state }),
                 page: 0,
               })
             : null}

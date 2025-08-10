@@ -1,12 +1,23 @@
 @use "./../../styles/responsive.scss" as r;
 
 .amount-change {
+  gap: 10px;
+
   position: absolute;
   left: 52.72435897435897%;
 
   @include r.media-mobile {
     left: 117px;
   }
+  @include r.media-small-mobile {
+    gap: 5px;
+    left: 102px;
+  }
+}
+
+.amount-change img {
+  width: 16px;
+  height: 16px;
 }
 
 .amount-change > p {
@@ -15,4 +26,7 @@
   min-width: 84px; */
   min-width: 22px;
   text-align: center;
+  @include r.media-small-mobile {
+    min-width: 15px;
+  }
 }

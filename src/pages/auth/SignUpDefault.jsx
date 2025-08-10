@@ -1,11 +1,19 @@
 import axios from "axios";
+import clsx from "clsx";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Loading from "../Loading";
 
 import { Box } from "../../components/auth";
-import { SignUp1, SignUp2, SignUp3, SignUp4 } from "../../components/auth/signUp";
+import {
+  SignUp1,
+  SignUp2,
+  SignUp3,
+  SignUp4,
+} from "../../components/auth/signUp";
+
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 import { SERVER_URL } from "../../constants/ServerURL";
 
@@ -30,6 +38,8 @@ const SignUpDefault = () => {
 
   // loading state
   const [isLoading, setIsLoading] = useState(false);
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   const navigate = useNavigate();
 
@@ -71,12 +81,22 @@ const SignUpDefault = () => {
       <div className="sign-up-default">
         <div style={{ height: "18.519vh" }}></div>
         <Box>
-          <div style={{ width: "82.5%" }}>
-            <h2 className="h2-medium t-align-center" id="title">
+          <div className="_content-wrap">
+            <h2
+              id="title"
+              className={clsx(
+                "t-align-center",
+                !isSmallMobile ? "h2-medium" : "h5-medium"
+              )}
+            >
               회원가입
             </h2>
             {step === 1 && (
-              <SignUp1 onNext={onNext} userInfo={userInfo} setUserInfo={setUserInfo} />
+              <SignUp1
+                onNext={onNext}
+                userInfo={userInfo}
+                setUserInfo={setUserInfo}
+              />
             )}
             {step === 2 && (
               <SignUp2

@@ -1,5 +1,6 @@
-import "./RoundBtn_135_40.scss";
+import clsx from "clsx";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
+import "./RoundBtn_135_40.scss";
 /**
  * @param {Object} props - Component properties
  * @param {string} props.children - 표시 글자
@@ -20,15 +21,16 @@ const RoundBtn_135_40 = ({
   disabled = false,
   style,
 }) => {
-  const {
-    widthConditions: { isSmallMobile },
-  } = useWindowDimensions();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
+  const baseClassName = clsx(
+    "small-on-off-btn cursor-pointer f-center",
+    !isSmallMobile ? "p-medium-bold" : "p-small-bold"
+  );
 
   return color === "white" ? (
     <button
-      className={`small-on-off-btn c-pointer c-main f-center ${
-        isSmallMobile ? "p-small-bold" : "p-medium-bold"
-      }`}
+      className={clsx(baseClassName, "c-main")}
       id="white"
       onClick={onClick}
       type={type}
@@ -38,9 +40,7 @@ const RoundBtn_135_40 = ({
     </button>
   ) : color === "grey" || color === "gray" ? (
     <button
-      className={`${
-        isSmallMobile ? "p-small-bold" : "p-medium-bold"
-      } small-on-off-btn c-pointer  c-white f-center`}
+      className={clsx(baseClassName, "c-white")}
       id="grey"
       onClick={onClick}
       type={type}
@@ -50,9 +50,7 @@ const RoundBtn_135_40 = ({
     </button>
   ) : (
     <button
-      className={`${
-        isSmallMobile ? "p-small-bold" : "p-medium-bold"
-      } small-on-off-btn c-pointer  c-white f-center`}
+      className={clsx(baseClassName, "c-white")}
       id="purple"
       onClick={onClick}
       type={type}

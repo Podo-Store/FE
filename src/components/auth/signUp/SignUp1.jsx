@@ -5,6 +5,8 @@ import { Selector, NextGreyButton, NextPurpleButton } from ".";
 import Form from "../Form";
 import { AuthInputField } from "../../inputField";
 
+import useWindowDimensions from "../../../hooks/useWindowDimensions";
+
 import { ID_FORMAT_REGEX, ID_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
 
@@ -18,6 +20,8 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
   const [idDuplicated, setIdDuplicated] = useState(false);
   // enter 키 입력 시 중복 체크를 위한 flag: 중복 체크를 했는지 여부
   const [hasIdDuplicateChecked, setHasIdDuplicateChecked] = useState(false);
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useEffect(() => {
     /*
@@ -87,6 +91,8 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
           checkIdDuplicated(id);
           setIdChecker({ ...idChecker, show: false });
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={id.length > 0}
         checkerMessages={[
           {

@@ -5,6 +5,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { organizationsExport } from "../../constants/organizations";
 
 import "./CardsContent.scss";
+import clsx from "clsx";
 
 /**
  *
@@ -117,11 +118,14 @@ const CardsContent: React.FC<CardsContentProps> = ({
             {organizationsExport[pageNum]?.keywords?.map((keyword, index) => (
               <Fragment key={index}>
                 <div
-                  className={`label c-white  ${
-                    !widthConditions.isMobile
+                  className={clsx(
+                    "label c-white",
+                    !widthConditions.isMobile && !widthConditions.isSmallMobile
                       ? "p-medium-regular"
-                      : "p-xs-medium"
-                  }`}
+                      : !widthConditions.isSmallMobile
+                      ? "p-xs-medium"
+                      : "font-[500] text-[8px]"
+                  )}
                 >
                   {keyword}
                 </div>
@@ -130,7 +134,8 @@ const CardsContent: React.FC<CardsContentProps> = ({
                   // 1. 마지막 label일 때 제거
                   index !==
                     organizationsExport[pageNum]?.keywords?.length - 1 &&
-                    // 2. 사용자 정의된 추가 삭제 원이 있을 때 제거
+                    // 2. small-mobile이 아닐 때, 사용자 정의된 추가 삭제 원이 있을 때 제거
+                    !widthConditions.isSmallMobile &&
                     !organizationsExport[
                       pageNum
                     ]?.additionalDeleteCircle?.includes(index) && (
@@ -146,7 +151,11 @@ const CardsContent: React.FC<CardsContentProps> = ({
         <div className="cards-bottom j-content-between">
           <h1
             className={`fade-in c-white ${
-              !widthConditions.isMobile ? "h1-regular" : "h4-regular"
+              !widthConditions.isMobile && !widthConditions.isSmallMobile
+                ? "h1-regular"
+                : !widthConditions.isSmallMobile
+                ? "h4-regular"
+                : "p-medium-medium"
             }`}
           >
             {organizationsExport[pageNum]?.name || ""}
@@ -169,7 +178,14 @@ const CardsContent: React.FC<CardsContentProps> = ({
       onMouseLeave={onMouseLeave}
     >
       <div id="closed" className="cards-content f-dir-column f-center">
-        <p className="fade-in p-large-medium c-white t-center">
+        <p
+          className={clsx(
+            "fade-in c-white t-center",
+            !widthConditions.isSmallMobile
+              ? "p-large-medium"
+              : "p-medium-medium"
+          )}
+        >
           {organizationsExport[pageNum]?.name || "포도상점과 MOU를 맺어주세요!"}
         </p>
         <div className="mou-logo f-center">

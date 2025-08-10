@@ -1,4 +1,4 @@
-import "./RectangleForm.css";
+import "./RectangleForm.scss";
 
 const RectangleForm = ({ children, onSubmit }) => {
   const onSubmitDefault = (event) => {

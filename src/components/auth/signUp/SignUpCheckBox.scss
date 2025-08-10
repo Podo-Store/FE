@@ -1,3 +1,5 @@
+@use "./../../../styles/_responsive.scss" as r;
+
 .checkbox-container {
   padding-top: 1.75rem;
 }
@@ -7,15 +9,21 @@
 }
 
 .checkbox-container .checkbox-icon {
+  margin-right: 0.31rem;
+
   width: 20px;
   height: 20px;
-  margin-right: 0.31rem;
+  @include r.media-small-mobile {
+    width: 14px;
+    height: 14px;
+  }
 }
 
 .checkbox-container hr {
   margin: 0;
-  margin-top: 0.47rem;
-  margin-bottom: 0.53rem;
+  margin-top: -2px;
+  margin-bottom: 8px;
+
   border: 0.5px solid var(--purple8, #caabff);
 }
 

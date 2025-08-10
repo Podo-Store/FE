@@ -1,0 +1,26 @@
+@use "./../../styles/_responsive.scss" as r;
+
+.review-summary {
+  padding-top: 50px;
+  padding-bottom: 45px;
+
+  @include r.media-tablet {
+    flex-direction: column;
+    align-items: center;
+    gap: 80px;
+
+    padding: 0;
+    padding-top: 40px;
+  }
+}
+
+.review-summary .bar {
+  width: 1px;
+  height: 267px;
+  @include r.media-tablet {
+    top: 50%;
+
+    width: 89.820359281437125748502994011976%;
+    height: 1px;
+  }
+}

@@ -61,6 +61,11 @@
     width: 440px;
     height: 240px;
   }
+  @include r.media-small-mobile {
+    padding: 15px 24px;
+    width: 280px;
+    height: 159px;
+  }
 }
 
 .cards-content .background-image {
@@ -99,6 +104,12 @@
   @include r.media-mobile {
     width: 70%;
   }
+  @include r.media-small-mobile {
+    // flex 요소 최초 한 줄 만 출력, 나머지는 숨기기
+    width: 72%;
+    height: 18px;
+    overflow: hidden;
+  }
 }
 
 .cards-content#opened .cards-top .label {
@@ -115,6 +126,9 @@
   );
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(5px);
+  @include r.media-small-mobile {
+    padding: 2px 10px;
+  }
 }
 
 .cards-content#opened .cards-top .label-circle {
@@ -127,6 +141,10 @@
   background-color: #fff;
 
   z-index: 1;
+  @include r.media-small-mobile {
+    width: 8px;
+    height: 8px;
+  }
 }
 
 .cards-content#opened .cards-bottom h1 {
@@ -148,6 +166,10 @@
   @include r.media-mobile {
     width: 440px;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+    height: 50px;
+  }
 }
 
 .cards-content .mou-logo {
@@ -165,6 +187,13 @@
   @include r.media-tablet {
     right: 23px;
     bottom: 17.5px;
+  }
+  @include r.media-small-mobile {
+    right: 10px;
+    bottom: 10px;
+
+    width: 30px;
+    height: 30px;
   }
 }
 

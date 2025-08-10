@@ -1,0 +1,15 @@
+@use "./../../styles/_responsive.scss" as r;
+
+.auth-form {
+  padding: 0 43px;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  @include r.media-mobile {
+    padding: 0 30px;
+  }
+  @include r.media-small-mobile {
+    padding: 0 20px;
+  }
+}

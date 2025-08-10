@@ -33,7 +33,10 @@ const Page3Cards: React.FC<Page3CardsProps> = ({
 }) => {
   // for responsive design
   const { widthConditions } = useWindowDimensions();
-  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
+  const isTablet =
+    widthConditions.isTablet ||
+    widthConditions.isMobile ||
+    widthConditions.isSmallMobile;
   const slidesPerPage = !isTablet ? 5 : 3;
 
   // 5개 카드의 오픈 여부 상태

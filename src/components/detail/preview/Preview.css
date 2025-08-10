@@ -1,18 +1,7 @@
-@use "../../../styles/_responsive.scss" as r;
-
 .preview div#thumbnail-content {
   position: relative;
 
   height: 100%;
-
-  @include r.media-laptop {
-    margin: 0;
-  }
-  @include r.media-tablet {
-    margin: 0;
-  }
-  @include r.media-mobile {
-  }
 }
 
 .preview #preview-glass {

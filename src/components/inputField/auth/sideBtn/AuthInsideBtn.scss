@@ -1,8 +1,11 @@
 @use "./../../../button/_mixins.scss" as m;
+@use "./../../../../styles/_responsive.scss" as r;
 
 .AuthInsideBtn {
   position: absolute;
-  right: -1.25rem;
+  right: 0px;
+
+  z-index: 1;
 }
 
 .AuthInsideBtn .insideButton {
@@ -20,12 +23,21 @@
 
   color: #fff;
 
-  /* Paragraph/Medium/Meidium */
+  /* Paragraph/Medium/Medium */
   font-family: "Noto Sans KR";
   font-size: 1rem;
   font-style: normal;
   font-weight: 500;
   line-height: 1.5rem; /* 150% */
+  @include r.media-small-mobile {
+    width: 50px;
+    height: 32px;
+
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 18px; /* 150% */
+  }
 }
 
 .AuthInsideBtn .insideButton:disabled {

@@ -1,15 +1,30 @@
 import purpleCheckIcon from "@/assets/image/myPage/ic_pupple_check.svg";
 import stickIcon from "@/assets/image/myPage/ic_stick.svg";
+import "./InfoItem.scss";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
-const InfoItem = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex  gap-[6px] items-center">
-    <img src={purpleCheckIcon} alt="보라색 체크" />
-    <div className="flex gap-[15px]">
-      <span className="p-large-bold">{label}</span>
-      <img src={stickIcon} alt="구분선" />
-      <span className="p-large-regular">{value}</span>
+interface InfoItemProps {
+  label: string;
+  value: string;
+}
+
+const InfoItem = ({ label, value }: InfoItemProps) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
+  return (
+    <div className="info-item flex items-center">
+      <img src={purpleCheckIcon} alt="보라색 체크" />
+      <div className="info-item-content flex items-center">
+        <span className={!isSmallMobile ? "p-large-bold" : "p-12-bold"}>
+          {label}
+        </span>
+        <img src={stickIcon} alt="구분선" />
+        <span className={!isSmallMobile ? "p-large-regular" : "p-12-400"}>
+          {value}
+        </span>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default InfoItem;

@@ -62,6 +62,9 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
               ? { border: "1px solid #000000" }
               : {}),
             ...(disabledMode ? { pointerEvents: "none" } : {}),
+            ...(rightElement && (fontMode === "12" || fontMode === "xs")
+              ? { paddingRight: "60px" }
+              : {}),
             ...style,
           }}
           {...props}

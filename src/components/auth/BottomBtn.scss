@@ -1,3 +1,4 @@
+@use "./../../styles/_responsive.scss" as r;
 @use "./../../components/button/_mixins.scss" as m;
 
 .BottomBtn {
@@ -21,18 +22,21 @@
 
   color: #fff;
 
-  // /* Paragraph/Medium/Medium */
-  // font-family: "Noto Sans KR";
-  // font-size: 1rem;
-  // font-style: normal;
-  // font-weight: 500;
-  // line-height: 1.5rem; /* 150% */
   /* Paragraph/Large/Bold */
-  font-family: Pretendard;
   font-size: 1.125rem;
   font-style: normal;
   font-weight: 700;
   line-height: 1.75rem; /* 155.556% */
+
+  @include r.media-small-mobile {
+    height: 48px;
+
+    /* Paragraph/Medium/Bold */
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px; /* 150% */
+  }
 }
 
 .BottomBtn .bottomButton:disabled {

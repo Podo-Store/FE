@@ -12,6 +12,7 @@ import BottomBtn from "../BottomBtn";
 import { EMAIL_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
 import EmailCodeErrorMessages from "./ErrorMessages/EmailCodeErrorMessages";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 /**
  *
@@ -46,6 +47,8 @@ const SignUp4 = ({
   });
 
   const [timerReset, setTimerReset] = useState(false);
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useEffect(() => {
     setEmailChecker({ ...emailChecker, format: EMAIL_REGEX.test(email) });
@@ -148,6 +151,8 @@ const SignUp4 = ({
         onBlur={() => {
           setEmailChecker({ ...emailChecker, show: false });
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         sideBtnTitle="인증"
         sideBtnOnClick={onClickEmailSend}
         sideBtnDisabled={!emailChecker.format}
@@ -164,7 +169,11 @@ const SignUp4 = ({
       {/* 메일 전송 메시지: 별도로 지정 */}
       <div className="f-dir-column" id="error-wrap">
         {emailSended && emailCode.length === 0 ? (
-          <CheckerMessage checkedFlag={true} message="메일이 전송되었습니다." />
+          <CheckerMessage
+            checkedFlag={true}
+            message="메일이 전송되었습니다."
+            smallMessage="true"
+          />
         ) : null}
       </div>
 
@@ -177,6 +186,8 @@ const SignUp4 = ({
           setEmailCodeChecker({ show: false, match: false });
           setEmailCode(event.target.value);
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         errorMessageCustomFlag="true" // 이메일 인증 관련 메시지 커스텀
         sideBtnTitle="확인"
         sideBtnOnClick={onClickConfirmButton}
@@ -216,6 +227,7 @@ const SignUp4 = ({
             checkBoxCondition.policy
           )
         }
+        style={isSmallMobile ? { width: "100%" } : {}}
       >
         회원가입
       </BottomBtn>

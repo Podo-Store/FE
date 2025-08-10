@@ -12,6 +12,10 @@ import starFilled from "../../assets/image/post/list/ic_star_filled.svg";
 import starOutlined from "../../assets/image/post/list/ic_star_outlined.svg";
 
 import { ReviewStatistics } from "@/types/review";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import "./ReviewSummary.scss";
+import clsx from "clsx";
 
 interface ReviewSummaryProps {
   stats: ReviewStatistics;
@@ -24,6 +28,8 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
       <div className="flex relative pt-[50px] pb-[45px] bg-white border-[3px] border-[#E2E2E2] rounded-[9px] "></div>
     );
   }
+
+  const isSmallMobile = useWindowDimensions().widthConditions.isSmallMobile;
 
   const {
     reviewAverageRating,
@@ -44,8 +50,8 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
     payload: { value: number };
   }> = ({ x, y, payload }) => {
     const count = payload.value;
-    const iconWidth = 16.542;
-    const iconHeight = 15.797;
+    const iconWidth = !isSmallMobile ? 16.542 : 10;
+    const iconHeight = !isSmallMobile ? 15.797 : 10;
     const totalWidth = iconWidth * 5;
     return (
       <g transform={`translate(${x - totalWidth},${y - iconHeight / 2})`}>
@@ -142,9 +148,16 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
   };
 
   return (
-    <div className="flex relative pt-[50px] pb-[45px] bg-white border-[3px] border-[#E2E2E2] rounded-[9px] ">
+    <div className="review-summary flex relative bg-white border-[3px] border-[#E2E2E2] rounded-[9px] ">
       <div className="flex flex-col items-center w-1/2">
-        <p className="mb-[16px] p-medium-bold">평점</p>
+        <p
+          className={clsx(
+            "mb-[16px]",
+            !isSmallMobile ? "p-medium-bold" : "p-small-bold"
+          )}
+        >
+          평점
+        </p>
         <div className="flex items-center gap-[15px]">
           <div className="flex items-center">
             {starIcons.map((icon, index) => (
@@ -157,14 +170,27 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
             ))}
           </div>
           <span className="flex items-end">
-            <p className="p-large-bold">{reviewAverageRating.toFixed(1)}</p>
-            <p className="p-medium-regular">&nbsp;/ 5</p>
+            <p className={!isSmallMobile ? "p-large-bold" : "p-small-bold"}>
+              {reviewAverageRating.toFixed(1)}
+            </p>
+            <p
+              className={clsx(
+                "whitespace-nowrap",
+                !isSmallMobile ? "p-medium-regular" : "p-12-400"
+              )}
+            >
+              &nbsp;/ 5
+            </p>
           </span>
         </div>
-        <ResponsiveContainer width={303} height={160}>
+        <ResponsiveContainer
+          width={!isSmallMobile ? 303 : 280}
+          height={160}
+          className="-translate-x-1/8"
+        >
           <BarChart
             data={distributionDataWithFull}
-            barGap={-8}
+            barGap={!isSmallMobile ? -8 : -3}
             layout="vertical"
             margin={{ top: 10, right: 60, left: 20, bottom: 10 }}
           >
@@ -181,7 +207,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
             <Bar
               dataKey="full"
               fill="#E5E5E5"
-              barSize={8}
+              barSize={!isSmallMobile ? 8 : 3}
               radius={[4, 4, 4, 4]}
               isAnimationActive={false}
             >
@@ -209,7 +235,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
               <Bar
                 dataKey="value"
                 fill="#6A39C0"
-                barSize={8}
+                barSize={!isSmallMobile ? 8 : 3}
                 radius={[4, 4, 4, 4]}
               />
             </Bar>
@@ -217,13 +243,23 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         </ResponsiveContainer>
       </div>
 
-      <div className="absolute left-1/2 -translate-x-1/2 mt-[-10px] w-[1px] h-[267px] bg-[#9E9E9E]"></div>
+      <div className="bar absolute left-1/2 -translate-x-1/2 mt-[-10px] w-[1px] h-[267px] bg-[#9E9E9E]"></div>
 
       <div className="flex flex-col items-center w-1/2">
         {totalReviewCount > 0 ? (
-          <h3 className="p-medium-regular mb-[48px]">
+          <h3
+            className={clsx(
+              "mb-[48px] whitespace-nowrap",
+              !isSmallMobile ? "p-medium-regular" : "p-12-400"
+            )}
+          >
             이 작품은 특히&nbsp;&nbsp;
-            <span className="relative p-medium-bold">
+            <span
+              className={clsx(
+                "relative",
+                !isSmallMobile ? "p-medium-bold" : "p-small-bold"
+              )}
+            >
               {
                 featureDataWithFull.find(
                   (d) =>
@@ -240,7 +276,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         <ResponsiveContainer width={339} height={200}>
           <BarChart
             data={featureDataWithFull}
-            barGap={-8}
+            barGap={!isSmallMobile ? -8 : -3}
             margin={{ top: 10, right: 20, left: 20, bottom: 60 }}
           >
             <XAxis
@@ -261,13 +297,13 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
             <Bar
               dataKey="full"
               fill="#E5E5E5"
-              barSize={8}
+              barSize={!isSmallMobile ? 8 : 3}
               radius={[4, 4, 4, 4]}
             />
             <Bar
               dataKey="value"
               fill="#6A39C0"
-              barSize={8}
+              barSize={!isSmallMobile ? 8 : 3}
               radius={[4, 4, 4, 4]}
             />
           </BarChart>

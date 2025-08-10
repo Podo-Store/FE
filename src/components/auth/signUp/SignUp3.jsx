@@ -7,6 +7,7 @@ import { AuthInputField } from "../../inputField";
 
 import { NAME_FORMAT_REGEX, NAME_LENGTH_REGEX } from "../../../constants/regex";
 import { SERVER_URL } from "../../../constants/ServerURL";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const SignUp3 = ({
   onPrevious,
@@ -29,6 +30,8 @@ const SignUp3 = ({
 
   // enter 키 입력 시 중복 체크를 위한 flag: 중복 체크를 했는지 여부
   const [hasNameDuplicateChecked, setHasNameDuplicateChecked] = useState(false);
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useEffect(() => {
     /*
@@ -122,6 +125,8 @@ const SignUp3 = ({
           setHasClickedInputFlag(false);
           checkNameDuplicated(name);
         }}
+        fontMode="12"
+        style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={name.length > 0}
         checkerMessages={[
           {

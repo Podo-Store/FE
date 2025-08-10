@@ -8,6 +8,7 @@ import { AuthSideBtnInputFieldProps } from "../types";
 import "./../../../../styles/colors.css";
 import "./../../../../styles/text.css";
 import "./../../../../styles/utilities.css";
+import clsx from "clsx";
 
 interface AuthSideBtnTimerInputFieldProps extends AuthSideBtnInputFieldProps {
   timerStart: boolean;
@@ -28,6 +29,7 @@ interface AuthSideBtnTimerInputFieldProps extends AuthSideBtnInputFieldProps {
  * @returns
  */
 const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
+  fontMode = "default",
   sideBtnTitle,
   sideBtnOnClick,
   sideBtnDisabled,
@@ -87,8 +89,9 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
     <div>
       <AuthInputField
         className="input"
+        fontMode={fontMode}
         rightElement={
-          <div className="d-flex" style={{ transform: "translate(0, -0.5rem)" }}>
+          <div className="flex items-center">
             <AuthInsideBtn
               title={sideBtnTitle}
               onClick={sideBtnOnClick}
@@ -96,17 +99,25 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
             />
             {timerStart ? (
               <p
-                className={"p-medium-medium c-main c-default" + (timerVisible ? "" : " c-white")}
-                style={{ transform: "translate(-4.5rem, 0.5rem)" }}
+                className={clsx(
+                  "c-main c-default",
+                  timerVisible ? "" : "c-white",
+                  fontMode === "default" ? "p-medium-medium" : "text-[8px]"
+                )}
+                style={
+                  fontMode === "default"
+                    ? { transform: "translate(-4.5rem, 0)" }
+                    : { transform: "translate(-3.5rem, 0)" }
+                }
               >
                 {timerVisible ? formatTime(timeLeft) : "."}
               </p>
             ) : (
               <p
                 className="p-medium-medium c-white c-default"
-                style={{ transform: "translate(-4.5rem, 0.5rem)" }}
+                style={{ transform: "translate(-4.5rem, 0)" }}
               >
-                {"d "}
+                &nbsp;
               </p>
             )}
           </div>

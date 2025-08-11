@@ -24,6 +24,7 @@ import listOpenBtn from "../../assets/image/button/listOpenBtn.svg";
 
 import "./AskedPerformManage.scss";
 import "./PerformanceTop.scss";
+import clsx from "clsx";
 
 const AskedPerformManage = () => {
   const [isExist, setIsExist] = useState(true);
@@ -34,6 +35,7 @@ const AskedPerformManage = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useRequest(async () => {
     setIsLoading(true);
@@ -79,72 +81,93 @@ const AskedPerformManage = () => {
     return <Loading />;
   }
 
+  const pLargeBoldClassName = !isSmallMobile ? "p-large-bold" : "p-small-bold";
+  const pSmallRegularClassName = !isSmallMobile
+    ? "p-small-regular"
+    : "p-xs-regular";
+
   return (
     <div className="asked-perform-manage">
       <div className="min-height perform-info perform-top">
         <GoBack url="/mypage/scriptmanage" />
-        <h4 className="h4-bold">등록한 작품들을 관리할 수 있어요!</h4>
+        <h4 className={!isSmallMobile ? "h4-bold" : "p-medium-bold"}>
+          등록한 작품들을 관리할 수 있어요!
+        </h4>
 
-        <p className="p-medium-regular">공연 신청 정보</p>
+        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>
+          공연 신청 정보
+        </p>
         <hr />
         <div className=" contents">
           <div className=" script-info f-dir-column a-items-center j-content-between">
             <div className=" script-info-title f-dir-column a-items-center">
               <ThumbnailImg />
               <div style={{ height: "12px" }}></div>
-              <p className="p-large-bold">{productInfo.title || "제목"}</p>
+              <p className={pLargeBoldClassName}>
+                {productInfo.title || "제목"}
+              </p>
               <hr />
-              <p className="p-large-medium">{productInfo.writer || "작가"}</p>
-              <p className="summary p-small-regular t-center">
+              <p className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}>
+                {productInfo.writer || "작가"}
+              </p>
+              <p className={clsx("summary t-center", pSmallRegularClassName)}>
                 {productInfo.plot || "줄거리"}
               </p>
             </div>
             <div className=" sales-status-box-wrap f-dir-column">
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
-                  <p className="p-large-bold">대본</p>
+                  <p className={pLargeBoldClassName}>대본</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.script}>
-                    {productInfo.script ? "대본 판매 중" : "대본 판매 중지"}
+                    {!isSmallMobile && "대본"}{" "}
+                    {productInfo.script ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
-                  <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
+                  <div className="sales-status-box-value f-dir-column a-items-center">
+                    <p className={pSmallRegularClassName}>
                       {formatPrice(productInfo.scriptPrice)}원
                     </p>
-                    <p className="p-small-regular c-grey5">가격</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
+                      가격
+                    </p>
                   </div>
                   <hr />
-                  <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
+                  <div className="sales-status-box-value f-dir-column a-items-center">
+                    <p className={pSmallRegularClassName}>
                       {productInfo.scriptQuantity}개
                     </p>
-                    <p className="p-small-regular c-grey5">판매 수</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
+                      판매 수
+                    </p>
                   </div>
                 </div>
               </div>
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
-                  <p className="p-large-bold">공연권</p>
+                  <p className={pLargeBoldClassName}>공연권</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.perform}>
-                    {productInfo.perform
-                      ? "공연권 판매 중"
-                      : "공연권 판매 중지"}
+                    {!isSmallMobile && "공연권"}{" "}
+                    {productInfo.perform ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
-                  <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
+                  <div className="sales-status-box-value f-dir-column a-items-center">
+                    <p className={pSmallRegularClassName}>
                       {formatPrice(productInfo.performancePrice)}원
                     </p>
-                    <p className="p-small-regular c-grey5">가격</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
+                      가격
+                    </p>
                   </div>
                   <hr />
-                  <div className="f-dir-column a-items-center">
-                    <p className="p-small-regular">
+                  <div className="sales-status-box-value f-dir-column a-items-center">
+                    <p className={pSmallRegularClassName}>
                       {productInfo.performanceQuantity}개
                     </p>
-                    <p className="p-small-regular c-grey5">판매 수</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
+                      판매 수
+                    </p>
                   </div>
                 </div>
               </div>
@@ -162,8 +185,8 @@ const AskedPerformManage = () => {
                       : {}
                   }
                 >
-                  <div className="date j-content-between">
-                    <p className="p-large-bold" style={{ color: "#8f8f8f" }}>
+                  <div className="date flex justify-between items-center">
+                    <p className={clsx("text-[#8f8f8f]", pLargeBoldClassName)}>
                       {item.date}
                     </p>
                     {item.open ? (
@@ -272,7 +295,9 @@ const LongInputField = ({ ...props }) => {
   return (
     <AuthInputField
       style={
-        widthConditions.isMobile
+        widthConditions.isSmallMobile
+          ? { width: "220px", height: "42px" }
+          : widthConditions.isMobile
           ? { width: "358px", height: "42px" }
           : widthConditions.isTablet
           ? { width: "596px", height: "42px" }
@@ -289,7 +314,9 @@ const ShortInputField = ({ ...props }) => {
   return (
     <AuthInputField
       style={
-        widthConditions.isMobile
+        widthConditions.isSmallMobile
+          ? { width: "220px", height: "42px" }
+          : widthConditions.isMobile
           ? { width: "170px", height: "42px" }
           : widthConditions.isTablet
           ? { width: "285px", height: "42px" }

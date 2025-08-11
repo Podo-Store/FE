@@ -14,7 +14,7 @@ import "./../../styles/utilities.css";
  * @param {string} props.orderStatus - WAIT: 입금 확인 중, PASS: 결제 완료, REJECT: 결제 취소
  * @returns
  */
-const PurchasedPerformBtn = ({ id, possibleCount = 0, orderStatus = "WAIT" }) => {
+const PurchasedPerformBtn = ({ id, possibleCount = 0, orderStatus = "WAIT", style }) => {
   const navigate = useNavigate();
   return (
     <div className="purchased-script-btn">
@@ -23,6 +23,7 @@ const PurchasedPerformBtn = ({ id, possibleCount = 0, orderStatus = "WAIT" }) =>
         onClick={() => {
           navigate(`/mypage/purchased/performance-info/${id}`);
         }}
+        style={style}
       >
         {orderStatus === "PASS" ? "공연 신청 정보" : "입금 확인 중"}
       </Button>

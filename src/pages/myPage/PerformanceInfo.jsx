@@ -15,6 +15,7 @@ import InfoPopup from "../../components/popup/InfoPopup";
 import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 import formatDateCutSec from "../../utils/formatDateCutSec";
 
@@ -56,6 +57,8 @@ const PerformanceInfo = () => {
       format: false,
     },
   ]);
+
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useRequest(async () => {
     try {
@@ -232,9 +235,13 @@ const PerformanceInfo = () => {
     <div>
       <div className="min-height perform-info perform-top">
         <GoBack url="/mypage/purchased" />
-        <h4 className="h4-bold">구매한 작품들을 볼 수 있어요!</h4>
+        <h4 className={!isSmallMobile ? "h4-bold" : "p-medium-bold"}>
+          구매한 작품들을 볼 수 있어요!
+        </h4>
 
-        <p className="p-medium-regular">공연권 신청</p>
+        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>
+          공연권 신청
+        </p>
         <hr />
         <section className="f-dir-column a-items-center">
           <div className="script">
@@ -243,25 +250,50 @@ const PerformanceInfo = () => {
               <div className="script-detail">
                 <div className="script-tag">
                   <div className="d-flex a-items-center" id="title">
-                    <p className="p-large-bold" id="title">
+                    <p
+                      className={
+                        !isSmallMobile ? "p-large-bold" : "p-small-bold"
+                      }
+                      id="title"
+                    >
                       {title}
                     </p>
                   </div>
                   <hr></hr>
-                  <p className="p-large-medium" id="author">
+                  <p
+                    className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
+                    id="author"
+                  >
                     {author}
                   </p>
-                  <p className="p-xs-regular" id="warning">
-                    * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
-                    저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
-                    제공되었음을 표시하여야 합니다.
-                  </p>
+                  {!isSmallMobile && (
+                    <p className="p-xs-regular" id="warning">
+                      * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                      저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
+                      제공되었음을 표시하여야 합니다.
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
+            {isSmallMobile && (
+              <>
+                <p className="mt-[15px] px-[25px] p-xs-regular">
+                  * 공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                  저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
+                  제공되었음을 표시하여야 합니다.
+                </p>
+                <hr
+                  className="m-[0] mt-[15px]"
+                  style={{ borderColor: "#9E9E9E" }}
+                />
+              </>
+            )}
 
             <div className="a-items-center" id="info">
-              <p className="p-medium-bold">신청자 정보</p>
+              <p className={!isSmallMobile ? "p-medium-bold" : "p-small-bold"}>
+                신청자 정보
+              </p>
               <img
                 className="c-pointer"
                 id="popup-btn1"
@@ -306,7 +338,11 @@ const PerformanceInfo = () => {
               id="days"
             >
               <div className="a-items-center" id="days-left">
-                <p className="p-medium-bold">공연 예상 일자</p>
+                <p
+                  className={!isSmallMobile ? "p-medium-bold" : "p-small-bold"}
+                >
+                  공연 예상 일자
+                </p>
                 <img
                   className="c-pointer"
                   id="popup-btn2"

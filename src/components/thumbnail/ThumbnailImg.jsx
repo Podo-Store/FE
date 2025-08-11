@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import defaultThumbnail from "./../../assets/image/defaultThumbnail.svg";
 
-import "./ThumbnailImg.css";
+import "./ThumbnailImg.scss";
 
 /**
  * @param {*} props
@@ -11,14 +11,24 @@ import "./ThumbnailImg.css";
  * @param {string} [props.id] - 클릭 시 detail 페이지 이동 시 사용할 id
  * @returns
  */
-const ThumbnailImg = ({ className, style, imagePath, isRoute = false, id, ...props }) => {
+const ThumbnailImg = ({
+  className,
+  style,
+  imagePath,
+  isRoute = false,
+  id,
+  ...props
+}) => {
   const navigate = useNavigate();
 
   return (
     <div className="relative">
       <div
         className={`__thumbnail-img ${className}`}
-        style={{ ...style, backgroundImage: `url(${imagePath || defaultThumbnail})` }}
+        style={{
+          ...style,
+          backgroundImage: `url(${imagePath || defaultThumbnail})`,
+        }}
         {...props}
       ></div>
       {isRoute && (

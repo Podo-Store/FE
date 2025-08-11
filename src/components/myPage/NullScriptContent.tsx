@@ -2,7 +2,9 @@ import { useNavigate } from "react-router-dom";
 
 import OnOffBtn from "../button/OnOffBtn";
 
-import "./NullScriptContent.css";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
+
+import "./NullScriptContent.scss";
 import "../../styles/text.css";
 import "../../styles/utilities.css";
 
@@ -14,18 +16,20 @@ interface NullScriptContentProps {
 
 const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
   const navigate = useNavigate();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+
   const getContent = (page: 0 | 1 | 2) => {
     switch (page) {
       case 0:
         return {
           message: "아직 구매한 작품이 없어요.",
-          buttonText: "작품 둘러보러 가기",
+          buttonText: "작품 둘러보기",
           navigatePath: "/list",
         };
       case 1:
         return {
           message: "아직 등록한 작품이 없어요.",
-          buttonText: "작품 등록하러 가기",
+          buttonText: "작품 등록하기",
           navigatePath: "/post",
         };
       case 2:
@@ -52,7 +56,9 @@ const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
       }`}
       id="null-script-content"
     >
-      <p className="p-large-bold">{message}</p>
+      <p className={!isSmallMobile ? "p-large-bold" : "p-small-bold"}>
+        {message}
+      </p>
       <OnOffBtn
         text={buttonText}
         onClick={() => navigate(navigatePath)}

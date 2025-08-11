@@ -21,6 +21,9 @@
   @include r.media-mobile {
     width: 430px;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+  }
 }
 
 .perform-top .script-detail {
@@ -33,6 +36,9 @@
   width: 349px;
   @include r.media-mobile {
     width: 205px;
+  }
+  @include r.media-small-mobile {
+    margin-left: 15px;
   }
 }
 

@@ -23,6 +23,7 @@ import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg
 
 import "./MyPageContentsDefault.scss";
 import "./PurchasedScript.scss";
+import { clsx } from "clsx";
 
 const PurchasedScript = () => {
   const [scriptList, setScriptList] = useState([]);
@@ -41,6 +42,7 @@ const PurchasedScript = () => {
   // MyPageMenu 스크롤 제어
 
   const { width } = useWindowDimensions();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   // API 요청
   useRequest(async () => {
@@ -86,7 +88,12 @@ const PurchasedScript = () => {
         <MyPageMenu nickname={userNickname} currentPage="0" />
         <div className="content-side">
           <div className="content-side-grid">
-            <h4 className="h4-bold whitespace-nowrap">
+            <h4
+              className={clsx(
+                "whitespace-nowrap",
+                !isSmallMobile ? "h4-bold" : "p-medium-bold"
+              )}
+            >
               구매한 작품들을 볼 수 있어요!
             </h4>
             <div className="grid-item-first">

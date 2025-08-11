@@ -14,6 +14,7 @@ import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
 import "./ScriptContent.scss";
 import "./../../styles/utilities.css";
 import { useNavigate } from "react-router-dom";
+import clsx from "clsx";
 
 /**
  * 구매한 작품 페이지, 작품 관리 페이지의 상품 란,
@@ -43,13 +44,20 @@ const ScriptContent = ({
   const formattedDate = `${year}. ${month}. ${day}.`;
 
   const { widthConditions } = useWindowDimensions();
+  const { isMobile, isSmallMobile } = useWindowDimensions().widthConditions;
 
   const navigate = useNavigate();
 
-
   return (
     <div key={index} className="script-content ">
-      <p className="date p-large-bold c-grey-8f8f8f">{formattedDate}</p>
+      <p
+        className={clsx(
+          "date c-grey-8f8f8f",
+          !isSmallMobile ? "p-large-bold" : "p-small-bold"
+        )}
+      >
+        {formattedDate}
+      </p>
       <hr className="border-[#caabff]"></hr>
       {items.map((script, idx) => (
         <div key={script.id}>
@@ -71,7 +79,10 @@ const ScriptContent = ({
                 id="title"
               >
                 <div className="relative">
-                  <p className="p-large-bold" id="title">
+                  <p
+                    className={!isSmallMobile ? "p-large-bold" : "p-small-bold"}
+                    id="title"
+                  >
                     {script.title || "제목 없음"}
                   </p>
                   {isRoute && (
@@ -104,7 +115,10 @@ const ScriptContent = ({
               </div>
 
               <hr className="border border-solid border-[#9E9E9E]"></hr>
-              <p className="p-large-medium" id="author">
+              <p
+                className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
+                id="author"
+              >
                 {currentPage === "1"
                   ? ""
                   : !script.delete
@@ -126,8 +140,12 @@ const ScriptContent = ({
                       type="perform"
                       value={script.performancePrice || 0}
                     />
-                    <div style={{ height: "32px" }}></div>
-                    {widthConditions.isMobile && (
+                    <div
+                      style={
+                        !isSmallMobile ? { height: "32px" } : { height: "16px" }
+                      }
+                    ></div>
+                    {(isMobile || isSmallMobile) && (
                       <PurchasedPerformPossibleInfo script={script} />
                     )}
                   </>
@@ -141,10 +159,12 @@ const ScriptContent = ({
                 />
               )}
               {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-              {widthConditions.isMobile &&
+              {(isMobile || isSmallMobile) &&
               currentPage === "1" &&
               script.checked === "PASS" ? (
-                <ScriptManageTopBtn className="mobile" script={script} />
+                <div className="relative">
+                  <ScriptManageTopBtn className="mobile" script={script} />
+                </div>
               ) : null}
             </div>
             <div className=" __script-content-btn">
@@ -160,10 +180,13 @@ const ScriptContent = ({
                     productId={script.productId}
                     buyPerformance={script.buyPerformance}
                     orderStatus={script.orderStatus}
+                    style={
+                      isSmallMobile ? { width: "129px", height: "40px" } : {}
+                    }
                   />
                 ) : (
                   <section className="j-content-between">
-                    {!widthConditions.isMobile ? (
+                    {!(isMobile || isSmallMobile) ? (
                       <PurchasedPerformPossibleInfo script={script} />
                     ) : (
                       <div></div>

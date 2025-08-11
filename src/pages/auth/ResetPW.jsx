@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { BottomBtn, InnerBox } from "../../components/auth";
 import { AuthPwInputField } from "../../components/inputField";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import {
   PW_ALPHABET_REGEX,
   PW_NUMBER_REGEX,
@@ -13,7 +13,7 @@ import {
 } from "../../constants/regex";
 import { SERVER_URL } from "../../constants/ServerURL";
 
-import "./FindBar.css";
+import "./FindBar.scss";
 
 const ResetPW = ({ receivedAccessToken }) => {
   // 결과 화면 요소
@@ -35,7 +35,7 @@ const ResetPW = ({ receivedAccessToken }) => {
 
   // 비밀번호 변경 완료
   const [resetPwCompleted, setResetPwCompleted] = useState(false);
-
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -117,7 +117,10 @@ const ResetPW = ({ receivedAccessToken }) => {
               checkedFlag: pwChecker.alphabet,
               message: "영어 대, 소문자를 각 하나 이상 포함해야 해요.",
             },
-            { checkedFlag: pwChecker.number, message: "숫자를 하나 이상 포함해야 해요." },
+            {
+              checkedFlag: pwChecker.number,
+              message: "숫자를 하나 이상 포함해야 해요.",
+            },
             {
               checkedFlag: pwChecker.special,
               message: "특수기호(@$!%*#?&)를 하나 이상 포함해야 해요.",
@@ -149,11 +152,18 @@ const ResetPW = ({ receivedAccessToken }) => {
     <div className="section-find">
       <div className="f-dir-column" id="founded">
         <InnerBox>
-          <h5 className="h5-regular t-align-center" id="complete">
+          <h5
+            className={`t-align-center whitespace-nowrap ${
+              isSmallMobile ? "p-medium-regular" : "h5-regular "
+            }`}
+            id="complete"
+          >
             비밀번호가 변경되었습니다.
           </h5>
         </InnerBox>
-        <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
+        <BottomBtn onClick={() => navigate("/signin")}>
+          로그인하러 가기
+        </BottomBtn>
       </div>
     </div>
   );

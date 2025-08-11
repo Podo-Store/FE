@@ -1,0 +1,60 @@
+@use "../../../styles/_responsive.scss" as r;
+
+.account-delete {
+  width: 414px;
+
+  @include r.media-small-mobile {
+    width: 268px;
+  }
+}
+
+.account-delete p#title {
+  margin-top: 45px;
+  margin-bottom: 26px;
+
+  @include r.media-small-mobile {
+    margin-top: 10px;
+    margin-bottom: 30px;
+  }
+}
+
+.account-delete .delete-wrap {
+  padding-top: 26px;
+  padding-left: 27px;
+  padding-bottom: 45px;
+
+  border-radius: 20px;
+  border: 2px dashed var(--Main, #9591f2);
+
+  @include r.media-small-mobile {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-bottom: 25px;
+    padding-right: 16px;
+  }
+}
+
+.account-delete .delete-wrap p#check {
+  margin: 0;
+  margin-bottom: 35px;
+  @include r.media-small-mobile {
+    margin-bottom: 25px;
+  }
+}
+
+.account-delete .delete-wrap ul {
+  padding-left: 25px;
+  @include r.media-small-mobile {
+    padding-left: 15px;
+  }
+}
+
+.account-delete .delete-wrap li {
+  margin-bottom: 11px;
+  color: #000;
+}
+
+.account-delete div#btn-wrap {
+  gap: 0.94rem;
+  margin-top: 49px;
+}

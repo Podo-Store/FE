@@ -1,4 +1,5 @@
 @use "./../../../components/button/_mixins.scss" as m;
+@use "../../../styles/_responsive.scss" as r;
 
 .delete-complete .delete-complete-wrap {
   display: flex;
@@ -7,16 +8,27 @@
   position: relative;
 
   margin-top: 72px;
+
+  width: 414px;
+
+  @include r.media-small-mobile {
+    width: 268px;
+    margin-top: 69px;
+  }
 }
 
 .delete-complete .delete-complete-box {
-  padding: 2.69rem 1.69rem;
+  padding: 43px 27px 39px;
 
   width: 100%;
 
   box-sizing: border-box;
-  border-radius: 1.25rem;
+  border-radius: 20px;
   border: 2px dashed var(--Main, #9591f2);
+
+  @include r.media-small-mobile {
+    padding: 42px 42px;
+  }
 }
 
 .delete-complete .delete-complete-wrap img {
@@ -32,20 +44,15 @@
   text-align: center;
 
   color: #000;
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
 }
 
 .delete-complete .main-page-btn {
   @include m.purple-btn;
 
-  margin-top: 2.5rem;
+  margin-top: 32px;
 
   width: 414px;
-  height: 3rem;
+  height: 48px;
 
   border: none;
   border-radius: 1.875rem;
@@ -55,10 +62,8 @@
 
   color: #fff;
 
-  /* H5/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 140% */
+  @include r.media-small-mobile {
+    width: 268px;
+    margin-top: 60px;
+  }
 }

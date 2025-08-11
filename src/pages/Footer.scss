@@ -10,9 +10,9 @@
   box-sizing: border-box;
   background: #ffffff;
 
-  @include r.media-mobile {
-    display: none;
-  }
+  // @include r.media-mobile {
+  //   display: none;
+  // }
 }
 
 .footer * {

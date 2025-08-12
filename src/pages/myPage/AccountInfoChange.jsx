@@ -17,8 +17,10 @@ const AccountInfoChange = () => {
   const [changeShowPermission, setChangeShowPermission] = useState(false);
 
   // 계정 삭제
-  const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] = useState(false);
-  const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] = useState(false);
+  const [isDeleteAccountBtnClicked, setIsDeleteAccountBtnClicked] =
+    useState(false);
+  const [isAccountSuccessfullyDeleted, setIsAccountSuccessfullyDeleted] =
+    useState(false);
 
   const { userNickname } = useContext(AuthContext);
 
@@ -30,16 +32,24 @@ const AccountInfoChange = () => {
           <div className="content-side-inside">
             {!changeShowPermission ? (
               /* 회원 정보 수정 진입 페이지 */
-              <AccountInfoChangeEnter setChangeShowPermission={setChangeShowPermission} />
+              <AccountInfoChangeEnter
+                setChangeShowPermission={setChangeShowPermission}
+              />
             ) : isAccountSuccessfullyDeleted ? (
               /* 계정 삭제 완료 페이지 */
               <AccountDeleteSuccess />
             ) : isDeleteAccountBtnClicked ? (
               /* 계정 삭제 페이지 */
-              <AccountDelete setIsAccountSuccessfullyDeleted={setIsAccountSuccessfullyDeleted} />
+              <AccountDelete
+                setIsAccountSuccessfullyDeleted={
+                  setIsAccountSuccessfullyDeleted
+                }
+              />
             ) : (
               // 회원 정보 수정 페이지
-              <AccountInfoChangeMain setIsDeleteAccountBtnClicked={setIsDeleteAccountBtnClicked} />
+              <AccountInfoChangeMain
+                setIsDeleteAccountBtnClicked={setIsDeleteAccountBtnClicked}
+              />
             )}
           </div>
         </div>

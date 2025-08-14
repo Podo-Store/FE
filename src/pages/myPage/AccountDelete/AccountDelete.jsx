@@ -40,9 +40,9 @@ const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
           아래 내용을 확인해주세요.
         </p>
         <ul className={`${isSmallMobile ? "p-12-regular" : "p-small-regular"}`}>
-          <li>등록한 작품 및 구매한 작품에 대한 기록이 사라져요.</li>
-          <li>프로필, 희망 대본 신청 내역이 모두 사라져요.</li>
-          <li>구매 작품에 대한 문의사항 및 후기도 삭제돼요.</li>
+          <li>• 등록한 작품 및 구매한 작품 기록이 모두 사라져요.</li>
+          <li>• 작성한 후기와 활동 내역이 사라져요</li>
+          <li>• 구매한 작품은 계정 삭제 후 이용 및 환불이 불가해요.</li>
         </ul>
       </div>
       <div className=" j-content-end" id="btn-wrap">

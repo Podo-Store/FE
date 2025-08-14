@@ -151,7 +151,7 @@ const SignUp4 = ({
         onBlur={() => {
           setEmailChecker({ ...emailChecker, show: false });
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         sideBtnTitle="인증"
         sideBtnOnClick={onClickEmailSend}
@@ -186,7 +186,7 @@ const SignUp4 = ({
           setEmailCodeChecker({ show: false, match: false });
           setEmailCode(event.target.value);
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         errorMessageCustomFlag="true" // 이메일 인증 관련 메시지 커스텀
         sideBtnTitle="확인"

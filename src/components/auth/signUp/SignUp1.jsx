@@ -91,7 +91,7 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
           checkIdDuplicated(id);
           setIdChecker({ ...idChecker, show: false });
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={id.length > 0}
         checkerMessages={[

@@ -245,6 +245,7 @@ const LikedWorks = () => {
                 setViewType={setViewType}
                 isSorted={false}
                 stageBottomBorderWidth="w-full"
+                stageIcon={false}
               />
 
               {/*----- post list -----*/}
@@ -278,7 +279,11 @@ const LikedWorks = () => {
               ) : activeCategory === "장편" ? (
                 <>
                   <div className="mb-[24px]">
-                    <p className="h5-medium ">장편극</p>
+                    <p
+                      className={isSmallMobile ? "p-small-medium" : "h5-medium"}
+                    >
+                      장편극
+                    </p>
                   </div>
 
                   <div
@@ -314,7 +319,11 @@ const LikedWorks = () => {
               ) : (
                 <>
                   <div className="mb-[24px]">
-                    <p className="h5-medium ">단편극</p>
+                    <p
+                      className={isSmallMobile ? "p-small-medium" : "h5-medium"}
+                    >
+                      단편극
+                    </p>
                   </div>
                   <div
                     className={`transition-opacity duration-300 ${

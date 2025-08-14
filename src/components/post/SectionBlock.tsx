@@ -28,7 +28,7 @@ const SectionBlock = ({
 
   return (
     <section>
-      <div className="flex justify-between mb-[24px]">
+      <div className={`flex justify-between mb-[24px]`}>
         {" "}
         <h2 className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
           {title}극

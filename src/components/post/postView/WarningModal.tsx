@@ -1,5 +1,6 @@
 import wargninIcon from "@/assets/image/post/ic_warning.svg";
 import { useEffect } from "react";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 interface WarningModalProps {
   onClose: () => void;
@@ -12,22 +13,40 @@ const WarningModal = ({ onClose }: WarningModalProps) => {
   //       document.body.style.overflow = "auto"; // 모달 닫히면 복구
   //     };
   //   }, []);
+
+  const { widthConditions } = useWindowDimensions();
+  const { isSmallMobile } = widthConditions;
+
   return (
     <div
-      className="box-border fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  border border-[#2A2323] rounded-[30px]  bg-[var(--grey1)] pdf-warning z-10 overflow-hidden "
+      className={`box-border fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  border border-[#2A2323] rounded-[30px] bg-[var(--grey1)] pdf-warning z-10 overflow-hidden`}
       style={{
         boxShadow:
           "0 8px 24px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2)",
       }}
     >
-      <div className="flex flex-row  items-center justify-between box-border h-[35px] w-[340px] border bg-[#2A2323]  px-[19px]">
-        <div className="flex flex-row gap-[6px] items-center  ">
+      <div
+        className={`flex flex-row items-center justify-between box-border border bg-[#2A2323] px-[19px] ${
+          isSmallMobile ? "h-[35px] w-[235px]" : "h-[35px] w-[340px]"
+        }`}
+      >
+        <div
+          className={`flex flex-row gap-[6px] items-center ${
+            isSmallMobile ? "gap-[4px]" : "gap-[6px]"
+          }`}
+        >
           <img
             src={wargninIcon}
             alt="경고 모달"
-            className="w-[25px] h-[25px] object-contain"
+            className={`object-contain ${
+              isSmallMobile ? "w-[20px] h-[20px]" : "w-[25px] h-[25px]"
+            }`}
           />
-          <span className="p-medium-medium text-[#FF5900] translate-y-[2px]">
+          <span
+            className={`text-[#FF5900] translate-y-[2px] ${
+              isSmallMobile ? "p-small-medium" : "p-medium-medium"
+            }`}
+          >
             Warning
           </span>
         </div>
@@ -45,7 +64,11 @@ const WarningModal = ({ onClose }: WarningModalProps) => {
         </button>
       </div>
 
-      <p className="p-small-medium text-center mt-[22px]">
+      <p
+        className={`text-center mt-[22px] ${
+          isSmallMobile ? "p-12-medium" : "p-small-medium"
+        }`}
+      >
         작품을 무단 복사하거나 <br />
         불법 게재 등의 방법으로 악용 시 <br />
         민사 및 형사 책임의 대상이 됩니다.

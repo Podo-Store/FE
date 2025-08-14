@@ -255,8 +255,8 @@ const PostGallery = () => {
           <PartialLoading />
         </div>
       ) : activeCategory === "전체" ? (
-        <div className="mb-[]">
-          <div className="">
+        <div className={`${isSmallMobile ? "" : ""} `}>
+          <div className={isSmallMobile ? "px-[9.375%]" : ""}>
             <SectionBlock
               posts={shortPlays}
               viewType={viewType}
@@ -267,7 +267,7 @@ const PostGallery = () => {
               onToggleLike={handleToggleLikeShort}
             />
           </div>
-          <div className="mt-[78px]">
+          <div className={`mt-[78px] ${isSmallMobile ? "px-[9.375%]" : ""}`}>
             <SectionBlock
               posts={longPlays}
               viewType={viewType}
@@ -280,7 +280,7 @@ const PostGallery = () => {
           </div>
         </div>
       ) : activeCategory === "장편" ? (
-        <>
+        <section className={`${isSmallMobile ? "px-[9.375%]" : ""}`}>
           <div className="mb-[24px]">
             <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
               장편극
@@ -316,9 +316,9 @@ const PostGallery = () => {
               </div>
             ) : null}
           </div>
-        </>
+        </section>
       ) : (
-        <>
+        <section className={`${isSmallMobile ? "px-[9.375%]" : ""}`}>
           <div className="mb-[24px]">
             <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
               단편극
@@ -353,7 +353,7 @@ const PostGallery = () => {
               </div>
             ) : null}
           </div>
-        </>
+        </section>
       )}
     </div>
   );

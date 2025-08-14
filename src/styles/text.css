@@ -31,6 +31,15 @@
   line-height: 40px; /* 125% */
 }
 
+.h2-bold {
+  font-family: Pretendard;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.64px;
+}
+
 .h3-regular {
   /* H3/Regular */
   font-size: 28px;

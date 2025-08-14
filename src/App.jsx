@@ -70,19 +70,20 @@ function App() {
                 path="admin/orderManage"
                 element={<AdminSwitch page={1} />}
               />
+              <Route
+                path="admin/statisticManage"
+                element={<AdminSwitch page={2} />}
+              />
 
               <Route index element={<MainVer2 />} />
               <Route path="v1" element={<MainVer1 />} />
-
               <Route path="signup" element={<SignUpDefault />} />
               <Route path="signup/success" element={<SignUpSuccess />} />
               <Route path="signin" element={<SignIn />} />
               <Route path="signin/v2" element={<SignInV2 />} />
               <Route path="signin/find/:id" element={<FindBar />} />
-
               {/* <Route path="list" element={<List />} /> */}
               <Route path="list" element={<PostGallery />} />
-
               <Route path="list/detail/:id" element={<Detail />} />
               <Route path="list/view/:id" element={<PostView />} />
               <Route path="list/review/:id" element={<ReviewWrite />} />
@@ -90,7 +91,6 @@ function App() {
                 path="purchase/:id"
                 element={<ProtectedRoute element={<Purchase />} />}
               />
-
               <Route element={<MarginLayout />}>
                 <Route path="policy/:id" element={<PolicyBar />} />
 

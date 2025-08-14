@@ -18,7 +18,7 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
   const [showPwValid, setShowPwValid] = useState(false);
 
   const {
-    widthConditions: { isMobile },
+    widthConditions: { isMobile, isSmallMobile },
   } = useWindowDimensions();
 
   const onClickInputBtn = async () => {
@@ -53,9 +53,16 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
     <EnterForm onSubmit={onClickInputBtn}>
       <div className="info-change-enter">
         {/* 진입 페이지 */}
-        <h1>회원 정보 수정</h1>
-        <h6>회원 정보 수정을 위해서 비밀번호를 다시 한 번 입력해주세요.</h6>
-        <div className="a-items-start" id="enter-input">
+        <h4 className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"}`}>
+          회원 정보 수정
+        </h4>
+        <h6 className={`${isSmallMobile ? "p-xs-medium" : "p-medium-medium"}`}>
+          회원 정보 수정을 위해서 비밀번호를 다시 한 번 입력해주세요.
+        </h6>
+        <div
+          className={` a-items-start ${isSmallMobile ? "w-[280px]" : ""}`}
+          id="enter-input"
+        >
           <AuthPwInputField
             placeholder="비밀번호를 입력해주세요."
             value={typedPassword}
@@ -65,7 +72,13 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
             }}
             errorFlag={showPwValid && !pwValid}
             errorMessage="비밀번호가 일치하지 않습니다."
-            style={isMobile ? { width: "332px" } : {}}
+            style={
+              isMobile
+                ? { width: "332px" }
+                : isSmallMobile
+                ? { width: "224px", height: "48px" }
+                : { width: "414px" }
+            }
           ></AuthPwInputField>
           <button
             className="p-small-bold c-white t-align-center c-pointer"

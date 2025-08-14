@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "@/contexts/AuthContext";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import BottomBtn from "../../components/auth/BottomBtn";
 import InnerBox from "./../../components/auth/InnerBox.jsx";
 import EmailCodeErrorMessages from "../../components/auth/signUp/ErrorMessages/EmailCodeErrorMessages.jsx";
@@ -16,7 +17,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 
 import formatDate from "../../utils/formatDate.js";
 
-import "./FindBar.css";
+import "./FindBar.scss";
 import "./../../components/auth/signUp/ErrorMessages/AuthErrorMessages.css";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
@@ -48,7 +49,7 @@ const FindID = () => {
   // ID 찾기 완료
   const [foundId, setFoundId] = useState("");
   const [foundRegisteredDate, setFoundRegisteredDate] = useState("");
-
+  const { isSmallMobile, isMobile } = useWindowDimensions().widthConditions;
   const navigate = useNavigate();
   useEffect(() => {
     if (isAuthenticated.isAuthenticated) {
@@ -110,8 +111,8 @@ const FindID = () => {
 
   if (!showingIDPermitted)
     return (
-      <div className="section-find" id="input">
-        <div id="input-field">
+      <div className=" section-find" id="input">
+        <div id="input-field" className="">
           <AuthSideBtnInputField
             placeholder="이메일을 입력해주세요."
             value={email}
@@ -145,6 +146,7 @@ const FindID = () => {
               <CheckerMessage
                 checkedFlag={true}
                 message="메일이 전송되었습니다."
+                smallMessage={isSmallMobile ? true : false}
               />
             ) : null}
           </div>
@@ -197,17 +199,39 @@ const FindID = () => {
 
   return (
     <div className="f-dir-column" id="founded">
-      <p className="p-large-medium t-align-center">
+      <p
+        className={` t-align-center ${
+          isSmallMobile ? "p-medium-medium" : "p-large-medium"
+        }`}
+      >
         이메일과 일치하는 아이디입니다.
       </p>
       <InnerBox>
-        <div className="section-column">
-          <p id="title">아이디</p>
-          <p>{foundId}</p>
-        </div>
-        <div className="section-column">
-          <p id="title">가입일</p>
-          <p>{formatDate(foundRegisteredDate)}</p>
+        <div className="mx-auto w-fit">
+          <div className=" section-column">
+            <p className={` ${isSmallMobile ? "p-medium-bold" : "h5-bold"}`}>
+              아이디
+            </p>
+            <p
+              className={` ${
+                isSmallMobile ? "p-medium-regular" : "h5-regular"
+              }`}
+            >
+              {foundId}
+            </p>
+          </div>
+          <div className="section-column">
+            <p className={` ${isSmallMobile ? "p-medium-bold" : "h5-bold"}`}>
+              가입일
+            </p>
+            <p
+              className={` ${
+                isSmallMobile ? "p-medium-regular" : "h5-regular"
+              }`}
+            >
+              {formatDate(foundRegisteredDate)}
+            </p>
+          </div>
         </div>
       </InnerBox>
       <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>

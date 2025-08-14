@@ -4,7 +4,7 @@ import FindID from "./FindID";
 import FindPW from "./FindPW";
 import ToggleBar from "../../components/toggleBar/ToggleBar";
 
-import "./FindBar.css";
+import "./FindBar.scss";
 import "./../../styles/utilities.css";
 
 const FindBar = () => {

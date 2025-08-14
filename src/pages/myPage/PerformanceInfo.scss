@@ -9,6 +9,9 @@
   @include r.media-mobile {
     width: 430px;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+  }
 }
 
 .perform-info .script div#info {
@@ -23,6 +26,11 @@
   position: relative;
   width: 19px;
   height: 19px;
+
+  @include r.media-small-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .perform-info .script div#margin {
@@ -45,6 +53,11 @@
 
   width: 19px;
   height: 19px;
+
+  @include r.media-small-mobile {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .perform-info .script div#circle-add-btn {

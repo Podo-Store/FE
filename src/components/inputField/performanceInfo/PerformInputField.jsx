@@ -14,6 +14,7 @@ const PerformInputField = ({
   readOnly,
 }) => {
   const { width } = useWindowDimensions();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   return (
     <AuthInputField
@@ -28,8 +29,11 @@ const PerformInputField = ({
       rightElement={rightElement}
       readOnly={readOnly}
       errorMessageCustomFlag="true"
+      fontMode={!isSmallMobile ? "default" : "xs"}
       style={
-        !(width < 768) ? { width: "39.3125rem", height: "42px" } : { width: "100%", height: "42px" }
+        !(width < 768)
+          ? { width: "39.3125rem", height: "42px" }
+          : { width: "100%", height: "42px" }
       }
     />
   );

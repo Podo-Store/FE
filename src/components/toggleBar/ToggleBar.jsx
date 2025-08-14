@@ -1,5 +1,5 @@
 import { useState } from "react";
-
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./ToggleBar.scss";
 
 /**
@@ -21,21 +21,34 @@ const ToggleBar = ({
 }) => {
   const TAB_NAME = [firstName, secondName];
   const [currentTab, setCurrentTab] = useState(TAB_NAME[defaultRoute]);
-
+  const { isSmallMobile, isMobile } = useWindowDimensions().widthConditions;
   return (
     <div className="toggle-bar">
       <div className="f-dir-column a-items-center toggle-bar-content">
-        <div className="f-center f-dir-column tab-nav-wrap">
-          <div className="tab-nav">
+        <div className=" f-center f-dir-column tab-nav-wrap">
+          <div className=" tab-nav">
             <h4
-              className={`tab-name ${TAB_NAME[0] === currentTab ? "current" : ""}`}
+              className={` tab-name ${
+                isSmallMobile
+                  ? "p-small-medium"
+                  : isMobile
+                  ? "p-large-medium"
+                  : "h5-medium"
+              } ${TAB_NAME[0] === currentTab ? "current" : ""}`}
               onClick={() => setCurrentTab(TAB_NAME[0])}
             >
               {TAB_NAME[0]}
             </h4>
 
             <h4
-              className={`tab-name ${TAB_NAME[1] === currentTab ? "current" : ""}`}
+              className={`tab-name ${
+                isSmallMobile
+                  ? "p-small-medium"
+                  : isMobile
+                  ? "p-large-medium"
+                  : "h5-medium"
+              }
+               ${TAB_NAME[1] === currentTab ? "current" : ""}`}
               onClick={() => setCurrentTab(TAB_NAME[1])}
             >
               {TAB_NAME[1]}

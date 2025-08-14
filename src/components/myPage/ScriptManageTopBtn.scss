@@ -7,10 +7,19 @@
   }
 }
 
-@include r.media-mobile {
-  .script-manage-top-btn.mobile {
+.script-manage-top-btn.mobile {
+  @include r.media-mobile {
     display: flex;
-
     margin-top: 16px;
+  }
+
+  @include r.media-small-mobile {
+    flex-direction: column;
+    gap: 17.5px;
+
+    position: absolute;
+    left: 145px;
+
+    transform: translate(-100%, -61.5px);
   }
 }

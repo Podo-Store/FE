@@ -1,35 +1,50 @@
+@use "./../../styles/_responsive.scss" as r;
+
 /* FindID/PW 부분 */
 .find .section-find {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @include r.media-small-mobile {
+    width: 240px;
+  }
 }
 
 .find .section-find div#input-field {
-  margin-top: 10.139vh;
+  margin-top: 120.5px;
+  width: 100%;
+
+  @include r.media-mobile {
+    margin-top: 100px;
+  }
+  @include r.media-small-mobile {
+    margin-top: 52px;
+  }
 }
 
 .find div#founded {
   margin-top: 63.5px;
+  @include r.media-small-mobile {
+    margin-top: 52px;
+  }
 }
 
 /* 결과 페이지 */
 .find .section-column {
   display: flex;
   gap: 1.5rem;
-
-  margin-left: 3.125vw;
 }
 
 .find .section-column p {
   color: #000;
 
   /* H5/Regular */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 1.75rem;
+  // font-family: "Noto Sans KR";
+  // font-size: 1.25rem;
+  // font-style: normal;
+  // font-weight: 400;
+  // line-height: 1.75rem;
 }
 
 .find .section-column p#title {

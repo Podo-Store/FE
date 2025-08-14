@@ -1,4 +1,5 @@
 import PriceText from "./PriceText";
+import "./PriceTextsVertical.scss";
 
 const PriceTextsVertical = ({
   scriptPrice,
@@ -6,19 +7,11 @@ const PriceTextsVertical = ({
   script = true,
   performance = true,
 }) => {
-
   return (
     <div className="price-texts-vertical">
-      {script ? (
-        <PriceText type="script" value={scriptPrice}></PriceText>
-      ) : (
-        <></>
-      )}
-      {performance ? (
-        <PriceText type="perform" value={performPrice}></PriceText>
-      ) : (
-        <></>
-      )}
+      <PriceText type="script" value={scriptPrice}></PriceText>
+      <hr />
+      <PriceText type="perform" value={performPrice}></PriceText>
     </div>
   );
 };

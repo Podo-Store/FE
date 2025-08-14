@@ -21,13 +21,15 @@ const PolicyContent = ({ page = 0 }) => {
   const [numPages, setNumPages] = useState(null);
   const { width: windowWidth } = useWindowDimensions();
 
-  // 창 크기가 768px 이상일 때 값
+  // 기본: 768px 이상
   let calculatedWidth = 686;
 
-  if (windowWidth <= 767) {
-    const vwWidth = windowWidth * 0.35833;
-    calculatedWidth = Math.min(Math.max(vwWidth, 440), 688);
-  } else if (windowWidth <= 480) {
+  // 480 미만 먼저 체크 → 280px
+  if (windowWidth < 480) {
+    calculatedWidth = 280;
+  }
+  // 480 이상 768 미만 → 440px
+  else if (windowWidth < 768) {
     calculatedWidth = 440;
   }
 
@@ -46,7 +48,12 @@ const PolicyContent = ({ page = 0 }) => {
           loading={<PartialLoading />}
         >
           {Array.from(new Array(numPages), (el, index) => (
-            <Page key={index} renderMode="canvas" pageNumber={index + 1} width={calculatedWidth} />
+            <Page
+              key={index}
+              renderMode="canvas"
+              pageNumber={index + 1}
+              width={calculatedWidth}
+            />
           ))}
         </Document>
       </div>

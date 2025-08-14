@@ -20,7 +20,7 @@ import "./../../styles/utilities.css";
  * @param {string} props.orderStatus - WAIT: 입금 확인 중, PASS: 결제 완료, REJECT: 결제 취소
  * @returns
  */
-const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus = "WAIT" }) => {
+const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus = "WAIT", style }) => {
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -63,12 +63,12 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
   return (
     <div className="j-content-end purchased-script-btn">
       {buyPerformance !== 0 ? (
-        <Button color="white" onClick={onClickPurchasePerform}>
+        <Button color="white" onClick={onClickPurchasePerform} style={style}>
           공연권 구매
         </Button>
       ) : null}
 
-      <Button disabled={orderStatus !== "PASS"} onClick={onClickDownloadScript}>
+      <Button disabled={orderStatus !== "PASS"} onClick={onClickDownloadScript} style={style}>
         {orderStatus === "PASS" ? "대본 받기" : "입금 확인 중"}
       </Button>
     </div>

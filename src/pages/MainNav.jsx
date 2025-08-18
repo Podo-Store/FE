@@ -94,7 +94,18 @@ function MainNav() {
           <div className="navbar_login">
             <RoundBtnV2
               onClick={() => {
-                navigate("/signin", { state: { from: location } });
+                navigate("/signin", {
+                  state: {
+                    // Avoid passing full location.state to prevent DataCloneError
+                    background: {
+                      pathname: location.pathname,
+                      search: location.search,
+                      hash: location.hash,
+                      key: location.key,
+                    },
+                    from: location.pathname,
+                  },
+                });
               }}
               className="signin_btn p-large-regular w-[150px] h-[44px] rounded-[30px]"
               color="white"

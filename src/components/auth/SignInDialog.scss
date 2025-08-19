@@ -1,0 +1,43 @@
+@use "./../../styles/_responsive.scss" as r;
+
+.signin-dialog {
+  width: 414px;
+  @include r.media-mobile {
+    width: 390px;
+  }
+  @include r.media-small-mobile {
+    width: 240px;
+  }
+}
+
+.signin-dialog .title {
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+.signin-dialog .content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+
+  width: 100%;
+
+  @include r.media-small-mobile {
+    gap: 15px;
+  }
+}
+
+.signin-dialog .extra-link {
+  display: flex;
+  justify-content: center;
+  gap: 19px;
+
+  margin-top: 37.5px;
+  margin-bottom: 41.5px;
+}
+
+.signin-dialog .extra-link img {
+  @include r.media-small-mobile {
+    height: 14px;
+  }
+}

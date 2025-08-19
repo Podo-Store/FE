@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
@@ -38,10 +39,16 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
   const { width } = useWindowDimensions();
 
   /** navigateWithRefresh 이후 창 닫기 */
-  const navigate = (event: React.MouseEvent, path: string) => {
+  const navigateWithRefreshAndClose = (
+    event: React.MouseEvent,
+    path: string
+  ) => {
     navigateWithRefresh(event, path);
     onClose();
   };
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <Dialog
@@ -77,7 +84,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <div
             className="navbar_logo a-items-center"
             onClick={(event) => {
-              navigate(event, "/");
+              navigateWithRefreshAndClose(event, "/");
             }}
           >
             <img className="icon w-[23px]" src={navLogo} alt="logo" />
@@ -102,7 +109,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         )}
         <SideDialogBtn
           onClick={(event: React.MouseEvent) => {
-            navigate(event, "/list");
+            navigateWithRefreshAndClose(event, "/list");
           }}
         >
           작품 둘러보기
@@ -110,7 +117,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         <div className="div-inside" />
         <SideDialogBtn
           onClick={(event: React.MouseEvent) => {
-            navigate(event, "/post");
+            navigateWithRefreshAndClose(event, "/post");
           }}
         >
           작품 등록하기
@@ -127,7 +134,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             </div>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigate(event, "/mypage/liked");
+                navigateWithRefreshAndClose(event, "/mypage/liked");
               }}
             >
               좋아한 작품
@@ -135,7 +142,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             <div className="div-inside" />
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigate(event, "/mypage/purchased");
+                navigateWithRefreshAndClose(event, "/mypage/purchased");
               }}
             >
               구매한 작품
@@ -143,7 +150,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             <div className="div-inside" />
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigate(event, "/mypage/scriptmanage");
+                navigateWithRefreshAndClose(event, "/mypage/scriptmanage");
               }}
             >
               작품 관리
@@ -165,7 +172,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigate(event, "/mypage/infochange");
+                navigateWithRefreshAndClose(event, "/mypage/infochange");
               }}
             >
               회원 정보 수정
@@ -174,7 +181,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
                 logout();
-                navigate(event, "/");
+                navigateWithRefreshAndClose(event, "/");
               }}
             >
               로그아웃
@@ -184,8 +191,20 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         ) : (
           <>
             <SideDialogBtn
-              onClick={(event: React.MouseEvent) => {
-                navigate(event, "/signin");
+              onClick={() => {
+                navigate("/signin", {
+                  state: {
+                    // Avoid passing full location.state to prevent DataCloneError
+                    background: {
+                      pathname: location.pathname,
+                      search: location.search,
+                      hash: location.hash,
+                      key: location.key,
+                    },
+                    from: location.pathname,
+                  },
+                });
+                onClose();
               }}
             >
               로그인

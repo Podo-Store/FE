@@ -89,7 +89,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
         onBlur={() => {
           setPwChecker({ ...pwChecker, show: false });
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={pw.length > 0}
         checkerMessages={[
@@ -120,7 +120,7 @@ const SignUp2 = ({ onPrevious, onNext, userInfo, setUserInfo }) => {
             setPwCheckChecker({ ...pwCheckChecker, show: true });
           }
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         errorFlag={pwCheckChecker.show && !pwCheckChecker.equal}
         errorMessage="비밀번호가 일치하지 않습니다."

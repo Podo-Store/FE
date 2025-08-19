@@ -125,7 +125,7 @@ const SignUp3 = ({
           setHasClickedInputFlag(false);
           checkNameDuplicated(name);
         }}
-        fontMode="12"
+        fontMode={!isSmallMobile ? "default" : "12"}
         style={isSmallMobile ? { height: "48px" } : {}}
         checkerShowFlag={name.length > 0}
         checkerMessages={[

@@ -65,6 +65,10 @@ function App() {
         <Route path="/" element={<DefaultLayout />}>
           <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
           <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
+          <Route
+            path="admin/statisticManage"
+            element={<AdminSwitch page={2} />}
+          />
 
           <Route index element={<MainVer2 />} />
           <Route path="v1" element={<MainVer1 />} />

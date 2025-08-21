@@ -1,13 +1,30 @@
 @import "./components/button/round_btn/RoundBtnV2.tailwind.css";
 
-@tailwind base;
-@tailwind components;
+/* Tailwind v4 */
 @tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  /* 폰트 */
+  --font-pretendard: "Pretendard", sans-serif;
+
+  /* 섀도우 */
+  --shadow-custom-inset: inset 0 0 5px 0 rgba(0, 0, 0, 0.15);
+
+  /* 브레이크포인트 */
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 480px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -15,7 +32,8 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
 }
 
 @font-face {

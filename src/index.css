@@ -1,17 +1,44 @@
-@import "./components/button/round_btn/RoundBtnV2.tailwind.css";
+@import "tailwindcss/preflight";
+@import "tailwindcss/theme";
+@import "tailwindcss/utilities";
+
+@import "./styles/typography-paragraphs.css";
+@import "./styles/typography-headings.css";
+
+/* 필요하면 components 레이어도 가능: @import "tailwindcss/components"; */
+@source "./src/**/*.{js,jsx,ts,tsx,html,css,scss}";
 
 /* Tailwind v4 */
-@tailwind utilities;
-@import "tailwindcss";
+/* @tailwind utilities; */
 
 @theme {
-  /* 폰트 */
+  /* ======================
+     폰트 패밀리
+  ====================== */
   --font-pretendard: "Pretendard", sans-serif;
+  --font-noto-sans: "Noto_Sans_KR", sans-serif;
 
-  /* 섀도우 */
+  /* ======================
+     색상
+  ====================== */
+  --c-black: #000;
+  --c-main: #9e30f4;
+  --c-grey4: #bababa;
+  --c-grey5: #9e9e9e;
+  --c-grey6: #777;
+  --c-grey7: #3c3c3c;
+  --c-grey-8f8f8f: #8f8f8f;
+  --c-red: #ff0000;
+  --c-white: #ffffff;
+
+  /* ======================
+     섀도우
+  ====================== */
   --shadow-custom-inset: inset 0 0 5px 0 rgba(0, 0, 0, 0.15);
 
-  /* 브레이크포인트 */
+  /* ======================
+     브레이크포인트
+  ====================== */
   --breakpoint-xs: 360px;
   --breakpoint-sm: 480px;
   --breakpoint-md: 768px;
@@ -20,11 +47,19 @@
   --breakpoint-2xl: 1536px;
 }
 
+@utility font-pretendard {
+  font-family: var(--font-pretendard);
+}
+
+@utility font-noto-sans {
+  font-family: var(--font-noto-sans);
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: var(--font-pretendard), -apple-system, BlinkMacSystemFont,
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 

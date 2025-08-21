@@ -1,0 +1,105 @@
+@utility h1-regular {
+  /* H1/Regular */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 44px; /* 122.222% */
+}
+
+@utility h1-medium {
+  /* H1/Medium */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 44px; /* 122.222% */
+  letter-spacing: -0.72px;
+}
+
+@utility h1-bold {
+  /* H1/Bold */
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 44px; /* 122.222% */
+}
+
+@utility h2-medium {
+  /* H2/Medium */
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 40px; /* 125% */
+}
+
+@utility h2-bold {
+  font-family: var(--font-pretendard);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.64px;
+}
+
+@utility h3-regular {
+  /* H3/Regular */
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 36px; /* 128.571% */
+}
+
+@utility h3-bold {
+  /* H3/Bold */
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 36px; /* 128.571% */
+}
+
+@utility h4-regular {
+  /* H4/Regular */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 133.333% */
+}
+
+@utility h4-medium {
+  /* H4/Medium */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 32px; /* 133.333% */
+}
+
+@utility h4-bold {
+  /* H4/Bold */
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 133.333% */
+}
+
+@utility h5-regular {
+  /* H5/Regular */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28px; /* 140% */
+}
+
+@utility h5-bold {
+  /* H5/Bold */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 28px; /* 140% */
+}
+
+@utility h5-medium {
+  /* H5/Medium */
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 140% */
+}

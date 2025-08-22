@@ -8,7 +8,6 @@ const ScriptManageTopBtn = ({ script, className }) => {
   const scriptContentPrefix = !isSmallMobile ? "대본 판매" : "판매";
   const performanceContentPrefix = !isSmallMobile ? "공연권 판매" : "판매";
 
-  console.log(script);
   return (
     <div className={"script-manage-top-btn d-flex " + className}>
       {script.script ? (

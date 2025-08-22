@@ -147,14 +147,6 @@ const PostView: React.FC = () => {
 
       setOffset((prev) => {
         const next = Math.max(0, Math.min(barHeight, prev - deltaY));
-        console.log(
-          "🔥 scrollY:",
-          currentY,
-          "deltaY:",
-          deltaY,
-          "offset:",
-          next
-        );
         return next;
       });
 

@@ -21,9 +21,10 @@ import PostHeaderControl from "@/components/post/PostHeaderControl";
 import BannerImage1 from "@/assets/image/listBanner.jpg";
 import BannerImage2 from "@/assets/image/postList_banner.png";
 
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useToggleLike } from "@/hooks/useToggleLike";
 import "./postGallery.scss";
+
+import { StageType } from "@/types/stage";
 
 const bannerImages = [
   { image: BannerImage1, link: "https://brunch.co.kr/@651b8cc89832412" },
@@ -49,7 +50,7 @@ const PostGallery = () => {
   // const observerRef = useRef<HTMLDivElement | null>(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeStage = searchParams.get("stage") || "포도밭";
+  const activeStage = (searchParams.get("stage") as StageType) || "포도밭";
   const activeCategory = searchParams.get("category") || "전체";
 
   const [isLoading, setIsLoading] = useState(true);
@@ -72,10 +73,6 @@ const PostGallery = () => {
     fallbackInView: true,
     initialInView: false,
   });
-
-  const { widthConditions } = useWindowDimensions();
-  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
-    widthConditions;
 
   const handleChange = (newStage: string, menu: string) => {
     const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
@@ -227,9 +224,7 @@ const PostGallery = () => {
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
       {/*------ 작품 둘러보기 ------*/}
-      <p className={`${isSmallMobile ? "p-medium-bold" : "h5-bold"} mb-[30px]`}>
-        작품 둘러보기
-      </p>
+      <p className="sm:h5-bold p-medium-bold mb-[30px]">작품 둘러보기</p>
 
       {/*------ 배너 ------*/}
       <InfiniteBanner banners={bannerImages} />
@@ -247,6 +242,7 @@ const PostGallery = () => {
         sortType={sortType}
         setSortType={setSortType}
         stageBottomBorderWidth={"w-[100vw]"}
+        stageBelt={true}
       />
 
       {/*----- post list -----*/}
@@ -255,8 +251,8 @@ const PostGallery = () => {
           <PartialLoading />
         </div>
       ) : activeCategory === "전체" ? (
-        <div className={`${isSmallMobile ? "" : ""} `}>
-          <div className={isSmallMobile ? "px-[9.375%]" : ""}>
+        <div>
+          <div className="px-[9.375%] sm:px-0">
             <SectionBlock
               posts={shortPlays}
               viewType={viewType}
@@ -267,7 +263,7 @@ const PostGallery = () => {
               onToggleLike={handleToggleLikeShort}
             />
           </div>
-          <div className={`mt-[78px] ${isSmallMobile ? "px-[9.375%]" : ""}`}>
+          <div className="mt-[78px] px-[9.375%] sm:px-0">
             <SectionBlock
               posts={longPlays}
               viewType={viewType}
@@ -280,11 +276,9 @@ const PostGallery = () => {
           </div>
         </div>
       ) : activeCategory === "장편" ? (
-        <section className={`${isSmallMobile ? "px-[9.375%]" : ""}`}>
+        <section className="px-[9.375%] sm:px-0">
           <div className="mb-[24px]">
-            <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
-              장편극
-            </p>
+            <p className="p-small-medium sm:h5-medium">장편극</p>
           </div>
 
           <div
@@ -318,11 +312,9 @@ const PostGallery = () => {
           </div>
         </section>
       ) : (
-        <section className={`${isSmallMobile ? "px-[9.375%]" : ""}`}>
+        <section className="px-[9.375%] sm:px-0">
           <div className="mb-[24px]">
-            <p className={`${isSmallMobile ? "p-small-medium" : "h5-medium"}`}>
-              단편극
-            </p>
+            <p className="p-small-medium sm:h5-medium">단편극</p>
           </div>
           <div
             className={`transition-opacity duration-300 ${

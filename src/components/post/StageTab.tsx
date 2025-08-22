@@ -1,9 +1,9 @@
 import React, { ReactNode } from "react";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./StageTab.scss";
-
+import { StageType } from "@/types/stage";
 interface Props {
-  activeStage: string;
+  activeStage: StageType;
   setActiveStage: (value: string) => void;
   stageIcon?: boolean;
 }
@@ -124,13 +124,11 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
           return (
             <li
               key={stage}
-              className={`flex flex-row  gap-[7px] items-center stage-tab-li z-10  whitespace-nowrap ${
-                isSmallMobile ? "p-small-medium" : " h5-medium"
-              }
+              className={`flex flex-row  gap-[7px] items-center stage-tab-li z-10 whitespace-nowrap 
               ${
                 isActive
                   ? " border-b-4 border-[#6A39C0] rounded-[1px]"
-                  : "text-black"
+                  : "text-[var(--grey6)]"
               }
                ${
                  isAvailable
@@ -157,7 +155,7 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
                   {STAGE_ICONS[stage]}
                 </span>
               )}
-              <span>{stage}</span>
+              <span className="p-small-medium sm:h5-medium">{stage}</span>
             </li>
           );
         })}

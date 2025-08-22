@@ -20,6 +20,7 @@ import {
 } from "@/api/user/profile/likeApi";
 
 import AuthContext from "@/contexts/AuthContext";
+import { StageType } from "@/types/stage";
 
 const ScrollObserver: React.FC<{
   inViewRef: (node?: Element | null) => void;
@@ -34,7 +35,7 @@ const LikedWorks = () => {
   const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
 
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeStage = searchParams.get("stage") || "포도밭";
+  const activeStage = (searchParams.get("stage") as StageType) || "포도밭";
   const activeCategory = searchParams.get("category") || "전체";
   const observerRef = useRef<HTMLDivElement | null>(null);
 

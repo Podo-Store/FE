@@ -43,7 +43,7 @@ const PostGallery = () => {
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
   const [longPlayPage, setLongPlayPage] = useState(0);
 
-  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]); // 전체 shorPlays
+  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]); // 전체 shortPlays
   const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
   const [shortPlayPage, setShortPlayPage] = useState(0);
   const [observerKey, setObserverKey] = useState(0);

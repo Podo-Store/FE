@@ -1035,17 +1035,22 @@ const PostManageDetail: React.FC = () => {
                     </span>
                   </div>
                 </div>
+
                 <div className="flex items-center justify-end w-full ">
+                  {/* 공연권 오픈 할 때는 pointer-events-none opacity-50 삭제 및 disabled 주석 부분으로 변경 */}
                   <select
-                    className={`  ${
-                      form.script === false ? "" : "cursor-pointer"
+                    className={`pointer-events-none opacity-50 ${
+                      form.script === false
+                        ? "pointer-events-none opacity-50 "
+                        : "cursor-pointer"
                     }   ${
                       isSmallMobile
                         ? "h-[32px] w-[64vw]  p-xs-regular "
                         : "h-[26px] w-full  p-small-regular"
                     } not-last:mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
                     value={form.performance ? "true" : "false"}
-                    disabled={podoStudioOpen ? true : form.script === false}
+                    disabled={true}
+                    // disabled={podoStudioOpen ? true : form.script === false}
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,

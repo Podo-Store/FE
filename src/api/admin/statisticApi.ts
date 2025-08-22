@@ -30,7 +30,6 @@ export const getStatistics = async (
       withCredentials: true, // 쿠키 인증 시 필요
     });
 
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error getStatistics:", error);

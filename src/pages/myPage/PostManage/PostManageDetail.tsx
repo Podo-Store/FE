@@ -95,8 +95,8 @@ const PostManageDetail: React.FC = () => {
     act: false,
   });
 
-  const podoStudioOpen = true;
-  //  이미지 수정
+  const podoStudioOpen = false;
+  //  이미지
   const onClickChangeThumbnailImg = () => {
     const fileInput = document.createElement("input");
     fileInput.type = "file";
@@ -125,7 +125,7 @@ const PostManageDetail: React.FC = () => {
       formData.append("title", form.title ?? "");
       formData.append("plot", form.plot ?? "");
       // formData.append("script", form.script ? "true" : "false");
-      formData.append("script", "true");
+      formData.append("script", form.script ? "true" : "false");
       formData.append("performance", form.performance ? "true" : "false");
       formData.append("scriptPrice", String(Number(form.scriptPrice ?? 0)));
       formData.append(
@@ -141,7 +141,6 @@ const PostManageDetail: React.FC = () => {
       formData.append("act", String(Number(form.act ?? 0)));
       formData.append("intention", form.intention ?? "");
 
-      console.log(form.intention);
       if (InputtedThumbnailImgFile) {
         formData.append("scriptImage", InputtedThumbnailImgFile);
       } else if (form.imagePath) {

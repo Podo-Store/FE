@@ -41,7 +41,7 @@ const Preview = ({ id, lengthType }) => {
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   // 단편극: 1장까지만, 장편극: 3장까지만
-  const showThreshold = lengthType === "SHORT" ? 1 : 3;
+  const showThreshold = lengthType === "SHORT" ? 2 : 4;
 
   // for Responsive design
   const totalRevealedPages =
@@ -139,8 +139,8 @@ const Preview = ({ id, lengthType }) => {
 
                     let isPageAvailable = true;
                     if (lengthType === "SHORT") {
-                      // 첫 페이지만 렌더링
-                      isPageAvailable = index + 1 === showThreshold;
+                      // showThreshold까지의 모든 페이지 활성화
+                      isPageAvailable = index + 1 <= showThreshold;
                     } else {
                       if (width >= 1280) {
                         isPageAvailable = index + 1 <= showThreshold;

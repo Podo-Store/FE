@@ -1,12 +1,12 @@
 import clsx from "clsx";
 
 interface PreviewNoticeProps extends React.HTMLAttributes<HTMLDivElement> {
-  totalPage: number;
+  totalPages: number;
   showThreshold: number;
 }
 
 const PreviewNotice = ({
-  totalPage,
+  totalPages,
   showThreshold,
   className,
   ...props
@@ -20,8 +20,8 @@ const PreviewNotice = ({
       {...props}
     >
       <p className="p-xs-bold text-center">
-        전체 {totalPage} 페이지 중 {showThreshold} 페이지까지만 미리보기로 볼 수
-        있어요.
+        전체 {totalPages} 페이지 중 {showThreshold} 페이지까지만 미리보기로 볼
+        수 있어요.
       </p>
     </div>
   );

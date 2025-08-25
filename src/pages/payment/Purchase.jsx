@@ -31,6 +31,7 @@ import performImg from "./../../assets/image/post/list/perform.svg";
 
 import "./Purchase.scss";
 import "./../../styles/utilities.css";
+import AmountChangePurchase from "@/components/detail/AmountChangePurchase";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -71,6 +72,7 @@ const Purchase = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   const {
     isScriptSelected = false,
@@ -238,25 +240,31 @@ const Purchase = () => {
   return (
     <div className="purchase">
       <div className="purchase-wrap">
-        <h5 className="h5-bold">결제</h5>
+        <h5 className="p-medium-bold sm:h5-bold">결제</h5>
         <div className="purchase-flex">
           <div className="list-side">
             {buyScript ? (
               <div className="content">
-                <p className="p-large-bold" id="subtitle">
+                <p className="p-small-bold sm:p-large-bold" id="subtitle">
                   대본
                 </p>
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
-                    <p className="left-margin p-large-bold">{title}</p>
-                    <hr></hr>
-                    <p className="left-margin p-large-medium">{author}</p>
+                    <p className="left-margin p-small-bold sm:p-large-bold">
+                      {title}
+                    </p>
+                    <hr className="mt-[9px] mb-[4px]"></hr>
+                    <p className="left-margin mt-[8px] sm:mt-0 p-12-bold sm:p-large-medium">
+                      {author}
+                    </p>
                     {/*<p id="tag"># {lengthType}</p>*/}
                     <div className="detail-price">
                       <div className="price-wrap">
                         <img src={scriptImg} alt="script"></img>
-                        <p>{formatPrice(scriptPrice)}원</p>
+                        <p className="p-xs-regular sm:p-medium-regular">
+                          {formatPrice(scriptPrice)}원
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -278,23 +286,29 @@ const Purchase = () => {
                   </p>
                   <div style={{ height: "16px" }}></div>
                 </div>
-                <div className="purchase-list">
+                <div className="purchase-list h-[120px] sm:h-[197px]">
                   <ThumbnailImg imagePath={thumbnailImg} />
-                  <div className="f-dir-column j-content-between detail">
-                    <div className="detail">
-                      <p className="left-margin p-large-bold">{title}</p>
-                      <hr></hr>
-                      <p className="left-margin p-large-medium">{author}</p>
+                  <div className="detail f-dir-column j-content-between h-full">
+                    <div className="">
+                      <p className="left-margin p-small-bold sm:p-large-bold">
+                        {title}
+                      </p>
+                      <hr className="mt-[9px] mb-[4px]"></hr>
+                      <p className="left-margin p-12-bold sm:p-large-medium">
+                        {author}
+                      </p>
                       {/*<p id="tag"># {lengthType}</p>*/}
                       <div className="detail-price">
                         <div className="price-wrap">
                           <img src={performImg} alt="perform"></img>
-                          <p>{formatPrice(performPricePerAmount)}원</p>
+                          <p className="p-xs-regular sm:p-medium-regular">
+                            {formatPrice(performPricePerAmount)}원
+                          </p>
                         </div>
                       </div>
                     </div>
-                    <div className="j-content-end">
-                      <AmountChange
+                    <div className="flex justify-end items-end w-full h-full">
+                      <AmountChangePurchase
                         performPrice={performPrice}
                         purchasePerformAmount={modifiedPurchasePerformAmount}
                         setPurchasePerformAmount={
@@ -322,49 +336,57 @@ const Purchase = () => {
                 performAmount={modifiedPurchasePerformAmount}
                 totalPrice={totalPrice}
                 style={
-                  768 < width && width <= 1280
-                    ? { width: "320px" }
+                  width < 480
+                    ? { width: "280px" }
                     : width <= 768
                     ? { width: "430px" }
+                    : width <= 1280
+                    ? { width: "320px" }
                     : {}
                 }
                 setLeftPadding={width <= 768 ? true : false}
               />
 
-              <div className="purchase-method">
-                <div className="purchase-method-title">
-                  <p className="p-large-bold">결제 방법</p>
-                  {768 < width && width <= 1280 && (
-                    <p className="p-small-bold c-grey4">
-                      계좌 이체 방법은 메일로 전송됩니다.
+              <div className="purchase-method flex flex-col justify-between">
+                <div>
+                  <div className="purchase-method-title">
+                    <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">
+                      결제 방법
                     </p>
-                  )}
-                </div>
-                <div className="btn-wrap d-flex">
-                  <SmallOnOffBtn
-                    style={{
-                      width: "108px",
-                      height: "36px",
-                      border: "3px solid var(--purple-purple-7, #B489FF)",
-                    }}
-                  >
-                    계좌 이체
-                  </SmallOnOffBtn>
-                  <SmallOnOffBtn
-                    disabled={true}
-                    style={{ width: "108px", height: "36px" }}
-                  >
-                    -
-                  </SmallOnOffBtn>
-                  <SmallOnOffBtn
-                    disabled={true}
-                    style={{ width: "108px", height: "36px" }}
-                  >
-                    -
-                  </SmallOnOffBtn>
+                    {768 < width && width <= 1280 && (
+                      <p className="p-small-bold c-grey4 whitespace-nowrap">
+                        계좌 이체 방법은 메일로 전송됩니다.
+                      </p>
+                    )}
+                  </div>
+                  <div className="btn-wrap d-flex">
+                    <SmallOnOffBtn
+                      style={{
+                        width: "108px",
+                        height: "36px",
+                        border: "3px solid var(--purple-purple-7, #B489FF)",
+                      }}
+                    >
+                      계좌 이체
+                    </SmallOnOffBtn>
+                    <SmallOnOffBtn
+                      disabled={true}
+                      style={{ width: "108px", height: "36px" }}
+                    >
+                      -
+                    </SmallOnOffBtn>
+                    {!isSmallMobile && (
+                      <SmallOnOffBtn
+                        disabled={true}
+                        style={{ width: "108px", height: "36px" }}
+                      >
+                        -
+                      </SmallOnOffBtn>
+                    )}
+                  </div>
                 </div>
                 {(width <= 768 || width > 1280) && (
-                  <p className="p-small-bold c-grey4 t-align-center">
+                  <p className="p-12-bold sm:p-small-bold c-grey4 t-align-center">
                     계좌 이체 방법은 메일로 전송됩니다.
                   </p>
                 )}

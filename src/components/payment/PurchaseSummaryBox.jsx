@@ -2,6 +2,7 @@ import { formatPrice } from "../../utils/formatPrice";
 
 import "./PurchaseSummaryBox.css";
 import "./../../styles/text.css";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 /**
  * @param {Object} props - Component properties
@@ -26,6 +27,12 @@ const PurchaseSummaryBox = ({
   style,
   ...props
 }) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
+  const priceWrapClassName =
+    page === 0
+      ? `price-wrap ${setLeftPadding ? "left-padding" : ""}`
+      : `price-wrap ${isSmallMobile ? "no-padding" : ""}`;
+
   return (
     <div className="purchase-summary-box" style={style} {...props}>
       {page === 0 ? (
@@ -33,26 +40,42 @@ const PurchaseSummaryBox = ({
         <h4 className="p-medium-bold sm:p-large-bold">{title}</h4>
       ) : (
         // 구매 완료 페이지
-        <h4 className="h5-bold">{title}</h4>
+        <h4 className="p-medium-bold sm:h5-bold">{title}</h4>
       )}
       <div style={{ height: "11.6px" }}></div>
-      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
+      <div className={priceWrapClassName}>
         <p className="p-small-regular sm:p-medium-regular">
-          {page === 0
-            ? "대본 가격"
-            : `대본 ${scriptTitle} ${buyScript ? 1 : "-"} 개`}
+          {page === 0 ? (
+            "대본 가격"
+          ) : (
+            <span className="flex items-center">
+              <span>대본&nbsp;</span>
+              <span className="inline-block max-w-[85px] sm:max-w-[185px] overflow-hidden text-ellipsis whitespace-nowrap">
+                {scriptTitle}
+              </span>
+              <span>&nbsp;{buyScript ? 1 : "-"} 개</span>
+            </span>
+          )}
         </p>
-        <p className="p-small-regular sm:p-medium-regular">
+        <p className="p-small-regular sm:p-medium-regular whitespace-nowrap">
           {buyScript ? formatPrice(scriptPrice) : "-"} 원
         </p>
       </div>
-      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
-        <p className="p-small-regular sm:p-medium-regular">
-          {page === 0
-            ? "공연권 가격"
-            : `공연권 ${scriptTitle} ${buyPerform ? performAmount : "-"} 개`}
+      <div className={priceWrapClassName}>
+        <p className="p-small-regular sm:p-medium-regular whitespace-nowrap">
+          {page === 0 ? (
+            "공연권 가격"
+          ) : (
+            <span className="flex items-center">
+              <span>공연권&nbsp;</span>
+              <span className="inline-block max-w-[70px] sm:max-w-[170px] overflow-hidden text-ellipsis whitespace-nowrap">
+                {scriptTitle}
+              </span>
+              <span>&nbsp;{buyPerform ? performAmount : "-"} 개</span>
+            </span>
+          )}
         </p>
-        <p className="p-small-regular sm:p-medium-regular">
+        <p className="p-small-regular sm:p-medium-regular whitespace-nowrap">
           {buyPerform ? formatPrice(performPrice * performAmount) : "-"} 원
         </p>
       </div>
@@ -64,10 +87,13 @@ const PurchaseSummaryBox = ({
                 marginBottom: "14.92px",
                 marginRight: "12.97px",
               }
-            : null
+            : {
+                marginTop: "12.08px",
+                marginBottom: "14.92px",
+              }
         }
       ></hr>
-      <div className={`price-wrap ${setLeftPadding ? "left-padding" : ""}`}>
+      <div className={priceWrapClassName}>
         <p className="p-medium-regular sm:p-large-regular">총 금액</p>
         <p className="p-medium-regular sm:p-large-regular">
           {formatPrice(

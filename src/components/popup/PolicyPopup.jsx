@@ -49,7 +49,19 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      return { width: "413px", height: "465px", top: "0", left: "0" };
+      if (!isSmallMobile) {
+        return { width: "413px", height: "465px", top: "0", left: "0" };
+      } else {
+        return { width: "280px", height: "540px", top: "0", left: "0" };
+      }
+    }
+
+    if (page === 2) {
+      if (!isSmallMobile) {
+        return { width: "413px", height: "288px", top: "0", left: "0" };
+      } else {
+        return { width: "280px", height: "384px", top: "0", left: "0" };
+      }
     }
 
     if (page === 3) {
@@ -103,7 +115,19 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      return { width: "369px", height: "375px" };
+      if (!isSmallMobile) {
+        return { width: "369px", height: "375px" };
+      } else {
+        return { width: "236px", height: "447px" };
+      }
+    }
+
+    if (page === 2) {
+      if (!isSmallMobile) {
+        return { width: "369px", height: "195px" };
+      } else {
+        return { width: "236px", height: "291px" };
+      }
     }
 
     if (page === 3) {
@@ -149,7 +173,19 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      return { maxHeight: "350px" };
+      if (!isSmallMobile) {
+        return { maxHeight: "350px" };
+      } else {
+        return { maxHeight: "419px" };
+      }
+    }
+
+    if (page === 2) {
+      if (!isSmallMobile) {
+        return { maxHeight: "159px" };
+      } else {
+        return { maxHeight: "263px" };
+      }
     }
 
     if (page === 3) {

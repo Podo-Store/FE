@@ -597,7 +597,8 @@ const Detail = () => {
                     script.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
-                    {script?.buyStatus === 0 && script.performance ? (
+                    {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
+                    script.performance ? (
                       <option value="perform">공연권</option>
                     ) : null} */}
                   </Select>

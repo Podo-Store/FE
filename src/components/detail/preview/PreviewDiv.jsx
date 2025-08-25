@@ -14,7 +14,7 @@ import "@/styles/utilities.css";
  *
  * @param {object} props
  * @param {object} props.Page - PDF page component
- * @param {number} props.numPages - 전체 페이지 수
+ * @param {number} props.totalPages - 전체 페이지 수
  * @param {string} props.lengthType
  * @returns
  */
@@ -23,7 +23,7 @@ const PreviewDiv = ({
   showThreshold,
   selectedPage = 1,
   setSelectedPage,
-  numPages,
+  totalPages,
   lengthType,
 }) => {
   const { width } = useWindowDimensions();
@@ -86,7 +86,7 @@ const PreviewDiv = ({
                 <div className="f-center" id="preview-last-popup">
                   <div>
                     <p className="p-xs-bold t-align-center">
-                      전체 {numPages} 페이지 중 {showThreshold} 페이지까지만
+                      전체 {totalPages} 페이지 중 {showThreshold} 페이지까지만
                     </p>
                     <p className="p-xs-bold t-align-center">
                       미리보기로 볼 수 있어요.

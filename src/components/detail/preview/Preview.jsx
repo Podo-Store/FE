@@ -31,8 +31,8 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const Preview = ({ id, lengthType }) => {
   const [pdfData, setPdfData] = useState(null);
   const [selectedPage, setSelectedPage] = useState(null);
-  const [numPages, setNumPages] = useState(null);
-  const [totalPage, setTotalPage] = useState(null);
+  const [numPages, setNumPages] = useState(null); // fetch된 전체 페이지 (2장, 4장)
+  const [totalPages, setTotalPages] = useState(null); // 실제 전체 페이지
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,7 +41,7 @@ const Preview = ({ id, lengthType }) => {
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   // 단편극: 1장까지만, 장편극: 3장까지만
-  const showThreshold = lengthType === "SHORT" ? 1 : 3;
+  const showThreshold = lengthType === "SHORT" ? 2 : 4;
 
   // for Responsive design
   const totalRevealedPages =
@@ -68,7 +68,7 @@ const Preview = ({ id, lengthType }) => {
       });
 
       // 총 페이지 매수
-      setTotalPage(response.headers["x-total-pages"]);
+      setTotalPages(response.headers["x-total-pages"]);
 
       // 이전 Blob URL 해제
       if (previousPdfDataRef.current) {
@@ -113,7 +113,7 @@ const Preview = ({ id, lengthType }) => {
           <PreviewSingle
             fileBlobUrl={pdfData}
             width={210}
-            totalPages={totalPage}
+            totalPages={totalPages}
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
             showThreshold={showThreshold}
@@ -133,14 +133,14 @@ const Preview = ({ id, lengthType }) => {
                 id="wrap"
               >
                 {Array.from(
-                  new Array(Math.min(totalPage, totalRevealedPages)),
+                  new Array(Math.min(totalPages, totalRevealedPages)),
                   (_, index) => {
                     const isShort = lengthType === "SHORT";
 
                     let isPageAvailable = true;
                     if (lengthType === "SHORT") {
-                      // 첫 페이지만 렌더링
-                      isPageAvailable = index + 1 === showThreshold;
+                      // showThreshold까지의 모든 페이지 활성화
+                      isPageAvailable = index + 1 <= showThreshold;
                     } else {
                       if (width >= 1280) {
                         isPageAvailable = index + 1 <= showThreshold;
@@ -189,7 +189,7 @@ const Preview = ({ id, lengthType }) => {
                             className="p-large-regular c-white"
                             id="last-number"
                           >
-                            {totalPage - totalRevealedPages} +
+                            {totalPages - totalRevealedPages} +
                           </p>
                         )}
                         {isPageAvailable && (
@@ -212,7 +212,7 @@ const Preview = ({ id, lengthType }) => {
                 showThreshold={showThreshold}
                 selectedPage={selectedPage}
                 setSelectedPage={setSelectedPage}
-                numPages={numPages}
+                totalPages={totalPages}
                 lengthType={lengthType}
               />
             )}

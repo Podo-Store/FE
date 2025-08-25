@@ -102,7 +102,7 @@ const PreviewSingle: React.FC<PreviewSingleProps> = ({
                       {remainingCount} +
                     </p>
                     <PreviewNotice
-                      totalPage={totalPages}
+                      totalPages={totalPages}
                       showThreshold={showThreshold}
                       className="absolute left-[50%] bottom-[15px] transform -translate-x-1/2 z-10"
                     />
@@ -126,7 +126,7 @@ const PreviewSingle: React.FC<PreviewSingleProps> = ({
               showThreshold={showThreshold}
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
-              numPages={numPages}
+              totalPages={totalPages}
             />
           )}
         </Document>

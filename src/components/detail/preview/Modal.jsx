@@ -13,7 +13,7 @@ const Modal = ({
   showThreshold,
   selectedPage,
   setSelectedPage,
-  numPages,
+  totalPages,
 }) => {
   const isOpen = selectedPage !== null;
 
@@ -84,7 +84,7 @@ const Modal = ({
         {selectedPage === showThreshold && (
           <PreviewNotice
             className="absolute left-[50%] bottom-[15px] transform -translate-x-1/2 z-10"
-            totalPage={numPages}
+            totalPages={totalPages}
             showThreshold={showThreshold}
           />
         )}

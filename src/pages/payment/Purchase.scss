@@ -36,6 +36,9 @@
   @include r.media-mobile {
     width: 430px;
   }
+  @include r.media-small-mobile {
+    width: 280px;
+  }
 }
 
 .purchase .list-side hr#script-perform {
@@ -70,6 +73,9 @@
   @include r.media-mobile {
     margin-bottom: 30px;
   }
+  @include r.media-small-mobile {
+    gap: 15px;
+  }
 }
 
 .purchase .detail {
@@ -84,7 +90,7 @@
     width: 195px;
   }
   & {
-    margin-top: 1rem;
+    padding-top: 1rem;
 
     box-sizing: border-box;
   }
@@ -124,6 +130,10 @@
 .purchase .price-wrap:nth-of-type(1) img {
   width: 12px;
   height: 15px;
+  @include r.media-small-mobile {
+    width: 8px;
+    height: 10px;
+  }
 }
 
 .purchase .price-wrap:nth-of-type(2) {
@@ -133,6 +143,10 @@
 .purchase .price-wrap:nth-of-type(2) img {
   width: 19.999px;
   height: 19.892px;
+  @include r.media-small-mobile {
+    width: 10px;
+    height: 10px;
+  }
 }
 
 .purchase hr.to_768 {
@@ -167,8 +181,7 @@
   display: block;
   @include r.media-tablet {
     display: flex;
-    justify-content: center;
-    gap: 28px;
+    justify-content: space-between;
   }
   @include r.media-mobile {
     display: block;
@@ -178,12 +191,14 @@
 .purchase .purchase-method {
   margin-top: 1.944vw;
   padding-top: 23px;
-  padding-left: 30.07px;
+  padding-left: 25px;
+  padding-bottom: 20px;
 
   width: 414px;
   height: 155px;
   @include r.media-tablet {
     margin-top: 0;
+
     width: 320px;
     height: 199px;
   }
@@ -191,6 +206,10 @@
     margin-top: 21px;
     width: 430px;
     height: 155px;
+  }
+  @include r.media-small-mobile {
+    width: 280px;
+    height: 173px;
   }
   & {
     flex-shrink: 0;

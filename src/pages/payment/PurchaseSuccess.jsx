@@ -14,6 +14,7 @@ import formatDate2 from "../../utils/formatDate2";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./PurchaseSuccess.css";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const PurchaseSuccess = () => {
   const [orderDate, setOrderDate] = useState("");
@@ -28,6 +29,7 @@ const PurchaseSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { orderId } = location.state || {};
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useRequest(async () => {
     setIsLoading(true);
@@ -73,16 +75,17 @@ const PurchaseSuccess = () => {
               <p>{orderId}</p>
             </div>
           </div>
-          <div className="purchase-summary">
+          <div className="w-[280px] sm:w-[414px]">
             <PurchaseSummaryBox
               title="결제 상품"
               page={1}
               buyScript={buyScript}
               scriptPrice={scriptPrice}
               buyPerform={performAmount !== 0 ? true : false}
-              performPrice={performPrice}
+              performPrice={performPrice / performAmount}
               performAmount={performAmount}
               scriptTitle={scriptTitle}
+              style={isSmallMobile ? { width: "100%" } : {}}
             />
             <div className="btn-wrap">
               <OnOffBtn

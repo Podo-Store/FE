@@ -199,6 +199,8 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
               dataKey="name"
               type="category"
               width={100}
+              interval={0}
+              tickMargin={6}
               tick={(props) => <StarAxisTick {...props} />}
               axisLine={false}
               tickLine={false}

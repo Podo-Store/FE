@@ -40,7 +40,7 @@ const Preview = ({ id, lengthType }) => {
   const { width } = useWindowDimensions();
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
-  // 단편극: 1장까지만, 장편극: 3장까지만
+  // 단편극: 2장까지만, 장편극: 4장까지만
   const showThreshold = lengthType === "SHORT" ? 2 : 4;
 
   // for Responsive design
@@ -142,6 +142,7 @@ const Preview = ({ id, lengthType }) => {
                       // showThreshold까지의 모든 페이지 활성화
                       isPageAvailable = index + 1 <= showThreshold;
                     } else {
+                      // lengthType === "LONG"
                       if (width >= 1280) {
                         isPageAvailable = index + 1 <= showThreshold;
                       } else if (!isSmallMobile) {
@@ -160,7 +161,11 @@ const Preview = ({ id, lengthType }) => {
                         id="thumbnail-content"
                         onClick={() => {
                           if (isPageAvailable) {
-                            onClickPage(isShort ? showThreshold : index + 1);
+                            onClickPage(
+                              isShort
+                                ? Math.min(index + 1, showThreshold)
+                                : index + 1
+                            );
                           }
                         }}
                       >
@@ -169,11 +174,7 @@ const Preview = ({ id, lengthType }) => {
                           <Page
                             renderMode="canvas"
                             pageNumber={
-                              isShort
-                                ? showThreshold
-                                : isPageAvailable
-                                ? index + 1
-                                : showThreshold
+                              isPageAvailable ? index + 1 : showThreshold
                             }
                             width={210}
                           />

@@ -52,7 +52,7 @@ const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
   return (
     <div
       className={`f-dir-column a-items-center ${
-        currentPage === 2 ? "pt-[16.759vh]" : " pt-[7.879vh]"
+        currentPage === 2 ? "pt-[calc(7.879vh+3.889vh-10px)]" : " pt-[7.879vh]"
       }`}
       id="null-script-content"
     >

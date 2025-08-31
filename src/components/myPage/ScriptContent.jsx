@@ -110,7 +110,9 @@ const ScriptContent = ({
                 ) : null}
                 {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
                 {currentPage === "1" && script.checked === "PASS" ? (
-                  <ScriptManageTopBtn className="" script={script} />
+                  <div className="translate-y-[-15px]">
+                    <ScriptManageTopBtn className="" script={script} />
+                  </div>
                 ) : null}
               </div>
 

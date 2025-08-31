@@ -101,7 +101,7 @@ const MainVer2 = () => {
                 <h1 className=" title">
                   당신의 대본이
                   <br />
-                  무대위에 오르기까지
+                  <span className="whitespace-nowrap">무대위에 오르기까지</span>
                 </h1>
 
                 <h5 className=" sub-title whitespace-nowrap">

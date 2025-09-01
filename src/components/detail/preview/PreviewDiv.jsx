@@ -58,19 +58,17 @@ const PreviewDiv = ({
             id="page"
             onClick={(e) => e.stopPropagation()}
           >
-            {lengthType === "LONG" && (
-              <img
-                src={inequalityLeft}
-                alt="left-btn"
-                className=" c-pointer"
-                onClick={() => {
-                  if (selectedPage > 1) {
-                    setSelectedPage(selectedPage - 1);
-                  }
-                }}
-                style={selectedPage === 1 ? { opacity: "0" } : null}
-              />
-            )}
+            <img
+              src={inequalityLeft}
+              alt="left-btn"
+              className=" c-pointer"
+              onClick={() => {
+                if (selectedPage > 1) {
+                  setSelectedPage(selectedPage - 1);
+                }
+              }}
+              style={selectedPage === 1 ? { opacity: "0" } : null}
+            />
 
             <div className=" p-relative" id="preview-page">
               <Page
@@ -102,19 +100,17 @@ const PreviewDiv = ({
                 </div>
               ) : null}
             </div>
-            {lengthType === "LONG" && (
-              <img
-                src={inequalityRight}
-                alt="right-btn"
-                className="c-pointer"
-                onClick={() => {
-                  if (selectedPage < showThreshold) {
-                    setSelectedPage(selectedPage + 1);
-                  }
-                }}
-                style={selectedPage === showThreshold ? { opacity: "0" } : null}
-              />
-            )}
+            <img
+              src={inequalityRight}
+              alt="right-btn"
+              className="c-pointer"
+              onClick={() => {
+                if (selectedPage < showThreshold) {
+                  setSelectedPage(selectedPage + 1);
+                }
+              }}
+              style={selectedPage === showThreshold ? { opacity: "0" } : null}
+            />
           </div>
         </div>
       </div>

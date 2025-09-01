@@ -2,6 +2,7 @@ import { Dialog } from "@mui/material";
 import { cancelReview } from "@/api/user/profile/cancelPostApi";
 import RoundBtn_135_40 from "../button/RoundBtn_135_40";
 import Cookies from "js-cookie";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 interface ScriptManageCancelPopupProps {
   open: boolean;
@@ -14,6 +15,7 @@ const ScriptManageCancelPopup = ({
   setOpen,
   id,
 }: ScriptManageCancelPopupProps) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   const accessToken = Cookies.get("accessToken")!;
   return (
     <Dialog
@@ -30,11 +32,16 @@ const ScriptManageCancelPopup = ({
         <div className="flex flex-col gap-[10px] text-center">
           <p className="p-medium-bold">심사를 정말 취소할까요?</p>
           <p className="p-medium-bold">
-            심사를 취소하게 되면 즉시 심사가 중지됩니다.
+            심사를 취소하게 되면 즉시 심사가 {isSmallMobile && <br />}
+            중지됩니다.
           </p>
         </div>
         <div className="flex gap-[15px]">
-          <RoundBtn_135_40 color="grey" onClick={() => setOpen(false)}>
+          <RoundBtn_135_40
+            color="grey"
+            onClick={() => setOpen(false)}
+            style={isSmallMobile ? { width: "119px" } : {}}
+          >
             유지하기
           </RoundBtn_135_40>
           <RoundBtn_135_40
@@ -50,6 +57,7 @@ const ScriptManageCancelPopup = ({
                 alert("심사 취소 중 오류가 발생했습니다.");
               }
             }}
+            style={isSmallMobile ? { width: "119px" } : {}}
           >
             심사 취소하기
           </RoundBtn_135_40>

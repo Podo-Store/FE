@@ -15,6 +15,7 @@ import "./ScriptContent.scss";
 import "./../../styles/utilities.css";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import ScriptManageEachTopBtn from "./ScriptManageEachTopBtn.js";
 
 /**
  * 구매한 작품 페이지, 작품 관리 페이지의 상품 란,
@@ -72,9 +73,7 @@ const ScriptContent = ({
             <div className=" script-tag">
               <div
                 className={`a-items-center ${
-                  currentPage === "1" && script.checked === "PASS"
-                    ? "j-content-between"
-                    : ""
+                  currentPage === "1" ? "j-content-between" : ""
                 }`}
                 id="title"
               >
@@ -109,11 +108,17 @@ const ScriptContent = ({
                   <ScriptContentPopup onClose={() => setShowPopup(false)} />
                 ) : null}
                 {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-                {currentPage === "1" && script.checked === "PASS" ? (
+                {currentPage === "1" && script.checked === "PASS" && (
                   <div className="translate-y-[-15px]">
                     <ScriptManageTopBtn className="" script={script} />
                   </div>
-                ) : null}
+                )}
+                {/* 작품 관리 페이지에서 심사 중일 경우 */}
+                {currentPage === "1" && script.checked === "WAIT" && (
+                  <div className="hidden md:block translate-y-[-15px]">
+                    <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
+                  </div>
+                )}
               </div>
 
               <hr className="border border-solid border-[#9E9E9E]"></hr>
@@ -166,6 +171,10 @@ const ScriptContent = ({
               script.checked === "PASS" ? (
                 <div className="relative">
                   <ScriptManageTopBtn className="mobile" script={script} />
+                </div>
+              ) : currentPage === "1" && script.checked === "WAIT" ? (
+                <div className="translate-y-[-43.4px]">
+                  <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
                 </div>
               ) : null}
             </div>

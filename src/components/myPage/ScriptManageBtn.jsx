@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import Cookies from "js-cookie";
 
-import Button from "../button/RoundBtn_149_48";
-
-import "./ScriptManageBtn.scss";
+import { cancelReview } from "@/api/user/profile/cancelPostApi";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
+
+import ScriptManageCancelPopup from "./ScriptManageCancelPopup";
+import Button from "../button/RoundBtn_149_48";
+import "./ScriptManageBtn.scss";
 
 const ReviewCompleted = {
   REVIEW_COMPLETED: "PASS",
@@ -14,6 +18,11 @@ const ReviewCompleted = {
 const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
   const navigate = useNavigate();
   const { isSmallMobile } = useWindowDimensions().widthConditions;
+
+  const accessToken = Cookies.get("accessToken");
+
+  // 심사 취소 팝업
+  const [open, setOpen] = useState(false);
 
   return (
     <div className="script-manage-btn">
@@ -57,9 +66,15 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
           [ReviewCompleted.UNDER_REVIEWING]: (
             <div className="script-manage-flex">
               <div> </div>
-              <Button disabled={true} style={style}>
-                심사 중
+              <Button
+                style={style}
+                onClick={() => {
+                  setOpen(true);
+                }}
+              >
+                심사 취소
               </Button>
+              <ScriptManageCancelPopup open={open} setOpen={setOpen} id={id} />
             </div>
           ),
         }[reviewCompleted]

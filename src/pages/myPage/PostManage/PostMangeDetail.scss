@@ -235,13 +235,11 @@
   }
 
   .contents-textarea {
-    height: 82px;
-    width: 266px;
+    height: 80px;
     margin: 13px 22px;
 
     @include r.media-small-mobile {
-      height: 56px;
-      width: 72.5vw;
+      height: 54px;
       margin: 14.5px 4.69vw;
     }
   }

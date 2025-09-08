@@ -1,8 +1,8 @@
 import axios from "axios";
 import clsx from "clsx";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-
+import AuthContext from "../../contexts/AuthContext";
 import Loading from "../Loading";
 
 import { Box } from "../../components/auth";
@@ -40,7 +40,7 @@ const SignUpDefault = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const { isSmallMobile } = useWindowDimensions().widthConditions;
-
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // 이전 단계
@@ -56,7 +56,7 @@ const SignUpDefault = () => {
   const onClickRegisterAllowButton = async (email, emailCode) => {
     setIsLoading(true);
     try {
-      await axios.post(`${SERVER_URL}auth/signup`, {
+      const { data } = await axios.post(`${SERVER_URL}auth/signup`, {
         userId: userInfo.id,
         password: userInfo.pw,
         confirmPassword: userInfo.pwCheck,
@@ -64,7 +64,20 @@ const SignUpDefault = () => {
         email: userInfo.email || email,
         authNum: userInfo.emailCode || emailCode,
       });
-      navigate("/signup/success");
+
+      // login 처리
+      if (data.accessToken && data.refreshToken) {
+        login(data.accessToken, data.refreshToken, data.nickname);
+      }
+
+      navigate("/", {
+        replace: true,
+        state: {
+          toastMessage: `${
+            data.nickname || userInfo.name
+          } 님, 회원가입이 완료되었습니다!`,
+        },
+      });
     } catch (error) {
       alert(error.response.data.error);
     } finally {

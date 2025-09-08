@@ -1,10 +1,11 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigationType, useNavigate } from "react-router-dom";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import ImageBtn from "../components/button/ImageBtn";
 import Page4Button from "../components/button/landing/Page4Button";
 import Page3 from "@/components/landing/Page3";
+import Toast from "@/components/auth/signUp/Toast";
 import MobileError from "./MobileError";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -34,9 +35,13 @@ import "./MainVer2Page2.scss";
 import clsx from "clsx";
 
 const MainVer2 = () => {
+  const [signUpToast, setSignUpToast] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const navType = useNavigationType();
+
   const {
-    widthConditions: { isDesktop, isLaptop, isTablet, isMobile, isSmallMobile },
+    widthConditions: { isTablet, isMobile, isSmallMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
@@ -75,12 +80,32 @@ const MainVer2 = () => {
   //   return <MobileError />;
   // }
 
+  useEffect(() => {
+    const state = location.state as { toastMessage?: string } | null;
+    if (state?.toastMessage) {
+      setSignUpToast(state.toastMessage);
+      if (navType === "PUSH" || navType === "REPLACE") {
+        // 현재 URL 그대로 두고 state만 제거
+        window.history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+      }
+    }
+  }, [location.state, navType]);
   return (
     <div className=" main-ver2">
       <FloatingBtn />
-
       <div className="flex flex-col items-center">
         <div className="page1">
+          {signUpToast && (
+            <Toast
+              message={signUpToast}
+              duration={1000}
+              onClose={() => setSignUpToast("")}
+            />
+          )}
           <section className=" page1-width">
             <div className="page1-title-img">
               <div className="title-wrap h-fit f-dir-column p-relative">

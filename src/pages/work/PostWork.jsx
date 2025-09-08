@@ -111,23 +111,29 @@ const PostWork = () => {
         )}
         <div className=" left-side">
           <div className=" inside-field">
-            <div className="inside-field-title h1-bold">
+            <div className="inside-field-title h4-bold sm:h1-bold">
               <p>자신만의</p>
               <p>작품을</p>
               <p>등록해주세요!</p>
             </div>
 
             <div className=" stage-info-container">
-              <h5 className="title h5-bold">스테이지 시스템 안내</h5>
+              <h5 className="title p-medium-bold sm:h5-bold">
+                스테이지 시스템 안내
+              </h5>
 
               <div className=" contants">
                 {/* 포도알 */}
                 <div className=" step">
                   <div className="icon">
-                    <img src={podoalIcon} alt="podoal" />
-                    <p className="p-large-medium">포도알</p>
+                    <img
+                      src={podoalIcon}
+                      alt="podoal"
+                      className="h-[26px] sm:h-[32px]"
+                    />
+                    <p className="p-12-400 sm:p-large-medium">포도알</p>
                   </div>
-                  <div className="p-small-medium info">
+                  <div className="info p-xs-medium sm:p-small-medium">
                     <p>
                       • 대본 가격 <span>무료</span>만 설정 가능
                     </p>
@@ -135,37 +141,43 @@ const PostWork = () => {
                   </div>
                 </div>
 
-                <div className="arrow-box">
-                  <img
-                    src={doubleRiteIcon}
-                    alt="doubleRite"
-                    style={{ width: "30px" }}
-                  />
+                <div className="arrow-box w-[20px] sm:w-[30px]">
+                  <img src={doubleRiteIcon} alt="doubleRite" />
                   <div className="divider"></div>
                 </div>
 
                 {/* 포도송이 */}
                 <div className="step ">
                   <div className="icon">
-                    <img src={podoSongIIcon} alt="podoSongI" />
-                    <p className="p-large-medium">포도송이</p>{" "}
+                    <img
+                      src={podoSongIIcon}
+                      alt="podoSongI"
+                      className="h-[26px] sm:h-[32px]"
+                    />
+                    <p className="p-12-400 sm:p-large-medium">포도송이</p>
                   </div>
                   <div className="info">
                     <div className="TBD-info">
-                      <p>• 추후 업데이트 예정</p>
+                      <p className="p-xs-medium sm:p-small-medium">
+                        • 추후 업데이트 예정
+                      </p>
                     </div>
                   </div>
                 </div>
 
-                <div className="arrow-box">
+                <div className="arrow-box w-[20px] sm:w-[30px]">
                   <img src={doubleRiteIcon} alt="doubleRite" />
                 </div>
 
                 {/* 와인 */}
                 <div className="step">
                   <div className="icon">
-                    <img src={wine} alt="wine" style={{ height: "43px" }} />
-                    <p className="p-large-medium">와인</p>
+                    <img
+                      src={wine}
+                      alt="wine"
+                      className="h-[26px] sm:h-[43px]"
+                    />
+                    <p className="p-12-400 sm:p-large-medium">와인</p>
                   </div>
                 </div>
               </div>
@@ -173,7 +185,7 @@ const PostWork = () => {
 
             <div>
               <div className="upload-title items-center gap-[8px] relative ">
-                <h6>작품 등록 신청</h6>
+                <h6 className="p-medium-bold sm:h6-bold">작품 등록 신청</h6>
                 {/* 팝업 메뉴 */}
                 <button
                   id="info-btn"
@@ -189,7 +201,7 @@ const PostWork = () => {
                         <img
                           className="popup-process w-[315px]"
                           src={postingProcess2}
-                          alt="작품 등록 도식화"
+                          alt="작품 등록 도식화"
                         />
                       }
                       onClose={() => setShowPopup(!showPopup)}
@@ -218,7 +230,7 @@ const PostWork = () => {
 
               <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
                 <label className=" flex gap-[5px] items-center cursor-pointer  hover:text-[#6A39C0]">
-                  <div className="relative w-[20px] h-[20px]">
+                  <div className="relative w-[14px] sm:w-[20px] h-[14px] sm:h-[20px]">
                     <input
                       type="checkbox"
                       checked={isChecked}
@@ -240,7 +252,7 @@ const PostWork = () => {
                   <p
                     className={` ${
                       isChecked ? "text-[#6A39C0]" : ""
-                    } p-small-medium `}
+                    } p-xs-medium sm:p-small-medium `}
                   >
                     작가 대상 이용약관 동의
                   </p>

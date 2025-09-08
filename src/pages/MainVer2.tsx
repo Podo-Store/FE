@@ -76,9 +76,10 @@ const MainVer2 = () => {
       ? "p-large-regular c-white"
       : "p-xs-regular c-white";
 
-  if (isMobile || isSmallMobile) {
-    return <MobileError />;
-  }
+  // if (isMobile || isSmallMobile) {
+  //   return <MobileError />;
+  // }
+
   useEffect(() => {
     const state = location.state as { toastMessage?: string } | null;
     if (state?.toastMessage) {

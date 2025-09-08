@@ -317,20 +317,20 @@ const PostManageDetail: React.FC = () => {
                     className="placeholder:text-[rgba(0,0,0,0.17)]  "
                     fontMode={isSmallMobile ? "xs" : "default"}
                   />
-                  <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]  ">
+                  <div className="absolute rounded-tl-[5px] rounded-br-[5px] border-r-[0.5px] border-b-[0.5px] border-[#BABABA] bg-[#F5F0FF] p-xs-regular px-[5px] text-[#777777] bottom-[0%] right-[0%]">
                     {form.title ? [...form.title].length : 0} / 20자
                   </div>
                 </div>
 
                 {/* 설명 */}
                 <div
-                  className={`box-border relative focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA]  ${
+                  className={`box-border relative focus-within:outline-none focus-within:border-[0.5px] focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] w-full  ${
                     isSmallMobile ? " h-[85px]" : " h-[108px]"
                   }`}
                 >
                   <textarea
-                    className={`contents-textarea focus:outline-none  border-none flex  placeholder:text-[rgba(0,0,0,0.17)] resize-none   bg-[#FFF]   box-border  ${
-                      isSmallMobile ? "  p-xs-regular" : "  p-small-regular"
+                    className={`contents-textarea focus:outline-none border-none flex w-[92%] placeholder:text-[rgba(0,0,0,0.17)] resize-none bg-[#FFF] box-border ${
+                      isSmallMobile ? "p-xs-regular" : "p-small-regular"
                     } `}
                     placeholder="간단한 줄거리를 입력해주세요. (최대 150자)"
                     value={form.plot ?? ""}

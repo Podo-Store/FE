@@ -12,7 +12,7 @@
     width: 440px;
   }
   @include r.media-small-mobile {
-    width: 290px;
+    width: 87.5%;
   }
 }
 .detail .detail-wrap {
@@ -106,7 +106,7 @@
     width: 430px;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    width: 100%;
   }
 }
 
@@ -171,7 +171,7 @@
     width: 386px;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    width: 100%;
   }
 }
 

@@ -44,7 +44,7 @@
     margin: 0 auto;
   }
   @include r.media-mobile {
-    width: 380px;
+    width: 87.5%;
 
     margin: 0 auto;
   }
@@ -118,55 +118,55 @@
 
   .contants {
     display: grid;
-    grid-template-columns: 37fr 5fr 30fr 5fr 25fr;
+    grid-template-columns: 168px 5fr 30fr 5fr 25fr;
 
     margin-top: 53px;
 
     height: 100%;
 
+    @include r.media-small-mobile {
+      grid-template-columns: 120px 5fr 82px 5fr 25fr;
+      max-width: 350px;
+    }
+
     p {
       white-space: nowrap;
     }
-  }
 
-  .step {
-    display: grid;
-    grid-template-rows: 20fr 9fr;
+    .step {
+      display: grid;
+      grid-template-rows: 20fr 9fr;
+      width: 100%;
 
-    .icon {
-      display: flex;
-      flex-direction: column;
-      gap: 11px;
+      .icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 11px;
 
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 21px;
+        margin-bottom: 21px;
 
-      box-sizing: border-box;
-    }
-    .info {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+        width: 100%;
 
-      span {
-        text-decoration-line: underline;
-        text-decoration-style: solid;
-        text-decoration-skip-ink: none;
-        text-decoration-thickness: auto;
-        text-underline-offset: auto;
-        text-underline-position: from-font;
+        box-sizing: border-box;
+      }
+      .info {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+
+        span {
+          text-decoration-line: underline;
+          text-decoration-style: solid;
+          text-decoration-skip-ink: none;
+          text-decoration-thickness: auto;
+          text-underline-offset: auto;
+          text-underline-position: from-font;
+        }
       }
     }
   }
-}
-
-/*
- * 두 번째 .step .icon: 왼쪽에 있는 첫 번째 .step 하단의 text 길이에 의해 중앙 왜곡
- * -> 대략 10px, ∴ 대략 절반 정도 좌측으로 translate.
- */
-.post-work .contants .step:nth-child(3) .icon {
-  transform: translateX(-5px);
 }
 
 .post-work .arrow-box {
@@ -215,17 +215,6 @@
   align-items: center;
 
   // FileInputBox에 상단 margin 존재 - 제거 예정, 0.63rem만큼의 차 필요
-}
-
-.post-work .upload-title h6 {
-  color: #000;
-
-  /* H5/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 1.75rem; /* 140% */
 }
 
 .post-work .upload-title > img {

@@ -499,22 +499,24 @@ const Detail = () => {
               {(isTablet || isMobile || isSmallMobile) && (
                 <section className="flex flex-col justify-between h-full">
                   <div>
-                    <h1 className={!isSmallMobile ? "h1-bold" : "p-large-bold"}>
-                      {width > 769
-                        ? script?.title
-                        : truncateText({
-                            text: script?.title || "",
-                            maxLength: 6,
-                          })}
+                    <h1
+                      className={clsx(
+                        "line-clamp-1 overflow-ellipsis",
+                        !isSmallMobile ? "h1-bold" : "p-large-bold"
+                      )}
+                    >
+                      {script?.title}
                     </h1>
                     <h3 className={!isSmallMobile ? "h3-bold" : "p-small-bold"}>
                       {script?.writer}
                     </h3>
                   </div>
-                  <LikeViewCount
-                    likes={script?.likeCount ?? 0}
-                    views={script?.viewCount ?? 0}
-                  />
+                  <div className="flex justify-end">
+                    <LikeViewCount
+                      likes={script?.likeCount ?? 0}
+                      views={script?.viewCount ?? 0}
+                    />
+                  </div>
                 </section>
               )}
             </div>

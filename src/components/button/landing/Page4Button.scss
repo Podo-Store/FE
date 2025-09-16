@@ -5,21 +5,21 @@
   justify-content: center;
   align-items: center;
 
-  width: 195px;
-  height: 195px;
+  width: 196px;
+  height: 196px;
   flex-shrink: 0;
 
   border: none;
   border-radius: 46px;
   background-color: var(--purple-purple-5, #844fe2);
   filter: drop-shadow(0px 10px 10px rgba(0, 0, 0, 0.25));
-  @include r.media-mobile {
+  @include r.media-tablet {
     width: 130px;
     height: 130px;
 
     border-radius: 30px;
   }
-  @include r.media-small-mobile {
+  @include r.media-mobile {
     width: 80px;
     height: 80px;
   }
@@ -38,7 +38,7 @@
 .page4-button img {
   width: 65%;
 
-  @include r.media-small-mobile {
+  @include r.media-mobile {
     width: 50.204px;
   }
 }

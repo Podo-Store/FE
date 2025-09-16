@@ -107,7 +107,6 @@ const Detail = () => {
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { width } = useWindowDimensions();
 
   const [sort, setSort] = useState<"LIKE_COUNT" | "LATEST">("LIKE_COUNT");
   const [openSort, setOpenSort] = useState(false);
@@ -115,15 +114,21 @@ const Detail = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewPage, setReviewPage] = useState(0);
 
-  const { isTablet, isMobile, isSmallMobile } =
-    useWindowDimensions().widthConditions;
+  const { width, widthConditions } = useWindowDimensions();
+  const { isTablet, isMobile, isSmallMobile } = widthConditions;
 
   pdfjs.GlobalWorkerOptions.cMapUrl = "cmaps/";
   pdfjs.GlobalWorkerOptions.cMapPacked = true;
 
   const accessToken = Cookies.get("accessToken");
 
+  const inflightRef = useRef<Map<string, boolean>>(new Map());
+  // 작품 상세 + 설명 병렬 호출
   useEffect(() => {
+    const key = `${id}|${sort}|page0`;
+    if (inflightRef.current.get(key)) return; // 이미 같은 호출이 진행 중이면 스킵
+    inflightRef.current.set(key, true); // 진행 중 표시
+
     const getDetail = async () => {
       if (!id) return;
       setIsLoading(true);
@@ -139,8 +144,6 @@ const Detail = () => {
         headers["Authorization"] = `Bearer ${token}`;
       }
       try {
-        setIsLoading(true);
-
         const response = await axios.get(`${SERVER_URL}scripts/detail`, {
           headers: headers,
           params: {
@@ -192,6 +195,7 @@ const Detail = () => {
         console.error("❌ 서버 응답:", errMsg);
       }
       setIsLoading(false);
+      inflightRef.current.delete(key);
 
       const { data: description } = await axios.get(
         `${SERVER_URL}scripts/description`,
@@ -212,6 +216,7 @@ const Detail = () => {
 
   // 리뷰 다음 페이지 Fetch
   useEffect(() => {
+    if (reviewPage === 0) return;
     const fetchMore = async () => {
       try {
         const token = Cookies.get("accessToken");

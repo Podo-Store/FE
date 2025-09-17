@@ -29,6 +29,7 @@ import {
 import facebook from "../assets/image/landing/page4/facebook.svg";
 import instagram from "../assets/image/landing/page4/instagram.svg";
 import youtube from "../assets/image/landing/page4/youtube.svg";
+import brunch from "../assets/image/landing/page4/brunch.svg";
 
 import "./MainVer2.scss";
 import "./MainVer2Page2.scss";
@@ -305,6 +306,14 @@ const MainVer2 = () => {
               onClick={() => {
                 window.open(`https://www.youtube.com/@포도상점`, "_blank");
               }}
+            />
+            <Page4Button
+              src={brunch}
+              alt="brunch"
+              onClick={() => {
+                window.open("https://brunch.co.kr/@651b8cc89832412", "_blank");
+              }}
+              imgClassName="w-[37.5px] h-[53px] md:w-[60.5px] md:h-[85px] lg:w-[95.5px] lg:h-[133.5px]"
             />
           </div>
         </div>

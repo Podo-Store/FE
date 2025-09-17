@@ -249,12 +249,7 @@
 }
 
 .main-ver2 .page4 {
-  @media (max-width: 1920px) {
-    height: 72.222vh; /* 780px */
-  }
-  @media (max-width: 1600px) {
-    height: 100vh;
-  }
+  height: 100vh;
   @include r.media-tablet {
     height: calc(534px + 60px);
     width: fit;
@@ -307,6 +302,10 @@
   }
 
   @include r.media-small-mobile {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-items: center;
+
     margin-top: 30px;
   }
 }

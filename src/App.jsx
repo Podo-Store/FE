@@ -43,6 +43,7 @@ import LikedWorks from "./pages/myPage/Liked/LikedWorks";
 
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
+import PerformedWork from "./pages/work/review/performedWork/performedWork";
 
 import BrowserWarning from "./components/BrowserWarning";
 
@@ -136,6 +137,8 @@ function App() {
               path="mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}
             />
+
+            <Route path="/performedWork" element={<PerformedWork />} />
 
             <Route path="*" element={<NotFound />} />
 

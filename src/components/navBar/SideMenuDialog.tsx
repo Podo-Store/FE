@@ -123,6 +123,14 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           작품 등록하기
         </SideDialogBtn>
         <div className="div-outside" />
+        <SideDialogBtn
+          onClick={(event: React.MouseEvent) => {
+            navigateWithRefreshAndClose(event, "/performedWork");
+          }}
+        >
+          공연된 작품
+        </SideDialogBtn>
+        <div className="div-outside" />
       </div>
 
       {isAuthenticated && (

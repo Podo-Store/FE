@@ -81,6 +81,17 @@ function MainNav() {
               작품 등록하기
             </Link>
           </li>
+          <li>
+            <Link
+              to="/performedWork"
+              className="h5-regular hover:text-[#6A39C0]"
+              onClick={(event) => {
+                navigateWithRefresh(event, "/performedWork");
+              }}
+            >
+              공연된 작품
+            </Link>
+          </li>
           {/*}
           <li>
             <Link to="/applyscript">희망 대본 신청하기</Link>

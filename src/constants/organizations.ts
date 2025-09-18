@@ -12,6 +12,8 @@ import 동덕극회_photo from "../assets/image/landing/organizations/동덕여�
 import 동덕극회_logo from "../assets/image/landing/organizations/동덕여대_동덕극회/logo.png";
 import 이화여대총연극회_photo from "../assets/image/landing/organizations/이화여대_총연극회/photo.png";
 import 이화여대총연극회_logo from "../assets/image/landing/organizations/이화여대_총연극회/logo.png";
+import 시립극회_photo from "../assets/image/landing/organizations/서울시립대_극예술연구회/photo.jpg";
+import 시립극회_logo from "../assets/image/landing/organizations/서울시립대_극예술연구회/logo.png";
 
 interface Organizations {
   name: string;
@@ -54,7 +56,13 @@ const organizations: Organizations[] = [
       src: 광운극예술연구회_logo,
       style: { width: "70%" },
     },
-    keywords: ["#광운대학교", "#Since1980", "#열정가득", "#과몰입", "#두번째가족"],
+    keywords: [
+      "#광운대학교",
+      "#Since1980",
+      "#열정가득",
+      "#과몰입",
+      "#두번째가족",
+    ],
     additionalDeleteCircle: [2],
   },
   {
@@ -80,7 +88,14 @@ const organizations: Organizations[] = [
       src: 작은공간_logo,
       style: { width: "150%", transform: "translate(1.5%, -2.5%)" },
     },
-    keywords: ["#광운대학교", "#화학공학과", "#소모임", "#작지만매운", "#패짱", "#추억"],
+    keywords: [
+      "#광운대학교",
+      "#화학공학과",
+      "#소모임",
+      "#작지만매운",
+      "#패짱",
+      "#추억",
+    ],
     additionalDeleteCircle: [2],
   },
   {
@@ -93,7 +108,14 @@ const organizations: Organizations[] = [
       src: 리버액트_logo,
       style: { width: "60%" },
     },
-    keywords: ["#서울대학교", "#자유전공학부", "#창작극", "#연기맛집", "#관악최고", "#재밌는연극"],
+    keywords: [
+      "#서울대학교",
+      "#자유전공학부",
+      "#창작극",
+      "#연기맛집",
+      "#관악최고",
+      "#재밌는연극",
+    ],
     additionalDeleteCircle: [2],
   },
   {
@@ -106,7 +128,13 @@ const organizations: Organizations[] = [
       src: 낙산극회_logo,
       style: { width: "60%", transform: "translate(2%, -2%)" },
     },
-    keywords: ["#한성대학교", "#Since1977", "#순수연극", "#창작극", "#각색맛집"],
+    keywords: [
+      "#한성대학교",
+      "#Since1977",
+      "#순수연극",
+      "#창작극",
+      "#각색맛집",
+    ],
     additionalDeleteCircle: [2],
   },
   {
@@ -138,8 +166,27 @@ const organizations: Organizations[] = [
       src: 이화여대총연극회_logo,
       style: { width: "60%" },
     },
-    keywords: ["#이화여자대학교", "#중앙연극동아리", "#깨어있는", "#연극을", "#위하여"],
+    keywords: [
+      "#이화여자대학교",
+      "#중앙연극동아리",
+      "#깨어있는",
+      "#연극을",
+      "#위하여",
+    ],
     additionalDeleteCircle: [1],
+  },
+  {
+    name: "서울시립대학교 극예술연구회",
+    photo: {
+      src: 시립극회_photo,
+      style: {},
+    },
+    logo: {
+      src: 시립극회_logo,
+      style: {},
+    },
+    keywords: ["#서울시립대학교", "#연극", "#인간_탐구", "#개그", "#근성"],
+    additionalDeleteCircle: [2],
   },
 ];
 

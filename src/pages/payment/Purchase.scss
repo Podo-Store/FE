@@ -195,7 +195,7 @@
   padding-bottom: 20px;
 
   width: 414px;
-  height: 155px;
+  height: 134px;
   @include r.media-tablet {
     margin-top: 0;
 
@@ -237,19 +237,17 @@
 }
 
 .purchase .purchase-method .btn-wrap {
-  gap: 19px;
-
   margin-top: 26px;
   margin-bottom: 9px;
-  margin-left: -4.07px;
 
   @include r.media-tablet {
     width: 270px;
-    flex-wrap: wrap;
   }
   @include r.media-mobile {
     width: 100%;
-    flex-wrap: nowrap;
+  }
+  @include r.media-small-mobile {
+    margin-top: 21px;
   }
 }
 

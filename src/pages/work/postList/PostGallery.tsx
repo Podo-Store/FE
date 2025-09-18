@@ -26,11 +26,6 @@ import "./postGallery.scss";
 
 import { StageType } from "@/types/stage";
 
-const bannerImages = [
-  { image: BannerImage1, link: "https://brunch.co.kr/@651b8cc89832412" },
-  { image: BannerImage2, link: "https://brunch.co.kr/@651b8cc89832412/14" },
-];
-
 const ScrollObserver: React.FC<{
   inViewRef: (node?: Element | null) => void;
   id: string;
@@ -227,7 +222,7 @@ const PostGallery = () => {
       <p className="sm:h5-bold p-medium-bold mb-[30px]">작품 둘러보기</p>
 
       {/*------ 배너 ------*/}
-      <InfiniteBanner banners={bannerImages} />
+      <InfiniteBanner />
 
       {/*----- 스테이지 메뉴 -----*/}
 

@@ -4,18 +4,60 @@ import React, { useState, useEffect, useRef } from "react";
 import leftBtn from "../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "../../assets/image/post/list/rightBtn.svg";
 import "./infiniteBanner.scss";
+import PodoalBanner1280 from "@/assets/image/banner/podoal_banner_1280.png";
+import PodoalBannerDefault from "@/assets/image/postList_banner.png";
+import PodoalBanner768 from "@/assets/image/banner/podoal_banner_768.png";
+import JunhyukBanner1280 from "@/assets/image/banner/banner_jh_1280.png";
+import JunhyukBannerDefault from "@/assets/image/banner/banner_jh_default.png";
+import JunhyukBanner768 from "@/assets/image/banner/banner_jh_768.png";
+import JinsungBanner1280 from "@/assets/image/banner/banner_js_1280.png";
+import JinsungBannerDefault from "@/assets/image/banner/banner_js_default.png";
+import JinsungBanner768 from "@/assets/image/banner/banner_js_768.png";
 
 // bannerImages를 props로 받을 수 있게 처리
+type ResponsiveSrc = {
+  default: string; // 기본(모바일/기본)
+  md?: string; // ≥768px
+  lg?: string; // ≥1280px
+};
+
 interface BannerItem {
-  image: string;
+  image: string | ResponsiveSrc; // 문자열 하나 또는 반응형 소스
   link: string;
 }
 
 interface InfiniteBannerProps {
-  banners: BannerItem[];
+  banners?: BannerItem[];
 }
 
-const InfiniteBanner = ({ banners }: InfiniteBannerProps) => {
+const InfiniteBanner = ({
+  banners = [
+    {
+      image: {
+        default: PodoalBannerDefault, // 모바일 기본
+        md: PodoalBanner768, // 태블릿(≥768)
+        lg: PodoalBanner1280, // 데스크톱(≥1280)
+      },
+      link: "https://brunch.co.kr/@651b8cc89832412",
+    },
+    {
+      image: {
+        default: JunhyukBannerDefault,
+        md: JunhyukBanner768,
+        lg: JunhyukBanner1280,
+      },
+      link: "https://brunch.co.kr/@651b8cc89832412/20",
+    },
+    {
+      image: {
+        default: JinsungBannerDefault,
+        md: JinsungBanner768,
+        lg: JinsungBanner1280,
+      },
+      link: "https://brunch.co.kr/@651b8cc89832412/16",
+    },
+  ],
+}: InfiniteBannerProps) => {
   const realBannerCount = banners.length;
 
   const clonedBannerImages = [
@@ -82,7 +124,7 @@ const InfiniteBanner = ({ banners }: InfiniteBannerProps) => {
   }, [fakeIndex]);
 
   return (
-    <div className=" items-center justify-center w-full h-[300px] relative mb-[0px] bg-img-div">
+    <div className="items-center justify-center w-full h-fit relative mb-[0px] bg-img-div">
       <div className="relative flex w-full h-full overflow-hidden shrink-0 rounded-[50px]">
         <div
           className="flex h-full will-change-transform"
@@ -95,16 +137,49 @@ const InfiniteBanner = ({ banners }: InfiniteBannerProps) => {
           }}
           onTransitionEnd={handleTransitionEnd}
         >
-          {clonedBannerImages.map((banner, idx) => (
-            <div className="flex-none w-full h-full " key={idx}>
-              <a href={banner.link} className="block w-full h-full">
-                <div
-                  className="w-full h-full bg-center bg-no-repeat bgImg"
-                  style={{ backgroundImage: `url(${banner.image})` }}
-                />
-              </a>
-            </div>
-          ))}
+          {clonedBannerImages.map((banner, idx) => {
+            const img = banner.image;
+            const isResponsive = typeof img !== "string";
+            return (
+              <div className="flex-none w-full h-full" key={idx}>
+                <a href={banner.link} className="block w-full h-full">
+                  {isResponsive ? (
+                    <picture>
+                      {/* 데스크톱(≥1920px) → default */}
+                      <source
+                        media="(min-width: 1920px)"
+                        srcSet={img.default}
+                      />
+                      {/* 데스크톱(≥1280px) */}
+                      {img.lg && (
+                        <source media="(min-width: 1280px)" srcSet={img.lg} />
+                      )}
+                      {/* 태블릿(≥768px) */}
+                      {img.md && (
+                        <source media="(min-width: 768px)" srcSet={img.md} />
+                      )}
+                      {/* 최종 폴백(모바일) */}
+                      <img
+                        src={img.default}
+                        alt=""
+                        className="w-full h-full object-contain rounded-[50px]"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </picture>
+                  ) : (
+                    <img
+                      src={img}
+                      alt=""
+                      className="w-full h-full object-contain rounded-[50px]"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
+                </a>
+              </div>
+            );
+          })}
         </div>
       </div>
 

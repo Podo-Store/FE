@@ -23,6 +23,7 @@ const PolicyPopup = ({
   const { isTablet, isMobile, isSmallMobile } =
     useWindowDimensions().widthConditions;
 
+  // 추후 크기 관련 수정이 필요할 경우, page === 1일 때를 참고하여 refactor하는 것을 권장.
   const getPopupSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
@@ -45,6 +46,7 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
+      // 공연권 선택 X (= 구매자 정보 입력 란 X)일 경우
       if (!isPerformSelected) {
         if (!(isTablet || isMobile || isSmallMobile)) {
           return { width: "414px", height: "369px", top: "0", left: "0" };

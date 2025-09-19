@@ -20,15 +20,11 @@ const PolicyPopup = ({
   page = 0,
   isPerformSelected = true,
 }) => {
-  const { isSmallMobile } = useWindowDimensions().widthConditions;
+  const { isTablet, isMobile, isSmallMobile } =
+    useWindowDimensions().widthConditions;
 
   const getPopupSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
-
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { width: "413px", height: "273px", top: "0", left: "0" };
-    }
 
     if (page === 0) {
       if (!isSmallMobile) {
@@ -49,16 +45,32 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      if (!isSmallMobile) {
-        return { width: "413px", height: "465px", top: "0", left: "0" };
+      if (!isPerformSelected) {
+        if (!(isTablet || isMobile || isSmallMobile)) {
+          return { width: "414px", height: "369px", top: "0", left: "0" };
+        } else if (isTablet) {
+          return { width: "100%", height: "214px", top: "0", left: "0" };
+        } else if (isMobile) {
+          return { width: "100%", height: "392px", top: "0", left: "0" };
+        } else {
+          return { width: "100%", height: "540px", top: "0", left: "0" };
+        }
       } else {
-        return { width: "280px", height: "540px", top: "0", left: "0" };
+        if (!(isTablet || isMobile || isSmallMobile)) {
+          return { width: "414px", height: "468px", top: "0", left: "0" };
+        } else if (isTablet) {
+          return { width: "100%", height: "319px", top: "0", left: "0" };
+        } else if (isMobile) {
+          return { width: "100%", height: "468px", top: "0", left: "0" };
+        } else {
+          return { width: "100%", height: "540px", top: "0", left: "0" };
+        }
       }
     }
 
     if (page === 2) {
       if (!isSmallMobile) {
-        return { width: "413px", height: "288px", top: "0", left: "0" };
+        return { width: "414px", height: "288px", top: "0", left: "0" };
       } else {
         return { width: "280px", height: "384px", top: "0", left: "0" };
       }
@@ -101,11 +113,6 @@ const PolicyPopup = ({
   const getPopupContentsSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { width: "369px", height: "179px" };
-    }
-
     if (page === 0) {
       if (!isSmallMobile) {
         return { width: "447.137px", height: "642px" };
@@ -115,16 +122,12 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      if (!isSmallMobile) {
-        return { width: "369px", height: "375px" };
-      } else {
-        return { width: "236px", height: "447px" };
-      }
+      return { width: "100%", height: "calc(100% - 49px)" };
     }
 
     if (page === 2) {
       if (!isSmallMobile) {
-        return { width: "369px", height: "195px" };
+        return { width: "370px", height: "195px" };
       } else {
         return { width: "236px", height: "291px" };
       }
@@ -159,11 +162,6 @@ const PolicyPopup = ({
   const getPopupContentsMaxSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { maxHeight: "159px" };
-    }
-
     if (page === 0) {
       if (!isSmallMobile) {
         return { maxHeight: "620px" };
@@ -173,11 +171,7 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      if (!isSmallMobile) {
-        return { maxHeight: "350px" };
-      } else {
-        return { maxHeight: "419px" };
-      }
+      return { maxHeight: "100%" };
     }
 
     if (page === 2) {

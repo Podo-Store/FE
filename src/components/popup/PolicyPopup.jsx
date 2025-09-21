@@ -50,50 +50,44 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
+      let size;
       // 공연권 선택 X (= 구매자 정보 입력 란 X)일 경우
       if (!isPerformSelected) {
         if (!(isTablet || isMobile || isSmallMobile)) {
-          return { width: "414px", height: "369px", top: "0", left: "0" };
+          size = { width: "414px", height: "369px" };
         } else if (isTablet) {
-          return { width: "100%", height: "214px", top: "0", left: "0" };
+          size = { width: "100%", height: "214px" };
         } else if (isMobile) {
-          return { width: "100%", height: "392px", top: "0", left: "0" };
+          size = { width: "100%", height: "392px" };
         } else {
-          return { width: "100%", height: "540px", top: "0", left: "0" };
+          size = { width: "100%", height: "540px" };
         }
       } else {
         if (!(isTablet || isMobile || isSmallMobile)) {
-          return { width: "414px", height: "468px", top: "0", left: "0" };
+          size = { width: "414px", height: "468px" };
         } else if (isTablet) {
-          return { width: "100%", height: "319px", top: "0", left: "0" };
+          size = { width: "100%", height: "319px" };
         } else if (isMobile) {
-          return { width: "100%", height: "468px", top: "0", left: "0" };
+          size = { width: "100%", height: "468px" };
         } else {
-          return { width: "100%", height: "540px", top: "0", left: "0" };
+          size = { width: "100%", height: "540px" };
         }
       }
+      return { ...size, top: "0", left: "0" };
     }
 
     if (page === 2) {
+      let size;
       if (!(isTablet || isMobile || isSmallMobile)) {
-        return {
-          width: "414px",
-          height: "288px",
-          top: "0",
-          left: "0",
-        };
+        size = { width: "414px", height: "288px" };
       } else if (isTablet) {
-        return {
-          width: "100%",
-          height: "229px",
-          top: "0",
-          left: "0",
-        };
+        size = { width: "100%", height: "229px" };
       } else if (isMobile) {
-        return { width: "100%", height: "288px", top: "0", left: "0" };
+        size = { width: "100%", height: "288px" };
       } else {
-        return { width: "100%", height: "384px", top: "0", left: "0" };
+        size = { width: "100%", height: "384px" };
       }
+      return { ...size, top: "0", left: "0" };
     }
 
     if (page === 3) {

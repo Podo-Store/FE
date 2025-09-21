@@ -198,7 +198,9 @@ const PolicyPopup = ({
       handle=".popup"
       // translate 값
       positionOffset={
-        page === 2 ? { x: 0, y: "calc(-100% - 10px)" } : { x: 0, y: 0 }
+        page === 1 || page === 2
+          ? { x: 0, y: "calc(-100% - 10px)" }
+          : { x: 0, y: 0 }
       }
     >
       <div className="popup" style={getPopupSize(page, isPerformSelected)}>

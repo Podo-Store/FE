@@ -165,7 +165,7 @@
   flex: 1;
   position: relative;
 
-  margin-top: 7vh;
+  margin-top: 80px;
   @include r.media-laptop {
     flex: none;
   }
@@ -189,7 +189,7 @@
 }
 
 .purchase .purchase-method {
-  margin-top: 1.944vw;
+  margin-top: 21px;
   padding-top: 23px;
   padding-left: 25px;
   padding-bottom: 20px;
@@ -252,12 +252,12 @@
 }
 
 .purchase div#user-info-wrap {
-  margin-top: 1.536vw;
+  margin-top: 25px;
 }
 
 .purchase div#user-info-wrap hr#user-info-hr {
   margin: 0;
-  margin-bottom: 0.807vw;
+  margin-bottom: 15px;
   @include r.media-tablet {
     margin-top: 52px;
     margin-bottom: 14px;

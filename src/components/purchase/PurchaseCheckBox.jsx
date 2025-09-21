@@ -53,7 +53,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition, isPerformSelected }) => {
   };
 
   return (
-    <div className="f-dir-column purchase-checkbox">
+    <div className="purchase-checkbox flex flex-col relative">
       {/* 개별 항목 체크박스 */}
       {items.map((item) => (
         <div className="a-items-center" id="checkbox-content" key={item.id}>

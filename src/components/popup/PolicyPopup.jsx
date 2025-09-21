@@ -23,7 +23,11 @@ const PolicyPopup = ({
   const { isTablet, isMobile, isSmallMobile } =
     useWindowDimensions().widthConditions;
 
-  // 추후 크기 관련 수정이 필요할 경우, page === 1일 때를 참고하여 refactor하는 것을 권장.
+  /*
+   * 팝업 크기 수정 가이드
+   * - 추후 크기 관련 수정이 필요할 경우, page === 1 || page === 2일 때를 참고하여 refactor하는 것을 권장.
+   * - 만약 표시되는 위치를 바꾸기 위해 translate 요소를 조정할 경우, return 문의 <Draggable> 요소의 props를 수정할 것.
+   */
   const getPopupSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
@@ -71,10 +75,24 @@ const PolicyPopup = ({
     }
 
     if (page === 2) {
-      if (!isSmallMobile) {
-        return { width: "414px", height: "288px", top: "0", left: "0" };
+      if (!(isTablet || isMobile || isSmallMobile)) {
+        return {
+          width: "414px",
+          height: "288px",
+          top: "0",
+          left: "0",
+        };
+      } else if (isTablet) {
+        return {
+          width: "100%",
+          height: "229px",
+          top: "0",
+          left: "0",
+        };
+      } else if (isMobile) {
+        return { width: "100%", height: "288px", top: "0", left: "0" };
       } else {
-        return { width: "280px", height: "384px", top: "0", left: "0" };
+        return { width: "100%", height: "384px", top: "0", left: "0" };
       }
     }
 
@@ -123,16 +141,8 @@ const PolicyPopup = ({
       }
     }
 
-    if (page === 1) {
+    if (page === 1 || page === 2) {
       return { width: "100%", height: "calc(100% - 49px)" };
-    }
-
-    if (page === 2) {
-      if (!isSmallMobile) {
-        return { width: "370px", height: "195px" };
-      } else {
-        return { width: "236px", height: "291px" };
-      }
     }
 
     if (page === 3) {
@@ -172,16 +182,8 @@ const PolicyPopup = ({
       }
     }
 
-    if (page === 1) {
+    if (page === 1 || page === 2) {
       return { maxHeight: "100%" };
-    }
-
-    if (page === 2) {
-      if (!isSmallMobile) {
-        return { maxHeight: "159px" };
-      } else {
-        return { maxHeight: "263px" };
-      }
     }
 
     if (page === 3) {
@@ -192,7 +194,13 @@ const PolicyPopup = ({
   };
 
   return (
-    <Draggable handle=".popup">
+    <Draggable
+      handle=".popup"
+      // translate 값
+      positionOffset={
+        page === 2 ? { x: 0, y: "calc(-100% - 10px)" } : { x: 0, y: 0 }
+      }
+    >
       <div className="popup" style={getPopupSize(page, isPerformSelected)}>
         <div className="j-content-between">
           <div className="j-content-center a-items-center" id="title">

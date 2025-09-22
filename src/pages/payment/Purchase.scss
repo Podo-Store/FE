@@ -9,7 +9,7 @@
 .purchase .purchase-wrap {
   margin: 6.66vh 0;
 
-  width: fit-content;
+  width: min-content;
 }
 
 .purchase .purchase-wrap p#subtitle {
@@ -165,7 +165,7 @@
   flex: 1;
   position: relative;
 
-  margin-top: 7vh;
+  margin-top: 80px;
   @include r.media-laptop {
     flex: none;
   }
@@ -189,13 +189,13 @@
 }
 
 .purchase .purchase-method {
-  margin-top: 1.944vw;
+  margin-top: 21px;
   padding-top: 23px;
   padding-left: 25px;
   padding-bottom: 20px;
 
   width: 414px;
-  height: 155px;
+  height: 134px;
   @include r.media-tablet {
     margin-top: 0;
 
@@ -237,29 +237,27 @@
 }
 
 .purchase .purchase-method .btn-wrap {
-  gap: 19px;
-
   margin-top: 26px;
   margin-bottom: 9px;
-  margin-left: -4.07px;
 
   @include r.media-tablet {
     width: 270px;
-    flex-wrap: wrap;
   }
   @include r.media-mobile {
     width: 100%;
-    flex-wrap: nowrap;
+  }
+  @include r.media-small-mobile {
+    margin-top: 21px;
   }
 }
 
 .purchase div#user-info-wrap {
-  margin-top: 1.536vw;
+  margin-top: 25px;
 }
 
 .purchase div#user-info-wrap hr#user-info-hr {
   margin: 0;
-  margin-bottom: 0.807vw;
+  margin-bottom: 15px;
   @include r.media-tablet {
     margin-top: 52px;
     margin-bottom: 14px;

@@ -1,6 +1,5 @@
 .popup {
-  padding-top: 1.5rem;
-  padding-left: 1.5rem;
+  padding: 22px;
 
   position: absolute;
 
@@ -27,7 +26,7 @@
 }
 
 .popup img#close-btn {
-  transform: translate(-1rem, -0.7rem);
+  transform: translate(0, -0.7rem);
 }
 
 .popup div#content-wrap {

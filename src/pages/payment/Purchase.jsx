@@ -32,6 +32,7 @@ import performImg from "./../../assets/image/post/list/perform.svg";
 import "./Purchase.scss";
 import "./../../styles/utilities.css";
 import AmountChangePurchase from "@/components/detail/AmountChangePurchase";
+import PurchaseMethodBtn from "@/components/purchase/PurchaseMethodBtn";
 
 const Purchase = () => {
   const [thumbnailImg, setThumbnailImg] = useState("");
@@ -60,6 +61,7 @@ const Purchase = () => {
   const [address, setAddress] = useState("");
   const [addressValid, setAddressValid] = useState(false);
 
+  const [method, setMethod] = useState(0); // 0: 계좌 이체, 1: 신용카드, 2: 가상계좌
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     purchaseAgreement: false,
     refundPolicy: false,
@@ -353,43 +355,34 @@ const Purchase = () => {
                     <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">
                       결제 방법
                     </p>
-                    {768 < width && width <= 1280 && (
-                      <p className="p-small-bold c-grey4 whitespace-nowrap">
-                        계좌 이체 방법은 메일로 전송됩니다.
-                      </p>
-                    )}
                   </div>
-                  <div className="btn-wrap d-flex">
-                    <SmallOnOffBtn
-                      style={{
-                        width: "108px",
-                        height: "36px",
-                        border: "3px solid var(--purple-purple-7, #B489FF)",
+                  <div className="btn-wrap grid grid-cols-[repeat(2,max-content)] gap-x-[24px] gap-y-[15px] sm:grid-cols-[repeat(3,max-content)] sm:gap-[19px] md:grid-cols-[repeat(2,max-content)] md:gap-x-[14px] md:gap-y-[26px] xl:grid-cols-[repeat(3,max-content)] xl:gap-[19px]">
+                    <PurchaseMethodBtn
+                      isSelected={method === 0}
+                      onClick={() => {
+                        setMethod(0);
                       }}
                     >
                       계좌 이체
-                    </SmallOnOffBtn>
-                    <SmallOnOffBtn
-                      disabled={true}
-                      style={{ width: "108px", height: "36px" }}
+                    </PurchaseMethodBtn>
+                    <PurchaseMethodBtn
+                      isSelected={method === 1}
+                      onClick={() => {
+                        setMethod(1);
+                      }}
                     >
-                      -
-                    </SmallOnOffBtn>
-                    {!isSmallMobile && (
-                      <SmallOnOffBtn
-                        disabled={true}
-                        style={{ width: "108px", height: "36px" }}
-                      >
-                        -
-                      </SmallOnOffBtn>
-                    )}
+                      신용카드
+                    </PurchaseMethodBtn>
+                    <PurchaseMethodBtn
+                      isSelected={method === 2}
+                      onClick={() => {
+                        setMethod(2);
+                      }}
+                    >
+                      가상계좌
+                    </PurchaseMethodBtn>
                   </div>
                 </div>
-                {(width <= 768 || width > 1280) && (
-                  <p className="p-12-bold sm:p-small-bold c-grey4 t-align-center">
-                    계좌 이체 방법은 메일로 전송됩니다.
-                  </p>
-                )}
               </div>
             </div>
 

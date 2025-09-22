@@ -20,15 +20,16 @@ const PolicyPopup = ({
   page = 0,
   isPerformSelected = true,
 }) => {
-  const { isSmallMobile } = useWindowDimensions().widthConditions;
+  const { isTablet, isMobile, isSmallMobile } =
+    useWindowDimensions().widthConditions;
 
+  /*
+   * 팝업 크기 수정 가이드
+   * - 추후 크기 관련 수정이 필요할 경우, page === 1 || page === 2일 때를 참고하여 refactor하는 것을 권장.
+   * - 만약 표시되는 위치를 바꾸기 위해 translate 요소를 조정할 경우, return 문의 <Draggable> 요소의 props를 수정할 것.
+   */
   const getPopupSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
-
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { width: "413px", height: "273px", top: "0", left: "0" };
-    }
 
     if (page === 0) {
       if (!isSmallMobile) {
@@ -49,19 +50,44 @@ const PolicyPopup = ({
     }
 
     if (page === 1) {
-      if (!isSmallMobile) {
-        return { width: "413px", height: "465px", top: "0", left: "0" };
+      let size;
+      // 공연권 선택 X (= 구매자 정보 입력 란 X)일 경우
+      if (!isPerformSelected) {
+        if (!(isTablet || isMobile || isSmallMobile)) {
+          size = { width: "414px", height: "369px" };
+        } else if (isTablet) {
+          size = { width: "100%", height: "214px" };
+        } else if (isMobile) {
+          size = { width: "100%", height: "392px" };
+        } else {
+          size = { width: "100%", height: "540px" };
+        }
       } else {
-        return { width: "280px", height: "540px", top: "0", left: "0" };
+        if (!(isTablet || isMobile || isSmallMobile)) {
+          size = { width: "414px", height: "468px" };
+        } else if (isTablet) {
+          size = { width: "100%", height: "319px" };
+        } else if (isMobile) {
+          size = { width: "100%", height: "468px" };
+        } else {
+          size = { width: "100%", height: "540px" };
+        }
       }
+      return { ...size, top: "0", left: "0" };
     }
 
     if (page === 2) {
-      if (!isSmallMobile) {
-        return { width: "413px", height: "288px", top: "0", left: "0" };
+      let size;
+      if (!(isTablet || isMobile || isSmallMobile)) {
+        size = { width: "414px", height: "288px" };
+      } else if (isTablet) {
+        size = { width: "100%", height: "229px" };
+      } else if (isMobile) {
+        size = { width: "100%", height: "288px" };
       } else {
-        return { width: "280px", height: "384px", top: "0", left: "0" };
+        size = { width: "100%", height: "384px" };
       }
+      return { ...size, top: "0", left: "0" };
     }
 
     if (page === 3) {
@@ -101,11 +127,6 @@ const PolicyPopup = ({
   const getPopupContentsSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { width: "369px", height: "179px" };
-    }
-
     if (page === 0) {
       if (!isSmallMobile) {
         return { width: "447.137px", height: "642px" };
@@ -114,20 +135,8 @@ const PolicyPopup = ({
       }
     }
 
-    if (page === 1) {
-      if (!isSmallMobile) {
-        return { width: "369px", height: "375px" };
-      } else {
-        return { width: "236px", height: "447px" };
-      }
-    }
-
-    if (page === 2) {
-      if (!isSmallMobile) {
-        return { width: "369px", height: "195px" };
-      } else {
-        return { width: "236px", height: "291px" };
-      }
+    if (page === 1 || page === 2) {
+      return { width: "100%", height: "calc(100% - 49px)" };
     }
 
     if (page === 3) {
@@ -159,11 +168,6 @@ const PolicyPopup = ({
   const getPopupContentsMaxSize = (page, isPerformSelected) => {
     const width = window.innerWidth;
 
-    // 공연권 미선택 && 구매 관련 페이지
-    if (!isPerformSelected && (page === 1 || page === 2)) {
-      return { maxHeight: "159px" };
-    }
-
     if (page === 0) {
       if (!isSmallMobile) {
         return { maxHeight: "620px" };
@@ -172,20 +176,8 @@ const PolicyPopup = ({
       }
     }
 
-    if (page === 1) {
-      if (!isSmallMobile) {
-        return { maxHeight: "350px" };
-      } else {
-        return { maxHeight: "419px" };
-      }
-    }
-
-    if (page === 2) {
-      if (!isSmallMobile) {
-        return { maxHeight: "159px" };
-      } else {
-        return { maxHeight: "263px" };
-      }
+    if (page === 1 || page === 2) {
+      return { maxHeight: "100%" };
     }
 
     if (page === 3) {
@@ -196,7 +188,15 @@ const PolicyPopup = ({
   };
 
   return (
-    <Draggable handle=".popup">
+    <Draggable
+      handle=".popup"
+      // translate 값
+      positionOffset={
+        page === 1 || page === 2
+          ? { x: 0, y: "calc(-100% - 10px)" }
+          : { x: 0, y: 0 }
+      }
+    >
       <div className="popup" style={getPopupSize(page, isPerformSelected)}>
         <div className="j-content-between">
           <div className="j-content-center a-items-center" id="title">

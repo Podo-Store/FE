@@ -53,7 +53,7 @@ const PurchaseCheckBox = ({ setCheckBoxCondition, isPerformSelected }) => {
   };
 
   return (
-    <div className="f-dir-column purchase-checkbox">
+    <div className="purchase-checkbox flex flex-col relative">
       {/* 개별 항목 체크박스 */}
       {items.map((item) => (
         <div className="a-items-center" id="checkbox-content" key={item.id}>
@@ -64,12 +64,17 @@ const PurchaseCheckBox = ({ setCheckBoxCondition, isPerformSelected }) => {
             id="checkbox"
             onClick={() => onChangeCheckbox(item.id)}
           />
-          <label className="p-small-medium c-pointer" onClick={() => onChangeCheckbox(item.id)}>
+          <label
+            className="p-small-medium cursor-pointer whitespace-nowrap"
+            onClick={() => onChangeCheckbox(item.id)}
+          >
             {item.name}
           </label>
           <p
-            className="p-xs-under c-pointer"
-            onClick={() => setShowPopup({ ...showPopup, [item.key]: !showPopup[item.key] })}
+            className="p-xs-under cursor-pointer whitespace-nowrap"
+            onClick={() =>
+              setShowPopup({ ...showPopup, [item.key]: !showPopup[item.key] })
+            }
           >
             자세히 보기
           </p>
@@ -78,7 +83,8 @@ const PurchaseCheckBox = ({ setCheckBoxCondition, isPerformSelected }) => {
               {React.cloneElement(item.popup, {
                 title: item.name,
                 detail: item.detail,
-                setShowPopup: (state) => setShowPopup({ ...showPopup, [item.key]: state }),
+                setShowPopup: (state) =>
+                  setShowPopup({ ...showPopup, [item.key]: state }),
                 page: item.id === 1 ? 1 : 2,
                 isPerformSelected,
               })}

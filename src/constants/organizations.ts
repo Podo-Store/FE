@@ -14,6 +14,12 @@ import 이화여대총연극회_photo from "../assets/image/landing/organization
 import 이화여대총연극회_logo from "../assets/image/landing/organizations/이화여대_총연극회/logo.png";
 import 시립극회_photo from "../assets/image/landing/organizations/서울시립대_극예술연구회/photo.jpg";
 import 시립극회_logo from "../assets/image/landing/organizations/서울시립대_극예술연구회/logo.png";
+import 열린무대_photo from "../assets/image/landing/organizations/경일대_열린무대/photo.jpg";
+import 열린무대_logo from "../assets/image/landing/organizations/경일대_열린무대/logo.jpg";
+import 극단소솜_photo from "../assets/image/landing/organizations/건국대_극단소솜/photo.jpg";
+import 극단소솜_logo from "../assets/image/landing/organizations/건국대_극단소솜/logo.png";
+import 경희극회_photo from "../assets/image/landing/organizations/경희대_경희극회/photo.jpg";
+import 경희극회_logo from "../assets/image/landing/organizations/경희대_경희극회/logo.jpg";
 
 interface Organizations {
   name: string;
@@ -183,10 +189,68 @@ const organizations: Organizations[] = [
     },
     logo: {
       src: 시립극회_logo,
-      style: {},
+      style: { width: "65%" },
     },
     keywords: ["#서울시립대학교", "#연극", "#인간_탐구", "#개그", "#근성"],
     additionalDeleteCircle: [2],
+  },
+  {
+    name: "경일대학교 열린무대",
+    photo: {
+      src: 열린무대_photo,
+      style: {},
+    },
+    logo: {
+      src: 열린무대_logo,
+      style: { width: "65%" },
+    },
+    keywords: [
+      "#경일대학교",
+      "#연극 동아리",
+      "#열린무대",
+      "#무대는",
+      "#열려있다",
+    ],
+    additionalDeleteCircle: [2],
+  },
+  {
+    name: "건국대학교 극단소솜",
+    photo: {
+      src: 극단소솜_photo,
+      style: {},
+    },
+    logo: {
+      src: 극단소솜_logo,
+      style: { width: "70%" },
+    },
+    keywords: [
+      "#건국대학교",
+      "#솜사탕_맛집",
+      "#연극_맛집",
+      "#우리의",
+      "#청춘은",
+      "#소솜",
+    ],
+    additionalDeleteCircle: [2],
+  },
+  {
+    name: "경희대학교 경희극예술연구회",
+    photo: {
+      src: 경희극회_photo,
+      style: {},
+    },
+    logo: {
+      src: 경희극회_logo,
+      style: { width: "65%" },
+    },
+    keywords: [
+      "#경희대학교",
+      "#Since1979",
+      "#가족같은_분위기",
+      "#평생_남는_추억",
+      "#무대에서의_성장",
+    ],
+    additionalDeleteCircle: [1, 3],
   },
 ];
 

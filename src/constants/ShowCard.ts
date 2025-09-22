@@ -1,5 +1,6 @@
 import { ShowCard } from "@/types/show";
 import mongJungPoster from "../assets/image/performedWork/mongjung_poster.png";
+import archivePoster from "../assets/image/performedWork/archive_poster.jpeg";
 export const MOCK_SHOWS: ShowCard[] = [
   {
     id: "1",
@@ -35,5 +36,14 @@ export const MOCK_SHOWS: ShowCard[] = [
     troupe: "동양대학교 공연영상학부",
     period: "2025.07.31",
     link: "https://www.podo-store.com/list/detail/6ddf44cc-d53f-4f26-98d0-36f63cc761e8",
+  },
+  {
+    id: "5",
+    image: archivePoster,
+    title: "Archive",
+    author: "감자튀김",
+    troupe: "프로젝트 항해",
+    period: "2024.07.12 - 2025.07.13",
+    link: "https://www.podo-store.com/list/detail/17133b1a-da07-40d5-889d-82dff04baf5e",
   },
 ];

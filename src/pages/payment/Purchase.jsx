@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
@@ -18,7 +18,7 @@ import Loading from "../Loading";
 
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-
+import { useNicepay } from "@/hooks/useNicepay";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
@@ -61,7 +61,7 @@ const Purchase = () => {
   const [address, setAddress] = useState("");
   const [addressValid, setAddressValid] = useState(false);
 
-  const [method, setMethod] = useState(0); // 0: 계좌 이체, 1: 신용카드, 2: 가상계좌
+  const [method, setMethod] = useState(1); // 0: 계좌 이체, 1: 신용카드, 2: 가상계좌
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     purchaseAgreement: false,
     refundPolicy: false,
@@ -75,13 +75,17 @@ const Purchase = () => {
   const navigate = useNavigate();
   const { width } = useWindowDimensions();
   const { isSmallMobile } = useWindowDimensions().widthConditions;
-
+  const orderIdRef = useRef(null);
+  const creatingOrderRef = useRef(false);
   const {
     isScriptSelected = false,
     isPerformSelected = false,
     // 0: 공연권 구매 X, 1~: 구매 개수
     purchasePerformAmount = 0,
   } = location.state || {};
+
+  // NICEPAY SDK 로딩 상태
+  const { ready: nicepayReady, requestPay } = useNicepay();
 
   useEffect(() => {
     if (name.length > 0 && name.trim() !== "") {
@@ -151,6 +155,17 @@ const Purchase = () => {
     }
   }, [isScriptSelected, isPerformSelected]);
 
+  // 결제 대상(옵션/수량/가격)이 바뀌면 저장해둔 주문번호 무효화
+  useEffect(() => {
+    orderIdRef.current = null;
+  }, [
+    buyScript,
+    buyPerform,
+    modifiedPurchasePerformAmount,
+    scriptPrice,
+    performPricePerAmount,
+  ]);
+
   useEffect(() => {
     if (buyScript && buyPerform) {
       setTotalPrice(scriptPrice + performPrice);
@@ -178,57 +193,141 @@ const Purchase = () => {
   const onClickPurchase = async () => {
     setIsLoading(true);
 
+    // 1) 사용자 입력 검증
     if (buyPerform && (!nameValid || !phoneValid || !addressValid)) {
       alert("신청자 정보를 다시 확인해주세요.");
+      setIsLoading(false);
       return;
     }
 
-    try {
-      const requestBody = {
-        orderItem: [
-          {
-            productId: id,
-            script: buyScript,
-            performanceAmount: buyPerform ? modifiedPurchasePerformAmount : 0,
-          },
-        ],
-        // 결제 방식 - 0: 0원, 1: 계좌이체
-        paymentMethod:
-          (buyScript && scriptPrice === 0) || (buyPerform && performPrice === 0)
-            ? 0
-            : 1,
-      };
+    // 2) 결제 총액(표시/검증용; 최종 검증은 서버)
+    const payableAmount =
+      (buyScript ? Number(scriptPrice || 0) : 0) +
+      (buyPerform
+        ? Number(performPricePerAmount || 0) *
+          Number(modifiedPurchasePerformAmount || 0)
+        : 0);
 
-      // Include applicant only if performance rights are being purchased
-      if (buyPerform) {
-        requestBody.applicant = {
-          name,
-          phoneNumber: phone,
-          address,
+    try {
+      // 3) 주문은 '한 번만' 생성 (없으면 생성, 있으면 재사용)
+      let currentOrderId = orderIdRef.current;
+
+      if (!currentOrderId) {
+        if (creatingOrderRef.current) {
+          setIsLoading(false);
+          return; // 중복 클릭 방지
+        }
+        creatingOrderRef.current = true;
+
+        const requestBody = {
+          orderItem: [
+            {
+              productId: id,
+              script: buyScript,
+              performanceAmount: buyPerform ? modifiedPurchasePerformAmount : 0,
+            },
+          ],
+          // 백엔드 내부 로직용(네 기존 필드 유지)
+          paymentMethod:
+            (buyScript && scriptPrice === 0) ||
+            (buyPerform && performPrice === 0)
+              ? 0
+              : 1,
         };
-      } else {
-        requestBody.applicant = undefined;
+
+        if (buyPerform) {
+          requestBody.applicant = { name, phoneNumber: phone, address };
+        }
+
+        try {
+          const response = await axios.post(
+            `${SERVER_URL}order/item`,
+            requestBody,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${Cookies.get("accessToken")}`,
+              },
+            }
+          );
+          const orderData = response.data[0];
+          currentOrderId = orderData.id;
+          orderIdRef.current = currentOrderId; // 재시도 시 재사용
+        } finally {
+          creatingOrderRef.current = false;
+        }
       }
 
-      const response = await axios.post(
-        `${SERVER_URL}order/item`,
-        requestBody,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      );
+      // 4) 무료 결제면 주문만 만들고 바로 성공 페이지
+      if (payableAmount === 0) {
+        navigate("/purchase/success", {
+          state: { orderId: orderIdRef.current },
+        });
+        setIsLoading(false);
+        return;
+      }
 
-      const orderData = response.data[0];
+      // 5) NICEPAY 결제창 호출
+      const nicepayMethod =
+        method === 1 ? "card" : method === 2 ? "vbank" : "bank";
+      if (!nicepayReady) {
+        alert(
+          "결제 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요."
+        );
+        setIsLoading(false);
+        return;
+      }
 
-      navigate("/purchase/success", {
-        state: {
-          orderId: orderData.id,
+      const nicepayOrderId = String(orderIdRef.current);
+      const goodsName =
+        buyScript && buyPerform
+          ? `${title} - 대본+공연권`
+          : buyScript
+          ? `${title} - 대본`
+          : `${title} - 공연권`;
+
+      const vbankOptions =
+        nicepayMethod === "vbank"
+          ? {
+              vbankHolder: name, // 필수
+              vbankValidHours: 72, // 또는 vbankExpDate 중 하나만
+            }
+          : {};
+
+      requestPay({
+        clientId: import.meta.env.VITE_NICEPAY_CLIENT_KEY,
+        method: nicepayMethod, // 'card' | 'bank' | 'vbank'
+        orderId: nicepayOrderId,
+        amount: payableAmount,
+        goodsName,
+        returnUrl: `${SERVER_URL}payments/return`, // 서버에서 승인 API 호출
+        fnError: (e) => {
+          const msg = e?.errorMsg || "";
+          // ❗ '결제 요청을 취소'는 에러 취급 X → 조용히 종료(재시도 가능)
+          if (msg.includes("결제 요청을 취소")) {
+            setIsLoading(false);
+            return;
+          }
+          console.log("결제창 에러:", msg);
+          alert(`결제창 에러: ${msg || "알 수 없는 오류"}`);
+          setIsLoading(false);
         },
+        ...vbankOptions,
       });
+
+      // 이후 플로우: NICEPAY → returnUrl(서버) → 승인/실패 후 서버가 리다이렉트
     } catch (error) {
+      const msg = error?.response?.data?.error || error?.message;
+      console.log("주문 생성/결제 시작 실패:", msg);
+
+      // 백엔드가 "이미 처리중인 주문" 등을 400으로 보낸 경우, 기존 orderId가 있으면 재사용
+      if (error?.response?.status === 400 && orderIdRef.current) {
+        alert(
+          "이전 미결제 주문이 있어요. 같은 주문으로 다시 결제창을 띄울게요."
+        );
+        setIsLoading(false);
+        return;
+      }
       navigate("/purchase/abort");
     } finally {
       setIsLoading(false);
@@ -360,7 +459,7 @@ const Purchase = () => {
                     <PurchaseMethodBtn
                       isSelected={method === 0}
                       onClick={() => {
-                        setMethod(0);
+                        // setMethod(0);
                       }}
                     >
                       계좌 이체
@@ -376,7 +475,7 @@ const Purchase = () => {
                     <PurchaseMethodBtn
                       isSelected={method === 2}
                       onClick={() => {
-                        setMethod(2);
+                        // setMethod(2);
                       }}
                     >
                       가상계좌

@@ -37,6 +37,13 @@
     justify-self: center;
     gap: 25px;
   }
+  @include r.media-small-mobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+  }
 }
 
 .main-ver2 .page2 .page2-content {
@@ -58,7 +65,7 @@
     height: 231px;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    width: 87.5%; // 280px
     height: 160px;
   }
   & {

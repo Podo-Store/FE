@@ -63,7 +63,7 @@
   }
   @include r.media-small-mobile {
     padding: 15px 24px;
-    width: 280px;
+    width: 87.5%; // 280px
     height: 159px;
   }
 }
@@ -167,7 +167,7 @@
     width: 440px;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    width: 87.5%; // 280px
     height: 50px;
   }
 }

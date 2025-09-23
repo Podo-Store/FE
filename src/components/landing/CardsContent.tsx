@@ -92,14 +92,11 @@ const CardsContent: React.FC<CardsContentProps> = ({
 
   return isOpened ? (
     <div
-      className=" cards-wrap d-flex"
+      className="cards-wrap flex justify-center"
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      <div
-        id="opened"
-        className=" cards-content f-dir-column j-content-between"
-      >
+      <div id="opened" className="cards-content f-dir-column j-content-between">
         {/* 배경 이미지용 div */}
         <div
           className={`background-image   ${showPhoto ? "visible" : ""}`}
@@ -172,7 +169,7 @@ const CardsContent: React.FC<CardsContentProps> = ({
     </div>
   ) : (
     <div
-      className="cards-wrap d-flex"
+      className="cards-wrap flex justify-center"
       onClick={onClick}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

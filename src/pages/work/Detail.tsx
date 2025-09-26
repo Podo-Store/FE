@@ -113,6 +113,7 @@ const Detail = () => {
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [reviewPage, setReviewPage] = useState(0);
+  const [isReviewLoading, setIsReviewLoading] = useState(false);
 
   const { width, widthConditions } = useWindowDimensions();
   const { isTablet, isMobile, isSmallMobile } = widthConditions;
@@ -216,8 +217,8 @@ const Detail = () => {
 
   // 리뷰 다음 페이지 Fetch
   useEffect(() => {
-    if (reviewPage === 0) return;
     const fetchMore = async () => {
+      setIsReviewLoading(true);
       try {
         const token = Cookies.get("accessToken");
         const headers: Record<string, string> = {
@@ -233,6 +234,8 @@ const Detail = () => {
         setReviews(data.reviews);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsReviewLoading(false);
       }
     };
 
@@ -997,13 +1000,19 @@ const Detail = () => {
             </div>
 
             {reviews.length > 0 ? (
-              reviews.map((review) => (
-                <ReviewList
-                  key={review.id}
-                  scriptId={script?.id!}
-                  review={review}
-                />
-              ))
+              isReviewLoading ? (
+                <div className="flex justify-center my-[16px] w-full">
+                  <PartialLoading />
+                </div>
+              ) : (
+                reviews.map((review) => (
+                  <ReviewList
+                    key={review.id}
+                    scriptId={script?.id!}
+                    review={review}
+                  />
+                ))
+              )
             ) : (
               <div className="flex flex-col w-full">
                 <hr className="m-[0px] mb-[74px] w-full bg-[#9E9E9E]" />

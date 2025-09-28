@@ -14,10 +14,9 @@
   right: 10px;
 
   @include r.media-small-mobile {
-    width: 8.43vw;
-    min-width: 27px;
+    width: 27px;
 
-    bottom: 5%;
-    right: 5.8%;
+    bottom: 6px;
+    right: 7px;
   }
 }

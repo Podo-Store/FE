@@ -15,11 +15,11 @@
 
   @include r.media-small-mobile {
     flex-direction: column;
-    gap: 17.5px;
+    gap: 18px;
 
     position: absolute;
-    left: 145px;
+    right: 6px;
 
-    transform: translate(-100%, -61.5px);
+    transform: translate(0, -61.5px);
   }
 }

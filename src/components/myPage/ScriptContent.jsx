@@ -158,12 +158,14 @@ const ScriptContent = ({
                   </>
                 ) : null
               ) : (
-                <PriceTextsVertical
-                  script={script.script}
-                  scriptPrice={script.scriptPrice || 0}
-                  performance={script.performance}
-                  performPrice={script.performancePrice || 0}
-                />
+                <div className="pl-[6px] pr-[6px] sm:pr-0">
+                  <PriceTextsVertical
+                    script={script.script}
+                    scriptPrice={script.scriptPrice || 0}
+                    performance={script.performance}
+                    performPrice={script.performancePrice || 0}
+                  />
+                </div>
               )}
               {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
               {(isMobile || isSmallMobile) &&
@@ -173,7 +175,7 @@ const ScriptContent = ({
                   <ScriptManageTopBtn className="mobile" script={script} />
                 </div>
               ) : currentPage === "1" && script.checked === "WAIT" ? (
-                <div className="translate-y-[-43.4px]">
+                <div className="block md:hidden translate-y-[-43.4px]">
                   <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
                 </div>
               ) : null}

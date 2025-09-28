@@ -2,7 +2,11 @@
 
 .myPage-contents-default .myPage-contents-default-wrap {
   display: flex;
+  justify-content: center;
+
   margin: 6.66vh 0;
+
+  width: 100%;
   min-height: 87.5vh;
 }
 
@@ -18,7 +22,7 @@
     width: 430px;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    width: 87.5%;
   }
   // @include r.media-small-mobile {
   //   width: 81.25vw; //260px

@@ -228,7 +228,8 @@ const PostWork = () => {
                 style={{ height: "180px" }}
               />
 
-              <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
+{/* 작가 대상 이용약관 */}
+              {/* <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
                 <label className=" flex gap-[5px] items-center cursor-pointer  hover:text-[#6A39C0]">
                   <div className="relative w-[14px] sm:w-[20px] h-[14px] sm:h-[20px]">
                     <input
@@ -272,7 +273,7 @@ const PostWork = () => {
                     page={3}
                   />
                 )}
-              </div>
+              </div> */}
               <button
                 id="upload-btn"
                 onClick={onClickUpload}

@@ -171,8 +171,12 @@ const FileInputBox: React.FC<FileInputBoxProps> = ({
             </p>
           </div>
         ) : (
-          <div>
-            <img src={download} alt="download" className="size-[40px]" />
+          <div className="flex-col items-center ">
+            <img
+              src={download}
+              alt="download"
+              className="size-[40px] mx-auto mb-[4px]"
+            />
             <p id="pdf" className="p-small-bold">
               PDF
             </p>

@@ -219,11 +219,11 @@ const PostManageDetail: React.FC = () => {
   const hasActors = totalActors > 0;
   const hasRunningTime = (form.runningTime ?? 0) > 0;
   const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
-  const hasValidPerformancePrice =
-    form.script && form.performance
-      ? (form.performancePrice ?? -1) <= 50000
-      : true;
-
+  // const hasValidPerformancePrice =
+  //   form.script && form.performance
+  //     ? (form.performancePrice ?? -1) <= 50000
+  //     : true;
+  const hasValidPerformancePrice = form.script && form.performance;
   const isFormValid = () => {
     return (
       hasValidTitle &&
@@ -863,7 +863,7 @@ const PostManageDetail: React.FC = () => {
                 >
                   판매 상태{" "}
                 </h2>
-                <img
+                {/* <img
                   id="info-btn1"
                   className="cursor-pointer c-pointer w-[20px] h-[20px] [filter:invert(74%)_sepia(13%)_saturate(0%)_hue-rotate(220deg)_brightness(99%)_contrast(91%)]"
                   src={circleInfoBtn}
@@ -889,7 +889,7 @@ const PostManageDetail: React.FC = () => {
                     }}
                     buttonId="info-btn1"
                   />
-                ) : null}
+                ) : null} */}
               </div>
 
               <div className={`sales-status  relative  items-center`}>
@@ -1002,11 +1002,7 @@ const PostManageDetail: React.FC = () => {
                         form.performance === false || form.script === false
                       }
                       placeholder="공연권 가격을 입력하세요."
-                      className={` my-auto h-full w-full box-border p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px]  ${
-                        (form.performancePrice ?? 0) > 50000
-                          ? "focus:border-[#fc040477] border-[#fc040477]"
-                          : "border-[#BABABA] focus:border-[#caabff]"
-                      }    placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px]`}
+                      className={` my-auto h-full w-full box-border p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] border-[#BABABA] focus:border-[#caabff] placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px]`}
                       onChange={(e) => {
                         const value = e.target.value;
                         if (/^\d*$/.test(value)) {
@@ -1016,11 +1012,11 @@ const PostManageDetail: React.FC = () => {
                             ...prev,
                             performancePrice: numericValue,
                           }));
-                          if (numericValue > 50000) {
-                            setShowPopup(true);
-                          } else {
-                            setShowPopup(false);
-                          }
+                          // if (numericValue > 50000) {
+                          //   setShowPopup(true);
+                          // } else {
+                          //   setShowPopup(false);
+                          // }
                         }
                       }}
                       value={form.performancePrice ?? ""}

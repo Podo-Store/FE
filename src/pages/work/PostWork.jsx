@@ -11,7 +11,7 @@ import PartialLoading from "@/components/loading/PartialLoading";
 import InfoPopup from "@/components/popup/InfoPopup";
 import PolicyPopup from "@/components/popup/PolicyPopup";
 import { SERVER_URL } from "../../constants/ServerURL";
-
+import DialogPopup from "@/components/popup/PolicyDialogPopup";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { toastAlert } from "@/utils/ToastAlert";
@@ -35,20 +35,21 @@ const PostWork = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState(false);
 
   // Image popup
   const [showPopup, setShowPopup] = useState(false);
   const [authorPopup, setAuthorPopup] = useState(false);
   const popupRef = useRef(null);
 
+  const [isAuthorTermsPopup, setIsAuthorTermsPopup] = useState(false);
   const { width } = useWindowDimensions();
 
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    setIsChecked(e.target.checked);
-  };
+  // const handleChange = (e) => {
+  //   setIsChecked(e.target.checked);
+  // };
   const onClickUpload = async () => {
     if (!file) {
       alert("파일을 선택해주세요.");
@@ -68,7 +69,9 @@ const PostWork = () => {
         },
       });
 
-      if (response.data === true) {
+      console.log(response);
+
+      if (response.data === true || response.data?.success === true) {
         setUploadSuccess(true);
         setTimeout(() => {
           setUploadSuccess(false);
@@ -228,55 +231,10 @@ const PostWork = () => {
                 style={{ height: "180px" }}
               />
 
-              <div className="flex flex-row mt-[14px] gap-[9px] items-center relative">
-                <label className=" flex gap-[5px] items-center cursor-pointer  hover:text-[#6A39C0]">
-                  <div className="relative w-[14px] sm:w-[20px] h-[14px] sm:h-[20px]">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={handleChange}
-                      className="absolute top-0 opacity-0 cursor-pointer peer"
-                    />
-                    <img
-                      className="absolute hidden peer-checked:block "
-                      alt="check"
-                      src={checkSquare}
-                    />
-                    <img
-                      className="absolute peer-checked:hidden"
-                      alt="noCheck"
-                      src={noCheckSquare}
-                    />
-                  </div>
-
-                  <p
-                    className={` ${
-                      isChecked ? "text-[#6A39C0]" : ""
-                    } p-xs-medium sm:p-small-medium `}
-                  >
-                    작가 대상 이용약관 동의
-                  </p>
-                </label>
-
-                <span
-                  className="cursor-pointer p-xs-under hover:text-[#777]"
-                  onClick={() => setAuthorPopup(true)}
-                >
-                  자세히 보기
-                </span>
-                {authorPopup && (
-                  <PolicyPopup
-                    title={"작가 대상 이용약관 (포도알 스테이지)"}
-                    detail={AUTHOR_TERMS_CONTENT}
-                    setShowPopup={setAuthorPopup}
-                    page={3}
-                  />
-                )}
-              </div>
               <button
                 id="upload-btn"
-                onClick={onClickUpload}
-                disabled={!fileSelected || !isChecked}
+                onClick={() => setIsAuthorTermsPopup(true)}
+                disabled={!fileSelected}
               >
                 작품 보내기
               </button>
@@ -286,10 +244,16 @@ const PostWork = () => {
         <div className=" right-side">
           <img
             src={width >= 1920 ? postingProcess : postingProcess2}
-            alt="작품 등록 도식화"
+            alt="작품 등록 도식화"
           ></img>
         </div>
       </div>
+      {isAuthorTermsPopup && (
+        <DialogPopup
+          onClick={onClickUpload}
+          setShowPopup={setIsAuthorTermsPopup}
+        />
+      )}
     </div>
   );
 };

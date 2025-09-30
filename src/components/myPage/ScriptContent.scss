@@ -13,7 +13,7 @@
   /* display: flex; */
   display: grid;
   grid-template-columns: 197px 1fr;
-  column-gap: 23px;
+  column-gap: 29px;
 
   margin-top: 2vh;
   padding-bottom: 20px;
@@ -60,10 +60,6 @@
   padding-bottom: 5px;
 
   width: 100%;
-}
-
-.script-content p#title {
-  margin-left: 6px;
 }
 
 .script-content img#title-info {

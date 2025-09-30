@@ -29,15 +29,20 @@ const ScriptContentPopUp = ({ className, onClose, type }) => {
   }
 
   return (
-    <div className={clsx("script-content-popup", className)}>
-      <div className="d-flex j-content-end">
+    <div
+      className={clsx(
+        "script-content-popup flex flex-col justify-center items-center",
+        className
+      )}
+    >
+      {/* <div className="d-flex j-content-end">
         <img
           src={closeBtn}
           alt=""
           className="close-button"
           onClick={onClose}
         ></img>
-      </div>
+      </div> */}
       <div className="d-flex j-content-center">{content}</div>
     </div>
   );

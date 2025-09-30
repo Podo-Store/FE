@@ -91,6 +91,19 @@ function App() {
             element={<ProtectedRoute element={<Purchase />} />}
           />
 
+          <Route
+            path="mypage/liked"
+            element={<ProtectedRoute element={<LikedWorks />} />}
+          />
+          <Route
+            path="mypage/purchased"
+            element={<ProtectedRoute element={<PurchasedScript />} />}
+          />
+          <Route
+            path="mypage/scriptmanage"
+            element={<ProtectedRoute element={<ScriptManage />} />}
+          />
+
           <Route element={<MarginLayout />}>
             <Route path="policy/:id" element={<PolicyBar />} />
 
@@ -105,15 +118,6 @@ function App() {
             <Route path="post" element={<PostWork />} />
 
             <Route
-              path="mypage/liked"
-              element={<ProtectedRoute element={<LikedWorks />} />}
-            />
-
-            <Route
-              path="mypage/purchased"
-              element={<ProtectedRoute element={<PurchasedScript />} />}
-            />
-            <Route
               path="mypage/purchased/performance-info/:id"
               element={<ProtectedRoute element={<PerformanceInfo />} />}
             />
@@ -121,10 +125,7 @@ function App() {
               path="mypage/purchased/performance-refund/:id"
               element={<ProtectedRoute element={<PerformanceRefund />} />}
             />
-            <Route
-              path="mypage/scriptmanage"
-              element={<ProtectedRoute element={<ScriptManage />} />}
-            />
+
             <Route
               path="mypage/scriptmanage/detail/:scriptId"
               element={<ProtectedRoute element={<ScriptManageDetail />} />}

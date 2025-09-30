@@ -60,171 +60,219 @@ const ScriptContent = ({
         {formattedDate}
       </p>
       <hr className="border-[#caabff]"></hr>
-      {items.map((script, idx) => (
-        <div key={script.id}>
-          <div className="script">
-            <div className=" aspect-square thumbnail-img-wrap">
-              <ThumbnailImg
-                imagePath={script.imagePath}
-                isRoute={isRoute}
-                id={script.id}
-              ></ThumbnailImg>
-            </div>
-            <div className=" script-tag">
-              <div
-                className={`a-items-center ${
-                  currentPage === "1" ? "j-content-between" : ""
-                }`}
-                id="title"
-              >
-                <div className="relative">
-                  <p
-                    className={!isSmallMobile ? "p-large-bold" : "p-small-bold"}
-                    id="title"
-                  >
-                    {script.title || "제목 없음"}
-                  </p>
-                  {isRoute && (
-                    <button
-                      className="absolute top-0 cursor-pointer size-full"
-                      style={{ top: 0 }} // 왜 tailwind 안먹음..?
-                      onClick={() => {
-                        navigate(`/list/detail/${script.id}`);
-                      }}
-                    ></button>
-                  )}
-                </div>
+      {items.map((script, idx) => {
+        // case: 유저 존재, 작품 삭제 / 유저 삭제, 작품 삭제
+        const isDeletedScriptOnly = script.delete && script.writer;
+        const isDeletedScriptAndAccount = script.delete && !script.writer;
+
+        return (
+          <div key={script.id}>
+            <div className="script">
+              <div className="thumbnail-img-wrap relative aspect-square">
+                <ThumbnailImg
+                  imagePath={script.imagePath}
+                  isRoute={isRoute}
+                  id={script.id}
+                ></ThumbnailImg>
                 {script.delete && (
-                  <img
-                    id="title-info"
-                    src={circleInfoBtn}
-                    alt="circleInfoBtn"
-                    onClick={() => {
-                      setShowPopup(!showPopup);
-                    }}
-                  />
-                )}
-                {showPopup ? (
-                  <ScriptContentPopup onClose={() => setShowPopup(false)} />
-                ) : null}
-                {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-                {currentPage === "1" && script.checked === "PASS" && (
-                  <div className="translate-y-[-15px]">
-                    <ScriptManageTopBtn className="" script={script} />
+                  <div
+                    className="flex justify-center items-center absolute top-0 left-0 w-full h-full rounded-[20px] z-10"
+                    style={{ background: "rgba(226, 226, 226, 0.70)" }}
+                  >
+                    <p className="p-small-medium sm:p-large-medium">
+                      삭제된 작품
+                    </p>
                   </div>
                 )}
-                {/* 작품 관리 페이지에서 심사 중일 경우 */}
-                {currentPage === "1" && script.checked === "WAIT" && (
-                  <div className="hidden md:block translate-y-[-15px]">
-                    <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
+                {script.delete && (
+                  <div className="sm:hidden absolute top-[8px] left-0">
+                    <img
+                      id="title-info"
+                      src={circleInfoBtn}
+                      alt="circleInfoBtn"
+                      onClick={() => {
+                        setShowPopup(!showPopup);
+                      }}
+                    />
+                    {showPopup && isSmallMobile ? (
+                      <ScriptContentPopup
+                        className="top-[-8px] left-[8px] translate-y-[-100%]"
+                        onClose={() => setShowPopup(false)}
+                        type={isDeletedScriptOnly ? "script" : "account"}
+                      />
+                    ) : null}
                   </div>
                 )}
               </div>
-
-              <hr className="border border-solid border-[#9E9E9E]"></hr>
-              <p
-                className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
-                id="author"
-              >
-                {currentPage === "1"
-                  ? ""
-                  : !script.delete
-                  ? script.writer
-                  : "삭제된 계정"}
-              </p>
-              {currentPage === "1" && script.checked === "WAIT" ? (
-                // 작품 관리 페이지에서 심사 중인 작품일 경우
-                <div className="margin-43_4px"></div>
-              ) : currentPage === "0" ? (
-                // 구매한 작품 페이지
-                currentTogglePage === "0" ? (
-                  // 구매한 작품 페이지에서 토글 선택이 '대본'일 경우
-                  <PriceText type="script" value={script.scriptPrice || 0} />
-                ) : currentTogglePage === "1" ? (
-                  // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
-                  <>
-                    <PriceText
-                      type="perform"
-                      value={script.performancePrice || 0}
-                    />
-                    <div
-                      style={
-                        !isSmallMobile ? { height: "32px" } : { height: "16px" }
+              <div className=" script-tag">
+                <div
+                  className={`a-items-center ${
+                    currentPage === "1" ? "j-content-between" : ""
+                  }`}
+                  id="title"
+                >
+                  <div className="relative">
+                    <p
+                      className={
+                        !isSmallMobile ? "p-large-bold" : "p-small-bold"
                       }
-                    ></div>
-                    {(isMobile || isSmallMobile) && (
-                      <PurchasedPerformPossibleInfo script={script} />
+                      id="title"
+                    >
+                      {script.title || "제목 없음"}
+                    </p>
+                    {isRoute && (
+                      <button
+                        className="absolute top-0 cursor-pointer size-full"
+                        style={{ top: 0 }}
+                        onClick={() => {
+                          navigate(`/list/detail/${script.id}`);
+                        }}
+                      ></button>
                     )}
-                  </>
-                ) : null
-              ) : (
-                <PriceTextsVertical
-                  script={script.script}
-                  scriptPrice={script.scriptPrice || 0}
-                  performance={script.performance}
-                  performPrice={script.performancePrice || 0}
-                />
-              )}
-              {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-              {(isMobile || isSmallMobile) &&
-              currentPage === "1" &&
-              script.checked === "PASS" ? (
-                <div className="relative">
-                  <ScriptManageTopBtn className="mobile" script={script} />
-                </div>
-              ) : currentPage === "1" && script.checked === "WAIT" ? (
-                <div className="translate-y-[-43.4px]">
-                  <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
-                </div>
-              ) : null}
-            </div>
-            <div className=" __script-content-btn">
-              {/* Button: props */}
-              {currentPage === "0" && !script.delete ? (
-                // 구매한 작품 페이지 (PurchasedScript.jsx)
-                currentTogglePage === "0" ? (
-                  // PurchasedScriptBtn.jsx
-                  <Button
-                    purchaseStatus={[script.script, script.performance]}
-                    id={script.id}
-                    title={script.title}
-                    productId={script.productId}
-                    buyPerformance={script.buyPerformance}
-                    orderStatus={script.orderStatus}
-                    style={
-                      isSmallMobile ? { width: "129px", height: "40px" } : {}
-                    }
-                  />
-                ) : (
-                  <section className="j-content-between">
-                    {!(isMobile || isSmallMobile) ? (
-                      <PurchasedPerformPossibleInfo script={script} />
-                    ) : (
-                      <div></div>
-                    )}
+                  </div>
+                  {script.delete && (
+                    <div className="hidden sm:block relative">
+                      <img
+                        id="title-info"
+                        src={circleInfoBtn}
+                        alt="circleInfoBtn"
+                        onClick={() => {
+                          setShowPopup(!showPopup);
+                        }}
+                      />
+                      {showPopup && !isSmallMobile ? (
+                        <ScriptContentPopup
+                          className="left-[calc(19px+8px+5px)] translate-y-[-40%]"
+                          onClose={() => setShowPopup(false)}
+                          type={isDeletedScriptOnly ? "script" : "account"}
+                        />
+                      ) : null}
+                    </div>
+                  )}
 
-                    {/* PurchasedPerformBtn.jsx */}
-                    <Button
-                      id={script.id}
-                      possibleCount={script.possibleCount}
-                      orderStatus={script.orderStatus}
+                  {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+                  {currentPage === "1" && script.checked === "PASS" && (
+                    <div className="translate-y-[-15px]">
+                      <ScriptManageTopBtn className="" script={script} />
+                    </div>
+                  )}
+                  {/* 작품 관리 페이지에서 심사 중일 경우 */}
+                  {currentPage === "1" && script.checked === "WAIT" && (
+                    <div className="hidden md:block translate-y-[-15px]">
+                      <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
+                    </div>
+                  )}
+                </div>
+
+                <hr className="ml-[-3px]! border-[1px] border-solid border-[#9E9E9E]"></hr>
+                <p
+                  className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
+                  id="author"
+                >
+                  {currentPage === "1"
+                    ? ""
+                    : !isDeletedScriptAndAccount
+                    ? script.writer
+                    : "삭제된 계정"}
+                </p>
+                {currentPage === "1" && script.checked === "WAIT" ? (
+                  // 작품 관리 페이지에서 심사 중인 작품일 경우
+                  <div className="margin-43_4px"></div>
+                ) : currentPage === "0" ? (
+                  // 구매한 작품 페이지
+                  currentTogglePage === "0" ? (
+                    // 구매한 작품 페이지에서 토글 선택이 '대본'일 경우
+                    <PriceText type="script" value={script.scriptPrice || 0} />
+                  ) : currentTogglePage === "1" ? (
+                    // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
+                    <>
+                      <PriceText
+                        type="perform"
+                        value={script.performancePrice || 0}
+                      />
+                      <div
+                        style={
+                          !isSmallMobile
+                            ? { height: "32px" }
+                            : { height: "16px" }
+                        }
+                      ></div>
+                      {(isMobile || isSmallMobile) && (
+                        <PurchasedPerformPossibleInfo script={script} />
+                      )}
+                    </>
+                  ) : null
+                ) : (
+                  <div className="pl-[6px] pr-[6px] sm:pr-0">
+                    <PriceTextsVertical
+                      script={script.script}
+                      scriptPrice={script.scriptPrice || 0}
+                      performance={script.performance}
+                      performPrice={script.performancePrice || 0}
                     />
-                  </section>
-                )
-              ) : currentPage === "1" && !script.delete ? (
-                // 작품 관리 페이지 ScriptManageBtn.jsx
-                // checked - false: 심사 중, true: 심사 완료
-                <Button
-                  reviewCompleted={script.checked}
-                  scriptSale={script.script}
-                  performSale={script.performance}
-                  id={script.id}
-                />
-              ) : null}
+                  </div>
+                )}
+                {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
+                {(isMobile || isSmallMobile) &&
+                currentPage === "1" &&
+                script.checked === "PASS" ? (
+                  <div className="relative">
+                    <ScriptManageTopBtn className="mobile" script={script} />
+                  </div>
+                ) : currentPage === "1" && script.checked === "WAIT" ? (
+                  <div className="block md:hidden translate-y-[-43.4px]">
+                    <ScriptManageEachTopBtn>심사 중</ScriptManageEachTopBtn>
+                  </div>
+                ) : null}
+              </div>
+              <div className=" __script-content-btn">
+                {/* Button: props */}
+                {currentPage === "0" && !script.delete ? (
+                  // 구매한 작품 페이지 (PurchasedScript.jsx)
+                  currentTogglePage === "0" ? (
+                    // PurchasedScriptBtn.jsx
+                    <Button
+                      purchaseStatus={[script.script, script.performance]}
+                      id={script.id}
+                      title={script.title}
+                      productId={script.productId}
+                      buyPerformance={script.buyPerformance}
+                      orderStatus={script.orderStatus}
+                      style={
+                        isSmallMobile ? { width: "129px", height: "40px" } : {}
+                      }
+                    />
+                  ) : (
+                    <section className="j-content-between">
+                      {!(isMobile || isSmallMobile) ? (
+                        <PurchasedPerformPossibleInfo script={script} />
+                      ) : (
+                        <div></div>
+                      )}
+
+                      {/* PurchasedPerformBtn.jsx */}
+                      <Button
+                        id={script.id}
+                        possibleCount={script.possibleCount}
+                        orderStatus={script.orderStatus}
+                      />
+                    </section>
+                  )
+                ) : currentPage === "1" && !script.delete ? (
+                  // 작품 관리 페이지 ScriptManageBtn.jsx
+                  // checked - false: 심사 중, true: 심사 완료
+                  <Button
+                    reviewCompleted={script.checked}
+                    scriptSale={script.script}
+                    performSale={script.performance}
+                    id={script.id}
+                  />
+                ) : null}
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

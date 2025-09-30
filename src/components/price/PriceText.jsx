@@ -17,9 +17,7 @@ const PriceText = ({ type, value }) => {
     <div className="price-text">
       {type === "script" ? (
         <img
-          className={` ${
-            isSmallMobile ? "w-[2.5vw] min-w-[8px] aspect-[4/5]" : "w-[12px]"
-          }`}
+          className="w-[8px] sm:w-[12px]"
           src={scriptImg}
           alt="script"
           style={{
@@ -28,11 +26,7 @@ const PriceText = ({ type, value }) => {
         ></img>
       ) : type === "perform" ? (
         <img
-          className={` ${
-            isSmallMobile
-              ? "w-[3.125vw] min-w-[10px] aspect-square"
-              : "w-[15px]"
-          }`}
+          className="w-[10px] sm:w-[15px]"
           src={performImg}
           alt="perform"
         ></img>

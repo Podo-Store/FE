@@ -27,8 +27,8 @@ function Footer() {
   return (
     <>
       <MyPageInterceptor footerRef={footerRef}></MyPageInterceptor>
-      <div className="footer" ref={footerRef}>
-        <div className="footer-inner">
+      <div className=" footer" ref={footerRef}>
+        <div className="footer-inner h-fit my-auto">
           <div className="footer-upper">
             <img src={logo} alt="navLogo" />
             <div style={{ height: "10px" }}></div>
@@ -36,11 +36,20 @@ function Footer() {
             <p>Copyright © 2025 포도상점. Powered by 포도상점</p>
           </div>
           <div className="footer-lower">
-            <div className="business-info">
-              {/*<p>사업자 번호 : 111-11-111111</p>*/}
+            <div className="business-info p-xs-regular text-[#333]">
               <p>&nbsp;</p>
+              <p className="">대표 : 서준</p>
+              <p>사업자등록번호 : 196-64-00773</p>
+              <p>통신판매업신고번호 : 2025-서울노원-1262</p>
+              <p class="whitespace-pre-line">
+                <span class="inline-block w-[25px]">주소 :</span>
+                서울특별시 노원구 석계로 98-2, 3층 A-2호
+                <br />
+                <span class="inline-block w-[25px]"></span>(월계동,
+                스타트업스테이션)
+              </p>
+
               <p>연락처 : 010-5251-5830</p>
-              <p>대표 : 서준</p>
             </div>
 
             <div className="sitemap">
@@ -66,6 +75,24 @@ function Footer() {
                       }}
                     >
                       작품 등록하기
+                    </li>
+                    <li
+                      className="p-xs-bold c-pointer"
+                      onClick={() => {
+                        navigate("/performedWork");
+                        scrollToTop();
+                      }}
+                    >
+                      공연 소식
+                    </li>
+                    <li
+                      className="p-xs-bold c-pointer"
+                      onClick={() => {
+                        navigate("/");
+                        scrollToTop();
+                      }}
+                    >
+                      회사 소개
                     </li>
                   </ul>
                 </>

@@ -12,7 +12,6 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import { SERVER_URL } from "@/constants/ServerURL";
 
-import samplePDF from "@/assets/sample.pdf";
 import previewGlass from "@/assets/image/glass.svg";
 
 import "./Preview.css";
@@ -120,7 +119,7 @@ const Preview = ({ id, lengthType }) => {
           />
         ) : (
           <Document
-            file={pdfData || samplePDF}
+            file={pdfData}
             onLoadSuccess={onDocumentLoadSuccess}
             options={{ cMapUrl: "cmaps/", cMapPacked: true }}
             loading={<PartialLoading />}

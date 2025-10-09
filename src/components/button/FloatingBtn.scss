@@ -1,3 +1,5 @@
+@use "@/styles/_responsive.scss" as r;
+
 .__floating-btn__ {
   position: fixed;
   bottom: 50px;
@@ -18,6 +20,9 @@
   z-index: 10;
 
   transition: background-color 0.125s ease;
+  @include r.media-small-mobile {
+    right: 25px;
+  }
 }
 
 .__floating-btn__:active {

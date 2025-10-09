@@ -3,7 +3,7 @@ import { useState } from "react";
 import floatingBlack from "../../assets/image/button/floatingBlack.svg";
 import floatingWhite from "../../assets/image/button/floatingWhite.svg";
 
-import "./FloatingBtn.css";
+import "./FloatingBtn.scss";
 
 const FloatingBtn = ({ ...props }) => {
   const [active, setActive] = useState(false);

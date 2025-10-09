@@ -189,6 +189,8 @@ const MainVer2 = () => {
             </div>
 
             {/* 768 아래에선 밑의 두 요소 contents 교체 */}
+            {/* 나도 이제 뭐가 뭔지 모르겠다 대체
+             * 일단 contents 내용 안바뀌고 작품 등록하기 - 작품 둘러보기 - 공연권 신청하기로 돼야 함 */}
             <div
               className="page2-content f-dir-column j-content-between"
               onClick={() =>

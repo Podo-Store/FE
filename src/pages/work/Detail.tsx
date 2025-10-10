@@ -5,7 +5,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../Loading";
 import AuthContext from "@/contexts/AuthContext";
-import defaultImg from "../../assets/image/post/list/defaultProfile.png";
+import defaultImg from "../../assets/image/post/list/defaultProfile_noneBorder.png";
 import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import FloatingBtn from "@/components/button/FloatingBtn";
@@ -446,11 +446,7 @@ const Detail = () => {
       <div className="w-full detail-wrap f-dir-column a-items-center">
         <div className="w-full content">
           <div className="detail-thumbnail-wrap">
-            <div
-              className={`flex relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
-                script?.imagePath !== "" ? "border border-[var(--grey3)]" : ""
-              }`}
-            >
+            <div className="flex relative aspect-square w-full rounded-[20px] bg-white border-1 border-[var(--grey3)]">
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}

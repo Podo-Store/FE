@@ -212,7 +212,7 @@ const PostWork = () => {
                         bottom: "0",
                         padding: "11px",
                         transform:
-                          "translate(calc(113.75px + 8px + 20px + 5px), 0)",
+                          "translate(calc(113.75px + 8px), 0)",
                       }}
                       buttonId="info-btn"
                     />
@@ -240,7 +240,7 @@ const PostWork = () => {
             </div>
           </div>
         </div>
-        <div className=" right-side">
+        <div className="right-side">
           <img src={postingProcess} alt="작품 등록 도식화"></img>
         </div>
       </div>

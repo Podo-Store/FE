@@ -68,8 +68,7 @@
   width: 796px;
 
   @include r.media-laptop {
-    width: 517px;
-    height: 869px;
+    width: 721px;
   }
 }
 
@@ -299,5 +298,11 @@
   @include r.media-mobile {
     width: 242px;
     height: 402px;
+  }
+
+  @include r.media-small-mobile {
+    width: 53.4vw;
+    height: auto;
+    aspect-ratio: 171 / 309;
   }
 }

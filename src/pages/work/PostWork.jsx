@@ -28,7 +28,6 @@ import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
 import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
 import "./PostWork.scss";
-
 const PostWork = () => {
   const [file, setFile] = useState(null);
   const [fileSelected, setFileSelected] = useState(false);
@@ -242,10 +241,7 @@ const PostWork = () => {
           </div>
         </div>
         <div className=" right-side">
-          <img
-            src={width >= 1920 ? postingProcess : postingProcess2}
-            alt="작품 등록 도식화"
-          ></img>
+          <img src={postingProcess} alt="작품 등록 도식화"></img>
         </div>
       </div>
       {isAuthorTermsPopup && (

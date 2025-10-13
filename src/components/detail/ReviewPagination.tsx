@@ -37,7 +37,7 @@ const ReviewPagination = ({
   };
 
   return (
-    <div className="flex justify-center items-center gap-[16px]">
+    <div className="flex justify-center items-center gap-[20px]">
       <button onClick={handlePrevGroup} disabled={startPage === 1}>
         <img src={startPage === 1 ? leftDisabledIcon : leftIcon} alt="이전" />
       </button>

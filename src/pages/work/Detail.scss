@@ -411,6 +411,10 @@
   background: #fff;
 
   text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+  padding-left: 44px;
+  padding-right: 44px;
 
   /* 화살표 커스텀 */
   /* Remove default arrow */
@@ -421,7 +425,7 @@
   /* Add custom arrow */
   background-image: url("./../../assets/image/post/selectArrow.svg");
   background-repeat: no-repeat;
-  background-position: right 20px center;
+  background-position: calc(100% - 20px) center;
   background-size: 1.25rem;
 }
 

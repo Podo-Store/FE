@@ -452,7 +452,7 @@ const Detail = () => {
                 alt={script?.title}
                 className="object-contain shrink-0 rounded-[20px] w-full thumbnail"
               />
-              <div className="absolute bottom-[6.3%] right-[6.4%] transition-all duration-100 hover:scale-[1.2]">
+              <div className="absolute right-[7px] bottom-[6px] sm:right-[14px] sm:bottom-[14px] md:right-[20px] md:bottom-[20px] lg:right-[30px] lg:bottom-[30px] transition-all duration-100 hover:scale-[1.2]">
                 <button
                   onClick={() => {
                     if (script?.id) {
@@ -461,7 +461,7 @@ const Detail = () => {
                   }}
                 >
                   <img
-                    className=""
+                    className="size-[27px] sm:size-[35px]"
                     src={script?.like ? redHeartIcon : heartIcon}
                     alt="좋아요"
                   ></img>
@@ -512,7 +512,7 @@ const Detail = () => {
                       {script?.writer}
                     </h3>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex">
                     <LikeViewCount
                       likes={script?.likeCount ?? 0}
                       views={script?.viewCount ?? 0}

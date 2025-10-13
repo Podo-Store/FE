@@ -440,7 +440,7 @@ const Detail = () => {
   };
 
   return (
-    <div className=" detail f-dir-column a-items-center">
+    <div className="detail flex flex-col items-center pb-[100px]">
       <FloatingBtn style={{ bottom: "100px" }} />
 
       <div className="w-full detail-wrap f-dir-column a-items-center">

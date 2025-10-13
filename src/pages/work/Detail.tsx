@@ -1031,49 +1031,50 @@ const Detail = () => {
       </div>
 
       {!isDetailBtnVisible && (
-        <div className="detail-bottom-bar" style={bottomBarStyle}>
-          <div className="bottom-bar-left">
-            <h5 className="h5-regular c-grey">총 금액</h5>
-            <h4 className="h4-bold" id="bottom-total-price">
-              {totalPrice} 원
-            </h4>
-          </div>
-          <div className="bottom-bar-right">
-            {/* disabled */}
-            <Select
-              className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
-              value={selectedOption}
-              onChange={onChangeSelectOption}
-              disabled={!script?.performance} // 포도알 스테이지에서만 적용
-            >
-              <option value="">옵션 선택</option>
-              {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-              script.script ? (
-                <option value="script">대본</option>
-              ) : null}
-              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-              script.script &&
-              script.performance ? (
-                <option value="scriptPerform">대본 + 공연권</option>
-              ) : null}
-              {script?.buyStatus === 0 && script.performance ? (
-                <option value="perform">공연권</option>
-              ) : null} */}
+        <div className="hidden"></div>
+        // <div className="detail-bottom-bar" style={bottomBarStyle}>
+        //   <div className="bottom-bar-left">
+        //     <h5 className="h5-regular c-grey">총 금액</h5>
+        //     <h4 className="h4-bold" id="bottom-total-price">
+        //       {totalPrice} 원
+        //     </h4>
+        //   </div>
+        //   <div className="bottom-bar-right">
+        //     {/* disabled */}
+        //     <Select
+        //       className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
+        //       value={selectedOption}
+        //       onChange={onChangeSelectOption}
+        //       disabled={!script?.performance} // 포도알 스테이지에서만 적용
+        //     >
+        //       <option value="">옵션 선택</option>
+        //       {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+        //       script.script ? (
+        //         <option value="script">대본</option>
+        //       ) : null}
+        //       {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+        //       script.script &&
+        //       script.performance ? (
+        //         <option value="scriptPerform">대본 + 공연권</option>
+        //       ) : null}
+        //       {script?.buyStatus === 0 && script.performance ? (
+        //         <option value="perform">공연권</option>
+        //       ) : null} */}
 
-              {script?.buyStatus === 0 && script.performance ? (
-                <option value="perform">공연권</option>
-              ) : null}
-            </Select>
-            {/* <button id="cart-btn">장바구니</button>*/}
-            <button
-              id="purchase-btn"
-              onClick={onClickPurchase}
-              disabled={!isOptionSelected}
-            >
-              구매하기
-            </button>
-          </div>
-        </div>
+        //       {script?.buyStatus === 0 && script.performance ? (
+        //         <option value="perform">공연권</option>
+        //       ) : null}
+        //     </Select>
+        //     {/* <button id="cart-btn">장바구니</button>*/}
+        //     <button
+        //       id="purchase-btn"
+        //       onClick={onClickPurchase}
+        //       disabled={!isOptionSelected}
+        //     >
+        //       구매하기
+        //     </button>
+        //   </div>
+        // </div>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import inequalityLeft from "@/assets/image/button/arrow/ic_black_left_arrow.svg"
 import inequalityRight from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import CloseBtn from "@/assets/image/button/CloseBtn.svg";
 import PreviewNotice from "./PreviewNotice";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 /**
  * deprecated 였던 것
@@ -16,6 +17,8 @@ const Modal = ({
   totalPages,
 }) => {
   const isOpen = selectedPage !== null;
+
+  const { width } = useWindowDimensions();
 
   const handleClose = () => setSelectedPage(null);
   const handlePrev = () => {
@@ -79,7 +82,7 @@ const Modal = ({
         }}
       >
         {selectedPage != null && (
-          <Page renderMode="canvas" pageNumber={selectedPage} width={320} />
+          <Page renderMode="canvas" pageNumber={selectedPage} width={width} />
         )}
         {selectedPage === showThreshold && (
           <PreviewNotice

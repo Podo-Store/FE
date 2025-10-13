@@ -946,22 +946,22 @@ const Detail = () => {
                 전체 후기
               </p>
               <button
-                className="flex items-center gap-[4px] p-medium-regular hover:text-[#6A39C0]"
+                className="flex items-center gap-[4px] p-xs-regular sm:p-medium-regular hover:text-[#6A39C0]"
                 onClick={() => setOpenSort(!openSort)}
               >
                 {sort === "LIKE_COUNT" ? "좋아요순" : "최신순"}
                 <img
-                  className="size-[18px]"
+                  className="size-[14px] sm:size-[18px]"
                   src={openSort ? closeImg : openImg}
                   alt=""
                 ></img>
               </button>
 
               {openSort && (
-                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
+                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] sm:w-[84px] sm:h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
                   <button
                     className={clsx(
-                      "flex items-center gap-[4px] p-medium-medium",
+                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
                       {
                         "text-[#777] hover:text-[#6A39C0]":
                           sort !== "LIKE_COUNT",
@@ -976,7 +976,7 @@ const Detail = () => {
                   </button>
                   <button
                     className={clsx(
-                      "flex items-center gap-[4px] p-medium-medium",
+                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
                       {
                         "text-[#777] hover:text-[#6A39C0]": sort !== "LATEST",
                       }

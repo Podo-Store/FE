@@ -124,7 +124,7 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
           return (
             <li
               key={stage}
-              className={`flex flex-row  gap-[7px] items-center stage-tab-li z-10 whitespace-nowrap 
+              className={`flex flex-row gap-[7px] items-center stage-tab-li z-10 whitespace-nowrap 
               ${
                 isActive
                   ? " border-b-4 border-[#6A39C0] rounded-[1px]"

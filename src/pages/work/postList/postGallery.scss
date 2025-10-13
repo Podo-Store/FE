@@ -15,7 +15,7 @@
     width: 428px;
   }
   @include r.media-small-mobile {
-    width: 87.5vw;
-    min-width: 320px;
+    // width: 87.5vw;
+    width: 100%;
   }
 }

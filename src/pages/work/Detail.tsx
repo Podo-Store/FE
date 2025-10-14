@@ -101,7 +101,7 @@ const Detail = () => {
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
   const detailBtnWrapRef = useRef(null);
-  const { isAuthenticated } = useContext(AuthContext);
+  const { isAuthenticated, isAdmin } = useContext(AuthContext);
   const toggleLike = useSingleToggleLike();
   const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
 
@@ -585,25 +585,25 @@ const Detail = () => {
 
                 <div className="option-select ">
                   <Select
-                    className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
+                    className={`${isAdmin ? "cursor-pointer" : ""}`}
                     value={selectedOption}
                     onChange={onChangeSelectOption}
-                    disabled={!script?.performance} // 포도알 스테이지에서만 적용
+                    disabled={!isAdmin}
                   >
                     <option value="">옵션 선택</option>
-                    {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-                    script.script ? (
+                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+                    script?.script ? (
                       <option value="script">대본</option>
                     ) : null}
                     {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-                    script.script &&
-                    script.performance ? (
+                    script?.script &&
+                    script?.performance ? (
                       <option value="scriptPerform">대본 + 공연권</option>
                     ) : null}
                     {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-                    script.performance ? (
+                    script?.performance ? (
                       <option value="perform">공연권</option>
-                    ) : null} */}
+                    ) : null}
                   </Select>
                 </div>
 

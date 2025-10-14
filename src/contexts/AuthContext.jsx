@@ -6,7 +6,10 @@ import { useLocation } from "react-router-dom";
 import { setupAxiosInterceptors } from "../utils/AxiosInterceptors";
 
 import { SERVER_URL } from "../constants/ServerURL.js";
-import { ACCESS_TOKEN_EXP_TIME, REFRESH_TOKEN_EXP_TIME } from "../constants/TokenExpireTime";
+import {
+  ACCESS_TOKEN_EXP_TIME,
+  REFRESH_TOKEN_EXP_TIME,
+} from "../constants/TokenExpireTime";
 
 const AuthContext = createContext();
 
@@ -16,13 +19,35 @@ export const AuthProvider = ({ children }) => {
     // 페이지 로드 시 로컬 스토리지에서 유저 닉네임을 불러옴
     return localStorage.getItem("userNickname") || "username";
   });
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const location = useLocation();
+
+  const parseIsAdmin = (token) => {
+    if (!token) {
+      return false;
+    }
+    try {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split("")
+          .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+          .join("")
+      );
+      const payload = JSON.parse(jsonPayload);
+      return payload?.auth ?? false;
+    } catch (e) {
+      return false;
+    }
+  };
 
   useEffect(() => {
     const accessToken = Cookies.get("accessToken");
     const refreshToken = Cookies.get("refreshToken");
     setIsAuthenticated(!!accessToken && !!refreshToken);
+    setIsAdmin(parseIsAdmin(accessToken));
   }, [location]);
 
   const login = (accessToken, refreshToken, userNickname) => {
@@ -41,6 +66,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("userNickname", userNickname);
 
     setIsAuthenticated(true);
+    setIsAdmin(parseIsAdmin(accessToken));
   };
 
   const logout = () => {
@@ -51,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("userNickname");
 
     setIsAuthenticated(false);
+    setIsAdmin(false);
   };
 
   const refreshAccessToken = async () => {
@@ -77,6 +104,7 @@ export const AuthProvider = ({ children }) => {
         sameSite: "Strict",
       });
       setIsAuthenticated(true);
+      setIsAdmin(parseIsAdmin(accessToken));
       return accessToken;
     } catch (error) {
       console.error("Access token refresh failed:", error);
@@ -98,6 +126,7 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        isAdmin,
         userNickname,
         login,
         logout,

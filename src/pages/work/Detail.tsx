@@ -585,7 +585,7 @@ const Detail = () => {
 
                 <div className="option-select ">
                   <Select
-                    className={`${isAdmin ? "cursor-pointer" : ""}`}
+                    className={isAdmin ? "cursor-pointer" : ""}
                     value={selectedOption}
                     onChange={onChangeSelectOption}
                     disabled={!isAdmin}

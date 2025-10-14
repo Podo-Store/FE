@@ -7,22 +7,26 @@ import clsx from "clsx";
 
 const CheckerMessage = ({
   checkedFlag = false,
-  message,
+  message = "",
   smallMessage = false,
 }) => {
   return (
     <div className="d-flex checker-message" id="error">
       <img
+        className="w-[14px] h-[14px] sm:w-[20px] sm:h-[20px]"
         src={checkedFlag ? checked : nonChecked}
         alt="checked"
-        style={smallMessage ? { width: "14px", height: "14px" } : {}}
-      ></img>
+        style={
+          smallMessage
+            ? { width: "14px", height: "14px" }
+            : { width: "20px", height: "20px" }
+        }
+      />
       <p
-        className={clsx(
-          "whitespace-nowrap",
-          !smallMessage ? "p-small-medium" : "p-xs-medium",
-          checkedFlag ? "c-main" : "c-grey"
-        )}
+        className={`whitespace-nowrap 
+          ${checkedFlag ? "c-main" : "c-grey"}
+          ${smallMessage ? "p-xs-medium" : "p-smll-medium"}
+        `}
       >
         {message}
       </p>

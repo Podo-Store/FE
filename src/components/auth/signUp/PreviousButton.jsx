@@ -20,7 +20,7 @@ const PreviousButton = ({ onPrevious }) => {
       <img src={previousArrow} alt="previous" />
       <p
         className={clsx(
-          "p-medium-medium c-grey",
+          "c-grey",
           !isSmallMobile ? "p-medium-medium" : "p-12-400"
         )}
       >

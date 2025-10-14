@@ -5,7 +5,10 @@ import "./BottomBtn.scss";
 const BottomBtn = ({ ...props }) => {
   return (
     <div className="BottomBtn">
-      <button className="bottomButton" {...props}></button>
+      <button
+        className="bottomButton p-medium-bold sm:p-large-bold"
+        {...props}
+      ></button>
     </div>
   );
 };

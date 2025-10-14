@@ -1,21 +1,18 @@
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useEffect } from "react";
 
 type ToastProps = {
-  message: string;
+  name: string;
   duration?: number; // ms
   onClose: () => void;
 };
 
-export default function Toast({
-  message,
-  duration = 1000,
-  onClose,
-}: ToastProps) {
+export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
   useEffect(() => {
     const t = setTimeout(onClose, duration);
     return () => clearTimeout(t);
   }, [duration, onClose]);
-
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   return (
     <div
       role="status"
@@ -24,16 +21,16 @@ export default function Toast({
         fixed left-1/2 top-40 -translate-x-1/2
         z-[9999]
         flex items-center gap-2
-        rounded-full bg-[var(--grey2)] px-[52px] py-[14px]
+        rounded-full bg-[var(--grey2)] px-[20px] sm:px-[25px] md:px-[52px] py-[14px]
         shadow-[0_2px_10px_rgba(0,0,0,0.25)]
         animate-toast-in-out
-        h4-medium whitespace-pre-wrap"
+        p-small-mdeium sm:h4-medium whitespace-pre-wrap"
     >
       <span className="inline-flex h-8 w-8 items-center justify-center">
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="32"
-          height="32"
+          width={isSmallMobile ? "24" : "32"}
+          height={isSmallMobile ? "24" : "32"}
           viewBox="0 0 32 32"
           fill="none"
         >
@@ -49,7 +46,10 @@ export default function Toast({
           />
         </svg>
       </span>
-      <span className="whitespace-nowrap">{message}</span>
+      <span className="whitespace-nowrap flex flex-col md:flex-row items-center">
+        <p>{name}님,</p>
+        <p>회원가입을 완료하였습니다!</p>
+      </span>
     </div>
   );
 }

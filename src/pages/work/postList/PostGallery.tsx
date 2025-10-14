@@ -219,7 +219,9 @@ const PostGallery = () => {
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
       {/*------ 작품 둘러보기 ------*/}
-      <p className="sm:h5-bold p-medium-bold mb-[30px]">작품 둘러보기</p>
+      <p className="sm:h5-bold p-medium-bold mb-[30px] pl-[25px] sm:pl-0">
+        작품 둘러보기
+      </p>
 
       {/*------ 배너 ------*/}
       <InfiniteBanner />

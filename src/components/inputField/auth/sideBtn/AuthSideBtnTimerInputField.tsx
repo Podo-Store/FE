@@ -88,13 +88,12 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
   return (
     <div>
       <AuthInputField
-        className="input"
         fontMode={isSmallMobile ? "12" : fontMode}
         style={{
           width: "100%",
           ...(isSmallMobile ? { height: "48px" } : {}),
         }}
-        rightElement={
+        rightButton={
           <div className="flex items-center">
             <AuthInsideBtn
               title={sideBtnTitle}
@@ -110,7 +109,7 @@ const AuthSideBtnTimerInputField: React.FC<AuthSideBtnTimerInputFieldProps> = ({
                 )}
                 style={
                   fontMode === "default"
-                    ? { transform: "translate(-4.5rem, 0)" }
+                    ? { transform: "translate(-5.5rem, 0)" }
                     : { transform: "translate(-3.5rem, 0)" }
                 }
               >

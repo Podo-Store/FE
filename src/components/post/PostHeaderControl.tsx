@@ -61,7 +61,7 @@ const PostHeaderControl: React.FC<PostHeaderControlProps> = ({
           activeStoryLength={activeStoryLength}
           setActiveStoryLength={setActiveStoryLength}
         />
-        <div className="flex items-center flex-row gap-[10px] h-full   ">
+        <div className="flex items-center flex-row gap-[10px] h-full mr-[20px] mt-1 ">
           {/* 정렬 */}
           {isSorted ? (
             <SortDropdown selected={sortType} onChange={setSortType} />

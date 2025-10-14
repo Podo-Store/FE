@@ -82,11 +82,16 @@ const MainVer2 = () => {
   // }
 
   useEffect(() => {
-    const state = location.state as { toastMessage?: string } | null;
-    if (state?.toastMessage) {
-      setSignUpToast(state.toastMessage);
+    const rawState = location.state as {
+      toastMessage?: string | { name?: string };
+    } | null;
+
+    const raw = rawState?.toastMessage;
+    const nickname = typeof raw === "string" ? raw : raw?.name ?? "";
+
+    if (nickname) {
+      setSignUpToast(nickname);
       if (navType === "PUSH" || navType === "REPLACE") {
-        // 현재 URL 그대로 두고 state만 제거
         window.history.replaceState(
           null,
           "",
@@ -102,7 +107,7 @@ const MainVer2 = () => {
         <div className="page1">
           {signUpToast && (
             <Toast
-              message={signUpToast}
+              name={signUpToast}
               duration={1000}
               onClose={() => setSignUpToast("")}
             />

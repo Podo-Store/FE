@@ -73,9 +73,7 @@ const SignUpDefault = () => {
       navigate("/", {
         replace: true,
         state: {
-          toastMessage: `${
-            data.nickname || userInfo.name
-          } 님, 회원가입이 완료되었습니다!`,
+          toastMessage: data.nickname,
         },
       });
     } catch (error) {

@@ -58,34 +58,38 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
         </div>
       </div>
 
-      {/* 내용 */}
-      <h2
-        className={` text-black w-full mb-[3px] truncate ${
-          isSmallMobile ? "p-small-bold" : "p-large-bold"
-        }`}
-      >
-        {posts.title}
-      </h2>
-      <h3
-        className={`w-full text-black truncate  ${
-          isSmallMobile ? "p-12-bold " : "p-medium-bold"
-        }`}
-      >
-        {posts.writer}
-      </h3>
-      {viewType === "card" ? (
-        <div className="w-full mt-[9px]">
-          <PriceTextsHorizontal
-            scriptPrice={posts.scriptPrice}
-            performPrice={posts.performancePrice}
-          />
-        </div>
-      ) : (
-        <></>
-      )}
+      <div className="w-full pl-[2px]">
+        {/* 내용 */}
+        <h2
+          className={` text-black w-full mb-[3px] truncate ${
+            isSmallMobile ? "p-small-bold" : "p-large-bold"
+          }`}
+        >
+          {posts.title}
+        </h2>
+        <h3
+          className={`w-full text-black truncate  ${
+            isSmallMobile ? "p-12-bold " : "p-medium-bold"
+          }`}
+        >
+          {posts.writer}
+        </h3>
+        <div className="w-full mt-[8px] sm:mt-[10px]">
+          {viewType === "card" ? (
+            <div className="w-full mb-[5px] sm:mb-[10px]">
+              <PriceTextsHorizontal
+                scriptPrice={posts.scriptPrice}
+                performPrice={posts.performancePrice}
+              />
+            </div>
+          ) : (
+            <></>
+          )}
 
-      <div className="w-full mt-[10px] ">
-        <LikeViewCount likes={posts.likeCount} views={posts.viewCount} />
+          <div className="w-full ">
+            <LikeViewCount likes={posts.likeCount} views={posts.viewCount} />
+          </div>
+        </div>
       </div>
     </div>
   );

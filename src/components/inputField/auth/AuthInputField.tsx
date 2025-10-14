@@ -5,10 +5,12 @@ import { AuthInputFieldProps } from "./types";
 
 import "./AuthInputField.css";
 import clsx from "clsx";
+import useWindowDimensions from "@/hooks/useWindowDimensions.js";
 
 /**
  * @param {object} props
  * @param {string} [props.title] - [deprecated] title
+ * @param {object} [props.rightButton] - input field 우측 button
  * @param {object} [props.style] - style
  * @param {string} [props.fontMode] - "default" | "12" | "xs"
  * @param {boolean} [props.readOnly] - 읽기 전용 여부
@@ -29,6 +31,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
   readOnly = false,
   disabledMode = false, // ✅ 새로운 prop
   rightElement,
+  rightButton,
 
   checkerShowFlag,
   checkerMessages = [], // [{ checkedFlag: boolean, message: string }, ... ]
@@ -39,6 +42,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
   errorMessageCustomFlag = false,
   ...props
 }) => {
+  const { isSmallMobile } = useWindowDimensions().widthConditions;
   return (
     <div className="auth-input-field">
       <label htmlFor={title}>{title}</label>
@@ -70,13 +74,13 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
           {...props}
         />
         {rightElement ? (
-          <div
-            className="right-element"
-            style={
-              fontMode === "12" || fontMode === "xs" ? { right: "13px" } : {}
-            }
-          >
+          <div className="right-element right-[15px] sm:right-[18px] md:right-[30px]">
             {rightElement}
+          </div>
+        ) : null}
+        {rightButton ? (
+          <div className="right-element right-[8px] sm:right-[10px] ">
+            {rightButton}
           </div>
         ) : null}
       </div>

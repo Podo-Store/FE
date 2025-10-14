@@ -6,6 +6,7 @@ export interface AuthInputFieldProps
   readOnly?: boolean;
   disabledMode?: boolean;
   rightElement?: React.ReactNode;
+  rightButton?: React.ReactNode;
   checkerShowFlag?: boolean;
   checkerMessages?: { checkedFlag: boolean; message: string }[];
   errorFlag?: boolean;

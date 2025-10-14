@@ -172,7 +172,7 @@ const SignUp4 = ({
           <CheckerMessage
             checkedFlag={true}
             message="메일이 전송되었습니다."
-            smallMessage="true"
+            smallMessage={isSmallMobile ? true : false}
           />
         ) : null}
       </div>

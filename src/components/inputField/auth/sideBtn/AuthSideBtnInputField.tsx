@@ -12,13 +12,12 @@ const AuthSideBtnInputField: React.FC<AuthSideBtnInputFieldProps> = ({
   const { isSmallMobile } = useWindowDimensions().widthConditions;
   return (
     <AuthInputField
-      className="input"
       fontMode={isSmallMobile ? "12" : "default"}
       style={{
         width: "100%",
         ...(isSmallMobile ? { height: "48px" } : {}),
       }}
-      rightElement={
+      rightButton={
         <AuthInsideBtn
           title={sideBtnTitle}
           onClick={sideBtnOnClick}

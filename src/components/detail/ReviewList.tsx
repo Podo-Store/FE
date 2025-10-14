@@ -175,12 +175,12 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
                 key={index}
                 src={icon}
                 alt={`Star ${index + 1}`}
-                className="w-[16.542px] h-[15.797px]"
+                className="w-[10px] h-[10px] sm:w-[16.542px] sm:h-[15.797px]"
               />
             ))}
           </div>
           <img src={divisionBar} alt="|" />
-          <p className="p-small-medium">{standardText}</p>
+          <p className="p-xs-medium sm:p-small-medium">{standardText}</p>
         </div>
       </div>
 

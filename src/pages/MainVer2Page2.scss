@@ -34,16 +34,18 @@
   @include r.media-tablet {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    justify-self: center;
+    justify-items: center;
     gap: 25px;
-  }
-  @include r.media-small-mobile {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+
     width: 100%;
   }
+  // @include r.media-small-mobile {
+  //   display: flex;
+  //   flex-direction: column;
+  //   justify-content: center;
+  //   align-items: center;
+  //   width: 100%;
+  // }
 }
 
 .main-ver2 .page2 .page2-content {

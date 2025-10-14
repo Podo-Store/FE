@@ -5,7 +5,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../Loading";
 import AuthContext from "@/contexts/AuthContext";
-import defaultImg from "../../assets/image/post/list/defaultProfile.png";
+import defaultImg from "../../assets/image/post/list/defaultProfile_noneBorder.png";
 import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import FloatingBtn from "@/components/button/FloatingBtn";
@@ -440,23 +440,19 @@ const Detail = () => {
   };
 
   return (
-    <div className=" detail f-dir-column a-items-center">
+    <div className="detail flex flex-col items-center pb-[100px]">
       <FloatingBtn style={{ bottom: "100px" }} />
 
       <div className="w-full detail-wrap f-dir-column a-items-center">
         <div className="w-full content">
           <div className="detail-thumbnail-wrap">
-            <div
-              className={`flex relative aspect-square w-full rounded-[20px] bg-white mb-[7px] ${
-                script?.imagePath !== "" ? "border border-[var(--grey3)]" : ""
-              }`}
-            >
+            <div className="flex relative aspect-square w-full rounded-[20px] bg-white border-1 border-[var(--grey3)]">
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}
                 className="object-contain shrink-0 rounded-[20px] w-full thumbnail"
               />
-              <div className="absolute bottom-[6.3%] right-[6.4%] transition-all duration-100 hover:scale-[1.2]">
+              <div className="absolute right-[7px] bottom-[6px] sm:right-[14px] sm:bottom-[14px] md:right-[20px] md:bottom-[20px] lg:right-[30px] lg:bottom-[30px] transition-all duration-100 hover:scale-[1.2]">
                 <button
                   onClick={() => {
                     if (script?.id) {
@@ -465,7 +461,7 @@ const Detail = () => {
                   }}
                 >
                   <img
-                    className=""
+                    className="size-[27px] sm:size-[35px]"
                     src={script?.like ? redHeartIcon : heartIcon}
                     alt="좋아요"
                   ></img>
@@ -516,7 +512,7 @@ const Detail = () => {
                       {script?.writer}
                     </h3>
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex">
                     <LikeViewCount
                       likes={script?.likeCount ?? 0}
                       views={script?.viewCount ?? 0}
@@ -950,22 +946,22 @@ const Detail = () => {
                 전체 후기
               </p>
               <button
-                className="flex items-center gap-[4px] p-medium-regular hover:text-[#6A39C0]"
+                className="flex items-center gap-[4px] p-xs-regular sm:p-medium-regular hover:text-[#6A39C0]"
                 onClick={() => setOpenSort(!openSort)}
               >
                 {sort === "LIKE_COUNT" ? "좋아요순" : "최신순"}
                 <img
-                  className="size-[18px]"
+                  className="size-[14px] sm:size-[18px]"
                   src={openSort ? closeImg : openImg}
                   alt=""
                 ></img>
               </button>
 
               {openSort && (
-                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] w-[84px] h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
+                <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] sm:w-[84px] sm:h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
                   <button
                     className={clsx(
-                      "flex items-center gap-[4px] p-medium-medium",
+                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
                       {
                         "text-[#777] hover:text-[#6A39C0]":
                           sort !== "LIKE_COUNT",
@@ -980,7 +976,7 @@ const Detail = () => {
                   </button>
                   <button
                     className={clsx(
-                      "flex items-center gap-[4px] p-medium-medium",
+                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
                       {
                         "text-[#777] hover:text-[#6A39C0]": sort !== "LATEST",
                       }
@@ -1035,49 +1031,50 @@ const Detail = () => {
       </div>
 
       {!isDetailBtnVisible && (
-        <div className="detail-bottom-bar" style={bottomBarStyle}>
-          <div className="bottom-bar-left">
-            <h5 className="h5-regular c-grey">총 금액</h5>
-            <h4 className="h4-bold" id="bottom-total-price">
-              {totalPrice} 원
-            </h4>
-          </div>
-          <div className="bottom-bar-right">
-            {/* disabled */}
-            <Select
-              className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
-              value={selectedOption}
-              onChange={onChangeSelectOption}
-              disabled={!script?.performance} // 포도알 스테이지에서만 적용
-            >
-              <option value="">옵션 선택</option>
-              {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-              script.script ? (
-                <option value="script">대본</option>
-              ) : null}
-              {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-              script.script &&
-              script.performance ? (
-                <option value="scriptPerform">대본 + 공연권</option>
-              ) : null}
-              {script?.buyStatus === 0 && script.performance ? (
-                <option value="perform">공연권</option>
-              ) : null} */}
+        <div className="hidden"></div>
+        // <div className="detail-bottom-bar" style={bottomBarStyle}>
+        //   <div className="bottom-bar-left">
+        //     <h5 className="h5-regular c-grey">총 금액</h5>
+        //     <h4 className="h4-bold" id="bottom-total-price">
+        //       {totalPrice} 원
+        //     </h4>
+        //   </div>
+        //   <div className="bottom-bar-right">
+        //     {/* disabled */}
+        //     <Select
+        //       className={`${script?.performance ? "cursor-pointer" : ""}`} // 포도알 스테이지에서만 적용
+        //       value={selectedOption}
+        //       onChange={onChangeSelectOption}
+        //       disabled={!script?.performance} // 포도알 스테이지에서만 적용
+        //     >
+        //       <option value="">옵션 선택</option>
+        //       {/* {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+        //       script.script ? (
+        //         <option value="script">대본</option>
+        //       ) : null}
+        //       {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
+        //       script.script &&
+        //       script.performance ? (
+        //         <option value="scriptPerform">대본 + 공연권</option>
+        //       ) : null}
+        //       {script?.buyStatus === 0 && script.performance ? (
+        //         <option value="perform">공연권</option>
+        //       ) : null} */}
 
-              {script?.buyStatus === 0 && script.performance ? (
-                <option value="perform">공연권</option>
-              ) : null}
-            </Select>
-            {/* <button id="cart-btn">장바구니</button>*/}
-            <button
-              id="purchase-btn"
-              onClick={onClickPurchase}
-              disabled={!isOptionSelected}
-            >
-              구매하기
-            </button>
-          </div>
-        </div>
+        //       {script?.buyStatus === 0 && script.performance ? (
+        //         <option value="perform">공연권</option>
+        //       ) : null}
+        //     </Select>
+        //     {/* <button id="cart-btn">장바구니</button>*/}
+        //     <button
+        //       id="purchase-btn"
+        //       onClick={onClickPurchase}
+        //       disabled={!isOptionSelected}
+        //     >
+        //       구매하기
+        //     </button>
+        //   </div>
+        // </div>
       )}
     </div>
   );

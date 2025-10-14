@@ -186,7 +186,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         <ResponsiveContainer
           width={!isSmallMobile ? 303 : 280}
           height={160}
-          className="-translate-x-1/8"
+          className="-translate-x-1/16 sm:translate-x-0"
         >
           <BarChart
             data={distributionDataWithFull}
@@ -251,7 +251,7 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
         {totalReviewCount > 0 ? (
           <h3
             className={clsx(
-              "mb-[48px] whitespace-nowrap",
+              "mb-[28px] sm:mb-[48px] whitespace-nowrap",
               !isSmallMobile ? "p-medium-regular" : "p-12-400"
             )}
           >
@@ -273,9 +273,15 @@ const ReviewSummary: React.FC<ReviewSummaryProps> = ({ stats }) => {
             </span>
           </h3>
         ) : (
-          <h3 className="p-medium-regular mb-[48px]">등록된 후기가 없어요.</h3>
+          <h3 className="p-medium-regular mb-[28px] sm:mb-[48px]">
+            등록된 후기가 없어요.
+          </h3>
         )}
-        <ResponsiveContainer width={339} height={200}>
+        <ResponsiveContainer
+          width={339}
+          height={200}
+          className="translate-y-[20px] sm:translate-y-0"
+        >
           <BarChart
             data={featureDataWithFull}
             barGap={!isSmallMobile ? -8 : -3}

@@ -19,7 +19,11 @@ import 열린무대_logo from "../assets/image/landing/organizations/경일대_�
 import 극단소솜_photo from "../assets/image/landing/organizations/건국대_극단소솜/photo.jpg";
 import 극단소솜_logo from "../assets/image/landing/organizations/건국대_극단소솜/logo.png";
 import 경희극회_photo from "../assets/image/landing/organizations/경희대_경희극회/photo.jpg";
-import 경희극회_logo from "../assets/image/landing/organizations/경희대_경희극회/logo.jpg";
+import 경희극회_logo from "../assets/image/landing/organizations/경희대_경희극회/logo.png";
+import 시네씨아_photo from "../assets/image/landing/organizations/충북대_시네씨아/photo.jpg";
+import 시네씨아_logo from "../assets/image/landing/organizations/충북대_시네씨아/logo.png";
+import 한울_photo from "../assets/image/landing/organizations/건국대_한울/photo.jpg";
+import 한울_logo from "../assets/image/landing/organizations/건국대_한울/logo.png";
 
 interface Organizations {
   name: string;
@@ -221,7 +225,7 @@ const organizations: Organizations[] = [
     },
     logo: {
       src: 극단소솜_logo,
-      style: { width: "70%" },
+      style: {},
     },
     keywords: [
       "#건국대학교",
@@ -241,7 +245,7 @@ const organizations: Organizations[] = [
     },
     logo: {
       src: 경희극회_logo,
-      style: { width: "65%" },
+      style: {},
     },
     keywords: [
       "#경희대학교",
@@ -251,6 +255,39 @@ const organizations: Organizations[] = [
       "#무대에서의_성장",
     ],
     additionalDeleteCircle: [1, 3],
+  },
+  {
+    name: "충북대학교 시네씨아",
+    photo: {
+      src: 시네씨아_photo,
+      style: {},
+    },
+    logo: {
+      src: 시네씨아_logo,
+      style: {},
+    },
+    keywords: ["#충북대학교", "#Page", "#Passion", "#Play"],
+    additionalDeleteCircle: [2],
+  },
+  {
+    name: "건국대학교 한울",
+    photo: {
+      src: 한울_photo,
+      style: {},
+    },
+    logo: {
+      src: 한울_logo,
+      style: {},
+    },
+    keywords: [
+      "#건국대학교",
+      "#건국극회",
+      "#중앙연극동아리",
+      "#since_1981",
+      "#하나의_울림",
+      "#낭만!!!!!!!",
+    ],
+    additionalDeleteCircle: [2],
   },
 ];
 

@@ -38,6 +38,7 @@ function Footer() {
           <div className="footer-lower">
             <div className="business-info p-xs-regular text-[#333]">
               <p>&nbsp;</p>
+              <p>포도상점</p>
               <p className="">대표 : 서준</p>
               <p>사업자등록번호 : 196-64-00773</p>
               <p>통신판매업신고번호 : 2025-서울노원-1262</p>

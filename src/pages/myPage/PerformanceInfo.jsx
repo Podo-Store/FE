@@ -149,10 +149,12 @@ const PerformanceInfo = () => {
     return true;
   };
 
-  const isDateOverOneYear = (date) => {
+  const isDateOverThreeMonths = (date) => {
     const currentDate = dayjs(); // 현재 날짜
     const inputDate = dayjs(date); // 입력한 날짜
-    return inputDate.isValid() && inputDate.isAfter(currentDate.add(1, "year")); // 1년 이전인지 판단
+    return (
+      inputDate.isValid() && inputDate.isAfter(currentDate.add(3, "month"))
+    ); // 3개월 이전인지 판단
   };
 
   const onClickDateInput = (index) => {
@@ -227,7 +229,7 @@ const PerformanceInfo = () => {
     return (
       dates.length === 0 ||
       dates.some((date) => !checkDateFormat(date)) ||
-      dates.some((date) => isDateOverOneYear(date))
+      dates.some((date) => isDateOverThreeMonths(date))
     );
   }, [dates, inputFields.length]);
 
@@ -429,9 +431,9 @@ const PerformanceInfo = () => {
                       checkedFlag={dateChecker[index]?.format}
                     />
                   )}
-                  {isDateOverOneYear(dates[index]) ? (
+                  {isDateOverThreeMonths(dates[index]) ? (
                     <div style={{ marginTop: "5px" }}>
-                      <ErrorMessage message="구매 시점으로부터 1년 이내만 작성 가능해요." />
+                      <ErrorMessage message="구매 시점으로부터 3개월 이내만 작성 가능해요." />
                     </div>
                   ) : null}
                   <div

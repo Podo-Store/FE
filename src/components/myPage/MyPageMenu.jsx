@@ -95,7 +95,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
             <div id="grey-rectangle">
               <img src={circleGreyWarning} alt="warn" className="warning-img" />
               <p className="p-medium-regular c-grey">
-                대본과 공연권은 구매시점으로부터<br></br>1년 이내만 사용
+                대본과 공연권은 구매시점으로부터<br></br>3개월 이내만 사용
                 가능해요.
               </p>
             </div>

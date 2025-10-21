@@ -103,7 +103,7 @@ const PurchasedScript = () => {
                     <img src={circleGreyWarning} alt="!" />
                     <div className="warning-box-content f-dir-column j-content-center">
                       <p className="p-xs-regular">
-                        대본과 공연권은 구매시점으로부터 1년 이내만 사용
+                        대본과 공연권은 구매시점으로부터 3개월 이내만 사용
                         가능해요.
                       </p>
                     </div>
@@ -131,7 +131,8 @@ const PurchasedScript = () => {
                       제공되었음을 표시하여야 합니다.
                     </p>
                     <p className="p-xs-regular">
-                      대본과 공연권은 구매시점으로부터 1년 이내만 사용 가능해요.
+                      대본과 공연권은 구매시점으로부터 3개월 이내만 사용
+                      가능해요.
                     </p>
                   </div>
                 </div>

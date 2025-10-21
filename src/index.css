@@ -47,6 +47,21 @@
   --breakpoint-2xl: 1536px;
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* 유틸리티 등록 */
+@utility animate-float {
+  animation: float 2s ease-in-out infinite;
+}
+
 @utility font-pretendard {
   font-family: var(--font-pretendard);
 }

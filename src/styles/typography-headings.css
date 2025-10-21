@@ -103,3 +103,16 @@
   font-weight: 500;
   line-height: 28px; /* 140% */
 }
+
+@utility company-title-large {
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
+}
+@utility company-title-medium {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
+}

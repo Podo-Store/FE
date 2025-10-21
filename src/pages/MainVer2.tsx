@@ -34,6 +34,7 @@ import brunch from "../assets/image/landing/page4/brunch.svg";
 import "./MainVer2.scss";
 import "./MainVer2Page2.scss";
 import clsx from "clsx";
+import { MOCK_SHOWS } from "@/constants/ShowCard";
 
 const MainVer2 = () => {
   const [signUpToast, setSignUpToast] = useState<string>("");
@@ -287,6 +288,64 @@ const MainVer2 = () => {
         </div>
 
         <Page3 />
+
+        {/* Page 3.5. 공연된 작품 */}
+        <section className="pt-[97px] pb-[116px] w-full bg-[#F5F0FF]">
+          <h1 className="title_64px mb-[78px]">
+            포도상점의 작품이 공연되었어요
+          </h1>
+
+          <section className="relative w-full overflow-hidden group">
+            <div className="animate-slider-left inline-flex group-hover:[animation-play-state:paused]">
+              {/* 1번 트랙*/}
+              <div className="inline-flex gap-[100px] px-[50px] shrink-0 w-fit">
+                {MOCK_SHOWS.map((show) => (
+                  <div key={show.id}>
+                    <div
+                      className="w-[400px] h-[534px] rounded-[20px] bg-[#D9D9D9] bg-cover bg-center"
+                      style={{ backgroundImage: `url(${show.image})` }}
+                    ></div>
+                    <div className="flex flex-col gap-[20px]">
+                      <div className="flex flex-col gap-[10px] mt-[10px]">
+                        <h1 className="h1-bold">{show.title}</h1>
+                        <h2 className="h2-bold">{show.author}</h2>
+                      </div>
+                      <div className="flex flex-col gap-[10px]">
+                        <h2 className="h2-regular">{show.troupe}</h2>
+                        <h2 className="h2-regular">{show.period}</h2>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* 2번 트랙 */}
+              <div
+                className="inline-flex gap-[100px] px-[50px] shrink-0 w-fit"
+                aria-hidden="true"
+              >
+                {MOCK_SHOWS.map((show) => (
+                  <div key={show.id}>
+                    <div
+                      className="w-[400px] h-[534px] rounded-[20px] bg-[#D9D9D9] bg-cover bg-center"
+                      style={{ backgroundImage: `url(${show.image})` }}
+                    ></div>
+                    <div className="flex flex-col gap-[20px]">
+                      <div className="flex flex-col gap-[10px] mt-[10px]">
+                        <h1 className="h1-bold">{show.title}</h1>
+                        <h2 className="h2-bold">{show.author}</h2>
+                      </div>
+                      <div className="flex flex-col gap-[10px]">
+                        <h2 className="h2-regular">{show.troupe}</h2>
+                        <h2 className="h2-regular">{show.period}</h2>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </section>
 
         <div className=" page4 page-size">
           <div className=" page4-size">

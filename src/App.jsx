@@ -44,6 +44,7 @@ import LikedWorks from "./pages/myPage/Liked/LikedWorks";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 import PerformedWork from "./pages/work/review/performedWork/performedWork";
+import CompanyProfile from "./pages/company/companyProfile";
 
 import BrowserWarning from "./components/BrowserWarning";
 
@@ -81,11 +82,7 @@ function App() {
           <Route path="signin/find/:id" element={<FindBar />} />
 
           {/* <Route path="list" element={<List />} /> */}
-          <Route path="list" element={<PostGallery />} />
 
-          <Route path="list/detail/:id" element={<Detail />} />
-          <Route path="list/view/:id" element={<PostView />} />
-          <Route path="list/review/:id" element={<ReviewWrite />} />
           <Route
             path="purchase/:id"
             element={<ProtectedRoute element={<Purchase />} />}
@@ -103,8 +100,14 @@ function App() {
             path="mypage/scriptmanage"
             element={<ProtectedRoute element={<ScriptManage />} />}
           />
+          <Route path="/company" element={<CompanyProfile />} />
 
           <Route element={<MarginLayout />}>
+            <Route path="list" element={<PostGallery />} />
+
+            <Route path="list/detail/:id" element={<Detail />} />
+            <Route path="list/view/:id" element={<PostView />} />
+            <Route path="list/review/:id" element={<ReviewWrite />} />
             <Route path="policy/:id" element={<PolicyBar />} />
 
             <Route

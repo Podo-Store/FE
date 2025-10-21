@@ -2,6 +2,11 @@
 @use "./../styles/_responsive.scss" as r;
 
 .navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 50;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -13,6 +18,13 @@
   background-color: #ffffff;
 
   border-bottom: 1px solid var(--grey3);
+
+  &.navbar--transparent {
+    background-color: transparent;
+    position: absolute;
+    color: white;
+    border-bottom: none;
+  }
 
   @include r.media-tablet {
     padding-left: 44px;
@@ -27,7 +39,6 @@
 
 .navbar a {
   text-decoration: none;
-  color: black;
 }
 
 .navbar .hamburger-btn {
@@ -35,10 +46,10 @@
   @include r.media-tablet {
     display: block;
   }
-  & {
-    width: /* 30px */ 2.778vh;
-    height: /* 24px */ 2.222vh;
-  }
+  // & {
+  //   width: /* 30px */ 2.778vh;
+  //   height: /* 24px */ 2.222vh;
+  // }
 }
 
 .navbar .navbar_logo {
@@ -90,9 +101,7 @@
 .navbar .navbar_login .my-page-button {
   position: absolute;
   left: -45px;
-
-  width: 26px;
-  height: 28px;
+  color: #a6a8cb;
 
   cursor: pointer;
 

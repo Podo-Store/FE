@@ -89,7 +89,7 @@ function Footer() {
                     <li
                       className="p-xs-bold c-pointer"
                       onClick={() => {
-                        navigate("/");
+                        navigate("/company");
                         scrollToTop();
                       }}
                     >

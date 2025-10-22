@@ -288,10 +288,8 @@ const MainVer2 = () => {
           </div>
         </div>
 
-        <Page3 />
-
-        {/* Page 3.5. 공연된 작품 */}
-        <section className="pt-[97px] pb-[116px] w-full bg-[#F5F0FF]">
+        {/* Page 2.5. 공연된 작품 */}
+        <section className="pt-[97px] pb-[116px] w-full">
           <h1 className="title_64px mb-[78px]">
             포도상점의 작품이 공연되었어요
           </h1>
@@ -299,13 +297,13 @@ const MainVer2 = () => {
           <section className="relative w-full overflow-hidden group">
             <div className="animate-slider-left inline-flex group-hover:[animation-play-state:paused]">
               {/* 1번 트랙*/}
-              <div className="inline-flex gap-[100px] px-[50px] shrink-0 w-fit">
+              <div className="inline-flex gap-[20px] md:gap-[45px] lg:gap-[100px] px-[10px] md:px-[22.5px] lg:px-[50px] shrink-0 w-fit">
                 <Page3_5Content />
               </div>
 
               {/* 2번 트랙 */}
               <div
-                className="inline-flex gap-[100px] px-[50px] shrink-0 w-fit"
+                className="inline-flex gap-[20px] md:gap-[45px] lg:gap-[100px] px-[10px] md:px-[22.5px] lg:px-[50px] shrink-0 w-fit"
                 aria-hidden="true"
               >
                 <Page3_5Content />
@@ -313,6 +311,8 @@ const MainVer2 = () => {
             </div>
           </section>
         </section>
+
+        <Page3 />
 
         <div className=" page4 page-size">
           <div className=" page4-size">

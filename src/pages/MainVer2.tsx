@@ -288,8 +288,8 @@ const MainVer2 = () => {
         </div>
 
         {/* Page 2.5. 공연된 작품 */}
-        <section className="pt-[97px] pb-[116px] w-full">
-          <h1 className="title_64px mb-[78px]">
+        <section className="py-[80px] sm:py-[135px] md:py-[150px] lg:py-[271px] w-full">
+          <h1 className="title_64px mb-[30px] sm:mb-[78px]">
             포도상점의 작품이 공연되었어요
           </h1>
 

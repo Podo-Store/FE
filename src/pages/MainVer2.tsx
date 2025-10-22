@@ -34,8 +34,7 @@ import brunch from "../assets/image/landing/page4/brunch.svg";
 import "./MainVer2.scss";
 import "./MainVer2Page2.scss";
 import clsx from "clsx";
-import { MOCK_SHOWS } from "@/constants/ShowCard";
-import Page3_5Content from "@/components/landing/Page3_5Content";
+import Page2_5Content from "@/components/landing/Page2_5Content";
 
 const MainVer2 = () => {
   const [signUpToast, setSignUpToast] = useState<string>("");
@@ -298,7 +297,7 @@ const MainVer2 = () => {
             <div className="animate-slider-left inline-flex group-hover:[animation-play-state:paused]">
               {/* 1번 트랙*/}
               <div className="inline-flex gap-[20px] md:gap-[45px] lg:gap-[100px] px-[10px] md:px-[22.5px] lg:px-[50px] shrink-0 w-fit">
-                <Page3_5Content />
+                <Page2_5Content />
               </div>
 
               {/* 2번 트랙 */}
@@ -306,7 +305,7 @@ const MainVer2 = () => {
                 className="inline-flex gap-[20px] md:gap-[45px] lg:gap-[100px] px-[10px] md:px-[22.5px] lg:px-[50px] shrink-0 w-fit"
                 aria-hidden="true"
               >
-                <Page3_5Content />
+                <Page2_5Content />
               </div>
             </div>
           </section>

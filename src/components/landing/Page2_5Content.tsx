@@ -1,6 +1,6 @@
 import { MOCK_SHOWS } from "@/constants/ShowCard";
 
-const Page3_5Content = () => {
+const Page2_5Content = () => {
   return MOCK_SHOWS.map((show) => (
     <div
       key={show.id}
@@ -34,4 +34,4 @@ const Page3_5Content = () => {
   ));
 };
 
-export default Page3_5Content;
+export default Page2_5Content;

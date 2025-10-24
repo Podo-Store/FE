@@ -231,8 +231,8 @@ const PostManageDetail: React.FC = () => {
       hasValidStageComment &&
       hasActors &&
       hasRunningTime &&
-      hasSceneOrAct &&
-      hasValidPerformancePrice
+      hasSceneOrAct 
+      // hasValidPerformancePrice
     );
   };
 

@@ -2,18 +2,17 @@
 
 .page2 {
   @include r.media-tablet {
-    margin: 270px auto 105px;
-    height: 1148px;
+    margin-top: 270px;
     width: 768px;
+    height: 1148px;
   }
   @include r.media-mobile {
     margin: 0;
-    height: 1148px;
     width: 468px;
+    height: fit-content;
   }
   @include r.media-small-mobile {
     width: 320px;
-    height: 723px;
   }
 }
 .main-ver2 .page2 .page2-title {
@@ -26,8 +25,6 @@
 
 .main-ver2 .page2 .page2-content-wrap {
   gap: 23px;
-
-  margin-bottom: 14.352vh; /* 155px */
   @include r.media-laptop {
     gap: 20px;
   }

@@ -165,7 +165,7 @@ const MainVer2 = () => {
         </div>
 
         <div className="page2">
-          <h1 className="page2-title title_64px">
+          <h1 className="title_64px mb-[30px] sm:mb-[42px] md:mb-[78px]">
             포도상점에서는 이런 것들이 가능해요
           </h1>
           <div className=" page2-content-wrap j-content-center">

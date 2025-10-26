@@ -446,11 +446,11 @@ const Detail = () => {
       <div className="w-full detail-wrap f-dir-column a-items-center">
         <div className="w-full content">
           <div className="detail-thumbnail-wrap">
-            <div className="flex relative aspect-square w-full rounded-[20px] bg-white border-1 border-[var(--grey3)]">
+            <div className="relative aspect-square w-full rounded-[20px] bg-white border-1 border-[var(--grey3)] overflow-hidden">
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}
-                className="object-contain shrink-0 rounded-[20px] w-full thumbnail"
+                className="thumbnail w-full h-full object-contain"
               />
               <div className="absolute right-[7px] bottom-[6px] sm:right-[14px] sm:bottom-[14px] md:right-[20px] md:bottom-[20px] lg:right-[30px] lg:bottom-[30px] transition-all duration-100 hover:scale-[1.2]">
                 <button

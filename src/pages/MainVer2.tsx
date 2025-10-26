@@ -137,7 +137,7 @@ const MainVer2 = () => {
                   </span>
                 </h1>
 
-                <h5 className="text-[16px] sm:text-[24px] lg:text-[28px] 2xl:text-[32px] leading-[24px] sm:leading-[45px] 2xl:leading-[50px] sm:tracking-[-0.48px] lg:tracking-[-0.56px] 2xl:tracking-[-0.64px] font-semibold text-[#9E9E9E] whitespace-nowrap">
+                <h5 className="text-[16px] leading-[24px] sm:text-[24px] sm:leading-[45px] sm:tracking-[-0.48px] lg:text-[28px] lg:tracking-[-0.56px] 2xl:text-[32px] 2xl:leading-[50px] 2xl:tracking-[-0.64px] font-semibold text-[#9E9E9E] whitespace-nowrap">
                   동료 작가와 독자의 피드백으로 성장하고,
                   <br />
                   공연으로 연결되는 스토리 IP 플랫폼

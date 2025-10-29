@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useRef, useState, lazy, Suspense } from "react";
+import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import Modal from "./Modal";
@@ -17,8 +17,7 @@ import previewGlass from "@/assets/image/glass.svg";
 import "./Preview.css";
 import "@/styles/text.css";
 import "@/styles/utilities.css";
-
-const PreviewSingle = lazy(() => import("./PreviewSingle"));
+import PreviewSingle from "./PreviewSingle";
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -110,16 +109,14 @@ const Preview = ({ id, lengthType }) => {
       {pdfData ? (
         isSmallMobile ? (
           // 모바일: 한 페이지씩
-          <Suspense fallback={<PartialLoading />}>
-            <PreviewSingle
-              fileBlobUrl={pdfData}
-              width={210}
-              totalPages={totalPages}
-              selectedPage={selectedPage}
-              setSelectedPage={setSelectedPage}
-              showThreshold={showThreshold}
-            />
-          </Suspense>
+          <PreviewSingle
+            fileBlobUrl={pdfData}
+            width={210}
+            totalPages={totalPages}
+            selectedPage={selectedPage}
+            setSelectedPage={setSelectedPage}
+            showThreshold={showThreshold}
+          />
         ) : (
           <Document
             file={pdfData}

@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState, useRef, useContext } from "react";
+import { useEffect, useState, useRef, useContext, lazy, Suspense } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../Loading";
@@ -10,7 +10,6 @@ import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import FloatingBtn from "@/components/button/FloatingBtn";
 import AmountChange from "../../components/detail/AmountChange";
-import Preview from "../../components/detail/preview/Preview";
 import PartialLoading from "../../components/loading/PartialLoading";
 import InfoPopup from "../../components/popup/InfoPopup";
 import Select from "../../components/select/Select";
@@ -48,6 +47,8 @@ import ReviewList from "@/components/detail/ReviewList";
 import clsx from "clsx";
 import ReviewPagination from "@/components/detail/ReviewPagination";
 import PreviewSingle from "@/components/detail/preview/PreviewSingle";
+
+const Preview = lazy(() => import("../../components/detail/preview/Preview"));
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -895,7 +896,9 @@ const Detail = () => {
               미리보기
             </p>
 
-            <Preview id={id!} lengthType={script?.playType ?? ""} />
+            <Suspense fallback={<PartialLoading />}>
+              <Preview id={id!} lengthType={script?.playType ?? ""} />
+            </Suspense>
           </div>
           <hr></hr>
 

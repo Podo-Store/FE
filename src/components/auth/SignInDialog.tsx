@@ -19,6 +19,9 @@ import bar from "../../assets/image/auth/bar.svg";
 import "./SignInDialog.scss";
 import "./../../styles/utilities.css";
 import { Dialog } from "@mui/material";
+import googleBtn from "@/assets/image/auth/googleBtn.svg";
+import kakaoBtn from "@/assets/image/auth/kakaoBtn.svg";
+import naverBtn from "@/assets/image/auth/naverBtn.svg";
 
 function SignInDialog() {
   const { login } = useContext(AuthContext);
@@ -157,6 +160,27 @@ function SignInDialog() {
             로그인
           </BottomBtn>
         </div>
+
+        <div className="mt-[25px] sm:mt-[30px] mb-[35px] sm:mb-[40px]">
+          <div className="flex justify-between items-center">
+            <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
+            <p className="p-xs-medium sm:p-small-medium c-grey5">다른 계정으로 로그인</p>
+            <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
+          </div>
+
+          <div className="flex justify-center items-center gap-[22.5px] sm:gap-[30px] mt-[25px] sm:mt-[30px]">
+            <button className="size-[45px] sm:size-[60px] cursor-pointer">
+              <img src={naverBtn} alt="naver" />  
+            </button>
+            <button className="size-[45px] sm:size-[60px] cursor-pointer">
+              <img src={kakaoBtn} alt="kakao" />
+            </button> 
+            <button className="size-[45px] sm:size-[60px] cursor-pointer">
+              <img src={googleBtn} alt="google" />
+            </button>
+          </div>
+        </div>
+
         <div className="extra-link">
           <div className="flex">
             <p

@@ -84,6 +84,35 @@ function SignInDialog() {
     setIsLoading(false);
   };
 
+  const handleSocialLogin = async (
+    type: "google" | "kakao" | "naver"
+  ) => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.get(`${SERVER_URL}auth/${type}`, {
+        headers: { "Content-Type": "application/json" },
+      });
+      let redirectUrl =
+        typeof data === "string"
+          ? data
+          : data?.redirectURL || data?.redirectUrl || data?.url;
+      if (redirectUrl) {
+        try {
+          const cleaned = encodeURI(String(redirectUrl).replace(/&amp;/g, "&").trim());
+          window.location.assign(cleaned);
+        } catch {
+          window.location.href = String(redirectUrl);
+        }
+      } else {
+        alert("리디렉션 URL을 받지 못했습니다. 잠시 후 다시 시도해 주세요.");
+      }
+    } catch (e) {
+      alert("소셜 로그인 시작에 실패했습니다. 잠시 후 다시 시도해 주세요.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleClose = () => {
     navigate(-1);
   };
@@ -175,7 +204,11 @@ function SignInDialog() {
             <button className="size-[45px] sm:size-[60px] cursor-pointer">
               <img src={kakaoBtn} alt="kakao" />
             </button> 
-            <button className="size-[45px] sm:size-[60px] cursor-pointer">
+            <button
+              type="button"
+              className="size-[45px] sm:size-[60px] cursor-pointer"
+              onClick={() => handleSocialLogin("google")}
+            >
               <img src={googleBtn} alt="google" />
             </button>
           </div>

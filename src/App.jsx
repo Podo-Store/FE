@@ -64,6 +64,8 @@ function App() {
       {/* <BrowserWarning /> */}
 
       <Routes location={state?.background ?? location}>
+        <Route path="/company" element={<CompanyProfile />} />
+
         <Route path="/" element={<DefaultLayout />}>
           <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
           <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
@@ -75,36 +77,15 @@ function App() {
           <Route index element={<MainVer2 />} />
           <Route path="v1" element={<MainVer1 />} />
 
-          <Route path="signup" element={<SignUpDefault />} />
-          <Route path="signup/success" element={<SignUpSuccess />} />
-          <Route path="signin" element={<SignIn />} />
-          <Route path="signin/v2" element={<SignInV2 />} />
-          <Route path="signin/find/:id" element={<FindBar />} />
-
           {/* <Route path="list" element={<List />} /> */}
 
-          <Route
-            path="purchase/:id"
-            element={<ProtectedRoute element={<Purchase />} />}
-          />
-
-          <Route
-            path="mypage/liked"
-            element={<ProtectedRoute element={<LikedWorks />} />}
-          />
-          <Route
-            path="mypage/purchased"
-            element={<ProtectedRoute element={<PurchasedScript />} />}
-          />
-          <Route
-            path="mypage/scriptmanage"
-            element={<ProtectedRoute element={<ScriptManage />} />}
-          />
-          <Route path="/company" element={<CompanyProfile />} />
-
           <Route element={<MarginLayout />}>
+            <Route path="signup" element={<SignUpDefault />} />
+            <Route path="signup/success" element={<SignUpSuccess />} />
+            <Route path="signin" element={<SignIn />} />
+            <Route path="signin/v2" element={<SignInV2 />} />
+            <Route path="signin/find/:id" element={<FindBar />} />
             <Route path="list" element={<PostGallery />} />
-
             <Route path="list/detail/:id" element={<Detail />} />
             <Route path="list/view/:id" element={<PostView />} />
             <Route path="list/review/:id" element={<ReviewWrite />} />
@@ -118,8 +99,11 @@ function App() {
               path="purchase/abort"
               element={<ProtectedRoute element={<Abort />} />}
             />
+            <Route
+              path="purchase/:id"
+              element={<ProtectedRoute element={<Purchase />} />}
+            />
             <Route path="post" element={<PostWork />} />
-
             <Route
               path="mypage/purchased/performance-info/:id"
               element={<ProtectedRoute element={<PerformanceInfo />} />}
@@ -128,7 +112,6 @@ function App() {
               path="mypage/purchased/performance-refund/:id"
               element={<ProtectedRoute element={<PerformanceRefund />} />}
             />
-
             <Route
               path="mypage/scriptmanage/detail/:scriptId"
               element={<ProtectedRoute element={<ScriptManageDetail />} />}
@@ -141,11 +124,20 @@ function App() {
               path="mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}
             />
-
+            <Route
+              path="mypage/scriptmanage"
+              element={<ProtectedRoute element={<ScriptManage />} />}
+            />
+            <Route
+              path="mypage/liked"
+              element={<ProtectedRoute element={<LikedWorks />} />}
+            />
+            <Route
+              path="mypage/purchased"
+              element={<ProtectedRoute element={<PurchasedScript />} />}
+            />
             <Route path="/performedWork" element={<PerformedWork />} />
-
             <Route path="*" element={<NotFound />} />
-
             {/* 테스트용 routing */}
             <Route path="test/loading" element={<Loading />} />
             <Route path="test/404" element={<NotFound />} />

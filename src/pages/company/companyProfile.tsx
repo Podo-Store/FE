@@ -4,6 +4,8 @@ import { useUserStatistics } from "@/hooks/useUserStatistics";
 import { useMemo, useState } from "react";
 import { YearTabs } from "@/components/tab/YearTabs";
 import newsThumbnail from "@/assets/image/company/news_thumbnail.png";
+import CompanyNav from "../CompanyNav";
+import Footer from "../Footer";
 
 const timelineData = [
   {
@@ -107,247 +109,252 @@ const CompanyProfile = () => {
   );
 
   return (
-    <div className="bg-[#1A1004] pb-[300px]">
-      {/* 배너 */}
-      <div className="relative w-full h-screen max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] border">
-        <img
-          src={BannerImage}
-          alt="Banner"
-          className="w-full h-full max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] object-cover "
-        />
-        <span className="absolute top-[71.6%] left-[50%] translate-x-[-50%] text-[#F2F2F2] text-center ">
-          <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-            스토리를 세상과 연결하는 플랫폼을
-          </p>
-          <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-            만들고 있습니다.
-          </p>
-        </span>
-        <div className="absolute bottom-[7.4%] left-1/2 -translate-x-1/2">
-          <DownArrow className="w-[40px] h-[13px] animate-float " />
-        </div>
-      </div>
-
-      {/* 본문 */}
-      <div className="flex w-full flex-col items-center gap-[200px] px-[9.4vw] 2xl:px-[320px] xl:px-[85px] md:px-[50px] sm:px-[40px]">
-        <div className="flex flex-col w-full mt-[100px] gap-[50px] sm:gap-[80px] md:gap-[100px]">
-          <span className="text-[#F2F2F2] ">
+    <div className="w-full min-h-screen">
+      <CompanyNav />
+      <div className="bg-[#1A1004] pb-[300px]">
+        {/* 배너 */}
+        <div className="relative w-full h-screen max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] border">
+          <img
+            src={BannerImage}
+            alt="Banner"
+            className="w-full h-full max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] object-cover "
+          />
+          <span className="absolute top-[71.6%] left-[50%] translate-x-[-50%] text-[#F2F2F2] text-center ">
             <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-              이야기를 나누고 싶은 사람들이 모여
+              스토리를 세상과 연결하는 플랫폼을
             </p>
             <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-              세상에 울림을 남깁니다.
+              만들고 있습니다.
             </p>
           </span>
-          {/* xl :1280px */}
-          <div className="flex flex-col gap-[50px] items-center hidden xl:flex">
-            <div className="flex gap-[160px]">
-              <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                <span className="company-title-large text-[#F2F2F2]">
-                  {data?.userCnt} 명+
-                </span>
-                <span className="h4-bold text-[#BABABA]">사용자 수</span>
+          <div className="absolute bottom-[7.4%] left-1/2 -translate-x-1/2">
+            <DownArrow className="w-[40px] h-[13px] animate-float " />
+          </div>
+        </div>
+
+        {/* 본문 */}
+        <div className="flex w-full flex-col items-center gap-[200px] px-[9.4vw] 2xl:px-[320px] xl:px-[85px] md:px-[50px] sm:px-[40px]">
+          <div className="flex flex-col w-full mt-[100px] gap-[50px] sm:gap-[80px] md:gap-[100px]">
+            <span className="text-[#F2F2F2] ">
+              <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+                이야기를 나누고 싶은 사람들이 모여
+              </p>
+              <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+                세상에 울림을 남깁니다.
+              </p>
+            </span>
+            {/* xl :1280px */}
+            <div className="flex flex-col gap-[50px] items-center hidden xl:flex">
+              <div className="flex gap-[160px]">
+                <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                  <span className="company-title-large text-[#F2F2F2]">
+                    {data?.userCnt} 명+
+                  </span>
+                  <span className="h4-bold text-[#BABABA]">사용자 수</span>
+                </div>
+                <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                  <span className="company-title-large text-[#F2F2F2]">
+                    34 건+
+                  </span>
+                  <span className="h4-bold text-[#BABABA]">총 매칭 건수</span>
+                </div>
               </div>
-              <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                <span className="company-title-large text-[#F2F2F2]">
-                  34 건+
-                </span>
-                <span className="h4-bold text-[#BABABA]">총 매칭 건수</span>
+              <div className="flex gap-[160px]">
+                <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                  <span className="company-title-large text-[#F2F2F2]">
+                    {data?.scriptCnt} 개+
+                  </span>
+                  <span className="h4-bold text-[#BABABA]">등록 작품 수</span>
+                </div>
+                <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                  <span className="company-title-large text-[#F2F2F2]">
+                    {data?.viewCnt} 회+
+                  </span>
+                  <span className="h4-bold text-[#BABABA]">총 열람 수</span>
+                </div>
+                <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                  <span className="company-title-large text-[#F2F2F2]">
+                    {data?.reviewCnt} 개+
+                  </span>
+                  <span className="h4-bold text-[#BABABA]">총 후기 수</span>
+                </div>
               </div>
             </div>
-            <div className="flex gap-[160px]">
-              <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                <span className="company-title-large text-[#F2F2F2]">
-                  {data?.scriptCnt} 개+
-                </span>
-                <span className="h4-bold text-[#BABABA]">등록 작품 수</span>
+            {/* sm */}
+            <div className="grid grid-cols-2 gap-y-[50px] sm:gap-y-[54px] md:gap-y-[60px] xl:hidden px-[6.25vw] sm:px-[50px] md:px-[60px]">
+              {/* 1 */}
+              <div>
+                <div className="flex flex-col">
+                  <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
+                    {data?.userCnt} 명+
+                  </span>
+                  <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
+                    사용자 수
+                  </span>
+                </div>
               </div>
-              <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                <span className="company-title-large text-[#F2F2F2]">
-                  {data?.viewCnt} 회+
-                </span>
-                <span className="h4-bold text-[#BABABA]">총 열람 수</span>
+
+              {/* 2 */}
+              <div>
+                <div className="flex flex-col">
+                  <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
+                    34 건+
+                  </span>
+                  <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
+                    총 매칭 건수
+                  </span>
+                </div>
               </div>
-              <div className="text-[#F2F2F2] bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                <span className="company-title-large text-[#F2F2F2]">
-                  {data?.reviewCnt} 개+
-                </span>
-                <span className="h4-bold text-[#BABABA]">총 후기 수</span>
+
+              {/* 3 */}
+              <div>
+                <div className="flex flex-col">
+                  <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
+                    {data?.scriptCnt} 개+
+                  </span>
+                  <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
+                    등록 작품 수
+                  </span>
+                </div>
+              </div>
+
+              {/* 4 */}
+              <div>
+                <div className="flex flex-col">
+                  <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
+                    {data?.viewCnt} 회+
+                  </span>
+                  <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
+                    총 열람 수
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex flex-col">
+                  <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
+                    {data?.reviewCnt} 개+
+                  </span>
+                  <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
+                    총 후기 수
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-          {/* sm */}
-          <div className="grid grid-cols-2 gap-y-[50px] sm:gap-y-[54px] md:gap-y-[60px] xl:hidden px-[6.25vw] sm:px-[50px] md:px-[60px]">
-            {/* 1 */}
-            <div>
-              <div className="flex flex-col">
-                <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
-                  {data?.userCnt} 명+
-                </span>
-                <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
-                  사용자 수
-                </span>
+          <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
+            <span className="text-[#F2F2F2] ">
+              <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+                당신의 이야기가 세상에서 빛나도록
+              </p>
+              <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+                멈추지 않고 나아갑니다.
+              </p>
+            </span>
+
+            {/* lg */}
+            <div className=" items-center w-fit flex flex-col 2xl:px-[101px] xl:px-[60px] hidden xl:flex ">
+              <div className="relative">
+                <div className="absolute left-[161px] translate-y-[20px]">
+                  <VerticalTimelineSVG yearDots={[10, 860, 1390]} />
+                </div>
+                {timelineData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex grid grid-cols-[121px_1fr] gap-[80px] "
+                  >
+                    <h2 className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2]">
+                      {item.year}
+                    </h2>
+
+                    <ul className="flex flex-col gap-[70px] mb-[70px] translate-y-[15px]">
+                      {item.events.map((event, index) => (
+                        <li key={index} className="h3-bold text-[#F2F2F2]">
+                          <span className="text-[#BABABA] h4-bold mr-[15px] ">
+                            {event.month}.
+                          </span>
+                          {event.title}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* 2 */}
-            <div>
-              <div className="flex flex-col">
-                <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
-                  34 건+
-                </span>
-                <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
-                  총 매칭 건수
-                </span>
-              </div>
-            </div>
+            {/* md */}
 
-            {/* 3 */}
-            <div>
-              <div className="flex flex-col">
-                <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
-                  {data?.scriptCnt} 개+
-                </span>
-                <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
-                  등록 작품 수
-                </span>
-              </div>
-            </div>
+            <div className="xl:hidden">
+              <YearTabs
+                years={years}
+                active={activeYear}
+                onChange={setActiveYear}
+              />
 
-            {/* 4 */}
-            <div>
-              <div className="flex flex-col">
-                <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
-                  {data?.viewCnt} 회+
-                </span>
-                <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
-                  총 열람 수
-                </span>
-              </div>
-            </div>
-
-            <div>
-              <div className="flex flex-col">
-                <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]">
-                  {data?.reviewCnt} 개+
-                </span>
-                <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
-                  총 후기 수
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
-          <span className="text-[#F2F2F2] ">
-            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-              당신의 이야기가 세상에서 빛나도록
-            </p>
-            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-              멈추지 않고 나아갑니다.
-            </p>
-          </span>
-
-          {/* lg */}
-          <div className=" items-center w-fit flex flex-col 2xl:px-[101px] xl:px-[60px] hidden xl:flex ">
-            <div className="relative">
-              <div className="absolute left-[161px] translate-y-[20px]">
-                <VerticalTimelineSVG yearDots={[10, 860, 1390]} />
-              </div>
-              {timelineData.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex grid grid-cols-[121px_1fr] gap-[80px] "
-                >
-                  <h2 className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2]">
-                    {item.year}
-                  </h2>
-
-                  <ul className="flex flex-col gap-[70px] mb-[70px] translate-y-[15px]">
-                    {item.events.map((event, index) => (
-                      <li key={index} className="h3-bold text-[#F2F2F2]">
-                        <span className="text-[#BABABA] h4-bold mr-[15px] ">
+              {/* 타임라인 본문 */}
+              <div className=" sm:px-[15px] md:px-[20px] mt-[30px] md:mt-[50px]">
+                <ul className="flex flex-col gap-[20px] sm:gap-[30px] md:gap-[50px] translate-y-[15px]">
+                  {activeData.events.map((event, idx) => (
+                    <li
+                      key={idx}
+                      className="p-12-medium sm:p-large-bold md:h4-bold text-[#F2F2F2]"
+                    >
+                      <div className="grid grid-cols-[3.5ch_1fr] gap-3 items-start">
+                        <span className="text-[#BABABA] p-xs-bold sm:p-medium-bold md:h5-bold text-right tabular-nums">
                           {event.month}.
                         </span>
-                        {event.title}
-                      </li>
-                    ))}
-                  </ul>
+                        <span className="whitespace-pre-line">
+                          {event.title}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
+            <span className="text-[#F2F2F2] ">
+              <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+                언론 속 포도상점
+              </p>
+            </span>
+            <div className="">
+              {mediaData.map((item, index) => (
+                <div
+                  key={index}
+                  className="flex sm:grid sm:grid-cols-[164px_1fr] md:grid-cols-[219px_1fr] xl:grid-cols-[360px_1fr] sm:gap-[15px] xl:gap-[60px] md:gap-[20px] border-b border-[#BABABA] py-[20px] sm:py-[30px] md:py-[40px] xl:py-[50px]"
+                  onClick={() => window.open(item.url, "_blank")}
+                >
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className=" hidden sm:block"
+                  />
+                  <div className="flex flex-col gap-[25px] md:gap-[15px] xl:gap-[20px] justify-center  w-full min-w-0 ">
+                    <span className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2] xl:h1-bold md:h5-medium sm:p-large-bold sm:whitespace-normal md:truncate">
+                      {item.title}
+                    </span>
+                    <span className="text-[#BABABA] h5-medium xl:h4-bold hidden md:line-clamp-2 xl:line-clamp-3 ">
+                      {item.content}
+                    </span>
+                    <span className="p-xs-bold sm:p-medium-bold md:h5-bold text-[#BABABA] ">
+                      {item.date}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* md */}
-
-          <div className="xl:hidden">
-            <YearTabs
-              years={years}
-              active={activeYear}
-              onChange={setActiveYear}
-            />
-
-            {/* 타임라인 본문 */}
-            <div className=" sm:px-[15px] md:px-[20px] mt-[30px] md:mt-[50px]">
-              <ul className="flex flex-col gap-[20px] sm:gap-[30px] md:gap-[50px] translate-y-[15px]">
-                {activeData.events.map((event, idx) => (
-                  <li
-                    key={idx}
-                    className="p-12-medium sm:p-large-bold md:h4-bold text-[#F2F2F2]"
-                  >
-                    <div className="grid grid-cols-[3.5ch_1fr] gap-3 items-start">
-                      <span className="text-[#BABABA] p-xs-bold sm:p-medium-bold md:h5-bold text-right tabular-nums">
-                        {event.month}.
-                      </span>
-                      <span className="whitespace-pre-line">{event.title}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
-          <span className="text-[#F2F2F2] ">
-            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
-              언론 속 포도상점
-            </p>
-          </span>
-          <div className="">
-            {mediaData.map((item, index) => (
-              <div
-                key={index}
-                className="flex sm:grid sm:grid-cols-[164px_1fr] md:grid-cols-[219px_1fr] xl:grid-cols-[360px_1fr] sm:gap-[15px] xl:gap-[60px] md:gap-[20px] border-b border-[#BABABA] py-[20px] sm:py-[30px] md:py-[40px] xl:py-[50px]"
-                onClick={() => window.open(item.url, "_blank")}
-              >
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className=" hidden sm:block"
-                />
-                <div className="flex flex-col gap-[25px] md:gap-[15px] xl:gap-[20px] justify-center  w-full min-w-0 ">
-                  <span className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2] xl:h1-bold md:h5-medium sm:p-large-bold sm:whitespace-normal md:truncate">
-                    {item.title}
-                  </span>
-                  <span className="text-[#BABABA] h5-medium xl:h4-bold hidden md:line-clamp-2 xl:line-clamp-3 ">
-                    {item.content}
-                  </span>
-                  <span className="p-xs-bold sm:p-medium-bold md:h5-bold text-[#BABABA] ">
-                    {item.date}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
 
 export default CompanyProfile;
 
-type Dot = { y: number; size?: number };
 type Props = {
   height?: number;
   x?: number;

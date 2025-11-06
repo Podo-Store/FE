@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { cancelReview } from "@/api/user/profile/cancelPostApi";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
+import ScriptManageChangeFilePopup from "./ScriptManageChangeFilePopup";
 import ScriptManageCancelPopup from "./ScriptManageCancelPopup";
 import Button from "../button/RoundBtn_149_48";
 import "./ScriptManageBtn.scss";
@@ -23,14 +24,19 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
 
   // 심사 취소 팝업
   const [open, setOpen] = useState(false);
-
+  const [openChangeFilePopup, setOpenChangeFilePopup] = useState(false);
   return (
     <div className="script-manage-btn">
       {
         {
           [ReviewCompleted.REVIEW_COMPLETED]: (
-            <div className="script-manage-flex">
-              <div> </div>
+            <div className="script-manage-flex items-center">
+              <div
+                className="p-12-under text-grey7"
+                onClick={() => setOpenChangeFilePopup(true)}
+              >
+                파일 변경 신청
+              </div>
 
               <div
                 className={clsx(
@@ -61,6 +67,11 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
                   작품 관리
                 </Button>
               </div>
+              <ScriptManageChangeFilePopup
+                open={openChangeFilePopup}
+                setOpen={setOpenChangeFilePopup}
+                id={id}
+              />
             </div>
           ),
           [ReviewCompleted.UNDER_REVIEWING]: (

@@ -1,14 +1,16 @@
 import { Dialog } from "@mui/material";
-import { cancelReview } from "@/api/user/profile/cancelPostApi";
-import RoundBtn_135_40 from "../button/RoundBtn_135_40";
 import Cookies from "js-cookie";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import FileInputBox from "../file/FileInputBox";
 import RoundBtnV2 from "../button/round_btn/RoundBtnV2";
 
 import CloseBtn from "../../assets/image/button/CloseBtn.svg";
+import { PostChangeScript } from "@/api/user/profile/work/changeScriptApi";
+import { useState } from "react";
+import { toastAlert } from "@/utils/ToastAlert";
 
-interface ScriptManageCancelPopupProps {
+
+interface ScriptManageChangeFilePopupProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   id: string;
@@ -18,15 +20,45 @@ const ScriptManageChangeFilePopup = ({
   open,
   setOpen,
   id,
-}: ScriptManageCancelPopupProps) => {
+}: ScriptManageChangeFilePopupProps) => {
+  const [scriptFile, setScriptFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const accessToken = Cookies.get("accessToken")!;
   const {
-    widthConditions: { isMobile, isSmallMobile },
+    widthConditions: { isSmallMobile },
   } = useWindowDimensions();
+
+  const handleClose = () => {
+    setOpen(false);
+    setScriptFile(null);
+  };
+
+  const handleChangeScript = async () => {
+    if (!scriptFile || loading) return;
+    setLoading(true);
+
+    try {
+      const response = await PostChangeScript(
+        id,
+        scriptFile as File,
+        accessToken
+      );
+      if (response) {
+        toastAlert("파일 변경 신청이 완료되었습니다.", "success");
+        handleClose();
+      }
+    } catch (error) {
+      toastAlert("오류가 발생했습니다.", "error");
+      handleClose();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Dialog
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       fullWidth
       maxWidth={false} // MUI 기본 maxWidth(sm)를 끄고 직접 width 제어
       sx={{
@@ -56,7 +88,8 @@ const ScriptManageChangeFilePopup = ({
         <div className="w-full flex flex-col gap-[15px] sm:gap-[26px]">
           <FileInputBox
             onFileUpload={(file) => {
-              //   setUploadedFile(file);
+              setScriptFile(file);
+              console.log("업로드된 파일:", file);
             }}
             style={{ width: "100%", height: "179px" }}
             titleStyle={{
@@ -69,10 +102,14 @@ const ScriptManageChangeFilePopup = ({
           <RoundBtnV2
             color="purple"
             className="w-full rounded-[30px] h-[48px]"
-            // onClick={() => setIsAuthorTermsPopup(true)}
-            // disabled={!fileSelected}
+            onClick={() => {
+              if (scriptFile) {
+                handleChangeScript();
+              }
+            }}
+            disabled={!scriptFile || loading}
           >
-            작품 보내기
+            {loading ? "처리 중" : "작품 보내기"}
           </RoundBtnV2>
         </div>
       </section>

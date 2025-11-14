@@ -240,12 +240,16 @@ const Purchase = () => {
         }
 
         try {
-          const response = await axios.post(`${SERVER_URL}item`, requestBody, {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-          });
+          const response = await axios.post(
+            `${SERVER_URL}order/item`,
+            requestBody,
+            {
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${Cookies.get("accessToken")}`,
+              },
+            }
+          );
           const orderData = response.data[0];
           currentOrderId = orderData.id;
           orderIdRef.current = currentOrderId; // 재시도 시 재사용

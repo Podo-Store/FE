@@ -87,8 +87,22 @@ function App() {
             <Route path="signin/v2" element={<SignInV2 />} />
             <Route path="signin/find/:id" element={<FindBar />} />
             <Route path="list" element={<PostGallery />} />
-            <Route path="list/detail/:id" element={<Detail />} />
-            <Route path="list/view/:id" element={<PostView />} />
+            <Route
+              path="list/detail/:id"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <Detail />
+                </Suspense>
+              }
+            />
+            <Route
+              path="list/view/:id"
+              element={
+                <Suspense fallback={<Loading />}>
+                  <PostView />
+                </Suspense>
+              }
+            />
             <Route path="list/review/:id" element={<ReviewWrite />} />
             <Route path="policy/:id" element={<PolicyBar />} />
 

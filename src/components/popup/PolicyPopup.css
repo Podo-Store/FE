@@ -1,8 +1,13 @@
 .popup-overlay {
+  inset: 0;
+
+  z-index: 999; /* 팝업보다 작게, 팝업은 1000이라 위에 옴 */
+}
+
+.popup-overlay-fullscreen {
   position: fixed;
   inset: 0;
-  
-  z-index: 999; /* 팝업보다 작게, 팝업은 1000이라 위에 옴 */
+  z-index: 999;
 }
 
 .popup {
@@ -44,6 +49,7 @@
 }
 
 .popup img#close-btn {
+  z-index: 1000;
   transform: translate(0, -0.7rem);
 }
 

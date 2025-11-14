@@ -37,7 +37,7 @@ function SignInDialog() {
 
   const { isMobile, isSmallMobile } = useWindowDimensions().widthConditions;
 
-  const from = location.state?.from?.pathname || "/"; // 이전 페이지로 이동
+  const from = location.state?.from; // 이전 페이지로 이동
 
   useEffect(() => {
     setShowErrorMsg(false);
@@ -64,8 +64,17 @@ function SignInDialog() {
         login(data.accessToken, data.refreshToken, data.nickname);
 
         setIsIdPwMatch(true);
-        // 이전 페이지로 이동 (중복 네비게이션 제거)
-        navigate(from, { replace: true });
+        // 이전 페이지로 이동 (문자열 또는 location 객체 지원)
+        if (typeof from === "string") {
+          navigate(from, { replace: true });
+        } else if (from?.pathname) {
+          navigate(
+            { pathname: from.pathname, search: from.search, hash: from.hash },
+            { replace: true }
+          );
+        } else {
+          navigate(-1);
+        }
       } else {
         setIsIdPwMatch(false);
       }

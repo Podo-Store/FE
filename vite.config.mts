@@ -3,9 +3,15 @@ import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { imageToWebpPlugin } from "vite-plugin-image-to-webp";
+import {visualizer} from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageToWebpPlugin()],
+  plugins: [react(), tailwindcss(), imageToWebpPlugin(), 
+    visualizer({
+      filename: "./dist/stats.html",
+      open: true,
+    }),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

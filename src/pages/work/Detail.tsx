@@ -246,6 +246,12 @@ const Detail = () => {
     setIsOptionSelected(true);
   };
 
+  useEffect(() => {
+    if (selectedOption === "scriptPerform" || selectedOption === "perform") {
+      setShowPopup(true);
+    }
+  }, [selectedOption]);
+
   const onChangeBottomSelectOption = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -697,11 +703,7 @@ const Detail = () => {
                           >
                             <div className="flex items-center price-wrapper">
                               <p
-                                className={
-                                  !isSmallMobile
-                                    ? "p-large-medium"
-                                    : "p-xs-medium"
-                                }
+                                className="p-xs-medium sm:p-large-medium whitespace-nowrap"
                                 id="price"
                               >
                                 {formatPrice(script?.scriptPrice)} 원
@@ -764,11 +766,7 @@ const Detail = () => {
                           >
                             <div className="flex items-center price-wrapper">
                               <p
-                                className={
-                                  !isSmallMobile
-                                    ? "p-large-medium"
-                                    : "p-xs-medium"
-                                }
+                                className="p-xs-medium sm:p-large-medium whitespace-nowrap"
                                 id="price"
                               >
                                 {formatPrice(

@@ -80,30 +80,50 @@ function App() {
 
           {/* <Route path="list" element={<List />} /> */}
 
+          <Route path="signup" element={<SignUpDefault />} />
+          <Route path="signup/success" element={<SignUpSuccess />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signin/v2" element={<SignInV2 />} />
+          <Route path="signin/find/:id" element={<FindBar />} />
+
+          <Route path="list" element={<PostGallery />} />
+
+          <Route
+            path="list/detail/:id"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Detail />
+              </Suspense>
+            }
+          />
+          <Route
+            path="list/view/:id"
+            element={
+              <Suspense fallback={<Loading />}>
+                <PostView />
+              </Suspense>
+            }
+          />
+          <Route path="list/review/:id" element={<ReviewWrite />} />
+          <Route
+            path="purchase/:id"
+            element={<ProtectedRoute element={<Purchase />} />}
+          />
+
+          <Route
+            path="mypage/liked"
+            element={<ProtectedRoute element={<LikedWorks />} />}
+          />
+          <Route
+            path="mypage/purchased"
+            element={<ProtectedRoute element={<PurchasedScript />} />}
+          />
+          <Route
+            path="mypage/scriptmanage"
+            element={<ProtectedRoute element={<ScriptManage />} />}
+          />
+
           <Route element={<MarginLayout />}>
-            <Route path="signup" element={<SignUpDefault />} />
-            <Route path="signup/success" element={<SignUpSuccess />} />
-            <Route path="signin" element={<SignIn />} />
-            <Route path="signin/v2" element={<SignInV2 />} />
-            <Route path="signin/find/:id" element={<FindBar />} />
-            <Route path="list" element={<PostGallery />} />
-            <Route
-              path="list/detail/:id"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <Detail />
-                </Suspense>
-              }
-            />
-            <Route
-              path="list/view/:id"
-              element={
-                <Suspense fallback={<Loading />}>
-                  <PostView />
-                </Suspense>
-              }
-            />
-            <Route path="list/review/:id" element={<ReviewWrite />} />
             <Route path="policy/:id" element={<PolicyBar />} />
 
             <Route
@@ -113,10 +133,6 @@ function App() {
             <Route
               path="purchase/abort"
               element={<ProtectedRoute element={<Abort />} />}
-            />
-            <Route
-              path="purchase/:id"
-              element={<ProtectedRoute element={<Purchase />} />}
             />
             <Route path="post" element={<PostWork />} />
             <Route
@@ -138,18 +154,6 @@ function App() {
             <Route
               path="mypage/infochange"
               element={<ProtectedRoute element={<AccountInfoChange />} />}
-            />
-            <Route
-              path="mypage/scriptmanage"
-              element={<ProtectedRoute element={<ScriptManage />} />}
-            />
-            <Route
-              path="mypage/liked"
-              element={<ProtectedRoute element={<LikedWorks />} />}
-            />
-            <Route
-              path="mypage/purchased"
-              element={<ProtectedRoute element={<PurchasedScript />} />}
             />
             <Route path="/performedWork" element={<PerformedWork />} />
             <Route path="*" element={<NotFound />} />

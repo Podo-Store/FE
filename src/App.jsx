@@ -1,4 +1,5 @@
 // App.jsx
+import { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -16,11 +17,8 @@ import FindBar from "./pages/auth/FindBar";
 import SignInDialog from "./components/auth/SignInDialog";
 
 import PostGallery from "./pages/work/postList/PostGallery";
-
-import Detail from "./pages/work/Detail.tsx";
 import ReviewWrite from "./pages/work/review/reviewWrite";
 
-import PostView from "./pages/work/PostView";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
@@ -54,6 +52,9 @@ import "./App.css";
 import "./styles/colors.css";
 // import "./styles/text.css";
 import "./styles/utilities.css";
+
+const Detail = lazy(() => import("./pages/work/Detail.tsx"));
+const PostView = lazy(() => import("./pages/work/PostView"));
 
 function App() {
   const location = useLocation();

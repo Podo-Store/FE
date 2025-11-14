@@ -119,6 +119,8 @@ const PostManageDetail: React.FC = () => {
   const onClickModifyBtn = async () => {
     if (!scriptId || !accessToken) return;
     try {
+      setPartialLoading(true);
+      
       const formData = new FormData();
 
       formData.append("id", scriptId);
@@ -154,6 +156,7 @@ const PostManageDetail: React.FC = () => {
       }
 
       const success = await postWorkDetail(formData);
+      setPartialLoading(false);
 
       if (success) {
         toastAlert("작품 수정이 완료되었습니다.", "success");
@@ -231,8 +234,8 @@ const PostManageDetail: React.FC = () => {
       hasValidStageComment &&
       hasActors &&
       hasRunningTime &&
-      hasSceneOrAct &&
-      hasValidPerformancePrice
+      hasSceneOrAct 
+      // hasValidPerformancePrice
     );
   };
 

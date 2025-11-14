@@ -89,7 +89,18 @@ function MainNav() {
                 navigateWithRefresh(event, "/performedWork");
               }}
             >
-              공연된 작품
+              공연 소식
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/company"
+              className="h5-regular hover:text-[#6A39C0]"
+              onClick={(event) => {
+                navigateWithRefresh(event, "/company");
+              }}
+            >
+              회사 소개
             </Link>
           </li>
           {/*}

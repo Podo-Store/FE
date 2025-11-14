@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-
 import PolicyPopup from "../../popup/PolicyPopup.jsx";
-
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
-
 import unChecked from "../../../assets/image/auth/signUp/checkbox/unChecked.svg";
 import checked from "../../../assets/image/auth/signUp/checkbox/checked.svg";
 
@@ -56,7 +53,6 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
   });
 
   const { isSmallMobile } = useWindowDimensions().widthConditions;
-
   // 개별 체크박스 선택
   const onChangeCheckbox = (id) => {
     const updatedItems = items.map(
@@ -147,10 +143,12 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
               className="p-xs-under c-grey c-pointer"
               id="open"
               onClick={() => {
+          
                 setShowPopup({
                   ...showPopup,
                   [item.key]: !showPopup[item.key],
                 });
+  
               }}
             >
               전문보기
@@ -164,6 +162,7 @@ const SignUpCheckBox = ({ setCheckBoxCondition }) => {
                 setShowPopup: (state) =>
                   setShowPopup({ ...showPopup, [item.key]: state }),
                 page: 0,
+                isFullScreen: isSmallMobile,
               })
             : null}
         </div>

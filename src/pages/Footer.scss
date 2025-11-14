@@ -9,7 +9,6 @@
   height: 298px;
   max-height: 300px;
   box-sizing: border-box;
-  background: #ffffff;
 
   // @include r.media-mobile {
   //   display: none;
@@ -67,8 +66,6 @@
   font-weight: 400;
   font-size: 10px;
   line-height: 20px;
-
-  color: #333333;
 }
 
 .footer .footer-lower {
@@ -100,6 +97,7 @@
   height: 140px;
 
   border: 1px solid #000000;
+  
 }
 
 .footer hr#right {

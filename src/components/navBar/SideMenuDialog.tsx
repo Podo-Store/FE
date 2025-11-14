@@ -142,7 +142,15 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             navigateWithRefreshAndClose(event, "/performedWork");
           }}
         >
-          공연된 작품
+          공연 소식
+        </SideDialogBtn>
+        <div className="div-outside" />
+        <SideDialogBtn
+          onClick={(event: React.MouseEvent) => {
+            navigateWithRefreshAndClose(event, "/company");
+          }}
+        >
+          회사 소개
         </SideDialogBtn>
         <div className="div-outside" />
       </div>

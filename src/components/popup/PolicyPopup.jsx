@@ -1,7 +1,7 @@
 import Draggable from "react-draggable";
 
 import useWindowDimensions from "./../../hooks/useWindowDimensions";
-
+import { useEffect } from "react";
 import CloseBtn from "./../../assets/image/button/CloseBtn.svg";
 
 import "./PolicyPopup.css";
@@ -23,6 +23,18 @@ const PolicyPopup = ({
   const { isTablet, isMobile, isSmallMobile } =
     useWindowDimensions().widthConditions;
 
+  useEffect(() => {
+    // ✅ 모바일 + 회원가입 약관 페이지(page 0)일 때만 body 스크롤 막기
+    if (!(page === 0 && isSmallMobile)) return;
+
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = prevOverflow;
+    };
+  }, [page, isSmallMobile]);
+
   /*
    * 팝업 크기 수정 가이드
    * - 추후 크기 관련 수정이 필요할 경우, page === 1 || page === 2일 때를 참고하여 refactor하는 것을 권장.
@@ -32,19 +44,19 @@ const PolicyPopup = ({
     const width = window.innerWidth;
 
     if (page === 0) {
-      if (!isSmallMobile) {
+      if (isSmallMobile) {
         return {
-          width: "500px",
-          height: "735px",
+          width: "100vw",
+          height: "100vh",
           top: "0",
-          left: "calc(50% - 250px)",
+          left: "0",
         };
       } else {
         return {
-          width: "280px",
-          height: "591px",
-          top: "0",
-          left: "calc(50% - 140px)",
+          width: "500px",
+          height: "735px",
+          top: "80px",
+          left: "calc(50% - 250px)",
         };
       }
     }
@@ -128,11 +140,10 @@ const PolicyPopup = ({
     const width = window.innerWidth;
 
     if (page === 0) {
-      if (!isSmallMobile) {
-        return { width: "447.137px", height: "642px" };
-      } else {
-        return { width: "236px", height: "498px" };
+      if (isSmallMobile) {
+        return { width: "100%", height: "calc(100% - 49px)" };
       }
+      return { width: "447.137px", height: "642px" };
     }
 
     if (page === 1 || page === 2) {
@@ -169,11 +180,10 @@ const PolicyPopup = ({
     const width = window.innerWidth;
 
     if (page === 0) {
-      if (!isSmallMobile) {
-        return { maxHeight: "620px" };
-      } else {
-        return { maxHeight: "462px" };
+      if (isSmallMobile) {
+        return { maxHeight: "100%" };
       }
+      return { maxHeight: "620px" };
     }
 
     if (page === 1 || page === 2) {
@@ -187,52 +197,60 @@ const PolicyPopup = ({
     return null;
   };
 
+  const isFullScreenMobile = page === 0 && isSmallMobile;
+
   return (
-    <Draggable
-      handle=".popup"
-      // translate 값
-      positionOffset={
-        page === 1 || page === 2
-          ? { x: 0, y: "calc(-100% - 10px)" }
-          : { x: 0, y: 0 }
-      }
-    >
-      <div className="popup" style={getPopupSize(page, isPerformSelected)}>
-        <div className="j-content-between">
-          <div className="j-content-center a-items-center" id="title">
-            <p className="p-small-medium c-black">{title}</p>
-          </div>
-          <img
-            className="c-pointer"
-            id="close-btn"
-            src={CloseBtn}
-            alt="close"
-            onClick={() => {
-              setShowPopup(false);
-            }}
-          ></img>
-        </div>
+    <div className="popup-overlay">
+      <Draggable
+        handle=".popup"
+        disabled={isFullScreenMobile}
+        // translate 값
+        positionOffset={
+          page === 1 || page === 2
+            ? { x: 0, y: "calc(-100% - 10px)" }
+            : { x: 0, y: 0 }
+        }
+      >
         <div
-          id="content-wrap"
-          style={getPopupContentsSize(page, isPerformSelected)}
+          className={`popup ${isFullScreenMobile ? "popup-fullscreen" : ""}`}
+          style={getPopupSize(page, isPerformSelected)}
         >
+          <div className="j-content-between">
+            <div className="j-content-center a-items-center" id="title">
+              <p className="p-small-medium c-black">{title}</p>
+            </div>
+            <img
+              className="c-pointer"
+              id="close-btn"
+              src={CloseBtn}
+              alt="close"
+              onClick={() => {
+                setShowPopup(false);
+              }}
+            ></img>
+          </div>
           <div
-            id="content"
-            style={getPopupContentsMaxSize(page, isPerformSelected)}
+            id="content-wrap"
+            style={getPopupContentsSize(page, isPerformSelected)}
           >
-            {
-              // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
-              detail.split("\n").map((line, index) => (
-                <p key={index} className="p-small-medium c-black">
-                  {line}
-                  <br />
-                </p>
-              ))
-            }
+            <div
+              id="content"
+              style={getPopupContentsMaxSize(page, isPerformSelected)}
+            >
+              {
+                // \n으로 구분된 문자열을 줄바꿈으로 나누어 출력
+                detail.split("\n").map((line, index) => (
+                  <p key={index} className="p-small-medium c-black">
+                    {line}
+                    <br />
+                  </p>
+                ))
+              }
+            </div>
           </div>
         </div>
-      </div>
-    </Draggable>
+      </Draggable>
+    </div>
   );
 };
 

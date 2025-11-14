@@ -11,7 +11,7 @@ import MobileError from "./MobileError";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import arrow from "../assets/image/landing/Vector 22.svg";
-import circleIcon from "../assets/image/landing/page1.svg";
+import circleIcon from "../assets/image/landing/page1.png";
 import {
   content1,
   content1_768,
@@ -43,7 +43,7 @@ const MainVer2 = () => {
   const navType = useNavigationType();
 
   const {
-    widthConditions: { isTablet, isMobile, isSmallMobile },
+    widthConditions: { isLaptop, isTablet, isMobile, isSmallMobile },
   } = useWindowDimensions();
 
   const content2Title = () => "작품 둘러보기";
@@ -133,10 +133,12 @@ const MainVer2 = () => {
                 <h1 className=" title">
                   당신의 대본이
                   <br />
-                  <span className="whitespace-nowrap">무대위에 오르기까지</span>
+                  <span className="whitespace-nowrap">
+                    무대위에 {isLaptop && <br />}오르기까지
+                  </span>
                 </h1>
 
-                <h5 className=" sub-title whitespace-nowrap">
+                <h5 className="text-[16px] leading-[24px] sm:text-[24px] sm:leading-[45px] sm:tracking-[-0.48px] lg:text-[28px] lg:tracking-[-0.56px] 2xl:text-[32px] 2xl:leading-[50px] 2xl:tracking-[-0.64px] font-semibold text-[#9E9E9E] whitespace-nowrap">
                   동료 작가와 독자의 피드백으로 성장하고,
                   <br />
                   공연으로 연결되는 스토리 IP 플랫폼
@@ -164,7 +166,7 @@ const MainVer2 = () => {
         </div>
 
         <div className="page2">
-          <h1 className="page2-title title_64px">
+          <h1 className="title_64px mb-[30px] sm:mb-[42px] md:mb-[78px]">
             포도상점에서는 이런 것들이 가능해요
           </h1>
           <div className=" page2-content-wrap j-content-center">

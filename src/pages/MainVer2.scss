@@ -49,19 +49,27 @@
   flex-direction: row;
   gap: 42px;
 
-  padding-top: 136px;
+  padding-top: 213px;
   margin: auto;
 
   width: 1280px;
   @include r.media-laptop {
     gap: 80px;
+
+    padding-top: 191px;
+
     width: 1120px;
   }
   @include r.media-tablet {
     flex-direction: column;
     gap: 0px;
 
+    padding-top: 132px;
+
     width: 100%;
+  }
+  @include r.media-mobile {
+    padding-top: 60px;
   }
   @include r.media-small-mobile {
     padding-top: 40px;
@@ -86,7 +94,7 @@
 }
 
 .main-ver2 .page1 .title {
-  padding-top: 138px;
+  padding-top: 59px;
 
   font-size: 72px;
   font-style: normal;
@@ -112,28 +120,6 @@
     font-size: 28px;
     line-height: 36px; /* 128.571% */
     letter-spacing: -0.56px;
-  }
-}
-
-.main-ver2 .page1 .sub-title {
-  color: var(--grey-grey-5, #9e9e9e);
-  font-size: 2.963vh; /* 32px */
-  font-style: normal;
-  font-weight: 700;
-  line-height: 156.25%; /* 156.25% */
-  letter-spacing: -0.64px;
-  @include r.media-tablet {
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 50px; /* 156.25% */
-  }
-  @include r.media-mobile {
-    font-size: 24px;
-  }
-  @include r.media-small-mobile {
-    font-size: 16px;
-    line-height: 24px; /* 150% */
   }
 }
 
@@ -166,27 +152,24 @@
 }
 
 .main-ver2 .page1 .circle-icon {
-  width: 652px;
-  height: 641px;
+  width: 483px;
+  height: 496px;
 
-  @include r.media-laptop {
-    width: 616px;
-    height: 606px;
-  }
   @include r.media-tablet {
     position: static;
+
+    margin-top: 140px;
   }
   @include r.media-mobile {
-    margin-top: 42px;
+    margin-top: 132px;
 
-    width: 438px;
-    height: 449px;
+    width: 360px;
+    height: 360px;
 
     transform: translateX(0);
   }
-
   @include r.media-small-mobile {
-    margin-top: 20px;
+    margin-top: 25px;
 
     width: 219px;
     height: 215px;

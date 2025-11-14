@@ -36,7 +36,10 @@ const CardsContent: React.FC<CardsContentProps> = ({
 
   // for responsive design
   const { widthConditions } = useWindowDimensions();
-  const isTablet = widthConditions.isTablet || widthConditions.isMobile;
+  const isTablet =
+    widthConditions.isTablet ||
+    widthConditions.isMobile ||
+    widthConditions.isSmallMobile;
 
   useEffect(() => {
     setShowPhoto(false);

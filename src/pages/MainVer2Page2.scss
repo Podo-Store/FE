@@ -15,13 +15,6 @@
     width: 320px;
   }
 }
-.main-ver2 .page2 .page2-title {
-  margin: 8.981vh 0; /* 97px */
-
-  @include r.media-tablet {
-    margin: 0 0 78px 0;
-  }
-}
 
 .main-ver2 .page2 .page2-content-wrap {
   gap: 23px;

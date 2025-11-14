@@ -23,23 +23,23 @@
 }
 
 .c-grey4,
-.text-gray4 {
+.text-grey4 {
   color: var(--grey4, #bababa);
 }
 
 .c-grey5,
-.text-gray5 {
+.text-grey5 {
   color: var(--grey5, #9e9e9e);
 }
 
 .c-grey,
 .c-grey6,
-.text-gray6 {
+.text-grey6 {
   color: var(--grey6, #777);
 }
 
 .c-grey7,
-.text-gray7 {
+.text-grey7 {
   color: var(--grey7, #3c3c3c);
 }
 

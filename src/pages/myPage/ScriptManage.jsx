@@ -17,14 +17,15 @@ import AuthContext from "../../contexts/AuthContext";
 import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./MyPageContentsDefault.scss";
+import { PostChangeScript } from "@/api/user/profile/work/changeScriptApi";
 
 const ScriptManage = () => {
   const [productList, setProductList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { userNickname } = useContext(AuthContext);
-
   const [isNull, setIsNull] = useState(false);
 
+  console.log(productList);
   useRequest(async () => {
     setIsLoading(true);
     try {

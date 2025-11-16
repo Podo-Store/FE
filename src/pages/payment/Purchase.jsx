@@ -206,7 +206,6 @@ const Purchase = () => {
       paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1
     };
 
-
     if (buyPerform) {
       requestBody.applicant = { name, phoneNumber: phone, address };
     }
@@ -266,6 +265,7 @@ const Purchase = () => {
         orderId: nicepayOrderId,
         amount: payableAmount,
         goodsName,
+        returnUrl: `${window.location.origin}/order/return`,
         fnSuccess: async (result) => {
           console.log("NICEPAY 성공 결과:", result);
 

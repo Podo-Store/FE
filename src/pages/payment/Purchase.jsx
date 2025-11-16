@@ -266,38 +266,7 @@ const Purchase = () => {
         orderId: nicepayOrderId,
         amount: payableAmount,
         goodsName,
-        returnUrl: `${window.location.origin}/purchase/success`,
-        fnSuccess: async (result) => {
-          console.log("NICEPAY 성공 결과:", result);
-
-          try {
-            // 1) 우리 서버에 결제 완료 알리기
-            const response = await axios.post(
-              `${SERVER_URL}order/item`,
-              requestBody,
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${Cookies.get("accessToken")}`,
-                },
-              }
-            );
-            const orderData = response.data[0];
-
-            navigate("/purchase/success", {
-              state: { orderId: orderData.id },
-            });
-          } catch (e) {
-            console.error("결제 후 서버 통신 실패:", e);
-            alert(
-              "결제는 되었을 수 있지만, 주문 저장 중 오류가 발생했습니다. 마이페이지에서 다시 확인해주세요."
-            );
-            navigate("/purchase/abort");
-          } finally {
-            setIsLoading(false);
-          }
-        },
-
+        returnUrl: `${SERVER_URL}order/return`, // 서버에서 승인 API 호출
         fnError: (e) => {
           const msg = e?.errorMsg || "";
           // ❗ '결제 요청을 취소'는 에러 취급 X → 조용히 종료(재시도 가능)

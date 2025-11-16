@@ -22,6 +22,7 @@ import ReviewWrite from "./pages/work/review/reviewWrite";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
+import PurchaseRedirect from "./pages/payment/PurchaseRedirect";
 import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
 import PerformanceInfo from "./pages/myPage/PerformanceInfo";
@@ -134,6 +135,7 @@ function App() {
               path="purchase/abort"
               element={<ProtectedRoute element={<Abort />} />}
             />
+            <Route path="purchase/redirect" element={<PurchaseRedirect />} />
             <Route path="post" element={<PostWork />} />
             <Route
               path="mypage/purchased/performance-info/:id"

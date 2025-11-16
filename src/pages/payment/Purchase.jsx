@@ -266,6 +266,7 @@ const Purchase = () => {
         orderId: nicepayOrderId,
         amount: payableAmount,
         goodsName,
+        returnUrl: `${window.location.origin}/purchase/success`,
         fnSuccess: async (result) => {
           console.log("NICEPAY 성공 결과:", result);
 

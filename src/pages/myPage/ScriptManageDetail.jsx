@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -59,10 +59,9 @@ const ScriptManageDetail = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${SERVER_URL}profile/detail`, {
+      const response = await api.get(`/profile/detail`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           script: id,
@@ -164,10 +163,9 @@ const ScriptManageDetail = () => {
       }
 
       setPartialLoading(true);
-      await axios.post(`${SERVER_URL}profile/detail`, formData, {
+      await api.post(`/profile/detail`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
 
@@ -193,10 +191,9 @@ const ScriptManageDetail = () => {
   const onClickDeleteConfirm = async () => {
     setPartialLoading(true);
     try {
-      await axios.delete(`${SERVER_URL}profile/deleteScript/${id}`, {
+      await api.delete(`/profile/deleteScript/${id}`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
       alert("작품이 삭제되었습니다.");

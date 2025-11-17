@@ -20,7 +20,7 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 
 import TableCellCenter from "./TableCellCenter";
@@ -100,13 +100,10 @@ const AdminOrderManage = () => {
           params.status = filterStatus;
         }
 
-        const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/orders`, {
+        const response = await api.get<ApiResponse>(`/admin/orders`, {
           params: params,
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         });
 
@@ -142,15 +139,12 @@ const AdminOrderManage = () => {
   // 주문 상태 변경 핸들러
   const onChangeStatus = async (id: number, newStatus: OrderStatus) => {
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/orders/${id}`,
+      await api.patch(
+        `/admin/orders/${id}`,
         { orderStatus: newStatus },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         }
       );

@@ -1,10 +1,4 @@
-import axios from "axios";
-
-import { SERVER_URL } from "@/constants/ServerURL";
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 30000,
-});
+import { api } from "@/api/api";
 
 export interface GetStatisticsResponse {
   userCnt: number;

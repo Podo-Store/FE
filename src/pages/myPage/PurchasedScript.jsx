@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
@@ -48,10 +48,9 @@ const PurchasedScript = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/orderScripts`, {
+      const response = await api.get(`/profile/orderScripts`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
 
@@ -60,15 +59,11 @@ const PurchasedScript = () => {
       }
       setScriptList(response.data.orderList);
 
-      const response2 = await axios.get(
-        `${SERVER_URL}profile/orderPerformances`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      );
+      const response2 = await api.get(`/profile/orderPerformances`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response2.data.orderList.length === 0) {
         setIsPerformListNull(true);

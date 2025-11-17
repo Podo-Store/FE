@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -58,7 +58,7 @@ const Preview = ({ id, lengthType }) => {
           Authorization: `Bearer ${Cookies.get("accessToken")}`,
         };
       }
-      const response = await axios.get(`${SERVER_URL}scripts/preview`, {
+      const response = await api.get(`/scripts/preview`, {
         headers: headers,
         params: {
           script: id,

@@ -1,12 +1,5 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-
-import { SERVER_URL } from "@/constants/ServerURL";
+import { api } from "@/api/api";
 import { ScriptItem, ExploreScriptsResponse } from "@/api/user/postListApi";
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 30000,
-});
 
 // 좋아한 작품
 export const fetchLikedPost = async (

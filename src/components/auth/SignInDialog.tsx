@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import clsx from "clsx";
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -57,7 +57,7 @@ function SignInDialog() {
     setIsIdPwMatch(false);
 
     try {
-      const { data } = await axios.post(`${SERVER_URL}auth/signin`, {
+      const { data } = await api.post(`/auth/signin`, {
         userId: id,
         password: pw,
       });
@@ -89,7 +89,9 @@ function SignInDialog() {
   ) => {
     try {
       setIsLoading(true);
-      const { data } = await axios.get(`${SERVER_URL}auth/${type}`, {
+      // Remember original path to navigate back after OAuth completes
+      localStorage.setItem("auth_from", from);
+      const { data } = await api.get(`/auth/${type}`, {
         headers: { "Content-Type": "application/json" },
       });
       let redirectUrl =

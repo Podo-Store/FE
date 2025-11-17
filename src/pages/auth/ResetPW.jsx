@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -61,8 +61,8 @@ const ResetPW = ({ receivedAccessToken }) => {
   const onClickResetPwBtn = async () => {
     // 비밀번호 재설정 API 호출
     try {
-      await axios.post(
-        `${SERVER_URL}auth/resetPassword`,
+      await api.post(
+        `/auth/resetPassword`,
         {
           password: pw,
           confirmPassword: pwCheck,

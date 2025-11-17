@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -118,10 +118,9 @@ const Purchase = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}order/item`, {
+      const response = await api.get(`/order/item`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           productId: id,
@@ -240,13 +239,12 @@ const Purchase = () => {
         }
 
         try {
-          const response = await axios.post(
-            `${SERVER_URL}order/item`,
+          const response = await api.post(
+            `/order/item`,
             requestBody,
             {
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${Cookies.get("accessToken")}`,
               },
             }
           );

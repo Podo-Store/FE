@@ -1,13 +1,6 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { SERVER_URL } from "@/constants/ServerURL";
-
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 10000,
-});
-
-const accessToken = Cookies.get("accessToken");
+import { api } from "@/api/api";
 
 export interface postReviewProops {
   productId: string;
@@ -35,7 +28,10 @@ export const postReview = async ({
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      // 인터셉터가 기본적으로 헤더를 붙이지만, 중복 방지/명시를 위해 액세스 토큰이 있으면 추가
+      ...(Cookies.get("accessToken")
+        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
+        : {}),
     };
 
     const response = await api.post<boolean>(
@@ -63,10 +59,12 @@ export const getProfile = async (
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      ...(Cookies.get("accessToken")
+        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
+        : {}),
     };
 
-    if (!accessToken) {
+    if (!Cookies.get("accessToken")) {
       window.location.reload()
     }
     const response = await api.get<getReviewProfileProops>(
@@ -105,7 +103,9 @@ export const patchReview = async ({
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      ...(Cookies.get("accessToken")
+        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
+        : {}),
     };
 
     const response = await api.patch<getReviewProfileProops>(
@@ -133,7 +133,9 @@ export const deleteReview = async (reviewId: string): Promise<boolean> => {
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+      ...(Cookies.get("accessToken")
+        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
+        : {}),
     };
 
     const response = await api.delete<boolean>(`/scripts/review/${reviewId}`, {

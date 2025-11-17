@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -62,12 +62,9 @@ const List = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${SERVER_URL}scripts`, {
+      const response = await api.get(`/scripts`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
         },
       });
 
@@ -123,12 +120,9 @@ const List = () => {
   const fetchPlays = async (playType) => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${SERVER_URL}scripts/${playType}`, {
+      const response = await api.get(`/scripts/${playType}`, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
         },
         params: {
           page: page,

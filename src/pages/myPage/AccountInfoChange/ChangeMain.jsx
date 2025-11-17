@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 
 import {
@@ -103,10 +102,9 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     const fetchAccountInfo = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`${SERVER_URL}profile/account`, {
+        const response = await api.get(`/profile/account`, {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         });
         setId(response.data.userId);
@@ -124,7 +122,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
   const checkNameDuplicated = async (name) => {
     // 닉네임 중복 체크 API 연결
     try {
-      const response = await axios.post(`${SERVER_URL}auth/checkNickname`, {
+      const response = await api.post(`/auth/checkNickname`, {
         nickname: name,
       });
       if (response.data === true) {
@@ -208,8 +206,8 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     }
 
     try {
-      await axios.post(
-        `${SERVER_URL}profile/update`,
+      await api.post(
+        `/profile/update`,
         {
           password: pw || "",
           confirmPassword: pwCheck || "",
@@ -218,7 +216,6 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         }
       );

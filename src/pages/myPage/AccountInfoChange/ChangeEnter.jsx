@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useState } from "react";
 
@@ -23,15 +23,14 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
 
   const onClickInputBtn = async () => {
     try {
-      const response = await axios.post(
-        `${SERVER_URL}profile/confirm`,
+      const response = await api.post(
+        `/profile/confirm`,
         {
           password: typedPassword,
         },
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         }
       );

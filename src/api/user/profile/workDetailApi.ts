@@ -1,11 +1,6 @@
-import axios, { AxiosError } from "axios";
-import { SERVER_URL } from "@/constants/ServerURL";
+import { AxiosError } from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
-
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 10000,
-});
 
 export interface WorkDetailResponse {
   id: string;

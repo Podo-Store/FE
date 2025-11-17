@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -35,10 +35,9 @@ const PurchaseSuccess = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${SERVER_URL}order/success`, {
+      const response = await api.get(`/order/success`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           orderId,

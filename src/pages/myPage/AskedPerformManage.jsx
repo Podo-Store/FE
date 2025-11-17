@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -40,10 +40,9 @@ const AskedPerformManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/requested`, {
+      const response = await api.get(`/profile/requested`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           id,

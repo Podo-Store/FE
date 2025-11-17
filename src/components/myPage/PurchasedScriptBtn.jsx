@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
@@ -37,10 +37,9 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
   const onClickDownloadScript = async () => {
     toastAlert("다운로드 중입니다.", "info");
     try {
-      const response = await axios.get(`${SERVER_URL}profile/download`, {
+      const response = await api.get(`/profile/download`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           id: id,

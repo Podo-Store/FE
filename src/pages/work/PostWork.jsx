@@ -1,5 +1,5 @@
 import { Dialog, DialogContent } from "@mui/material";
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
 
@@ -10,7 +10,6 @@ import AnimatedCheckedSvg from "@/components/loading/AnimatedCheckedSvg";
 import PartialLoading from "@/components/loading/PartialLoading";
 import InfoPopup from "@/components/popup/InfoPopup";
 import PolicyPopup from "@/components/popup/PolicyPopup";
-import { SERVER_URL } from "../../constants/ServerURL";
 import DialogPopup from "@/components/popup/PolicyDialogPopup";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
@@ -61,12 +60,7 @@ const PostWork = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post(`${SERVER_URL}register`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await api.post(`/register`, formData);
 
       console.log(response);
 
@@ -211,8 +205,7 @@ const PostWork = () => {
                         top: "unset",
                         bottom: "0",
                         padding: "11px",
-                        transform:
-                          "translate(calc(113.75px + 8px), 0)",
+                        transform: "translate(calc(113.75px + 8px), 0)",
                       }}
                       buttonId="info-btn"
                     />

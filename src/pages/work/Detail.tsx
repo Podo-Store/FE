@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -144,7 +144,7 @@ const Detail = () => {
         headers["Authorization"] = `Bearer ${token}`;
       }
       try {
-        const response = await axios.get(`${SERVER_URL}scripts/detail`, {
+        const response = await api.get(`/scripts/detail`, {
           headers: headers,
           params: {
             script: id,
@@ -197,16 +197,13 @@ const Detail = () => {
       setIsLoading(false);
       inflightRef.current.delete(key);
 
-      const { data: description } = await axios.get(
-        `${SERVER_URL}scripts/description`,
-        {
-          headers: headers,
-          params: {
-            script: id,
-          },
-          responseType: "blob",
-        }
-      );
+      const { data: description } = await api.get(`/scripts/description`, {
+        headers: headers,
+        params: {
+          script: id,
+        },
+        responseType: "blob",
+      });
 
       setDescription(URL.createObjectURL(description));
     };
@@ -222,10 +219,9 @@ const Detail = () => {
         const token = Cookies.get("accessToken");
         const headers: Record<string, string> = {
           "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
         };
 
-        const { data } = await axios.get(`${SERVER_URL}scripts/detail`, {
+        const { data } = await api.get(`/scripts/detail`, {
           headers,
           params: { script: id, sortType: sort, page: reviewPage },
         });

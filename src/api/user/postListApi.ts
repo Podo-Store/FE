@@ -1,13 +1,5 @@
-import axios, { AxiosError } from "axios";
-import Cookies from "js-cookie";
-
-import { SERVER_URL } from "@/constants/ServerURL";
-
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-
-  timeout: 10000,
-});
+import { AxiosError } from "axios";
+import { api } from "@/api/api";
 
 export interface ScriptItem {
   id: string;

@@ -1,3 +1,4 @@
+import { api } from "@/api/api";
 import axios from "axios";
 import Cookies from "js-cookie";
 import React, { createContext, useState, useEffect } from "react";
@@ -22,6 +23,12 @@ export const AuthProvider = ({ children }) => {
   const [isAdmin, setIsAdmin] = useState(false);
 
   const location = useLocation();
+  const isHttps = window.location.protocol === "https:";
+  const cookieBaseOptions = {
+    path: "/",
+    secure: isHttps,
+    sameSite: "Lax",
+  };
 
   const parseIsAdmin = (token) => {
     if (!token) {
@@ -51,16 +58,31 @@ export const AuthProvider = ({ children }) => {
   }, [location]);
 
   const login = (accessToken, refreshToken, userNickname) => {
+    try {
+      console.debug("[auth] login() start", {
+        hasAT: !!accessToken,
+        hasRT: !!refreshToken,
+        userNickname,
+      });
+    } catch {}
     Cookies.set("accessToken", accessToken, {
       expires: ACCESS_TOKEN_EXP_TIME,
-      secure: true,
-      sameSite: "Strict",
+      ...cookieBaseOptions,
     });
     Cookies.set("refreshToken", refreshToken, {
       expires: REFRESH_TOKEN_EXP_TIME,
-      secure: true,
-      sameSite: "Strict",
+      ...cookieBaseOptions,
     });
+
+    // Set defaults so immediate subsequent requests include Authorization
+    api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    axios.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
+    try {
+      console.debug("[auth] login() set defaults", {
+        apiAuth: !!api.defaults.headers.common["Authorization"],
+        axiosAuth: !!axios.defaults.headers.common["Authorization"],
+      });
+    } catch {}
 
     setUserNickname(userNickname);
     localStorage.setItem("userNickname", userNickname);
@@ -72,6 +94,9 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     Cookies.remove("accessToken");
     Cookies.remove("refreshToken");
+
+    delete api.defaults.headers.common["Authorization"];
+    delete axios.defaults.headers.common["Authorization"];
 
     setUserNickname("username");
     localStorage.removeItem("userNickname");
@@ -88,25 +113,41 @@ export const AuthProvider = ({ children }) => {
     }
 
     try {
-      const response = await axios.post(
-        `${SERVER_URL}auth/newToken`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        }
-      );
+      try {
+        console.debug("[auth] refreshAccessToken() start");
+      } catch {}
+      const raw = axios.create({ baseURL: SERVER_URL, timeout: 30000 });
+      let response;
+      try {
+        console.debug("[auth] refreshAccessToken() via body");
+        response = await raw.post(`/auth/newToken`, { refreshToken });
+      } catch (e1) {
+        console.debug("[auth] refreshAccessToken() body failed, try header");
+        response = await raw.post(
+          `/auth/newToken`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${refreshToken}`,
+            },
+          }
+        );
+      }
       const { accessToken } = response.data;
       Cookies.set("accessToken", accessToken, {
         expires: ACCESS_TOKEN_EXP_TIME,
-        secure: true,
-        sameSite: "Strict",
+        ...cookieBaseOptions,
       });
       setIsAuthenticated(true);
       setIsAdmin(parseIsAdmin(accessToken));
+      try {
+        console.debug("[auth] refreshAccessToken() success");
+      } catch {}
       return accessToken;
     } catch (error) {
+      try {
+        console.debug("[auth] refreshAccessToken() failed", error && error.response && error.response.status);
+      } catch {}
       console.error("Access token refresh failed:", error);
       logout();
       return null;

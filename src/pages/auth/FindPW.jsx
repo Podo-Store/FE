@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 
 import ResetPW from "./ResetPW";
@@ -77,7 +77,7 @@ const FindPW = () => {
     setIsRegisteredId({ show: false, registered: false });
 
     try {
-      const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
+      const response = await api.post(`/auth/checkUserId`, {
         userId: id,
         check: false,
       });
@@ -109,7 +109,7 @@ const FindPW = () => {
     setTimeout(() => setTimerReset(false), 100); // 타이머 리셋 상태를 빠르게 해제
 
     try {
-      await axios.post(`${SERVER_URL}auth/find/mailSend`, {
+      await api.post(`/auth/find/mailSend`, {
         email: email,
         flag: true,
         userId: id,
@@ -132,7 +132,7 @@ const FindPW = () => {
   const onClickConfirmButton = async () => {
     // 이메일 코드 확인 API 호출
     try {
-      const response = await axios.post(`${SERVER_URL}auth/findPassword`, {
+      const response = await api.post(`/auth/findPassword`, {
         email: email,
         authNum: emailCode,
         userId: id,

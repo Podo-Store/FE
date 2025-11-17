@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 
 import {
@@ -69,7 +69,7 @@ const SignUp4 = ({
 
     // 이메일 발송 API 호출
     try {
-      await axios.post(`${SERVER_URL}auth/mailSend`, {
+      await api.post(`/auth/mailSend`, {
         email: email,
       });
 
@@ -89,7 +89,7 @@ const SignUp4 = ({
     setEmailCodeChecker({ show: false, match: false });
 
     try {
-      await axios.post(`${SERVER_URL}auth/mailauthCheck`, {
+      await api.post(`/auth/mailauthCheck`, {
         email: email,
         authNum: emailCode,
       });

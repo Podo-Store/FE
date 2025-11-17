@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
 import { useMemo, useState } from "react";
@@ -62,10 +62,9 @@ const PerformanceInfo = () => {
 
   useRequest(async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}profile/apply`, {
+      const response = await api.get(`/profile/apply`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
         params: {
           id,
@@ -200,8 +199,8 @@ const PerformanceInfo = () => {
       date: dayjs(date).format("YYYY-MM-DDTHH:mm:ss"),
     }));
     try {
-      await axios.post(
-        `${SERVER_URL}profile/apply`,
+      await api.post(
+        `/profile/apply`,
         {
           orderItemId: id,
           performanceDate: localDates,
@@ -209,7 +208,6 @@ const PerformanceInfo = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
           },
         }
       );

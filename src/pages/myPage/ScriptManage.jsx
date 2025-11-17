@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 
@@ -28,10 +28,9 @@ const ScriptManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/work`, {
+      const response = await api.get(`/profile/work`, {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
         },
       });
       if (response.data.dateWorks.length === 0) {

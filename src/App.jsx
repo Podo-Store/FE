@@ -14,6 +14,7 @@ import SignIn from "./pages/auth/SignIn";
 import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 import SignInDialog from "./components/auth/SignInDialog";
+import OAuthCallback from "./pages/auth/OAuthCallback";
 
 import PostGallery from "./pages/work/postList/PostGallery";
 
@@ -79,6 +80,7 @@ function App() {
           <Route path="signin" element={<SignIn />} />
           <Route path="signin/v2" element={<SignInV2 />} />
           <Route path="signin/find/:id" element={<FindBar />} />
+          <Route path="auth/callback" element={<OAuthCallback />} />
 
           {/* <Route path="list" element={<List />} /> */}
           <Route path="list" element={<PostGallery />} />

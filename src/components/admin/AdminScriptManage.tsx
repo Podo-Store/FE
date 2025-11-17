@@ -14,7 +14,7 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import React, { useState, useEffect } from "react";
 
@@ -87,13 +87,10 @@ const AdminScriptManage = () => {
           params.status = filterStatus;
         }
 
-        const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/products`, {
+        const response = await api.get<ApiResponse>(`/admin/products`, {
           params: params,
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         });
 
@@ -131,8 +128,8 @@ const AdminScriptManage = () => {
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/title`,
+      await api.patch(
+        `/admin/products/title`,
         {
           productId: id,
           title: newTitle,
@@ -140,9 +137,6 @@ const AdminScriptManage = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         }
       );
@@ -162,8 +156,8 @@ const AdminScriptManage = () => {
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/writer`,
+      await api.patch(
+        `/admin/products/writer`,
         {
           productId: id,
           writer: newWriter,
@@ -171,9 +165,6 @@ const AdminScriptManage = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         }
       );
@@ -201,12 +192,7 @@ const AdminScriptManage = () => {
     toastAlert("다운로드 중입니다.", "info");
 
     try {
-      const response = await axios.get(`${SERVER_URL}admin/download/${id}`, {
-        headers: {
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
-        },
+      const response = await api.get(`/admin/download/${id}`, {
         responseType: "blob",
       });
 
@@ -236,8 +222,8 @@ const AdminScriptManage = () => {
     const type = updatedData.find((item) => item.id === id)?.playType;
 
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/${id}`,
+      await api.patch(
+        `/admin/products/${id}`,
         {
           playType: type,
           productStatus: newPermission,
@@ -245,9 +231,6 @@ const AdminScriptManage = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
           },
         }
       );

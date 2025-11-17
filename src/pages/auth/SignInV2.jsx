@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -49,7 +49,7 @@ function SignIn() {
     setIsIdPwMatch(false);
 
     try {
-      const response = await axios.post(`${SERVER_URL}auth/signin`, {
+      const response = await api.post(`/auth/signin`, {
         userId: id,
         password: pw,
       });

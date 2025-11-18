@@ -19,9 +19,7 @@ import bar from "../../assets/image/auth/bar.svg";
 import "./SignInDialog.scss";
 import "./../../styles/utilities.css";
 import { Dialog } from "@mui/material";
-import googleBtn from "@/assets/image/auth/googleBtn.svg";
-import kakaoBtn from "@/assets/image/auth/kakaoBtn.svg";
-import naverBtn from "@/assets/image/auth/naverBtn.svg";
+import OAuthDiv from "./OAuthDiv";
 
 function SignInDialog() {
   const { login } = useContext(AuthContext);
@@ -82,37 +80,6 @@ function SignInDialog() {
     }
     setShowErrorMsg(true);
     setIsLoading(false);
-  };
-
-  const handleSocialLogin = async (
-    type: "google" | "kakao" | "naver"
-  ) => {
-    try {
-      setIsLoading(true);
-      // Remember original path to navigate back after OAuth completes
-      localStorage.setItem("auth_from", from);
-      const { data } = await api.get(`/auth/${type}`, {
-        headers: { "Content-Type": "application/json" },
-      });
-      let redirectUrl =
-        typeof data === "string"
-          ? data
-          : data?.redirectURL || data?.redirectUrl || data?.url;
-      if (redirectUrl) {
-        try {
-          const cleaned = encodeURI(String(redirectUrl).replace(/&amp;/g, "&").trim());
-          window.location.assign(cleaned);
-        } catch {
-          window.location.href = String(redirectUrl);
-        }
-      } else {
-        alert("리디렉션 URL을 받지 못했습니다. 잠시 후 다시 시도해 주세요.");
-      }
-    } catch (e) {
-      alert("소셜 로그인 시작에 실패했습니다. 잠시 후 다시 시도해 주세요.");
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   const handleClose = () => {
@@ -195,25 +162,13 @@ function SignInDialog() {
         <div className="mt-[25px] sm:mt-[30px] mb-[35px] sm:mb-[40px]">
           <div className="flex justify-between items-center">
             <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
-            <p className="p-xs-medium sm:p-small-medium c-grey5">다른 계정으로 로그인</p>
+            <p className="p-xs-medium sm:p-small-medium c-grey5">
+              다른 계정으로 로그인
+            </p>
             <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
           </div>
 
-          <div className="flex justify-center items-center gap-[22.5px] sm:gap-[30px] mt-[25px] sm:mt-[30px]">
-            <button className="size-[45px] sm:size-[60px] cursor-pointer">
-              <img src={naverBtn} alt="naver" />  
-            </button>
-            <button className="size-[45px] sm:size-[60px] cursor-pointer">
-              <img src={kakaoBtn} alt="kakao" />
-            </button> 
-            <button
-              type="button"
-              className="size-[45px] sm:size-[60px] cursor-pointer"
-              onClick={() => handleSocialLogin("google")}
-            >
-              <img src={googleBtn} alt="google" />
-            </button>
-          </div>
+          <OAuthDiv setIsLoading={setIsLoading} />
         </div>
 
         <div className="extra-link">

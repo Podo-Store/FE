@@ -43,10 +43,18 @@ const OAuthDiv = ({ setIsLoading }: OAuthDivProps) => {
 
   return (
     <div className="flex justify-center items-center gap-[22.5px] sm:gap-[30px] mt-[25px] sm:mt-[30px]">
-      <button className="size-[45px] sm:size-[60px] cursor-pointer">
+      <button
+        type="button"
+        className="size-[45px] sm:size-[60px] cursor-pointer"
+        onClick={() => handleSocialLogin("naver")}
+      >
         <img src={naverBtn} alt="naver" />
       </button>
-      <button className="size-[45px] sm:size-[60px] cursor-pointer">
+      <button
+        type="button"
+        className="size-[45px] sm:size-[60px] cursor-pointer"
+        onClick={() => handleSocialLogin("kakao")}
+      >
         <img src={kakaoBtn} alt="kakao" />
       </button>
       <button

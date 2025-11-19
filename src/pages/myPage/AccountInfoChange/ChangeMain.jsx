@@ -11,7 +11,6 @@ import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 
 import { useRequest } from "../../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { SERVER_URL } from "../../../constants/ServerURL";
 import {
   PW_ALPHABET_REGEX,
   PW_NUMBER_REGEX,
@@ -102,11 +101,7 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     const fetchAccountInfo = async () => {
       setIsLoading(true);
       try {
-        const response = await api.get(`/profile/account`, {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await api.get("/profile/account");
         setId(response.data.userId);
         setEmail(response.data.email);
         setPrevName(response.data.nickname);
@@ -206,19 +201,11 @@ const AccountInfoChangeMain = ({ setIsDeleteAccountBtnClicked }) => {
     }
 
     try {
-      await api.post(
-        `/profile/update`,
-        {
-          password: pw || "",
-          confirmPassword: pwCheck || "",
-          nickname: name || "",
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await api.post("/profile/update", {
+        password: pw || "",
+        confirmPassword: pwCheck || "",
+        nickname: name || "",
+      });
 
       alert("회원 정보 수정이 완료되었습니다.");
       // 닉네임 변경 사항 세션 반영

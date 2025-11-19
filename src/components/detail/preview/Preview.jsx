@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -50,16 +49,7 @@ const Preview = ({ id, lengthType }) => {
     try {
       setIsLoading(true);
 
-      // 로그인 상태에 따른 헤더 설정
-      let headers = { "Content-Type": "application/json" };
-      if (Cookies.get("accessToken")) {
-        headers = {
-          ...headers,
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        };
-      }
       const response = await api.get(`/scripts/preview`, {
-        headers: headers,
         params: {
           script: id,
         },

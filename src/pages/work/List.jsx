@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -62,11 +61,7 @@ const List = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      const response = await api.get(`/scripts`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await api.get("/scripts");
 
       setTruncatedLongPlays(response.data.longPlay);
       setTruncatedShortPlays(response.data.shortPlay);
@@ -121,9 +116,6 @@ const List = () => {
     try {
       setIsLoading(true);
       const response = await api.get(`/scripts/${playType}`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         params: {
           page: page,
         },

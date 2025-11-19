@@ -2,14 +2,14 @@ import { AxiosError } from "axios";
 import Cookies from "js-cookie";
 import { api } from "@/api/api";
 
-export interface postReviewProops {
+export interface postReviewProps {
   productId: string;
   rating: number;
   standardType: string;
   content: string;
 }
 
-export interface getReviewProfileProops {
+export interface getReviewProfileProps {
   imagePath: string;
   id: string;
   title: string;
@@ -24,26 +24,14 @@ export const postReview = async ({
   rating,
   standardType,
   content,
-}: postReviewProops): Promise<boolean> => {
+}: postReviewProps): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      // 인터셉터가 기본적으로 헤더를 붙이지만, 중복 방지/명시를 위해 액세스 토큰이 있으면 추가
-      ...(Cookies.get("accessToken")
-        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
-        : {}),
-    };
-
-    const response = await api.post<boolean>(
-      "/scripts/review",
-      {
-        productId,
-        rating,
-        standardType,
-        content,
-      },
-      { headers }
-    );
+    const response = await api.post<boolean>("/scripts/review", {
+      productId,
+      rating,
+      standardType,
+      content,
+    });
 
     return response.data;
   } catch (error) {
@@ -55,24 +43,13 @@ export const postReview = async ({
 
 export const getProfile = async (
   productId: string
-): Promise<getReviewProfileProops> => {
+): Promise<getReviewProfileProps> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...(Cookies.get("accessToken")
-        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
-        : {}),
-    };
-
     if (!Cookies.get("accessToken")) {
-      window.location.reload()
+      window.location.reload();
     }
-    const response = await api.get<getReviewProfileProops>(
-      `/scripts/review/${productId}`,
-
-      {
-        headers,
-      }
+    const response = await api.get<getReviewProfileProps>(
+      `/scripts/review/${productId}`
     );
 
     return response.data;
@@ -101,22 +78,12 @@ export const patchReview = async ({
   content,
 }: patchReviewProps) => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...(Cookies.get("accessToken")
-        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
-        : {}),
-    };
-
-    const response = await api.patch<getReviewProfileProops>(
+    const response = await api.patch<getReviewProfileProps>(
       `/scripts/review/${reviewId}`,
       {
         rating,
         standardType,
         content,
-      },
-      {
-        headers,
       }
     );
 
@@ -131,16 +98,7 @@ export const patchReview = async ({
 
 export const deleteReview = async (reviewId: string): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      ...(Cookies.get("accessToken")
-        ? { Authorization: `Bearer ${Cookies.get("accessToken")}` }
-        : {}),
-    };
-
-    const response = await api.delete<boolean>(`/scripts/review/${reviewId}`, {
-      headers,
-    });
+    const response = await api.delete<boolean>(`/scripts/review/${reviewId}`);
 
     return response.data;
   } catch (error) {

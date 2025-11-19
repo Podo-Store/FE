@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -15,8 +14,6 @@ import ThumbnailImg from "../../components/thumbnail/ThumbnailImg";
 
 import { useRequest } from "../../hooks/useRequest";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./ScriptManageDetail.scss";
 import "./../../styles/text.css";
@@ -59,10 +56,7 @@ const ScriptManageDetail = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      const response = await api.get(`/profile/detail`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await api.get("/profile/detail", {
         params: {
           script: id,
         },
@@ -163,11 +157,7 @@ const ScriptManageDetail = () => {
       }
 
       setPartialLoading(true);
-      await api.post(`/profile/detail`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      await api.post("/profile/detail", formData);
 
       alert("수정이 완료되었습니다.");
       navigate("/mypage/scriptmanage");
@@ -191,11 +181,7 @@ const ScriptManageDetail = () => {
   const onClickDeleteConfirm = async () => {
     setPartialLoading(true);
     try {
-      await api.delete(`/profile/deleteScript/${id}`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await api.delete(`/profile/deleteScript/${id}`);
       alert("작품이 삭제되었습니다.");
       navigate("/mypage/scriptmanage");
     } catch (error) {

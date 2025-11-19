@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import Cookies from "js-cookie";
 
-import { cancelReview } from "@/api/user/profile/cancelPostApi";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import ScriptManageCancelPopup from "./ScriptManageCancelPopup";

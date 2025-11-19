@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,8 +9,6 @@ import Loading from "../Loading";
 import { useRequest } from "../../hooks/useRequest";
 
 import formatDate2 from "../../utils/formatDate2";
-
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./PurchaseSuccess.css";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -36,9 +33,6 @@ const PurchaseSuccess = () => {
 
     try {
       const response = await api.get(`/order/success`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
         params: {
           orderId,
         },

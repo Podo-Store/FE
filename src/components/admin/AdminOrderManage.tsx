@@ -102,9 +102,6 @@ const AdminOrderManage = () => {
 
         const response = await api.get<ApiResponse>(`/admin/orders`, {
           params: params,
-          headers: {
-            "Content-Type": "application/json",
-          },
         });
 
         setData(response.data.orders);
@@ -127,7 +124,10 @@ const AdminOrderManage = () => {
   }, [page, searchText, filterStatus]);
 
   // 페이지 변경 핸들러
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value);
   };
 
@@ -139,15 +139,7 @@ const AdminOrderManage = () => {
   // 주문 상태 변경 핸들러
   const onChangeStatus = async (id: number, newStatus: OrderStatus) => {
     try {
-      await api.patch(
-        `/admin/orders/${id}`,
-        { orderStatus: newStatus },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await api.patch(`/admin/orders/${id}`, { orderStatus: newStatus });
 
       setOpen(false);
 
@@ -179,7 +171,11 @@ const AdminOrderManage = () => {
 
   // 상태 매핑
   const statusToLabel = (orderStatus: OrderStatus): string => {
-    return orderStatus === "WAIT" ? "대기" : orderStatus === "PASS" ? "완료" : "취소";
+    return orderStatus === "WAIT"
+      ? "대기"
+      : orderStatus === "PASS"
+      ? "완료"
+      : "취소";
   };
 
   return (
@@ -191,18 +187,25 @@ const AdminOrderManage = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">정말 변경하시겠습니까?</DialogTitle>
+        <DialogTitle id="alert-dialog-title">
+          정말 변경하시겠습니까?
+        </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            변경 시 사용자에게 메일이 발송되며, 다시 변경할 수 있지만 이는 큰 책임을 수반합니다.
-            결제 내역을 다시 한번 확인하시기 바랍니다. 계속하시겠습니까?
+            변경 시 사용자에게 메일이 발송되며, 다시 변경할 수 있지만 이는 큰
+            책임을 수반합니다. 결제 내역을 다시 한번 확인하시기 바랍니다.
+            계속하시겠습니까?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} autoFocus>
             취소 (기존 상태 유지)
           </Button>
-          <Button onClick={() => onChangeStatus(changedStatus.id, changedStatus.newStatus)}>
+          <Button
+            onClick={() =>
+              onChangeStatus(changedStatus.id, changedStatus.newStatus)
+            }
+          >
             확인 (메일 전송)
           </Button>
         </DialogActions>
@@ -215,13 +218,19 @@ const AdminOrderManage = () => {
         onClose={() => setShowAlert({ ...showAlert, show: false })}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert severity={showAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
+        <Alert
+          severity={showAlert.success ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
           {showAlert.message}
         </Alert>
       </Snackbar>
 
       {/* 상단 카운트 */}
-      <div className="j-content-end" style={{ gap: "16px", marginBottom: "16px" }}>
+      <div
+        className="j-content-end"
+        style={{ gap: "16px", marginBottom: "16px" }}
+      >
         <Typography variant="h6">결제 완료: {doneCount}</Typography>
         <Typography variant="h6">결제 대기: {waitingCount}</Typography>
       </div>
@@ -246,7 +255,10 @@ const AdminOrderManage = () => {
         />
 
         {/* 필터 버튼 */}
-        <div className="j-content-between a-items-center" style={{ marginBottom: "16px" }}>
+        <div
+          className="j-content-between a-items-center"
+          style={{ marginBottom: "16px" }}
+        >
           <h4 className="h4-bold">전체 {totalCount}</h4>
           <span className="d-flex" style={{ gap: "8px" }}>
             <Button
@@ -309,7 +321,9 @@ const AdminOrderManage = () => {
                 data.map((item, index) => (
                   <TableRow key={item.id}>
                     <TableCellCenter>{item.id}</TableCellCenter>
-                    <TableCellCenter>{new Date(item.orderDate).toLocaleString()}</TableCellCenter>
+                    <TableCellCenter>
+                      {new Date(item.orderDate).toLocaleString()}
+                    </TableCellCenter>
                     <TableCellCenter>{item.title}</TableCellCenter>
                     <TableCellCenter>{item.writer}</TableCellCenter>
                     <TableCellCenter>{item.customer}</TableCellCenter>
@@ -326,23 +340,34 @@ const AdminOrderManage = () => {
                       {statusToLabel(item.orderStatus)}
                     </TableCellCenter>
                     <TableCellCenter>
-                      <Typography variant="body2">대본: {item.script ? "O" : "X"}</Typography>
                       <Typography variant="body2">
-                        공연: {item.performanceAmount > 0 ? item.performanceAmount : "없음"}
+                        대본: {item.script ? "O" : "X"}
+                      </Typography>
+                      <Typography variant="body2">
+                        공연:{" "}
+                        {item.performanceAmount > 0
+                          ? item.performanceAmount
+                          : "없음"}
                       </Typography>
                     </TableCellCenter>
-                    <TableCellCenter>{formatPrice(item.totalPrice)}</TableCellCenter>
+                    <TableCellCenter>
+                      {formatPrice(item.totalPrice)}
+                    </TableCellCenter>
                     <TableCellCenter>
                       <div className="j-content-between" style={{ gap: "8px" }}>
                         {item.orderStatus === "WAIT" ? (
                           <>
                             <AcceptSvg
                               className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "PASS")}
+                              onClick={() =>
+                                onClickStatusChange(item.id, "PASS")
+                              }
                             />
                             <DenySvg
                               className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "REJECT")}
+                              onClick={() =>
+                                onClickStatusChange(item.id, "REJECT")
+                              }
                             />
                           </>
                         ) : item.orderStatus === "PASS" ? (
@@ -351,7 +376,9 @@ const AdminOrderManage = () => {
                             <DenySvg
                               fill="#bababa"
                               className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "REJECT")}
+                              onClick={() =>
+                                onClickStatusChange(item.id, "REJECT")
+                              }
                             />
                           </>
                         ) : (
@@ -359,7 +386,9 @@ const AdminOrderManage = () => {
                             <AcceptSvg
                               fill="#bababa"
                               className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "PASS")}
+                              onClick={() =>
+                                onClickStatusChange(item.id, "PASS")
+                              }
                             />
                             <DenySvg fill="#F44336" opacity="0.5" />
                           </>
@@ -387,7 +416,12 @@ const AdminOrderManage = () => {
             marginTop: "16px",
           }}
         >
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} color="primary" />
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
         </div>
       </Paper>
     </>

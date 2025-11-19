@@ -1,6 +1,5 @@
 import { AxiosError } from "axios";
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 
 export interface WorkDetailResponse {
   id: string;
@@ -28,18 +27,11 @@ export interface WorkDetailResponse {
 }
 
 export const getWorkDetail = async (
-  scriptId: string,
-  accessToken: string
+  scriptId: string
 ): Promise<WorkDetailResponse> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    };
-
     const { data } = await api.get<WorkDetailResponse>("/profile/work/detail", {
       params: { script: scriptId },
-      headers,
     });
 
     return data;
@@ -57,13 +49,7 @@ type ErrorResponse = {
 
 export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${Cookies.get("accessToken")}`,
-    };
-
-    const response = await api.post("/profile/work/detail", formData, {
-      headers,
-    });
+    const response = await api.post("/profile/work/detail", formData);
 
     return response.data === true;
   } catch (error: any) {
@@ -75,14 +61,9 @@ export const postWorkDetail = async (formData: FormData): Promise<boolean> => {
   }
 };
 
-export const deleteWorkDetail = async (id: string, accessToken: string) => {
+export const deleteWorkDetail = async (id: string) => {
   try {
-    const response = await api.delete(`/profile/work/deleteScript/${id}`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await api.delete(`/profile/work/deleteScript/${id}`);
     return response.data;
   } catch (error: any) {
     throw new Error(error.response?.data?.error || "작품 삭제 중 오류 발생");

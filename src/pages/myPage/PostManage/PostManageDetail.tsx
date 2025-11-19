@@ -168,7 +168,7 @@ const PostManageDetail: React.FC = () => {
   const onClickDeleteConfirm = async () => {
     if (!scriptId || !accessToken) return;
     try {
-      const result = await deleteWorkDetail(scriptId, accessToken);
+      const result = await deleteWorkDetail(scriptId);
       if (result === true) {
         alert("작품이 삭제되었습니다.");
         navigate("/mypage/scriptmanage");
@@ -185,7 +185,7 @@ const PostManageDetail: React.FC = () => {
       try {
         setPartialLoading(true);
 
-        const data = await getWorkDetail(scriptId, accessToken);
+        const data = await getWorkDetail(scriptId);
 
         // title이 20자 초과 시 잘라서 세팅
         const trimmedTitle =
@@ -231,7 +231,7 @@ const PostManageDetail: React.FC = () => {
       hasValidStageComment &&
       hasActors &&
       hasRunningTime &&
-      hasSceneOrAct 
+      hasSceneOrAct
       // hasValidPerformancePrice
     );
   };

@@ -23,18 +23,10 @@ export interface ExploreScriptsResponse {
 }
 
 export const fetchExploreScripts = async (
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ExploreScriptsResponse> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ExploreScriptsResponse>("/scripts", {
-      headers,
       withCredentials: true, // 쿠키 인증 시 필요
       params: {
         sortType,
@@ -55,19 +47,11 @@ export const fetchExploreScripts = async (
 // 좋아한 장편 작품 목록 조회
 export const getLongWorks = async (
   page: number = 0,
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/scripts/long`, {
       params: { page, sortType },
-      headers,
     });
 
     return response.data;
@@ -80,19 +64,11 @@ export const getLongWorks = async (
 // 좋아한 장편 작품 목록 조회
 export const getShortWorks = async (
   page: number = 0,
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/scripts/short`, {
       params: { page, sortType },
-      headers,
     });
 
     return response.data;
@@ -103,22 +79,13 @@ export const getShortWorks = async (
 };
 
 export const toggleLikeScript = async (
-  id: string,
-  accessToken?: string
+  id: string
 ): Promise<"like" | "cancel like"> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.post<{ message: "like" | "cancel like" }>(
       `/scripts/like/${id}`,
       null,
-      { headers, withCredentials: true }
+      { withCredentials: true }
     );
 
     return response.data.message;
@@ -130,13 +97,8 @@ export const toggleLikeScript = async (
 
 export const getPostView = async (scriptId: string): Promise<Blob> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
     const { data } = await api.get<Blob>("/scripts/view", {
       params: { script: scriptId },
-      headers,
       responseType: "blob",
     });
 

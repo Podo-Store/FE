@@ -17,9 +17,7 @@ const OAuthDiv = ({ setIsLoading }: OAuthDivProps) => {
       setIsLoading(true);
       localStorage.setItem("auth_from", from);
 
-      const { data } = await api.get(`/auth/${type}`, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const { data } = await api.get(`/auth/${type}`);
       let redirectUrl =
         typeof data === "string"
           ? data

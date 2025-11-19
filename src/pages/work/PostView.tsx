@@ -84,7 +84,7 @@ const PostView: React.FC = () => {
     const fetchLikeStatus = async () => {
       if (!id) return; // id가 없으면 요청하지 않음
 
-      const status = await getLikeStatus(id, accessToken);
+      const status = await getLikeStatus(id);
       setIsLiked(status);
     };
 

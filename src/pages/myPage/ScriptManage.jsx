@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useContext, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
@@ -28,11 +27,7 @@ const ScriptManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await api.get(`/profile/work`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await api.get("/profile/work")
       if (response.data.dateWorks.length === 0) {
         setIsNull(true);
       }

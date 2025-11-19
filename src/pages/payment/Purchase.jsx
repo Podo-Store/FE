@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -22,7 +21,6 @@ import { useNicepay } from "@/hooks/useNicepay";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleGreyWarning from "../../assets/image/myPage/circleGreyWarning.svg";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
@@ -118,10 +116,7 @@ const Purchase = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await api.get(`/order/item`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await api.get("/order/item", {
         params: {
           productId: id,
           script: isScriptSelected,
@@ -239,15 +234,7 @@ const Purchase = () => {
         }
 
         try {
-          const response = await api.post(
-            `/order/item`,
-            requestBody,
-            {
-              headers: {
-                "Content-Type": "application/json",
-              },
-            }
-          );
+          const response = await api.post("/order/item", requestBody);
           const orderData = response.data[0];
           currentOrderId = orderData.id;
           orderIdRef.current = currentOrderId; // 재시도 시 재사용

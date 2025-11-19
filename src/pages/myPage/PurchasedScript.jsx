@@ -1,6 +1,5 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import ToggleSlide from "../../components/button/ToggleSlide";
@@ -48,22 +47,14 @@ const PurchasedScript = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await api.get(`/profile/orderScripts`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await api.get(`/profile/orderScripts`);
 
       if (response.data.orderList.length === 0) {
         setIsScriptListNull(true);
       }
       setScriptList(response.data.orderList);
 
-      const response2 = await api.get(`/profile/orderPerformances`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response2 = await api.get(`/profile/orderPerformances`);
 
       if (response2.data.orderList.length === 0) {
         setIsPerformListNull(true);

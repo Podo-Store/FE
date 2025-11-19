@@ -2,7 +2,6 @@ import { api } from "@/api/api";
 import { useContext, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "@/contexts/AuthContext";
-import { SERVER_URL } from "@/constants/ServerURL.js";
 
 export default function OAuthCallback() {
   const { login } = useContext(AuthContext);
@@ -20,7 +19,6 @@ export default function OAuthCallback() {
       const from = localStorage.getItem("auth_from") || "/";
 
       try {
-        // Backend now redirects to FE with explicit query
         if (signup === "true") {
           localStorage.removeItem("auth_from");
           navigate("/signup/success", { replace: true });
@@ -40,7 +38,6 @@ export default function OAuthCallback() {
         }
 
         if (accessToken && refreshToken) {
-          // Direct tokens in query
           login(accessToken, refreshToken, nickname);
           localStorage.removeItem("auth_from");
           navigate(from, { replace: true });
@@ -49,7 +46,6 @@ export default function OAuthCallback() {
 
         const code = params.get("code");
         if (code) {
-          // Exchange code with backend; forward full query to preserve params
           const { data } = await api.get(`/auth/google/callback${search}`);
           const at = data?.accessToken;
           const rt = data?.refreshToken;
@@ -62,7 +58,6 @@ export default function OAuthCallback() {
           }
         }
 
-        // Fallback: no tokens and no code
         alert("소셜 로그인 처리에 실패했습니다. 다시 시도해 주세요.");
         localStorage.removeItem("auth_from");
         navigate("/signin", { replace: true });

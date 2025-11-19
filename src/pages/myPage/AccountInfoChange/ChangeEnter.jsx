@@ -1,11 +1,8 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useState } from "react";
 
 import { AuthPwInputField } from "../../../components/inputField";
 import EnterForm from "../../../components/EnterForm";
-
-import { SERVER_URL } from "../../../constants/ServerURL";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
@@ -23,17 +20,9 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
 
   const onClickInputBtn = async () => {
     try {
-      const response = await api.post(
-        `/profile/confirm`,
-        {
-          password: typedPassword,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await api.post(`/profile/confirm`, {
+        password: typedPassword,
+      });
       if (response.data === true) {
         setPwValid(true);
         setChangeShowPermission(true);

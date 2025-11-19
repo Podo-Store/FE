@@ -2,18 +2,9 @@ import { api } from "@/api/api";
 import { ScriptItem, ExploreScriptsResponse } from "@/api/user/postListApi";
 
 // 좋아한 작품
-export const fetchLikedPost = async (
-  accessToken?: string
-): Promise<ExploreScriptsResponse> => {
+export const fetchLikedPost = async (): Promise<ExploreScriptsResponse> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ExploreScriptsResponse>("/profile/like", {
-      headers,
       withCredentials: true, // 쿠키 인증 시 필요
     });
 
@@ -30,19 +21,11 @@ export const fetchLikedPost = async (
 
 // 좋아한 장편 작품 목록 조회
 export const getLikedLongWorks = async (
-  page: number = 0,
-  accessToken?: string
+  page: number = 0
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/profile/like/long`, {
       params: { page },
-      headers,
     });
 
     return response.data;
@@ -56,19 +39,11 @@ export const getLikedLongWorks = async (
 
 // 좋아한 장편 작품 목록 조회
 export const getLikedShortWorks = async (
-  page: number = 0,
-  accessToken?: string
+  page: number = 0
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/profile/like/short`, {
       params: { page },
-      headers,
     });
     return response.data;
   } catch (error) {
@@ -79,21 +54,9 @@ export const getLikedShortWorks = async (
   }
 };
 
-export const getLikeStatus = async (
-  id: string,
-  accessToken?: string
-): Promise<boolean> => {
+export const getLikeStatus = async (id: string): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
-    const response = await api.get<boolean>(`/scripts/likeStatus/${id}`, {
-      headers,
-    });
+    const response = await api.get<boolean>(`/scripts/likeStatus/${id}`);
 
     return response.data; // true 또는 false
   } catch (error) {

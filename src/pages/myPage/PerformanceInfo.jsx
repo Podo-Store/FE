@@ -1,6 +1,5 @@
 import { api } from "@/api/api";
 import dayjs from "dayjs";
-import Cookies from "js-cookie";
 import { useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -62,10 +61,7 @@ const PerformanceInfo = () => {
 
   useRequest(async () => {
     try {
-      const response = await api.get(`/profile/apply`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const response = await api.get("/profile/apply", {
         params: {
           id,
         },
@@ -199,18 +195,10 @@ const PerformanceInfo = () => {
       date: dayjs(date).format("YYYY-MM-DDTHH:mm:ss"),
     }));
     try {
-      await api.post(
-        `/profile/apply`,
-        {
-          orderItemId: id,
-          performanceDate: localDates,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await api.post("/profile/apply", {
+        orderItemId: id,
+        performanceDate: localDates,
+      });
       alert("신청이 완료되었습니다.");
       navigate("/mypage/purchased");
     } catch (error) {

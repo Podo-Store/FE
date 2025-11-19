@@ -1,5 +1,4 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 import Button from "./../button/RoundBtn_149_48";
@@ -20,7 +19,14 @@ import "./../../styles/utilities.css";
  * @param {string} props.orderStatus - WAIT: 입금 확인 중, PASS: 결제 완료, REJECT: 결제 취소
  * @returns
  */
-const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus = "WAIT", style }) => {
+const PurchasedScriptBtn = ({
+  id,
+  title,
+  productId,
+  buyPerformance,
+  orderStatus = "WAIT",
+  style,
+}) => {
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -38,9 +44,6 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
     toastAlert("다운로드 중입니다.", "info");
     try {
       const response = await api.get(`/profile/download`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
         params: {
           id: id,
         },
@@ -67,7 +70,11 @@ const PurchasedScriptBtn = ({ id, title, productId, buyPerformance, orderStatus 
         </Button>
       ) : null}
 
-      <Button disabled={orderStatus !== "PASS"} onClick={onClickDownloadScript} style={style}>
+      <Button
+        disabled={orderStatus !== "PASS"}
+        onClick={onClickDownloadScript}
+        style={style}
+      >
         {orderStatus === "PASS" ? "대본 받기" : "입금 확인 중"}
       </Button>
     </div>

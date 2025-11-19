@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import Cookies from "js-cookie";
 
 import AuthContext from "@/contexts/AuthContext";
 
@@ -87,14 +86,8 @@ const PostGallery = () => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
-        const accessToken = Cookies.get("accessToken");
-
         if (activeCategory === "장편") {
-          const longData = await getLongWorks(
-            longPlayPage,
-            accessToken,
-            sortType
-          );
+          const longData = await getLongWorks(longPlayPage, sortType);
           if (longData.length === 0) {
             setHasMoreLongPlays(false);
             return;
@@ -113,11 +106,7 @@ const PostGallery = () => {
             });
           }, 150);
         } else if (activeCategory === "단편") {
-          const shortData = await getShortWorks(
-            shortPlayPage,
-            accessToken,
-            sortType
-          );
+          const shortData = await getShortWorks(shortPlayPage, sortType);
           if (shortData.length === 0) {
             setHasMoreShortPlays(false);
             return;
@@ -136,7 +125,7 @@ const PostGallery = () => {
             });
           }, 150);
         } else {
-          const allData = await fetchExploreScripts(accessToken, sortType);
+          const allData = await fetchExploreScripts(sortType);
 
           setLongPlays(Array.isArray(allData.longPlay) ? allData.longPlay : []);
           setShortPlays(

@@ -1,9 +1,7 @@
 import { api } from "@/api/api";
-import Cookies from "js-cookie";
 
 import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import { SERVER_URL } from "../../../constants/ServerURL";
 
 import "./AccountDelete.scss";
 
@@ -11,11 +9,7 @@ const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
   const { isSmallMobile, isMobile } = useWindowDimensions().widthConditions;
   const onClickDeleteAccountConfirm = async () => {
     try {
-      await api.delete(`/profile/deleteUser`, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      await api.delete("/profile/deleteUser");
       alert("계정이 성공적으로 삭제되었습니다.");
       setIsAccountSuccessfullyDeleted(true);
     } catch (error) {

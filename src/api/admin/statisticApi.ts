@@ -7,21 +7,10 @@ export interface GetStatisticsResponse {
   reviewCnt: number;
 }
 
-export const getStatistics = async (
-  accessToken?: string
-): Promise<GetStatisticsResponse> => {
+export const getStatistics = async (): Promise<GetStatisticsResponse> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<GetStatisticsResponse>("/admin/statistics", {
-      headers,
-      withCredentials: true, // 쿠키 인증 시 필요
+      withCredentials: true,
     });
 
     return response.data;

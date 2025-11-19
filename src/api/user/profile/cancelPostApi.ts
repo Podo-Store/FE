@@ -5,21 +5,12 @@ import { api } from "@/api/api";
  * 심사 취소
  * DELETE /profile/work/cancel/{id}
  */
-export const cancelReview = async (
-  id: string,
-  accessToken: string
-): Promise<boolean> => {
+export const cancelReview = async (id: string): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "multipart/form-data",
-    };
-
     const formData = new FormData();
     formData.append("id", id);
 
     const { data } = await api.delete(`profile/work/cancel/${id}`, {
-      headers,
       data: formData,
     });
 

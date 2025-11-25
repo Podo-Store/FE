@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
 import Cookies from "js-cookie";
@@ -10,211 +10,286 @@ import {
   getLongWorks,
   getShortWorks,
   ScriptItem,
+  ExploreScriptsResponse,
 } from "@/api/user/postListApi";
 
-import PartialLoading from "@/components/loading/PartialLoading";
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import SectionBlock from "@/components/post/SectionBlock";
 import { AllPostCard } from "@/components/post/PostList.js";
 import PostHeaderControl from "@/components/post/PostHeaderControl";
 
-import BannerImage1 from "@/assets/image/listBanner.jpg";
-import BannerImage2 from "@/assets/image/postList_banner.png";
-
 import { useToggleLike } from "@/hooks/useToggleLike";
 import "./postGallery.scss";
 
 import { StageType } from "@/types/stage";
+import useWindowDimensions from "@/hooks/useWindowDimensions";
 
-const ScrollObserver: React.FC<{
+type PostGalleryCache = {
+  explore: ExploreScriptsResponse | null;
+  longPlays: ScriptItem[];
+  shortPlays: ScriptItem[];
+  longPlayPage: number;
+  shortPlayPage: number;
+  hasMoreLongPlays: boolean;
+  hasMoreShortPlays: boolean;
+  sortType: "POPULAR" | "LIKE_COUNT" | "LATEST";
+  activeCategory: string;
+};
+
+let postGalleryCache: PostGalleryCache | null = null;
+
+// ---- Scroll Observer ----
+type ScrollObserverProps = {
   inViewRef: (node?: Element | null) => void;
   id: string;
-}> = ({ inViewRef, id }) => {
-  return <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />;
+};
+
+const ScrollObserver = ({ inViewRef, id }: ScrollObserverProps) => (
+  <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />
+);
+
+const syncLikeEverywhere = (
+  postId: string,
+  updater: (list: ScriptItem[]) => ScriptItem[],
+  explore: ExploreScriptsResponse | null
+): ExploreScriptsResponse | null => {
+  if (!explore) return explore;
+
+  return {
+    ...explore,
+    longPlay: updater(explore.longPlay),
+    shortPlay: updater(explore.shortPlay),
+  };
 };
 
 const PostGallery = () => {
-  const [longPlays, setLongPlays] = useState<ScriptItem[]>([]); // 전체 longPlays
-  const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
-  const [longPlayPage, setLongPlayPage] = useState(0);
-
-  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]); // 전체 shortPlays
-  const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
-  const [shortPlayPage, setShortPlayPage] = useState(0);
-  const [observerKey, setObserverKey] = useState(0);
-  // const observerRef = useRef<HTMLDivElement | null>(null);
-
   const [searchParams, setSearchParams] = useSearchParams();
   const activeStage = (searchParams.get("stage") as StageType) || "포도밭";
   const activeCategory = searchParams.get("category") || "전체";
 
-  const [isLoading, setIsLoading] = useState(true);
+  // STATES
+  const [explore, setExplore] = useState<ExploreScriptsResponse | null>(null);
+  const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
+  const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
+  const [longPlayPage, setLongPlayPage] = useState(0);
+  const [shortPlayPage, setShortPlayPage] = useState(0);
 
+  const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
+  const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
+
+  const [isLoading, setIsLoading] = useState(true);
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
   const [sortType, setSortType] = useState<"POPULAR" | "LIKE_COUNT" | "LATEST">(
     "POPULAR"
   );
 
+  const skipRef = useRef(false);
+  const isAuthenticated = useContext(AuthContext);
+
+  const { ref: inViewRef, inView } = useInView({
+    threshold: 1,
+    triggerOnce: false,
+  });
+
   const [colNum, setColNum] = useState(5);
   const [postNum, setPostNum] = useState(10);
-  const [resetFlag, setResetFlag] = useState(false);
-  const isAuthenticated = useContext(AuthContext);
+  const { width } = useWindowDimensions();
+
+  useEffect(() => {
+    if (width >= 1280) setColNum(5);
+    else if (width >= 768) setColNum(3);
+    else setColNum(2);
+  }, [width]);
+
+  const handleChangeCategory = useCallback(
+    (value: string, type: "stage" | "category") => {
+      const next = new URLSearchParams(searchParams.toString());
+      next.set(type, value);
+      if (type === "stage") next.set("category", "전체");
+      setSearchParams(next);
+    },
+    [searchParams, setSearchParams]
+  );
+
+  // ----------------------------
+  // 1) /list 입장 시 최초로 explore / long / short 전부 로드 + 캐싱
+  // ----------------------------
+  useEffect(() => {
+    if (postGalleryCache && activeCategory !== "전체") {
+      // 전체 보기에서 바뀐 경우 캐시값 그대로 사용
+      setExplore(postGalleryCache.explore);
+      setLongPlays(postGalleryCache.longPlays);
+      setShortPlays(postGalleryCache.shortPlays);
+      setLongPlayPage(postGalleryCache.longPlayPage);
+      setShortPlayPage(postGalleryCache.shortPlayPage);
+      setHasMoreLongPlays(postGalleryCache.hasMoreLongPlays);
+      setHasMoreShortPlays(postGalleryCache.hasMoreShortPlays);
+
+      skipRef.current = true;
+      setIsLoading(false);
+      return;
+    }
+
+    // 최초 로드
+    (async () => {
+      setIsLoading(true);
+      const token = Cookies.get("accessToken");
+
+      const exploreData = await fetchExploreScripts(token, sortType);
+      const longData = await getLongWorks(0, token, sortType);
+      const shortData = await getShortWorks(0, token, sortType);
+
+      setExplore(exploreData);
+      setLongPlays(longData);
+      setShortPlays(shortData);
+
+      setLongPlayPage(1);
+      setShortPlayPage(1);
+
+      // 캐시 저장
+      postGalleryCache = {
+        explore: exploreData,
+        longPlays: longData,
+        shortPlays: shortData,
+        longPlayPage: 1,
+        shortPlayPage: 1,
+        hasMoreLongPlays: true,
+        hasMoreShortPlays: true,
+        sortType,
+        activeCategory,
+      };
+
+      setIsLoading(false);
+    })();
+  }, []);
+
+  // ----------------------------
+  // 2) 정렬 바뀌면 해당 API만 다시 호출
+  // ----------------------------
+  useEffect(() => {
+    if (!explore) return;
+
+    (async () => {
+      setIsLoading(true);
+      const token = Cookies.get("accessToken");
+
+      // explore 갱신
+      const exploreData = await fetchExploreScripts(token, sortType);
+      setExplore(exploreData);
+
+      // 장편/단편은 현재 페이지 기준으로 다시 가져오게 함
+      const longData = await getLongWorks(0, token, sortType);
+      const shortData = await getShortWorks(0, token, sortType);
+
+      setLongPlays(longData);
+      setShortPlays(shortData);
+
+      setLongPlayPage(1);
+      setShortPlayPage(1);
+
+      // 캐시 갱신
+      postGalleryCache = {
+        explore: exploreData,
+        longPlays: longData,
+        shortPlays: shortData,
+        longPlayPage: 1,
+        shortPlayPage: 1,
+        hasMoreLongPlays: true,
+        hasMoreShortPlays: true,
+        activeCategory,
+        sortType,
+      };
+
+      setIsLoading(false);
+    })();
+  }, [sortType]);
+
+  // ----------------------------
+  // 3) 무한스크롤 페치
+  // ----------------------------
+  useEffect(() => {
+    if (!inView || isLoading) return;
+    const token = Cookies.get("accessToken");
+
+    (async () => {
+      if (activeCategory === "장편" && hasMoreLongPlays) {
+        const data = await getLongWorks(longPlayPage, token, sortType);
+        if (data.length === 0) {
+          setHasMoreLongPlays(false);
+          return;
+        }
+        setLongPlays((prev) => [...prev, ...data]);
+        setLongPlayPage((p) => p + 1);
+      }
+
+      if (activeCategory === "단편" && hasMoreShortPlays) {
+        const data = await getShortWorks(shortPlayPage, token, sortType);
+        if (data.length === 0) {
+          setHasMoreShortPlays(false);
+          return;
+        }
+        setShortPlays((prev) => [...prev, ...data]);
+        setShortPlayPage((p) => p + 1);
+      }
+    })();
+  }, [inView]);
+
+  // -------------------------------------
+  // 4) Toggle Like
+  // -------------------------------------
+  // 좋아요 toggle 함수 (모든 곳 업데이트용)
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
 
-  const { ref: inViewRef, inView } = useInView({
-    threshold: 1.0,
-    triggerOnce: false,
-    fallbackInView: true,
-    initialInView: false,
-  });
+  const toggleLikeAll = (postId: string) => {
+    const updateList = (list: ScriptItem[]) =>
+      list.map((p) =>
+        p.id === postId
+          ? {
+              ...p,
+              like: !p.like,
+              likeCount: p.likeCount + (p.like ? -1 : 1),
+            }
+          : p
+      );
 
-  const handleChange = (newStage: string, menu: string) => {
-    const updated = new URLSearchParams(searchParams.toString()); //searchParams 복사본
-    updated.set(`${menu}`, newStage);
+    // ✅ 이제 explore(전체보기용)만 업데이트
+    setExplore((prev) => {
+      const updatedExplore = syncLikeEverywhere(postId, updateList, prev);
 
-    if (menu === "stage") {
-      updated.set("category", "전체");
-    }
-    setSearchParams(updated);
-  };
-
-  useEffect(() => {
-    setObserverKey((prev) => prev + 1);
-  }, [sortType, activeCategory]);
-
-  useEffect(() => {
-    setIsLoading(true);
-    const fetchData = async () => {
-      try {
-        const accessToken = Cookies.get("accessToken");
-
-        if (activeCategory === "장편") {
-          const longData = await getLongWorks(
-            longPlayPage,
-            accessToken,
-            sortType
-          );
-          if (longData.length === 0) {
-            setHasMoreLongPlays(false);
-            return;
-          }
-
-          setTimeout(() => {
-            setLongPlays((prev) =>
-              Array.from(
-                new Map(
-                  [...prev, ...longData].map((post) => [post.id, post])
-                ).values()
-              )
-            );
-            requestAnimationFrame(() => {
-              setIsLoading(false);
-            });
-          }, 150);
-        } else if (activeCategory === "단편") {
-          const shortData = await getShortWorks(
-            shortPlayPage,
-            accessToken,
-            sortType
-          );
-          if (shortData.length === 0) {
-            setHasMoreShortPlays(false);
-            return;
-          }
-
-          setTimeout(() => {
-            setShortPlays((prev) =>
-              Array.from(
-                new Map(
-                  [...prev, ...shortData].map((post) => [post.id, post])
-                ).values()
-              )
-            );
-            requestAnimationFrame(() => {
-              setIsLoading(false);
-            });
-          }, 150);
-        } else {
-          const allData = await fetchExploreScripts(accessToken, sortType);
-
-          setLongPlays(Array.isArray(allData.longPlay) ? allData.longPlay : []);
-          setShortPlays(
-            Array.isArray(allData.shortPlay) ? allData.shortPlay : []
-          );
-          setIsLoading(false);
+      // 캐시도 맞춰주고 싶으면 여기서만 캐시 수정
+      if (postGalleryCache) {
+        postGalleryCache.explore = updatedExplore;
+        // 필요하면 캐시 안의 longPlays/shortPlays만 업데이트
+        if (postGalleryCache.longPlays) {
+          postGalleryCache.longPlays = updateList(postGalleryCache.longPlays);
         }
-      } catch (error) {
-        console.error("좋아요 목록 불러오기 실패:", error);
-      } finally {
-        setIsLoading(false);
+        if (postGalleryCache.shortPlays) {
+          postGalleryCache.shortPlays = updateList(postGalleryCache.shortPlays);
+        }
       }
-    };
 
-    fetchData();
-  }, [activeCategory, longPlayPage, shortPlayPage, sortType]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = window.innerWidth;
-      if (width < 768) {
-        setColNum(2);
-        setPostNum(4);
-      } else if (width < 1280) {
-        setColNum(3);
-        setPostNum(6);
-      } else {
-        setColNum(5);
-        setPostNum(10);
-      }
-    };
-
-    handleResize(); // 초기 실행
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const makeToggleHandler = (rawToggleFn: (postId: string) => void) => {
-    return (postId: string) => {
-      if (!isAuthenticated) {
-        alert("로그인이 필요합니다.");
-        return;
-      }
-      rawToggleFn(postId);
-    };
+      return updatedExplore;
+    });
   };
 
-  const handleToggleLikeLong = makeToggleHandler(rawToggleLikeLong);
-  const handleToggleLikeShort = makeToggleHandler(rawToggleLikeShort);
+  // like API 토글 후 상태 반영
+  const handleLikeLong = (postId: string) => {
+    if (!isAuthenticated) return alert("로그인이 필요합니다.");
+    rawToggleLikeLong(postId); // 서버 전송
+    toggleLikeAll(postId); // UI 즉시 반영
+  };
 
-  useEffect(() => {
-    // 빈 useEffect로 스크롤 복원 차단 (라우팅된 후에도 위치 유지)
-  }, []);
+  const handleLikeShort = (postId: string) => {
+    if (!isAuthenticated) return alert("로그인이 필요합니다.");
+    rawToggleLikeShort(postId);
+    toggleLikeAll(postId);
+  };
 
-  useEffect(() => {
-    if (!inView || isLoading) return;
-
-    if (activeCategory === "장편" && hasMoreLongPlays) {
-      setLongPlayPage((prev) => prev + 1);
-    } else if (activeCategory === "단편" && hasMoreShortPlays) {
-      setShortPlayPage((prev) => prev + 1);
-    }
-  }, [inView, isLoading, activeCategory, hasMoreLongPlays, hasMoreShortPlays]);
-
-  useEffect(() => {
-    setResetFlag(true);
-    setLongPlays([]);
-    setShortPlays([]);
-    setLongPlayPage(0);
-    setShortPlayPage(0);
-    setHasMoreLongPlays(true);
-    setHasMoreShortPlays(true);
-  }, [activeCategory, sortType]);
-
-  useEffect(() => {
-    if (!resetFlag) return;
-    setResetFlag(false);
-  }, [resetFlag]);
+  // -------------------------------------
+  // RENDER
+  // -------------------------------------
+  const showSkeleton = isLoading;
 
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
@@ -230,9 +305,11 @@ const PostGallery = () => {
 
       <PostHeaderControl
         activeStage={activeStage}
-        setActiveStage={(value) => handleChange(value, "stage")}
+        setActiveStage={(value) => handleChangeCategory(value, "stage")}
         activeStoryLength={activeCategory}
-        setActiveStoryLength={(value) => handleChange(value, "category")}
+        setActiveStoryLength={(value) =>
+          handleChangeCategory(value, "category")
+        }
         viewType={viewType}
         setViewType={setViewType}
         isSorted={true}
@@ -242,37 +319,62 @@ const PostGallery = () => {
         stageBelt={true}
       />
 
-      {/*----- post list -----*/}
-      {isLoading ? (
-        <div className="m-auto" style={{ height: "600px" }}>
-          <PartialLoading />
+      {/* ----- Skeleton ----- */}
+      {showSkeleton && (
+        <div
+          className="grid gap-6 w-full px-[9.375%] sm:px-0"
+          style={{ gridTemplateColumns: `repeat(${colNum}, minmax(0, 1fr))` }}
+        >
+          {Array.from({ length: postNum }).map((_, idx) => (
+            <div
+              key={idx}
+              className="animate-pulse rounded-2xl h-[189px] sm:h-[293px] "
+            >
+              {/* 썸네일 영역 */}
+              <div className="h-[120px] sm:h-[197px] w-full rounded-2xl bg-gray-200" />
+
+              {/* 텍스트 영역 */}
+              <div className="flex flex-col  mt-3 px-2">
+                <div className="h-4 sm:h-[20px] w-full mb-1 rounded bg-gray-200" />
+                <div className="h-3 sm:h-[16px] w-full mb-2 rounded bg-gray-200" />
+                <div className="h-3 sm:h-[14px] w-full rounded bg-gray-200" />
+              </div>
+            </div>
+          ))}
         </div>
-      ) : activeCategory === "전체" ? (
-        <div>
+      )}
+
+      {/* ----- 전체 보기 ----- */}
+      {!isLoading && activeCategory === "전체" && explore && (
+        <>
           <div className="px-[9.375%] sm:px-0">
             <SectionBlock
-              posts={shortPlays}
-              viewType={viewType}
-              postNum={postNum}
-              colNum={colNum}
               title="단편"
-              onMoreClick={(value) => handleChange(value, "category")}
-              onToggleLike={handleToggleLikeShort}
+              posts={explore.shortPlay}
+              colNum={colNum}
+              postNum={10}
+              viewType={viewType}
+              onMoreClick={() => handleChangeCategory("단편", "category")}
+              onToggleLike={handleLikeShort}
             />
           </div>
+
           <div className="mt-[78px] px-[9.375%] sm:px-0">
             <SectionBlock
-              posts={longPlays}
-              viewType={viewType}
-              postNum={postNum}
-              colNum={colNum}
               title="장편"
-              onMoreClick={(value) => handleChange(value, "category")}
-              onToggleLike={handleToggleLikeLong}
+              posts={explore.longPlay}
+              colNum={colNum}
+              postNum={10}
+              viewType={viewType}
+              onMoreClick={() => handleChangeCategory("장편", "category")}
+              onToggleLike={handleLikeLong}
             />
           </div>
-        </div>
-      ) : activeCategory === "장편" ? (
+        </>
+      )}
+
+      {/* ----- 장편 탭 ----- */}
+      {!isLoading && activeCategory === "장편" && (
         <section className="px-[9.375%] sm:px-0">
           <div className="mb-[24px]">
             <p className="p-small-medium sm:h5-medium">장편극</p>
@@ -280,67 +382,66 @@ const PostGallery = () => {
 
           <div
             className={`transition-opacity duration-300 ${
-              isLoading
+              isLoading && longPlays.length === 0
                 ? "opacity-0 pointer-events-none invisible"
                 : "opacity-100 visible"
             }`}
           >
-            {longPlays.length !== 0 ? (
+            {longPlays.length > 0 ? (
               <>
-                {" "}
                 <AllPostCard
                   posts={longPlays}
-                  viewType={viewType}
                   colNum={colNum}
-                  onToggleLike={handleToggleLikeLong}
-                />{" "}
+                  viewType={viewType}
+                  onToggleLike={handleLikeLong}
+                />
+
                 <ScrollObserver
                   inViewRef={inViewRef}
-                  id={`${activeCategory}-${sortType}`}
+                  id={`long-${sortType}-${longPlayPage}`}
                 />
               </>
-            ) : longPlays.length === 0 ? (
-              <div>
-                <p className="m-auto w-fit p-large-bold">
-                  등록된 작품이 없습니다.
-                </p>
-              </div>
-            ) : null}
+            ) : (
+              <p className="m-auto w-fit p-large-bold mt-[80px]">
+                등록된 작품이 없습니다.
+              </p>
+            )}
           </div>
         </section>
-      ) : (
+      )}
+
+      {/* ----- 단편 탭 ----- */}
+      {!isLoading && activeCategory === "단편" && (
         <section className="px-[9.375%] sm:px-0">
           <div className="mb-[24px]">
             <p className="p-small-medium sm:h5-medium">단편극</p>
           </div>
           <div
             className={`transition-opacity duration-300 ${
-              isLoading
+              isLoading && shortPlays.length === 0
                 ? "opacity-0 pointer-events-none invisible"
                 : "opacity-100 visible"
             }`}
           >
-            {!isLoading && shortPlays.length !== 0 ? (
+            {shortPlays.length > 0 ? (
               <>
                 <AllPostCard
                   posts={shortPlays}
-                  viewType={viewType}
                   colNum={colNum}
-                  onToggleLike={handleToggleLikeShort}
+                  viewType={viewType}
+                  onToggleLike={handleLikeShort}
                 />
+
                 <ScrollObserver
-                  key={`scroll-${observerKey}`}
                   inViewRef={inViewRef}
-                  id={`${activeCategory}-${sortType}`}
+                  id={`short-${sortType}-${shortPlayPage}`}
                 />
               </>
-            ) : !isLoading && shortPlays.length === 0 ? (
-              <div>
-                <p className="m-auto w-fit p-large-bold">
-                  등록된 작품이 없습니다.
-                </p>
-              </div>
-            ) : null}
+            ) : (
+              <p className="m-auto w-fit p-large-bold mt-[80px]">
+                등록된 작품이 없습니다.
+              </p>
+            )}
           </div>
         </section>
       )}

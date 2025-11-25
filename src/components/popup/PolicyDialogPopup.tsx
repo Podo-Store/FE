@@ -40,13 +40,7 @@ function DialogPopup({
         },
       }}
     >
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          onClick();
-        }}
-        className="w-full p-[15px] sm:p-[20px] flex flex-col h-full "
-      >
+      <div className="w-full p-[15px] sm:p-[20px] flex flex-col h-full ">
         <div className="flex w-full !items-center sm:justify-between mb-[10px]">
           <span
             className="flex justify-center items-center w-full sm:w-[265px] px-[15px] py-[10px] sm:px-[15px] sm:py-[10px] rounded-[30px] bg-[#F5F5F5]
@@ -102,7 +96,7 @@ function DialogPopup({
           color="purple"
           style={{ width: "100%", marginTop: "20px" }}
         />
-      </form>
+      </div>
     </Dialog>
   );
 }

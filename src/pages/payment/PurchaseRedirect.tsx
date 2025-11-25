@@ -13,12 +13,7 @@ const PurchaseRedirect = () => {
       try {
         // 1) 나이스페이가 붙여준 파라미터 확인 (이름은 실제로 찍어보면서 맞추면 돼)
         const params = new URLSearchParams(location.search);
-        console.log("나이스페이 ", params);
-
-        const tid = params.get("tid") || params.get("Tid") || params.get("TID");
-
-        console.log("받은 tid:", tid);
-
+        console.log(params);
         const resultCode = params.get("ResultCode") || params.get("resultCode");
 
         // 실패거나 코드 못 읽으면 실패로 처리
@@ -31,20 +26,16 @@ const PurchaseRedirect = () => {
         const saved = sessionStorage.getItem("podo_payment_request");
         if (!saved) {
           // 정보가 없으면 안전하게 실패 처리
-          navigate("/purchase/abort");
+          navigate("/purchase/abort");                                                  
           return;
         }
 
         const requestBody = JSON.parse(saved);
-        const finalBody = {
-          ...requestBody,
-          tid,
-        };
 
         // 3) 원래 fnSuccess 안에서 하던 주문 생성 API 호출
         const response = await axios.post(
           `${SERVER_URL}order/item`,
-          finalBody,
+          requestBody,
           {
             headers: {
               "Content-Type": "application/json",
@@ -52,7 +43,6 @@ const PurchaseRedirect = () => {
             },
           }
         );
-        console.log("주문 생성 응답:", response.data);
         const orderData = response.data[0];
 
         // 사용한 정보 제거

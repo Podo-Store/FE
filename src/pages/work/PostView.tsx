@@ -30,10 +30,7 @@ const PostView: React.FC = () => {
   const navigate = useNavigate();
   const accessToken = Cookies.get("accessToken");
   const barHeight = window.innerHeight * 0.07; // 하단바 높이(px), 필요시 Tailwind 단위로 환산 가능
-  const getPdfWidth = () => {
-    const width = window.innerWidth;
-    return width;
-  };
+  const getPdfWidth = () => window.innerWidth;
   const HEADER_HEIGHT = 179; // 헤더 높이
 
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -41,7 +38,6 @@ const PostView: React.FC = () => {
   const [isMoreBtn, setIsMoreBtn] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [isControlVisible, setIsControlVisible] = useState(true);
-  const [scale, setScale] = useState(1.0);
   const [pdfBlobUrl, setPdfBlobUrl] = useState<string | null>(null);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
@@ -50,6 +46,7 @@ const PostView: React.FC = () => {
   const [offset, setOffset] = useState(barHeight);
   const [pdfWidth, setPdfWidth] = useState(getPdfWidth());
   const [showWarningModal, setShowWarningModal] = useState(true);
+  const [zoom, setZoom] = useState(1); // 1 = 100%
 
   const lastScrollY = useRef(0);
   const topControlRef = useRef<HTMLDivElement>(null);
@@ -278,7 +275,7 @@ const PostView: React.FC = () => {
   const handleZoom = (direction: "in" | "out") => {
     isProgrammaticScroll.current = true;
 
-    setScale((prev) => {
+    setZoom((prev) => {
       const next =
         direction === "in"
           ? Math.min(2.0, +(prev + 0.1).toFixed(1))
@@ -290,7 +287,7 @@ const PostView: React.FC = () => {
     if (scrollTimeout.current) clearTimeout(scrollTimeout.current);
     scrollTimeout.current = setTimeout(() => {
       isProgrammaticScroll.current = false;
-    }, 600); // 확대/축소에 따른 layout 변화가 마무리되는 시간
+    }, 600);
   };
 
   if (loading) {
@@ -340,28 +337,29 @@ const PostView: React.FC = () => {
             </>
           )}
           {pdfBlobUrl ? (
-            <div className="mx-auto w-fit">
-              <PdfDocument
-                file={pdfBlobUrl}
-                onLoadSuccess={onDocumentLoadSuccess}
-                loading={<div className="mt-10 text-center">로딩 중...</div>}
-              >
-                {Array.from(new Array(numPages), (_, index) => (
-                  <div
-                    className="z-0"
-                    id={`page-${index + 1}`}
-                    key={`page-${index + 1}`}
-                  >
-                    <Page
-                      pageNumber={index + 1}
-                      width={pdfWidth}
-                      scale={scale}
-                      renderTextLayer={false}
-                      renderAnnotationLayer={false}
-                    />
-                  </div>
-                ))}
-              </PdfDocument>
+            <div className="w-screen overflow-x-auto">
+              <div className="mx-auto w-fit">
+                <PdfDocument
+                  file={pdfBlobUrl}
+                  onLoadSuccess={onDocumentLoadSuccess}
+                  loading={<div className="mt-10 text-center">로딩 중...</div>}
+                >
+                  {Array.from(new Array(numPages), (_, index) => (
+                    <div
+                      className="z-0"
+                      id={`page-${index + 1}`}
+                      key={`page-${index + 1}`}
+                    >
+                      <Page
+                        pageNumber={index + 1}
+                        width={pdfWidth * zoom}
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                      />
+                    </div>
+                  ))}
+                </PdfDocument>
+              </div>
             </div>
           ) : (
             <div className="mt-10 text-center">PDF를 불러오는 중입니다...</div>
@@ -412,16 +410,16 @@ const PostView: React.FC = () => {
                     >
                       <path
                         d="M13.5938 9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                        fill={`${scale === 0.5 ? "#BABABA" : "black"}`}
+                        fill={`${zoom === 0.5 ? "#BABABA" : "black"}`}
                       />
                       <path
                         d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                        fill={`${scale === 0.5 ? "#BABABA" : "black"}`}
+                        fill={`${zoom === 0.5 ? "#BABABA" : "black"}`}
                       />
                     </svg>
                   </button>
                   <span className="p-large-medium ">
-                    {Math.round(scale * 100)}%
+                    {Math.round(zoom * 100)}%
                   </span>
                   <button onClick={() => handleZoom("in")}>
                     <svg
@@ -433,11 +431,11 @@ const PostView: React.FC = () => {
                     >
                       <path
                         d="M13.5938 9.375H10.625V6.40625C10.625 6.32031 10.5547 6.25 10.4688 6.25H9.53125C9.44531 6.25 9.375 6.32031 9.375 6.40625V9.375H6.40625C6.32031 9.375 6.25 9.44531 6.25 9.53125V10.4688C6.25 10.5547 6.32031 10.625 6.40625 10.625H9.375V13.5938C9.375 13.6797 9.44531 13.75 9.53125 13.75H10.4688C10.5547 13.75 10.625 13.6797 10.625 13.5938V10.625H13.5938C13.6797 10.625 13.75 10.5547 13.75 10.4688V9.53125C13.75 9.44531 13.6797 9.375 13.5938 9.375Z"
-                        fill={`${scale === 2.0 ? "#BABABA" : "black"}`}
+                        fill={`${zoom === 2.0 ? "#BABABA" : "black"}`}
                       />
                       <path
                         d="M10 1.25C5.16797 1.25 1.25 5.16797 1.25 10C1.25 14.832 5.16797 18.75 10 18.75C14.832 18.75 18.75 14.832 18.75 10C18.75 5.16797 14.832 1.25 10 1.25ZM10 17.2656C5.98828 17.2656 2.73438 14.0117 2.73438 10C2.73438 5.98828 5.98828 2.73438 10 2.73438C14.0117 2.73438 17.2656 5.98828 17.2656 10C17.2656 14.0117 14.0117 17.2656 10 17.2656Z"
-                        fill={`${scale === 2.0 ? "#BABABA" : "black"}`}
+                        fill={`${zoom === 2.0 ? "#BABABA" : "black"}`}
                       />
                     </svg>
                   </button>

@@ -258,7 +258,6 @@ const ScriptContent = ({
                       <Button
                         id={script.id}
                         possibleCount={script.possibleCount}
-                        orderStatus={script.orderStatus}
                       />
                     </section>
                   )

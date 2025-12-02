@@ -270,7 +270,8 @@ const Purchase = () => {
         orderId: nicepayOrderId,
         amount: payableAmount,
         goodsName,
-        returnUrl: `${window.location.origin}/purchase/redirect`,
+        returnUrl: `${SERVER_URL}order/item`,
+        mallReserved: JSON.stringify(requestBody),
         fnError: (e) => {
           const msg = e?.errorMsg || "";
           // ❗ '결제 요청을 취소'는 에러 취급 X → 조용히 종료(재시도 가능)

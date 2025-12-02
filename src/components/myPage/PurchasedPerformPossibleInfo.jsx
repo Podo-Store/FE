@@ -7,22 +7,19 @@ const PurchasedPerformPossibleInfo = ({ script }) => {
   return (
     <div className="f-dir-column j-content-end">
       <p
-        className={`${!isSmallMobile ? "p-medium-regular" : "p-xs-regular"} ${
-          script.orderStatus === "PASS" ? "" : "c-grey4"
-        }`}
+        className={`${!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}
+        `}
       >
         공연 가능 횟수 : {script.possibleCount} 번
       </p>
       <p
         className={`${
           !isSmallMobile ? "p-12-400" : "text-[8px] font-[400] leading-[14px]"
-        } t-underline ${
-          script.possibleCount !== 0 && script.orderStatus === "PASS"
-            ? "c-pointer"
-            : "c-grey4 c-default"
+        } t-underline  ${
+          script.possibleCount !== 0 ? "c-pointer" : "c-grey4 c-default"
         }`}
         onClick={() => {
-          if (script.possibleCount !== 0 && script.orderStatus === "PASS") {
+          if (script.possibleCount !== 0) {
             navigate(`/mypage/purchased/performance-refund/${script.id}`);
           }
         }}

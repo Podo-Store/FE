@@ -100,6 +100,20 @@ function App() {
             element={<ProtectedRoute element={<ScriptManage />} />}
           />
 
+          <Route path="mypage/info" element={<ProtectedRoute element={<AccountInfo />} />} />
+          <Route
+            path="mypage/delete"
+            element={<ProtectedRoute element={<AccountDeleteWrapper />} />}
+          />
+          <Route
+            path="mypage/info/nickname"
+            element={<ProtectedRoute element={<AccountInfoChangeWrapper type="nickname" />} />}
+          />
+          <Route
+            path="mypage/info/password"
+            element={<ProtectedRoute element={<AccountInfoChangeWrapper type="password" />} />}
+          />
+
           <Route element={<MarginLayout />}>
             <Route path="policy/:id" element={<PolicyBar />} />
 
@@ -126,20 +140,6 @@ function App() {
             <Route
               path="mypage/scriptmanage/askedperform/:id"
               element={<ProtectedRoute element={<AskedPerformManage />} />}
-            />
-
-            <Route path="mypage/info" element={<ProtectedRoute element={<AccountInfo />} />} />
-            <Route
-              path="mypage/delete"
-              element={<ProtectedRoute element={<AccountDeleteWrapper />} />}
-            />
-            <Route
-              path="mypage/info/nickname"
-              element={<ProtectedRoute element={<AccountInfoChangeWrapper type="nickname" />} />}
-            />
-            <Route
-              path="mypage/info/password"
-              element={<ProtectedRoute element={<AccountInfoChangeWrapper type="password" />} />}
             />
 
             <Route path="mypage/infochange" element={<AccountInfoChange />} />

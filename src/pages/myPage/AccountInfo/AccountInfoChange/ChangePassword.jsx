@@ -134,7 +134,7 @@ const AccountInfoChangePassword = () => {
   return (
     <EnterForm onSubmit={onClickCompleteBtn}>
       <div className="info-change-main">
-        <div className="flex flex-col gap-[45px] mb-[36px]">
+        <div className="flex flex-col gap-[10px] sm:gap-[45px] mb-[20px] sm:mb-[36px]">
           <p className="p-medium-bold sm:h4-bold">비밀번호 변경</p>
           <p className="p-medium-medium">새로운 비밀번호를 입력해주세요.</p>
         </div>
@@ -169,7 +169,7 @@ const AccountInfoChangePassword = () => {
           ]}
         />
 
-        <div id="margin"></div>
+        <div className="h-[20px] sm:h-[30px]"></div>
 
         <AuthPwInputField
           placeholder="비밀번호를 다시 한 번 입력해주세요."

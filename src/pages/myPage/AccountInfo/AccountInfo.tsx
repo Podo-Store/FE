@@ -53,13 +53,13 @@ const AccountInfo = () => {
 
   return (
     <main className="myPage-contents-default account-info-change">
-      <div className="account-info-change-wrap">
+      <div className="myPage-contents-default-wrap account-info-change-wrap">
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side flex flex-col gap-[50px]">
           <section className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-[10px]">
               <h4 className="p-medium-bold sm:h4-bold">회원 정보</h4>
-              <p className="p-12-bold text-grey-6">
+              <p className="p-xs-bold sm:p-12-bold text-grey-6">
                 아이디와 이메일은 수정이 불가합니다. <br />
                 문의가 있으시면 포도상점 메일로 문의해주세요.
               </p>
@@ -67,24 +67,28 @@ const AccountInfo = () => {
 
             <section className="flex flex-col gap-[28px] py-[32px] px-[30px] w-full border-[2px] border-main bg-grey-1 rounded-[20px]">
               <div className="flex justify-between items-center">
-                <p className="p-small-regular">아이디</p>
+                <p className="p-xs-regular sm:p-small-regular">아이디</p>
                 {id ? (
-                  <p className="p-medium-regular">{id}</p>
+                  <p className="p-xs-regular sm:p-medium-regular">{id}</p>
                 ) : (
-                  <p className="p-medium-regular">&nbsp;</p>
+                  <p className="p-xs-regular sm:p-medium-regular">&nbsp;</p>
                 )}
               </div>
               <div className="flex justify-between items-center">
-                <p className="p-small-regular">이메일</p>
+                <p className="p-xs-regular sm:p-small-regular">이메일</p>
                 {email ? (
                   <span className="flex gap-[9px]">
                     {socialLoginType && (
-                      <img className="size-[20px]" src={socialTypeIcon() || ""} alt="" />
+                      <img
+                        className="size-[16px] sm:size-[20px]"
+                        src={socialTypeIcon() || ""}
+                        alt=""
+                      />
                     )}
-                    <p className="p-medium-regular">{email}</p>
+                    <p className="p-xs-regular sm:p-medium-regular">{email}</p>
                   </span>
                 ) : (
-                  <p className="p-medium-regular">&nbsp;</p>
+                  <p className="p-xs-regular sm:p-medium-regular">&nbsp;</p>
                 )}
               </div>
             </section>
@@ -94,28 +98,41 @@ const AccountInfo = () => {
 
             <section className="flex flex-col gap-[28px] py-[32px] px-[30px] w-full border-[2px] border-main bg-grey-1 rounded-[20px]">
               <div className="flex justify-between items-center">
-                <p className="p-small-regular">닉네임</p>
+                <p className="p-xs-regular sm:p-small-regular">닉네임</p>
                 <button
                   className="flex items-center gap-[15px] cursor-pointer"
                   onClick={() => navigate("/mypage/info/nickname")}
                 >
                   {nickname ? (
-                    <p className="p-medium-regular">{nickname}</p>
+                    <p className="p-xs-regular sm:p-medium-regular">{nickname}</p>
                   ) : (
-                    <p className="p-medium-regular">&nbsp;</p>
+                    <p className="p-xs-regular sm:p-medium-regular">&nbsp;</p>
                   )}
-                  <img src={ic_arrow_right} alt=">" />
+                  <img
+                    className="w-[12px] h-[7px] sm:w-[16px] sm:h-[10px]"
+                    src={ic_arrow_right}
+                    alt=">"
+                  />
                 </button>
               </div>
               <div className="flex justify-between items-center">
-                <p className={twJoin("p-small-regular", socialLoginType && "text-grey-4")}>
+                <p
+                  className={twJoin(
+                    "p-xs-regular sm:p-small-regular",
+                    socialLoginType && "text-grey-4"
+                  )}
+                >
                   비밀번호 변경
                 </p>
                 <button
                   className={socialLoginType ? "cursor-default" : "cursor-pointer"}
                   onClick={() => navigate("/mypage/info/password")}
                 >
-                  <img src={socialLoginType ? ic_arrow_right_grey : ic_arrow_right} alt=">" />
+                  <img
+                    className="w-[12px] h-[7px] sm:w-[16px] sm:h-[10px]"
+                    src={socialLoginType ? ic_arrow_right_grey : ic_arrow_right}
+                    alt=">"
+                  />
                 </button>
               </div>
             </section>

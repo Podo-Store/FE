@@ -131,7 +131,7 @@ const AccountInfoChangeNickname = () => {
   return (
     <EnterForm onSubmit={onClickCompleteBtn}>
       <div className="info-change-main">
-        <div className="flex flex-col gap-[45px] mb-[36px]">
+        <div className="flex flex-col gap-[10px] sm:gap-[45px] mb-[20px] sm:mb-[36px]">
           <p className="p-medium-bold sm:h4-bold">닉네임 변경</p>
           <p className="p-medium-medium">새로운 닉네임을 입력해주세요.</p>
         </div>

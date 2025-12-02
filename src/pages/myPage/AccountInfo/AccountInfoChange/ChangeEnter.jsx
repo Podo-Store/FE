@@ -45,9 +45,9 @@ const AccountInfoChangeEnter = ({ setChangeShowPermission }) => {
     <EnterForm onSubmit={onClickInputBtn}>
       <div className="info-change-enter">
         {/* 진입 페이지 */}
-        <h4 className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"}`}>회원 정보 수정</h4>
+        <h4 className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"}`}>비밀번호 변경</h4>
         <h6 className={`${isSmallMobile ? "p-xs-medium" : "p-medium-medium"}`}>
-          회원 정보 수정을 위해서 비밀번호를 다시 한 번 입력해주세요.
+          비밀번호 변경을 위해서 현재 비밀번호를 다시 한 번 입력해주세요.
         </h6>
         <div className={` a-items-start ${isSmallMobile ? "w-[280px]" : ""}`} id="enter-input">
           <AuthPwInputField

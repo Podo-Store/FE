@@ -16,7 +16,7 @@ const AccountInfoChangeWrapper = ({ type }: AccountInfoChangeWrapperProps) => {
 
   return (
     <div className="myPage-contents-default account-info-change">
-      <div className="account-info-change-wrap">
+      <div className="myPage-contents-default-wrap account-info-change-wrap">
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side">
           <div className="content-side-inside">

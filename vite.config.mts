@@ -4,10 +4,13 @@ import react from "@vitejs/plugin-react";
 import svgr from "vite-plugin-svgr";
 import path from "path";
 import { imageToWebpPlugin } from "vite-plugin-image-to-webp";
-import {visualizer} from "rollup-plugin-visualizer";
+import { visualizer } from "rollup-plugin-visualizer";
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), imageToWebpPlugin(), svgr(),
+  plugins: [
+    react(),
+    tailwindcss(),
+    svgr(),
     visualizer({
       filename: "./dist/stats.html",
       open: true,

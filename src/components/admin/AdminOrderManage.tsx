@@ -13,12 +13,6 @@ import {
   TableRow,
   TextField,
   Typography,
-  Button,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
 } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -28,12 +22,8 @@ import TableCellCenter from "./TableCellCenter";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { OrderStatus } from "@/types/orderStatus";
-import { FilterStatus } from "./types/filterStatus";
 
 import { SERVER_URL } from "@/constants/ServerURL";
-
-import AcceptSvg from "../../assets/image/component/AcceptSvg";
-import DenySvg from "../../assets/image/component/DenySvg";
 
 interface Order {
   id: number;
@@ -58,7 +48,6 @@ const AdminOrderManage = () => {
   const [data, setData] = useState<Order[]>([]);
   const [inputText, setInputText] = useState<string>(""); // input 내부 필드 값
   const [searchText, setSearchText] = useState<string>(""); // API 요청용
-  const [filterStatus, setFilterStatus] = useState<FilterStatus>("ALL");
 
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -66,7 +55,6 @@ const AdminOrderManage = () => {
   // 카운트 상태
   const [totalCount, setTotalCount] = useState<number>(0);
   const [doneCount, setDoneCount] = useState<number>(0);
-  const [waitingCount, setWaitingCount] = useState<number>(0);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -96,23 +84,22 @@ const AdminOrderManage = () => {
         if (searchText) {
           params.search = searchText;
         }
-        if (filterStatus !== "ALL") {
-          params.status = filterStatus;
-        }
 
-        const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/orders`, {
-          params: params,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
-        });
+        const response = await axios.get<ApiResponse>(
+          `${SERVER_URL}admin/orders`,
+          {
+            params: params,
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: Cookies.get("accessToken")
+                ? `Bearer ${Cookies.get("accessToken")}`
+                : undefined,
+            },
+          }
+        );
 
         setData(response.data.orders);
         setDoneCount(response.data.doneCnt);
-        setWaitingCount(response.data.waitingCnt);
         setTotalCount(response.data.orderCnt);
         setTotalPages(Math.ceil(response.data.orderCnt / 10));
       } catch (error: any) {
@@ -127,93 +114,18 @@ const AdminOrderManage = () => {
     };
 
     fetchData();
-  }, [page, searchText, filterStatus]);
+  }, [page, searchText]);
 
   // 페이지 변경 핸들러
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value);
-  };
-
-  const onClickStatusChange = (id: number, newStatus: OrderStatus) => {
-    setChangedStatus({ id, newStatus });
-    setOpen(true);
-  };
-
-  // 주문 상태 변경 핸들러
-  const onChangeStatus = async (id: number, newStatus: OrderStatus) => {
-    try {
-      await axios.patch(
-        `${SERVER_URL}admin/orders/${id}`,
-        { orderStatus: newStatus },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
-        }
-      );
-
-      setOpen(false);
-
-      // 상태 업데이트
-      const updatedData = data.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              orderStatus: newStatus,
-            }
-          : item
-      );
-      setData(updatedData);
-
-      // 알림 표시
-      setShowAlert({
-        show: true,
-        success: true,
-        message: "주문 상태가 변경되었습니다.",
-      });
-    } catch (error: any) {
-      setShowAlert({
-        show: true,
-        success: false,
-        message: "주문 상태 변경에 실패했습니다. 다시 시도해주세요.",
-      });
-    }
-  };
-
-  // 상태 매핑
-  const statusToLabel = (orderStatus: OrderStatus): string => {
-    return orderStatus === "WAIT" ? "대기" : orderStatus === "PASS" ? "완료" : "취소";
   };
 
   return (
     <>
-      {/* 변경 확인 / 취소 Dialog */}
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">정말 변경하시겠습니까?</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            변경 시 사용자에게 메일이 발송되며, 다시 변경할 수 있지만 이는 큰 책임을 수반합니다.
-            결제 내역을 다시 한번 확인하시기 바랍니다. 계속하시겠습니까?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} autoFocus>
-            취소 (기존 상태 유지)
-          </Button>
-          <Button onClick={() => onChangeStatus(changedStatus.id, changedStatus.newStatus)}>
-            확인 (메일 전송)
-          </Button>
-        </DialogActions>
-      </Dialog>
-
       {/* 알림 */}
       <Snackbar
         open={showAlert.show}
@@ -221,15 +133,21 @@ const AdminOrderManage = () => {
         onClose={() => setShowAlert({ ...showAlert, show: false })}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert severity={showAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
+        <Alert
+          severity={showAlert.success ? "success" : "error"}
+          sx={{ width: "100%" }}
+        >
           {showAlert.message}
         </Alert>
       </Snackbar>
 
       {/* 상단 카운트 */}
-      <div className="j-content-end" style={{ gap: "16px", marginBottom: "16px" }}>
-        <Typography variant="h6">결제 완료: {doneCount}</Typography>
-        <Typography variant="h6">결제 대기: {waitingCount}</Typography>
+      <div
+        className="j-content-end"
+        style={{ gap: "16px", marginBottom: "16px" }}
+      >
+        <Typography variant="h6">주문 완료: {doneCount}</Typography>
+        {/* <Typography variant="h6">결제 대기: {waitingCount}</Typography> */}
       </div>
 
       <Paper style={{ padding: "16px" }}>
@@ -252,34 +170,11 @@ const AdminOrderManage = () => {
         />
 
         {/* 필터 버튼 */}
-        <div className="j-content-between a-items-center" style={{ marginBottom: "16px" }}>
+        <div
+          className="j-content-between a-items-center"
+          style={{ marginBottom: "16px" }}
+        >
           <h4 className="h4-bold">전체 {totalCount}</h4>
-          <span className="d-flex" style={{ gap: "8px" }}>
-            <Button
-              variant={filterStatus === "ALL" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("ALL")}
-            >
-              전체
-            </Button>
-            <Button
-              variant={filterStatus === "PASS" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("PASS")}
-            >
-              결제 완료
-            </Button>
-            <Button
-              variant={filterStatus === "WAIT" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("WAIT")}
-            >
-              결제 대기
-            </Button>
-            <Button
-              variant={filterStatus === "REJECT" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("REJECT")}
-            >
-              결제 취소
-            </Button>
-          </span>
         </div>
 
         {/* 테이블 */}
@@ -292,10 +187,8 @@ const AdminOrderManage = () => {
                 <TableCellCenter>작품 제목</TableCellCenter>
                 <TableCellCenter>작가 명</TableCellCenter>
                 <TableCellCenter>주문 고객 명</TableCellCenter>
-                <TableCellCenter>상태</TableCellCenter>
                 <TableCellCenter>주문 내용</TableCellCenter>
                 <TableCellCenter>금액</TableCellCenter>
-                <TableCellCenter>처리</TableCellCenter>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -315,62 +208,25 @@ const AdminOrderManage = () => {
                 data.map((item, index) => (
                   <TableRow key={item.id}>
                     <TableCellCenter>{item.id}</TableCellCenter>
-                    <TableCellCenter>{new Date(item.orderDate).toLocaleString()}</TableCellCenter>
+                    <TableCellCenter>
+                      {new Date(item.orderDate).toLocaleString()}
+                    </TableCellCenter>
                     <TableCellCenter>{item.title}</TableCellCenter>
                     <TableCellCenter>{item.writer}</TableCellCenter>
                     <TableCellCenter>{item.customer}</TableCellCenter>
-                    <TableCellCenter
-                      sx={{
-                        backgroundColor:
-                          item.orderStatus === "PASS"
-                            ? "#C8E6C9"
-                            : item.orderStatus === "REJECT"
-                            ? "#FFCDD2"
-                            : "#E2E2E2",
-                      }}
-                    >
-                      {statusToLabel(item.orderStatus)}
-                    </TableCellCenter>
                     <TableCellCenter>
-                      <Typography variant="body2">대본: {item.script ? "O" : "X"}</Typography>
                       <Typography variant="body2">
-                        공연: {item.performanceAmount > 0 ? item.performanceAmount : "없음"}
+                        대본: {item.script ? "O" : "X"}
+                      </Typography>
+                      <Typography variant="body2">
+                        공연:{" "}
+                        {item.performanceAmount > 0
+                          ? item.performanceAmount
+                          : "없음"}
                       </Typography>
                     </TableCellCenter>
-                    <TableCellCenter>{formatPrice(item.totalPrice)}</TableCellCenter>
                     <TableCellCenter>
-                      <div className="j-content-between" style={{ gap: "8px" }}>
-                        {item.orderStatus === "WAIT" ? (
-                          <>
-                            <AcceptSvg
-                              className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "PASS")}
-                            />
-                            <DenySvg
-                              className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "REJECT")}
-                            />
-                          </>
-                        ) : item.orderStatus === "PASS" ? (
-                          <>
-                            <AcceptSvg fill="#6A39C0" opacity="0.5" />
-                            <DenySvg
-                              fill="#bababa"
-                              className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "REJECT")}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            <AcceptSvg
-                              fill="#bababa"
-                              className="c-pointer"
-                              onClick={() => onClickStatusChange(item.id, "PASS")}
-                            />
-                            <DenySvg fill="#F44336" opacity="0.5" />
-                          </>
-                        )}
-                      </div>
+                      {formatPrice(item.totalPrice)}
                     </TableCellCenter>
                   </TableRow>
                 ))
@@ -393,7 +249,12 @@ const AdminOrderManage = () => {
             marginTop: "16px",
           }}
         >
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} color="primary" />
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
         </div>
       </Paper>
     </>

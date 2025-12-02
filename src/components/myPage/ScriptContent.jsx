@@ -242,7 +242,6 @@ const ScriptContent = ({
                       title={script.title}
                       productId={script.productId}
                       buyPerformance={script.buyPerformance}
-                      orderStatus={script.orderStatus}
                       style={
                         isSmallMobile ? { width: "129px", height: "40px" } : {}
                       }

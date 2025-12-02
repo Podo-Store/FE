@@ -39,7 +39,7 @@ const PerformanceRefund = () => {
   const [refundPossiblePrice, setRefundPossiblePrice] = useState(0);
 
   const [reason, setReason] = useState("");
-  const [currentAmount, setCurrentAmount] = useState(0);
+  const [currentAmount, setCurrentAmount] = useState(1);
   const [currentLength, setCurrentLength] = useState(0);
 
   const [showPopup, setShowPopup] = useState(false);

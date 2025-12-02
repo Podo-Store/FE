@@ -39,7 +39,7 @@ import ScriptManage from "./pages/myPage/ScriptManage";
 import ScriptManageDetail from "./pages/myPage/PostManage/PostManageDetail";
 
 import AskedPerformManage from "./pages/myPage/AskedPerformManage";
-import AccountInfoChange from "./pages/myPage/AccountInfoChange";
+import AccountInfoChange from "./pages/myPage/AccountInfo/AccountInfoChange";
 import LikedWorks from "./pages/myPage/Liked/LikedWorks";
 
 import Loading from "./pages/Loading";
@@ -54,6 +54,9 @@ import "./App.css";
 import "./styles/colors.css";
 // import "./styles/text.css";
 import "./styles/utilities.css";
+import AccountInfo from "./pages/myPage/AccountInfo/AccountInfo";
+import AccountDeleteWrapper from "./pages/myPage/AccountInfo/AccountDelete/AccountDeleteWrapper";
+import AccountInfoChangeWrapper from "./pages/myPage/AccountInfo/AccountInfoChange/ChangeWrapper";
 
 function App() {
   const location = useLocation();
@@ -67,10 +70,7 @@ function App() {
         <Route path="/" element={<DefaultLayout />}>
           <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
           <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
-          <Route
-            path="admin/statisticManage"
-            element={<AdminSwitch page={2} />}
-          />
+          <Route path="admin/statisticManage" element={<AdminSwitch page={2} />} />
 
           <Route index element={<MainVer2 />} />
           <Route path="v1" element={<MainVer1 />} />
@@ -88,15 +88,9 @@ function App() {
           <Route path="list/detail/:id" element={<Detail />} />
           <Route path="list/view/:id" element={<PostView />} />
           <Route path="list/review/:id" element={<ReviewWrite />} />
-          <Route
-            path="purchase/:id"
-            element={<ProtectedRoute element={<Purchase />} />}
-          />
+          <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
 
-          <Route
-            path="mypage/liked"
-            element={<ProtectedRoute element={<LikedWorks />} />}
-          />
+          <Route path="mypage/liked" element={<ProtectedRoute element={<LikedWorks />} />} />
           <Route
             path="mypage/purchased"
             element={<ProtectedRoute element={<PurchasedScript />} />}
@@ -113,10 +107,7 @@ function App() {
               path="purchase/success"
               element={<ProtectedRoute element={<PurchaseSuccess />} />}
             />
-            <Route
-              path="purchase/abort"
-              element={<ProtectedRoute element={<Abort />} />}
-            />
+            <Route path="purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
             <Route path="post" element={<PostWork />} />
 
             <Route
@@ -134,12 +125,24 @@ function App() {
             />
             <Route
               path="mypage/scriptmanage/askedperform/:id"
-              element={<AskedPerformManage />}
+              element={<ProtectedRoute element={<AskedPerformManage />} />}
+            />
+
+            <Route path="mypage/info" element={<ProtectedRoute element={<AccountInfo />} />} />
+            <Route
+              path="mypage/delete"
+              element={<ProtectedRoute element={<AccountDeleteWrapper />} />}
             />
             <Route
-              path="mypage/infochange"
-              element={<ProtectedRoute element={<AccountInfoChange />} />}
+              path="mypage/info/nickname"
+              element={<ProtectedRoute element={<AccountInfoChangeWrapper type="nickname" />} />}
             />
+            <Route
+              path="mypage/info/password"
+              element={<ProtectedRoute element={<AccountInfoChangeWrapper type="password" />} />}
+            />
+
+            <Route path="mypage/infochange" element={<AccountInfoChange />} />
 
             <Route path="/performedWork" element={<PerformedWork />} />
 

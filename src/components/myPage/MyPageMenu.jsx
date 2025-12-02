@@ -43,9 +43,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
             <section className="flex flex-col gap-[1.5625vh]">
               <div
                 className={
-                  currentPage === "3"
-                    ? "select-menu-btn selected liked"
-                    : "select-menu-btn"
+                  currentPage === "3" ? "select-menu-btn selected liked" : "select-menu-btn"
                 }
                 onClick={() => {
                   navigate("/mypage/liked");
@@ -56,9 +54,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
               </div>
               <div
                 className={
-                  currentPage === "0"
-                    ? "select-menu-btn selected purchased"
-                    : "select-menu-btn"
+                  currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"
                 }
                 onClick={() => {
                   navigate("/mypage/purchased");
@@ -69,9 +65,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
               </div>
               <div
                 className={
-                  currentPage === "1"
-                    ? "select-menu-btn selected script-manage"
-                    : "select-menu-btn"
+                  currentPage === "1" ? "select-menu-btn selected script-manage" : "select-menu-btn"
                 }
                 onClick={() => {
                   navigate("/mypage/scriptmanage");
@@ -83,7 +77,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
               <p
                 className="p-small-under c-pointer info-change-btn"
                 onClick={() => {
-                  navigate("/mypage/infochange");
+                  navigate("/mypage/info");
                 }}
               >
                 회원 정보 수정
@@ -95,8 +89,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
             <div id="grey-rectangle">
               <img src={circleGreyWarning} alt="warn" className="warning-img" />
               <p className="p-medium-regular c-grey">
-                대본과 공연권은 구매시점으로부터<br></br>3개월 이내만 사용
-                가능해요.
+                대본과 공연권은 구매시점으로부터<br></br>3개월 이내만 사용 가능해요.
               </p>
             </div>
           ) : null}

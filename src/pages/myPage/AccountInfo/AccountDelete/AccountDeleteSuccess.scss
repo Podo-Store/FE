@@ -1,5 +1,5 @@
-@use "./../../../components/button/_mixins.scss" as m;
-@use "../../../styles/_responsive.scss" as r;
+@use "@/components/button/_mixins.scss" as m;
+@use "@/styles/_responsive.scss" as r;
 
 .delete-complete .delete-complete-wrap {
   display: flex;

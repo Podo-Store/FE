@@ -1,6 +1,6 @@
 import { api } from "@/api/api";
 
-import SmallOnOffBtn from "../../../components/button/RoundBtn_135_40";
+import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import "./AccountDelete.scss";

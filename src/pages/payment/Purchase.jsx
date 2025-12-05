@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
@@ -39,6 +39,7 @@ const Purchase = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
 
+  console.log(user);
   const [buyScript, setBuyScript] = useState(false);
   const [buyPerform, setBuyPerform] = useState(false);
 

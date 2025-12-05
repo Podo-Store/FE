@@ -34,7 +34,8 @@ import PurchaseMethodBtn from "@/components/purchase/PurchaseMethodBtn";
 import AuthContext from "@/contexts/AuthContext";
 
 const Purchase = () => {
-  const { user } = useContext(AuthContext);
+  const { userId } = useContext(AuthContext);
+  console.log(user);
   const [thumbnailImg, setThumbnailImg] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -207,7 +208,7 @@ const Purchase = () => {
         },
       ],
       paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1,
-      userId: user?.id,
+      userId,
     };
 
     if (buyPerform) {
@@ -267,6 +268,7 @@ const Purchase = () => {
         "podo_payment_request",
         JSON.stringify(requestBody)
       );
+
 
       requestPay({
         clientId: import.meta.env.VITE_NICEPAY_CLIENT_KEY,

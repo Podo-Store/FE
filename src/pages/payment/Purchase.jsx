@@ -35,12 +35,11 @@ import AuthContext from "@/contexts/AuthContext";
 
 const Purchase = () => {
   const { userId } = useContext(AuthContext);
-  console.log(user);
+
   const [thumbnailImg, setThumbnailImg] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
 
-  console.log(user);
   const [buyScript, setBuyScript] = useState(false);
   const [buyPerform, setBuyPerform] = useState(false);
 

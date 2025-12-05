@@ -31,8 +31,10 @@ import "./Purchase.scss";
 import "./../../styles/utilities.css";
 import AmountChangePurchase from "@/components/detail/AmountChangePurchase";
 import PurchaseMethodBtn from "@/components/purchase/PurchaseMethodBtn";
+import AuthContext from "@/contexts/AuthContext";
 
 const Purchase = () => {
+  const { user } = useContext(AuthContext);
   const [thumbnailImg, setThumbnailImg] = useState("");
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -203,7 +205,8 @@ const Purchase = () => {
           performanceAmount: buyPerform ? modifiedPurchasePerformAmount : 0,
         },
       ],
-      paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1
+      paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1,
+      userId: user?.id,
     };
 
     if (buyPerform) {

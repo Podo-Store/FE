@@ -228,9 +228,9 @@ const Purchase = () => {
           }
         );
         const orderData = response.data[0];
-        navigate("/purchase/success", {
-          state: { orderId: orderData.id },
-        });
+        // navigate("/purchase/success", {
+        //   state: { orderId: orderData.id },
+        // });
         setIsLoading(false);
         return;
       }

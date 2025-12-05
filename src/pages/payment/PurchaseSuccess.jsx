@@ -17,6 +17,14 @@ import "./PurchaseSuccess.css";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 const PurchaseSuccess = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const stateOrderId = location.state?.orderId;
+
+  const queryParams = new URLSearchParams(location.search);
+  const queryOrderId = queryParams.get("orderId");
+  const orderId = stateOrderId || queryOrderId;
+
   const [orderDate, setOrderDate] = useState("");
   const [scriptTitle, setScriptTitle] = useState("");
   const [buyScript, setBuyScript] = useState(false);
@@ -26,8 +34,6 @@ const PurchaseSuccess = () => {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const navigate = useNavigate();
-  const location = useLocation();
   const { orderId } = location.state || {};
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
@@ -63,6 +69,10 @@ const PurchaseSuccess = () => {
     return <Loading />;
   }
 
+  if (!orderId) {
+    // orderId가 정말 없으면 에러 처리 가능
+    return <div>잘못된 접근입니다.</div>;
+  }
   return (
     <div className="PurchaseSuccess">
       <div className="purchase-success">

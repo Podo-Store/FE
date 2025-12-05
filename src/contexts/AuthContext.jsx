@@ -20,13 +20,12 @@ export const AuthProvider = ({ children }) => {
     return localStorage.getItem("userNickname") || "username";
   });
   const [isAdmin, setIsAdmin] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const location = useLocation();
 
-  const parseIsAdmin = (token) => {
-    if (!token) {
-      return false;
-    }
+  const parseToken = (token) => {
+    if (!token) return null;
     try {
       const base64Url = token.split(".")[1];
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -36,11 +35,22 @@ export const AuthProvider = ({ children }) => {
           .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
           .join("")
       );
-      const payload = JSON.parse(jsonPayload);
-      return payload?.auth ?? false;
+      return JSON.parse(jsonPayload);
     } catch (e) {
-      return false;
+      return null;
     }
+  };
+
+  const parseIsAdmin = (token) => {
+    const payload = parseToken(token);
+    return payload?.auth ?? false;
+  };
+
+  const parseUserId = (token) => {
+    const payload = parseToken(token);
+    // 백엔드 JWT 페이로드 구조에 맞게 필드 선택!
+    // 예: payload.userId 또는 payload.id 또는 payload.sub
+    return payload?.id ?? payload?.sub ?? null;
   };
 
   useEffect(() => {
@@ -48,6 +58,7 @@ export const AuthProvider = ({ children }) => {
     const refreshToken = Cookies.get("refreshToken");
     setIsAuthenticated(!!accessToken && !!refreshToken);
     setIsAdmin(parseIsAdmin(accessToken));
+    setUserId(parseUserId(accessToken));
   }, [location]);
 
   const login = (accessToken, refreshToken, userNickname) => {
@@ -67,6 +78,7 @@ export const AuthProvider = ({ children }) => {
 
     setIsAuthenticated(true);
     setIsAdmin(parseIsAdmin(accessToken));
+    setUserId(parseUserId(accessToken));
   };
 
   const logout = () => {
@@ -78,6 +90,7 @@ export const AuthProvider = ({ children }) => {
 
     setIsAuthenticated(false);
     setIsAdmin(false);
+    setUserId(null);
   };
 
   const refreshAccessToken = async () => {
@@ -105,6 +118,7 @@ export const AuthProvider = ({ children }) => {
       });
       setIsAuthenticated(true);
       setIsAdmin(parseIsAdmin(accessToken));
+      setUserId(parseUserId(accessToken));
       return accessToken;
     } catch (error) {
       console.error("Access token refresh failed:", error);
@@ -128,6 +142,7 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated,
         isAdmin,
         userNickname,
+        userId,
         login,
         logout,
         refreshAccessToken,

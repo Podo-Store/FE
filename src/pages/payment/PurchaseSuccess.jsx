@@ -33,8 +33,6 @@ const PurchaseSuccess = () => {
   const [performPrice, setPerformPrice] = useState(0);
 
   const [isLoading, setIsLoading] = useState(false);
-
-  const { orderId } = location.state || {};
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   useRequest(async () => {

@@ -30,14 +30,17 @@ function Footer() {
     <>
       <MyPageInterceptor footerRef={footerRef}></MyPageInterceptor>
       <div
-        className={clsx(" footer", isCompanyPage && "bg-[#1A1004]")}
+        className={clsx(
+          "footer h-[298px] h-max-[300px]",
+          isCompanyPage && "bg-[#1A1004] h-full"
+        )}
         ref={footerRef}
       >
         <div className="footer-inner h-fit my-auto">
           <div
             className={clsx(
               "footer-upper text-[#333]",
-              isCompanyPage && "text-[#F2F2F2]"
+              isCompanyPage && "text-[#F2F2F2]/90"
             )}
           >
             <img src={logo} alt="navLogo" />
@@ -49,7 +52,7 @@ function Footer() {
             <div
               className={clsx(
                 "business-info p-xs-regular text-[#333]",
-                isCompanyPage && "text-[#F2F2F2]"
+                isCompanyPage && "text-[#F2F2F2]/90"
               )}
             >
               <p>&nbsp;</p>
@@ -68,10 +71,14 @@ function Footer() {
               <p>연락처 : 010-5251-5830</p>
             </div>
 
-            <div className={clsx("sitemap", isCompanyPage && "text-[#F2F2F2]")}>
+            <div
+              className={clsx("sitemap", isCompanyPage && "text-[#F2F2F2]/90")}
+            >
               <div id="left" className="sitemap-section">
                 <>
-                  <hr className={clsx(isCompanyPage && "!border-[#F2F2F2]")} />
+                  <hr
+                    className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
+                  />
 
                   <ul id="menu">
                     <li
@@ -139,7 +146,7 @@ function Footer() {
                 </ul>
                 <hr
                   id="right"
-                  className={clsx(isCompanyPage && "!border-[#F2F2F2]")}
+                  className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
                 />
 
                 <ul id="us">
@@ -154,13 +161,13 @@ function Footer() {
                         <InstagramIcon
                           className={clsx(
                             "text-[#000]",
-                            isCompanyPage && "text-[#F2F2F2]"
+                            isCompanyPage && "text-[#F2F2F2]/90"
                           )}
                         />
                         <p
                           className={clsx(
                             "p-xs-regular",
-                            isCompanyPage && "text-[#F2F2F2]"
+                            isCompanyPage && "text-[#F2F2F2]/90"
                           )}
                         >
                           @podosangjeom
@@ -170,18 +177,18 @@ function Footer() {
                   </div>
 
                   <div className="contact f-dir-column">
-                    <li className="p-xs-regular">Contact.</li>
+                    <li className="p-xs-regular">각색 및 굿즈 제작 문의</li>
                     <li className="a-items-center" id="contact">
                       <MailIcon
                         className={clsx(
                           "text-[#000]",
-                          isCompanyPage && "text-[#F2F2F2]"
+                          isCompanyPage && "text-[#F2F2F2]/90"
                         )}
                       />
                       <p
                         className={clsx(
                           "p-xs-regular",
-                          isCompanyPage && "text-[#F2F2F2]"
+                          isCompanyPage && "text-[#F2F2F2]/90"
                         )}
                       >
                         podostore1111@gmail.com

@@ -25,6 +25,7 @@ import wine from "../../assets/image/post/Wine.png";
 import doubleRiteIcon from "../../assets/image/post/ic_double_right.svg";
 import checkSquare from "../../assets/image/ic_check_square.svg";
 import noCheckSquare from "../../assets/image/ic_no_check_square.svg";
+import greyDotLine from "@/assets/image/ic_grey_dot_line.svg";
 import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.js";
 
 import "./PostWork.scss";
@@ -119,70 +120,81 @@ const PostWork = () => {
               <p>등록해주세요!</p>
             </div>
 
-            <div className=" stage-info-container">
+            <div className="stage-info-container">
               <h5 className="title p-medium-bold sm:h5-bold">
                 스테이지 시스템 안내
               </h5>
-
-              <div className=" contants">
-                {/* 포도알 */}
-                <div className=" step">
-                  <div className="icon">
+              <section className="mt-[26px] sm:mt-[41px] md:mt-[53px] h-[110px] sm:h-[120px] md:h-[175px] grid grid-cols-[184fr_30fr_189fr_30fr_141fr]">
+                <div className="grid grid-rows-[79fr_75fr] gap-y-[15px]">
+                  <div className="flex flex-col justify-center items-center gap-[9px]">
                     <img
                       src={podoalIcon}
                       alt="podoal"
-                      className="h-[26px] sm:h-[32px]"
+                      className="h-[26px] sm:h-[30px] md:h-[40px]"
                     />
-                    <p className="p-12-400 sm:p-large-medium">포도알</p>
-                  </div>
-                  <div className="info p-xs-medium sm:p-small-medium">
-                    <p>
-                      • 대본 가격 <span>무료</span>만 설정 가능
+                    <p className="p-xs-regular sm:p-medium-medium md:p-large-medium">
+                      포도알
                     </p>
-                    <p> • 공연권 가격 설정 가능</p>
+                  </div>
+                  <div className="pt-[5px]">
+                    <ul class="text-center p-xs-regular sm:p-xs-medium md:p-small-medium ">
+                      <li>• 대본 가격 무료만 설정 가능</li>
+                      <li>• 공연권 가격 설정 가능</li>
+                    </ul>
                   </div>
                 </div>
-
-                <div className="arrow-box w-[20px] sm:w-[30px]">
+                <div className="grid grid-rows-[79fr_75fr] gap-y-[15px] items-center">
                   <img src={doubleRiteIcon} alt="doubleRite" />
-                  <div className="divider"></div>
+                  <img
+                    src={greyDotLine}
+                    alt="구분선"
+                    className="mx-auto hidden md:block"
+                  />
                 </div>
-
-                {/* 포도송이 */}
-                <div className="step ">
-                  <div className="icon">
+                <div className="grid grid-rows-[79fr_75fr] gap-y-[15px]">
+                  <div className="flex flex-col justify-center items-center gap-[9px]">
                     <img
                       src={podoSongIIcon}
                       alt="podoSongI"
-                      className="h-[26px] sm:h-[32px]"
+                      className="w-[28px] sm:w-[33px] md:w-[44px] aspect-[28/26]"
                     />
-                    <p className="p-12-400 sm:p-large-medium">포도송이</p>
+                    <p className="p-xs-regular sm:p-medium-medium md:p-large-medium">
+                      포도송이
+                    </p>
                   </div>
-                  <div className="info">
-                    <div className="TBD-info">
-                      <p className="p-xs-medium sm:p-small-medium">
-                        • 추후 업데이트 예정
-                      </p>
-                    </div>
+                  <div className="pt-[5px]">
+                    <ul class="text-center p-xs-regular sm:p-xs-medium md:p-small-medium ">
+                      <li>• 대본 가격 설정 가능</li>
+                      <li>• 공연권 가격 설정 가능</li>
+                    </ul>
                   </div>
                 </div>
-
-                <div className="arrow-box w-[20px] sm:w-[30px]">
+                <div className="grid grid-rows-[79fr_75fr] gap-y-[15px] items-center">
                   <img src={doubleRiteIcon} alt="doubleRite" />
+                  <img
+                    src={greyDotLine}
+                    alt="구분선"
+                    className="mx-auto hidden md:block"
+                  />
                 </div>
-
-                {/* 와인 */}
-                <div className="step">
-                  <div className="icon">
+                <div className="grid grid-rows-[79fr_75fr] gap-y-[15px]">
+                  <div className="flex flex-col justify-center items-center gap-[9px]">
                     <img
                       src={wine}
                       alt="wine"
-                      className="h-[26px] sm:h-[43px]"
+                      className="w-[15px] sm:w-[19px] md:w-[26px] aspect-[15/26]"
                     />
-                    <p className="p-12-400 sm:p-large-medium">와인</p>
+                    <p className="p-xs-regular sm:p-medium-medium md:p-large-medium">
+                      와인
+                    </p>
+                  </div>
+                  <div className="pt-[5px]">
+                    <ul class="text-center p-xs-regular sm:p-xs-medium md:p-small-medium ">
+                      <li>• 추후 업데이트 예정</li>
+                    </ul>
                   </div>
                 </div>
-              </div>
+              </section>
             </div>
 
             <div>
@@ -211,8 +223,7 @@ const PostWork = () => {
                         top: "unset",
                         bottom: "0",
                         padding: "11px",
-                        transform:
-                          "translate(calc(113.75px + 8px), 0)",
+                        transform: "translate(calc(113.75px + 8px), 0)",
                       }}
                       buttonId="info-btn"
                     />

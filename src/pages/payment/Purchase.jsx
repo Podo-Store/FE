@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { useEffect, useState, useContext } from "react";
+import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
@@ -71,6 +71,7 @@ const Purchase = () => {
   const [buttonEnabled, setButtonEnabled] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isPayModalOpen, setIsPayModalOpen] = useState(false);
 
   const { id } = useParams();
   const location = useLocation();
@@ -86,6 +87,26 @@ const Purchase = () => {
 
   // NICEPAY SDK 로딩 상태
   const { ready: nicepayReady, requestPay } = useNicepay();
+
+  const closeNicepayLayer = useCallback(() => {
+    document.getElementById("newDivLayer")?.remove(); // 나이스페이가 body 밑에 직접 만든 div
+    document.querySelectorAll("iframe").forEach((el) => el.remove());
+    setIsPayModalOpen(false);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      closeNicepayLayer();
+    };
+  }, [closeNicepayLayer]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      if (isPayModalOpen) closeNicepayLayer();
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [isPayModalOpen, closeNicepayLayer]);
 
   useEffect(() => {
     if (name.length > 0 && name.trim() !== "") {
@@ -278,6 +299,8 @@ const Purchase = () => {
         "podo_payment_request",
         JSON.stringify(requestBody)
       );
+      
+      setIsPayModalOpen(true);
 
       requestPay({
         clientId: import.meta.env.VITE_NICEPAY_CLIENT_KEY,
@@ -292,11 +315,13 @@ const Purchase = () => {
           // ❗ '결제 요청을 취소'는 에러 취급 X → 조용히 종료(재시도 가능)
           if (msg.includes("결제 요청을 취소")) {
             setIsLoading(false);
+            setIsPayModalOpen(false);
             return;
           }
           console.log("결제창 에러:", msg);
           alert(`결제창 에러: ${msg || "알 수 없는 오류"}`);
           setIsLoading(false);
+          setIsPayModalOpen(false);
         },
         ...vbankOptions,
       });

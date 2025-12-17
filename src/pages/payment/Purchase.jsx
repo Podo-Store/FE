@@ -116,12 +116,17 @@ const Purchase = () => {
     }
   }, [name]);
 
+  // useEffect(() => {
+  //   if (phone.length > 0 && phone.trim() !== "") {
+  //     setPhoneValid(true);
+  //   } else {
+  //     setPhoneValid(false);
+  //   }
+  // }, [phone]);
+
   useEffect(() => {
-    if (phone.length > 0 && phone.trim() !== "") {
-      setPhoneValid(true);
-    } else {
-      setPhoneValid(false);
-    }
+    const PHONE_REGEX = /^010-\d{4}-\d{4}$/;
+    setPhoneValid(PHONE_REGEX.test(phone));
   }, [phone]);
 
   useEffect(() => {
@@ -204,8 +209,14 @@ const Purchase = () => {
     setIsLoading(true);
 
     // 1) 사용자 입력 검증
-    if (buyPerform && (!nameValid || !phoneValid || !addressValid)) {
-      alert("신청자 정보를 다시 확인해주세요.");
+    // if (buyPerform && (!nameValid || !addressValid)) {
+    //   alert("신청자 정보를 다시 확인해주세요.");
+    //   setIsLoading(false);
+    //   return;
+    // }
+    
+    if (buyPerform && !phoneValid) {
+      alert("전화번호 입력 형식을 다시 확인해 주세요 (010-****-****)");
       setIsLoading(false);
       return;
     }
@@ -288,7 +299,7 @@ const Purchase = () => {
         "podo_payment_request",
         JSON.stringify(requestBody)
       );
-
+      
       setIsPayModalOpen(true);
 
       requestPay({

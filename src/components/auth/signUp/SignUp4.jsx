@@ -1,10 +1,7 @@
 import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 
-import {
-  AuthSideBtnInputField,
-  AuthSideBtnTimerInputField,
-} from "../../inputField";
+import { AuthSideBtnInputField, AuthSideBtnTimerInputField } from "../../inputField";
 import { Selector, PreviousButton, CheckerMessage } from ".";
 import SignUpCheckBox from "./SignUpCheckBox";
 import BottomBtn from "../BottomBtn";
@@ -18,12 +15,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
  *
  * @param {*} onClickRegisterAllowButton - 회원가입 완료 버튼 클릭 시 호출되는 함수
  */
-const SignUp4 = ({
-  onPrevious,
-  userInfo,
-  setUserInfo,
-  onClickRegisterAllowButton,
-}) => {
+const SignUp4 = ({ onPrevious, userInfo, setUserInfo, onClickRegisterAllowButton }) => {
   const [email, setEmail] = useState(userInfo.email);
   const [emailChecker, setEmailChecker] = useState({
     show: false,
@@ -206,7 +198,7 @@ const SignUp4 = ({
         onClickEmailSend={onClickEmailSend}
       />
 
-      <SignUpCheckBox setCheckBoxCondition={setCheckBoxCondition} />
+      <SignUpCheckBox type={0} setCheckBoxCondition={setCheckBoxCondition} />
 
       <div style={{ height: "1.94rem" }}></div>
 

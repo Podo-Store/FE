@@ -1,12 +1,25 @@
 import { api } from "@/api/api";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "@/contexts/AuthContext";
+import SignUpSocialDialog from "@/components/auth/SignUpSocialDialog";
+
+interface SignUpData {
+  accessToken: string | null;
+  refreshToken: string | null;
+  nickname: string | null;
+}
 
 export default function OAuthCallback() {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const { search } = useLocation();
+  const [showSignUpDialog, setShowSignUpDialog] = useState(false);
+  const [signUpData, setSignUpData] = useState<SignUpData>({
+    accessToken: null,
+    refreshToken: null,
+    nickname: null,
+  });
 
   useEffect(() => {
     const run = async () => {
@@ -14,14 +27,18 @@ export default function OAuthCallback() {
       const accessToken = params.get("accessToken");
       const refreshToken = params.get("refreshToken");
       const nickname = params.get("nickname") ?? "username";
-      const signup = params.get("signup");
+      const isNewUser = params.get("isNewUser");
       const error = params.get("error");
       const from = localStorage.getItem("auth_from") || "/";
 
       try {
-        if (signup === "true") {
-          localStorage.removeItem("auth_from");
-          navigate("/signup/success", { replace: true });
+        if (isNewUser === "true") {
+          setSignUpData({
+            accessToken,
+            refreshToken,
+            nickname,
+          });
+          setShowSignUpDialog(true);
           return;
         }
 
@@ -44,20 +61,6 @@ export default function OAuthCallback() {
           return;
         }
 
-        const code = params.get("code");
-        if (code) {
-          const { data } = await api.get(`/auth/google/callback${search}`);
-          const at = data?.accessToken;
-          const rt = data?.refreshToken;
-          const nn = data?.nickname ?? nickname;
-          if (at && rt) {
-            login(at, rt, nn);
-            localStorage.removeItem("auth_from");
-            navigate(from, { replace: true });
-            return;
-          }
-        }
-
         alert("소셜 로그인 처리에 실패했습니다. 다시 시도해 주세요.");
         localStorage.removeItem("auth_from");
         navigate("/signin", { replace: true });
@@ -71,5 +74,18 @@ export default function OAuthCallback() {
     run();
   }, [search, login, navigate]);
 
-  return null;
+  return (
+    <>
+      <SignUpSocialDialog
+        open={showSignUpDialog}
+        onClose={() => {
+          setShowSignUpDialog(false);
+          navigate("/signin", { replace: true });
+        }}
+        accessToken={signUpData.accessToken}
+        refreshToken={signUpData.refreshToken}
+        nickname={signUpData.nickname}
+      />
+    </>
+  );
 }

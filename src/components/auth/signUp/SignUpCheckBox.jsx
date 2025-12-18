@@ -122,6 +122,7 @@ const SignUpCheckBox = ({ type = 0, setCheckBoxCondition }) => {
       {/* 전체 선택 체크박스 */}
       <div className="flex items-center w-full">
         <button
+          type="button"
           className={twJoin("checkbox-icon cursor-pointer", checkboxClassName)}
           onClick={onChangeAllSelect}
         >
@@ -148,6 +149,7 @@ const SignUpCheckBox = ({ type = 0, setCheckBoxCondition }) => {
           key={item.id}
         >
           <button
+            type="button"
             className={twJoin("checkbox-icon cursor-pointer", checkboxClassName)}
             onClick={() => onChangeCheckbox(item.id)}
           >

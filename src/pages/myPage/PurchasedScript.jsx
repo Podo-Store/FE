@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
-import ToggleSlide from "../../components/button/ToggleSlide";
+import ToggleSlideV2 from "../../components/button/ToggleSlideV2";
 import PartialLoading from "../../components/loading/PartialLoading";
 import {
   MyPageMenu,
@@ -33,8 +33,8 @@ const PurchasedScript = () => {
 
   const { userNickname } = useContext(AuthContext);
 
-  // const [toggle, setToggle] = useState(false);
-  const toggle = true;
+  const [toggle, setToggle] = useState(false);
+  // const toggle = true;
 
   const [isScriptListNull, setIsScriptListNull] = useState(false);
   const [isPerformListNull, setIsPerformListNull] = useState(false);
@@ -60,15 +60,12 @@ const PurchasedScript = () => {
       }
       setScriptList(response.data.orderList);
 
-      const response2 = await axios.get(
-        `${SERVER_URL}profile/orderPerformances`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      );
+      const response2 = await axios.get(`${SERVER_URL}profile/orderPerformances`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${Cookies.get("accessToken")}`,
+        },
+      });
 
       if (response2.data.orderList.length === 0) {
         setIsPerformListNull(true);
@@ -88,12 +85,7 @@ const PurchasedScript = () => {
         <MyPageMenu nickname={userNickname} currentPage="0" />
         <div className="content-side">
           <div className="content-side-grid">
-            <h4
-              className={clsx(
-                "whitespace-nowrap",
-                !isSmallMobile ? "h4-bold" : "p-medium-bold"
-              )}
-            >
+            <h4 className={clsx("whitespace-nowrap", !isSmallMobile ? "h4-bold" : "p-medium-bold")}>
               구매한 작품들을 볼 수 있어요!
             </h4>
             <div className="grid-item-first">
@@ -103,22 +95,20 @@ const PurchasedScript = () => {
                     <img src={circleGreyWarning} alt="!" />
                     <div className="warning-box-content f-dir-column j-content-center">
                       <p className="p-xs-regular">
-                        대본과 공연권은 구매시점으로부터 3개월 이내만 사용
-                        가능해요.
+                        대본과 공연권은 구매시점으로부터 3개월 이내만 사용 가능해요.
                       </p>
                     </div>
                   </div>
                 )
               ) : width > 1919 ? (
                 <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
-                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 제공되었음을
-                  표시하여야 합니다.
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                  하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
                 </div>
               ) : width <= 1919 && width > 1279 ? (
                 <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
-                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 <br />
+                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                  하며, 대본이 '포도상점'을 통하여 <br />
                   제공되었음을 표시하여야 합니다.
                 </div>
               ) : (
@@ -126,27 +116,25 @@ const PurchasedScript = () => {
                   <img src={circleGreyWarning} alt="!" />
                   <div className="warning-box-content f-dir-column j-content-between">
                     <p className="p-xs-regular">
-                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
-                      저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
-                      제공되었음을 표시하여야 합니다.
+                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                      하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
                     </p>
                     <p className="p-xs-regular">
-                      대본과 공연권은 구매시점으로부터 3개월 이내만 사용
-                      가능해요.
+                      대본과 공연권은 구매시점으로부터 3개월 이내만 사용 가능해요.
                     </p>
                   </div>
                 </div>
               )}
             </div>
-            {/*
+
             <div className="toggle-wrap">
-              <ToggleSlide
+              <ToggleSlideV2
                 toggle={toggle}
                 onChangeToggle={() => {
                   setToggle(!toggle);
                 }}
               />
-            </div>*/}
+            </div>
           </div>
 
           <div style={{ height: "1.75vh" }}></div>

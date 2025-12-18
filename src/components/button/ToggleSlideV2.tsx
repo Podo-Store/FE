@@ -1,6 +1,6 @@
 import { twJoin } from "tailwind-merge";
 import toggle_slide_center from "@/assets/image/button/toggle-slide/toggle_slide_center.svg";
-import "./ToggleSlideV2.css";
+import "./ToggleSlideV2.scss";
 
 interface ToggleSlideV2Props {
   toggle: boolean;
@@ -9,11 +9,11 @@ interface ToggleSlideV2Props {
 
 const ToggleSlideV2 = ({ toggle, onChangeToggle }: ToggleSlideV2Props) => {
   return (
-    <div className="flex items-center w-[198px] h-[48px] relative border border-[#6a39c0] rounded-[30px] overflow-hidden box-border">
+    <div className="toggle-slide-v2 flex items-center w-[126px] md:w-[198px] h-[32px] md:h-[48px] relative border border-[#6a39c0] rounded-[30px] overflow-hidden box-border">
       {/* 슬라이딩 배경 */}
       <div
         className={twJoin(
-          "w-[111px] h-[calc(100%-6px)] absolute top-0 bottom-0 m-[3px] bg-[#6a39c0] rounded-[30px] transition-all duration-300 ease-in-out",
+          "w-[72px] md:w-[111px] h-[calc(100%-6px)] absolute top-0 bottom-0 m-[3px] bg-[#6a39c0] rounded-[30px] transition-all duration-300 ease-in-out",
           toggle ? "slide-right" : "slide-left"
         )}
       />
@@ -27,10 +27,10 @@ const ToggleSlideV2 = ({ toggle, onChangeToggle }: ToggleSlideV2Props) => {
         onClick={onChangeToggle}
         type="button"
       >
-        <span className="h5-bold whitespace-nowrap">대본</span>
+        <span className="p-12-bold md:h5-bold whitespace-nowrap">대본</span>
       </button>
 
-      <img className="z-20" src={toggle_slide_center} alt="" />
+      <img className="size-[20px] md:size-[28px] z-20" src={toggle_slide_center} alt="" />
 
       <button
         className={twJoin(
@@ -41,7 +41,7 @@ const ToggleSlideV2 = ({ toggle, onChangeToggle }: ToggleSlideV2Props) => {
         onClick={onChangeToggle}
         type="button"
       >
-        <span className="h5-bold whitespace-nowrap">공연권</span>
+        <span className="p-12-bold md:h5-bold whitespace-nowrap">공연권</span>
       </button>
     </div>
   );

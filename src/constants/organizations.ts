@@ -24,6 +24,8 @@ import 시네씨아_photo from "../assets/image/landing/organizations/충북대_
 import 시네씨아_logo from "../assets/image/landing/organizations/충북대_시네씨아/logo.png";
 import 한울_photo from "../assets/image/landing/organizations/건국대_한울/photo.jpg";
 import 한울_logo from "../assets/image/landing/organizations/건국대_한울/logo.png";
+import 끈_photo from "../assets/image/landing/organizations/추계예대_끈/photo.jpg";
+import 끈_logo from "../assets/image/landing/organizations/추계예대_끈/logo.png";
 
 interface Organizations {
   name: string;
@@ -66,13 +68,7 @@ const organizations: Organizations[] = [
       src: 광운극예술연구회_logo,
       style: { width: "70%" },
     },
-    keywords: [
-      "#광운대학교",
-      "#Since1980",
-      "#열정가득",
-      "#과몰입",
-      "#두번째가족",
-    ],
+    keywords: ["#광운대학교", "#Since1980", "#열정가득", "#과몰입", "#두번째가족"],
     additionalDeleteCircle: [2],
   },
   {
@@ -98,14 +94,7 @@ const organizations: Organizations[] = [
       src: 작은공간_logo,
       style: { width: "150%", transform: "translate(1.5%, -2.5%)" },
     },
-    keywords: [
-      "#광운대학교",
-      "#화학공학과",
-      "#소모임",
-      "#작지만매운",
-      "#패짱",
-      "#추억",
-    ],
+    keywords: ["#광운대학교", "#화학공학과", "#소모임", "#작지만매운", "#패짱", "#추억"],
     additionalDeleteCircle: [2],
   },
   {
@@ -118,14 +107,7 @@ const organizations: Organizations[] = [
       src: 리버액트_logo,
       style: { width: "60%" },
     },
-    keywords: [
-      "#서울대학교",
-      "#자유전공학부",
-      "#창작극",
-      "#연기맛집",
-      "#관악최고",
-      "#재밌는연극",
-    ],
+    keywords: ["#서울대학교", "#자유전공학부", "#창작극", "#연기맛집", "#관악최고", "#재밌는연극"],
     additionalDeleteCircle: [2],
   },
   {
@@ -138,13 +120,7 @@ const organizations: Organizations[] = [
       src: 낙산극회_logo,
       style: { width: "60%", transform: "translate(2%, -2%)" },
     },
-    keywords: [
-      "#한성대학교",
-      "#Since1977",
-      "#순수연극",
-      "#창작극",
-      "#각색맛집",
-    ],
+    keywords: ["#한성대학교", "#Since1977", "#순수연극", "#창작극", "#각색맛집"],
     additionalDeleteCircle: [2],
   },
   {
@@ -176,13 +152,7 @@ const organizations: Organizations[] = [
       src: 이화여대총연극회_logo,
       style: { width: "60%" },
     },
-    keywords: [
-      "#이화여자대학교",
-      "#중앙연극동아리",
-      "#깨어있는",
-      "#연극을",
-      "#위하여",
-    ],
+    keywords: ["#이화여자대학교", "#중앙연극동아리", "#깨어있는", "#연극을", "#위하여"],
     additionalDeleteCircle: [1],
   },
   {
@@ -208,13 +178,7 @@ const organizations: Organizations[] = [
       src: 열린무대_logo,
       style: { width: "65%" },
     },
-    keywords: [
-      "#경일대학교",
-      "#연극 동아리",
-      "#열린무대",
-      "#무대는",
-      "#열려있다",
-    ],
+    keywords: ["#경일대학교", "#연극 동아리", "#열린무대", "#무대는", "#열려있다"],
     additionalDeleteCircle: [2],
   },
   {
@@ -227,14 +191,7 @@ const organizations: Organizations[] = [
       src: 극단소솜_logo,
       style: {},
     },
-    keywords: [
-      "#건국대학교",
-      "#솜사탕_맛집",
-      "#연극_맛집",
-      "#우리의",
-      "#청춘은",
-      "#소솜",
-    ],
+    keywords: ["#건국대학교", "#솜사탕_맛집", "#연극_맛집", "#우리의", "#청춘은", "#소솜"],
     additionalDeleteCircle: [2],
   },
   {
@@ -287,6 +244,19 @@ const organizations: Organizations[] = [
       "#하나의_울림",
       "#낭만!!!!!!!",
     ],
+    additionalDeleteCircle: [2],
+  },
+  {
+    name: "추계예술대학교 끈",
+    photo: {
+      src: 끈_photo,
+      style: {},
+    },
+    logo: {
+      src: 끈_logo,
+      style: {},
+    },
+    keywords: ["#추계예술대학교", "#세상을_잇는", "#끈", "#자체제작", "#청춘"],
     additionalDeleteCircle: [2],
   },
 ];

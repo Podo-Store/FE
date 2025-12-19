@@ -1,10 +1,4 @@
-import axios from "axios";
-
-import { SERVER_URL } from "@/constants/ServerURL";
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 30000,
-});
+import { api } from "@/api/api";
 
 export interface GetStatisticsResponse {
   userCnt: number;
@@ -15,16 +9,7 @@ export interface GetStatisticsResponse {
 
 export const getStatistics = async (): Promise<GetStatisticsResponse> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    const response = await api.get<GetStatisticsResponse>(
-      "/introduce/statistics",
-      {
-        headers,
-      }
-    );
+    const response = await api.get<GetStatisticsResponse>("/introduce/statistics");
 
     return response.data;
   } catch (error) {

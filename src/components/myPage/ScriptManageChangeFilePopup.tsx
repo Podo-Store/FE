@@ -9,21 +9,15 @@ import { PostChangeScript } from "@/api/user/profile/work/changeScriptApi";
 import { useState } from "react";
 import { toastAlert } from "@/utils/ToastAlert";
 
-
 interface ScriptManageChangeFilePopupProps {
   open: boolean;
   setOpen: (open: boolean) => void;
   id: string;
 }
 
-const ScriptManageChangeFilePopup = ({
-  open,
-  setOpen,
-  id,
-}: ScriptManageChangeFilePopupProps) => {
+const ScriptManageChangeFilePopup = ({ open, setOpen, id }: ScriptManageChangeFilePopupProps) => {
   const [scriptFile, setScriptFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
-  const accessToken = Cookies.get("accessToken")!;
   const {
     widthConditions: { isSmallMobile },
   } = useWindowDimensions();
@@ -38,11 +32,7 @@ const ScriptManageChangeFilePopup = ({
     setLoading(true);
 
     try {
-      const response = await PostChangeScript(
-        id,
-        scriptFile as File,
-        accessToken
-      );
+      const response = await PostChangeScript(id, scriptFile as File);
       if (response) {
         toastAlert("파일 변경 신청이 완료되었습니다.", "success");
         handleClose();
@@ -81,8 +71,8 @@ const ScriptManageChangeFilePopup = ({
         <div className="flex flex-col text-center gap-[30px] mb-[17px]">
           <h2 className="h5-medium sm:h2-medium">파일 변경 신청</h2>
           <p className="p-12-medium sm:p-small-medium">
-            변경 요청하신 파일은 {isSmallMobile && <br />}검토를 거쳐 작품에
-            반영됩니다. <br /> 결과는 검토 완료 후 이메일로 안내드릴게요.
+            변경 요청하신 파일은 {isSmallMobile && <br />}검토를 거쳐 작품에 반영됩니다. <br />{" "}
+            결과는 검토 완료 후 이메일로 안내드릴게요.
           </p>
         </div>
         <div className="w-full flex flex-col gap-[15px] sm:gap-[26px]">

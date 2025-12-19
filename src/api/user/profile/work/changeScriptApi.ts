@@ -1,10 +1,6 @@
 import axios from "axios";
 import { SERVER_URL } from "@/constants/ServerURL";
-
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 30000,
-});
+import { api } from "@/api/api";
 
 /**
  * 대본 파일 변경 API
@@ -13,7 +9,6 @@ const api = axios.create({
  *
  * @param {string} id - 작품 ID (UUID)
  * @param {File} scriptFile - 업로드할 대본 PDF 파일
- * @param {string} [accessToken] - Authorization Bearer 토큰
  *
  * @returns {Promise<boolean>} 서버 응답 (성공 시 true)
  *
@@ -33,26 +28,15 @@ const api = axios.create({
 
 export const PostChangeScript = async (
   id: string,
-  scriptFile: File, // or Blob
-  accessToken?: string
+  scriptFile: File // or Blob
 ) => {
   try {
     const formData = new FormData();
     formData.append("script", scriptFile);
 
-    const headers: Record<string, string> = {};
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
-    const response = await api.post<boolean>(
-      `/profile/work/changeScript/${id}`,
-      formData,
-      {
-        headers,
-        withCredentials: true,
-      }
-    );
+    const response = await api.post<boolean>(`/profile/work/changeScript/${id}`, formData, {
+      withCredentials: true,
+    });
 
     return response.data;
   } catch (error) {

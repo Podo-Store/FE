@@ -14,7 +14,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./FileInputBox.css";
 
 interface FileInputBoxProps {
-  title: string;
+  title?: string;
   infoText?: string;
   onFileUpload: (file: File) => void;
   style: React.CSSProperties;

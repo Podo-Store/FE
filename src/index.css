@@ -31,7 +31,7 @@
   --c-grey-8f8f8f: #8f8f8f;
   --c-red: #ff0000;
   --c-white: #ffffff;
-
+  --c-Main: #6a39c0;
   /* ======================
      섀도우
   ====================== */
@@ -45,7 +45,22 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
+  --breakpoint-2xl: 1920px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+/* 유틸리티 등록 */
+@utility animate-float {
+  animation: float 2s ease-in-out infinite;
 }
 
 @utility font-pretendard {

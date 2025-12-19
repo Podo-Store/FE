@@ -36,7 +36,7 @@ function SignIn() {
 
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
-  const from = location.state?.from?.pathname || "/"; // 이전 페이지로 이동
+  const from = location.state?.from; // 이전 페이지로 이동
 
   useEffect(() => {
     setShowErrorMsg(false);
@@ -67,8 +67,16 @@ function SignIn() {
         );
 
         setIsIdPwMatch(true);
-        navigate(from, { replace: true });
-        navigate(-1); // 왠진 모르겠지만 해줘야 정상 작동함..
+        if (typeof from === "string") {
+          navigate(from, { replace: true });
+        } else if (from?.pathname) {
+          navigate(
+            { pathname: from.pathname, search: from.search, hash: from.hash },
+            { replace: true }
+          );
+        } else {
+          navigate(-1);
+        }
       } else {
         setIsIdPwMatch(false);
       }

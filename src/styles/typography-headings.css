@@ -40,6 +40,18 @@
   letter-spacing: -0.64px;
 }
 
+@utility h2-regular {
+  color: #000;
+
+  /* H2/Regular */
+  font-family: Pretendard;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 40px; /* 125% */
+  letter-spacing: -0.64px;
+}
+
 @utility h3-regular {
   /* H3/Regular */
   font-size: 28px;
@@ -102,4 +114,17 @@
   font-style: normal;
   font-weight: 500;
   line-height: 28px; /* 140% */
+}
+
+@utility company-title-large {
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
+}
+@utility company-title-medium {
+  font-size: 40px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 150%; /* 60px */
 }

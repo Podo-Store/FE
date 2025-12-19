@@ -63,8 +63,8 @@ const Modal = ({
           top: "50%",
           transform: "translateY(-50%)",
           color: "white",
-          "&.Mui-disabled": { opacity: 0.5 },
           zIndex: 10,
+          "&.Mui-disabled": { opacity: 0 },
         }}
       >
         <img src={inequalityLeft} alt="prev" />
@@ -102,8 +102,8 @@ const Modal = ({
           top: "50%",
           transform: "translateY(-50%)",
           color: "white",
-          "&.Mui-disabled": { opacity: 0.5 },
           zIndex: 10,
+          "&.Mui-disabled": { opacity: 0 },
         }}
       >
         <img src={inequalityRight} alt="next" />

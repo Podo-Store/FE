@@ -1,3 +1,15 @@
+.popup-overlay {
+  inset: 0;
+
+  z-index: 999; /* 팝업보다 작게, 팝업은 1000이라 위에 옴 */
+}
+
+.popup-overlay-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
 .popup {
   padding: 22px;
 
@@ -13,6 +25,17 @@
   cursor: move;
 }
 
+/* 🔹 모바일 풀스크린용 */
+.popup-fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  border-radius: 0;
+  cursor: default;
+}
+
 .popup div#title {
   height: 2.4375rem;
 
@@ -26,6 +49,7 @@
 }
 
 .popup img#close-btn {
+  z-index: 1000;
   transform: translate(0, -0.7rem);
 }
 

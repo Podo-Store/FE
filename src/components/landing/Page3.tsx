@@ -38,17 +38,21 @@ const Page3 = () => {
     }
 
     if (sliderRef.current) {
+      const sliderElement = sliderRef.current;
+      const firstSlide = sliderElement.children[0] as HTMLElement | undefined;
+
       if (!isTablet) {
-        // 기본: 좌우 슬라이드
-        sliderRef.current.scrollTo({
-          left: sliderRef.current.offsetWidth * newSlide,
-          behavior: "smooth",
+        const slideWidth = firstSlide?.clientWidth ?? sliderElement.clientWidth;
+        sliderElement.scrollTo({
+          left: slideWidth * newSlide,
+          behavior: "auto",
         });
       } else {
-        // responsive: 상하 슬라이드
-        sliderRef.current.scrollTo({
-          top: sliderRef.current.offsetHeight * newSlide,
-          behavior: "smooth",
+        const slideHeight =
+          firstSlide?.clientHeight ?? sliderElement.clientHeight;
+        sliderElement.scrollTo({
+          top: slideHeight * newSlide,
+          behavior: "auto",
         });
       }
     }

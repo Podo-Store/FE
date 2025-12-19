@@ -16,7 +16,8 @@ import previewGlass from "@/assets/image/glass.svg";
 import "./Preview.css";
 import "@/styles/text.css";
 import "@/styles/utilities.css";
-import PreviewSingle from "./PreviewSingle";
+
+const PreviewSingle = lazy(() => import("./PreviewSingle"));
 
 // THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -99,14 +100,16 @@ const Preview = ({ id, lengthType }) => {
       {pdfData ? (
         isSmallMobile ? (
           // 모바일: 한 페이지씩
-          <PreviewSingle
-            fileBlobUrl={pdfData}
-            width={210}
-            totalPages={totalPages}
-            selectedPage={selectedPage}
-            setSelectedPage={setSelectedPage}
-            showThreshold={showThreshold}
-          />
+          <Suspense fallback={<PartialLoading />}>
+            <PreviewSingle
+              fileBlobUrl={pdfData}
+              width={210}
+              totalPages={totalPages}
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+              showThreshold={showThreshold}
+            />
+          </Suspense>
         ) : (
           <Document
             file={pdfData}

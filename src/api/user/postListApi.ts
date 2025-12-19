@@ -27,13 +27,14 @@ export const fetchExploreScripts = async (
 ): Promise<ExploreScriptsResponse> => {
   try {
     const response = await api.get<ExploreScriptsResponse>("/scripts", {
-      withCredentials: true, // 쿠키 인증 시 필요
+      withCredentials: true,
       params: {
         sortType,
       },
     });
 
     const { longPlay, shortPlay } = response.data;
+
     return {
       longPlay: Array.isArray(longPlay) ? longPlay : [],
       shortPlay: Array.isArray(shortPlay) ? shortPlay : [],
@@ -44,7 +45,6 @@ export const fetchExploreScripts = async (
   }
 };
 
-// 좋아한 장편 작품 목록 조회
 export const getLongWorks = async (
   page: number = 0,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
@@ -61,7 +61,6 @@ export const getLongWorks = async (
   }
 };
 
-// 좋아한 장편 작품 목록 조회
 export const getShortWorks = async (
   page: number = 0,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"

@@ -1,6 +1,8 @@
 import { ShowCard } from "@/types/show";
 import mongJungPoster from "../assets/image/performedWork/mongjung_poster.png";
 import archivePoster from "../assets/image/performedWork/archive_poster.jpeg";
+import sisonPoster from "@/assets/image/performedWork/sison_poster.PNG";
+
 export const MOCK_SHOWS: ShowCard[] = [
   {
     id: "1",
@@ -43,7 +45,25 @@ export const MOCK_SHOWS: ShowCard[] = [
     title: "Archive",
     author: "감자튀김",
     troupe: "프로젝트 항해",
-    period: "2024.07.12 - 2025.07.13",
+    period: "2025.07.12 - 2025.07.13",
     link: "https://www.podo-store.com/list/detail/17133b1a-da07-40d5-889d-82dff04baf5e",
+  },
+  {
+    id: "6",
+    image: sisonPoster,
+    title: "끝나지 않은 일",
+    author: "이진성",
+    troupe: "시선",
+    period: "2025.11.20 - 2025.11.21",
+    link: "https://www.podo-store.com/list/detail/f9a49931-e35f-478a-af16-fb4f8d82513a",
+  },
+  {
+    id: "6",
+    image: sisonPoster,
+    title: "끝나지 않은 일",
+    author: "Woo",
+    troupe: "불씨",
+    period: "2025.11.20 - 2025.11.21",
+    link: "https://www.podo-store.com/list/detail/c19756fe-e331-4757-926f-64cc05425203",
   },
 ];

@@ -1,11 +1,11 @@
 import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
+import clsx from "clsx";
 import MyPageInterceptor from "@/components/myPage/footer/MyPageInterceptor";
 
 import logo from "../assets/image/footer/new_logo.svg";
-import instagramIcon from "../assets/image/footer/instagramIcon.svg";
-import mail from "../assets/image/footer/mail.svg";
+import InstagramIcon from "../assets/image/footer/instagramIcon.svg?react";
+import MailIcon from "../assets/image/footer/mail.svg?react";
 // import youtubeIcon from "../assets/image/footer/youtubeIcon.svg";
 // import XIcon from "../assets/image/footer/XIcon.svg";
 
@@ -15,6 +15,8 @@ import "./../styles/utilities.css";
 
 function Footer() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isCompanyPage = location.pathname === "/company";
 
   const footerRef = useRef(null);
 
@@ -27,16 +29,32 @@ function Footer() {
   return (
     <>
       <MyPageInterceptor footerRef={footerRef}></MyPageInterceptor>
-      <div className=" footer" ref={footerRef}>
+      <div
+        className={clsx(
+          "footer h-[298px] h-max-[300px]",
+          isCompanyPage && "bg-[#1A1004] h-full"
+        )}
+        ref={footerRef}
+      >
         <div className="footer-inner h-fit my-auto">
-          <div className="footer-upper">
+          <div
+            className={clsx(
+              "footer-upper text-[#333]",
+              isCompanyPage && "text-[#F2F2F2]/90"
+            )}
+          >
             <img src={logo} alt="navLogo" />
             <div style={{ height: "10px" }}></div>
             <p>포도상점은 저작권의 당사자가 아닌 대리중개업체입니다.</p>
             <p>Copyright © 2025 포도상점. Powered by 포도상점</p>
           </div>
           <div className="footer-lower">
-            <div className="business-info p-xs-regular text-[#333]">
+            <div
+              className={clsx(
+                "business-info p-xs-regular text-[#333]",
+                isCompanyPage && "text-[#F2F2F2]/90"
+              )}
+            >
               <p>&nbsp;</p>
               <p>포도상점</p>
               <p className="">대표 : 서준</p>
@@ -53,10 +71,14 @@ function Footer() {
               <p>연락처 : 010-5251-5830</p>
             </div>
 
-            <div className="sitemap">
+            <div
+              className={clsx("sitemap", isCompanyPage && "text-[#F2F2F2]/90")}
+            >
               <div id="left" className="sitemap-section">
                 <>
-                  <hr />
+                  <hr
+                    className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
+                  />
 
                   <ul id="menu">
                     <li
@@ -89,7 +111,7 @@ function Footer() {
                     <li
                       className="p-xs-bold c-pointer"
                       onClick={() => {
-                        navigate("/");
+                        navigate("/company");
                         scrollToTop();
                       }}
                     >
@@ -122,7 +144,11 @@ function Footer() {
                   <button>문의하기</button>
                 </li>*/}
                 </ul>
-                <hr id="right" />
+                <hr
+                  id="right"
+                  className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
+                />
+
                 <ul id="us">
                   <div className="f-dir-column">
                     <li className="p-xs-regular">Follow us.</li>
@@ -132,17 +158,41 @@ function Footer() {
                         target="_blank"
                         rel="noopener noreferrer"
                       >
-                        <img src={instagramIcon} alt="instagramIcon" />
-                        <p className="p-xs-regular">@podosangjeom</p>
+                        <InstagramIcon
+                          className={clsx(
+                            "text-[#000]",
+                            isCompanyPage && "text-[#F2F2F2]/90"
+                          )}
+                        />
+                        <p
+                          className={clsx(
+                            "p-xs-regular",
+                            isCompanyPage && "text-[#F2F2F2]/90"
+                          )}
+                        >
+                          @podosangjeom
+                        </p>
                       </a>
                     </li>
                   </div>
 
                   <div className="contact f-dir-column">
-                    <li className="p-xs-regular">Contact.</li>
+                    <li className="p-xs-regular">각색 및 굿즈 제작 문의</li>
                     <li className="a-items-center" id="contact">
-                      <img src={mail} alt="contact" />
-                      <p className="p-xs-regular">podostore1111@gmail.com</p>
+                      <MailIcon
+                        className={clsx(
+                          "text-[#000]",
+                          isCompanyPage && "text-[#F2F2F2]/90"
+                        )}
+                      />
+                      <p
+                        className={clsx(
+                          "p-xs-regular",
+                          isCompanyPage && "text-[#F2F2F2]/90"
+                        )}
+                      >
+                        podostore1111@gmail.com
+                      </p>
                     </li>
                   </div>
                 </ul>

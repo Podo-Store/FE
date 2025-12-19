@@ -151,11 +151,14 @@ const ScriptContent = ({
                   )}
 
                   {/* 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
-                  {currentPage === "1" && script.checked === "PASS" && (
-                    <div className="translate-y-[-15px]">
-                      <ScriptManageTopBtn className="" script={script} />
-                    </div>
-                  )}
+                  {currentPage === "1" &&
+                    (script.checked === "PASS" ||
+                      script.checked === "RE_WAIT" ||
+                      script.checked === "RE_PASS") && (
+                      <div className="translate-y-[-15px]">
+                        <ScriptManageTopBtn className="" script={script} />
+                      </div>
+                    )}
                   {/* 작품 관리 페이지에서 심사 중일 경우 */}
                   {currentPage === "1" && script.checked === "WAIT" && (
                     <div className="hidden md:block translate-y-[-15px]">
@@ -215,7 +218,9 @@ const ScriptContent = ({
                 {/* (모바일 화면) 작품 관리 페이지 상단 버튼: 심사 끝났을 경우 표시 */}
                 {(isMobile || isSmallMobile) &&
                 currentPage === "1" &&
-                script.checked === "PASS" ? (
+                (script.checked === "PASS" ||
+                  script.checked === "RE_WAIT" ||
+                  script.checked === "RE_PASS") ? (
                   <div className="relative">
                     <ScriptManageTopBtn className="mobile" script={script} />
                   </div>
@@ -237,7 +242,6 @@ const ScriptContent = ({
                       title={script.title}
                       productId={script.productId}
                       buyPerformance={script.buyPerformance}
-                      orderStatus={script.orderStatus}
                       style={
                         isSmallMobile ? { width: "129px", height: "40px" } : {}
                       }
@@ -254,7 +258,6 @@ const ScriptContent = ({
                       <Button
                         id={script.id}
                         possibleCount={script.possibleCount}
-                        orderStatus={script.orderStatus}
                       />
                     </section>
                   )

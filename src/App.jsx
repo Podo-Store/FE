@@ -1,4 +1,5 @@
 // App.jsx
+import { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -17,14 +18,12 @@ import SignInDialog from "./components/auth/SignInDialog";
 import OAuthCallback from "./components/auth/OAuthCallback";
 
 import PostGallery from "./pages/work/postList/PostGallery";
-
-import Detail from "./pages/work/Detail.tsx";
 import ReviewWrite from "./pages/work/review/reviewWrite";
 
-import PostView from "./pages/work/PostView";
 import PostWork from "./pages/work/PostWork";
 import Purchase from "./pages/payment/Purchase";
 import PurchaseSuccess from "./pages/payment/PurchaseSuccess";
+// import PurchaseRedirect from "./pages/payment/PurchaseRedirect";
 import Abort from "./pages/payment/Abort";
 import PurchasedScript from "./pages/myPage/PurchasedScript";
 import PerformanceInfo from "./pages/myPage/PerformanceInfo";
@@ -45,6 +44,7 @@ import LikedWorks from "./pages/myPage/Liked/LikedWorks";
 import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 import PerformedWork from "./pages/work/review/performedWork/performedWork";
+import CompanyProfile from "./pages/company/companyProfile";
 
 import BrowserWarning from "./components/BrowserWarning";
 
@@ -58,6 +58,9 @@ import AccountInfo from "./pages/myPage/AccountInfo/AccountInfo";
 import AccountDeleteWrapper from "./pages/myPage/AccountInfo/AccountDelete/AccountDeleteWrapper";
 import AccountInfoChangeWrapper from "./pages/myPage/AccountInfo/AccountInfoChange/ChangeWrapper";
 
+const Detail = lazy(() => import("./pages/work/Detail.tsx"));
+const PostView = lazy(() => import("./pages/work/PostView"));
+
 function App() {
   const location = useLocation();
   const { state } = location;
@@ -67,6 +70,8 @@ function App() {
       {/* <BrowserWarning /> */}
 
       <Routes location={state?.background ?? location}>
+        <Route path="/company" element={<CompanyProfile />} />
+
         <Route path="/" element={<DefaultLayout />}>
           <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
           <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
@@ -75,6 +80,8 @@ function App() {
           <Route index element={<MainVer2 />} />
           <Route path="v1" element={<MainVer1 />} />
 
+          {/* <Route path="list" element={<List />} /> */}
+
           <Route path="signup" element={<SignUpDefault />} />
           <Route path="signup/success" element={<SignUpSuccess />} />
           <Route path="signin" element={<SignIn />} />
@@ -82,11 +89,24 @@ function App() {
           <Route path="signin/find/:id" element={<FindBar />} />
           <Route path="auth/callback" element={<OAuthCallback />} />
 
-          {/* <Route path="list" element={<List />} /> */}
           <Route path="list" element={<PostGallery />} />
 
-          <Route path="list/detail/:id" element={<Detail />} />
-          <Route path="list/view/:id" element={<PostView />} />
+          <Route
+            path="list/detail/:id"
+            element={
+              <Suspense fallback={<Loading />}>
+                <Detail />
+              </Suspense>
+            }
+          />
+          <Route
+            path="list/view/:id"
+            element={
+              <Suspense fallback={<Loading />}>
+                <PostView />
+              </Suspense>
+            }
+          />
           <Route path="list/review/:id" element={<ReviewWrite />} />
           <Route path="purchase/:id" element={<ProtectedRoute element={<Purchase />} />} />
 
@@ -123,7 +143,6 @@ function App() {
             />
             <Route path="purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
             <Route path="post" element={<PostWork />} />
-
             <Route
               path="mypage/purchased/performance-info/:id"
               element={<ProtectedRoute element={<PerformanceInfo />} />}
@@ -132,7 +151,6 @@ function App() {
               path="mypage/purchased/performance-refund/:id"
               element={<ProtectedRoute element={<PerformanceRefund />} />}
             />
-
             <Route
               path="mypage/scriptmanage/detail/:scriptId"
               element={<ProtectedRoute element={<ScriptManageDetail />} />}
@@ -145,9 +163,7 @@ function App() {
             <Route path="mypage/infochange" element={<AccountInfoChange />} />
 
             <Route path="/performedWork" element={<PerformedWork />} />
-
             <Route path="*" element={<NotFound />} />
-
             {/* 테스트용 routing */}
             <Route path="test/loading" element={<Loading />} />
             <Route path="test/404" element={<NotFound />} />

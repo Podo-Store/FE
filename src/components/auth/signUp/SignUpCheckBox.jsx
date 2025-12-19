@@ -5,7 +5,6 @@ import PolicyPopup from "../../popup/PolicyPopup.jsx";
 import PolicyDialog from "./PolicyDialog";
 
 import useWindowDimensions from "../../../hooks/useWindowDimensions";
-
 import unChecked from "../../../assets/image/auth/signUp/checkbox/unChecked.svg";
 import checked from "../../../assets/image/auth/signUp/checkbox/checked.svg";
 
@@ -78,7 +77,6 @@ const SignUpCheckBox = ({ type = 0, setCheckBoxCondition }) => {
   });
 
   const { isSmallMobile } = useWindowDimensions().widthConditions;
-
   // 개별 체크박스 선택
   const onChangeCheckbox = (id) => {
     const updatedItems = items.map(

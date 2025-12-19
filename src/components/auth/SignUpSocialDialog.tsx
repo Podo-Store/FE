@@ -19,18 +19,10 @@ import "../../styles/utilities.css";
 interface SignUpSocialDialogProps {
   open: boolean;
   onClose: () => void;
-  accessToken: string | null;
-  refreshToken: string | null;
-  nickname: string | null;
+  tempCode: string | null;
 }
 
-const SignUpSocialDialog = ({
-  open,
-  onClose,
-  accessToken,
-  refreshToken,
-  nickname,
-}: SignUpSocialDialogProps) => {
+const SignUpSocialDialog = ({ open, onClose, tempCode }: SignUpSocialDialogProps) => {
   const [checkBoxCondition, setCheckBoxCondition] = useState({
     age: false,
     collectAndUse: false,
@@ -44,8 +36,25 @@ const SignUpSocialDialog = ({
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const handleError = (errorMessage: string | undefined) => {
+    if (!errorMessage) {
+      alert("회원가입 처리 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      return;
+    }
+
+    if (errorMessage === "약관 동의 필요") {
+      alert("모든 약관에 동의해주세요.");
+    } else if (errorMessage === "만료되었거나 유효하지 않은 tempCode") {
+      alert("인증 코드가 만료되었거나 유효하지 않습니다. 다시 시도해 주세요.");
+      onClose();
+      navigate("/signin", { replace: true });
+    } else {
+      alert(errorMessage || "회원가입 처리 중 오류가 발생했습니다.");
+    }
+  };
+
   const handleCompleteSignup = async () => {
-    if (!accessToken || !refreshToken) {
+    if (!tempCode) {
       alert("회원가입 정보를 불러오는데 실패했습니다. 다시 시도해 주세요.");
       onClose();
       navigate("/signin", { replace: true });
@@ -66,23 +75,33 @@ const SignUpSocialDialog = ({
     setIsLoading(true);
 
     try {
-      const userNickname = nickname ?? "username";
+      // 모든 약관에 동의했는지 확인
+      const termsAgreed =
+        checkBoxCondition.age &&
+        checkBoxCondition.collectAndUse &&
+        checkBoxCondition.handOver &&
+        checkBoxCondition.policy;
 
-      try {
-        await api.post(`/auth/social/signup/complete`, {
-          agreements: {
-            age: checkBoxCondition.age,
-            collectAndUse: checkBoxCondition.collectAndUse,
-            handOver: checkBoxCondition.handOver,
-            policy: checkBoxCondition.policy,
-          },
-        });
-      } catch (apiError) {
-        console.warn("약관 동의 정보 업데이트 실패:", apiError);
+      const response = await api.post(`/auth/social/signin`, {
+        tempCode,
+        termsAgreed,
+      });
+
+      // 성공 응답에 error 필드가 있는 경우 처리
+      if (response.data?.error) {
+        handleError(response.data.error);
+        return;
       }
 
-      // 로그인 처리 (약관 동의 완료 후 로그인)
-      login(accessToken, refreshToken, userNickname);
+      const { accessToken, refreshToken, nickname: userNickname } = response.data;
+
+      if (!accessToken || !refreshToken) {
+        alert("로그인 정보를 받아오는데 실패했습니다. 다시 시도해 주세요.");
+        return;
+      }
+
+      // 로그인 처리
+      login(accessToken, refreshToken, userNickname || "username");
 
       const from = localStorage.getItem("auth_from") || "/";
       localStorage.removeItem("auth_from");
@@ -91,11 +110,12 @@ const SignUpSocialDialog = ({
       navigate(from, {
         replace: true,
         state: {
-          toastMessage: userNickname,
+          toastMessage: userNickname || "username",
         },
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error("회원가입 완료 처리 중 오류:", error);
+      handleError(error?.response?.data?.error);
     } finally {
       setIsLoading(false);
     }

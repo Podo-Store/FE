@@ -1,13 +1,10 @@
-import { api } from "@/api/api";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthContext from "@/contexts/AuthContext";
 import SignUpSocialDialog from "@/components/auth/SignUpSocialDialog";
 
 interface SignUpData {
-  accessToken: string | null;
-  refreshToken: string | null;
-  nickname: string | null;
+  tempCode: string | null;
 }
 
 export default function OAuthCallback() {
@@ -16,9 +13,7 @@ export default function OAuthCallback() {
   const { search } = useLocation();
   const [showSignUpDialog, setShowSignUpDialog] = useState(false);
   const [signUpData, setSignUpData] = useState<SignUpData>({
-    accessToken: null,
-    refreshToken: null,
-    nickname: null,
+    tempCode: null,
   });
 
   useEffect(() => {
@@ -27,19 +22,34 @@ export default function OAuthCallback() {
       const accessToken = params.get("accessToken");
       const refreshToken = params.get("refreshToken");
       const nickname = params.get("nickname") ?? "username";
-      const isNewUser = params.get("isNewUser");
       const error = params.get("error");
+      const result = params.get("result");
+      const tempCode = params.get("tempCode");
       const from = localStorage.getItem("auth_from") || "/";
 
       try {
-        if (isNewUser === "true") {
+        // result=REQUIRE_TERMS일 때 tempCode로 회원가입 진행
+        if (result === "REQUIRE_TERMS" && tempCode) {
           setSignUpData({
-            accessToken,
-            refreshToken,
-            nickname,
+            tempCode,
           });
           setShowSignUpDialog(true);
           return;
+        }
+
+        // result=LOGIN일 때 로그인 처리
+        if (result === "LOGIN") {
+          if (accessToken && refreshToken) {
+            login(accessToken, refreshToken, nickname);
+            localStorage.removeItem("auth_from");
+            navigate(from, { replace: true });
+            return;
+          } else {
+            alert("로그인 정보를 불러오는데 실패했습니다. 다시 시도해 주세요.");
+            localStorage.removeItem("auth_from");
+            navigate("/signin", { replace: true });
+            return;
+          }
         }
 
         if (error) {
@@ -82,9 +92,7 @@ export default function OAuthCallback() {
           setShowSignUpDialog(false);
           navigate("/signin", { replace: true });
         }}
-        accessToken={signUpData.accessToken}
-        refreshToken={signUpData.refreshToken}
-        nickname={signUpData.nickname}
+        tempCode={signUpData.tempCode}
       />
     </>
   );

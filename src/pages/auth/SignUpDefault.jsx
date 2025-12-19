@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import clsx from "clsx";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -56,7 +56,7 @@ const SignUpDefault = () => {
   const onClickRegisterAllowButton = async (email, emailCode) => {
     setIsLoading(true);
     try {
-      const { data } = await axios.post(`${SERVER_URL}auth/signup`, {
+      const { data } = await api.post(`/auth/signup`, {
         userId: userInfo.id,
         password: userInfo.pw,
         confirmPassword: userInfo.pwCheck,

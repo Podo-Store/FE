@@ -14,7 +14,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 
 import TableCellCenter from "./TableCellCenter";
@@ -85,18 +85,9 @@ const AdminOrderManage = () => {
           params.search = searchText;
         }
 
-        const response = await axios.get<ApiResponse>(
-          `${SERVER_URL}admin/orders`,
-          {
-            params: params,
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: Cookies.get("accessToken")
-                ? `Bearer ${Cookies.get("accessToken")}`
-                : undefined,
-            },
-          }
-        );
+        const response = await api.get<ApiResponse>(`/admin/orders`, {
+          params: params,
+        });
 
         setData(response.data.orders);
         setDoneCount(response.data.doneCnt);

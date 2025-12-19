@@ -1,13 +1,5 @@
-import axios, { AxiosError } from "axios";
-import Cookies from "js-cookie";
-
-import { SERVER_URL } from "@/constants/ServerURL";
-
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-
-  timeout: 10000,
-});
+import { AxiosError } from "axios";
+import { api } from "@/api/api";
 
 export interface ScriptItem {
   id: string;
@@ -31,18 +23,10 @@ export interface ExploreScriptsResponse {
 }
 
 export const fetchExploreScripts = async (
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ExploreScriptsResponse> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ExploreScriptsResponse>("/scripts", {
-      headers,
       withCredentials: true,
       params: {
         sortType,
@@ -63,19 +47,11 @@ export const fetchExploreScripts = async (
 
 export const getLongWorks = async (
   page: number = 0,
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/scripts/long`, {
       params: { page, sortType },
-      headers,
     });
 
     return response.data;
@@ -87,19 +63,11 @@ export const getLongWorks = async (
 
 export const getShortWorks = async (
   page: number = 0,
-  accessToken?: string,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ScriptItem[]> => {
   try {
-    const headers: Record<string, string> = {};
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.get<ScriptItem[]>(`/scripts/short`, {
       params: { page, sortType },
-      headers,
     });
 
     return response.data;
@@ -110,22 +78,13 @@ export const getShortWorks = async (
 };
 
 export const toggleLikeScript = async (
-  id: string,
-  accessToken?: string
+  id: string
 ): Promise<"like" | "cancel like"> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    if (accessToken) {
-      headers["Authorization"] = `Bearer ${accessToken}`;
-    }
-
     const response = await api.post<{ message: "like" | "cancel like" }>(
       `/scripts/like/${id}`,
       null,
-      { headers, withCredentials: true }
+      { withCredentials: true }
     );
 
     return response.data.message;
@@ -137,13 +96,8 @@ export const toggleLikeScript = async (
 
 export const getPostView = async (scriptId: string): Promise<Blob> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
     const { data } = await api.get<Blob>("/scripts/view", {
       params: { script: scriptId },
-      headers,
       responseType: "blob",
     });
 

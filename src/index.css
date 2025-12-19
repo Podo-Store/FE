@@ -4,6 +4,7 @@
 
 @import "./styles/typography-paragraphs.css";
 @import "./styles/typography-headings.css";
+@import "./styles/colors.css";
 
 /* 필요하면 components 레이어도 가능: @import "tailwindcss/components"; */
 @source "./src/**/*.{js,jsx,ts,tsx,html,css,scss}";

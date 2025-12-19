@@ -48,7 +48,7 @@ const ScriptManageCancelPopup = ({
             color="purple"
             onClick={async () => {
               try {
-                await cancelReview(id, accessToken);
+                await cancelReview(id);
 
                 alert("심사 취소가 완료되었습니다.");
                 window.location.reload();

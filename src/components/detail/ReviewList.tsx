@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useMemo, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import throttle from "lodash/throttle";
 import clsx from "clsx";
@@ -107,16 +107,7 @@ const ReviewList = React.memo(({ scriptId, review }: ReviewLitProps) => {
           });
 
           try {
-            const response = await axios.post(
-              `${SERVER_URL}scripts/review/like/${review.id}`,
-              {},
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${Cookies.get("accessToken")}`,
-                },
-              }
-            );
+            await api.post(`/scripts/review/like/${review.id}`);
           } catch (error) {
             console.error(error);
             alert("좋아요 처리 중 오류가 발생했습니다.");

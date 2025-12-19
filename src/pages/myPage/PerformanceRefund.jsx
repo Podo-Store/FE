@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -52,11 +51,7 @@ const PerformanceRefund = () => {
 
   useRequest(async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}profile/refund`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get("/profile/refund", {
         params: {
           id,
         },
@@ -91,20 +86,11 @@ const PerformanceRefund = () => {
 
   const onClickRequestRefund = async () => {
     try {
-      await axios.post(
-        `${SERVER_URL}profile/refund`,
-        {
-          orderItemId: id,
-          refundAmount: currentAmount,
-          reason,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${Cookies.get("accessToken")}`,
-          },
-        }
-      );
+      await api.post("/profile/refund", {
+        orderItemId: id,
+        refundAmount: currentAmount,
+        reason,
+      });
 
       setShowPopup(true);
     } catch (error) {

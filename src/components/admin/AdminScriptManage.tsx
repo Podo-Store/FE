@@ -14,9 +14,8 @@ import {
   ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import axios from "axios";
-import Cookies from "js-cookie";
-import React, { useState, useEffect } from "react";
+import { api } from "@/api/api";
+import { useState, useEffect } from "react";
 
 import TableCellCenter from "./TableCellCenter";
 
@@ -24,8 +23,6 @@ import { toastAlert } from "@/utils/ToastAlert";
 
 import { OrderStatus } from "@/types/orderStatus";
 import { FilterStatus } from "./types/filterStatus";
-
-import { SERVER_URL } from "@/constants/ServerURL";
 
 import DownloadSvg from "../../assets/image/component/DownloadSvg";
 import AcceptSvg from "../../assets/image/component/AcceptSvg";
@@ -60,7 +57,9 @@ const AdminScriptManage = () => {
 
   // 작품 제목 / 작가명 변경
   const [tempTitleMap, setTempTitleMap] = useState<Record<string, string>>({});
-  const [tempWriterMap, setTempWriterMap] = useState<Record<string, string>>({});
+  const [tempWriterMap, setTempWriterMap] = useState<Record<string, string>>(
+    {}
+  );
 
   // 전체
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -87,14 +86,8 @@ const AdminScriptManage = () => {
           params.status = filterStatus;
         }
 
-        const response = await axios.get<ApiResponse>(`${SERVER_URL}admin/products`, {
+        const response = await api.get<ApiResponse>(`/admin/products`, {
           params: params,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
         });
 
         setData(response.data.products);
@@ -117,7 +110,10 @@ const AdminScriptManage = () => {
   }, [page, searchText, filterStatus]);
 
   // 페이지 변경 핸들러
-  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPage(value);
   };
 
@@ -131,24 +127,16 @@ const AdminScriptManage = () => {
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/title`,
-        {
-          productId: id,
-          title: newTitle,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
-        }
-      );
+      await api.patch("/admin/products/title", {
+        productId: id,
+        title: newTitle,
+      });
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
-      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
+      toastAlert(
+        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
+        "error"
+      );
     }
   };
 
@@ -156,30 +144,25 @@ const AdminScriptManage = () => {
   const handleUpdateWriter = async (id: string) => {
     const newWriter = tempWriterMap[id];
     // 새로 입력하지 않았거나 기존 제목과 같으면 API 호출 X
-    if (!newWriter || newWriter === data.find((item) => item.id === id)?.writer) {
+    if (
+      !newWriter ||
+      newWriter === data.find((item) => item.id === id)?.writer
+    ) {
       return;
     }
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/writer`,
-        {
-          productId: id,
-          writer: newWriter,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
-        }
-      );
+      await api.patch("/admin/products/writer", {
+        productId: id,
+        writer: newWriter,
+      });
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
-      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
+      toastAlert(
+        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
+        "error"
+      );
     }
   };
 
@@ -201,12 +184,7 @@ const AdminScriptManage = () => {
     toastAlert("다운로드 중입니다.", "info");
 
     try {
-      const response = await axios.get(`${SERVER_URL}admin/download/${id}`, {
-        headers: {
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
-        },
+      const response = await api.get(`/admin/download/${id}`, {
         responseType: "blob",
       });
 
@@ -236,25 +214,17 @@ const AdminScriptManage = () => {
     const type = updatedData.find((item) => item.id === id)?.playType;
 
     try {
-      await axios.patch(
-        `${SERVER_URL}admin/products/${id}`,
-        {
-          playType: type,
-          productStatus: newPermission,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: Cookies.get("accessToken")
-              ? `Bearer ${Cookies.get("accessToken")}`
-              : undefined,
-          },
-        }
-      );
+      await api.patch(`/admin/products/${id}`, {
+        playType: type,
+        productStatus: newPermission,
+      });
 
       toastAlert("수정이 완료되었습니다.", "success");
     } catch (error) {
-      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
+      toastAlert(
+        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
+        "error"
+      );
     }
   };
 
@@ -348,14 +318,19 @@ const AdminScriptManage = () => {
               ) : data.length > 0 ? (
                 data.map((item, index) => (
                   <TableRow key={item.id}>
-                    <TableCellCenter>{totalCount - ((page - 1) * 10 + index)}</TableCellCenter>
+                    <TableCellCenter>
+                      {totalCount - ((page - 1) * 10 + index)}
+                    </TableCellCenter>
                     <TableCellCenter>{item.createdAt}</TableCellCenter>
                     <TableCellCenter>
                       <TextField
                         variant="standard"
                         value={tempTitleMap[item.id] ?? item.title}
                         onChange={(event) => {
-                          setTempTitleMap((prev) => ({ ...prev, [item.id]: event.target.value }));
+                          setTempTitleMap((prev) => ({
+                            ...prev,
+                            [item.id]: event.target.value,
+                          }));
                         }}
                         onBlur={() => {
                           handleUpdateTitle(item.id);
@@ -367,7 +342,10 @@ const AdminScriptManage = () => {
                         variant="standard"
                         value={tempWriterMap[item.id] ?? item.writer}
                         onChange={(event) => {
-                          setTempWriterMap((prev) => ({ ...prev, [item.id]: event.target.value }));
+                          setTempWriterMap((prev) => ({
+                            ...prev,
+                            [item.id]: event.target.value,
+                          }));
                         }}
                         onBlur={() => {
                           handleUpdateWriter(item.id);
@@ -404,7 +382,10 @@ const AdminScriptManage = () => {
                       </ToggleButtonGroup>
                     </TableCellCenter>
                     <TableCellCenter>
-                      <div className="j-content-between" style={{ marginRight: "16px" }}>
+                      <div
+                        className="j-content-between"
+                        style={{ marginRight: "16px" }}
+                      >
                         <DownloadSvg
                           className="c-pointer"
                           onClick={() => {
@@ -494,7 +475,12 @@ const AdminScriptManage = () => {
             marginTop: "16px",
           }}
         >
-          <Pagination count={totalPages} page={page} onChange={handlePageChange} color="primary" />
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={handlePageChange}
+            color="primary"
+          />
         </div>
       </Paper>
     </>

@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 
 import {
   postReview,
-  postReviewProops,
+  postReviewProps,
   getProfile,
   patchReview,
   deleteReview,
@@ -113,7 +113,7 @@ const reviewWrite = () => {
     const selectedStandardType =
       Object.keys(reason).find((key) => reason[key]) ?? "";
 
-    const reviewData: postReviewProops = {
+    const reviewData: postReviewProps = {
       productId: id ?? "",
       rating: selectedStar,
       standardType: selectedStandardType,

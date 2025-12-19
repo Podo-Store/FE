@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,8 +9,6 @@ import Loading from "../Loading";
 import { useRequest } from "../../hooks/useRequest";
 
 import formatDate2 from "../../utils/formatDate2";
-
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import "./PurchaseSuccess.css";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -39,11 +36,7 @@ const PurchaseSuccess = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.get(`${SERVER_URL}order/success`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get(`/order/success`, {
         params: {
           orderId,
         },

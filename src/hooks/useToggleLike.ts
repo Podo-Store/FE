@@ -1,8 +1,6 @@
 import { useCallback } from "react";
-import Cookies from "js-cookie";
 import { toggleLikeScript } from "@/api/user/postListApi";
 import { ScriptItem } from "@/api/user/postListApi";
-import { PostDetail } from "@/pages/work/Detail";
 import { useNavigate } from "react-router-dom";
 import { LIKE } from "@/constants/alertTexts";
 
@@ -18,8 +16,7 @@ export const useToggleLike = (
   const handleToggleLike = useCallback(
     async (postId: string) => {
       try {
-        const accessToken = Cookies.get("accessToken");
-        await toggleLikeScript(postId, accessToken);
+        await toggleLikeScript(postId);
 
         setState((prev) =>
           prev.map((post) =>
@@ -54,9 +51,7 @@ export const useSingleToggleLike = (
   const handleToggleLike = useCallback(
     async (postId: string) => {
       try {
-        const accessToken = Cookies.get("accessToken");
-
-        await toggleLikeScript(postId, accessToken);
+        await toggleLikeScript(postId);
       } catch (error) {
         console.error("좋아요 처리 실패:", error);
         alert(LIKE);

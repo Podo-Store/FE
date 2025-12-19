@@ -1,7 +1,6 @@
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
-import Cookies from "js-cookie";
 
 import AuthContext from "@/contexts/AuthContext";
 

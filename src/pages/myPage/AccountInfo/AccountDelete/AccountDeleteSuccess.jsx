@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
-import AuthContext from "../../../contexts/AuthContext";
+import AuthContext from "@/contexts/AuthContext";
 
-import check from "../../../assets/image/myPage/check.svg";
+import check from "@/assets/image/myPage/check.svg";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./AccountDeleteSuccess.scss";
 

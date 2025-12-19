@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 
 import Button from "./../button/RoundBtn_149_48";
@@ -42,11 +41,7 @@ const PurchasedScriptBtn = ({
   const onClickDownloadScript = async () => {
     toastAlert("다운로드 중입니다.", "info");
     try {
-      const response = await axios.get(`${SERVER_URL}profile/download`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get(`/profile/download`, {
         params: {
           id: id,
         },

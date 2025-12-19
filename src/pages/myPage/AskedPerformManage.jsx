@@ -1,6 +1,5 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-import React, { useState } from "react";
+import { api } from "@/api/api";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import GoBack from "../../components/button/GoBack.tsx";
@@ -40,11 +39,7 @@ const AskedPerformManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/requested`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get(`/profile/requested`, {
         params: {
           id,
         },

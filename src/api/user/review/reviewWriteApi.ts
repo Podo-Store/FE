@@ -1,22 +1,15 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import Cookies from "js-cookie";
-import { SERVER_URL } from "@/constants/ServerURL";
+import { api } from "@/api/api";
 
-const api = axios.create({
-  baseURL: SERVER_URL, // Use environment variables
-  timeout: 10000,
-});
-
-const accessToken = Cookies.get("accessToken");
-
-export interface postReviewProops {
+export interface postReviewProps {
   productId: string;
   rating: number;
   standardType: string;
   content: string;
 }
 
-export interface getReviewProfileProops {
+export interface getReviewProfileProps {
   imagePath: string;
   id: string;
   title: string;
@@ -31,23 +24,14 @@ export const postReview = async ({
   rating,
   standardType,
   content,
-}: postReviewProops): Promise<boolean> => {
+}: postReviewProps): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    const response = await api.post<boolean>(
-      "/scripts/review",
-      {
-        productId,
-        rating,
-        standardType,
-        content,
-      },
-      { headers }
-    );
+    const response = await api.post<boolean>("/scripts/review", {
+      productId,
+      rating,
+      standardType,
+      content,
+    });
 
     return response.data;
   } catch (error) {
@@ -59,22 +43,13 @@ export const postReview = async ({
 
 export const getProfile = async (
   productId: string
-): Promise<getReviewProfileProops> => {
+): Promise<getReviewProfileProps> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    if (!accessToken) {
-      window.location.reload()
+    if (!Cookies.get("accessToken")) {
+      window.location.reload();
     }
-    const response = await api.get<getReviewProfileProops>(
-      `/scripts/review/${productId}`,
-
-      {
-        headers,
-      }
+    const response = await api.get<getReviewProfileProps>(
+      `/scripts/review/${productId}`
     );
 
     return response.data;
@@ -103,20 +78,12 @@ export const patchReview = async ({
   content,
 }: patchReviewProps) => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    const response = await api.patch<getReviewProfileProops>(
+    const response = await api.patch<getReviewProfileProps>(
       `/scripts/review/${reviewId}`,
       {
         rating,
         standardType,
         content,
-      },
-      {
-        headers,
       }
     );
 
@@ -131,14 +98,7 @@ export const patchReview = async ({
 
 export const deleteReview = async (reviewId: string): Promise<boolean> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    };
-
-    const response = await api.delete<boolean>(`/scripts/review/${reviewId}`, {
-      headers,
-    });
+    const response = await api.delete<boolean>(`/scripts/review/${reviewId}`);
 
     return response.data;
   } catch (error) {

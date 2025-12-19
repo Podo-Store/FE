@@ -20,7 +20,6 @@ import { useNicepay } from "@/hooks/useNicepay";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleGreyWarning from "../../assets/image/myPage/circleGreyWarning.svg";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
@@ -144,11 +143,7 @@ const Purchase = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}order/item`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get("/order/item", {
         params: {
           productId: id,
           script: isScriptSelected,

@@ -51,12 +51,7 @@ const ScriptContent = ({
 
   return (
     <div key={index} className="script-content ">
-      <p
-        className={clsx(
-          "date c-grey-8f8f8f",
-          !isSmallMobile ? "p-large-bold" : "p-small-bold"
-        )}
-      >
+      <p className={clsx("date c-grey-8f8f8f", !isSmallMobile ? "p-large-bold" : "p-small-bold")}>
         {formattedDate}
       </p>
       <hr className="border-[#caabff]"></hr>
@@ -79,9 +74,7 @@ const ScriptContent = ({
                     className="flex justify-center items-center absolute top-0 left-0 w-full h-full rounded-[20px] z-10"
                     style={{ background: "rgba(226, 226, 226, 0.70)" }}
                   >
-                    <p className="p-small-medium sm:p-large-medium">
-                      삭제된 작품
-                    </p>
+                    <p className="p-small-medium sm:p-large-medium">삭제된 작품</p>
                   </div>
                 )}
                 {script.delete && (
@@ -106,18 +99,11 @@ const ScriptContent = ({
               </div>
               <div className=" script-tag">
                 <div
-                  className={`a-items-center ${
-                    currentPage === "1" ? "j-content-between" : ""
-                  }`}
+                  className={`a-items-center ${currentPage === "1" ? "j-content-between" : ""}`}
                   id="title"
                 >
                   <div className="relative">
-                    <p
-                      className={
-                        !isSmallMobile ? "p-large-bold" : "p-small-bold"
-                      }
-                      id="title"
-                    >
+                    <p className={!isSmallMobile ? "p-large-bold" : "p-small-bold"} id="title">
                       {script.title || "제목 없음"}
                     </p>
                     {isRoute && (
@@ -168,10 +154,7 @@ const ScriptContent = ({
                 </div>
 
                 <hr className="ml-[-3px]! border-[1px] border-solid border-[#9E9E9E]"></hr>
-                <p
-                  className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
-                  id="author"
-                >
+                <p className={!isSmallMobile ? "p-large-medium" : "p-12-bold"} id="author">
                   {currentPage === "1"
                     ? ""
                     : !isDeletedScriptAndAccount
@@ -189,17 +172,8 @@ const ScriptContent = ({
                   ) : currentTogglePage === "1" ? (
                     // 구매한 작품 페이지에서 토글 선택이 '공연권'일 경우
                     <>
-                      <PriceText
-                        type="perform"
-                        value={script.performancePrice || 0}
-                      />
-                      <div
-                        style={
-                          !isSmallMobile
-                            ? { height: "32px" }
-                            : { height: "16px" }
-                        }
-                      ></div>
+                      <PriceText type="perform" value={script.performancePrice || 0} />
+                      <div style={!isSmallMobile ? { height: "32px" } : { height: "16px" }}></div>
                       {(isMobile || isSmallMobile) && (
                         <PurchasedPerformPossibleInfo script={script} />
                       )}
@@ -238,13 +212,12 @@ const ScriptContent = ({
                     // PurchasedScriptBtn.jsx
                     <Button
                       purchaseStatus={[script.script, script.performance]}
+                      script={script}
                       id={script.id}
                       title={script.title}
                       productId={script.productId}
                       buyPerformance={script.buyPerformance}
-                      style={
-                        isSmallMobile ? { width: "129px", height: "40px" } : {}
-                      }
+                      style={isSmallMobile ? { width: "129px", height: "40px" } : {}}
                     />
                   ) : (
                     <section className="j-content-between">
@@ -255,10 +228,7 @@ const ScriptContent = ({
                       )}
 
                       {/* PurchasedPerformBtn.jsx */}
-                      <Button
-                        id={script.id}
-                        possibleCount={script.possibleCount}
-                      />
+                      <Button id={script.id} possibleCount={script.possibleCount} />
                     </section>
                   )
                 ) : currentPage === "1" && !script.delete ? (

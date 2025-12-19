@@ -214,7 +214,7 @@ const Purchase = () => {
     //   setIsLoading(false);
     //   return;
     // }
-    
+
     if (buyPerform && !phoneValid) {
       alert("전화번호 입력 형식을 다시 확인해 주세요 (010-****-****)");
       setIsLoading(false);
@@ -239,7 +239,6 @@ const Purchase = () => {
         },
       ],
       paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1,
-      userId,
     };
 
     if (buyPerform) {
@@ -264,6 +263,24 @@ const Purchase = () => {
         //   state: { orderId: orderData.id },
         // });
         setIsLoading(false);
+        return;
+      }
+
+      const orderRes = await axios.post(
+        `${SERVER_URL}order/item`,
+        requestBody,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("accessToken")}`,
+          },
+        }
+      );
+
+      const orderId = orderRes.data?.orderId;
+
+      if (!orderId) {
+        alert(orderRes.data?.error ?? "주문 생성 실패");
         return;
       }
 
@@ -299,16 +316,16 @@ const Purchase = () => {
         "podo_payment_request",
         JSON.stringify(requestBody)
       );
-      
+
       setIsPayModalOpen(true);
 
       requestPay({
         clientId: import.meta.env.VITE_NICEPAY_CLIENT_KEY,
         method: nicepayMethod, // 'card' | 'bank' | 'vbank'
-        orderId: nicepayOrderId,
+        orderId,
         amount: payableAmount,
         goodsName,
-        returnUrl: `${SERVER_URL}order/item`,
+        returnUrl: `${SERVER_URL}order/nicepay/return`,
         mallReserved: JSON.stringify(requestBody),
         fnError: (e) => {
           const msg = e?.errorMsg || "";

@@ -11,6 +11,7 @@ import "./MyPageMenu.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 import { useSnapshot } from "valtio";
+import { twJoin } from "tailwind-merge";
 
 /**
  *
@@ -86,7 +87,12 @@ const MyPageMenu = ({ nickname, currentPage }) => {
           </div>
 
           {currentPage === "0" ? (
-            <div className="flex gap-[10px] p-[18px] rounded-[10px] border border-[#777]">
+            <div
+              className={twJoin(
+                "flex gap-[10px] p-[18px] w-[290px] rounded-[10px] border border-[#777]",
+                isFooterVisible ? "" : "fixed bottom-[81px]"
+              )}
+            >
               <img src={circleGreyWarning} alt="warn" className="size-[19px]" />
               <p className="p-medium-regular text-[#777]">
                 대본과 공연권은 구매시점으로부터

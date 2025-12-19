@@ -14,7 +14,7 @@ import SignIn from "./pages/auth/SignIn";
 import SignInV2 from "./pages/auth/SignInV2";
 import FindBar from "./pages/auth/FindBar";
 import SignInDialog from "./components/auth/SignInDialog";
-import OAuthCallback from "./pages/auth/OAuthCallback";
+import OAuthCallback from "./components/auth/OAuthCallback";
 
 import PostGallery from "./pages/work/postList/PostGallery";
 

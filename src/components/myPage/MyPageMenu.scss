@@ -48,38 +48,3 @@
 .myPage-menu-side p.info-change-btn {
   margin-top: 4.5vh;
 }
-
-.myPage-menu-side #grey-rectangle {
-  display: flex;
-  align-items: center;
-  border-radius: 10px;
-  border: 1px solid var(--grey-grey-6, #777);
-
-  padding: 9px 0;
-}
-/* 
-.myPage-menu-side #grey-rectangle img {
-  margin-left: 0.938vw;
-  width: 0.99vw;
-  height: 0.99vw;
-  min-width: 15.2px;
-  min-height: 15.2px;
-}
-
-.myPage-menu-side #grey-rectangle p {
-  margin-left: 0.781vw;
-  margin-bottom: 3px;
-
-  font-size: clamp(13px, 0.833vw, 16px);
-} */
-
-.myPage-menu-side #grey-rectangle img {
-  margin-left: 18px;
-  width: 19px;
-  height: 19px;
-}
-
-.myPage-menu-side #grey-rectangle p {
-  margin-left: 14px;
-  margin-bottom: 3px;
-}

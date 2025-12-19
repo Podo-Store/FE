@@ -78,9 +78,7 @@ const PostGallery = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
-  const [sortType, setSortType] = useState<"POPULAR" | "LIKE_COUNT" | "LATEST">(
-    "POPULAR"
-  );
+  const [sortType, setSortType] = useState<"POPULAR" | "LIKE_COUNT" | "LATEST">("POPULAR");
 
   const skipRef = useRef(false);
   const isAuthenticated = useContext(AuthContext);
@@ -132,11 +130,10 @@ const PostGallery = () => {
     // 최초 로드
     (async () => {
       setIsLoading(true);
-      const token = Cookies.get("accessToken");
 
-      const exploreData = await fetchExploreScripts(token, sortType);
-      const longData = await getLongWorks(0, token, sortType);
-      const shortData = await getShortWorks(0, token, sortType);
+      const exploreData = await fetchExploreScripts(sortType);
+      const longData = await getLongWorks(0, sortType);
+      const shortData = await getShortWorks(0, sortType);
 
       setExplore(exploreData);
       setLongPlays(longData);
@@ -170,15 +167,14 @@ const PostGallery = () => {
 
     (async () => {
       setIsLoading(true);
-      const token = Cookies.get("accessToken");
 
       // explore 갱신
-      const exploreData = await fetchExploreScripts(token, sortType);
+      const exploreData = await fetchExploreScripts(sortType);
       setExplore(exploreData);
 
       // 장편/단편은 현재 페이지 기준으로 다시 가져오게 함
-      const longData = await getLongWorks(0, token, sortType);
-      const shortData = await getShortWorks(0, token, sortType);
+      const longData = await getLongWorks(0, sortType);
+      const shortData = await getShortWorks(0, sortType);
 
       setLongPlays(longData);
       setShortPlays(shortData);
@@ -208,11 +204,10 @@ const PostGallery = () => {
   // ----------------------------
   useEffect(() => {
     if (!inView || isLoading) return;
-    const token = Cookies.get("accessToken");
 
     (async () => {
       if (activeCategory === "장편" && hasMoreLongPlays) {
-        const data = await getLongWorks(longPlayPage, token, sortType);
+        const data = await getLongWorks(longPlayPage, sortType);
         if (data.length === 0) {
           setHasMoreLongPlays(false);
           return;
@@ -222,7 +217,7 @@ const PostGallery = () => {
       }
 
       if (activeCategory === "단편" && hasMoreShortPlays) {
-        const data = await getShortWorks(shortPlayPage, token, sortType);
+        const data = await getShortWorks(shortPlayPage, sortType);
         if (data.length === 0) {
           setHasMoreShortPlays(false);
           return;
@@ -293,9 +288,7 @@ const PostGallery = () => {
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
       {/*------ 작품 둘러보기 ------*/}
-      <p className="sm:h5-bold p-medium-bold mb-[30px] pl-[25px] sm:pl-0">
-        작품 둘러보기
-      </p>
+      <p className="sm:h5-bold p-medium-bold mb-[30px] pl-[25px] sm:pl-0">작품 둘러보기</p>
 
       {/*------ 배너 ------*/}
       <InfiniteBanner />
@@ -306,9 +299,7 @@ const PostGallery = () => {
         activeStage={activeStage}
         setActiveStage={(value) => handleChangeCategory(value, "stage")}
         activeStoryLength={activeCategory}
-        setActiveStoryLength={(value) =>
-          handleChangeCategory(value, "category")
-        }
+        setActiveStoryLength={(value) => handleChangeCategory(value, "category")}
         viewType={viewType}
         setViewType={setViewType}
         isSorted={true}
@@ -325,10 +316,7 @@ const PostGallery = () => {
           style={{ gridTemplateColumns: `repeat(${colNum}, minmax(0, 1fr))` }}
         >
           {Array.from({ length: postNum }).map((_, idx) => (
-            <div
-              key={idx}
-              className="animate-pulse rounded-2xl h-[189px] sm:h-[293px] "
-            >
+            <div key={idx} className="animate-pulse rounded-2xl h-[189px] sm:h-[293px] ">
               {/* 썸네일 영역 */}
               <div className="h-[120px] sm:h-[197px] w-full rounded-2xl bg-gray-200" />
 
@@ -395,15 +383,10 @@ const PostGallery = () => {
                   onToggleLike={handleLikeLong}
                 />
 
-                <ScrollObserver
-                  inViewRef={inViewRef}
-                  id={`long-${sortType}-${longPlayPage}`}
-                />
+                <ScrollObserver inViewRef={inViewRef} id={`long-${sortType}-${longPlayPage}`} />
               </>
             ) : (
-              <p className="m-auto w-fit p-large-bold mt-[80px]">
-                등록된 작품이 없습니다.
-              </p>
+              <p className="m-auto w-fit p-large-bold mt-[80px]">등록된 작품이 없습니다.</p>
             )}
           </div>
         </section>
@@ -431,15 +414,10 @@ const PostGallery = () => {
                   onToggleLike={handleLikeShort}
                 />
 
-                <ScrollObserver
-                  inViewRef={inViewRef}
-                  id={`short-${sortType}-${shortPlayPage}`}
-                />
+                <ScrollObserver inViewRef={inViewRef} id={`short-${sortType}-${shortPlayPage}`} />
               </>
             ) : (
-              <p className="m-auto w-fit p-large-bold mt-[80px]">
-                등록된 작품이 없습니다.
-              </p>
+              <p className="m-auto w-fit p-large-bold mt-[80px]">등록된 작품이 없습니다.</p>
             )}
           </div>
         </section>

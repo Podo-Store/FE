@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useNavigate } from "react-router-dom";
 
 import Button from "./../button/RoundBtn_149_48";

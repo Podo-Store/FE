@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -62,14 +61,7 @@ const List = () => {
   useRequest(async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${SERVER_URL}scripts`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
-        },
-      });
+      const response = await api.get("/scripts");
 
       setTruncatedLongPlays(response.data.longPlay);
       setTruncatedShortPlays(response.data.shortPlay);
@@ -123,13 +115,7 @@ const List = () => {
   const fetchPlays = async (playType) => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`${SERVER_URL}scripts/${playType}`, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: Cookies.get("accessToken")
-            ? `Bearer ${Cookies.get("accessToken")}`
-            : undefined,
-        },
+      const response = await api.get(`/scripts/${playType}`, {
         params: {
           page: page,
         },

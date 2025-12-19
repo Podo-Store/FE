@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import clsx from "clsx";
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -19,6 +19,7 @@ import bar from "../../assets/image/auth/bar.svg";
 import "./SignInDialog.scss";
 import "./../../styles/utilities.css";
 import { Dialog } from "@mui/material";
+import OAuthDiv from "./OAuthDiv";
 
 function SignInDialog() {
   const { login } = useContext(AuthContext);
@@ -54,7 +55,7 @@ function SignInDialog() {
     setIsIdPwMatch(false);
 
     try {
-      const { data } = await axios.post(`${SERVER_URL}auth/signin`, {
+      const { data } = await api.post(`/auth/signin`, {
         userId: id,
         password: pw,
       });
@@ -166,6 +167,19 @@ function SignInDialog() {
             로그인
           </BottomBtn>
         </div>
+
+        <div className="mt-[25px] sm:mt-[30px] mb-[35px] sm:mb-[40px]">
+          <div className="flex justify-between items-center">
+            <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
+            <p className="p-xs-medium sm:p-small-medium c-grey5">
+              다른 계정으로 로그인
+            </p>
+            <hr className="w-[69px] sm:w-[31.884057971014492753623188405797%] border-[1.5px] border-[#BABABA]"></hr>
+          </div>
+
+          <OAuthDiv setIsLoading={setIsLoading} />
+        </div>
+
         <div className="extra-link">
           <div className="flex">
             <p

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 
 import { Selector, PreviousButton, NextPurpleButton, NextGreyButton } from ".";
@@ -69,7 +69,7 @@ const SignUp3 = ({
 
     // 닉네임 중복 체크 API
     try {
-      const response = await axios.post(`${SERVER_URL}auth/checkNickname`, {
+      const response = await api.post(`/auth/checkNickname`, {
         nickname: name,
       });
       if (response.data === true) {

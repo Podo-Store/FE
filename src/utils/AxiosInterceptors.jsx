@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { api } from "@/api/api";
 
 /** Axios 인터셉터가 이미 설정되었는지를 추적 */
 let isInterceptorSetup = false;
@@ -31,18 +32,37 @@ const processQueue = (error, token = null) => {
  * @param {function} authActions.refreshAccessToken - 엑세스 토큰을 갱신하는 함수
  * @param {function} authActions.logout - 로그아웃 함수
  */
-const createAxiosResponseInterceptor = (authActions) => {
-  axios.interceptors.response.use(
+const createAxiosResponseInterceptor = (client, authActions) => {
+  client.interceptors.response.use(
     // 응답 성공 시 그대로 반환
     (response) => response,
     // 에러 시
     async (error) => {
       const originalRequest = error.config;
+      try {
+        const clientName = client === api ? "api" : "axios";
+        console.debug(`[${clientName}][res][error]`, {
+          url: originalRequest && originalRequest.url,
+          status: error && error.response && error.response.status,
+        });
+      } catch {}
 
       // 응답이 없거나 상태 코드가 401이 아니면 에러를 그대로 반환
       if (!error.response || error.response.status !== 401) {
         return Promise.reject(error);
       }
+
+      // 토큰 재발급 요청 자체가 401이면 재귀 방지를 위해 건너뜀
+      try {
+        const url = (originalRequest && originalRequest.url) || "";
+        if (typeof url === "string" && url.includes("/auth/newToken")) {
+          try {
+            const clientName = client === api ? "api" : "axios";
+            console.debug(`[${clientName}][401] skip retry on /auth/newToken`, { url });
+          } catch {}
+          return Promise.reject(error);
+        }
+      } catch {}
 
       // 이미 retry 중인 요청이면 queue에 추가
       if (originalRequest._retry) {
@@ -53,12 +73,24 @@ const createAxiosResponseInterceptor = (authActions) => {
       originalRequest._retry = true;
 
       if (isRefreshing) {
+        try {
+          const clientName = client === api ? "api" : "axios";
+          console.debug(`[${clientName}][401] queue while refreshing`, {
+            url: originalRequest && originalRequest.url,
+          });
+        } catch {}
         return new Promise(function (resolve, reject) {
           failedQueue.push({ resolve, reject });
         })
           .then((token) => {
             originalRequest.headers["Authorization"] = `Bearer ${token}`;
-            return axios(originalRequest);
+            try {
+              const clientName = client === api ? "api" : "axios";
+              console.debug(`[${clientName}][retry] using refreshed token`, {
+                url: originalRequest && originalRequest.url,
+              });
+            } catch {}
+            return client(originalRequest);
           })
           .catch((err) => {
             return Promise.reject(err);
@@ -66,24 +98,46 @@ const createAxiosResponseInterceptor = (authActions) => {
       }
 
       isRefreshing = true;
+      try {
+        const clientName = client === api ? "api" : "axios";
+        console.debug(`[${clientName}] start refreshing token`);
+      } catch {}
 
       return new Promise(async (resolve, reject) => {
         try {
           const newAccessToken = await authActions.refreshAccessToken();
           if (newAccessToken) {
-            axios.defaults.headers.common["Authorization"] = `Bearer ${newAccessToken}`;
-            originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+            client.defaults.headers.common[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
+            originalRequest.headers[
+              "Authorization"
+            ] = `Bearer ${newAccessToken}`;
             processQueue(null, newAccessToken);
-            resolve(axios(originalRequest));
+            try {
+              const clientName = client === api ? "api" : "axios";
+              console.debug(`[${clientName}][refresh] success; retrying`, {
+                url: originalRequest && originalRequest.url,
+              });
+            } catch {}
+            resolve(client(originalRequest));
           } else {
             processQueue(new Error("Failed to refresh token"), null);
             authActions.logout();
+            try {
+              const clientName = client === api ? "api" : "axios";
+              console.debug(`[${clientName}][refresh] failed: no token`);
+            } catch {}
             window.location.href = "/signin";
             reject(error);
           }
         } catch (err) {
           processQueue(err, null);
           authActions.logout();
+          try {
+            const clientName = client === api ? "api" : "axios";
+            console.debug(`[${clientName}][refresh] error`, err && err.response && err.response.status);
+          } catch {}
           window.location.href = "/signin";
           reject(err);
         } finally {
@@ -109,8 +163,47 @@ export const setupAxiosInterceptors = (authActions) => {
   axios.interceptors.request.use(
     (config) => {
       const token = Cookies.get("accessToken");
-      if (token) {
+      if (token && !(config.headers && config.headers["Authorization"])) {
         config.headers["Authorization"] = `Bearer ${token}`;
+        try {
+          console.debug(`[axios][req] attach Authorization`, {
+            url: config && config.url,
+            method: config && config.method,
+          });
+        } catch {}
+      } else {
+        try {
+          console.debug(`[axios][req] pass-through`, {
+            url: config && config.url,
+            method: config && config.method,
+            hadAuth: !!(config.headers && config.headers["Authorization"]),
+          });
+        } catch {}
+      }
+      return config;
+    },
+    (error) => Promise.reject(error)
+  );
+
+  api.interceptors.request.use(
+    (config) => {
+      const token = Cookies.get("accessToken");
+      if (token && !(config.headers && config.headers["Authorization"])) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+        try {
+          console.debug(`[api][req] attach Authorization`, {
+            url: config && config.url,
+            method: config && config.method,
+          });
+        } catch {}
+      } else {
+        try {
+          console.debug(`[api][req] pass-through`, {
+            url: config && config.url,
+            method: config && config.method,
+            hadAuth: !!(config.headers && config.headers["Authorization"]),
+          });
+        } catch {}
       }
       return config;
     },
@@ -118,7 +211,8 @@ export const setupAxiosInterceptors = (authActions) => {
   );
 
   // 응답 인터셉터 설정
-  createAxiosResponseInterceptor(authActions);
+  createAxiosResponseInterceptor(axios, authActions);
+  createAxiosResponseInterceptor(api, authActions);
 
   isInterceptorSetup = true;
 };

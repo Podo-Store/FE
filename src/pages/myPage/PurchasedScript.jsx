@@ -1,6 +1,5 @@
-import axios from "axios";
-import Cookies from "js-cookie";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import { api } from "@/api/api";
+import { useContext, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import ToggleSlideV2 from "../../components/button/ToggleSlideV2";
@@ -44,24 +43,14 @@ const PurchasedScript = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/orderScripts`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await api.get(`/profile/orderScripts`);
 
       if (response.data.orderList.length === 0) {
         setIsScriptListNull(true);
       }
       setScriptList(response.data.orderList);
 
-      const response2 = await axios.get(`${SERVER_URL}profile/orderPerformances`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response2 = await api.get(`/profile/orderPerformances`);
 
       if (response2.data.orderList.length === 0) {
         setIsPerformListNull(true);

@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 
 import { Selector, NextGreyButton, NextPurpleButton } from ".";
@@ -49,7 +49,7 @@ const SignUp1 = ({ onNext, userInfo, setUserInfo }) => {
     setHasIdDuplicateChecked(false);
 
     try {
-      const response = await axios.post(`${SERVER_URL}auth/checkUserId`, {
+      const response = await api.post(`/auth/checkUserId`, {
         userId: id,
         check: true,
       });

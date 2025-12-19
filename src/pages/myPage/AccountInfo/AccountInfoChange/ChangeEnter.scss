@@ -1,5 +1,5 @@
-@use "./../../../components/button/mixins.scss" as m;
-@use "../../../styles/responsive" as r;
+@use "@/components/button/mixins.scss" as m;
+@use "@/styles/responsive" as r;
 
 .info-change-enter h6 {
   margin: 0;

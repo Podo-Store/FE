@@ -78,7 +78,7 @@ const MyPageMenu = ({ nickname, currentPage }) => {
               <p
                 className="p-small-under c-pointer info-change-btn"
                 onClick={() => {
-                  navigate("/mypage/infochange");
+                  navigate("/mypage/info");
                 }}
               >
                 회원 정보 수정

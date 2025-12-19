@@ -40,10 +40,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
   const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   /** navigateWithRefresh 이후 창 닫기 */
-  const navigateWithRefreshAndClose = (
-    event: React.MouseEvent,
-    path: string
-  ) => {
+  const navigateWithRefreshAndClose = (event: React.MouseEvent, path: string) => {
     navigateWithRefresh(event, path);
     onClose();
   };
@@ -71,9 +68,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             position: "absolute",
             left: 0,
             top: 0,
-            width: `${
-              isSmallMobile ? "250px" : width < 768 ? "350px" : "540px"
-            } `,
+            width: `${isSmallMobile ? "250px" : width < 768 ? "350px" : "540px"} `,
             height: "100%",
             borderRadius: 0,
             maxWidth: "none",
@@ -90,11 +85,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
               navigateWithRefreshAndClose(event, "/");
             }}
           >
-            <img
-              className="hidden sm:block icon w-[23px]"
-              src={navLogo}
-              alt="logo"
-            />
+            <img className="hidden sm:block icon w-[23px]" src={navLogo} alt="logo" />
             <img
               className="w-[81px] h-[21px] sm:w-[108px] sm:h-[28px]"
               src={navTitle}
@@ -114,9 +105,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <div>
             <div className="flex flex-col py-[20px] sm:py-[40px] pl-[25px] sm:pl-[50px]">
               <h3 className="p-medium-bold sm:h3-bold">{userNickname} 님,</h3>
-              <h5 className="p-small-regular sm:h5-regular">
-                오늘도 달콤한 하루 되세요!
-              </h5>
+              <h5 className="p-small-regular sm:h5-regular">오늘도 달콤한 하루 되세요!</h5>
             </div>
             <div className="div-outside" />
           </div>
@@ -192,9 +181,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
       <div>
         <div className="authenticated-title">
           {isAuthenticated ? (
-            <h5 className="pl-[15px] sm:p-[25px] p-12-bold sm:h5-bold">
-              내 설정
-            </h5>
+            <h5 className="pl-[15px] sm:p-[25px] p-12-bold sm:h5-bold">내 설정</h5>
           ) : (
             <h5 className="p-12-bold sm:h5-bold">&nbsp;</h5>
           )}
@@ -204,7 +191,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigateWithRefreshAndClose(event, "/mypage/infochange");
+                navigateWithRefreshAndClose(event, "/mypage/info");
               }}
             >
               회원 정보 수정

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import Cookies from "js-cookie";
+
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import ScriptManageChangeFilePopup from "./ScriptManageChangeFilePopup";

@@ -106,7 +106,7 @@ const LikedWorks = () => {
     const loadScripts = async () => {
       try {
         if (activeCategory === "장편") {
-          const longData = await getLikedLongWorks(longPlayPage, accessToken);
+          const longData = await getLikedLongWorks(longPlayPage);
           if (longData.length === 0) {
             setHasMoreLongPlays(false);
             return;
@@ -125,10 +125,7 @@ const LikedWorks = () => {
             });
           }, 150);
         } else if (activeCategory === "단편") {
-          const shortData = await getLikedShortWorks(
-            shortPlayPage,
-            accessToken
-          );
+          const shortData = await getLikedShortWorks(shortPlayPage);
           if (shortData.length === 0) {
             setHasMoreShortPlays(false);
             return;
@@ -148,7 +145,7 @@ const LikedWorks = () => {
           }, 150);
         } else {
           //전체
-          const allData = await fetchLikedPost(accessToken);
+          const allData = await fetchLikedPost();
 
           setLongPlays(Array.isArray(allData.longPlay) ? allData.longPlay : []);
           setShortPlays(

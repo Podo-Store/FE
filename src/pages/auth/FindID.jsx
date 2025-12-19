@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "@/contexts/AuthContext";
@@ -77,7 +77,7 @@ const FindID = () => {
     setTimeout(() => setTimerReset(false), 100); // 타이머 리셋 상태를 빠르게 해제
 
     try {
-      await axios.post(`${SERVER_URL}auth/find/mailSend`, {
+      await api.post(`/auth/find/mailSend`, {
         email: email,
         flag: false,
         userId: "",
@@ -96,7 +96,7 @@ const FindID = () => {
   const onClickConfirmButton = async () => {
     // 이메일 코드 확인 API 호출, 조건문 사용
     try {
-      const response = await axios.post(`${SERVER_URL}auth/findUserId`, {
+      const response = await api.post(`/auth/findUserId`, {
         email: email,
         authNum: emailCode,
       });

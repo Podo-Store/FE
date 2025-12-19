@@ -1,13 +1,9 @@
-import Cookies from "js-cookie";
 import StatCard from "@/components/admin/dashBoard/StatCard";
 
 import { GetStatisticsResponse } from "@/api/admin/statisticApi";
 import { useAdminStatistics } from "@/hooks/useAdminStatistics";
 const AdminStatisticManage = () => {
-  const accessToken = Cookies.get("accessToken");
-
-  const { data, isLoading, isError, error, refetch, isFetching } =
-    useAdminStatistics(accessToken);
+  const { data, isLoading, isError, error, refetch } = useAdminStatistics();
 
   if (isLoading) {
     return (

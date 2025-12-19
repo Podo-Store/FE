@@ -1,13 +1,8 @@
-import axios from "axios";
-import Cookies from "js-cookie";
 import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
-import {
-  RectInputField,
-  RectPhoneInputField,
-} from "../../components/inputField";
+import { RectInputField, RectPhoneInputField } from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -20,7 +15,6 @@ import { useNicepay } from "@/hooks/useNicepay";
 import { formatPrice } from "../../utils/formatPrice";
 
 import { PURCHASE_TEXT } from "../../constants/PopupTexts/PurchaseTexts";
-import { SERVER_URL } from "../../constants/ServerURL";
 
 import circleGreyWarning from "../../assets/image/myPage/circleGreyWarning.svg";
 import circleInfoBtn from "../../assets/image/button/circleInfoBtn.svg";
@@ -32,6 +26,7 @@ import "./../../styles/utilities.css";
 import AmountChangePurchase from "@/components/detail/AmountChangePurchase";
 import PurchaseMethodBtn from "@/components/purchase/PurchaseMethodBtn";
 import AuthContext from "@/contexts/AuthContext";
+import { api } from "@/api/api";
 
 const Purchase = () => {
   const { userId } = useContext(AuthContext);
@@ -51,8 +46,7 @@ const Purchase = () => {
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
-  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] =
-    useState(1);
+  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] = useState(1);
 
   // 공연권 거래 시
   const [showPopup, setShowPopup] = useState(false);
@@ -144,11 +138,7 @@ const Purchase = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}order/item`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
+      const response = await api.get("/order/item", {
         params: {
           productId: id,
           script: isScriptSelected,
@@ -188,16 +178,11 @@ const Purchase = () => {
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
   useEffect(() => {
-    if (
-      !(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)
-    ) {
+    if (!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)) {
       setButtonEnabled(false);
       return;
     }
-    if (
-      isPerformSelected &&
-      !(name.length > 0 && phone.length > 0 && address.length > 0)
-    ) {
+    if (isPerformSelected && !(name.length > 0 && phone.length > 0 && address.length > 0)) {
       setButtonEnabled(false);
       return;
     }
@@ -214,7 +199,7 @@ const Purchase = () => {
     //   setIsLoading(false);
     //   return;
     // }
-    
+
     if (buyPerform && !phoneValid) {
       alert("전화번호 입력 형식을 다시 확인해 주세요 (010-****-****)");
       setIsLoading(false);
@@ -225,8 +210,7 @@ const Purchase = () => {
     const payableAmount =
       (buyScript ? Number(scriptPrice || 0) : 0) +
       (buyPerform
-        ? Number(performPricePerAmount || 0) *
-          Number(modifiedPurchasePerformAmount || 0)
+        ? Number(performPricePerAmount || 0) * Number(modifiedPurchasePerformAmount || 0)
         : 0);
 
     // 3) 서버로 보낼 body
@@ -239,7 +223,6 @@ const Purchase = () => {
         },
       ],
       paymentMethod: payableAmount === 0 ? 0 : 1, // 0원: 0, 유료: 1,
-      userId,
     };
 
     if (buyPerform) {
@@ -249,16 +232,7 @@ const Purchase = () => {
     try {
       // 4) 무료 결제면 주문만 만들고 바로 성공 페이지
       if (payableAmount === 0) {
-        const response = await axios.post(
-          `${SERVER_URL}order/item`,
-          requestBody,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${Cookies.get("accessToken")}`,
-            },
-          }
-        );
+        const response = await api.post("/order/item", requestBody);
         const orderData = response.data[0];
         // navigate("/purchase/success", {
         //   state: { orderId: orderData.id },
@@ -267,11 +241,18 @@ const Purchase = () => {
         return;
       }
 
+      const orderRes = await api.post("/order/item", requestBody);
+
+      const orderId = orderRes.data?.orderId;
+
+      if (!orderId) {
+        alert(orderRes.data?.error ?? "주문 생성 실패");
+        return;
+      }
+
       // 5) 유료 결제: NICEPAY 결제창 호출
       if (!nicepayReady) {
-        alert(
-          "결제 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요."
-        );
+        alert("결제 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.");
         setIsLoading(false);
         return;
       }
@@ -284,8 +265,7 @@ const Purchase = () => {
           ? `${title} - 대본`
           : `${title} - 공연권`;
 
-      const nicepayMethod =
-        method === 1 ? "card" : method === 2 ? "vbank" : "bank";
+      const nicepayMethod = method === 1 ? "card" : method === 2 ? "vbank" : "bank";
 
       const vbankOptions =
         nicepayMethod === "vbank"
@@ -295,20 +275,17 @@ const Purchase = () => {
             }
           : {};
 
-      sessionStorage.setItem(
-        "podo_payment_request",
-        JSON.stringify(requestBody)
-      );
-      
+      sessionStorage.setItem("podo_payment_request", JSON.stringify(requestBody));
+
       setIsPayModalOpen(true);
 
       requestPay({
         clientId: import.meta.env.VITE_NICEPAY_CLIENT_KEY,
         method: nicepayMethod, // 'card' | 'bank' | 'vbank'
-        orderId: nicepayOrderId,
+        orderId,
         amount: payableAmount,
         goodsName,
-        returnUrl: `${SERVER_URL}order/item`,
+        returnUrl: `${SERVER_URL}order/nicepay/return`,
         mallReserved: JSON.stringify(requestBody),
         fnError: (e) => {
           const msg = e?.errorMsg || "";
@@ -331,9 +308,7 @@ const Purchase = () => {
 
       // 백엔드가 "이미 처리중인 주문" 등을 400으로 보낸 경우, 기존 orderId가 있으면 재사용
       if (error?.response?.status === 400) {
-        alert(
-          "이전 미결제 주문이 있어요. 같은 주문으로 다시 결제창을 띄울게요."
-        );
+        alert("이전 미결제 주문이 있어요. 같은 주문으로 다시 결제창을 띄울게요.");
         setIsLoading(false);
         return;
       }
@@ -359,9 +334,7 @@ const Purchase = () => {
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
-                    <p className="left-margin p-small-bold sm:p-large-bold">
-                      {title}
-                    </p>
+                    <p className="left-margin p-small-bold sm:p-large-bold">{title}</p>
                     <hr className="mt-[9px] mb-[4px]"></hr>
                     <p className="left-margin mt-[8px] sm:mt-0 p-12-bold sm:p-large-medium">
                       {author}
@@ -388,9 +361,8 @@ const Purchase = () => {
                   <p className="p-large-bold">공연권</p>
                   <div style={{ height: "6px" }}></div>
                   <p className="p-xs-regular">
-                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
-                    저작자의 것임을 표시해야 하며, 대본이 ‘포도상점’을 통하여
-                    제공되었음을 표시하여야 합니다.
+                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                    하며, 대본이 ‘포도상점’을 통하여 제공되었음을 표시하여야 합니다.
                   </p>
                   <div style={{ height: "16px" }}></div>
                 </div>
@@ -398,13 +370,9 @@ const Purchase = () => {
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail f-dir-column j-content-between h-full">
                     <div className="">
-                      <p className="left-margin p-small-bold sm:p-large-bold">
-                        {title}
-                      </p>
+                      <p className="left-margin p-small-bold sm:p-large-bold">{title}</p>
                       <hr className="mt-[9px] mb-[4px]"></hr>
-                      <p className="left-margin p-12-bold sm:p-large-medium">
-                        {author}
-                      </p>
+                      <p className="left-margin p-12-bold sm:p-large-medium">{author}</p>
                       {/*<p id="tag"># {lengthType}</p>*/}
                       <div className="detail-price">
                         <div className="price-wrap">
@@ -419,9 +387,7 @@ const Purchase = () => {
                       <AmountChangePurchase
                         performPrice={performPrice}
                         purchasePerformAmount={modifiedPurchasePerformAmount}
-                        setPurchasePerformAmount={
-                          setModifiedPurchasePerformAmount
-                        }
+                        setPurchasePerformAmount={setModifiedPurchasePerformAmount}
                       />
                     </div>
                   </div>
@@ -458,9 +424,7 @@ const Purchase = () => {
               <div className="purchase-method flex flex-col justify-between">
                 <div>
                   <div className="purchase-method-title">
-                    <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">
-                      결제 방법
-                    </p>
+                    <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">결제 방법</p>
                   </div>
                   <div className="btn-wrap grid grid-cols-[repeat(2,max-content)] gap-x-[24px] gap-y-[15px] sm:grid-cols-[repeat(3,max-content)] sm:gap-[19px] md:grid-cols-[repeat(2,max-content)] md:gap-x-[14px] md:gap-y-[26px] xl:grid-cols-[repeat(3,max-content)] xl:gap-[19px]">
                     <PurchaseMethodBtn

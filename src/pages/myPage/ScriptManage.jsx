@@ -1,5 +1,4 @@
-import axios from "axios";
-import Cookies from "js-cookie";
+import { api } from "@/api/api";
 import { useContext, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
@@ -29,12 +28,7 @@ const ScriptManage = () => {
   useRequest(async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(`${SERVER_URL}profile/work`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("accessToken")}`,
-        },
-      });
+      const response = await api.get("/profile/work")
       if (response.data.dateWorks.length === 0) {
         setIsNull(true);
       }

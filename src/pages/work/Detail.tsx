@@ -1,4 +1,4 @@
-import axios from "axios";
+import { api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext, lazy, Suspense } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -28,7 +28,6 @@ import {
   DETAIL_SCRIPT_TEXT,
   DETAIL_PERFORM_TEXT,
 } from "../../constants/PopupTexts/DetailTexts";
-import { SERVER_URL } from "../../constants/ServerURL";
 import { LIKE } from "@/constants/alertTexts";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
@@ -136,17 +135,8 @@ const Detail = () => {
       setReviews([]);
       setReviewPage(0);
 
-      const headers: Record<string, string> = {
-        "Content-Type": "application/json",
-      };
-
-      const token = Cookies.get("accessToken");
-      if (token) {
-        headers["Authorization"] = `Bearer ${token}`;
-      }
       try {
-        const response = await axios.get(`${SERVER_URL}scripts/detail`, {
-          headers: headers,
+        const response = await api.get(`/scripts/detail`, {
           params: {
             script: id,
             sortType: sort,
@@ -198,16 +188,12 @@ const Detail = () => {
       setIsLoading(false);
       inflightRef.current.delete(key);
 
-      const { data: description } = await axios.get(
-        `${SERVER_URL}scripts/description`,
-        {
-          headers: headers,
-          params: {
-            script: id,
-          },
-          responseType: "blob",
-        }
-      );
+      const { data: description } = await api.get(`/scripts/description`, {
+        params: {
+          script: id,
+        },
+        responseType: "blob",
+      });
 
       setDescription(URL.createObjectURL(description));
     };
@@ -220,14 +206,7 @@ const Detail = () => {
     if (reviewPage === 0) return;
     const fetchMore = async () => {
       try {
-        const token = Cookies.get("accessToken");
-        const headers: Record<string, string> = {
-          "Content-Type": "application/json",
-          ...(token && { Authorization: `Bearer ${token}` }),
-        };
-
-        const { data } = await axios.get(`${SERVER_URL}scripts/detail`, {
-          headers,
+        const { data } = await api.get(`/scripts/detail`, {
           params: { script: id, sortType: sort, page: reviewPage },
         });
 

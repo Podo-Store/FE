@@ -2,7 +2,10 @@ import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import OnOffBtn from "../../components/button/OnOffBtn";
-import { RectInputField, RectPhoneInputField } from "../../components/inputField";
+import {
+  RectInputField,
+  RectPhoneInputField,
+} from "../../components/inputField";
 import PurchaseSummaryBox from "../../components/payment/PurchaseSummaryBox";
 import InfoPopup from "../../components/popup/InfoPopup";
 import PurchaseCheckBox from "../../components/purchase/PurchaseCheckBox";
@@ -27,6 +30,7 @@ import AmountChangePurchase from "@/components/detail/AmountChangePurchase";
 import PurchaseMethodBtn from "@/components/purchase/PurchaseMethodBtn";
 import AuthContext from "@/contexts/AuthContext";
 import { api } from "@/api/api";
+import { SERVER_URL } from "@/constants/ServerURL";
 
 const Purchase = () => {
   const { userId } = useContext(AuthContext);
@@ -46,7 +50,8 @@ const Purchase = () => {
 
   const [totalPrice, setTotalPrice] = useState(scriptPrice);
 
-  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] = useState(1);
+  const [modifiedPurchasePerformAmount, setModifiedPurchasePerformAmount] =
+    useState(1);
 
   // 공연권 거래 시
   const [showPopup, setShowPopup] = useState(false);
@@ -178,11 +183,16 @@ const Purchase = () => {
   }, [buyScript, buyPerform, scriptPrice, performPrice]);
 
   useEffect(() => {
-    if (!(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)) {
+    if (
+      !(checkBoxCondition.purchaseAgreement && checkBoxCondition.refundPolicy)
+    ) {
       setButtonEnabled(false);
       return;
     }
-    if (isPerformSelected && !(name.length > 0 && phone.length > 0 && address.length > 0)) {
+    if (
+      isPerformSelected &&
+      !(name.length > 0 && phone.length > 0 && address.length > 0)
+    ) {
       setButtonEnabled(false);
       return;
     }
@@ -210,7 +220,8 @@ const Purchase = () => {
     const payableAmount =
       (buyScript ? Number(scriptPrice || 0) : 0) +
       (buyPerform
-        ? Number(performPricePerAmount || 0) * Number(modifiedPurchasePerformAmount || 0)
+        ? Number(performPricePerAmount || 0) *
+          Number(modifiedPurchasePerformAmount || 0)
         : 0);
 
     // 3) 서버로 보낼 body
@@ -252,7 +263,9 @@ const Purchase = () => {
 
       // 5) 유료 결제: NICEPAY 결제창 호출
       if (!nicepayReady) {
-        alert("결제 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.");
+        alert(
+          "결제 모듈이 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요."
+        );
         setIsLoading(false);
         return;
       }
@@ -265,7 +278,8 @@ const Purchase = () => {
           ? `${title} - 대본`
           : `${title} - 공연권`;
 
-      const nicepayMethod = method === 1 ? "card" : method === 2 ? "vbank" : "bank";
+      const nicepayMethod =
+        method === 1 ? "card" : method === 2 ? "vbank" : "bank";
 
       const vbankOptions =
         nicepayMethod === "vbank"
@@ -275,7 +289,10 @@ const Purchase = () => {
             }
           : {};
 
-      sessionStorage.setItem("podo_payment_request", JSON.stringify(requestBody));
+      sessionStorage.setItem(
+        "podo_payment_request",
+        JSON.stringify(requestBody)
+      );
 
       setIsPayModalOpen(true);
 
@@ -308,7 +325,9 @@ const Purchase = () => {
 
       // 백엔드가 "이미 처리중인 주문" 등을 400으로 보낸 경우, 기존 orderId가 있으면 재사용
       if (error?.response?.status === 400) {
-        alert("이전 미결제 주문이 있어요. 같은 주문으로 다시 결제창을 띄울게요.");
+        alert(
+          "이전 미결제 주문이 있어요. 같은 주문으로 다시 결제창을 띄울게요."
+        );
         setIsLoading(false);
         return;
       }
@@ -334,7 +353,9 @@ const Purchase = () => {
                 <div className="purchase-list">
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail">
-                    <p className="left-margin p-small-bold sm:p-large-bold">{title}</p>
+                    <p className="left-margin p-small-bold sm:p-large-bold">
+                      {title}
+                    </p>
                     <hr className="mt-[9px] mb-[4px]"></hr>
                     <p className="left-margin mt-[8px] sm:mt-0 p-12-bold sm:p-large-medium">
                       {author}
@@ -361,8 +382,9 @@ const Purchase = () => {
                   <p className="p-large-bold">공연권</p>
                   <div style={{ height: "6px" }}></div>
                   <p className="p-xs-regular">
-                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
-                    하며, 대본이 ‘포도상점’을 통하여 제공되었음을 표시하여야 합니다.
+                    공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
+                    저작자의 것임을 표시해야 하며, 대본이 ‘포도상점’을 통하여
+                    제공되었음을 표시하여야 합니다.
                   </p>
                   <div style={{ height: "16px" }}></div>
                 </div>
@@ -370,9 +392,13 @@ const Purchase = () => {
                   <ThumbnailImg imagePath={thumbnailImg} />
                   <div className="detail f-dir-column j-content-between h-full">
                     <div className="">
-                      <p className="left-margin p-small-bold sm:p-large-bold">{title}</p>
+                      <p className="left-margin p-small-bold sm:p-large-bold">
+                        {title}
+                      </p>
                       <hr className="mt-[9px] mb-[4px]"></hr>
-                      <p className="left-margin p-12-bold sm:p-large-medium">{author}</p>
+                      <p className="left-margin p-12-bold sm:p-large-medium">
+                        {author}
+                      </p>
                       {/*<p id="tag"># {lengthType}</p>*/}
                       <div className="detail-price">
                         <div className="price-wrap">
@@ -387,7 +413,9 @@ const Purchase = () => {
                       <AmountChangePurchase
                         performPrice={performPrice}
                         purchasePerformAmount={modifiedPurchasePerformAmount}
-                        setPurchasePerformAmount={setModifiedPurchasePerformAmount}
+                        setPurchasePerformAmount={
+                          setModifiedPurchasePerformAmount
+                        }
                       />
                     </div>
                   </div>
@@ -424,7 +452,9 @@ const Purchase = () => {
               <div className="purchase-method flex flex-col justify-between">
                 <div>
                   <div className="purchase-method-title">
-                    <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">결제 방법</p>
+                    <p className="p-medium-bold sm:p-large-bold whitespace-nowrap">
+                      결제 방법
+                    </p>
                   </div>
                   <div className="btn-wrap grid grid-cols-[repeat(2,max-content)] gap-x-[24px] gap-y-[15px] sm:grid-cols-[repeat(3,max-content)] sm:gap-[19px] md:grid-cols-[repeat(2,max-content)] md:gap-x-[14px] md:gap-y-[26px] xl:grid-cols-[repeat(3,max-content)] xl:gap-[19px]">
                     <PurchaseMethodBtn

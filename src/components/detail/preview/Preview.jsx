@@ -1,5 +1,5 @@
 import { api } from "@/api/api";
-import { lazy, useRef, useState } from "react";
+import { lazy, Suspense, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import Modal from "./Modal";

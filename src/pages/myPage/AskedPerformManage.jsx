@@ -65,7 +65,10 @@ const AskedPerformManage = () => {
         })),
       }));
 
-      setList(mappedList);
+      // 첫번째 item 열려있도록
+      const newList = [...mappedList];
+      newList[0].open = true;
+      setList(newList);
     } catch (error) {
       alert(error.response.data.error);
     }
@@ -77,9 +80,7 @@ const AskedPerformManage = () => {
   }
 
   const pLargeBoldClassName = !isSmallMobile ? "p-large-bold" : "p-small-bold";
-  const pSmallRegularClassName = !isSmallMobile
-    ? "p-small-regular"
-    : "p-xs-regular";
+  const pSmallRegularClassName = !isSmallMobile ? "p-small-regular" : "p-xs-regular";
 
   return (
     <div className="asked-perform-manage">
@@ -89,18 +90,14 @@ const AskedPerformManage = () => {
           등록한 작품들을 관리할 수 있어요!
         </h4>
 
-        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>
-          공연 신청 정보
-        </p>
+        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>공연 신청 정보</p>
         <hr />
         <div className=" contents">
           <div className=" script-info f-dir-column a-items-center j-content-between">
             <div className=" script-info-title f-dir-column a-items-center">
-              <ThumbnailImg />
+              <ThumbnailImg imagePath={productInfo.imagePath} />
               <div style={{ height: "12px" }}></div>
-              <p className={pLargeBoldClassName}>
-                {productInfo.title || "제목"}
-              </p>
+              <p className={pLargeBoldClassName}>{productInfo.title || "제목"}</p>
               <hr />
               <p className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}>
                 {productInfo.writer || "작가"}
@@ -114,8 +111,7 @@ const AskedPerformManage = () => {
                 <div className="title j-content-between a-items-end">
                   <p className={pLargeBoldClassName}>대본</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.script}>
-                    {!isSmallMobile && "대본"}{" "}
-                    {productInfo.script ? "판매 중" : "판매 중지"}
+                    {!isSmallMobile && "대본"} {productInfo.script ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
@@ -123,27 +119,20 @@ const AskedPerformManage = () => {
                     <p className={pSmallRegularClassName}>
                       {formatPrice(productInfo.scriptPrice)}원
                     </p>
-                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
-                      가격
-                    </p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>가격</p>
                   </div>
                   <hr />
                   <div className="sales-status-box-value f-dir-column a-items-center">
-                    <p className={pSmallRegularClassName}>
-                      {productInfo.scriptQuantity}개
-                    </p>
-                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
-                      판매 수
-                    </p>
+                    <p className={pSmallRegularClassName}>{productInfo.scriptQuantity}개</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>판매 수</p>
                   </div>
                 </div>
               </div>
               <div className="sales-status-box">
                 <div className="title j-content-between a-items-end">
                   <p className={pLargeBoldClassName}>공연권</p>
-                  <ScriptManageEachTopBtn disabled={!productInfo.perform}>
-                    {!isSmallMobile && "공연권"}{" "}
-                    {productInfo.perform ? "판매 중" : "판매 중지"}
+                  <ScriptManageEachTopBtn disabled={!productInfo.performance}>
+                    {!isSmallMobile && "공연권"} {productInfo.performance ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
                 <div className="content j-content-center">
@@ -151,18 +140,12 @@ const AskedPerformManage = () => {
                     <p className={pSmallRegularClassName}>
                       {formatPrice(productInfo.performancePrice)}원
                     </p>
-                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
-                      가격
-                    </p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>가격</p>
                   </div>
                   <hr />
                   <div className="sales-status-box-value f-dir-column a-items-center">
-                    <p className={pSmallRegularClassName}>
-                      {productInfo.performanceQuantity}개
-                    </p>
-                    <p className={clsx("c-grey5", pSmallRegularClassName)}>
-                      판매 수
-                    </p>
+                    <p className={pSmallRegularClassName}>{productInfo.performanceQuantity}개</p>
+                    <p className={clsx("c-grey5", pSmallRegularClassName)}>판매 수</p>
                   </div>
                 </div>
               </div>
@@ -174,16 +157,10 @@ const AskedPerformManage = () => {
                 <div
                   key={index}
                   className="asked-perform-box"
-                  style={
-                    index !== item.lists.length - 1
-                      ? { marginBottom: "2.685vh" }
-                      : {}
-                  }
+                  style={index !== item.lists.length - 1 ? { marginBottom: "2.685vh" } : {}}
                 >
                   <div className="date flex justify-between items-center">
-                    <p className={clsx("text-[#8f8f8f]", pLargeBoldClassName)}>
-                      {item.date}
-                    </p>
+                    <p className={clsx("text-[#8f8f8f]", pLargeBoldClassName)}>{item.date}</p>
                     {item.open ? (
                       <img
                         className="c-pointer"
@@ -214,42 +191,24 @@ const AskedPerformManage = () => {
                         <div className="content-inside">
                           <p className="p-medium-bold">신청자 정보</p>
                           <div className="user-info j-content-between">
-                            <ShortInputField
-                              value={subItem.name}
-                              readOnly={true}
-                            />
-                            <ShortInputField
-                              value={subItem.phone}
-                              readOnly={true}
-                            />
+                            <ShortInputField value={subItem.name} readOnly={true} />
+                            <ShortInputField value={subItem.phone} readOnly={true} />
                           </div>
-                          <LongInputField
-                            value={subItem.address}
-                            readOnly={true}
-                          />
+                          <LongInputField value={subItem.address} readOnly={true} />
                         </div>
                         <div className="content-inside">
                           <p className="p-medium-bold">예상 공연 일자</p>
                           <div className="date-list">
                             {subItem.performDate.map((date, dateIndex) => (
-                              <ShortInputField
-                                key={dateIndex}
-                                value={date}
-                                readOnly={true}
-                              />
+                              <ShortInputField key={dateIndex} value={date} readOnly={true} />
                             ))}
                             {subItem.performDate.length < subItem.amount &&
                               Array.from(
                                 {
-                                  length:
-                                    subItem.amount - subItem.performDate.length,
+                                  length: subItem.amount - subItem.performDate.length,
                                 },
                                 (_, index) => (
-                                  <ShortInputField
-                                    key={index}
-                                    value="미 입력"
-                                    readOnly={true}
-                                  />
+                                  <ShortInputField key={index} value="미 입력" readOnly={true} />
                                 )
                               )}
                           </div>

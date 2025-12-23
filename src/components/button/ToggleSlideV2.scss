@@ -1,0 +1,15 @@
+@use "./../../styles/responsive.scss" as r;
+
+.toggle-slide-v2 {
+  .slide-left {
+    transform: translateX(0);
+  }
+
+  /* 전체 - 슬라이더 영역 - border */
+  .slide-right {
+    transform: translateX(calc(198px - 111px - 8px));
+    @include r.media-mobile {
+      transform: translateX(calc(126px - 72px - 6px));
+    }
+  }
+}

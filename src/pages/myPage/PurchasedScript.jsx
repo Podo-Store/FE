@@ -2,7 +2,7 @@ import { api } from "@/api/api";
 import { useContext, useState } from "react";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
-import ToggleSlide from "../../components/button/ToggleSlide";
+import ToggleSlideV2 from "../../components/button/ToggleSlideV2";
 import PartialLoading from "../../components/loading/PartialLoading";
 import {
   MyPageMenu,
@@ -12,7 +12,6 @@ import {
 } from "../../components/myPage";
 import NullScriptContent from "@/components/myPage/NullScriptContent";
 import { useRequest } from "../../hooks/useRequest";
-import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 import AuthContext from "../../contexts/AuthContext";
 
@@ -22,7 +21,8 @@ import circleGreyWarning from "./../../assets/image/myPage/circleGreyWarning.svg
 
 import "./MyPageContentsDefault.scss";
 import "./PurchasedScript.scss";
-import { clsx } from "clsx";
+import InfoPopup from "@/components/popup/InfoPopup";
+import GrayPopup from "@/components/popup/GrayPopup";
 
 const PurchasedScript = () => {
   const [scriptList, setScriptList] = useState([]);
@@ -32,16 +32,12 @@ const PurchasedScript = () => {
 
   const { userNickname } = useContext(AuthContext);
 
-  // const [toggle, setToggle] = useState(false);
-  const toggle = true;
+  const [openPopup, setOpenPopup] = useState(false);
+  const [toggle, setToggle] = useState(false);
+  // const toggle = true;
 
   const [isScriptListNull, setIsScriptListNull] = useState(false);
   const [isPerformListNull, setIsPerformListNull] = useState(false);
-
-  // MyPageMenu 스크롤 제어
-
-  const { width } = useWindowDimensions();
-  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   // API 요청
   useRequest(async () => {
@@ -74,65 +70,46 @@ const PurchasedScript = () => {
         <MyPageMenu nickname={userNickname} currentPage="0" />
         <div className="content-side">
           <div className="content-side-grid">
-            <h4
-              className={clsx(
-                "whitespace-nowrap",
-                !isSmallMobile ? "h4-bold" : "p-medium-bold"
-              )}
-            >
-              구매한 작품들을 볼 수 있어요!
-            </h4>
-            <div className="grid-item-first">
-              {!toggle ? (
-                width <= 1279 && (
-                  <div className="warning-box script d-flex">
-                    <img src={circleGreyWarning} alt="!" />
-                    <div className="warning-box-content f-dir-column j-content-center">
-                      <p className="p-xs-regular">
-                        대본과 공연권은 구매시점으로부터 3개월 이내만 사용
-                        가능해요.
-                      </p>
-                    </div>
-                  </div>
-                )
-              ) : width > 1919 ? (
-                <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
-                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 제공되었음을
-                  표시하여야 합니다.
-                </div>
-              ) : width <= 1919 && width > 1279 ? (
-                <div className="warning p-xs-regular">
-                  공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의
-                  것임을 표시해야 하며, 대본이 '포도상점'을 통하여 <br />
-                  제공되었음을 표시하여야 합니다.
-                </div>
-              ) : (
-                <div className="warning-box perform d-flex">
-                  <img src={circleGreyWarning} alt="!" />
-                  <div className="warning-box-content f-dir-column j-content-between">
+            <div className="flex items-center gap-[8px]">
+              <h4 className="p-medium-bold sm:h4-bold whitespace-nowrap">
+                구매한 작품들을 볼 수 있어요!
+              </h4>
+              <div className="flex relative">
+                <button
+                  type="button"
+                  className="block xl:hidden cursor-pointer"
+                  onClick={() => setOpenPopup(!openPopup)}
+                >
+                  <img className="size-[19px]! max-w-[19px]!" src={circleGreyWarning} />
+                </button>
+                {openPopup && (
+                  <GrayPopup
+                    onClose={() => setOpenPopup(false)}
+                    className="left-[100%] translate-x-[calc(-134px-68px)] translate-y-[calc(19px+10px)] sm:left-[-5px] sm:translate-x-[-100%] sm:translate-y-0 md:left-[25px] md:translate-x-0"
+                  >
                     <p className="p-xs-regular">
-                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이
-                      저작자의 것임을 표시해야 하며, 대본이 '포도상점'을 통하여
-                      제공되었음을 표시하여야 합니다.
+                      공연권은 구매시점으로부터 3개월 이내만 사용 가능해요.
+                      <br />
+                      <br />
+                      공연권 사용 시 홍보물에 반드시 저작자의 이름과 대본이 저작자의 것임을 표시해야
+                      하며, 대본이 '포도상점'을 통하여 제공되었음을 표시하여야 합니다.
+                      <br />
+                      <br />
+                      대본 파일, 각색 및 굿즈 제작 관련하여 포도상점 메일로 문의해주세요.
                     </p>
-                    <p className="p-xs-regular">
-                      대본과 공연권은 구매시점으로부터 3개월 이내만 사용
-                      가능해요.
-                    </p>
-                  </div>
-                </div>
-              )}
+                  </GrayPopup>
+                )}
+              </div>
             </div>
-            {/*
+
             <div className="toggle-wrap">
-              <ToggleSlide
+              <ToggleSlideV2
                 toggle={toggle}
                 onChangeToggle={() => {
                   setToggle(!toggle);
                 }}
               />
-            </div>*/}
+            </div>
           </div>
 
           <div style={{ height: "1.75vh" }}></div>

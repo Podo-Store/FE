@@ -18,13 +18,7 @@ import "./../../styles/utilities.css";
  * @param {number} props.buyPerformance - 0: 구매 불가, 1: 계약 필요, 2: 구매 가능 아이콘 추가
  * @returns
  */
-const PurchasedScriptBtn = ({
-  id,
-  title,
-  productId,
-  buyPerformance,
-  style,
-}) => {
+const PurchasedScriptBtn = ({ script, id, title, productId, buyPerformance, style }) => {
   const navigate = useNavigate();
 
   const onClickPurchasePerform = async () => {
@@ -38,28 +32,6 @@ const PurchasedScriptBtn = ({
     });
   };
 
-  const onClickDownloadScript = async () => {
-    toastAlert("다운로드 중입니다.", "info");
-    try {
-      const response = await api.get(`/profile/download`, {
-        params: {
-          id: id,
-        },
-        responseType: "blob",
-      });
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `${title}.pdf`); // 파일명 추출 및 설정
-      document.body.appendChild(link);
-      link.click(); // 링크 클릭으로 다운로드 시작
-      link.remove(); // 링크 요소 제거
-    } catch (error) {
-      alert(error.response.data.error);
-    }
-  };
-
   return (
     <div className="j-content-end purchased-script-btn">
       {buyPerformance !== 0 ? (
@@ -68,8 +40,17 @@ const PurchasedScriptBtn = ({
         </Button>
       ) : null}
 
-      <Button onClick={onClickDownloadScript} style={style}>
-        대본 받기
+      <Button
+        onClick={() => {
+          navigate(`/list/view/${productId}`, {
+            state: {
+              script,
+            },
+          });
+        }}
+        style={style}
+      >
+        대본 열람하기
       </Button>
     </div>
   );

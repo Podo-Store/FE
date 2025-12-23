@@ -11,6 +11,7 @@ import "./MyPageMenu.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 import { useSnapshot } from "valtio";
+import { twJoin } from "tailwind-merge";
 
 /**
  *
@@ -86,10 +87,35 @@ const MyPageMenu = ({ nickname, currentPage }) => {
           </div>
 
           {currentPage === "0" ? (
-            <div id="grey-rectangle">
-              <img src={circleGreyWarning} alt="warn" className="warning-img" />
-              <p className="p-medium-regular c-grey">
-                대본과 공연권은 구매시점으로부터<br></br>3개월 이내만 사용 가능해요.
+            <div
+              className={twJoin(
+                "flex gap-[10px] p-[18px] w-[290px] rounded-[10px] border border-[#777]",
+                isFooterVisible ? "" : "fixed bottom-[81px]"
+              )}
+            >
+              <img src={circleGreyWarning} alt="warn" className="size-[19px]" />
+              <p className="p-medium-regular text-[#777]">
+                대본과 공연권은 구매시점으로부터
+                <br />
+                3개월 이내만 사용 가능해요.
+                <br />
+                <br />
+                공연권 사용 시 홍보물에 반드시
+                <br />
+                저작자의 이름과 대본이 저작자의
+                <br />
+                것임을 표시해야 하며, 대본이
+                <br />
+                '포도상점'을 통하여 제공되었음을
+                <br />
+                표시하여야 합니다.
+                <br />
+                <br />
+                대본 파일, 각색 및 굿즈 제작
+                <br />
+                관련하여 포도상점 메일로 문의
+                <br />
+                해주세요.
               </p>
             </div>
           ) : null}

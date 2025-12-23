@@ -1,5 +1,5 @@
 import { api } from "@/api/api";
-import { useRef, useState } from "react";
+import { lazy, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 import Modal from "./Modal";
@@ -43,8 +43,7 @@ const Preview = ({ id, lengthType }) => {
   const showThreshold = lengthType === "SHORT" ? 2 : 4;
 
   // for Responsive design
-  const totalRevealedPages =
-    width >= 1280 ? 5 : width >= 768 ? 3 : !isSmallMobile ? 2 : 1;
+  const totalRevealedPages = width >= 1280 ? 5 : width >= 768 ? 3 : !isSmallMobile ? 2 : 1;
 
   useRequest(async () => {
     try {
@@ -120,82 +119,58 @@ const Preview = ({ id, lengthType }) => {
             {/* 썸네일로 상위 5개 페이지 표시 */}
             {/* showThreshold까지만 pdf를 가져옴, 이후 페이지는 마지막 페이지를 복사하도록*/}
             {numPages && (
-              <div
-                className="flex flex-row gap-[20px] j-content-start"
-                id="wrap"
-              >
-                {Array.from(
-                  new Array(Math.min(totalPages, totalRevealedPages)),
-                  (_, index) => {
-                    const isShort = lengthType === "SHORT";
+              <div className="flex flex-row gap-[20px] j-content-start" id="wrap">
+                {Array.from(new Array(Math.min(totalPages, totalRevealedPages)), (_, index) => {
+                  const isShort = lengthType === "SHORT";
 
-                    let isPageAvailable = true;
-                    if (lengthType === "SHORT") {
-                      // showThreshold까지의 모든 페이지 활성화
+                  let isPageAvailable = true;
+                  if (lengthType === "SHORT") {
+                    // showThreshold까지의 모든 페이지 활성화
+                    isPageAvailable = index + 1 <= showThreshold;
+                  } else {
+                    // lengthType === "LONG"
+                    if (width >= 1280) {
                       isPageAvailable = index + 1 <= showThreshold;
+                    } else if (!isSmallMobile) {
+                      isPageAvailable = index + 1 < totalRevealedPages;
                     } else {
-                      // lengthType === "LONG"
-                      if (width >= 1280) {
-                        isPageAvailable = index + 1 <= showThreshold;
-                      } else if (!isSmallMobile) {
-                        isPageAvailable = index + 1 < totalRevealedPages;
-                      } else {
-                        isPageAvailable = 1;
-                      }
+                      isPageAvailable = 1;
                     }
-
-                    return (
-                      <div
-                        key={index + 1}
-                        className={` c-pointer no-drag ${
-                          !isPageAvailable ? "content-disabled" : ""
-                        }`}
-                        id="thumbnail-content"
-                        onClick={() => {
-                          if (isPageAvailable) {
-                            onClickPage(
-                              isShort
-                                ? Math.min(index + 1, showThreshold)
-                                : index + 1
-                            );
-                          }
-                        }}
-                      >
-                        {!isPageAvailable && <div id="shadow-box"></div>}
-                        <div id={!isPageAvailable ? "blur" : undefined}>
-                          <Page
-                            renderMode="canvas"
-                            pageNumber={
-                              isPageAvailable ? index + 1 : showThreshold
-                            }
-                            width={210}
-                          />
-                        </div>
-                        <p
-                          className="p-small-regular t-align-center"
-                          id="page-number"
-                        >
-                          {index + 1}
-                        </p>
-                        {index + 1 === totalRevealedPages && (
-                          <p
-                            className="p-large-regular c-white"
-                            id="last-number"
-                          >
-                            {totalPages - totalRevealedPages} +
-                          </p>
-                        )}
-                        {isPageAvailable && (
-                          <img
-                            src={previewGlass}
-                            alt="Preview Glass"
-                            id="preview-glass"
-                          />
-                        )}
-                      </div>
-                    );
                   }
-                )}
+
+                  return (
+                    <div
+                      key={index + 1}
+                      className={` c-pointer no-drag ${!isPageAvailable ? "content-disabled" : ""}`}
+                      id="thumbnail-content"
+                      onClick={() => {
+                        if (isPageAvailable) {
+                          onClickPage(isShort ? Math.min(index + 1, showThreshold) : index + 1);
+                        }
+                      }}
+                    >
+                      {!isPageAvailable && <div id="shadow-box"></div>}
+                      <div id={!isPageAvailable ? "blur" : undefined}>
+                        <Page
+                          renderMode="canvas"
+                          pageNumber={isPageAvailable ? index + 1 : showThreshold}
+                          width={210}
+                        />
+                      </div>
+                      <p className="p-small-regular t-align-center" id="page-number">
+                        {index + 1}
+                      </p>
+                      {index + 1 === totalRevealedPages && (
+                        <p className="p-large-regular c-white" id="last-number">
+                          {totalPages - totalRevealedPages} +
+                        </p>
+                      )}
+                      {isPageAvailable && (
+                        <img src={previewGlass} alt="Preview Glass" id="preview-glass" />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
 

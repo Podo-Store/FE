@@ -74,7 +74,7 @@ const AdminOrderManage = () => {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       setLoading(true);
       setError(null);
       try {
@@ -95,7 +95,13 @@ const AdminOrderManage = () => {
         setTotalCount(response.data.orderCnt);
         setTotalPages(Math.ceil(response.data.orderCnt / 10));
       } catch (error: any) {
-        if (error.response?.data?.error) {
+        if (retryCount < 1) {
+          // 최대 1번 재시도, 짧은 딜레이 후 재시도
+          await new Promise((resolve) => {
+            setTimeout(resolve, 500);
+          });
+          return fetchData(retryCount + 1);
+        } else if (error.response?.data?.error) {
           setError(error.response.data.error);
         } else {
           setError("데이터를 불러오는 데 실패했습니다.");
@@ -109,10 +115,7 @@ const AdminOrderManage = () => {
   }, [page, searchText]);
 
   // 페이지 변경 핸들러
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -125,19 +128,13 @@ const AdminOrderManage = () => {
         onClose={() => setShowAlert({ ...showAlert, show: false })}
         anchorOrigin={{ vertical: "top", horizontal: "right" }}
       >
-        <Alert
-          severity={showAlert.success ? "success" : "error"}
-          sx={{ width: "100%" }}
-        >
+        <Alert severity={showAlert.success ? "success" : "error"} sx={{ width: "100%" }}>
           {showAlert.message}
         </Alert>
       </Snackbar>
 
       {/* 상단 카운트 */}
-      <div
-        className="j-content-end"
-        style={{ gap: "16px", marginBottom: "16px" }}
-      >
+      <div className="flex justify-end gap-[16px] mb-[16px]">
         <Typography variant="h6">주문 완료: {doneCount}</Typography>
         {/* <Typography variant="h6">결제 대기: {waitingCount}</Typography> */}
       </div>
@@ -162,10 +159,7 @@ const AdminOrderManage = () => {
         />
 
         {/* 필터 버튼 */}
-        <div
-          className="j-content-between a-items-center"
-          style={{ marginBottom: "16px" }}
-        >
+        <div className="flex justify-between items-center mb-[16px]">
           <h4 className="h4-bold">전체 {totalCount}</h4>
         </div>
 
@@ -200,26 +194,17 @@ const AdminOrderManage = () => {
                 data.map((item, index) => (
                   <TableRow key={item.id}>
                     <TableCellCenter>{item.id}</TableCellCenter>
-                    <TableCellCenter>
-                      {new Date(item.orderDate).toLocaleString()}
-                    </TableCellCenter>
+                    <TableCellCenter>{new Date(item.orderDate).toLocaleString()}</TableCellCenter>
                     <TableCellCenter>{item.title}</TableCellCenter>
                     <TableCellCenter>{item.writer}</TableCellCenter>
                     <TableCellCenter>{item.customer}</TableCellCenter>
                     <TableCellCenter>
+                      <Typography variant="body2">대본: {item.script ? "O" : "X"}</Typography>
                       <Typography variant="body2">
-                        대본: {item.script ? "O" : "X"}
-                      </Typography>
-                      <Typography variant="body2">
-                        공연:{" "}
-                        {item.performanceAmount > 0
-                          ? item.performanceAmount
-                          : "없음"}
+                        공연: {item.performanceAmount > 0 ? item.performanceAmount : "없음"}
                       </Typography>
                     </TableCellCenter>
-                    <TableCellCenter>
-                      {formatPrice(item.totalPrice)}
-                    </TableCellCenter>
+                    <TableCellCenter>{formatPrice(item.totalPrice)}</TableCellCenter>
                   </TableRow>
                 ))
               ) : (
@@ -234,19 +219,8 @@ const AdminOrderManage = () => {
         </TableContainer>
 
         {/* 페이지네이션 */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "16px",
-          }}
-        >
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            color="primary"
-          />
+        <div className="flex justify-center mt-[16px]">
+          <Pagination count={totalPages} page={page} onChange={handlePageChange} color="primary" />
         </div>
       </Paper>
     </>

@@ -57,9 +57,7 @@ const AdminScriptManage = () => {
 
   // 작품 제목 / 작가명 변경
   const [tempTitleMap, setTempTitleMap] = useState<Record<string, string>>({});
-  const [tempWriterMap, setTempWriterMap] = useState<Record<string, string>>(
-    {}
-  );
+  const [tempWriterMap, setTempWriterMap] = useState<Record<string, string>>({});
 
   // 전체
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -72,7 +70,7 @@ const AdminScriptManage = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (retryCount = 0) => {
       setLoading(true);
       setError(null);
       try {
@@ -97,7 +95,12 @@ const AdminScriptManage = () => {
         setTotalCount(response.data.productCnt);
         setTotalPages(Math.ceil(response.data.productCnt / 10));
       } catch (error: any) {
-        if (error.response?.data?.error) {
+        if (retryCount < 1) {
+          await new Promise((resolve) => {
+            setTimeout(resolve, 500);
+          });
+          return fetchData(retryCount + 1);
+        } else if (error.response?.data?.error) {
           setError(error.response.data.error);
         } else {
           setError("데이터를 불러오는 데 실패했습니다.");
@@ -111,10 +114,7 @@ const AdminScriptManage = () => {
   }, [page, searchText, filterStatus]);
 
   // 페이지 변경 핸들러
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
@@ -128,18 +128,19 @@ const AdminScriptManage = () => {
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await api.patch("/admin/products/title", {
-        productId: id,
-        title: newTitle,
-      }, {
-        withCredentials: true,
-      });
+      await api.patch(
+        "/admin/products/title",
+        {
+          productId: id,
+          title: newTitle,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
-      toastAlert(
-        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
-        "error"
-      );
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
     }
   };
 
@@ -147,27 +148,25 @@ const AdminScriptManage = () => {
   const handleUpdateWriter = async (id: string) => {
     const newWriter = tempWriterMap[id];
     // 새로 입력하지 않았거나 기존 제목과 같으면 API 호출 X
-    if (
-      !newWriter ||
-      newWriter === data.find((item) => item.id === id)?.writer
-    ) {
+    if (!newWriter || newWriter === data.find((item) => item.id === id)?.writer) {
       return;
     }
 
     toastAlert("수정사항 반영 중...", "info");
     try {
-      await api.patch("/admin/products/writer", {
-        productId: id,
-        writer: newWriter,
-      }, {
-        withCredentials: true,
-      });
+      await api.patch(
+        "/admin/products/writer",
+        {
+          productId: id,
+          writer: newWriter,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
-      toastAlert(
-        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
-        "error"
-      );
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
     }
   };
 
@@ -220,26 +219,30 @@ const AdminScriptManage = () => {
     const type = updatedData.find((item) => item.id === id)?.playType;
 
     try {
-      await api.patch(`/admin/products/${id}`, {
-        playType: type,
-        productStatus: newPermission,
-      }, {
-        withCredentials: true,
-      });
+      await api.patch(
+        `/admin/products/${id}`,
+        {
+          playType: type,
+          productStatus: newPermission,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       toastAlert("수정이 완료되었습니다.", "success");
     } catch (error) {
-      toastAlert(
-        "오류가 발생했습니다. 새로고침 후 다시 시도해주세요.",
-        "error"
-      );
+      toastAlert("오류가 발생했습니다. 새로고침 후 다시 시도해주세요.", "error");
     }
   };
 
   const permissionToStatus = {
     WAIT: "대기",
+    RE_WAIT: "재심사 대기",
     PASS: "수락",
+    RE_PASS: "재심사 수락",
     REJECT: "거절",
+    RE_REJECT: "재심사 거절",
   };
 
   return (
@@ -266,9 +269,9 @@ const AdminScriptManage = () => {
           }}
         />
 
-        <div className="j-content-between a-items-center">
+        <div className="flex justify-between items-center">
           <h4 className="h4-bold">전체 {totalCount}</h4>
-          <span className="d-flex" style={{ gap: "8px" }}>
+          <span className="flex gap-[8px]">
             <Button
               variant={filterStatus === "ALL" ? "contained" : "outlined"}
               onClick={() => setFilterStatus("ALL")}
@@ -292,6 +295,24 @@ const AdminScriptManage = () => {
               onClick={() => setFilterStatus("REJECT")}
             >
               등록 거절
+            </Button>
+            <Button
+              variant={filterStatus === "RE_PASS" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("RE_PASS")}
+            >
+              재심사 수락
+            </Button>
+            <Button
+              variant={filterStatus === "RE_WAIT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("RE_WAIT")}
+            >
+              재심사 대기
+            </Button>
+            <Button
+              variant={filterStatus === "RE_REJECT" ? "contained" : "outlined"}
+              onClick={() => setFilterStatus("RE_REJECT")}
+            >
+              재심사 거절
             </Button>
           </span>
         </div>
@@ -326,9 +347,7 @@ const AdminScriptManage = () => {
               ) : data.length > 0 ? (
                 data.map((item, index) => (
                   <TableRow key={item.id}>
-                    <TableCellCenter>
-                      {totalCount - ((page - 1) * 10 + index)}
-                    </TableCellCenter>
+                    <TableCellCenter>{totalCount - ((page - 1) * 10 + index)}</TableCellCenter>
                     <TableCellCenter>{item.createdAt}</TableCellCenter>
                     <TableCellCenter>
                       <TextField
@@ -362,10 +381,11 @@ const AdminScriptManage = () => {
                     </TableCellCenter>
                     <TableCellCenter
                       sx={{
+                        width: 130,
                         backgroundColor:
-                          item.checked === "PASS"
+                          item.checked === "PASS" || item.checked === "RE_PASS"
                             ? "#C8E6C9"
-                            : item.checked === "REJECT"
+                            : item.checked === "REJECT" || item.checked === "RE_REJECT"
                             ? "#FFCDD2"
                             : "#E2E2E2",
                       }}
@@ -390,12 +410,9 @@ const AdminScriptManage = () => {
                       </ToggleButtonGroup>
                     </TableCellCenter>
                     <TableCellCenter>
-                      <div
-                        className="j-content-between"
-                        style={{ marginRight: "16px" }}
-                      >
+                      <div className="flex justify-between mr-[16px]">
                         <DownloadSvg
-                          className="c-pointer"
+                          className="cursor-pointer"
                           onClick={() => {
                             onClickDownload(item.id, item.title);
                           }}
@@ -410,15 +427,30 @@ const AdminScriptManage = () => {
                           <>
                             {/* 대기 */}
                             <AcceptSvg
-                              className="c-pointer"
+                              className="cursor-pointer"
                               onClick={() => {
                                 onChangePermission(item.id, "PASS");
                               }}
                             />
                             <DenySvg
-                              className="c-pointer"
+                              className="cursor-pointer"
                               onClick={() => {
                                 onChangePermission(item.id, "REJECT");
+                              }}
+                            />
+                          </>
+                        ) : item.checked === "RE_WAIT" ? (
+                          <>
+                            <AcceptSvg
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "PASS");
+                              }}
+                            />
+                            <DenySvg
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "RE_REJECT");
                               }}
                             />
                           </>
@@ -428,16 +460,52 @@ const AdminScriptManage = () => {
                             <AcceptSvg
                               fill="#6A39C0"
                               opacity="0.5"
-                              className="c-pointer"
+                              className="cursor-pointer"
                               onClick={() => {
                                 onChangePermission(item.id, "WAIT");
                               }}
                             />
                             <DenySvg
                               fill="#bababa"
-                              className="c-pointer"
+                              className="cursor-pointer"
                               onClick={() => {
                                 onChangePermission(item.id, "REJECT");
+                              }}
+                            />
+                          </>
+                        ) : item.checked === "RE_PASS" ? (
+                          <>
+                            <AcceptSvg
+                              fill="#6A39C0"
+                              opacity="0.5"
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "RE_WAIT");
+                              }}
+                            />
+                            <DenySvg
+                              fill="#bababa"
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "RE_REJECT");
+                              }}
+                            />
+                          </>
+                        ) : item.checked === "RE_REJECT" ? (
+                          <>
+                            <AcceptSvg
+                              fill="#bababa"
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "PASS");
+                              }}
+                            />
+                            <DenySvg
+                              fill="#6A39C0"
+                              opacity="0.5"
+                              className="cursor-pointer"
+                              onClick={() => {
+                                onChangePermission(item.id, "RE_WAIT");
                               }}
                             />
                           </>
@@ -476,19 +544,8 @@ const AdminScriptManage = () => {
           </Table>
         </TableContainer>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "16px",
-          }}
-        >
-          <Pagination
-            count={totalPages}
-            page={page}
-            onChange={handlePageChange}
-            color="primary"
-          />
+        <div className="flex justify-center mt-[16px]">
+          <Pagination count={totalPages} page={page} onChange={handlePageChange} color="primary" />
         </div>
       </Paper>
     </>

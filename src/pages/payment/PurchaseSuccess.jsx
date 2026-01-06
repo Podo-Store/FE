@@ -16,11 +16,11 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 const PurchaseSuccess = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const stateOrderId = location.state?.orderId;
+  const statePgOrderId = location.state?.pgOrderId;
 
   const queryParams = new URLSearchParams(location.search);
-  const queryOrderId = queryParams.get("orderId");
-  const orderId = stateOrderId || queryOrderId;
+  const queryPgOrderId = queryParams.get("pgOrderId");
+  const pgOrderId = statePgOrderId || queryPgOrderId;
 
   const [orderDate, setOrderDate] = useState("");
   const [scriptTitle, setScriptTitle] = useState("");
@@ -38,7 +38,7 @@ const PurchaseSuccess = () => {
     try {
       const response = await api.get(`/order/success`, {
         params: {
-          orderId,
+          pgOrderId,
         },
       });
 
@@ -60,8 +60,8 @@ const PurchaseSuccess = () => {
     return <Loading />;
   }
 
-  if (!orderId) {
-    // orderId가 정말 없으면 에러 처리 가능
+  if (!pgOrderId) {
+    // pgOrderId 정말 없으면 에러 처리 가능
     return <div>잘못된 접근입니다.</div>;
   }
   return (
@@ -73,7 +73,7 @@ const PurchaseSuccess = () => {
             <p>&nbsp;{formattedOrderDate}</p>
             <div className="order-num">
               <p>주문 번호</p>
-              <p>{orderId}</p>
+              <p>{pgOrderId}</p>
             </div>
           </div>
           <div className="w-[280px] sm:w-[414px]">

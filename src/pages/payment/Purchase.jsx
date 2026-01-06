@@ -254,7 +254,7 @@ const Purchase = () => {
 
       const orderRes = await api.post("/order/item", requestBody);
 
-      const orderId = orderRes.data?.orderId;
+      const orderId = orderRes.data?.pgOrderId;
 
       if (!orderId) {
         alert(orderRes.data?.error ?? "주문 생성 실패");

@@ -88,6 +88,7 @@ const AdminScriptManage = () => {
 
         const response = await api.get<ApiResponse>(`/admin/products`, {
           params: params,
+          withCredentials: true,
         });
 
         setData(response.data.products);
@@ -130,6 +131,8 @@ const AdminScriptManage = () => {
       await api.patch("/admin/products/title", {
         productId: id,
         title: newTitle,
+      }, {
+        withCredentials: true,
       });
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
@@ -156,6 +159,8 @@ const AdminScriptManage = () => {
       await api.patch("/admin/products/writer", {
         productId: id,
         writer: newWriter,
+      }, {
+        withCredentials: true,
       });
       toastAlert("수정사항이 반영되었습니다.", "success");
     } catch (error) {
@@ -186,6 +191,7 @@ const AdminScriptManage = () => {
     try {
       const response = await api.get(`/admin/download/${id}`, {
         responseType: "blob",
+        withCredentials: true,
       });
 
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -217,6 +223,8 @@ const AdminScriptManage = () => {
       await api.patch(`/admin/products/${id}`, {
         playType: type,
         productStatus: newPermission,
+      }, {
+        withCredentials: true,
       });
 
       toastAlert("수정이 완료되었습니다.", "success");

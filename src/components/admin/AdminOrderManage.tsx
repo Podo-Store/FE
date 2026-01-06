@@ -87,6 +87,7 @@ const AdminOrderManage = () => {
 
         const response = await api.get<ApiResponse>(`/admin/orders`, {
           params: params,
+          withCredentials: true,
         });
 
         setData(response.data.orders);

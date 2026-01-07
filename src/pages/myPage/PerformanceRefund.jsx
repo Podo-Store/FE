@@ -99,12 +99,8 @@ const PerformanceRefund = () => {
   };
 
   const mediumBoldClassName = !isSmallMobile ? "p-medium-bold" : "p-xs-bold";
-  const mediumRegularClassName = !isSmallMobile
-    ? "p-medium-regular"
-    : "p-xs-regular";
-  const largeMediumClassName = !isSmallMobile
-    ? "p-large-medium"
-    : "p-xs-medium";
+  const mediumRegularClassName = !isSmallMobile ? "p-medium-regular" : "p-xs-regular";
+  const largeMediumClassName = !isSmallMobile ? "p-large-medium" : "p-xs-medium";
 
   return (
     <div>
@@ -114,9 +110,7 @@ const PerformanceRefund = () => {
           구매한 작품들을 볼 수 있어요!
         </h4>
 
-        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>
-          공연권 환불 신청
-        </p>
+        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>공연권 환불 신청</p>
         <hr />
         <section className="f-dir-column a-items-center">
           <div className="script">
@@ -125,20 +119,12 @@ const PerformanceRefund = () => {
               <div className="script-detail">
                 <div className="script-tag">
                   <div className="d-flex a-items-center" id="title">
-                    <p
-                      className={
-                        !isSmallMobile ? "p-large-bold" : "p-small-bold"
-                      }
-                      id="title"
-                    >
+                    <p className={!isSmallMobile ? "p-large-bold" : "p-small-bold"} id="title">
                       {title}
                     </p>
                   </div>
                   <hr></hr>
-                  <p
-                    className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
-                    id="author"
-                  >
+                  <p className={!isSmallMobile ? "p-large-medium" : "p-12-bold"} id="author">
                     {author}
                   </p>
                 </div>
@@ -157,26 +143,15 @@ const PerformanceRefund = () => {
               <hr />
               <div className="j-content-between detail-content">
                 <p className={clsx(mediumBoldClassName, "c-grey")}>주문번호</p>
-                <p className={clsx(mediumRegularClassName, "c-grey")}>
-                  {orderNum}
-                </p>
+                <p className={clsx(mediumRegularClassName, "c-grey")}>{orderNum}</p>
               </div>
               <hr />
               <div className="j-content-between detail-content">
-                <p className={clsx(mediumBoldClassName, "c-grey")}>
-                  구매한 공연권 수량 및 금액
-                </p>
+                <p className={clsx(mediumBoldClassName, "c-grey")}>구매한 공연권 수량 및 금액</p>
                 <div className="j-content-end">
-                  <p className={clsx(largeMediumClassName, "c-grey")}>
-                    {orderedAmount}
-                  </p>
+                  <p className={clsx(largeMediumClassName, "c-grey")}>{orderedAmount}</p>
                   <div className="price-default-left" />
-                  <p
-                    className={clsx(
-                      largeMediumClassName,
-                      "c-grey price-default"
-                    )}
-                  >
+                  <p className={clsx(largeMediumClassName, "c-grey price-default")}>
                     {formatPrice(orderedPrice)}원
                   </p>
                 </div>
@@ -187,34 +162,19 @@ const PerformanceRefund = () => {
                   환불 가능한 공연권 수량 및 금액
                 </p>
                 <div className="j-content-end">
-                  <p className={clsx(largeMediumClassName, "c-grey")}>
-                    {refundPossibleAmount}
-                  </p>
+                  <p className={clsx(largeMediumClassName, "c-grey")}>{refundPossibleAmount}</p>
                   <div className="price-default-left" />
-                  <p
-                    className={clsx(
-                      largeMediumClassName,
-                      "c-grey price-default"
-                    )}
-                  >
+                  <p className={clsx(largeMediumClassName, "c-grey price-default")}>
                     {formatPrice(refundPossiblePrice)}원
                   </p>
                 </div>
               </div>
               <hr />
-              <div
-                className="j-content-between a-items-center detail-content"
-                id="total"
-              >
-                <p className={mediumBoldClassName}>
-                  환불 예정 공연권 수량 및 금액
-                </p>
+              <div className="j-content-between a-items-center detail-content" id="total">
+                <p className={mediumBoldClassName}>환불 예정 공연권 수량 및 금액</p>
                 <div className="j-content-end a-items-center">
                   {refundPossibleAmount !== 1 ? (
-                    <div
-                      className="j-content-between a-items-center"
-                      id="total-amount"
-                    >
+                    <div className="j-content-between a-items-center" id="total-amount">
                       <img
                         className="c-pointer"
                         src={minusBtn}
@@ -223,9 +183,7 @@ const PerformanceRefund = () => {
                           changeAmount(-1);
                         }}
                       />
-                      <p
-                        className={clsx(largeMediumClassName, "t-align-center")}
-                      >
+                      <p className={clsx(largeMediumClassName, "t-align-center")}>
                         {currentAmount}
                       </p>
                       <img
@@ -252,9 +210,7 @@ const PerformanceRefund = () => {
 
             <hr />
             <div className="j-content-between a-items-center">
-              <p className={!isSmallMobile ? "p-medium-bold" : "p-small-bold"}>
-                환불 사유
-              </p>
+              <p className={!isSmallMobile ? "p-medium-bold" : "p-small-bold"}>환불 사유</p>
             </div>
             <div style={{ height: "0.63rem" }} />
             <PerformInputField
@@ -303,21 +259,18 @@ const PerformanceRefund = () => {
                 신청하기
               </SmallOnOffBtn>
             </div>
-            {showPopup ? (
-              <div className="f-dir-column j-content-center" id="refund-popup">
+            {!showPopup ? (
+              <div className="refund-popup flex flex-col justify-center text-center p-small-bold sm:p-medium-bold">
                 <p>환불 신청이 완료되었어요.</p>
-                <div className="d-flex">
-                  <p>환불에는 영업일 기준&nbsp;</p>
-                  <p className="c-main">2-4일</p>
-                  <p>&nbsp;이 필요해요.</p>
-                </div>
+                <p>
+                  환불에는 영업일 기준&nbsp;<span className="text-main">2-4일</span>이 필요해요.
+                </p>
                 <p>환불이 완료되면 저장된 메일 주소로</p>
-                <div className="d-flex">
-                  <p className="c-main">환불 완료 메일</p>
-                  <p>을 보내드리니 확인 부탁드려요.</p>
-                </div>
+                <p>
+                  <span className="text-main">환불 완료 메일</span>을 보내드리니 확인 부탁드려요.
+                </p>
 
-                <div className="j-content-center" id="bottom-btn-wrap">
+                <div className="flex justify-center mt-[26px]">
                   <OnOffBtn
                     text="구매한 작품으로 돌아가기"
                     color="purple"

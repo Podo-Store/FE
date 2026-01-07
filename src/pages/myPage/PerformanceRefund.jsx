@@ -14,8 +14,6 @@ import useWindowDimensions from "@/hooks/useWindowDimensions.ts";
 import { formatPrice } from "../../utils/formatPrice";
 import formatDate2 from "../../utils/formatDate2";
 
-import { SERVER_URL } from "../../constants/ServerURL";
-
 import plusBtn from "../../assets/image/button/circleAddBtn.svg";
 import minusBtn from "../../assets/image/button/circleSubBtn.svg";
 
@@ -23,7 +21,6 @@ import "./PerformanceRefund.scss";
 import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import clsx from "clsx";
 
 const PerformanceRefund = () => {
   const [thumbnail, setThumbnail] = useState("");
@@ -45,7 +42,6 @@ const PerformanceRefund = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   const MAX_LENGTH = 50;
 
@@ -99,8 +95,8 @@ const PerformanceRefund = () => {
   };
 
   return (
-    <div>
-      <div className="min-height perform-refund perform-top">
+    <div className="perform-top">
+      <div className="min-height perform-refund">
         <GoBack url="/mypage/purchased" />
         <h4 className="p-medium-bold sm:h4-bold">구매한 작품들을 볼 수 있어요!</h4>
 
@@ -108,7 +104,7 @@ const PerformanceRefund = () => {
         <hr />
         <section className="flex flex-col items-center">
           <div className="script">
-            <div className="flex">
+            <div className="flex gap-[15px] sm:gap-[32px]">
               <ThumbnailImg imagePath={thumbnail} />
               <div className="script-detail">
                 <div className="script-tag">
@@ -174,7 +170,7 @@ const PerformanceRefund = () => {
                   {refundPossibleAmount !== 1 ? (
                     <div className="flex justify-between items-center" id="total-amount">
                       <img
-                        className="c-pointer"
+                        className="cursor-pointer"
                         src={minusBtn}
                         alt="minusBtn"
                         onClick={() => {
@@ -183,7 +179,7 @@ const PerformanceRefund = () => {
                       />
                       <p className="p-xs-medium sm:p-large-medium text-center">{currentAmount}</p>
                       <img
-                        className="c-pointer"
+                        className="cursor-pointer"
                         src={plusBtn}
                         alt="plusBtn"
                         onClick={() => {
@@ -224,7 +220,7 @@ const PerformanceRefund = () => {
                 }
               }}
               rightElement={
-                <p className="p-xs-medium c-default" id="length">
+                <p className="p-xs-medium cursor-default" id="length">
                   {currentLength} / {MAX_LENGTH}
                 </p>
               }

@@ -1,6 +1,20 @@
 @use "./../../styles/_responsive.scss" as r;
 
 .perform-top {
+  margin: 0 auto;
+  padding: 0 50px;
+
+  max-width: 1280px;
+
+  @include r.media-mobile {
+    padding: 0 25px;
+  }
+  @include r.media-small-mobile {
+    padding: 0 20px;
+  }
+}
+
+.perform-top > * {
   margin: 3.426vh 0;
 }
 
@@ -17,12 +31,13 @@
   margin-top: 3.241vh;
   margin-bottom: 1.75rem;
 
-  width: 629px;
+  width: 100%;
+  max-width: 630px;
   @include r.media-mobile {
-    width: 430px;
+    padding: 0;
   }
   @include r.media-small-mobile {
-    width: 280px;
+    padding: 0 5px;
   }
 }
 
@@ -31,15 +46,7 @@
   flex-direction: column;
   justify-content: space-between;
 
-  margin-left: 2rem;
-
-  width: 349px;
-  @include r.media-mobile {
-    width: 205px;
-  }
-  @include r.media-small-mobile {
-    margin-left: 15px;
-  }
+  flex: 1;
 }
 
 .perform-top .script-detail div#title {

@@ -33,12 +33,12 @@ export const PostChangeScript = async (
   try {
     const formData = new FormData();
     formData.append("script", scriptFile);
+    formData.append("id", id);
 
     const response = await api.post<boolean>(
       `/profile/work/changeScript`,
       formData,
       {
-        params: { id },
         withCredentials: true,
       }
     );

@@ -245,10 +245,11 @@ const Purchase = () => {
       if (payableAmount === 0) {
         const response = await api.post("/order/item", requestBody);
         const orderData = response.data[0];
-        // navigate("/purchase/success", {
-        //   state: { orderId: orderData.id },
-        // });
         setIsLoading(false);
+        navigate("/purchase/success", {
+          state: { orderId: orderData.id },
+        });
+
         return;
       }
 

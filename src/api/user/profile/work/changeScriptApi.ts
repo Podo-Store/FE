@@ -34,9 +34,14 @@ export const PostChangeScript = async (
     const formData = new FormData();
     formData.append("script", scriptFile);
 
-    const response = await api.post<boolean>(`/profile/work/changeScript/${id}`, formData, {
-      withCredentials: true,
-    });
+    const response = await api.post<boolean>(
+      `/profile/work/changeScript`,
+      formData,
+      {
+        params: { id },
+        withCredentials: true,
+      }
+    );
 
     return response.data;
   } catch (error) {

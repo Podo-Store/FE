@@ -119,6 +119,14 @@ function App() {
             path="mypage/scriptmanage"
             element={<ProtectedRoute element={<ScriptManage />} />}
           />
+          <Route
+            path="mypage/purchased/performance-refund/:id"
+            element={<ProtectedRoute element={<PerformanceRefund />} />}
+          />
+          <Route
+            path="mypage/purchased/performance-info/:id"
+            element={<ProtectedRoute element={<PerformanceInfo />} />}
+          />
 
           <Route path="mypage/info" element={<ProtectedRoute element={<AccountInfo />} />} />
           <Route
@@ -143,14 +151,6 @@ function App() {
             />
             <Route path="purchase/abort" element={<ProtectedRoute element={<Abort />} />} />
             <Route path="post" element={<PostWork />} />
-            <Route
-              path="mypage/purchased/performance-info/:id"
-              element={<ProtectedRoute element={<PerformanceInfo />} />}
-            />
-            <Route
-              path="mypage/purchased/performance-refund/:id"
-              element={<ProtectedRoute element={<PerformanceRefund />} />}
-            />
             <Route
               path="mypage/scriptmanage/detail/:scriptId"
               element={<ProtectedRoute element={<ScriptManageDetail />} />}

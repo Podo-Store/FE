@@ -18,6 +18,7 @@
 /* PerformanceRefund css */
 .perform-refund .script > hr {
   margin-top: 2.5vh;
+  margin-bottom: 6px;
 }
 
 .perform-refund div#detail {
@@ -87,33 +88,23 @@
   margin-top: 7.5vh;
 }
 
-.perform-refund div#refund-popup {
-  padding: 0 24px;
+.perform-refund .refund-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
   padding-top: 42px;
   padding-bottom: 23px;
 
-  position: absolute; /* 부모 요소를 기준으로 절대 위치 */
-  top: 50%; /* 화면의 50% 지점으로 설정 */
-  left: 50%; /* 화면의 50% 지점으로 설정 */
-  transform: translate(-50%, -50%);
+  width: 350px;
 
   border-radius: 20px;
   background: var(--grey-grey-1, #fbfbfb);
   box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
   z-index: 1000;
-}
 
-.perform-refund div#refund-popup p {
-  text-align: center;
-
-  /* Paragraph/Medium/Bold */
-  font-family: "Noto Sans KR";
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px; /* 150% */
-}
-
-.perform-refund div#refund-popup div#bottom-btn-wrap {
-  margin-top: 26px;
+  @include r.media-small-mobile {
+    width: 280px;
+  }
 }

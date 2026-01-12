@@ -14,8 +14,6 @@ import useWindowDimensions from "@/hooks/useWindowDimensions.ts";
 import { formatPrice } from "../../utils/formatPrice";
 import formatDate2 from "../../utils/formatDate2";
 
-import { SERVER_URL } from "../../constants/ServerURL";
-
 import plusBtn from "../../assets/image/button/circleAddBtn.svg";
 import minusBtn from "../../assets/image/button/circleSubBtn.svg";
 
@@ -23,7 +21,6 @@ import "./PerformanceRefund.scss";
 import "./PerformanceTop.scss";
 import "./../../styles/text.css";
 import "./../../styles/utilities.css";
-import clsx from "clsx";
 
 const PerformanceRefund = () => {
   const [thumbnail, setThumbnail] = useState("");
@@ -45,7 +42,6 @@ const PerformanceRefund = () => {
 
   const navigate = useNavigate();
   const { id } = useParams();
-  const { isSmallMobile } = useWindowDimensions().widthConditions;
 
   const MAX_LENGTH = 50;
 
@@ -98,47 +94,27 @@ const PerformanceRefund = () => {
     }
   };
 
-  const mediumBoldClassName = !isSmallMobile ? "p-medium-bold" : "p-xs-bold";
-  const mediumRegularClassName = !isSmallMobile
-    ? "p-medium-regular"
-    : "p-xs-regular";
-  const largeMediumClassName = !isSmallMobile
-    ? "p-large-medium"
-    : "p-xs-medium";
-
   return (
-    <div>
-      <div className="min-height perform-refund perform-top">
+    <div className="perform-top">
+      <div className="min-height perform-refund">
         <GoBack url="/mypage/purchased" />
-        <h4 className={!isSmallMobile ? "h4-bold" : "p-medium-bold"}>
-          구매한 작품들을 볼 수 있어요!
-        </h4>
+        <h4 className="p-medium-bold sm:h4-bold">구매한 작품들을 볼 수 있어요!</h4>
 
-        <p className={!isSmallMobile ? "p-medium-regular" : "p-xs-regular"}>
-          공연권 환불 신청
-        </p>
+        <p className="p-xs-regular sm:p-medium-regular">공연권 환불 신청</p>
         <hr />
-        <section className="f-dir-column a-items-center">
+        <section className="flex flex-col items-center">
           <div className="script">
-            <div className="d-flex">
+            <div className="flex gap-[15px] sm:gap-[32px]">
               <ThumbnailImg imagePath={thumbnail} />
               <div className="script-detail">
                 <div className="script-tag">
-                  <div className="d-flex a-items-center" id="title">
-                    <p
-                      className={
-                        !isSmallMobile ? "p-large-bold" : "p-small-bold"
-                      }
-                      id="title"
-                    >
+                  <div className="flex items-center" id="title">
+                    <p className="p-small-bold sm:p-large-bold" id="title">
                       {title}
                     </p>
                   </div>
                   <hr></hr>
-                  <p
-                    className={!isSmallMobile ? "p-large-medium" : "p-12-bold"}
-                    id="author"
-                  >
+                  <p className="p-12-bold sm:p-large-medium" id="author">
                     {author}
                   </p>
                 </div>
@@ -148,88 +124,62 @@ const PerformanceRefund = () => {
             <hr />
 
             <div id="detail">
-              <div className="j-content-between detail-content">
-                <p className={clsx(mediumBoldClassName, "c-grey")}>구매 일자</p>
-                <p className={clsx(mediumRegularClassName, "c-grey")}>
+              <div className="detail-content flex justify-between">
+                <p className="p-xs-medium sm:p-medium-bold text-grey-6">구매 일자</p>
+                <p className="p-xs-regular sm:p-medium-regular text-grey-6">
                   {orderDate ? formatDate2(orderDate) : ""}
                 </p>
               </div>
               <hr />
-              <div className="j-content-between detail-content">
-                <p className={clsx(mediumBoldClassName, "c-grey")}>주문번호</p>
-                <p className={clsx(mediumRegularClassName, "c-grey")}>
-                  {orderNum}
-                </p>
+              <div className="detail-content flex justify-between">
+                <p className="p-xs-medium sm:p-medium-bold text-grey-6">주문번호</p>
+                <p className="p-xs-regular sm:p-medium-regular text-grey-6">{orderNum}</p>
               </div>
               <hr />
-              <div className="j-content-between detail-content">
-                <p className={clsx(mediumBoldClassName, "c-grey")}>
+              <div className="detail-content flex justify-between">
+                <p className="p-xs-medium sm:p-medium-bold text-grey-6">
                   구매한 공연권 수량 및 금액
                 </p>
-                <div className="j-content-end">
-                  <p className={clsx(largeMediumClassName, "c-grey")}>
-                    {orderedAmount}
-                  </p>
+                <div className="flex justify-end">
+                  <p className="p-xs-medium sm:p-large-medium text-grey-6">{orderedAmount}</p>
                   <div className="price-default-left" />
-                  <p
-                    className={clsx(
-                      largeMediumClassName,
-                      "c-grey price-default"
-                    )}
-                  >
+                  <p className="price-default p-xs-medium sm:p-large-medium text-grey-6">
                     {formatPrice(orderedPrice)}원
                   </p>
                 </div>
               </div>
               <hr />
-              <div className="j-content-between detail-content">
-                <p className={clsx(mediumBoldClassName, "c-grey")}>
+              <div className="detail-content flex justify-between">
+                <p className="p-xs-medium sm:p-medium-bold text-grey-6">
                   환불 가능한 공연권 수량 및 금액
                 </p>
-                <div className="j-content-end">
-                  <p className={clsx(largeMediumClassName, "c-grey")}>
+                <div className="flex justify-end">
+                  <p className="p-xs-medium sm:p-large-medium text-grey-6">
                     {refundPossibleAmount}
                   </p>
                   <div className="price-default-left" />
-                  <p
-                    className={clsx(
-                      largeMediumClassName,
-                      "c-grey price-default"
-                    )}
-                  >
+                  <p className="price-default p-xs-medium sm:p-large-medium text-grey-6">
                     {formatPrice(refundPossiblePrice)}원
                   </p>
                 </div>
               </div>
               <hr />
-              <div
-                className="j-content-between a-items-center detail-content"
-                id="total"
-              >
-                <p className={mediumBoldClassName}>
-                  환불 예정 공연권 수량 및 금액
-                </p>
-                <div className="j-content-end a-items-center">
+              <div className="detail-content flex justify-between items-center" id="total">
+                <p className="p-xs-medium sm:p-medium-bold">환불 예정 공연권 수량 및 금액</p>
+                <div className="flex justify-end items-center">
                   {refundPossibleAmount !== 1 ? (
-                    <div
-                      className="j-content-between a-items-center"
-                      id="total-amount"
-                    >
+                    <div className="flex justify-between items-center" id="total-amount">
                       <img
-                        className="c-pointer"
+                        className="cursor-pointer"
                         src={minusBtn}
                         alt="minusBtn"
                         onClick={() => {
                           changeAmount(-1);
                         }}
                       />
-                      <p
-                        className={clsx(largeMediumClassName, "t-align-center")}
-                      >
-                        {currentAmount}
-                      </p>
+                      <p className="p-xs-medium sm:p-large-medium text-center">{currentAmount}</p>
                       <img
-                        className="c-pointer"
+                        className="cursor-pointer"
                         src={plusBtn}
                         alt="plusBtn"
                         onClick={() => {
@@ -238,12 +188,12 @@ const PerformanceRefund = () => {
                       />
                     </div>
                   ) : (
-                    <div className="d-flex">
-                      <p className={largeMediumClassName}>{currentAmount}</p>
+                    <div className="flex">
+                      <p className="p-xs-medium sm:p-large-medium">{currentAmount}</p>
                       <div className="price-default-left" />
                     </div>
                   )}
-                  <p className={clsx(largeMediumClassName, "price-default")}>
+                  <p className="price-default p-xs-medium sm:p-large-medium">
                     {formatPrice(singlePrice * currentAmount)}원
                   </p>
                 </div>
@@ -251,12 +201,10 @@ const PerformanceRefund = () => {
             </div>
 
             <hr />
-            <div className="j-content-between a-items-center">
-              <p className={!isSmallMobile ? "p-medium-bold" : "p-small-bold"}>
-                환불 사유
-              </p>
+            <div className="flex justify-between items-center">
+              <p className="p-small-bold sm:p-medium-bold">환불 사유</p>
             </div>
-            <div style={{ height: "0.63rem" }} />
+            <div className="h-[0.63rem]" />
             <PerformInputField
               placeholder="자유롭게 입력해주세요."
               value={reason}
@@ -272,13 +220,13 @@ const PerformanceRefund = () => {
                 }
               }}
               rightElement={
-                <p className="p-xs-medium c-default" id="length">
+                <p className="p-xs-medium cursor-default" id="length">
                   {currentLength} / {MAX_LENGTH}
                 </p>
               }
             />
 
-            <div className="j-content-end" id="btn">
+            <div className="flex justify-end" id="btn">
               <SmallOnOffBtn
                 color="white"
                 onClick={() => {
@@ -304,20 +252,17 @@ const PerformanceRefund = () => {
               </SmallOnOffBtn>
             </div>
             {showPopup ? (
-              <div className="f-dir-column j-content-center" id="refund-popup">
+              <div className="refund-popup flex flex-col justify-center text-center p-small-bold sm:p-medium-bold">
                 <p>환불 신청이 완료되었어요.</p>
-                <div className="d-flex">
-                  <p>환불에는 영업일 기준&nbsp;</p>
-                  <p className="c-main">2-4일</p>
-                  <p>&nbsp;이 필요해요.</p>
-                </div>
+                <p>
+                  환불에는 영업일 기준&nbsp;<span className="text-main">2-4일</span>이 필요해요.
+                </p>
                 <p>환불이 완료되면 저장된 메일 주소로</p>
-                <div className="d-flex">
-                  <p className="c-main">환불 완료 메일</p>
-                  <p>을 보내드리니 확인 부탁드려요.</p>
-                </div>
+                <p>
+                  <span className="text-main">환불 완료 메일</span>을 보내드리니 확인 부탁드려요.
+                </p>
 
-                <div className="j-content-center" id="bottom-btn-wrap">
+                <div className="flex justify-center mt-[26px]">
                   <OnOffBtn
                     text="구매한 작품으로 돌아가기"
                     color="purple"

@@ -241,24 +241,21 @@ const Purchase = () => {
     }
 
     try {
-      // 4) 무료 결제면 주문만 만들고 바로 성공 페이지
-      if (payableAmount === 0) {
-        const response = await api.post("/order/item", requestBody);
-        const orderData = response.data[0];
-        setIsLoading(false);
-        navigate("/purchase/success", {
-          state: { orderId: orderData.id },
-        });
-
-        return;
-      }
-
       const orderRes = await api.post("/order/item", requestBody);
 
       const orderId = orderRes.data?.pgOrderId;
 
       if (!orderId) {
         alert(orderRes.data?.error ?? "주문 생성 실패");
+        return;
+      }
+
+      // 4) 무료 결제면  바로 성공 페이지
+      if (payableAmount === 0) {
+        navigate("/purchase/success", {
+          state: { orderId },
+        });
+        setIsLoading(false);
         return;
       }
 

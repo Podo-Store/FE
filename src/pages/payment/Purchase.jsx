@@ -252,7 +252,7 @@ const Purchase = () => {
 
       // 4) 무료 결제면  바로 성공 페이지
       if (payableAmount === 0) {
-        navigate(`/purchase/success?pgOrderId=${pgOrderId}`);
+        navigate(`/purchase/success?pgOrderId=${orderId}`);
         setIsLoading(false);
         return;
       }

@@ -60,7 +60,7 @@ const PerformanceNews = () => {
 
   const ViewAllSections = ({ title, onClickSeeAll }: ViewAllSectionsProps) => {
     return (
-      <section className="border px-[20px] sm:px-0">
+      <section className="px-[20px] sm:px-0">
         <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
           <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
 
@@ -97,7 +97,7 @@ const PerformanceNews = () => {
                  md:grid-cols-3 
                  lg:grid-cols-4"
         >
-          <div className="border w-full aspect-[210/440]" />
+          <div className=" w-full aspect-[210/440]" />
         </section>
 
         <button
@@ -113,10 +113,50 @@ const PerformanceNews = () => {
     );
   };
 
+  type ViewSingleSectionsProps = {
+    title: string;
+  };
+
+  const ViewSingleSections = ({ title }: ViewSingleSectionsProps) => {
+    return (
+      <section className="px-[20px] sm:px-0">
+        <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
+          <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
+
+          {/* ❗ button 안에 button 금지 → 바깥은 div로 */}
+          <div className="flex justify-between items-center flex-1">
+            <div className="flex items-center gap-2 sm:gap-[10px]">
+              <p className="p-12-medium sm:p-small-medium">전체</p>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1"
+                height="8"
+                viewBox="0 0 1 8"
+                fill="none"
+              >
+                <path d="M0.25 0V8" stroke="#BABABA" strokeWidth="0.5" />
+              </svg>
+              <p className="p-12-medium sm:p-small-medium">포도상점</p>
+            </div>
+          </div>
+        </header>
+
+        <section
+          className="grid grid-cols-2 gap-[10px] mb-[43px]
+                 sm:gap-[20px] sm:mb-0
+                 md:grid-cols-3 
+                 lg:grid-cols-4"
+        >
+          <div className="w-full aspect-[210/440]" />
+        </section>
+      </section>
+    );
+  };
+
   return (
-    <main className="flex flex-col list-wrap-wrap border ">
+    <main className="flex flex-col list-wrap-wrap ">
       {/* 상단 Info  */}
-      <header className="md:mb-5 border flex justify-between w-[114px] sm:w-[133px] md:w-full mt-[60px] sm:mt-[72px] ml-[20px] sm:ml-0 ">
+      <header className="md:mb-5 flex justify-between w-[114px] sm:w-[133px] md:w-full mt-[60px] sm:mt-[72px] ml-[20px] sm:ml-0 ">
         <p className="sm:h5-bold p-medium-bold">공연 소식</p>
         <button className="flex items-center justify-center gap-[5px] md:gap-[10px]">
           <p className="p-large-medium hidden md:block ">공연 소식 등록하기</p>
@@ -153,11 +193,11 @@ const PerformanceNews = () => {
         </section>
       )}
       {/* 지금 공연중 */}
-      {activeTab === "지금 공연중" && <div>지금 공연중</div>}
+      {activeTab === "지금 공연중" && <ViewSingleSections title={activeTab} />}
       {/* 공연 예정 */}
-      {activeTab === "공연 예정" && <div>공연 예정</div>}
+      {activeTab === "공연 예정" && <ViewSingleSections title={activeTab} />}
       {/* 지난 공연 */}
-      {activeTab === "지난 공연" && <div>지난 공연</div>}
+      {activeTab === "지난 공연" && <ViewSingleSections title={activeTab} />}
       <div className="mt-[0px] md:mt-[60px] lg:mt-[100px]"></div>
     </main>
   );

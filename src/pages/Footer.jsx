@@ -102,7 +102,7 @@ function Footer() {
                     <li
                       className="p-xs-bold c-pointer"
                       onClick={() => {
-                        navigate("/performedWork");
+                        navigate("/performanceNews");
                         scrollToTop();
                       }}
                     >

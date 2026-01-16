@@ -128,7 +128,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
         <div className="div-outside" />
         <SideDialogBtn
           onClick={(event: React.MouseEvent) => {
-            navigateWithRefreshAndClose(event, "/performedWork");
+            navigateWithRefreshAndClose(event, "/PerformanceNews");
           }}
         >
           공연 소식

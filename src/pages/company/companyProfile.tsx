@@ -271,8 +271,7 @@ const CompanyProfile = () => {
                       {item.events.map((event, index) => (
                         <li
                           key={index}
-                          className="h5-bold text-[#F2F2F2]/90
- "
+                          className="h5-bold text-[#F2F2F2]/90"
                         >
                           <span className="text-[#BABABA] h5-bold mr-[15px] ">
                             {event.month}.

@@ -78,10 +78,10 @@ function CompanyNav() {
             </li>
             <li>
               <Link
-                to="/performedWork"
+                to="/performanceNews"
                 className="h5-regular !text-[#F2F2F2] hover:!text-[#a6a8cb]"
                 onClick={(event) => {
-                  navigateWithRefresh(event, "/performedWork");
+                  navigateWithRefresh(event, "/performanceNews");
                 }}
               >
                 공연 소식

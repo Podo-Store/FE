@@ -1,11 +1,14 @@
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import RightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import { TabLayout } from "@/components/tab/tabLayout";
-import { usePerformanceMain } from '@/feature/performanceMain/queries';
-import type { PerformanceMainFilter ,PerformanceMainItem} from '@/feature/performanceMain/types';
+import { usePerformanceMain } from '@/feature/performanceNews/performanceMain/queries';
+import type {PerformanceMainItem} from '@/feature/performanceNews/performanceMain/types';
+import { usePerformanceListInfinite } from '@/feature/performanceNews/performanceList/queries';
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
+import clsx from "clsx";
 
 type SectionId = "ongoing" | "upcoming" | "past";
 
@@ -19,6 +22,12 @@ const PerformanceNews = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "전체";
+
+  const tabToStatus = (tab: string) => {
+    if (tab === '지금 공연중') return 'ONGOING';
+    if (tab === '공연 예정') return 'UPCOMING';
+    return 'PAST';
+  };
 
   const { data, isLoading, isError } = usePerformanceMain();
 
@@ -111,6 +120,7 @@ const PerformanceNews = () => {
             </button>
           </div>
         </header>
+        {items.length === 0&&<div className = "flex justify-center">존재하는 공연이 없습니다.</div>}
   
         <section className="grid grid-cols-2 gap-[10px] mb-[43px] sm:gap-[20px] sm:mb-0 md:grid-cols-3 xl:grid-cols-4">
           {list.map((item) => (
@@ -173,16 +183,60 @@ const PerformanceNews = () => {
   };
 
 
-  const ViewSingleSections = ({ title }: ViewSingleSectionsProps) => {
-    return (
-      <section className="px-[20px] sm:px-0">
-        <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
-          <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
+const ViewSingleSections = ({ title }: { title: string }) => {
+  const status = useMemo(() => tabToStatus(title), [title]);
+  const [isUsed, setIsUsed] = useState<boolean | undefined>(undefined);
+  const { 
+    data,
+    isLoading,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = usePerformanceListInfinite({ status,isUsed });
 
-          {/* ❗ button 안에 button 금지 → 바깥은 div로 */}
-          <div className="flex justify-between items-center flex-1">
+  const items = useMemo(
+    () => data?.pages.flat() ?? [],
+    [data]
+  );
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = bottomRef.current;
+    if (!el) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    io.observe(el);
+    return () => io.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (isLoading) return <>로딩</>;
+  if (isError) return <>에러</>;
+
+//   <p
+//   className={clsx(
+//     "c-grey",
+//     !isSmallMobile ? "p-medium-medium" : "p-12-400"
+//   )}
+// >
+  return (
+    <section className="px-[20px] sm:px-0">
+      <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
+        <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
+        {/* ❗ button 안에 button 금지 → 바깥은 div로 */}
+        <div className="flex justify-between items-center flex-1">
             <div className="flex items-center gap-2 sm:gap-[10px]">
-              <p className="p-12-medium sm:p-small-medium">전체</p>
+              <p className={clsx("p-12-medium sm:p-small-medium cursor-pointer", isUsed === undefined &&"text-[#6A39C0]")} onClick={()=>setIsUsed(undefined)}>전체</p>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="1"
@@ -192,22 +246,25 @@ const PerformanceNews = () => {
               >
                 <path d="M0.25 0V8" stroke="#BABABA" strokeWidth="0.5" />
               </svg>
-              <p className="p-12-medium sm:p-small-medium">포도상점</p>
+              <p className={clsx("p-12-medium sm:p-small-medium cursor-pointer", isUsed === true &&"text-[#6A39C0]")} onClick={()=>setIsUsed(true)}>포도상점</p>
             </div>
           </div>
-        </header>
+      </header>
 
-        <section
-          className="grid grid-cols-2 gap-[10px] mb-[43px]
-                 sm:gap-[20px] sm:mb-0
-                 md:grid-cols-3 
-                 lg:grid-cols-4"
-        >
-          <div className="w-full aspect-[210/440]" />
-        </section>
+      {items.length === 0&&<div className = "flex justify-center">존재하는 공연이 없습니다.</div>}
+      <section className="grid grid-cols-2 gap-[10px] mb-[43px] sm:gap-[20px] md:grid-cols-3 lg:grid-cols-4">
+        {items.map((item) => (
+          <PerformanceCard key={item.id} item={item} />
+        ))}
       </section>
-    );
-  };
+
+      {/* ✅ sentinel */}
+      <div ref={bottomRef} className="h-10" />
+
+      {isFetchingNextPage && <div className="py-4 text-center">불러오는 중...</div>}
+    </section>
+  );
+};
   if (isLoading) return <>로딩</>;
   if (isError || !data) return <>에러</>;
 

@@ -1,11 +1,15 @@
-import {useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DefaultInputField from "@/components/inputField/DefaultInputField";
 import GoBack from "@/components/button/GoBack";
 import DefaultThumbnail from "@/components/thumbnail/DefaultThumbNail";
 import RoundButton_135x40 from "@/components/button/RoundButton_135x40";
+import defaultThumbnail from "@/assets/image/defaultThumbnail.png";
+import { useRegisterPerformance } from "@/feature/performanceNews/performanceRegister/queries";
+import Cookies from "js-cookie";
 
 const AddPerformanceNews = () => {
+  const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [place, setPlace] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -13,7 +17,95 @@ const AddPerformanceNews = () => {
   const [link, setLink] = useState("");
   const [podoScriptOn, setPodoScriptOn] = useState(false);
 
-  const navigate = useNavigate();
+  const [posterFile, setPosterFile] = useState<File | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>("");
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const { mutateAsync, isPending } = useRegisterPerformance();
+
+  const posterPreviewUrl = useMemo(() => {
+    if (!posterFile) return "";
+    return URL.createObjectURL(posterFile);
+  }, [posterFile]);
+
+  const isValidDate = (date: string) => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+
+    const [y, m, d] = date.split("-").map(Number);
+    const parsed = new Date(y, m - 1, d);
+
+    return parsed.getFullYear() === y && parsed.getMonth() === m - 1 && parsed.getDate() === d;
+  };
+
+  const isRangeInvalid = isValidDate(startDate) && isValidDate(endDate) && startDate > endDate;
+
+  const isInvalid =
+    title.trim() === "" ||
+    place.trim() === "" ||
+    !isValidDate(startDate) ||
+    !isValidDate(endDate) ||
+    isRangeInvalid ||
+    link.trim() === "";
+
+  const getDefaultPosterFile = async (): Promise<File> => {
+    const response = await fetch(defaultThumbnail);
+    const blob = await response.blob();
+
+    return new File([blob], "default-thumbnail.svg", {
+      type: blob.type,
+    });
+  };
+
+  const onClickSubmit = async () => {
+    setErrorMessage("");
+
+    try {
+      const poster = posterFile ?? (await getDefaultPosterFile());
+
+      console.log(poster.name, poster.type, poster.size);
+      const ok = await mutateAsync({
+        poster,
+        title,
+        place,
+        startDate,
+        endDate,
+        link,
+        isUsed: podoScriptOn,
+      });
+
+      if (ok) {
+        navigate("/performanceNews");
+        return;
+      }
+
+      setErrorMessage("등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
+    } catch (e: any) {
+      const msg = e?.response?.data?.error || e?.message || "등록 중 오류가 발생했습니다.";
+      setErrorMessage(msg);
+    }
+  };
+
+  const formatDateInput = (value: string) => {
+    const numbersOnly = value.replace(/\D/g, "").slice(0, 8);
+
+    const year = numbersOnly.slice(0, 4);
+    const month = numbersOnly.slice(4, 6);
+    const day = numbersOnly.slice(6, 8);
+
+    if (numbersOnly.length <= 4) return year;
+    if (numbersOnly.length <= 6) return `${year}-${month}`;
+    return `${year}-${month}-${day}`;
+  };
+
+  const handleStartDateChange = (value: string) => {
+    setStartDate(formatDateInput(value));
+  };
+
+  const handleEndDateChange = (value: string) => {
+    setEndDate(formatDateInput(value));
+  };
+
   return (
     <div className="list-wrap-wrap px-[20px] sm:px-0">
       <div className="pt-[73px] ">
@@ -21,19 +113,37 @@ const AddPerformanceNews = () => {
           <GoBack url="/performanceNews" />
 
           <div className="flex flex-col mt-[14px] mb-[8px] sm:mb-[5px] gap-[34px] sm:gap-[46px]">
-            <p className="p-medium-bold">공연 소식</p>
-            <p id="p-medium-regular">공연 소식 등록하기</p>
+            <p className="sm:h4-bold p-medium-bold">공연 소식</p>
+            <p id="p-xs-regular sm:p-medium-regular">공연 소식 등록하기</p>
           </div>
         </header>
 
         <main className="flex flex-col gap-[50px] md:gap-[40px] md:flex-row mt-[25px] sm:mt-[50px] md:mt-[90px] md:px-[19px] md:w-[668px] md:mx-auto ">
-          <div className="w-full h-full flex md:flex-1 justify-center">
-            <DefaultThumbnail className="w-[210px] h-[280px] sm:w-[305px] sm:h-[407px]">
-              <p className="p-xs-under c-pointer mb-[7.106%] mr-[10.66%]">
+          <div className="flex justify-center w-full h-full md:flex-1">
+            <DefaultThumbnail
+              className="w-[210px] h-[280px] sm:w-[305px] sm:h-[407px]"
+              imagePath={posterPreviewUrl}
+            >
+              <p
+                className="p-xs-under c-pointer mb-[7.106%] mr-[10.66%]"
+                onClick={() => fileInputRef.current?.click()}
+              >
                 포스터 수정하기
               </p>
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0] ?? null;
+                  setPosterFile(file);
+                }}
+              />
             </DefaultThumbnail>
           </div>
+
           <div className="flex flex-col gap-[30px] md:flex-1">
             <section className="flex flex-col gap-[10px]">
               <h2 className="p-medium-bold">공연 제목</h2>
@@ -63,20 +173,24 @@ const AddPerformanceNews = () => {
               <h2 className="p-medium-bold">공연 날짜</h2>
               <DefaultInputField
                 type="text"
-                placeholder="공연 시작일을 입력하세요"
+                placeholder="공연 시작일을 입력하세요. (YYYYMMDD)"
                 value={startDate}
-                onChange={(e) => {
-                  setStartDate(e.target.value);
-                }}
+                onChange={(e) => handleStartDateChange(e.target.value)}
+                inputMode="numeric"
+                pattern="\d*"
+                maxLength={10}
+                autoComplete="off"
                 className="p-xs-regular"
               />
               <DefaultInputField
                 type="text"
-                placeholder="공연 종료일을 입력하세요"
+                placeholder="공연 종료일을 입력하세요. (YYYYMMDD)"
+                inputMode="numeric"
+                pattern="\d*"
+                maxLength={10}
+                autoComplete="off"
                 value={endDate}
-                onChange={(e) => {
-                  setEndDate(e.target.value);
-                }}
+                onChange={(e) => handleEndDateChange(e.target.value)}
                 className="p-xs-regular"
               />
             </section>
@@ -101,41 +215,27 @@ const AddPerformanceNews = () => {
                 onClick={() => setPodoScriptOn((v) => !v)}
                 className={`
                             relative inline-flex h-6 w-12 items-center rounded-full transition
-                            ${
-                              podoScriptOn
-                                ? "bg-[var(--purple4)]"
-                                : "bg-[#AEB3B7]"
-                            }
+                            ${podoScriptOn ? "bg-[var(--purple4)]" : "bg-[#AEB3B7]"}
                             focus:outline-none 
                         `}
               >
                 <span
                   className={`
                             inline-block h-5 w-5 transform rounded-full bg-white transition
-                            ${
-                              podoScriptOn
-                                ? "translate-x-[26px]"
-                                : "translate-x-[2px]"
-                            }
+                            ${podoScriptOn ? "translate-x-[26px]" : "translate-x-[2px]"}
                             `}
                 />
               </button>
             </section>
 
-            <button className="flex gap-[10px] sm:gap-[15px]  justify-center mt-[150px] sm:mt-[120px] md:mt-[235px]">
-              <RoundButton_135x40
-                color="white"
-                onClick={() => navigate("/mypage/scriptmanage")}
-              >
-              취소하기
+            <button className="flex gap-[10px] sm:gap-[15px] justify-center mt-[150px] sm:mt-[120px] md:mt-[235px]">
+              <RoundButton_135x40 color="white" onClick={() => navigate("/performanceNews")}>
+                취소하기
               </RoundButton_135x40>
               <RoundButton_135x40
                 color="purple"
-                // disabled={
-                //   title === "" || scriptPrice === "" || performPrice === ""
-                // }
-                // onClick={onClickModifyBtn}
-                onClick={() => navigate("/mypage/scriptmanage")}
+                disabled={isInvalid || isPending}
+                onClick={onClickSubmit}
               >
                 등록하기
               </RoundButton_135x40>

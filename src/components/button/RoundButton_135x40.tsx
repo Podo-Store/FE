@@ -6,6 +6,7 @@ interface RoundButton135x40Props {
   className?: string;
   onClick: () => void;
   children: ReactNode;
+  disabled?: boolean; 
 }
 
 const COLOR_CLASS = {
@@ -18,6 +19,7 @@ const RoundButton_135x40 = ({
   children,
   color,
   onClick,
+  disabled,
   className,
 }: RoundButton135x40Props) => {
   return (
@@ -27,6 +29,7 @@ const RoundButton_135x40 = ({
       className={clsx(
         "w-[129px] h-[40px] p-small-bold sm:p-medium-bold sm:w-[135px] rounded-full flex items-center justify-center transition",
         COLOR_CLASS[color],
+        disabled && "bg-[#d9d9d9] cursor-not-allowed",
         className
       )}
     >

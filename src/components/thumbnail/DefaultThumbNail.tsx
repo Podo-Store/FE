@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import defaultThumbnail from "./../../assets/image/defaultThumbnail.svg";
 import { ReactNode } from "react";
-import "./ThumbnailImg.scss";
 
 type DefaultThumbnailProps = {
   className?: string;

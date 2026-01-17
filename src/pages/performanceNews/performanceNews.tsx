@@ -2,7 +2,7 @@ import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import RightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import { TabLayout } from "@/components/tab/tabLayout";
 import { useCallback, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 type SectionId = "ongoing" | "upcoming" | "past";
 
@@ -15,6 +15,7 @@ type SectionConfig = {
 const PerformanceNews = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "전체";
+  const navigate = useNavigate();
 
   const handleChangeCategory = useCallback(
     (value: string, type: "tab") => {
@@ -158,7 +159,12 @@ const PerformanceNews = () => {
       {/* 상단 Info  */}
       <header className="md:mb-5 flex justify-between w-[114px] sm:w-[133px] md:w-full mt-[60px] sm:mt-[72px] ml-[20px] sm:ml-0 ">
         <p className="sm:h5-bold p-medium-bold">공연 소식</p>
-        <button className="flex items-center justify-center gap-[5px] md:gap-[10px]">
+        <button
+          className="flex items-center justify-center gap-[5px] md:gap-[10px]"
+          onClick={() => {
+            navigate("/performanceNews/register");
+          }}
+        >
           <p className="p-large-medium hidden md:block ">공연 소식 등록하기</p>
           <p className="p-xs-medium block md:hidden">등록하기 </p>
           <img

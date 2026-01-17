@@ -45,6 +45,7 @@ import Loading from "./pages/Loading";
 import NotFound from "./pages/NotFound";
 import PerformedWork from "./pages/work/review/performedWork/performedWork";
 import PerformanceNews from "./pages/performanceNews/performanceNews";
+import AddPerformanceNews from "./pages/performanceNews/addPerformanceNews";
 import CompanyProfile from "./pages/company/companyProfile";
 
 import BrowserWarning from "./components/BrowserWarning";
@@ -186,6 +187,10 @@ function App() {
 
             <Route path="mypage/infochange" element={<AccountInfoChange />} />
             <Route path="/performanceNews" element={<PerformanceNews />} />
+            <Route
+              path="/performanceNews/register"
+              element={<AddPerformanceNews />}
+            />
             {/* <Route path="/performedWork" element={<PerformedWork />} /> */}
             <Route path="*" element={<NotFound />} />
             {/* 테스트용 routing */}

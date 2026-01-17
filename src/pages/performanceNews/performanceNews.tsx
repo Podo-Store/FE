@@ -1,6 +1,9 @@
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import RightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg";
 import { TabLayout } from "@/components/tab/tabLayout";
+import { usePerformanceMain } from '@/feature/performanceMain/queries';
+import type { PerformanceMainFilter ,PerformanceMainItem} from '@/feature/performanceMain/types';
+
 import { useCallback, useMemo, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -13,9 +16,11 @@ type SectionConfig = {
 };
 
 const PerformanceNews = () => {
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = searchParams.get("tab") || "전체";
-  const navigate = useNavigate();
+
+  const { data, isLoading, isError } = usePerformanceMain();
 
   const handleChangeCategory = useCallback(
     (value: string, type: "tab") => {
@@ -54,33 +59,48 @@ const PerformanceNews = () => {
     [handleSeeAll]
   );
 
+
   type ViewAllSectionsProps = {
+    sectionId: SectionId;
     title: string;
     onClickSeeAll: () => void;
+    items: PerformanceMainItem[];
   };
 
-  const ViewAllSections = ({ title, onClickSeeAll }: ViewAllSectionsProps) => {
+  const ViewAllSections = ({ sectionId, title, onClickSeeAll,items }: ViewAllSectionsProps) => {
+    const list = items.slice(0, 4);
+
+  
     return (
       <section className="px-[20px] sm:px-0">
         <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
           <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
-
-          {/* ❗ button 안에 button 금지 → 바깥은 div로 */}
+  
           <div className="flex justify-between items-center flex-1">
             <div className="flex items-center gap-2 sm:gap-[10px]">
-              <p className="p-12-medium sm:p-small-medium">전체</p>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="1"
-                height="8"
-                viewBox="0 0 1 8"
-                fill="none"
+              {/* <button
+                type="button"
+                className={`p-12-medium sm:p-small-medium ${
+                  filter === 'all' ? 'text-black' : 'text-[var(--grey6)]'
+                }`}
+                onClick={() => setFilter('all')}
               >
+                전체
+              </button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="1" height="8" viewBox="0 0 1 8" fill="none">
                 <path d="M0.25 0V8" stroke="#BABABA" strokeWidth="0.5" />
               </svg>
-              <p className="p-12-medium sm:p-small-medium">포도상점</p>
+              <button
+                type="button"
+                className={`p-12-medium sm:p-small-medium ${
+                  filter === 'podo' ? 'text-black' : 'text-[var(--grey6)]'
+                }`}
+                onClick={() => setFilter('podo')}
+              >
+                포도상점
+              </button> */}
             </div>
-
+  
             <button
               type="button"
               className="hidden sm:flex items-center gap-2"
@@ -91,32 +111,67 @@ const PerformanceNews = () => {
             </button>
           </div>
         </header>
-
-        <section
-          className="grid grid-cols-2 gap-[10px] mb-[43px]
-                 sm:gap-[20px] sm:mb-0
-                 md:grid-cols-3 
-                 lg:grid-cols-4"
-        >
-          <div className=" w-full aspect-[210/440]" />
+  
+        <section className="grid grid-cols-2 gap-[10px] mb-[43px] sm:gap-[20px] sm:mb-0 md:grid-cols-3 xl:grid-cols-4">
+          {list.map((item) => (
+            <PerformanceCard key={item.id} item={item} />
+          ))}
         </section>
-
+  
         <button
           type="button"
           className="w-full h-[32px] border border-[var(--grey4)] rounded-[9px] flex items-center justify-center gap-[10px] sm:hidden"
+          onClick={onClickSeeAll}
         >
-          <p className="p-12-bold" onClick={onClickSeeAll}>
-            {title} 전체보기
-          </p>
+          <p className="p-12-bold">{title} 전체보기</p>
           <img src={RightArrow} alt="" className="w-[5px] h-[10px]" />
         </button>
       </section>
     );
   };
+  
+
+
+
+  const PerformanceCard = ({ item }: { item: PerformanceMainItem }) => {
+  
+    function normalizationDate(){
+      const splitEndDate = item.endDate.split('-');
+      const finalEndDate = `${splitEndDate[1]}.${splitEndDate[2]}`;
+      const splitStartDate =  item.startDate.split('-');
+      const finalStartDate = `${splitStartDate[0]}.${splitStartDate[1]}.${splitStartDate[2]}`;
+      return `${finalStartDate}~${finalEndDate}`;
+
+    }
+
+    
+    return(
+    <article className="w-full">
+      <div className="w-full aspect-[135/180] overflow-hidden rounded-[20px] bg-[var(--grey2)]">
+        <img
+          src={item.posterPath}
+          alt={item.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="mt-[10px] sm:mt-[20px]">
+        <p className="p-small-bold sm:p-large-bold md:h5-bold text-[#000] line-clamp-1">{item.title}</p>
+        <p className="p-12-regular sm:p-medium-regular text-[#000] line-clamp-1 mt-[7px] sm:mt-[13px]">{item.place}</p>
+        <p className="p-12-regular sm:p-medium-regular text-[#000] mt-[3px]">
+          {normalizationDate()}
+        </p>
+
+      {item.isUsed && (<div className = "p-xs-bold sm:p-12-bold text-[var(--purple4)] flex items-center justify-center bg-[#DFCDFFE5]/90 w-[45px] sm:w-[62px] aspect-[9/4] rounded-[6px] mt-[16px] sm:mt-[20px]">포도상점</div>)}
+      </div>
+       
+    </article>
+    );
+  }
 
   type ViewSingleSectionsProps = {
     title: string;
   };
+
 
   const ViewSingleSections = ({ title }: ViewSingleSectionsProps) => {
     return (
@@ -153,6 +208,9 @@ const PerformanceNews = () => {
       </section>
     );
   };
+  if (isLoading) return <>로딩</>;
+  if (isError || !data) return <>에러</>;
+
 
   return (
     <main className="flex flex-col list-wrap-wrap ">
@@ -192,7 +250,9 @@ const PerformanceNews = () => {
           {ALL_SECTIONS.map((section) => (
             <ViewAllSections
               key={section.id}
+              sectionId={section.id}
               title={section.title}
+              items={data[section.id]} 
               onClickSeeAll={section.onClickSeeAll}
             />
           ))}

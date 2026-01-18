@@ -115,81 +115,133 @@ function App() {
           <Route path="list/review/:id" element={<ReviewWrite />} />
           <Route
             path="purchase/:id"
-            element={<ProtectedRoute element={<Purchase />} />}
+            element={
+              <ProtectedRoute>
+                <Purchase />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="mypage/liked"
-            element={<ProtectedRoute element={<LikedWorks />} />}
+            element={
+              <ProtectedRoute>
+                <LikedWorks />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/purchased"
-            element={<ProtectedRoute element={<PurchasedScript />} />}
+            element={
+              <ProtectedRoute>
+                <PurchasedScript />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/scriptmanage"
-            element={<ProtectedRoute element={<ScriptManage />} />}
+            element={
+              <ProtectedRoute>
+                <ScriptManage />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/purchased/performance-refund/:id"
-            element={<ProtectedRoute element={<PerformanceRefund />} />}
+            element={
+              <ProtectedRoute>
+                <PerformanceRefund />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/purchased/performance-info/:id"
-            element={<ProtectedRoute element={<PerformanceInfo />} />}
+            element={
+              <ProtectedRoute>
+                <PerformanceInfo />
+              </ProtectedRoute>
+            }
           />
 
           <Route
             path="mypage/info"
-            element={<ProtectedRoute element={<AccountInfo />} />}
+            element={
+              <ProtectedRoute>
+                <AccountInfo />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/delete"
-            element={<ProtectedRoute element={<AccountDeleteWrapper />} />}
+            element={
+              <ProtectedRoute>
+                <AccountDeleteWrapper />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="mypage/info/nickname"
             element={
-              <ProtectedRoute
-                element={<AccountInfoChangeWrapper type="nickname" />}
-              />
+              <ProtectedRoute>
+                <AccountInfoChangeWrapper type="nickname" />
+              </ProtectedRoute>
             }
           />
           <Route
             path="mypage/info/password"
             element={
-              <ProtectedRoute
-                element={<AccountInfoChangeWrapper type="password" />}
-              />
+              <ProtectedRoute>
+                <AccountInfoChangeWrapper type="" />
+              </ProtectedRoute>
             }
           />
 
           <Route element={<MarginLayout />}>
             <Route path="policy/:id" element={<PolicyBar />} />
 
+            <Route path="post" element={<PostWork />} />
             <Route
               path="purchase/success"
-              element={<ProtectedRoute element={<PurchaseSuccess />} />}
+              element={
+                <ProtectedRoute>
+                  <PurchaseSuccess />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="purchase/abort"
-              element={<ProtectedRoute element={<Abort />} />}
+              element={
+                <ProtectedRoute>
+                  <Abort />
+                </ProtectedRoute>
+              }
             />
-            <Route path="post" element={<PostWork />} />
             <Route
               path="mypage/scriptmanage/detail/:scriptId"
-              element={<ProtectedRoute element={<ScriptManageDetail />} />}
+              element={
+                <ProtectedRoute>
+                  <ScriptManageDetail />
+                </ProtectedRoute>
+              }
             />
             <Route
               path="mypage/scriptmanage/askedperform/:id"
-              element={<ProtectedRoute element={<AskedPerformManage />} />}
+              element={
+                <ProtectedRoute>
+                  <AskedPerformManage />
+                </ProtectedRoute>
+              }
             />
 
             <Route path="mypage/infochange" element={<AccountInfoChange />} />
             <Route path="/performanceNews" element={<PerformanceNews />} />
             <Route
               path="/performanceNews/register"
-              element={<AddPerformanceNews />}
+              element={
+                <ProtectedRoute>
+                  <AddPerformanceNews />
+                </ProtectedRoute>
+              }
             />
             {/* <Route path="/performedWork" element={<PerformedWork />} /> */}
             <Route path="*" element={<NotFound />} />

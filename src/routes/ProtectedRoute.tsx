@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import AuthContext from "@/contexts/AuthContext";
 
 interface ProtectedRouteProps {
@@ -10,35 +10,46 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated, refreshAccessToken } = useContext(AuthContext);
+  const [checked, setChecked] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
-  const checkedAuthFlag = useRef<boolean>(false);
-
   useEffect(() => {
-    if (checkedAuthFlag.current) return;
+    let mounted = true;
 
-    if (!Cookies.get("accessToken")) {
-      (async () => {
-        const newAccessToken = await refreshAccessToken();
+    const run = async () => {
+      const hasToken = Boolean(Cookies.get("accessToken"));
 
-        if (!newAccessToken) {
-          alert("로그인이 필요한 서비스입니다.");
-          navigate("/signin", {
-            replace: true,
-            state: { from: location },
-          });
-        }
+      // 이미 인증 상태면 통과
+      if (isAuthenticated || hasToken) {
+        if (mounted) setChecked(true);
+        return;
+      }
 
-        checkedAuthFlag.current = true;
-      })();
-    } else {
-      checkedAuthFlag.current = true;
-    }
-  }, [navigate, refreshAccessToken, location]);
+      // 토큰 없으면 refresh 시도
+      const newToken = await refreshAccessToken();
 
-  // ✅ 인증된 경우에만 렌더
-  return isAuthenticated ? children : null;
+      if (!newToken) {
+        alert("로그인이 필요한 서비스입니다.");
+        navigate("/signin", { replace: true, state: { from: location } });
+        return;
+      }
+
+      // refresh 성공이면 통과(컨텍스트 갱신 타이밍과 무관하게)
+      if (mounted) setChecked(true);
+    };
+
+    run();
+
+    return () => {
+      mounted = false;
+    };
+  }, [isAuthenticated, refreshAccessToken, navigate, location]);
+
+  if (!checked) return null; // 또는 로딩 컴포넌트
+
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

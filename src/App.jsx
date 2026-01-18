@@ -235,14 +235,7 @@ function App() {
 
             <Route path="mypage/infochange" element={<AccountInfoChange />} />
             <Route path="/performanceNews" element={<PerformanceNews />} />
-            <Route
-              path="/performanceNews/register"
-              element={
-                <ProtectedRoute>
-                  <AddPerformanceNews />
-                </ProtectedRoute>
-              }
-            />
+
             <Route path="/performanceNews/edit/:id"
               element={
                 <ProtectedRoute>

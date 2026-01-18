@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
 import goBackArrowImg from "../../assets/image/myPage/goBackArrow.svg";
-
-import "./GoBack.css";
 import "./../../styles/utilities.css";
 
 /**
@@ -19,7 +17,7 @@ const GoBack = ({ url }: GoBackProps) => {
 
   return (
     <div
-      className="a-items-center c-pointer go-back no-drag "
+      className="flex gap-[6px] "
       onClick={() => {
         if (url === "-1") {
           navigate(-1); // 숫자형으로 이전 페이지로 이동
@@ -28,8 +26,10 @@ const GoBack = ({ url }: GoBackProps) => {
         }
       }}
     >
-      <img src={goBackArrowImg} alt="go back"></img>
-      <h6 className="hover:text-[#777] ">뒤로가기</h6>
+      <img src={goBackArrowImg} alt="go back" className="w-2 h-4 sm:h-5"></img>
+      <h6 className="hover:text-[#777] p-12-medium sm:p-medium-regular">
+        뒤로가기
+      </h6>
     </div>
   );
 };

@@ -83,10 +83,10 @@ function MainNav() {
           </li>
           <li>
             <Link
-              to="/performedWork"
+              to="/performanceNews"
               className="h5-regular hover:text-[#6A39C0]"
               onClick={(event) => {
-                navigateWithRefresh(event, "/performedWork");
+                navigateWithRefresh(event, "/performanceNews");
               }}
             >
               공연 소식

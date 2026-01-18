@@ -5,7 +5,6 @@ interface RectInputFieldProps
   title?: string;
   fontMode?: "default" | "12" | "xs";
 }
-
 const RectInputField: React.FC<RectInputFieldProps> = ({
   title,
   fontMode = "default",

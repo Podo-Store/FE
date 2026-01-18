@@ -10,6 +10,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePerformanceDetail } from "@/feature/performanceNews/performanceDetail/queries";
 import clsx from "clsx";
 import Cookies from "js-cookie";
+import LinkModal from "@/components/modal/linkModal";
 type SectionId = "ongoing" | "upcoming" | "past";
 
 type SectionConfig = {
@@ -31,7 +32,8 @@ const PerformanceNews = () => {
 
   const [openCardId, setOpenCardId] = useState<string | null>(null);
   const { data, isLoading, isError } = usePerformanceMain();
-
+  const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
+  const [pendingLink, setPendingLink] = useState<string | null>(null);
   const handleChangeCategory = useCallback(
     (value: string, type: "tab") => {
       const next = new URLSearchParams(searchParams.toString());
@@ -176,8 +178,8 @@ const PerformanceNews = () => {
       const url = detailData?.link;
       if (!url) return; // 링크 없으면 아무것도 안 함 (또는 토스트)
 
-      window.open(url, "_blank", "noopener,noreferrer");
-      onClose();
+      setPendingLink(url);
+      setIsLinkModalOpen(true);
     };
 
     const handleGoModify = (e: React.MouseEvent) => {
@@ -416,6 +418,22 @@ const PerformanceNews = () => {
       {/* 지난 공연 */}
       {activeTab === "지난 공연" && <ViewSingleSections title={activeTab} />}
       <div className="mt-[0px] md:mt-[60px] lg:mt-[100px]"></div>
+
+      <LinkModal
+        isOpen={isLinkModalOpen}
+        url={pendingLink}
+        onClose={() => {
+          setIsLinkModalOpen(false);
+          setPendingLink(null);
+          setOpenCardId(null); // 원하면 카드 오버레이도 같이 닫기
+        }}
+        onConfirm={() => {
+          if (pendingLink) window.open(pendingLink, "_blank", "noopener,noreferrer");
+          setIsLinkModalOpen(false);
+          setPendingLink(null);
+          setOpenCardId(null);
+        }}
+      />
     </main>
   );
 };

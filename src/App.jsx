@@ -243,6 +243,20 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/performanceNews/edit/:id"
+              element={
+                <ProtectedRoute>
+                  <AddPerformanceNews mode="edit" />
+                </ProtectedRoute>
+              } />
+            <Route path="/performanceNews/register"
+              element={
+                <ProtectedRoute>
+                  <AddPerformanceNews mode="create" />
+                </ProtectedRoute>
+              }
+            />
+
             {/* <Route path="/performedWork" element={<PerformedWork />} /> */}
             <Route path="*" element={<NotFound />} />
             {/* 테스트용 routing */}

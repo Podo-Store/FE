@@ -182,12 +182,8 @@ const PerformanceNews = () => {
 
     const handleGoModify = (e: React.MouseEvent) => {
       e.stopPropagation();
-
-      const url = detailData?.link;
-      if (!url) return; // 링크 없으면 아무것도 안 함 (또는 토스트)
-
-      window.open(url, "_blank", "noopener,noreferrer");
       onClose();
+      navigate(`/performanceNews/edit/${item.id}`);
     };
 
     return (

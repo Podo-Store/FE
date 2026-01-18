@@ -35,14 +35,17 @@ const AddPerformanceNews = ({ mode }: { mode: "create" | "edit" }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const posterPreviewUrl = useMemo(() => {
     if (posterFile) return URL.createObjectURL(posterFile);
+
     return posterPreview; // 기존 이미지
   }, [posterFile, posterPreview]);
   const { mutateAsync, isPending } = useRegisterPerformance();
+
+  const isEdit = mode === "edit" && Boolean(id);
   const {
     data: detailData,
     isLoading: isDetailLoading,
     isError: isDetailError,
-  } = usePerformanceDetail(id ?? "", true);
+  } = usePerformanceDetail(id ?? "", isEdit);
 
   useEffect(() => {
     if (mode !== "edit" || !detailData) return;
@@ -102,6 +105,7 @@ const AddPerformanceNews = ({ mode }: { mode: "create" | "edit" }) => {
 
     try {
       if (mode === "create") {
+        console.log("등록");
         const poster = posterFile ?? (await getDefaultPosterFile());
         const ok = await mutateAsync({
           poster,
@@ -117,7 +121,7 @@ const AddPerformanceNews = ({ mode }: { mode: "create" | "edit" }) => {
         else setErrorMessage("등록에 실패했습니다. 잠시 후 다시 시도해주세요.");
         return;
       }
-
+      console.log("수정");
       // ---- edit ----
       if (!id) {
         setErrorMessage("공연 소식 id가 없습니다.");

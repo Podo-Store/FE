@@ -1,4 +1,4 @@
-export type PerformanceMainFilter = 'all' | 'podo';
+export type PerformanceMainFilter = "all" | "podo";
 
 export type PerformanceMainQuery = {
   ongoingUsed: boolean;
@@ -11,14 +11,12 @@ export type PerformanceMainItem = {
   posterPath: string;
   title: string;
   place: string;
-  startDate: string; // YYYY-MM-DD
-  endDate: string; // YYYY-MM-DD
-  isUsed: boolean; // 포도상점 여부(전체 호출 시 true/false 섞임)
-  link?:string;
+  startDate: string;
+  endDate: string;
+  isUsed: boolean;
+  isOwner: boolean;
+  link: string;
 };
 
-export type PerformanceMainResponse = {
-  ongoing: PerformanceMainItem[];
-  upcoming: PerformanceMainItem[];
-  past: PerformanceMainItem[];
-};
+
+export type PerformanceMainResponse = PerformanceMainItem[];

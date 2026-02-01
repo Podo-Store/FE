@@ -1,8 +1,23 @@
-// src/features/performanceMain/api.ts
-import { api } from '@/api/api';
-import type { PerformanceMainResponse } from './types';
+import { api } from "@/api/api";
+import type { PerformanceMainResponse } from "./types";
 
-export const getPerformanceMain = async (): Promise<PerformanceMainResponse> => {
-  const res = await api.get('/performance/main');
+type Params = { isUsed?: boolean };
+
+export const getPerformanceMainOngoing = async (
+  params?: Params
+): Promise<PerformanceMainResponse> => {
+  const res = await api.get("/performance/main/ongoing", { params });
+  return res.data;
+};
+
+export const getPerformanceMainUpComing = async (
+  params?: Params
+): Promise<PerformanceMainResponse> => {
+  const res = await api.get("/performance/main/upcoming", { params });
+  return res.data;
+};
+
+export const getPerformanceMainPast = async (params?: Params): Promise<PerformanceMainResponse> => {
+  const res = await api.get("/performance/main/past", { params });
   return res.data;
 };

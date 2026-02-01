@@ -1,7 +1,7 @@
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import RightArrow from "@/assets/image/button/arrow/ic_black_right_arrow.svg?react";
 import { TabLayout } from "@/components/tab/tabLayout";
-import { usePerformanceMain } from "@/feature/performanceNews/performanceMain/queries";
+import { usePerformanceMainSections } from "@/feature/performanceNews/performanceMain/queries";
 import type { PerformanceMainItem } from "@/feature/performanceNews/performanceMain/types";
 import { usePerformanceListInfinite } from "@/feature/performanceNews/performanceList/queries";
 import link from "@/assets/image/ic_link.svg";
@@ -11,17 +11,35 @@ import { usePerformanceDetail } from "@/feature/performanceNews/performanceDetai
 import clsx from "clsx";
 import Cookies from "js-cookie";
 import LinkModal from "@/components/modal/linkModal";
-type SectionId = "ongoing" | "upcoming" | "past";
 
 type SectionConfig = {
   id: SectionId;
   title: string;
   onClickSeeAll: () => void;
 };
+type UsedFilter = "all" | "podo";
+type SectionId = "ongoing" | "upcoming" | "past";
+type PerformanceCardItem = {
+  id: string;
+  posterPath: string;
+  title: string;
+  place: string;
+  startDate: string;
+  endDate: string;
+  isUsed: boolean;
+};
 
 const PerformanceNews = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [sectionUsedFilter, setSectionUsedFilter] = useState<Record<SectionId, UsedFilter>>({
+    ongoing: "all",
+    upcoming: "all",
+    past: "all",
+  });
+  const toIsUsedParam = (filter: UsedFilter) => (filter === "podo" ? true : false);
+
   const activeTab = searchParams.get("tab") || "전체";
   const accessToken = Cookies.get("accessToken");
   const tabToStatus = (tab: string) => {
@@ -31,7 +49,13 @@ const PerformanceNews = () => {
   };
 
   const [openCardId, setOpenCardId] = useState<string | null>(null);
-  const { data, isLoading, isError } = usePerformanceMain();
+  const { ongoing, upcoming, past, section } = usePerformanceMainSections({
+    ongoing: { isUsed: toIsUsedParam(sectionUsedFilter.ongoing) },
+    upcoming: { isUsed: toIsUsedParam(sectionUsedFilter.upcoming) },
+    past: { isUsed: toIsUsedParam(sectionUsedFilter.past) },
+  });
+
+  const data = useMemo(() => ({ ongoing, upcoming, past }), [ongoing, upcoming, past]);
   const [isLinkModalOpen, setIsLinkModalOpen] = useState(false);
   const [pendingLink, setPendingLink] = useState<string | null>(null);
   const handleChangeCategory = useCallback(
@@ -76,9 +100,24 @@ const PerformanceNews = () => {
     title: string;
     onClickSeeAll: () => void;
     items: PerformanceMainItem[];
+
+    filter: UsedFilter;
+    onChangeFilter: (next: UsedFilter) => void;
+
+    isLoading: boolean;
+    isError: boolean;
   };
 
-  const ViewAllSections = ({ sectionId, title, onClickSeeAll, items }: ViewAllSectionsProps) => {
+  const ViewAllSections = ({
+    sectionId,
+    title,
+    onClickSeeAll,
+    items,
+    filter,
+    onChangeFilter,
+    isLoading,
+    isError,
+  }: ViewAllSectionsProps) => {
     const list = items.slice(0, 4);
 
     return (
@@ -88,27 +127,33 @@ const PerformanceNews = () => {
 
           <div className="flex items-center justify-between flex-1">
             <div className="flex items-center gap-2 sm:gap-[10px]">
-              {/* <button
+              <button
                 type="button"
                 className={`p-12-medium sm:p-small-medium ${
-                  filter === 'all' ? 'text-black' : 'text-[var(--grey6)]'
+                  filter === "all" ? "text-black" : "text-[var(--grey6)]"
                 }`}
-                onClick={() => setFilter('all')}
+                onClick={() => onChangeFilter("all")}
               >
                 전체
               </button>
-              <svg xmlns="http://www.w3.org/2000/svg" width="1" height="8" viewBox="0 0 1 8" fill="none">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1"
+                height="8"
+                viewBox="0 0 1 8"
+                fill="none"
+              >
                 <path d="M0.25 0V8" stroke="#BABABA" strokeWidth="0.5" />
               </svg>
               <button
                 type="button"
                 className={`p-12-medium sm:p-small-medium ${
-                  filter === 'podo' ? 'text-black' : 'text-[var(--grey6)]'
+                  filter === "podo" ? "text-black" : "text-[var(--grey6)]"
                 }`}
-                onClick={() => setFilter('podo')}
+                onClick={() => onChangeFilter("podo")}
               >
                 포도상점
-              </button> */}
+              </button>
             </div>
 
             <button
@@ -121,19 +166,29 @@ const PerformanceNews = () => {
             </button>
           </div>
         </header>
-        {items.length === 0 && <div className="flex justify-center">존재하는 공연이 없습니다.</div>}
+        {isLoading && <div className="py-6 text-center text-[var(--grey6)]">불러오는 중...</div>}
 
-        <section className="grid grid-cols-2 gap-[10px] mb-[43px] sm:gap-[20px] sm:mb-0 md:grid-cols-3 xl:grid-cols-4">
-          {list.map((item) => (
-            <PerformanceCard
-              key={item.id}
-              item={item}
-              isOpen={openCardId === item.id}
-              onToggle={() => setOpenCardId((prev) => (prev === item.id ? null : item.id))}
-              onClose={() => setOpenCardId(null)}
-            />
-          ))}
-        </section>
+        {!isLoading && isError && (
+          <div className="py-6 text-center text-[var(--grey6)]">불러오기에 실패했어요.</div>
+        )}
+
+        {!isLoading && !isError && items.length === 0 && (
+          <div className="flex justify-center">존재하는 공연이 없습니다.</div>
+        )}
+
+        {!isLoading && !isError && (
+          <section className="grid grid-cols-2 gap-[10px] mb-[43px] sm:gap-[20px] sm:mb-0 md:grid-cols-3 xl:grid-cols-4">
+            {list.map((item) => (
+              <PerformanceCard
+                key={item.id}
+                item={item}
+                isOpen={openCardId === item.id}
+                onToggle={() => setOpenCardId((prev) => (prev === item.id ? null : item.id))}
+                onClose={() => setOpenCardId(null)}
+              />
+            ))}
+          </section>
+        )}
 
         <button
           type="button"
@@ -153,16 +208,12 @@ const PerformanceNews = () => {
     onToggle,
     onClose,
   }: {
-    item: PerformanceMainItem;
+    item: PerformanceCardItem;
     isOpen: boolean;
     onToggle: () => void;
     onClose: () => void;
   }) => {
-    const {
-      data: detailData,
-      isLoading: isDetailLoading,
-      isError: isDetailError,
-    } = usePerformanceDetail(item.id, isOpen);
+    const { data: detailData } = usePerformanceDetail(item.id, isOpen);
 
     function normalizationDate() {
       const splitEndDate = item.endDate.split("-");
@@ -262,10 +313,6 @@ const PerformanceNews = () => {
     );
   };
 
-  type ViewSingleSectionsProps = {
-    title: string;
-  };
-
   const ViewSingleSections = ({ title }: { title: string }) => {
     const status = useMemo(() => tabToStatus(title), [title]);
     const [isUsed, setIsUsed] = useState<boolean | undefined>(undefined);
@@ -361,8 +408,6 @@ const PerformanceNews = () => {
       </section>
     );
   };
-  if (isLoading) return <>로딩</>;
-  if (isError || !data) return <>에러</>;
 
   return (
     <main className="flex flex-col list-wrap-wrap ">
@@ -397,16 +442,23 @@ const PerformanceNews = () => {
           onChange={(value) => handleChangeCategory(value, "tab")}
         />
       </nav>
+
       {/* 전체 */}
       {activeTab === "전체" && (
         <section className="flex flex-col gap-[100px]">
-          {ALL_SECTIONS.map((section) => (
+          {ALL_SECTIONS.map((sectionConfig) => (
             <ViewAllSections
-              key={section.id}
-              sectionId={section.id}
-              title={section.title}
-              items={data[section.id]}
-              onClickSeeAll={section.onClickSeeAll}
+              key={sectionConfig.id}
+              sectionId={sectionConfig.id}
+              title={sectionConfig.title}
+              items={data[sectionConfig.id]}
+              onClickSeeAll={sectionConfig.onClickSeeAll}
+              filter={sectionUsedFilter[sectionConfig.id]}
+              onChangeFilter={(next) =>
+                setSectionUsedFilter((prev) => ({ ...prev, [sectionConfig.id]: next }))
+              }
+              isLoading={section[sectionConfig.id].isFetching} // ✅ 필터 전환 시에도 로딩 보이게: isFetching 추천
+              isError={section[sectionConfig.id].isError}
             />
           ))}
         </section>

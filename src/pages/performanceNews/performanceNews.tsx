@@ -215,9 +215,6 @@ const PerformanceNews = () => {
     onToggle: () => void;
     onClose: () => void;
   }) => {
-    const { data: detailData } = usePerformanceDetail(item.id, isOpen);
-    console.log(item);
-
     function normalizationDate() {
       const splitEndDate = item.endDate.split("-");
       const finalEndDate = `${splitEndDate[1]}.${splitEndDate[2]}`;
@@ -247,7 +244,6 @@ const PerformanceNews = () => {
         className="w-full cursor-pointer"
         onClick={() => {
           setOpenCardId(item.id);
-          console.log(detailData);
         }} // ✅ 무조건 열기
       >
         <div className="relative w-full aspect-[135/180] overflow-hidden rounded-[20px] bg-[var(--grey2)] ">
@@ -347,17 +343,10 @@ const PerformanceNews = () => {
     if (isLoading) return <>로딩</>;
     if (isError) return <>에러</>;
 
-    //   <p
-    //   className={clsx(
-    //     "c-grey",
-    //     !isSmallMobile ? "p-medium-medium" : "p-12-400"
-    //   )}
-    // >
     return (
       <section className="px-[20px] sm:px-0">
         <header className="flex items-center gap-[10px] px-[10px] sm:pl-[13px] md:pl-[3px] sm:gap-5 mb-[20px] sm:mb-[28px]">
           <p className="p-small-medium sm:h5-medium w-fit">{title}</p>
-          {/* ❗ button 안에 button 금지 → 바깥은 div로 */}
           <div className="flex items-center justify-between flex-1">
             <div className="flex items-center gap-2 sm:gap-[10px]">
               <p

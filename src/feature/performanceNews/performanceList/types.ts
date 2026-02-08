@@ -1,6 +1,6 @@
 // src/feature/performanceList/types.ts
 
-export type PerformanceStatus = 'ONGOING' | 'UPCOMING' | 'PAST';
+export type PerformanceStatus = "ONGOING" | "UPCOMING" | "PAST";
 
 export type PerformanceListQuery = {
   status: PerformanceStatus;
@@ -14,8 +14,10 @@ export type PerformanceListItem = {
   title: string;
   place: string;
   startDate: string; // 'YYYY-MM-DD'
-  endDate: string;   // 'YYYY-MM-DD'
+  endDate: string; // 'YYYY-MM-DD'
   isUsed: boolean;
+  isOwner: boolean;
+  link: string;
 };
 
 export type PerformanceListResponse = PerformanceListItem[];

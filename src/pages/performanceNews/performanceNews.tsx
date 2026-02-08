@@ -27,6 +27,8 @@ type PerformanceCardItem = {
   startDate: string;
   endDate: string;
   isUsed: boolean;
+  isOwner: boolean;
+  link: string;
 };
 
 const PerformanceNews = () => {
@@ -214,6 +216,7 @@ const PerformanceNews = () => {
     onClose: () => void;
   }) => {
     const { data: detailData } = usePerformanceDetail(item.id, isOpen);
+    console.log(item);
 
     function normalizationDate() {
       const splitEndDate = item.endDate.split("-");
@@ -226,7 +229,7 @@ const PerformanceNews = () => {
     const handleGoLink = (e: React.MouseEvent) => {
       e.stopPropagation();
 
-      const url = detailData?.link;
+      const url = item?.link;
       if (!url) return; // 링크 없으면 아무것도 안 함 (또는 토스트)
 
       setPendingLink(url);
@@ -263,7 +266,7 @@ const PerformanceNews = () => {
                 onClose(); // ✅ 닫기
               }}
             >
-              {detailData?.isOwner && (
+              {item?.isOwner && (
                 <button
                   type="button"
                   className="absolute top-[5.3%] left-[6.8%] p-xs-bold sm:p-small-bold flex items-center gap-[8px] text-white"

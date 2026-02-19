@@ -15,7 +15,7 @@ export interface WorkDetailResponse {
   checked: "PASS" | "REJECT" | "WAITING" | string;
   plot: string;
   date: string;
-  buyStatus: number;
+  buyStatus: number; //0: 아무것도 구매 안함, 1: 대본 or 대본 + 공연권, 2: 공연권만
   any: number | null;
   male: number;
   female: number;

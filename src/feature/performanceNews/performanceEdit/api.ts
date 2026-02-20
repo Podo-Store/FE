@@ -1,4 +1,4 @@
-import { api } from "@/api/api";
+import { authApi } from "@/api/api";
 import type { UpdatePerformanceNewsPayload } from "./types";
 
 export const patchPerformanceNews = async (
@@ -15,8 +15,7 @@ export const patchPerformanceNews = async (
   if (payload.link !== undefined) formData.append("link", payload.link);
   if (payload.isUsed !== undefined) formData.append("isUsed", String(payload.isUsed));
 
-  // ❗️여기 URL은 너희 실제 엔드포인트로 맞춰야 함
-  const { data } = await api.patch(`/performance/${id}`, formData, {
+  const { data } = await authApi.patch(`/performance/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 

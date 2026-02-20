@@ -61,8 +61,7 @@ const PostManageDetail: React.FC = () => {
   const navigate = useNavigate();
 
   const [isPartialLoading, setPartialLoading] = useState(false);
-  const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] =
-    useState<File | null>(null);
+  const [InputtedThumbnailImgFile, setInputtedThumbnailImgFile] = useState<File | null>(null);
   const [InputtedThumbnailImgUrl, setInputtedThumbnailImgUrl] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [showDeleteAlertBox, setShowDeleteAlertBox] = useState(false);
@@ -95,7 +94,6 @@ const PostManageDetail: React.FC = () => {
     act: false,
   });
 
-  const podoStudioOpen = false;
   //  이미지
   const onClickChangeThumbnailImg = () => {
     const fileInput = document.createElement("input");
@@ -120,7 +118,7 @@ const PostManageDetail: React.FC = () => {
     if (!scriptId || !accessToken) return;
     try {
       setPartialLoading(true);
-      
+
       const formData = new FormData();
 
       formData.append("id", scriptId);
@@ -130,10 +128,7 @@ const PostManageDetail: React.FC = () => {
       formData.append("script", form.script ? "true" : "false");
       formData.append("performance", form.performance ? "true" : "false");
       formData.append("scriptPrice", String(Number(form.scriptPrice ?? 0)));
-      formData.append(
-        "performancePrice",
-        String(Number(form.performancePrice ?? 0))
-      );
+      formData.append("performancePrice", String(Number(form.performancePrice ?? 0)));
       formData.append("any", String(Number(form.any ?? 0)));
       formData.append("male", String(Number(form.male ?? 0)));
       formData.append("female", String(Number(form.female ?? 0)));
@@ -192,9 +187,7 @@ const PostManageDetail: React.FC = () => {
 
         // title이 20자 초과 시 잘라서 세팅
         const trimmedTitle =
-          data.title && data.title.length > 20
-            ? data.title.slice(0, 20)
-            : data.title;
+          data.title && data.title.length > 20 ? data.title.slice(0, 20) : data.title;
 
         setForm({
           ...data,
@@ -213,12 +206,10 @@ const PostManageDetail: React.FC = () => {
   }, [scriptId]);
 
   // 활성화 조건
-  const totalActors =
-    Number(form.male ?? 0) + Number(form.female ?? 0) + Number(form.any ?? 0);
+  const totalActors = Number(form.male ?? 0) + Number(form.female ?? 0) + Number(form.any ?? 0);
   const hasValidTitle = form.title?.trim() !== "" && form.title !== null;
   const hasValidPlot = form.plot?.trim() !== "" && form.plot !== null;
-  const hasValidStageComment =
-    form.stageComment?.trim() !== "" && form.stageComment !== null;
+  const hasValidStageComment = form.stageComment?.trim() !== "" && form.stageComment !== null;
   const hasActors = totalActors > 0;
   const hasRunningTime = (form.runningTime ?? 0) > 0;
   const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
@@ -260,9 +251,7 @@ const PostManageDetail: React.FC = () => {
             isSmallMobile ? "mt-[34px] pb-[8px] " : "mt-[46px] pb-[5px]"
           }`}
         >
-          <p
-            className={`${isSmallMobile ? "p-xs-regular" : "p-medium-regular"}`}
-          >
+          <p className={`${isSmallMobile ? "p-xs-regular" : "p-medium-regular"}`}>
             작품 상세 페이지 수정
           </p>
         </div>
@@ -273,11 +262,7 @@ const PostManageDetail: React.FC = () => {
             {/* 이미지 */}
             <ThumbnailImg
               className="flex thumbnail aspect-square"
-              imagePath={
-                InputtedThumbnailImgFile
-                  ? InputtedThumbnailImgUrl
-                  : form.imagePath
-              }
+              imagePath={InputtedThumbnailImgFile ? InputtedThumbnailImgUrl : form.imagePath}
             >
               <p
                 className={`p-xs-under c-pointer mb-[7.106%] mr-[10.66%]`}
@@ -291,19 +276,13 @@ const PostManageDetail: React.FC = () => {
             <div className="w-full ">
               <p
                 className={` ${
-                  isSmallMobile
-                    ? "p-small-bold mb-[8px]"
-                    : "p-medium-bold mb-[10px]"
+                  isSmallMobile ? "p-small-bold mb-[8px]" : "p-medium-bold mb-[10px]"
                 }`}
               >
                 작품 정보
               </p>
 
-              <div
-                className={`f-dir-column ${
-                  isSmallMobile ? "gap-[8px]" : "gap-[10px]"
-                }`}
-              >
+              <div className={`f-dir-column ${isSmallMobile ? "gap-[8px]" : "gap-[10px]"}`}>
                 {/* 제목 */}
                 <div className="relative">
                   <RectInputField
@@ -356,50 +335,33 @@ const PostManageDetail: React.FC = () => {
           <div className="flex flex-col ">
             {/* --- 개요 --- */}
             <div className="flex flex-col mt-[15px] mb-[11px]">
-              <h2
-                className={`${
-                  isSmallMobile ? "p-small-bold" : "p-medium-bold "
-                }`}
-              >
-                개요
-              </h2>
+              <h2 className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>개요</h2>
               <div className="box-border relative outline1">
                 {/* 등장인물 */}
                 <div className=" characters">
                   <div
-                    className={`box-border flex flex-row  ${
-                      isSmallMobile ? "" : "items-center"
-                    }`}
+                    className={`box-border flex flex-row  ${isSmallMobile ? "" : "items-center"}`}
                   >
                     {" "}
                     <img
                       src={hasActors ? puppleCheckIcon : grayCheckIcon}
-                      className={`aspect-square h-fit ${
-                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
-                      }`}
+                      className={`aspect-square h-fit ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
                       alt="입력 체크"
                     />
                     <span
                       className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[1.56vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
                       등장인물
                     </span>
                   </div>
 
-                  <img
-                    src={stickIcon}
-                    className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
-                  />
+                  <img src={stickIcon} className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`} />
 
                   <div
                     className={`flex whitespace-nowrap translate-y-[-2px]  ${
-                      isSmallMobile
-                        ? "p-12-regular flex-col "
-                        : "p-small-regular  flex-row"
+                      isSmallMobile ? "p-12-regular flex-col " : "p-small-regular  flex-row"
                     }`}
                   >
                     <div>
@@ -414,11 +376,7 @@ const PostManageDetail: React.FC = () => {
                         type="text"
                         placeholder="00"
                         id="no-gender"
-                        value={
-                          form.any === 0 && !isTouched.any
-                            ? ""
-                            : String(form.any ?? "")
-                        }
+                        value={form.any === 0 && !isTouched.any ? "" : String(form.any ?? "")}
                         className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
                           isSmallMobile
                             ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
@@ -451,11 +409,7 @@ const PostManageDetail: React.FC = () => {
                         type="text"
                         placeholder="00"
                         id="male"
-                        value={
-                          form.male === 0 && !isTouched.male
-                            ? ""
-                            : String(form.male ?? "")
-                        }
+                        value={form.male === 0 && !isTouched.male ? "" : String(form.male ?? "")}
                         className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
                           isSmallMobile
                             ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular"
@@ -480,9 +434,7 @@ const PostManageDetail: React.FC = () => {
                       {isSmallMobile ? (
                         <span
                           className={`whitespace-nowrap  ${
-                            isSmallMobile
-                              ? "p-12-regular  "
-                              : "p-small-regular  "
+                            isSmallMobile ? "p-12-regular  " : "p-small-regular  "
                           }`}
                         >
                           명{" "}
@@ -490,9 +442,7 @@ const PostManageDetail: React.FC = () => {
                       ) : (
                         <span
                           className={`whitespace-nowrap  ${
-                            isSmallMobile
-                              ? "p-12-regular  "
-                              : "p-small-regular  "
+                            isSmallMobile ? "p-12-regular  " : "p-small-regular  "
                           }`}
                         >
                           명 / 여
@@ -503,9 +453,7 @@ const PostManageDetail: React.FC = () => {
                       <div>
                         <span
                           className={`whitespace-nowrap  ${
-                            isSmallMobile
-                              ? "p-12-regular  "
-                              : "p-small-regular  "
+                            isSmallMobile ? "p-12-regular  " : "p-small-regular  "
                           }`}
                         >
                           {" "}
@@ -513,9 +461,7 @@ const PostManageDetail: React.FC = () => {
                         </span>
                         <input
                           value={
-                            form.female === 0 && !isTouched.female
-                              ? ""
-                              : String(form.female ?? "")
+                            form.female === 0 && !isTouched.female ? "" : String(form.female ?? "")
                           }
                           id="female"
                           type="text"
@@ -546,9 +492,7 @@ const PostManageDetail: React.FC = () => {
                         />
                         <span
                           className={`whitespace-nowrap  ${
-                            isSmallMobile
-                              ? "p-12-regular  "
-                              : "p-small-regular  "
+                            isSmallMobile ? "p-12-regular  " : "p-small-regular  "
                           }`}
                         >
                           명
@@ -558,9 +502,7 @@ const PostManageDetail: React.FC = () => {
                       <div>
                         <input
                           value={
-                            form.female === 0 && !isTouched.female
-                              ? ""
-                              : String(form.female ?? "")
+                            form.female === 0 && !isTouched.female ? "" : String(form.female ?? "")
                           }
                           id="female"
                           type="text"
@@ -599,25 +541,18 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     <img
                       src={hasRunningTime ? puppleCheckIcon : grayCheckIcon}
-                      className={`aspect-square ${
-                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
-                      }`}
+                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
                       alt="입력 체크"
                     />
                     <span
                       className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[1.56vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
                       공연 시간
                     </span>
                   </div>
-                  <img
-                    src={stickIcon}
-                    className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
-                  />
+                  <img src={stickIcon} className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`} />
                   <div
                     className={`flex flex-row items-center whitespace-nowrap ${
                       isSmallMobile ? "p-12-regular" : "p-small-regular"
@@ -679,28 +614,20 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        hasValidStageComment ? puppleCheckIcon : grayCheckIcon
-                      }
-                      className={`aspect-square ${
-                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
-                      }`}
+                      src={hasValidStageComment ? puppleCheckIcon : grayCheckIcon}
+                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
                       alt="입력 체크"
                     />
                     <span
                       className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[1.56vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
                       무대
                     </span>
                   </div>
                   <img
-                    className={` my-auto ${
-                      isSmallMobile ? "h-[16px]" : "h-[20px]"
-                    }`}
+                    className={` my-auto ${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
                     src={stickIcon}
                     alt="구분선"
                   />
@@ -724,16 +651,12 @@ const PostManageDetail: React.FC = () => {
                     {" "}
                     <img
                       src={hasSceneOrAct ? puppleCheckIcon : grayCheckIcon}
-                      className={`aspect-square ${
-                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
-                      }`}
+                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
                       alt="입력 체크"
                     />
                     <span
                       className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[1.56vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
                       막과 장
@@ -741,20 +664,14 @@ const PostManageDetail: React.FC = () => {
                   </div>
                   <img
                     src={stickIcon}
-                    className={` my-auto ${
-                      isSmallMobile ? "h-[16px]" : "h-[20px]"
-                    }`}
+                    className={` my-auto ${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
                   />
                   <div className="flex flex-row items-center whitespace-nowrap">
                     <input
                       type="text"
                       placeholder="00"
                       id="act"
-                      value={
-                        form.act === 0 && !isTouched.act
-                          ? ""
-                          : String(form.act ?? "")
-                      }
+                      value={form.act === 0 && !isTouched.act ? "" : String(form.act ?? "")}
                       className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
                         isSmallMobile
                           ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
@@ -787,11 +704,7 @@ const PostManageDetail: React.FC = () => {
                       type="text"
                       placeholder="00"
                       id="scene"
-                      value={
-                        form.scene === 0 && !isTouched.scene
-                          ? ""
-                          : String(form.scene ?? "")
-                      }
+                      value={form.scene === 0 && !isTouched.scene ? "" : String(form.scene ?? "")}
                       className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
                         isSmallMobile
                           ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
@@ -823,19 +736,12 @@ const PostManageDetail: React.FC = () => {
                   </div>
                 </div>
 
-                <img
-                  src={puppleLine}
-                  className="absolute left-[376px] pupple-contour"
-                ></img>
+                <img src={puppleLine} className="absolute left-[376px] pupple-contour"></img>
               </div>
             </div>
 
             <div className="flex flex-col gap-[9px] mb-[15px]">
-              <span
-                className={`${
-                  isSmallMobile ? "p-small-bold" : "p-medium-bold "
-                }`}
-              >
+              <span className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>
                 작가 의도{" "}
               </span>
               <div className="intention-div relative  focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
@@ -859,11 +765,7 @@ const PostManageDetail: React.FC = () => {
             {/* --- 판매 상태 --- */}
             <div className="min-h-[103px] mb-[12px] ">
               <div className="mb-[12px] flex items-center gap-[7px] relative">
-                <h2
-                  className={`${
-                    isSmallMobile ? "p-small-bold" : "p-medium-bold "
-                  }`}
-                >
+                <h2 className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>
                   판매 상태{" "}
                 </h2>
                 {/* <img
@@ -904,16 +806,12 @@ const PostManageDetail: React.FC = () => {
                       //   form.scriptPrice ?? 0 ? puppleCheckIcon : grayCheckIcon
                       // }
                       src={puppleCheckIcon}
-                      className={`aspect-square ${
-                        isSmallMobile ? "w-[5vw]" : "w-[20px]"
-                      }`}
+                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
                       alt="입력 체크"
                     />
                     <span
                       className={`  whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[0.94vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[0.94vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
                       대본
@@ -921,9 +819,7 @@ const PostManageDetail: React.FC = () => {
                   </div>
                   <img
                     src={stickIcon}
-                    className={` my-auto ${
-                      isSmallMobile ? "h-[16px]" : "h-[20px]"
-                    }`}
+                    className={` my-auto ${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
                   />
                   <input
                     type="text"
@@ -946,9 +842,7 @@ const PostManageDetail: React.FC = () => {
                         ? "h-[32px] w-[64vw]  p-xs-regular"
                         : "h-[26px] w-full p-small-regular "
                     }`}
-                    value={
-                      podoStudioOpen ? "true" : form.script ? "true" : "false"
-                    }
+                    value={form.script ? "true" : "false"}
                     onChange={(e) => {
                       const isScript = e.target.value === "true";
                       setForm((prev) => ({
@@ -957,7 +851,6 @@ const PostManageDetail: React.FC = () => {
                         performance: isScript ? prev.performance : false, // script가 false면 performance도 false로
                       }));
                     }}
-                    disabled={podoStudioOpen ? true : false}
                   >
                     <option value="false">판매 중지</option>
                     <option value="true"> 판매 중</option>
@@ -967,11 +860,7 @@ const PostManageDetail: React.FC = () => {
                   <div className="box-border flex flex-row items-center ">
                     {" "}
                     <img
-                      src={
-                        hasValidPerformancePrice
-                          ? puppleCheckIcon
-                          : grayCheckIcon
-                      }
+                      src={hasValidPerformancePrice ? puppleCheckIcon : grayCheckIcon}
                       className={`aspect-square ${
                         isSmallMobile ? "w-[5vw]" : "w-[20px]"
                       }${form.script === false ? "opacity-50" : ""}`}
@@ -979,9 +868,7 @@ const PostManageDetail: React.FC = () => {
                     />
                     <span
                       className={`  whitespace-nowrap translate-y-[1px] flex-grow  ${
-                        isSmallMobile
-                          ? "p-12-bold  ml-[0.94vw]"
-                          : " p-small-medium ml-[6px]"
+                        isSmallMobile ? "p-12-bold  ml-[0.94vw]" : " p-small-medium ml-[6px]"
                       } ${form.script === false ? "opacity-50" : "text-black"}`}
                     >
                       공연권
@@ -994,16 +881,10 @@ const PostManageDetail: React.FC = () => {
                     } my-auto`}
                   />
 
-                  <div
-                    className={`relative ${
-                      isSmallMobile ? "h-full" : "h-[26px]  my-auto "
-                    }`}
-                  >
+                  <div className={`relative ${isSmallMobile ? "h-full" : "h-[26px]  my-auto "}`}>
                     <input
                       type="text"
-                      disabled={
-                        form.performance === false || form.script === false
-                      }
+                      disabled={form.performance === false || form.script === false}
                       placeholder="공연권 가격을 입력하세요."
                       className={` my-auto h-full w-full box-border p-xs-regular px-[3.39%] py-[2%] focus:outline-none focus:border-[0.5px] border-[#BABABA] focus:border-[#caabff] placeholder-[rgba(0,0,0,0.17)]  rounded-[5px] border-[0.5px]`}
                       onChange={(e) => {
@@ -1038,18 +919,16 @@ const PostManageDetail: React.FC = () => {
                 <div className="flex items-center justify-end w-full ">
                   {/* 공연권 오픈 할 때는 pointer-events-none opacity-50 삭제 및 disabled 주석 부분으로 변경 */}
                   <select
-                    className={`pointer-events-none opacity-50 ${
-                      form.script === false
-                        ? "pointer-events-none opacity-50 "
-                        : "cursor-pointer"
+                    className={`${
+                      form.script === false ? "pointer-events-none opacity-50 " : "cursor-pointer"
                     }   ${
                       isSmallMobile
                         ? "h-[32px] w-[64vw]  p-xs-regular "
                         : "h-[26px] w-full  p-small-regular"
                     } not-last:mr-[9.87%] text-center focus:outline-none focus:border-[0.5px] focus:border-[#caabff]  border-[#BABABA] rounded-[5px] border-[0.5px]`}
                     value={form.performance ? "true" : "false"}
-                    disabled={true}
-                    // disabled={podoStudioOpen ? true : form.script === false}
+                    // disabled={true}
+                    disabled={form.script === false}
                     onChange={(e) =>
                       setForm((prev) => ({
                         ...prev,
@@ -1068,9 +947,7 @@ const PostManageDetail: React.FC = () => {
             <div className="mt-[2.57%]">
               <FileInputBox
                 title="작품 설명"
-                infoText={
-                  "작품 설명은 5페이지 이내의\n PDF 형식 파일만 가능해요."
-                }
+                infoText={"작품 설명은 5페이지 이내의\n PDF 형식 파일만 가능해요."}
                 onFileUpload={(file) => {
                   setUploadedFile(file);
                 }}
@@ -1086,17 +963,10 @@ const PostManageDetail: React.FC = () => {
 
             {/* 버튼 */}
             <div className="flex flex-row mt-[40px] justify-end gap-[2.38%]">
-              <SmallOnOffBtn
-                color="white"
-                onClick={() => navigate("/mypage/scriptmanage")}
-              >
+              <SmallOnOffBtn color="white" onClick={() => navigate("/mypage/scriptmanage")}>
                 취소하기
               </SmallOnOffBtn>
-              <SmallOnOffBtn
-                color="purple"
-                disabled={!isFormValid()}
-                onClick={onClickModifyBtn}
-              >
+              <SmallOnOffBtn color="purple" disabled={!isFormValid()} onClick={onClickModifyBtn}>
                 수정하기
               </SmallOnOffBtn>
             </div>

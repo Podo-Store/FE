@@ -1,6 +1,6 @@
 // src/feature/performanceList/api.ts
 
-import { api } from "@/api/api";
+import { authApi } from "@/api/api";
 import type { PerformanceListQuery, PerformanceListResponse } from "./types";
 
 export const getPerformanceList = async (
@@ -8,8 +8,7 @@ export const getPerformanceList = async (
 ): Promise<PerformanceListResponse> => {
   const { status, isUsed, page = 0 } = query;
 
-  console.log(isUsed);
-  const res = await api.get("/performance/", {
+  const res = await authApi.get("/performance/", {
     params: {
       status,
 

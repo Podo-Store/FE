@@ -60,6 +60,15 @@
   line-height: 36px; /* 128.571% */
 }
 
+@utility h3-medium {
+  font-family: Pretendard;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 36px; /* 128.571% */
+  letter-spacing: -0.56px;
+}
+
 @utility h3-bold {
   /* H3/Bold */
   font-size: 28px;
@@ -110,10 +119,13 @@
 
 @utility h5-medium {
   /* H5/Medium */
+
+  font-family: Pretendard;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
   line-height: 28px; /* 140% */
+  letter-spacing: -0.4px;
 }
 
 @utility company-title-large {

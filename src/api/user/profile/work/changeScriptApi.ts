@@ -1,5 +1,3 @@
-import axios from "axios";
-import { SERVER_URL } from "@/constants/ServerURL";
 import { api } from "@/api/api";
 
 /**

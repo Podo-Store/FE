@@ -24,10 +24,7 @@ import { formatPrice } from "../../utils/formatPrice";
 import truncateText from "@/utils/truncateText";
 import { Review, ReviewStatistics } from "@/types/review";
 
-import {
-  DETAIL_SCRIPT_TEXT,
-  DETAIL_PERFORM_TEXT,
-} from "../../constants/PopupTexts/DetailTexts";
+import { DETAIL_SCRIPT_TEXT, DETAIL_PERFORM_TEXT } from "../../constants/PopupTexts/DetailTexts";
 import { LIKE } from "@/constants/alertTexts";
 
 import circleInfoBtn from "./../../assets/image/button/circleInfoBtn.svg";
@@ -64,7 +61,7 @@ export interface PostDetail {
   playType?: string;
   imagePath?: string;
   descriptionPath?: string;
-  buyStatus: number;
+  buyOptions: string[];
   like: boolean;
   likeCount: number;
   viewCount: number;
@@ -144,6 +141,8 @@ const Detail = () => {
           },
         });
 
+        console.log(response);
+
         setScript({
           id: id || "", // 혹은 response.data.id 가 있다면 사용
           title: response.data.title,
@@ -155,7 +154,7 @@ const Detail = () => {
           performancePrice: response.data.performancePrice ?? 0,
           playType: response.data.playType,
           imagePath: response.data.imagePath,
-          buyStatus: response.data.buyStatus,
+          buyOptions: response.data.buyOptions,
           like: response.data.like,
           likeCount: response.data.likeCount,
           viewCount: response.data.viewCount,
@@ -177,9 +176,7 @@ const Detail = () => {
       } catch (error: any) {
         const errMsg = error.response?.data?.error;
         if (errMsg?.includes("rollback")) {
-          alert(
-            "서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요."
-          );
+          alert("서버 내부 오류로 인해 작품 정보를 불러올 수 없습니다. 잠시 후 다시 시도해주세요.");
         } else {
           alert("작품 정보를 불러오는데 실패했습니다.");
         }
@@ -219,9 +216,10 @@ const Detail = () => {
     fetchMore();
   }, [reviewPage, sort, id]);
 
-  const onChangeSelectOption = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const onChangeSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(event.target.value);
+    // 이미 대본을 소유하고 있는데 대본을 구매하려는 경우 alert
+    // 이미 공연권을 소유하고 있는데 공연권을 구매하려는 경우 alert
     setSelectedOption(event.target.value);
     setIsOptionSelected(true);
   };
@@ -232,9 +230,7 @@ const Detail = () => {
     }
   }, [selectedOption]);
 
-  const onChangeBottomSelectOption = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const onChangeBottomSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     onChangeSelectOption(event);
   };
@@ -252,8 +248,7 @@ const Detail = () => {
     } else if (selectedOption === "perform") {
       total = purchasePerformAmount * script.performancePrice;
     } else if (selectedOption === "scriptPerform") {
-      total =
-        script.scriptPrice + purchasePerformAmount * script.performancePrice;
+      total = script.scriptPrice + purchasePerformAmount * script.performancePrice;
     }
 
     setTotalPrice(formatPrice(total));
@@ -293,9 +288,7 @@ const Detail = () => {
 
     const handleScroll = () => {
       const pdfContainer = pdfContainerRef.current;
-      const bottomBar = document.querySelector(
-        ".detail-bottom-bar"
-      ) as HTMLElement;
+      const bottomBar = document.querySelector(".detail-bottom-bar") as HTMLElement;
 
       if (pdfContainer && bottomBar) {
         const pdfContainerRect = pdfContainer.getBoundingClientRect();
@@ -394,6 +387,7 @@ const Detail = () => {
     }
     return count;
   };
+  console.log(script);
 
   const renderReviewWriteButton = () => {
     return (
@@ -436,7 +430,7 @@ const Detail = () => {
               <img
                 src={script?.imagePath === "" ? defaultImg : script?.imagePath}
                 alt={script?.title}
-                className="thumbnail w-full h-full object-contain"
+                className="object-contain w-full h-full thumbnail"
               />
               <div className="absolute right-[7px] bottom-[6px] sm:right-[14px] sm:bottom-[14px] md:right-[20px] md:bottom-[20px] lg:right-[30px] lg:bottom-[30px] transition-all duration-100 hover:scale-[1.2]">
                 <button
@@ -457,10 +451,7 @@ const Detail = () => {
           </div>
 
           {/* 제목, 이름 */}
-          <div
-            id="title"
-            className="w-full h-full detail-title f-dir-column j-content-between"
-          >
+          <div id="title" className="w-full h-full detail-title f-dir-column j-content-between">
             <div className="h-full">
               {!isTablet && !isMobile && !isSmallMobile && (
                 <>
@@ -476,10 +467,7 @@ const Detail = () => {
                     <h3 className={!isSmallMobile ? "h3-bold" : "p-small-bold"}>
                       {script?.writer}
                     </h3>
-                    <LikeViewCount
-                      likes={script?.likeCount ?? 0}
-                      views={script?.viewCount ?? 0}
-                    />
+                    <LikeViewCount likes={script?.likeCount ?? 0} views={script?.viewCount ?? 0} />
                   </div>
                 </>
               )}
@@ -499,20 +487,14 @@ const Detail = () => {
                     </h3>
                   </div>
                   <div className="flex">
-                    <LikeViewCount
-                      likes={script?.likeCount ?? 0}
-                      views={script?.viewCount ?? 0}
-                    />
+                    <LikeViewCount likes={script?.likeCount ?? 0} views={script?.viewCount ?? 0} />
                   </div>
                 </section>
               )}
             </div>
           </div>
 
-          <div
-            id="content"
-            className="w-full detail-title f-dir-column j-content-between"
-          >
+          <div id="content" className="w-full detail-title f-dir-column j-content-between">
             {/* 줄거리 */}
             <div className=" _content-detail">
               <hr id="detail-hr-1"></hr>
@@ -532,18 +514,11 @@ const Detail = () => {
                 <div className="detail-price">
                   <div className="price">
                     <img id="script" src={scriptImg} alt="script"></img>
-                    <p
-                      className="whitespace-nowrap"
-                      style={{ marginLeft: "0.2rem" }}
-                    >
+                    <p className="whitespace-nowrap" style={{ marginLeft: "0.2rem" }}>
                       대본
                     </p>
                   </div>
-                  <p
-                    className={
-                      !isSmallMobile ? "p-large-medium" : "p-small-medium"
-                    }
-                  >
+                  <p className={!isSmallMobile ? "p-large-medium" : "p-small-medium"}>
                     {formatPrice(script?.scriptPrice) === "0"
                       ? "무료"
                       : `${formatPrice(script?.scriptPrice)}원`}
@@ -555,11 +530,7 @@ const Detail = () => {
                       <img id="perform" src={performImg} alt="perform"></img>
                       <p className="whitespace-nowrap">공연권</p>
                     </div>
-                    <p
-                      className={
-                        !isSmallMobile ? "p-large-medium" : "p-small-medium"
-                      }
-                    >
+                    <p className={!isSmallMobile ? "p-large-medium" : "p-small-medium"}>
                       {formatPrice(script?.performancePrice) === "0"
                         ? "무료"
                         : `${formatPrice(script?.performancePrice)}원`}
@@ -571,23 +542,16 @@ const Detail = () => {
 
                 <div className="option-select ">
                   <Select
-                    className={isAdmin ? "cursor-pointer" : ""}
+                    className="cursor-pointer"
                     value={selectedOption}
                     onChange={onChangeSelectOption}
-                    disabled={!isAdmin}
                   >
                     <option value="">옵션 선택</option>
-                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-                    script?.script ? (
+                    {script?.script && script?.buyOptions.includes("SCRIPT") ? (
                       <option value="script">대본</option>
                     ) : null}
-                    {(script?.buyStatus === 0 || script?.buyStatus === 2) &&
-                    script?.script &&
-                    script?.performance ? (
-                      <option value="scriptPerform">대본 + 공연권</option>
-                    ) : null}
-                    {(script?.buyStatus === 1 || script?.buyStatus === 2) &&
-                    script?.performance ? (
+
+                    {script?.performance && script?.buyOptions.includes("PERFORMANCE") ? (
                       <option value="perform">공연권</option>
                     ) : null}
                   </Select>
@@ -631,56 +595,35 @@ const Detail = () => {
                             }}
                             buttonId="info-btn"
                             message2={
-                              selectedOption === "scriptPerform"
-                                ? DETAIL_PERFORM_TEXT
-                                : undefined
+                              selectedOption === "scriptPerform" ? DETAIL_PERFORM_TEXT : undefined
                             }
                           />
                         ) : null}
                       </div>
                     </div>
                     <div id="detail-amount-wrap">
-                      {selectedOption === "script" ||
-                      selectedOption === "scriptPerform" ? (
+                      {selectedOption === "script" || selectedOption === "scriptPerform" ? (
                         <div
-                          className="relative flex justify-between items-center"
+                          className="relative flex items-center justify-between"
                           id="detail-amount"
                         >
-                          <div
-                            className="a-items-center"
-                            id="detail-amount-title"
-                          >
+                          <div className="a-items-center" id="detail-amount-title">
                             <img src={vector23} alt="ㄴ"></img>
-                            <img
-                              id="script"
-                              src={scriptImg}
-                              alt="script amount"
-                            ></img>
-                            <p
-                              className={
-                                !isSmallMobile
-                                  ? "p-large-medium"
-                                  : "p-small-medium"
-                              }
-                            >
+                            <img id="script" src={scriptImg} alt="script amount"></img>
+                            <p className={!isSmallMobile ? "p-large-medium" : "p-small-medium"}>
                               대본
                             </p>
                           </div>
                           <p
                             className={clsx(
                               "amount-change absolute translate-x-[35px]",
-                              !isSmallMobile
-                                ? " p-large-medium"
-                                : " p-xs-medium"
+                              !isSmallMobile ? " p-large-medium" : " p-xs-medium"
                             )}
                           >
                             1
                           </p>
 
-                          <div
-                            className="a-items-center"
-                            id="detail-amount-price"
-                          >
+                          <div className="a-items-center" id="detail-amount-price">
                             <div className="flex items-center price-wrapper">
                               <p
                                 className="p-xs-medium sm:p-large-medium whitespace-nowrap"
@@ -693,9 +636,7 @@ const Detail = () => {
                                 src={closeBtn}
                                 alt="X"
                                 onClick={() => {
-                                  setTotalPrice(
-                                    formatPrice(script?.scriptPrice)
-                                  );
+                                  setTotalPrice(formatPrice(script?.scriptPrice));
                                   setSelectedOption("");
                                 }}
                               />
@@ -704,33 +645,17 @@ const Detail = () => {
                         </div>
                       ) : null}
 
-                      {selectedOption === "scriptPerform" ? (
-                        <hr id="detail-hr-3"></hr>
-                      ) : null}
+                      {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
 
-                      {selectedOption === "perform" ||
-                      selectedOption === "scriptPerform" ? (
+                      {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
                         <div
-                          className="relative flex justify-between items-center"
+                          className="relative flex items-center justify-between"
                           id="detail-amount"
                         >
-                          <div
-                            className="a-items-center"
-                            id="detail-amount-title"
-                          >
+                          <div className="a-items-center" id="detail-amount-title">
                             <img src={vector23} alt="ㄴ"></img>
-                            <img
-                              id="perform"
-                              src={performImg}
-                              alt="perform amount"
-                            ></img>
-                            <p
-                              className={
-                                !isSmallMobile
-                                  ? "p-large-medium"
-                                  : "p-small-medium"
-                              }
-                            >
+                            <img id="perform" src={performImg} alt="perform amount"></img>
+                            <p className={!isSmallMobile ? "p-large-medium" : "p-small-medium"}>
                               공연권
                             </p>
                           </div>
@@ -750,8 +675,7 @@ const Detail = () => {
                                 id="price"
                               >
                                 {formatPrice(
-                                  purchasePerformAmount *
-                                    (script?.performancePrice ?? 0)
+                                  purchasePerformAmount * (script?.performancePrice ?? 0)
                                 )}{" "}
                                 원
                               </p>
@@ -779,23 +703,13 @@ const Detail = () => {
                 {selectedOption ? <hr id="detail-hr-2"></hr> : null}
 
                 <div className=" total-price j-content-between a-items-center">
-                  <p
-                    className={clsx(
-                      "c-grey7",
-                      !isSmallMobile ? "p-large-bold" : "p-medium-bold"
-                    )}
-                  >
+                  <p className={clsx("c-grey7", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}>
                     총 금액
                   </p>
                   <div className="a-items-end" id="total-price-won">
-                    <h4 className={!isSmallMobile ? "h4-bold" : "h5-bold"}>
-                      {totalPrice}
-                    </h4>
+                    <h4 className={!isSmallMobile ? "h4-bold" : "h5-bold"}>{totalPrice}</h4>
                     <p
-                      className={clsx(
-                        "c-grey7",
-                        !isSmallMobile ? "p-large-bold" : "p-medium-bold"
-                      )}
+                      className={clsx("c-grey7", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}
                     >
                       원
                     </p>
@@ -806,11 +720,7 @@ const Detail = () => {
                   <button id="purchase-btn" onClick={onClickScriptView}>
                     대본 열람하기
                   </button>
-                  <button
-                    id="purchase-btn"
-                    onClick={onClickPurchase}
-                    disabled={!isOptionSelected}
-                  >
+                  <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
                     구매하기
                   </button>
                 </div>
@@ -823,9 +733,7 @@ const Detail = () => {
         <div className="w-full detail-description" ref={pdfContainerRef}>
           <hr></hr>
           <div className="flex flex-col pl-[20px] gap-[19px]">
-            <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>
-              개요
-            </h2>
+            <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>개요</h2>
             <div className="flex flex-col gap-[18px]">
               <InfoItem
                 label="등장인물"
@@ -838,23 +746,15 @@ const Detail = () => {
                   .join(" / ")}
               />
               <InfoItem label="무대" value={`${script?.stageComment}`} />
-              <InfoItem
-                label="공연 시간"
-                value={`약 ${script?.runningTime}분`}
-              />
-              <InfoItem
-                label="막과 장"
-                value={`${script?.act}막 ${script?.scene}장`}
-              />
+              <InfoItem label="공연 시간" value={`약 ${script?.runningTime}분`} />
+              <InfoItem label="막과 장" value={`${script?.act}막 ${script?.scene}장`} />
             </div>
           </div>
 
           <div className="w-full script-intention">
             <hr></hr>
             <div className="flex flex-col pl-[20px] gap-[19px]">
-              <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>
-                작가 의도
-              </h2>
+              <h2 className={!isSmallMobile ? "p-large-bold" : "p-medium-bold"}>작가 의도</h2>
               <p className={!isSmallMobile ? "p-medium-regular" : "p-12-400"}>
                 {script?.intention}
               </p>
@@ -864,10 +764,7 @@ const Detail = () => {
           <hr></hr>
           <div className="mb-[40px]  ">
             <p
-              className={clsx(
-                "w-fit",
-                !isSmallMobile ? "p-large-bold" : "p-medium-bold"
-              )}
+              className={clsx("w-fit", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}
               id="preview-title"
             >
               미리보기
@@ -903,26 +800,15 @@ const Detail = () => {
         <section className="w-full">
           <section className="mt-[24px] mb-[16px] w-full">
             <p className="ml-[20px] w-full p-large-bold">
-              후기 (
-              {parseReviewCount(
-                script?.reviewStatistics?.totalReviewCount ?? 0
-              )}
-              )
+              후기 ({parseReviewCount(script?.reviewStatistics?.totalReviewCount ?? 0)})
             </p>
-            <div className="flex justify-end w-full">
-              {renderReviewWriteButton()}
-            </div>
+            <div className="flex justify-end w-full">{renderReviewWriteButton()}</div>
           </section>
           <ReviewSummary stats={script?.reviewStatistics!} />
 
           <section className="mt-[50px] w-full">
             <div className="flex justify-between w-full mb-[8px] relative">
-              <p
-                className={clsx(
-                  "ml-[20px]",
-                  !isSmallMobile ? "p-large-bold" : "p-medium-bold"
-                )}
-              >
+              <p className={clsx("ml-[20px]", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}>
                 전체 후기
               </p>
               <button
@@ -940,13 +826,9 @@ const Detail = () => {
               {openSort && (
                 <div className="flex flex-col gap-[10px] absolute top-[40px] right-[0] p-[14px] sm:w-[84px] sm:h-[86px] border-1 border-[#E2E2E2] bg-[#fff] rounded-[5px] z-20 box-border whitespace-nowrap ">
                   <button
-                    className={clsx(
-                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
-                      {
-                        "text-[#777] hover:text-[#6A39C0]":
-                          sort !== "LIKE_COUNT",
-                      }
-                    )}
+                    className={clsx("flex items-center gap-[4px] p-xs-medium sm:p-medium-medium", {
+                      "text-[#777] hover:text-[#6A39C0]": sort !== "LIKE_COUNT",
+                    })}
                     onClick={() => {
                       setSort("LIKE_COUNT");
                       setOpenSort(false);
@@ -955,12 +837,9 @@ const Detail = () => {
                     좋아요순
                   </button>
                   <button
-                    className={clsx(
-                      "flex items-center gap-[4px] p-xs-medium sm:p-medium-medium",
-                      {
-                        "text-[#777] hover:text-[#6A39C0]": sort !== "LATEST",
-                      }
-                    )}
+                    className={clsx("flex items-center gap-[4px] p-xs-medium sm:p-medium-medium", {
+                      "text-[#777] hover:text-[#6A39C0]": sort !== "LATEST",
+                    })}
                     onClick={() => {
                       setSort("LATEST");
                       setOpenSort(false);
@@ -974,18 +853,12 @@ const Detail = () => {
 
             {reviews.length > 0 ? (
               reviews.map((review) => (
-                <ReviewList
-                  key={review.id}
-                  scriptId={script?.id!}
-                  review={review}
-                />
+                <ReviewList key={review.id} scriptId={script?.id!} review={review} />
               ))
             ) : (
               <div className="flex flex-col w-full">
                 <hr className="m-[0px] mb-[74px] w-full bg-[#9E9E9E]" />
-                <p className="p-large-bold text-center">
-                  작품의 후기를 남겨주세요.
-                </p>
+                <p className="text-center p-large-bold">작품의 후기를 남겨주세요.</p>
                 <div className="mt-[25px] flex justify-center w-full">
                   {renderReviewWriteButton()}
                 </div>
@@ -997,11 +870,7 @@ const Detail = () => {
         {reviews.length > 0 && (
           <ReviewPagination
             currentPage={reviewPage + 1}
-            totalPages={
-              Math.ceil(
-                (script?.reviewStatistics?.totalReviewCount ?? 5) / 5
-              ) ?? 1
-            }
+            totalPages={Math.ceil((script?.reviewStatistics?.totalReviewCount ?? 5) / 5) ?? 1}
             onPageChange={(page) => {
               // 0 base로 parsing 필요
               setReviewPage(page - 1);

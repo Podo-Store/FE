@@ -79,28 +79,36 @@ export interface PostDetail {
   intention: string;
 }
 
+type SelectOption = "" | "script" | "perform";
+
 const Detail = () => {
   const [script, setScript] = useState<PostDetail>();
   const [description, setDescription] = useState<string>("");
+
   const [bottomBarStyle, setBottomBarStyle] = useState<React.CSSProperties>({
     position: "fixed",
     display: "none", // bottom bar 비활성화
   });
-  const [selectedOption, setSelectedOption] = useState("");
-  const [isOptionSelected, setIsOptionSelected] = useState(false);
+
+  // 드롭다운은 선택 트리거로만 사용. 선택 후 즉시 초기화.
+  const [selectedOption, setSelectedOption] = useState<SelectOption>("");
+
+  // 실제로 담긴 상태(누적 상태)
+  const [isScriptSelected, setIsScriptSelected] = useState(false);
+  const [performAmount, setPerformAmount] = useState(0); // 0이면 공연권 미선택
+
   const [totalPrice, setTotalPrice] = useState(" - ");
-  const [purchasePerformAmount, setPurchasePerformAmount] = useState(1);
 
   const [showPopup, setShowPopup] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
 
   // 스크롤 시 bottom-bar visibility 변경
   const [isDetailBtnVisible, setIsDetailBtnVisible] = useState(false);
-  const detailBtnWrapRef = useRef(null);
+  const detailBtnWrapRef = useRef<HTMLDivElement | null>(null);
+
   const { isAuthenticated, isAdmin } = useContext(AuthContext);
   const toggleLike = useSingleToggleLike();
-  const [numPages, setNumPages] = useState<number | null>(null); // 페이지 수를 저장하는 상태 추가
+  const [numPages, setNumPages] = useState<number | null>(null);
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -120,11 +128,15 @@ const Detail = () => {
   const accessToken = Cookies.get("accessToken");
 
   const inflightRef = useRef<Map<string, boolean>>(new Map());
+
+  // 옵션이 하나라도 담겨있으면 구매 가능
+  const isOptionSelected = isScriptSelected || performAmount > 0;
+
   // 작품 상세 + 설명 병렬 호출
   useEffect(() => {
     const key = `${id}|${sort}|page0`;
-    if (inflightRef.current.get(key)) return; // 이미 같은 호출이 진행 중이면 스킵
-    inflightRef.current.set(key, true); // 진행 중 표시
+    if (inflightRef.current.get(key)) return;
+    inflightRef.current.set(key, true);
 
     const getDetail = async () => {
       if (!id) return;
@@ -141,10 +153,8 @@ const Detail = () => {
           },
         });
 
-        console.log(response);
-
         setScript({
-          id: id || "", // 혹은 response.data.id 가 있다면 사용
+          id: id || "",
           title: response.data.title,
           writer: response.data.writer,
           plot: response.data.plot,
@@ -182,17 +192,16 @@ const Detail = () => {
         }
         console.error("❌ 서버 응답:", errMsg);
       }
+
       setIsLoading(false);
       inflightRef.current.delete(key);
 
-      const { data: description } = await api.get(`/scripts/description`, {
-        params: {
-          script: id,
-        },
+      const { data: descriptionBlob } = await api.get(`/scripts/description`, {
+        params: { script: id },
         responseType: "blob",
       });
 
-      setDescription(URL.createObjectURL(description));
+      setDescription(URL.createObjectURL(descriptionBlob));
     };
 
     getDetail();
@@ -201,6 +210,7 @@ const Detail = () => {
   // 리뷰 다음 페이지 Fetch
   useEffect(() => {
     if (reviewPage === 0) return;
+
     const fetchMore = async () => {
       try {
         const { data } = await api.get(`/scripts/detail`, {
@@ -216,58 +226,65 @@ const Detail = () => {
     fetchMore();
   }, [reviewPage, sort, id]);
 
+  // Select에서 선택하는 순간 담기 + Select는 다시 초기화
   const onChangeSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(event.target.value);
-    // 이미 대본을 소유하고 있는데 대본을 구매하려는 경우 alert
-    // 이미 공연권을 소유하고 있는데 공연권을 구매하려는 경우 alert
-    setSelectedOption(event.target.value);
-    setIsOptionSelected(true);
-  };
+    const value = event.target.value as SelectOption;
+    if (!value || !script) return;
 
-  useEffect(() => {
-    if (selectedOption === "scriptPerform" || selectedOption === "perform") {
-      setShowPopup(true);
+    if (value === "script") {
+      if (isScriptSelected) {
+        alert("대본은 이미 선택되어 있습니다.");
+      } else {
+        setIsScriptSelected(true);
+        // 대본도 안내 팝업 띄우고 싶으면 여기서 setShowPopup(true) + message 조정하면 됨
+      }
     }
-  }, [selectedOption]);
+
+    if (value === "perform") {
+      if (!script.performance || !script.buyOptions?.includes("PERFORMANCE")) {
+        alert("공연권을 구매할 수 없는 작품입니다.");
+      } else if (performAmount > 0) {
+        alert("공연권은 이미 선택되어 있습니다. 수량을 조절해주세요.");
+      } else {
+        setPerformAmount(1);
+        setShowPopup(true);
+      }
+    }
+
+    // 다시 옵션 선택 상태로 돌려서, 다시 열고 다른 옵션을 선택할 수 있게 함
+    setSelectedOption("");
+  };
 
   const onChangeBottomSelectOption = (event: React.ChangeEvent<HTMLSelectElement>) => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     onChangeSelectOption(event);
   };
 
+  // 총금액 계산: 누적 상태 기준
   useEffect(() => {
     if (!script) {
       setTotalPrice(" - ");
       return;
     }
 
-    let total = 0;
-
-    if (selectedOption === "script") {
-      total = script.scriptPrice;
-    } else if (selectedOption === "perform") {
-      total = purchasePerformAmount * script.performancePrice;
-    } else if (selectedOption === "scriptPerform") {
-      total = script.scriptPrice + purchasePerformAmount * script.performancePrice;
-    }
+    const total =
+      (isScriptSelected ? script.scriptPrice : 0) +
+      (performAmount > 0 ? performAmount * script.performancePrice : 0);
 
     setTotalPrice(formatPrice(total));
-  }, [selectedOption, script, purchasePerformAmount]);
+  }, [script, isScriptSelected, performAmount]);
 
   const pdfContainerRef = useRef<HTMLDivElement | null>(null);
 
   // 구매 버튼이 보이면 bottom bar가 보이지 않도록
   useEffect(() => {
-    if (!numPages) return; // PDF가 로드되지 않았으면 IntersectionObserver 설정 중지
+    if (!numPages) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsDetailBtnVisible(entry.isIntersecting);
       },
-      {
-        root: null,
-        threshold: 0.1,
-      }
+      { root: null, threshold: 0.1 }
     );
 
     if (detailBtnWrapRef.current) {
@@ -276,15 +293,14 @@ const Detail = () => {
 
     return () => {
       if (detailBtnWrapRef.current) {
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         observer.unobserve(detailBtnWrapRef.current);
       }
     };
-  }, [numPages]); // numPages가 설정된 후에만 IntersectionObserver 작동
+  }, [numPages]);
 
   // footer 위에 도달하면 바닥에 붙도록
   useEffect(() => {
-    if (!numPages) return; // PDF가 로드되지 않았으면 스크롤 이벤트 중지
+    if (!numPages) return;
 
     const handleScroll = () => {
       const pdfContainer = pdfContainerRef.current;
@@ -311,25 +327,14 @@ const Detail = () => {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [numPages]); // numPages가 설정된 후에만 스크롤 이벤트 적용
+  }, [numPages]);
 
   const onClickPurchase = () => {
-    // 공연권도 선택되었을 시 true
-    let isScriptSelected = false;
-    let isPerformSelected = false;
-    if (selectedOption === "script") {
-      isScriptSelected = true;
-    } else if (selectedOption === "perform") {
-      isPerformSelected = true;
-    } else if (selectedOption === "scriptPerform") {
-      isScriptSelected = true;
-      isPerformSelected = true;
-    }
     navigate(`/purchase/${id}`, {
       state: {
         isScriptSelected,
-        isPerformSelected,
-        purchasePerformAmount,
+        isPerformSelected: performAmount > 0,
+        purchasePerformAmount: performAmount > 0 ? performAmount : 1,
       },
     });
   };
@@ -338,18 +343,18 @@ const Detail = () => {
     if (!accessToken) {
       alert("대본열람은 로그인 후 가능합니다.");
       navigate("/signin");
-    } else {
-      navigate(`/list/view/${id}`, {
-        state: {
-          script,
-        },
-      });
+      return;
     }
+
+    navigate(`/list/view/${id}`, {
+      state: { script },
+    });
   };
 
   const onDocumentLoadSuccess = (pdf: any) => {
     setNumPages(pdf.numPages);
   };
+
   if (isLoading) {
     return <Loading />;
   }
@@ -359,15 +364,15 @@ const Detail = () => {
       alert("로그인이 필요합니다.");
       return;
     }
+
     if (!postId) {
       console.error("스크립트 ID 없음");
       return;
     }
-    const accessToken = Cookies.get("accessToken");
 
-    if (!accessToken) {
+    const token = Cookies.get("accessToken");
+    if (!token) {
       alert(LIKE);
-
       navigate("/signin");
       return;
     }
@@ -382,12 +387,9 @@ const Detail = () => {
   };
 
   const parseReviewCount = (count: number) => {
-    if (count > 999) {
-      return "999+";
-    }
+    if (count > 999) return "999+";
     return count;
   };
-  console.log(script);
 
   const renderReviewWriteButton = () => {
     return (
@@ -410,7 +412,6 @@ const Detail = () => {
             navigate("/signin");
             return;
           }
-
           navigate(`/list/review/${id}`);
         }}
       >
@@ -471,6 +472,7 @@ const Detail = () => {
                   </div>
                 </>
               )}
+
               {(isTablet || isMobile || isSmallMobile) && (
                 <section className="flex flex-col justify-between h-full">
                   <div>
@@ -498,6 +500,7 @@ const Detail = () => {
             {/* 줄거리 */}
             <div className=" _content-detail">
               <hr id="detail-hr-1"></hr>
+
               <div className=" detail-price-wrap">
                 <div className="detail-plot pr-[46px] ">
                   <p
@@ -509,6 +512,7 @@ const Detail = () => {
                     {script?.plot}
                   </p>
                 </div>
+
                 <hr id="detail-hr-2"></hr>
 
                 <div className="detail-price">
@@ -524,6 +528,7 @@ const Detail = () => {
                       : `${formatPrice(script?.scriptPrice)}원`}
                   </p>
                 </div>
+
                 {script?.performance ? (
                   <div className="detail-price">
                     <div className="price">
@@ -536,9 +541,7 @@ const Detail = () => {
                         : `${formatPrice(script?.performancePrice)}원`}
                     </p>
                   </div>
-                ) : (
-                  <></>
-                )}
+                ) : null}
 
                 <div className="option-select ">
                   <Select
@@ -547,6 +550,7 @@ const Detail = () => {
                     onChange={onChangeSelectOption}
                   >
                     <option value="">옵션 선택</option>
+
                     {script?.script && script?.buyOptions.includes("SCRIPT") ? (
                       <option value="script">대본</option>
                     ) : null}
@@ -558,7 +562,9 @@ const Detail = () => {
                 </div>
 
                 <hr id="detail-hr-2"></hr>
-                {selectedOption ? (
+
+                {/* 누적된 항목이 하나라도 있으면 "수량 선택" 섹션 노출 */}
+                {isOptionSelected ? (
                   <>
                     <div className="select-amount-wrap a-items-center">
                       <p
@@ -569,6 +575,7 @@ const Detail = () => {
                       >
                         수량 선택
                       </p>
+
                       <div className="j-content-start" id="info-wrap">
                         <img
                           className="c-pointer"
@@ -579,12 +586,12 @@ const Detail = () => {
                             setShowPopup(!showPopup);
                           }}
                         ></img>
+
                         {showPopup ? (
                           <InfoPopup
                             message={
-                              selectedOption === "perform"
-                                ? DETAIL_PERFORM_TEXT
-                                : DETAIL_SCRIPT_TEXT
+                              // 공연권이 담겨있으면 공연권 안내 우선, 아니면 대본 안내
+                              performAmount > 0 ? DETAIL_PERFORM_TEXT : DETAIL_SCRIPT_TEXT
                             }
                             onClose={() => {
                               setShowPopup(!showPopup);
@@ -595,14 +602,19 @@ const Detail = () => {
                             }}
                             buttonId="info-btn"
                             message2={
-                              selectedOption === "scriptPerform" ? DETAIL_PERFORM_TEXT : undefined
+                              // 둘 다 담겨있으면 두 번째 메시지로 공연권 안내 추가
+                              isScriptSelected && performAmount > 0
+                                ? DETAIL_PERFORM_TEXT
+                                : undefined
                             }
                           />
                         ) : null}
                       </div>
                     </div>
+
                     <div id="detail-amount-wrap">
-                      {selectedOption === "script" || selectedOption === "scriptPerform" ? (
+                      {/* 대본 항목 */}
+                      {isScriptSelected ? (
                         <div
                           className="relative flex items-center justify-between"
                           id="detail-amount"
@@ -614,6 +626,7 @@ const Detail = () => {
                               대본
                             </p>
                           </div>
+
                           <p
                             className={clsx(
                               "amount-change absolute translate-x-[35px]",
@@ -636,8 +649,7 @@ const Detail = () => {
                                 src={closeBtn}
                                 alt="X"
                                 onClick={() => {
-                                  setTotalPrice(formatPrice(script?.scriptPrice));
-                                  setSelectedOption("");
+                                  setIsScriptSelected(false);
                                 }}
                               />
                             </div>
@@ -645,9 +657,11 @@ const Detail = () => {
                         </div>
                       ) : null}
 
-                      {selectedOption === "scriptPerform" ? <hr id="detail-hr-3"></hr> : null}
+                      {/* 둘 다 담겨있으면 구분선 */}
+                      {isScriptSelected && performAmount > 0 ? <hr id="detail-hr-3"></hr> : null}
 
-                      {selectedOption === "perform" || selectedOption === "scriptPerform" ? (
+                      {/* 공연권 항목 */}
+                      {performAmount > 0 ? (
                         <div
                           className="relative flex items-center justify-between"
                           id="detail-amount"
@@ -661,8 +675,8 @@ const Detail = () => {
                           </div>
 
                           <AmountChange
-                            purchasePerformAmount={purchasePerformAmount}
-                            setPurchasePerformAmount={setPurchasePerformAmount}
+                            purchasePerformAmount={performAmount}
+                            setPurchasePerformAmount={setPerformAmount}
                           />
 
                           <div
@@ -674,22 +688,14 @@ const Detail = () => {
                                 className="p-xs-medium sm:p-large-medium whitespace-nowrap"
                                 id="price"
                               >
-                                {formatPrice(
-                                  purchasePerformAmount * (script?.performancePrice ?? 0)
-                                )}{" "}
-                                원
+                                {formatPrice(performAmount * (script?.performancePrice ?? 0))} 원
                               </p>
                               <img
                                 className="c-pointer"
                                 src={closeBtn}
                                 alt="X"
                                 onClick={() => {
-                                  if (selectedOption === "perform") {
-                                    setSelectedOption("");
-                                    setIsOptionSelected(false);
-                                  } else {
-                                    setSelectedOption("script");
-                                  }
+                                  setPerformAmount(0);
                                 }}
                               />
                             </div>
@@ -700,7 +706,7 @@ const Detail = () => {
                   </>
                 ) : null}
 
-                {selectedOption ? <hr id="detail-hr-2"></hr> : null}
+                {isOptionSelected ? <hr id="detail-hr-2"></hr> : null}
 
                 <div className=" total-price j-content-between a-items-center">
                   <p className={clsx("c-grey7", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}>
@@ -715,6 +721,7 @@ const Detail = () => {
                     </p>
                   </div>
                 </div>
+
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
                   {/*<button id="cart-btn">장바구니</button>*/}
                   <button id="purchase-btn" onClick={onClickScriptView}>
@@ -725,6 +732,7 @@ const Detail = () => {
                   </button>
                 </div>
               </div>
+
               <hr id="detail-hr-1" />
             </div>
           </div>
@@ -762,7 +770,7 @@ const Detail = () => {
           </div>
 
           <hr></hr>
-          <div className="mb-[40px]  ">
+          <div className="mb-[40px]">
             <p
               className={clsx("w-fit", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}
               id="preview-title"
@@ -774,6 +782,7 @@ const Detail = () => {
               <Preview id={id!} lengthType={script?.playType ?? ""} />
             </Suspense>
           </div>
+
           <hr></hr>
 
           <div className=" j-content-center">
@@ -784,7 +793,7 @@ const Detail = () => {
                 onLoadSuccess={onDocumentLoadSuccess}
                 loading={<PartialLoading />}
               >
-                {Array.from(new Array(numPages), (_, index) => (
+                {Array.from(new Array(numPages ?? 0), (_, index) => (
                   <Page
                     key={index}
                     pageNumber={index + 1}
@@ -792,11 +801,10 @@ const Detail = () => {
                   />
                 ))}
               </Document>
-            ) : (
-              <></>
-            )}
+            ) : null}
           </div>
         </div>
+
         <section className="w-full">
           <section className="mt-[24px] mb-[16px] w-full">
             <p className="ml-[20px] w-full p-large-bold">
@@ -804,6 +812,7 @@ const Detail = () => {
             </p>
             <div className="flex justify-end w-full">{renderReviewWriteButton()}</div>
           </section>
+
           <ReviewSummary stats={script?.reviewStatistics!} />
 
           <section className="mt-[50px] w-full">
@@ -811,6 +820,7 @@ const Detail = () => {
               <p className={clsx("ml-[20px]", !isSmallMobile ? "p-large-bold" : "p-medium-bold")}>
                 전체 후기
               </p>
+
               <button
                 className="flex items-center gap-[4px] p-xs-regular sm:p-medium-regular hover:text-[#6A39C0]"
                 onClick={() => setOpenSort(!openSort)}
@@ -872,7 +882,6 @@ const Detail = () => {
             currentPage={reviewPage + 1}
             totalPages={Math.ceil((script?.reviewStatistics?.totalReviewCount ?? 5) / 5) ?? 1}
             onPageChange={(page) => {
-              // 0 base로 parsing 필요
               setReviewPage(page - 1);
             }}
           />

@@ -152,6 +152,7 @@ const Detail = () => {
             page: 0,
           },
         });
+        console.log(response);
 
         setScript({
           id: id || "",
@@ -724,7 +725,11 @@ const Detail = () => {
 
                 <div className="detail-btn-wrap" ref={detailBtnWrapRef}>
                   {/*<button id="cart-btn">장바구니</button>*/}
-                  <button id="purchase-btn" onClick={onClickScriptView}>
+                  <button
+                    id="purchase-btn"
+                    onClick={onClickScriptView}
+                    disabled={script?.buyOptions?.includes("SCRIPT")}
+                  >
                     대본 열람하기
                   </button>
                   <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>

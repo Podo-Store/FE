@@ -13,6 +13,9 @@ import JunhyukBanner768 from "@/assets/image/banner/banner_jh_768.png";
 import JinsungBanner1280 from "@/assets/image/banner/banner_js_1280.png";
 import JinsungBannerDefault from "@/assets/image/banner/banner_js_default.png";
 import JinsungBanner768 from "@/assets/image/banner/banner_js_768.png";
+import PurchaseBanner768 from "@/assets/image/banner/purchaseOpen/banner_purchase_768.png";
+import PurchaseBanner1280 from "@/assets/image/banner/purchaseOpen/banner_purchase_1280.png";
+import PurchaseBannerDefault from "@/assets/image/banner/purchaseOpen/banner_purchase_1920.png";
 
 // bannerImages를 props로 받을 수 있게 처리
 type ResponsiveSrc = {
@@ -56,15 +59,19 @@ const InfiniteBanner = ({
       },
       link: "https://brunch.co.kr/@651b8cc89832412/16",
     },
+    {
+      image: {
+        default: PurchaseBannerDefault,
+        md: PurchaseBanner768,
+        lg: PurchaseBanner1280,
+      },
+      link: "https://www.podo-store.com/post",
+    },
   ],
 }: InfiniteBannerProps) => {
   const realBannerCount = banners.length;
 
-  const clonedBannerImages = [
-    banners[realBannerCount - 1],
-    ...banners,
-    banners[0],
-  ];
+  const clonedBannerImages = [banners[realBannerCount - 1], ...banners, banners[0]];
 
   const [fakeIndex, setFakeIndex] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(true);
@@ -130,9 +137,7 @@ const InfiniteBanner = ({
           className="flex h-full will-change-transform"
           style={{
             transform: `translateX(-${fakeIndex * 100}%)`,
-            transition: isTransitioning
-              ? "transform 600ms cubic-bezier(0.25, 1, 0.5, 1)"
-              : "none",
+            transition: isTransitioning ? "transform 600ms cubic-bezier(0.25, 1, 0.5, 1)" : "none",
             width: `${clonedBannerImages.length * 100}%`,
           }}
           onTransitionEnd={handleTransitionEnd}
@@ -146,18 +151,11 @@ const InfiniteBanner = ({
                   {isResponsive ? (
                     <picture>
                       {/* 데스크톱(≥1920px) → default */}
-                      <source
-                        media="(min-width: 1920px)"
-                        srcSet={img.default}
-                      />
+                      <source media="(min-width: 1920px)" srcSet={img.default} />
                       {/* 데스크톱(≥1280px) */}
-                      {img.lg && (
-                        <source media="(min-width: 1280px)" srcSet={img.lg} />
-                      )}
+                      {img.lg && <source media="(min-width: 1280px)" srcSet={img.lg} />}
                       {/* 태블릿(≥768px) */}
-                      {img.md && (
-                        <source media="(min-width: 768px)" srcSet={img.md} />
-                      )}
+                      {img.md && <source media="(min-width: 768px)" srcSet={img.md} />}
                       {/* 최종 폴백(모바일) */}
                       <img
                         src={img.default}

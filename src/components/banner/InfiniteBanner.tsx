@@ -37,6 +37,14 @@ const InfiniteBanner = ({
   banners = [
     {
       image: {
+        default: PurchaseBannerDefault,
+        md: PurchaseBanner768,
+        lg: PurchaseBanner1280,
+      },
+      link: "https://www.podo-store.com/post",
+    },
+    {
+      image: {
         default: PodoalBannerDefault, // 모바일 기본
         md: PodoalBanner768, // 태블릿(≥768)
         lg: PodoalBanner1280, // 데스크톱(≥1280)
@@ -58,14 +66,6 @@ const InfiniteBanner = ({
         lg: JinsungBanner1280,
       },
       link: "https://brunch.co.kr/@651b8cc89832412/16",
-    },
-    {
-      image: {
-        default: PurchaseBannerDefault,
-        md: PurchaseBanner768,
-        lg: PurchaseBanner1280,
-      },
-      link: "https://www.podo-store.com/post",
     },
   ],
 }: InfiniteBannerProps) => {

@@ -147,7 +147,12 @@ const InfiniteBanner = ({
             const isResponsive = typeof img !== "string";
             return (
               <div className="flex-none w-full h-full" key={idx}>
-                <a href={banner.link} className="block w-full h-full">
+                <a
+                  href={banner.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                >
                   {isResponsive ? (
                     <picture>
                       {/* 데스크톱(≥1920px) → default */}

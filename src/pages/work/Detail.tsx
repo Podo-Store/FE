@@ -1,4 +1,4 @@
-import { api } from "@/api/api";
+import { authApi, api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext, lazy, Suspense } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -145,7 +145,7 @@ const Detail = () => {
       setReviewPage(0);
 
       try {
-        const response = await api.get(`/scripts/detail`, {
+        const response = await authApi.get(`/scripts/detail`, {
           params: {
             script: id,
             sortType: sort,

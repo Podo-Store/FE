@@ -1,4 +1,4 @@
-import { api } from "@/api/api";
+import { publicApi } from "@/api/api";
 import { lazy, Suspense, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
@@ -49,7 +49,7 @@ const Preview = ({ id, lengthType }) => {
     try {
       setIsLoading(true);
 
-      const response = await api.get(`/scripts/preview`, {
+      const response = await publicApi.get(`/scripts/preview`, {
         params: {
           script: id,
         },

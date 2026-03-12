@@ -66,7 +66,7 @@ const AccountInfo = () => {
             </div>
 
             <section className="flex flex-col gap-[28px] py-[32px] px-[30px] w-full border-[2px] border-main bg-grey-1 rounded-[20px]">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <p className="p-xs-regular sm:p-small-regular">아이디</p>
                 {id ? (
                   <p className="p-xs-regular sm:p-medium-regular">{id}</p>
@@ -74,7 +74,7 @@ const AccountInfo = () => {
                   <p className="p-xs-regular sm:p-medium-regular">&nbsp;</p>
                 )}
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <p className="p-xs-regular sm:p-small-regular">이메일</p>
                 {email ? (
                   <span className="flex gap-[9px]">
@@ -97,7 +97,7 @@ const AccountInfo = () => {
             <h4 className="p-medium-bold sm:h4-bold">수정</h4>
 
             <section className="flex flex-col gap-[28px] py-[32px] px-[30px] w-full border-[2px] border-main bg-grey-1 rounded-[20px]">
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <p className="p-xs-regular sm:p-small-regular">닉네임</p>
                 <button
                   className="flex items-center gap-[15px] cursor-pointer"
@@ -115,7 +115,7 @@ const AccountInfo = () => {
                   />
                 </button>
               </div>
-              <div className="flex justify-between items-center">
+              <div className="flex items-center justify-between">
                 <p
                   className={twJoin(
                     "p-xs-regular sm:p-small-regular",
@@ -140,7 +140,7 @@ const AccountInfo = () => {
 
           <section className="flex justify-center items-center gap-[19px] mt-[150px]">
             <button
-              className="p-small-regular cursor-pointer"
+              className="cursor-pointer p-small-regular"
               onClick={() => {
                 logout();
                 navigate("/");
@@ -150,7 +150,7 @@ const AccountInfo = () => {
             </button>
             <div className="w-[1.5px] h-[20px] bg-grey-4" />
             <button
-              className="p-small-regular cursor-pointer"
+              className="cursor-pointer p-small-regular"
               onClick={() => navigate("/mypage/delete")}
             >
               계정 삭제

@@ -1,31 +1,33 @@
 import { api } from "@/api/api";
-
+import { useState } from "react";
 import SmallOnOffBtn from "@/components/button/RoundBtn_135_40";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-
+import DeleteModal from "@/components/modal/deleteModal";
 import "./AccountDelete.scss";
 
 const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
   const { isSmallMobile, isMobile } = useWindowDimensions().widthConditions;
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const onClickDeleteAccountConfirm = async () => {
     try {
       await api.delete("/profile/deleteUser");
-      alert("계정이 성공적으로 삭제되었습니다.");
-      setIsAccountSuccessfullyDeleted(true);
+
+      setShowSuccessModal(true);
     } catch (error) {
       alert("회원 탈퇴 실패");
     }
   };
 
+  const handleCloseModal = () => {
+    setShowSuccessModal(false);
+    setIsAccountSuccessfullyDeleted(true);
+  };
+
   return (
     <div className="account-delete">
-      <p className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"}`}>
-        계정 삭제
-      </p>
-      <p
-        className={`${isSmallMobile ? "p-xs-regular" : "p-medium-regular"}`}
-        id="title"
-      >
+      <p className={`${isSmallMobile ? "p-medium-bold" : "h4-bold"}`}>계정 삭제</p>
+      <p className={`${isSmallMobile ? "p-xs-regular" : "p-medium-regular"}`} id="title">
         잠깐! 정말 떠나실 건가요...?
       </p>
       <div className="delete-wrap">
@@ -51,6 +53,16 @@ const AccountDelete = ({ setIsAccountSuccessfullyDeleted }) => {
           취소하기
         </SmallOnOffBtn>
       </div>
+
+      {/* 3. 삭제 완료 안내 모달 */}
+      {showSuccessModal && (
+        <DeleteModal
+          isOpen={showSuccessModal}
+          cancelText="취소하기"
+          confirmText="이동하기"
+          onConfirm={handleCloseModal}
+        />
+      )}
     </div>
   );
 };

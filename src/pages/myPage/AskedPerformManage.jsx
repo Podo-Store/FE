@@ -56,9 +56,11 @@ const AskedPerformManage = () => {
           name: subItem.name,
           phone: subItem.phoneNumber,
           address: subItem.address,
-          performDate: subItem.performanceDateList?.map((dateObj) => {
-            return formatDateCutSec(dateObj.date);
-          }),
+          performDate:
+            subItem.performanceDateList?.map((dateObj) =>
+              dateObj.date ? formatDateCutSec(dateObj.date) : null
+            ) || [],
+          isRefunded: subItem.performanceDateList?.some((dateObj) => dateObj.isRefunded) || false,
         })),
       }));
 
@@ -85,27 +87,27 @@ const AskedPerformManage = () => {
         <p className="p-xs-regular sm:p-medium-regular">공연 신청 정보</p>
         <hr />
         <div className="contents">
-          <div className="script-info flex flex-col items-center justify-between">
-            <div className="script-info-title flex flex-col items-center">
+          <div className="flex flex-col items-center justify-between script-info">
+            <div className="flex flex-col items-center script-info-title">
               <ThumbnailImg imagePath={productInfo.imagePath} />
               <div className="h-[12px]"></div>
               <p className="p-small-bold sm:p-large-bold">{productInfo.title || "제목"}</p>
               <hr />
               <p className="p-12-bold sm:p-large-medium">{productInfo.writer || "작가"}</p>
-              <p className="summary text-center p-xs-regular sm:p-small-regular">
+              <p className="text-center summary p-xs-regular sm:p-small-regular">
                 {productInfo.plot || "줄거리"}
               </p>
             </div>
-            <div className="sales-status-box-wrap flex flex-col">
+            <div className="flex flex-col sales-status-box-wrap">
               <div className="sales-status-box">
-                <div className="title flex justify-between items-end">
+                <div className="flex items-end justify-between title">
                   <p className="p-small-bold sm:p-large-bold">대본</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.script}>
                     {!isSmallMobile && "대본"} {productInfo.script ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
-                <div className="content flex justify-center items-center">
-                  <div className="sales-status-box-value flex flex-col items-center">
+                <div className="flex items-center justify-center content">
+                  <div className="flex flex-col items-center sales-status-box-value">
                     <p className="p-xs-regular sm:p-small-regular">
                       {formatPrice(productInfo.scriptPrice)}원
                     </p>
@@ -121,14 +123,14 @@ const AskedPerformManage = () => {
                 </div>
               </div>
               <div className="sales-status-box">
-                <div className="title flex justify-between items-end">
+                <div className="flex items-end justify-between title">
                   <p className="p-small-bold sm:p-large-bold">공연권</p>
                   <ScriptManageEachTopBtn disabled={!productInfo.performance}>
                     {!isSmallMobile && "공연권"} {productInfo.performance ? "판매 중" : "판매 중지"}
                   </ScriptManageEachTopBtn>
                 </div>
-                <div className="content flex justify-center">
-                  <div className="sales-status-box-value flex flex-col items-center">
+                <div className="flex justify-center content">
+                  <div className="flex flex-col items-center sales-status-box-value">
                     <p className="p-xs-regular sm:p-small-regular">
                       {formatPrice(productInfo.performancePrice)}원
                     </p>
@@ -153,7 +155,7 @@ const AskedPerformManage = () => {
                   className="asked-perform-box"
                   style={index !== item.lists.length - 1 ? { marginBottom: "2.685vh" } : {}}
                 >
-                  <div className="date flex justify-between items-center">
+                  <div className="flex items-center justify-between date">
                     <p className=" p-small-bold sm:p-large-bold text-[#8f8f8f]">{item.date}</p>
                     {item.open ? (
                       <img
@@ -184,7 +186,7 @@ const AskedPerformManage = () => {
                       <div key={subIndex}>
                         <div className="content-inside">
                           <p className="p-medium-bold">신청자 정보</p>
-                          <div className="user-info flex justify-between">
+                          <div className="flex justify-between user-info">
                             <ShortInputField value={subItem.name} readOnly={true} />
                             <ShortInputField value={subItem.phone} readOnly={true} />
                           </div>
@@ -193,18 +195,30 @@ const AskedPerformManage = () => {
                         <div className="content-inside">
                           <p className="p-medium-bold">예상 공연 일자</p>
                           <div className="date-list">
-                            {subItem.performDate.map((date, dateIndex) => (
-                              <ShortInputField key={dateIndex} value={date} readOnly={true} />
-                            ))}
-                            {subItem.performDate.length < subItem.amount &&
-                              Array.from(
-                                {
-                                  length: subItem.amount - subItem.performDate.length,
-                                },
-                                (_, index) => (
-                                  <ShortInputField key={index} value="미 입력" readOnly={true} />
-                                )
-                              )}
+                            {subItem.isRefunded ? (
+                              <ShortInputField value="환불된 공연입니다." readOnly={true} />
+                            ) : (
+                              <>
+                                {subItem.performDate.filter(Boolean).map((date, dateIndex) => (
+                                  <ShortInputField key={dateIndex} value={date} readOnly={true} />
+                                ))}
+
+                                {subItem.performDate.filter(Boolean).length < subItem.amount &&
+                                  Array.from(
+                                    {
+                                      length:
+                                        subItem.amount - subItem.performDate.filter(Boolean).length,
+                                    },
+                                    (_, index) => (
+                                      <ShortInputField
+                                        key={`empty-${index}`}
+                                        value="공연 일자가 아직 등록되지 않았습니다."
+                                        readOnly={true}
+                                      />
+                                    )
+                                  )}
+                              </>
+                            )}
                           </div>
                         </div>
                         {
@@ -246,10 +260,10 @@ const LongInputField = ({ ...props }) => {
         widthConditions.isSmallMobile
           ? { width: "220px", height: "42px" }
           : widthConditions.isMobile
-          ? { width: "358px", height: "42px" }
-          : widthConditions.isTablet
-          ? { width: "596px", height: "42px" }
-          : { width: "100%", height: "42px" }
+            ? { width: "358px", height: "42px" }
+            : widthConditions.isTablet
+              ? { width: "596px", height: "42px" }
+              : { width: "100%", height: "42px" }
       }
       {...props}
     />
@@ -265,10 +279,10 @@ const ShortInputField = ({ ...props }) => {
         widthConditions.isSmallMobile
           ? { width: "220px", height: "42px" }
           : widthConditions.isMobile
-          ? { width: "170px", height: "42px" }
-          : widthConditions.isTablet
-          ? { width: "285px", height: "42px" }
-          : { width: "355px", height: "42px" }
+            ? { width: "170px", height: "42px" }
+            : widthConditions.isTablet
+              ? { width: "285px", height: "42px" }
+              : { width: "355px", height: "42px" }
       }
       {...props}
     />

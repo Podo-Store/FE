@@ -23,16 +23,14 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
   const [openChangeFilePopup, setOpenChangeFilePopup] = useState(false);
 
   const isPass =
-    reviewCompleted === "PASS" ||
-    reviewCompleted === "RE_WAIT" ||
-    reviewCompleted === "RE_PASS";
+    reviewCompleted === "PASS" || reviewCompleted === "RE_WAIT" || reviewCompleted === "RE_PASS";
   const isReviewing = reviewCompleted === "WAIT";
 
   return (
     <div className="script-manage-btn">
       {/* PASS + RE_WAIT + RE_PASS  */}
       {isPass && (
-        <div className="script-manage-flex items-center">
+        <div className="items-center script-manage-flex">
           <div
             className={clsx(
               "p-12-under",
@@ -49,23 +47,16 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
             {reviewCompleted === "RE_WAIT" ? "재심사 진행중" : "파일 변경 신청"}
           </div>
 
-          <div
-            className={clsx(
-              "flex",
-              !isSmallMobile ? "gap-[19px]" : "gap-[10px]"
-            )}
-          >
-            {performSale ? (
-              <Button
-                color="white"
-                onClick={() => {
-                  navigate(`/mypage/scriptmanage/askedperform/${id}`);
-                }}
-                style={style}
-              >
-                신청된 공연
-              </Button>
-            ) : null}
+          <div className={clsx("flex", !isSmallMobile ? "gap-[19px]" : "gap-[10px]")}>
+            <Button
+              color="white"
+              onClick={() => {
+                navigate(`/mypage/scriptmanage/askedperform/${id}`);
+              }}
+              style={style}
+            >
+              신청된 공연
+            </Button>
 
             <Button
               onClick={() => {

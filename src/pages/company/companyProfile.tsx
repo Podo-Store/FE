@@ -1,7 +1,9 @@
 import BannerImage from "@/assets/image/company/company_info_banner.png";
 import DownArrow from "@/assets/image/company/ic_down_arrow.svg?react";
 import { useUserStatistics } from "@/hooks/useUserStatistics";
+import { useCountUp } from "@/hooks/useCountUp";
 import { useMemo, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { YearTabs } from "@/components/tab/YearTabs";
 import newsThumbnail from "@/assets/image/company/news_thumbnail.png";
 import CompanyNav from "../CompanyNav";
@@ -103,6 +105,18 @@ const CompanyProfile = () => {
 
   const [activeYear, setActiveYear] = useState<number>(years[0]); // 2025부터 시작
 
+  const { ref: statsRef, inView: statsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+  });
+
+  const isReady = statsInView && data !== undefined;
+  const userCount   = useCountUp(data?.userCnt   ?? 0, 2000, isReady);
+  const scriptCount = useCountUp(data?.scriptCnt ?? 0, 2000, isReady);
+  const viewCount   = useCountUp(data?.viewCnt   ?? 0, 2000, isReady);
+  const reviewCount = useCountUp(data?.reviewCnt ?? 0, 2000, isReady);
+  const matchCount  = useCountUp(34,                   2000, statsInView);
+
   const activeData = useMemo(
     () => timelineData.find((d) => d.year === activeYear) ?? timelineData[0],
     [activeYear]
@@ -144,17 +158,18 @@ const CompanyProfile = () => {
               </p>
             </span>
             {/* xl :1280px */}
+            <div ref={statsRef}>
             <div className=" flex-col gap-[50px] items-center hidden xl:flex">
               <div className="flex gap-[160px]">
                 <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
                   <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.userCnt} 명+
+                    {userCount} 명+
                   </span>
                   <span className="h4-bold text-[#BABABA]">사용자 수</span>
                 </div>
                 <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
                   <span className="company-title-large text-[#F2F2F2]/90">
-                    34 건+
+                    {matchCount} 건+
                   </span>
                   <span className="h4-bold text-[#BABABA]">총 매칭 건수</span>
                 </div>
@@ -162,19 +177,19 @@ const CompanyProfile = () => {
               <div className="flex gap-[160px]">
                 <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
                   <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.scriptCnt} 개+
+                    {scriptCount} 개+
                   </span>
                   <span className="h4-bold text-[#BABABA]">등록 작품 수</span>
                 </div>
                 <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
                   <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.viewCnt} 회+
+                    {viewCount} 회+
                   </span>
                   <span className="h4-bold text-[#BABABA]">총 열람 수</span>
                 </div>
                 <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
                   <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.reviewCnt} 개+
+                    {reviewCount} 개+
                   </span>
                   <span className="h4-bold text-[#BABABA]">총 후기 수</span>
                 </div>
@@ -186,7 +201,7 @@ const CompanyProfile = () => {
               <div>
                 <div className="flex flex-col">
                   <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]/90">
-                    {data?.userCnt} 명+
+                    {userCount} 명+
                   </span>
                   <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
                     사용자 수
@@ -198,7 +213,7 @@ const CompanyProfile = () => {
               <div>
                 <div className="flex flex-col">
                   <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]/90">
-                    34 건+
+                    {matchCount} 건+
                   </span>
                   <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
                     총 매칭 건수
@@ -210,7 +225,7 @@ const CompanyProfile = () => {
               <div>
                 <div className="flex flex-col">
                   <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]/90">
-                    {data?.scriptCnt} 개+
+                    {scriptCount} 개+
                   </span>
                   <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
                     등록 작품 수
@@ -222,7 +237,7 @@ const CompanyProfile = () => {
               <div>
                 <div className="flex flex-col">
                   <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]/90">
-                    {data?.viewCnt} 회+
+                    {viewCount} 회+
                   </span>
                   <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
                     총 열람 수
@@ -233,13 +248,14 @@ const CompanyProfile = () => {
               <div>
                 <div className="flex flex-col">
                   <span className=" p-medium-bold sm:h4-bold md:company-title-large text-[#F2F2F2]/90">
-                    {data?.reviewCnt} 개+
+                    {reviewCount} 개+
                   </span>
                   <span className=" p-xs-bold sm:p-medium-bold md:h4-bold text-[#BABABA]">
                     총 후기 수
                   </span>
                 </div>
               </div>
+            </div>
             </div>
           </div>
           <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">

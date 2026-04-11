@@ -14,16 +14,15 @@ export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
   }, [duration, onClose]);
   const { isSmallMobile } = useWindowDimensions().widthConditions;
   return (
+    <div className="fixed left-1/2 -translate-x-1/2 top-28 z-[9999]">
     <div
       role="status"
       aria-live="polite"
       className="
-        fixed left-1/2 top-40 -translate-x-1/2
-        z-[9999]
         flex items-center gap-2
         rounded-full bg-[var(--grey2)] px-[20px] sm:px-[25px] md:px-[52px] py-[14px]
         shadow-[0_2px_10px_rgba(0,0,0,0.25)]
-        animate-toast-in-out
+        toast-animate
         p-small-mdeium sm:h4-medium whitespace-pre-wrap"
     >
       <span className="inline-flex h-8 w-8 items-center justify-center">
@@ -50,6 +49,7 @@ export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
         <p>{name}님,</p>
         <p>회원가입을 완료하였습니다!</p>
       </span>
+    </div>
     </div>
   );
 }

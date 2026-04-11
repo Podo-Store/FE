@@ -46,7 +46,7 @@ export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
         </svg>
       </span>
       <span className="whitespace-nowrap flex flex-col md:flex-row items-center">
-        <p>{name}님,</p>
+        <p>{name}님,&nbsp;</p>
         <p>회원가입을 완료하였습니다!</p>
       </span>
     </div>

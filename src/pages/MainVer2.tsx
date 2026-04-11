@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigationType, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import ImageBtn from "../components/button/ImageBtn";
@@ -40,8 +40,6 @@ const MainVer2 = () => {
   const [signUpToast, setSignUpToast] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
-  const navType = useNavigationType();
-
   const {
     widthConditions: { isLaptop, isTablet, isMobile, isSmallMobile },
   } = useWindowDimensions();
@@ -92,15 +90,9 @@ const MainVer2 = () => {
 
     if (nickname) {
       setSignUpToast(nickname);
-      if (navType === "PUSH" || navType === "REPLACE") {
-        window.history.replaceState(
-          null,
-          "",
-          window.location.pathname + window.location.search
-        );
-      }
+      navigate(location.pathname + location.search, { replace: true, state: null });
     }
-  }, [location.state, navType]);
+  }, [location.state]);
   return (
     <div className=" main-ver2">
       <FloatingBtn />

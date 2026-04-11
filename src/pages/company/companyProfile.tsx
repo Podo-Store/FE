@@ -147,7 +147,7 @@ const CompanyProfile = () => {
         </div>
 
         {/* 본문 */}
-        <div className="flex w-full flex-col items-center gap-[200px] px-[9.4vw] 2xl:px-[320px] xl:px-[85px] md:px-[50px] sm:px-[40px]">
+        <div className="flex w-full flex-col items-center gap-[200px] px-[320px]">
           <div className="flex flex-col w-full mt-[100px] gap-[50px] sm:gap-[80px] md:gap-[100px]">
             <span className="text-[#F2F2F2]/90 ">
               <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
@@ -340,28 +340,7 @@ const CompanyProfile = () => {
             </span>
             <div className="">
               {mediaData.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex sm:grid sm:grid-cols-[164px_1fr] md:grid-cols-[219px_1fr] xl:grid-cols-[360px_1fr] sm:gap-[15px] xl:gap-[60px] md:gap-[20px] border-b border-[#BABABA] py-[20px] sm:py-[30px] md:py-[40px] xl:py-[50px]"
-                  onClick={() => window.open(item.url, "_blank")}
-                >
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className=" hidden sm:block"
-                  />
-                  <div className="flex flex-col gap-[25px] md:gap-[15px] xl:gap-[20px] justify-center  w-full min-w-0 ">
-                    <span className="p-medium-bold text-[#F2F2F2]/90 xl:h1-bold md:h4-bold sm:p-large-bold sm:whitespace-normal md:truncate">
-                      {item.title}
-                    </span>
-                    <span className="text-[#BABABA] h5-medium xl:h4-bold hidden md:line-clamp-2 xl:line-clamp-3 ">
-                      {item.content}
-                    </span>
-                    <span className="p-xs-bold sm:p-medium-bold md:h5-bold text-[#BABABA] ">
-                      {item.date}
-                    </span>
-                  </div>
-                </div>
+                <MediaCard key={index} item={item} index={index} />
               ))}
             </div>
           </div>
@@ -373,6 +352,48 @@ const CompanyProfile = () => {
 };
 
 export default CompanyProfile;
+
+type MediaItem = (typeof mediaData)[0];
+
+const MediaCard = ({ item, index }: { item: MediaItem; index: number }) => {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.15,
+  });
+
+  return (
+    <div
+      ref={ref}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0px)" : "translateY(50px)",
+        transition: `opacity 0.6s ease ${index * 0.12}s, transform 0.6s ease ${index * 0.12}s`,
+      }}
+    >
+      <div
+        className="flex sm:grid sm:grid-cols-[164px_1fr] md:grid-cols-[219px_1fr] xl:grid-cols-[360px_1fr] sm:gap-[15px] xl:gap-[60px] md:gap-[20px] border-b border-[#BABABA] py-[20px] sm:py-[30px] md:py-[40px] xl:py-[50px] cursor-pointer group transition-transform duration-300 hover:-translate-y-1"
+        onClick={() => window.open(item.url, "_blank")}
+      >
+        <img
+            src={item.image}
+            alt={item.title}
+            className="hidden sm:block"
+          />
+        <div className="flex flex-col gap-[25px] md:gap-[15px] xl:gap-[20px] justify-center w-full min-w-0">
+          <span className="p-medium-bold text-[#F2F2F2]/90 xl:h1-bold md:h4-bold sm:p-large-bold sm:whitespace-normal md:truncate transition-colors duration-300 group-hover:text-[#F2F2F2]">
+            {item.title}
+          </span>
+          <span className="text-[#BABABA] h5-medium xl:h4-bold hidden md:block md:line-clamp-2 xl:line-clamp-3 transition-colors duration-300 group-hover:text-[#D4D4D4]">
+            {item.content}
+          </span>
+          <span className="p-xs-bold sm:p-medium-bold md:h5-bold text-[#BABABA]">
+            {item.date}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 type Props = {
   height?: number;

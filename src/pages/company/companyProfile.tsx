@@ -2,7 +2,7 @@ import BannerImage from "@/assets/image/company/company_info_banner.png";
 import DownArrow from "@/assets/image/company/ic_down_arrow.svg?react";
 import { useUserStatistics } from "@/hooks/useUserStatistics";
 import { useCountUp } from "@/hooks/useCountUp";
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { YearTabs } from "@/components/tab/YearTabs";
 import newsThumbnail from "@/assets/image/company/news_thumbnail.png";
@@ -274,9 +274,13 @@ const CompanyProfile = () => {
                 <div className="absolute left-[161px] translate-y-[20px]">
                   <VerticalTimelineSVG yearDots={[10, 630, 1025]} />
                 </div>
-                {timelineData.map((item, index) => (
+                {timelineData.map((item, yearIndex) => {
+                  const globalOffset = timelineData
+                    .slice(0, yearIndex)
+                    .reduce((acc, d) => acc + d.events.length, 0);
+                  return (
                   <div
-                    key={index}
+                    key={yearIndex}
                     className="grid grid-cols-[121px_1fr] gap-[80px] "
                   >
                     <h2 className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2]/90">
@@ -284,20 +288,22 @@ const CompanyProfile = () => {
                     </h2>
 
                     <ul className="flex flex-col gap-[50px] mb-[50px] translate-y-[15px] ">
-                      {item.events.map((event, index) => (
-                        <li
-                          key={index}
+                      {item.events.map((event, eventIndex) => (
+                        <TimelineEventItem
+                          key={eventIndex}
+                          index={globalOffset + eventIndex}
                           className="h5-bold text-[#F2F2F2]/90"
                         >
                           <span className="text-[#BABABA] h5-bold mr-[15px] ">
                             {event.month}.
                           </span>
                           {event.title}
-                        </li>
+                        </TimelineEventItem>
                       ))}
                     </ul>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -314,8 +320,9 @@ const CompanyProfile = () => {
               <div className=" sm:px-[15px] md:px-[20px] mt-[30px] md:mt-[50px]">
                 <ul className="flex flex-col gap-[20px] sm:gap-[30px] md:gap-[50px] translate-y-[15px]">
                   {activeData.events.map((event, idx) => (
-                    <li
-                      key={idx}
+                    <TimelineEventItem
+                      key={`${activeYear}-${idx}`}
+                      index={idx}
                       className="p-12-medium sm:p-large-bold md:h4-bold text-[#F2F2F2]/90"
                     >
                       <div className="grid grid-cols-[3.5ch_1fr] gap-3 items-start">
@@ -326,7 +333,7 @@ const CompanyProfile = () => {
                           {event.title}
                         </span>
                       </div>
-                    </li>
+                    </TimelineEventItem>
                   ))}
                 </ul>
               </div>
@@ -352,6 +359,31 @@ const CompanyProfile = () => {
 };
 
 export default CompanyProfile;
+
+const TimelineEventItem = ({
+  children,
+  index,
+  className,
+}: {
+  children: React.ReactNode;
+  index: number;
+  className?: string;
+}) => {
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.1 });
+  return (
+    <li
+      ref={ref}
+      className={className}
+      style={{
+        opacity: inView ? 1 : 0,
+        transform: inView ? "translateY(0px)" : "translateY(30px)",
+        transition: `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`,
+      }}
+    >
+      {children}
+    </li>
+  );
+};
 
 type MediaItem = (typeof mediaData)[0];
 

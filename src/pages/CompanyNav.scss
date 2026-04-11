@@ -98,6 +98,10 @@
   position: relative;
 }
 
+.company .navbar .navbar_login button {
+  outline: none;
+}
+
 .company .navbar .navbar_login .my-page-button {
   position: absolute;
   left: -45px;
@@ -106,6 +110,29 @@
   cursor: pointer;
 
   transform: translate(-50%, -50%);
+
+  .person-filled {
+    display: none;
+  }
+
+  &:hover {
+    .person-outline {
+      color: var(--Main) !important;
+    }
+    .person-filled {
+      display: block;
+      color: var(--purple9);
+    }
+  }
+  &:active {
+    .person-outline {
+      display: none;
+    }
+    .person-filled {
+      display: block;
+      color: var(--Main);
+    }
+  }
   @include r.media-mobile {
     position: static;
     transform: none;

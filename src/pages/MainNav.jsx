@@ -13,7 +13,7 @@ import hamburgerBtn from "../assets/image/navBar/hamburgerBtn.svg";
 import navLogo from "../assets/image/navBar/navLogo.svg";
 import navTitle from "../assets/image/navBar/navTitle.svg";
 // import cart from "../assets/image/navBar/cart.svg";
-import person from "../assets/image/navBar/person.svg";
+import PersonIcon from "../assets/image/navBar/person.svg?react";
 
 import "./MainNav.scss";
 
@@ -143,7 +143,7 @@ function MainNav() {
                 navigateWithRefresh(event, "/mypage/liked");
               }}
             >
-              <img src={person} alt="myPage" className="my-page-button" />
+              <PersonIcon className="my-page-button" aria-label="myPage" />
             </button>
             <RoundBtnV2
               onClick={() => {

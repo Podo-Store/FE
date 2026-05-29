@@ -1,6 +1,12 @@
 import type { Preview } from "@storybook/react-vite";
+import { initialize, mswLoader } from "msw-storybook-addon";
+import "../src/index.css";
+import "../src/components/button/round_btn/RoundBtnV2.tailwind.css";
+
+initialize();
 
 const preview: Preview = {
+  loaders: [mswLoader],
   parameters: {
     controls: {
       matchers: {

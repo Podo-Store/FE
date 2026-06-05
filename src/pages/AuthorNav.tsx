@@ -24,9 +24,7 @@ function AuthorNav() {
 
   return (
     <>
-      {openDialog && (
-        <SideMenuDialog open={openDialog} onClose={() => setOpenDialog(false)} />
-      )}
+      {openDialog && <SideMenuDialog open={openDialog} onClose={() => setOpenDialog(false)} />}
       <nav className="navbar">
         <ImageBtn
           className="hamburger-btn"
@@ -41,13 +39,15 @@ function AuthorNav() {
         >
           <img className="icon h-[30.086px]" src={navLogo} alt="logo" />
           <img src={navTitle} alt="포도상점" className="h-[28px]" />
-          <span style={{
-            color: "var(--purple-purple-1, #280C5A)",
-            fontFamily: "Pretendard",
-            fontSize: "18px",
-            fontWeight: 700,
-            lineHeight: "28px",
-          }}>
+          <span
+            style={{
+              color: "var(--purple-purple-1, #280C5A)",
+              fontFamily: "Pretendard",
+              fontSize: "18px",
+              fontWeight: 700,
+              lineHeight: "28px",
+            }}
+          >
             작가 공간
           </span>
         </Link>
@@ -94,7 +94,9 @@ function AuthorNav() {
             </RoundBtnV2>
           ) : (
             <>
-              <button onClick={(event) => navigateWithRefresh(event, "/author/mypage/scriptmanage")}>
+              <button
+                onClick={(event) => navigateWithRefresh(event, "/author/mypage/scriptmanage")}
+              >
                 <img src={person} alt="myPage" className="my-page-button" />
               </button>
               <RoundBtnV2
@@ -109,11 +111,7 @@ function AuthorNav() {
               </RoundBtnV2>
             </>
           )}
-          <RoundBtnV2
-            onClick={() => navigate("/")}
-            className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
-            color="white"
-          >
+          <RoundBtnV2 onClick={() => navigate("/")} className="" color="white">
             상점 가기
           </RoundBtnV2>
         </div>

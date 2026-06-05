@@ -100,7 +100,7 @@ const PurchaseSuccess = () => {
                 text="작품 더 둘러보기"
                 color="purple"
                 onClick={() => {
-                  navigate("/list");
+                  navigate("/");
                 }}
               />
             </div>

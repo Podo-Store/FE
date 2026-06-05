@@ -317,7 +317,7 @@ const PostView: React.FC = () => {
           {!isHeaderTouchTop ? <MainNav /> : <></>}
 
           <HeaderWithBack
-            backUrl={id ? `/list/detail/${id}` : "/list"}
+            backUrl={id ? `/detail/${id}` : "/"}
             headerTitle={script.title}
             headerFont={`${isSmallMobile ? "h5-bold" : "h1-bold"}`}
             subtitle={script.writer}

@@ -24,7 +24,7 @@ const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
         return {
           message: "아직 구매한 작품이 없어요.",
           buttonText: "작품 둘러보기",
-          navigatePath: "/list",
+          navigatePath: "/",
         };
       case 1:
         return {
@@ -36,7 +36,7 @@ const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
         return {
           message: "아직 좋아한 작품이 없어요.",
           buttonText: "작품 둘러보기",
-          navigatePath: "/list?tab=liked",
+          navigatePath: "/?tab=liked",
         };
       default:
         return {

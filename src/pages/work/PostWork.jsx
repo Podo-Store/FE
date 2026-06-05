@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import React, { useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import FileInputBox from "../../components/file/FileInputBox";
 import AnimatedCheckedSvg from "@/components/loading/AnimatedCheckedSvg";
@@ -29,6 +30,7 @@ import { AUTHOR_TERMS_CONTENT } from "../../constants/PopupTexts/PostWorkTexts.j
 
 import "./PostWork.scss";
 const PostWork = () => {
+  const prefix = useRoutePrefix();
   const [file, setFile] = useState(null);
   const [fileSelected, setFileSelected] = useState(false);
 
@@ -78,7 +80,7 @@ const PostWork = () => {
       if (error.response) {
         if (error.response.status === 401) {
           alert("로그인이 필요한 서비스입니다.");
-          navigate("/signin");
+          navigate(`${prefix}/signin`);
         } else if (error.response.data.error === "contentType is not PDF") {
           alert(".pdf 확장자 형식만 업로드 가능합니다.");
         } else {
@@ -87,7 +89,7 @@ const PostWork = () => {
       } else {
         if (!Cookies.get("accessToken")) {
           alert("로그인이 필요한 서비스입니다.");
-          navigate("/signin");
+          navigate(`${prefix}/signin`);
         } else {
           alert("업로드 과정 중 문제가 발생했습니다.");
         }

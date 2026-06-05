@@ -203,8 +203,8 @@ const MainVer2 = () => {
               className="page2-content f-dir-column j-content-between"
               onClick={() =>
                 !(isTablet || isMobile || isSmallMobile)
-                  ? navigate("/list")
-                  : navigate("/myPage/purchased")
+                  ? navigate("/")
+                  : navigate("/mypage/purchased")
               }
             >
               <img src={title_right} alt="" className="page2-content-title" />
@@ -250,7 +250,7 @@ const MainVer2 = () => {
               onClick={() =>
                 !(isTablet || isMobile || isSmallMobile)
                   ? navigate("/mypage/purchased")
-                  : navigate("/list")
+                  : navigate("/")
               }
             >
               <img src={title} alt="" className="page2-content-title" />

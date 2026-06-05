@@ -170,7 +170,7 @@ const MainVer2 = () => {
             포도상점에서는 이런 것들이 가능해요
           </h1>
           <div className=" page2-content-wrap j-content-center">
-            <div className="page2-content" onClick={() => navigate("/post")}>
+            <div className="page2-content" onClick={() => navigate("/author/post")}>
               <img src={title} alt="" className="page2-content-title" />
               <h1 className={page2TitleClassName}>작품 등록하기</h1>
               <h4 className={page2TextsClassName}>

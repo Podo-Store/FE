@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import Loading from "../Loading.jsx";
 
@@ -21,6 +22,7 @@ import "./../../styles/utilities.css";
 import ImageBtn from "../../components/button/ImageBtn.jsx";
 
 function SignIn() {
+  const prefix = useRoutePrefix();
   const { login } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -131,7 +133,7 @@ function SignIn() {
                 <p
                   className="p-small-regular c-pointer"
                   onClick={() => {
-                    navigate("/signin/find/0");
+                    navigate(`${prefix}/signin/find/0`);
                   }}
                 >
                   아이디
@@ -140,7 +142,7 @@ function SignIn() {
                 <p
                   className="p-small-regular c-pointer"
                   onClick={() => {
-                    navigate("/signin/find/1");
+                    navigate(`${prefix}/signin/find/1`);
                   }}
                 >
                   비밀번호 찾기
@@ -150,7 +152,7 @@ function SignIn() {
               <p
                 className="p-small-regular c-pointer"
                 onClick={() => {
-                  navigate("/signup");
+                  navigate(`${prefix}/signup`);
                 }}
               >
                 회원가입

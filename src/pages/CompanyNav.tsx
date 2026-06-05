@@ -56,24 +56,13 @@ function CompanyNav() {
           <ul className="navbar_menu ">
             <li>
               <Link
-                to="/list"
+                to="/"
                 className="h5-regular !text-[#F2F2F2] hover:!text-[#a6a8cb]"
                 onClick={(event) => {
-                  navigateWithRefresh(event, "/list");
+                  navigateWithRefresh(event, "/");
                 }}
               >
                 작품 둘러보기
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/post"
-                className="h5-regular !text-[#F2F2F2] hover:!text-[#a6a8cb]"
-                onClick={(event) => {
-                  navigateWithRefresh(event, "/post");
-                }}
-              >
-                작품 등록하기
               </Link>
             </li>
             <li>

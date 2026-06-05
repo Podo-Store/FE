@@ -30,7 +30,7 @@ const NullScriptContent = ({ currentPage = 0 }: NullScriptContentProps) => {
         return {
           message: "아직 등록한 작품이 없어요.",
           buttonText: "작품 등록하기",
-          navigatePath: "/post",
+          navigatePath: "/author/post",
         };
       case 2:
         return {

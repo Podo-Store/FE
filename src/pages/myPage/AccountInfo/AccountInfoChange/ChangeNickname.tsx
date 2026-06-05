@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import { api } from "@/api/api";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { NAME_FORMAT_REGEX, NAME_LENGTH_REGEX } from "@/constants/regex";
@@ -10,6 +11,7 @@ import SmallOnOffBtn from "@/components/button/RoundBtn_135_40.jsx";
 import { AxiosError } from "axios";
 
 const AccountInfoChangeNickname = () => {
+  const prefix = useRoutePrefix();
   // prevName: 수정 전 닉네임(placeholder)
   const [name, setName] = useState("");
   const [nameChecker, setNameChecker] = useState({
@@ -109,7 +111,7 @@ const AccountInfoChangeNickname = () => {
       localStorage.removeItem("userNickname");
       localStorage.setItem("userNickname", name || "");
 
-      navigate("/mypage/info");
+      navigate(`${prefix}/mypage/info`);
     } catch (error) {
       // 중복 닉네임 처리
       if (error instanceof AxiosError) {
@@ -170,9 +172,7 @@ const AccountInfoChangeNickname = () => {
 
         <div className="j-content-end" id="btn-wrap">
           <SmallOnOffBtn
-            onClick={() => {
-              window.location.reload();
-            }}
+            onClick={() => navigate(`${prefix}/mypage/info`)}
             color="white"
           >
             취소

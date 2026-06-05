@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import clsx from "clsx";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import MyPageInterceptor from "@/components/myPage/footer/MyPageInterceptor";
 
 import logo from "../assets/image/footer/new_logo.svg";
@@ -17,6 +18,8 @@ function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
   const isCompanyPage = location.pathname === "/company";
+  const prefix = useRoutePrefix();
+  const isAuthor = location.pathname.startsWith("/author");
 
   const footerRef = useRef(null);
 
@@ -81,42 +84,28 @@ function Footer() {
                   />
 
                   <ul id="menu">
-                    <li
-                      className="p-xs-bold c-pointer"
-                      onClick={() => {
-                        navigate("/list");
-                        scrollToTop();
-                      }}
-                    >
-                      작품 둘러보기
-                    </li>
-                    <li
-                      className="p-xs-bold c-pointer"
-                      onClick={() => {
-                        navigate("/post");
-                        scrollToTop();
-                      }}
-                    >
-                      작품 등록하기
-                    </li>
-                    <li
-                      className="p-xs-bold c-pointer"
-                      onClick={() => {
-                        navigate("/performanceNews");
-                        scrollToTop();
-                      }}
-                    >
-                      공연 소식
-                    </li>
-                    <li
-                      className="p-xs-bold c-pointer"
-                      onClick={() => {
-                        navigate("/company");
-                        scrollToTop();
-                      }}
-                    >
-                      회사 소개
-                    </li>
+                    {isAuthor ? (
+                      <>
+                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/author/post"); scrollToTop(); }}>
+                          작품 등록하기
+                        </li>
+                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/author/mypage/scriptmanage"); scrollToTop(); }}>
+                          작품 관리하기
+                        </li>
+                      </>
+                    ) : (
+                      <>
+                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/"); scrollToTop(); }}>
+                          작품 둘러보기
+                        </li>
+                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/performanceNews"); scrollToTop(); }}>
+                          공연 소식
+                        </li>
+                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/company"); scrollToTop(); }}>
+                          회사 소개
+                        </li>
+                      </>
+                    )}
                   </ul>
                 </>
               </div>
@@ -124,19 +113,13 @@ function Footer() {
                 <ul id="question">
                   <li
                     className="p-xs-regular"
-                    onClick={() => {
-                      navigate("/policy/0");
-                      scrollToTop();
-                    }}
+                    onClick={() => { navigate(`${prefix}/policy/0`); scrollToTop(); }}
                   >
                     개인정보처리방침
                   </li>
                   <li
                     className="p-xs-regular t-align-right"
-                    onClick={() => {
-                      navigate("/policy/1");
-                      scrollToTop();
-                    }}
+                    onClick={() => { navigate(`${prefix}/policy/1`); scrollToTop(); }}
                   >
                     이용약관
                   </li>

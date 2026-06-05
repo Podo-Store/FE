@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import { myPageStore } from "./../../store/MyPageStore.ts";
 
@@ -20,8 +21,9 @@ import { twJoin } from "tailwind-merge";
  * @param {string} props.currentPage - 현재 페이지. 0: 구매한 작품 1: 작품 관리, 2: 회원 정보 수정, 3: 좋아요 작품
  * @returns
  */
-const MyPageMenu = ({ nickname, currentPage }) => {
+const MyPageMenu = ({ nickname, currentPage, type = "company" }) => {
   const navigate = useNavigate();
+  const prefix = useRoutePrefix();
 
   const { isFooterVisible } = useSnapshot(myPageStore);
 
@@ -42,44 +44,42 @@ const MyPageMenu = ({ nickname, currentPage }) => {
             <h3 className="nickname h3-bold">{nickname} 님,</h3>
             <h5 className="text h5-regular">오늘도 달콤한 하루 되세요!</h5>
             <section className="flex flex-col gap-[1.5625vh]">
-              <div
-                className={
-                  currentPage === "3" ? "select-menu-btn selected liked" : "select-menu-btn"
-                }
-                onClick={() => {
-                  navigate("/mypage/liked");
-                }}
-              >
-                <p className="p-medium-regular">좋아한 작품</p>
-                <img src={likedMenuImg} alt="likedMenu"></img>
-              </div>
-              <div
-                className={
-                  currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"
-                }
-                onClick={() => {
-                  navigate("/mypage/purchased");
-                }}
-              >
-                <p className="p-medium-regular">구매한 작품</p>
-                <img src={scriptMenuImg} alt="purchasedMenu"></img>
-              </div>
-              <div
-                className={
-                  currentPage === "1" ? "select-menu-btn selected script-manage" : "select-menu-btn"
-                }
-                onClick={() => {
-                  navigate("/mypage/scriptmanage");
-                }}
-              >
-                <p className="p-medium-regular">작품 관리</p>
-                <img src={pencilMenuImg} alt="pencilMenu"></img>
-              </div>
+              {type === "company" && (
+                <>
+                  <div
+                    className={
+                      currentPage === "3" ? "select-menu-btn selected liked" : "select-menu-btn"
+                    }
+                    onClick={() => navigate("/mypage/liked")}
+                  >
+                    <p className="p-medium-regular">좋아한 작품</p>
+                    <img src={likedMenuImg} alt="likedMenu"></img>
+                  </div>
+                  <div
+                    className={
+                      currentPage === "0" ? "select-menu-btn selected purchased" : "select-menu-btn"
+                    }
+                    onClick={() => navigate("/mypage/purchased")}
+                  >
+                    <p className="p-medium-regular">구매한 작품</p>
+                    <img src={scriptMenuImg} alt="purchasedMenu"></img>
+                  </div>
+                </>
+              )}
+              {type === "author" && (
+                <div
+                  className={
+                    currentPage === "1" ? "select-menu-btn selected script-manage" : "select-menu-btn"
+                  }
+                  onClick={() => navigate("/author/mypage/scriptmanage")}
+                >
+                  <p className="p-medium-regular">작품 관리</p>
+                  <img src={pencilMenuImg} alt="pencilMenu"></img>
+                </div>
+              )}
               <p
                 className="p-small-under c-pointer info-change-btn"
-                onClick={() => {
-                  navigate("/mypage/info");
-                }}
+                onClick={() => navigate(`${prefix}/mypage/info`)}
               >
                 회원 정보 수정
               </p>

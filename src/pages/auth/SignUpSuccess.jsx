@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import BottomBtn from "../../components/auth/BottomBtn";
 import Box from "../../components/auth/Box";
@@ -13,6 +14,7 @@ import "./SignUpSuccess.scss";
 import Loading from "../Loading";
 
 function SignUpSuccess() {
+  const prefix = useRoutePrefix();
   // 로딩: 기본 true 상태
   const [isLoading, setIsLoading] = useState(true);
 
@@ -21,7 +23,7 @@ function SignUpSuccess() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/", { replace: true });
+      navigate(prefix || "/", { replace: true });
     }
     setIsLoading(false);
   }, [isAuthenticated, navigate]);
@@ -38,7 +40,7 @@ function SignUpSuccess() {
             <h1>회원가입 완료</h1>
             <img src={signUpSuccess} alt="회원가입 완료" />
             <BottomBtn
-              onClick={() => navigate("/signin")}
+              onClick={() => navigate(`${prefix}/signin`)}
               style={{ width: "100%" }}
             >
               로그인하러 가기

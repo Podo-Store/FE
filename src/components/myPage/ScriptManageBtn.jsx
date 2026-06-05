@@ -51,7 +51,7 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
             <Button
               color="white"
               onClick={() => {
-                navigate(`/mypage/scriptmanage/askedperform/${id}`);
+                navigate(`/author/mypage/scriptmanage/askedperform/${id}`);
               }}
               style={style}
             >
@@ -60,7 +60,7 @@ const ScriptManageBtn = ({ reviewCompleted, id, performSale, style }) => {
 
             <Button
               onClick={() => {
-                navigate(`/mypage/scriptmanage/detail/${id}`);
+                navigate(`/author/mypage/scriptmanage/detail/${id}`);
               }}
               style={style}
             >

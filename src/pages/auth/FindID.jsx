@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import AuthContext from "@/contexts/AuthContext";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import BottomBtn from "../../components/auth/BottomBtn";
@@ -23,6 +24,7 @@ import "./../../styles/text.css";
 import "./../../styles/utilities.css";
 
 const FindID = () => {
+  const prefix = useRoutePrefix();
   const isAuthenticated = useContext(AuthContext);
 
   const [email, setEmail] = useState("");
@@ -234,7 +236,7 @@ const FindID = () => {
           </div>
         </div>
       </InnerBox>
-      <BottomBtn onClick={() => navigate("/signin")}>로그인하러 가기</BottomBtn>
+      <BottomBtn onClick={() => navigate(`${prefix}/signin`)}>로그인하러 가기</BottomBtn>
     </div>
   );
 };

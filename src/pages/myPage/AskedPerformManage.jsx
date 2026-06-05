@@ -81,7 +81,7 @@ const AskedPerformManage = () => {
   return (
     <div className="asked-perform-manage perform-top">
       <div className="min-height perform-info">
-        <GoBack url="/mypage/scriptmanage" />
+        <GoBack url="/author/mypage/scriptmanage" />
         <h4 className="p-medium-bold sm:h4-bold">등록한 작품들을 관리할 수 있어요!</h4>
 
         <p className="p-xs-regular sm:p-medium-regular">공연 신청 정보</p>
@@ -235,7 +235,7 @@ const AskedPerformManage = () => {
                 <RoundBtnLargeBold
                   color="purple"
                   onClick={() => {
-                    navigate("/mypage/scriptmanage");
+                    navigate("/author/mypage/scriptmanage");
                   }}
                 >
                   작품 관리하러 가기

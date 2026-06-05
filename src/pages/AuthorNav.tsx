@@ -40,13 +40,8 @@ function AuthorNav() {
           <img className="icon h-[30.086px]" src={navLogo} alt="logo" />
           <img src={navTitle} alt="포도상점" className="h-[28px]" />
           <span
-            style={{
-              color: "var(--purple-purple-1, #280C5A)",
-              fontFamily: "Pretendard",
-              fontSize: "18px",
-              fontWeight: 700,
-              lineHeight: "28px",
-            }}
+            className="p-large-bold text-[var(--purple1)] ml-[calc(10px_-_1.5rem)]"
+            style={{ lineHeight: 1 }}
           >
             작가 공간
           </span>
@@ -73,7 +68,8 @@ function AuthorNav() {
         </ul>
         <div className="navbar_login">
           {!isAuthenticated ? (
-            <RoundBtnV2
+            <button
+              className="signin_btn"
               onClick={() => {
                 navigate("/author/signin", {
                   state: {
@@ -87,11 +83,10 @@ function AuthorNav() {
                   },
                 });
               }}
-              className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
               color="white"
             >
               로그인
-            </RoundBtnV2>
+            </button>
           ) : (
             <>
               <button
@@ -99,19 +94,22 @@ function AuthorNav() {
               >
                 <img src={person} alt="myPage" className="my-page-button" />
               </button>
-              <RoundBtnV2
+              <button
+                className="signin_btn"
                 onClick={() => {
                   logout();
                   navigate("/");
                 }}
-                className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
-                color="white"
               >
                 로그아웃
-              </RoundBtnV2>
+              </button>
             </>
           )}
-          <RoundBtnV2 onClick={() => navigate("/")} className="" color="white">
+          <RoundBtnV2
+            onClick={() => navigate("/")}
+            className="rounded-[9px] w-[100px] ml-5 md:ml-10"
+            color="purple"
+          >
             상점 가기
           </RoundBtnV2>
         </div>

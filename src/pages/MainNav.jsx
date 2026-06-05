@@ -90,7 +90,8 @@ function MainNav() {
         </ul>
         <div className="navbar_login">
           {!isAuthenticated ? (
-            <RoundBtnV2
+            <button
+              className="signin_btn"
               onClick={() => {
                 navigate("/signin", {
                   state: {
@@ -104,11 +105,9 @@ function MainNav() {
                   },
                 });
               }}
-              className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
-              color="white"
             >
               로그인
-            </RoundBtnV2>
+            </button>
           ) : (
             <>
               <button
@@ -116,22 +115,21 @@ function MainNav() {
               >
                 <img src={person} alt="myPage" className="my-page-button" />
               </button>
-              <RoundBtnV2
+              <button
+                className="signin_btn"
                 onClick={() => {
                   logout();
                   navigate("/");
                 }}
-                className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
-                color="white"
               >
                 로그아웃
-              </RoundBtnV2>
+              </button>
             </>
           )}
           <RoundBtnV2
             onClick={() => navigate("/author")}
-            className="signin_btn p-large-regular w-[120px] h-[44px] rounded-[30px]"
-            color="white"
+            className="rounded-[9px] w-[100px] ml-5 md:ml-10"
+            color="purple"
           >
             작가 공간
           </RoundBtnV2>

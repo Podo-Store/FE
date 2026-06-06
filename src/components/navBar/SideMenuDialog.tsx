@@ -47,6 +47,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const isAuthor = location.pathname.startsWith("/author");
 
   return (
     <Dialog
@@ -110,37 +111,47 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
             <div className="div-outside" />
           </div>
         )}
-        <SideDialogBtn
-          onClick={(event: React.MouseEvent) => {
-            navigateWithRefreshAndClose(event, "/list");
-          }}
-        >
-          작품 둘러보기
-        </SideDialogBtn>
-        <div className="div-inside" />
-        <SideDialogBtn
-          onClick={(event: React.MouseEvent) => {
-            navigateWithRefreshAndClose(event, "/post");
-          }}
-        >
-          작품 등록하기
-        </SideDialogBtn>
-        <div className="div-outside" />
-        <SideDialogBtn
-          onClick={(event: React.MouseEvent) => {
-            navigateWithRefreshAndClose(event, "/PerformanceNews");
-          }}
-        >
-          공연 소식
-        </SideDialogBtn>
-        <div className="div-outside" />
-        <SideDialogBtn
-          onClick={(event: React.MouseEvent) => {
-            navigateWithRefreshAndClose(event, "/company");
-          }}
-        >
-          회사 소개
-        </SideDialogBtn>
+        {isAuthor ? (
+          <>
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
+                navigateWithRefreshAndClose(event, "/author/post");
+              }}
+            >
+              작품 등록하기
+            </SideDialogBtn>
+            <div className="div-inside" />
+            <SideDialogBtn onClick={() => {}}>
+              <span className="text-[#BBBBBB]">작품 관리하기</span>
+            </SideDialogBtn>
+          </>
+        ) : (
+          <>
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
+                navigateWithRefreshAndClose(event, "/");
+              }}
+            >
+              작품 둘러보기
+            </SideDialogBtn>
+            <div className="div-inside" />
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
+                navigateWithRefreshAndClose(event, "/performanceNews");
+              }}
+            >
+              공연 소식
+            </SideDialogBtn>
+            <div className="div-inside" />
+            <SideDialogBtn
+              onClick={(event: React.MouseEvent) => {
+                navigateWithRefreshAndClose(event, "/company");
+              }}
+            >
+              회사 소개
+            </SideDialogBtn>
+          </>
+        )}
         <div className="div-outside" />
       </div>
 
@@ -151,29 +162,35 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
               <h5 className="pl-[15px] p-12-bold sm:h5-bold">마이페이지</h5>
               <div className="div-outside" />
             </div>
-            <SideDialogBtn
-              onClick={(event: React.MouseEvent) => {
-                navigateWithRefreshAndClose(event, "/mypage/liked");
-              }}
-            >
-              좋아한 작품
-            </SideDialogBtn>
-            <div className="div-inside" />
-            <SideDialogBtn
-              onClick={(event: React.MouseEvent) => {
-                navigateWithRefreshAndClose(event, "/mypage/purchased");
-              }}
-            >
-              구매한 작품
-            </SideDialogBtn>
-            <div className="div-inside" />
-            <SideDialogBtn
-              onClick={(event: React.MouseEvent) => {
-                navigateWithRefreshAndClose(event, "/mypage/scriptmanage");
-              }}
-            >
-              작품 관리
-            </SideDialogBtn>
+            {isAuthor ? (
+              <>
+                <SideDialogBtn
+                  onClick={(event: React.MouseEvent) => {
+                    navigateWithRefreshAndClose(event, "/author/mypage/scriptmanage");
+                  }}
+                >
+                  작품 관리
+                </SideDialogBtn>
+              </>
+            ) : (
+              <>
+                <SideDialogBtn
+                  onClick={(event: React.MouseEvent) => {
+                    navigateWithRefreshAndClose(event, "/mypage/liked");
+                  }}
+                >
+                  좋아한 작품
+                </SideDialogBtn>
+                <div className="div-inside" />
+                <SideDialogBtn
+                  onClick={(event: React.MouseEvent) => {
+                    navigateWithRefreshAndClose(event, "/mypage/purchased");
+                  }}
+                >
+                  구매한 작품
+                </SideDialogBtn>
+              </>
+            )}
             <div className="div-outside" />
           </div>
         </>

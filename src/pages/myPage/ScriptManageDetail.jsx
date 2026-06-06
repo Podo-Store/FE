@@ -160,7 +160,7 @@ const ScriptManageDetail = () => {
       await api.post("/profile/detail", formData);
 
       alert("수정이 완료되었습니다.");
-      navigate("/mypage/scriptmanage");
+      navigate("/author/mypage/scriptmanage");
     } catch (error) {
       if (error.response.data.error === "ScriptImage file type is not jpg") {
         alert("이미지 파일은 jpg 형식만 업로드 가능합니다.");
@@ -183,7 +183,7 @@ const ScriptManageDetail = () => {
     try {
       await api.delete(`/profile/deleteScript/${id}`);
       alert("작품이 삭제되었습니다.");
-      navigate("/mypage/scriptmanage");
+      navigate("/author/mypage/scriptmanage");
     } catch (error) {
       if (error.response.data.error === "작가가 아님") {
         alert("작가 본인이 쓴 작품만 삭제할 수 있습니다.");
@@ -205,7 +205,7 @@ const ScriptManageDetail = () => {
     <div className="w-full">
       <OverLapPartialLoading isLoading={isPartialLoading} />
       <div className=" mt-[3.426vh]   ">
-        <GoBack url="/mypage/scriptmanage" />
+        <GoBack url="/author/mypage/scriptmanage" />
 
         <div className="flex flex-col gap-[4.259vh] border-b-1 border-[#B489FF] pb-[0.463vh]">
           <h1 className="h4-bold">등록한 작품들을 관리할 수 있어요!</h1>
@@ -360,7 +360,7 @@ const ScriptManageDetail = () => {
               <div className="btn-wrap">
                 <SmallOnOffBtn
                   color="white"
-                  onClick={() => navigate("/mypage/scriptmanage")}
+                  onClick={() => navigate("/author/mypage/scriptmanage")}
                 >
                   취소하기
                 </SmallOnOffBtn>

@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import { BottomBtn, InnerBox } from "../../components/auth";
 import { AuthPwInputField } from "../../components/inputField";
@@ -16,6 +17,7 @@ import { SERVER_URL } from "../../constants/ServerURL";
 import "./FindBar.scss";
 
 const ResetPW = ({ receivedAccessToken }) => {
+  const prefix = useRoutePrefix();
   // 결과 화면 요소
   const [pw, setPw] = useState("");
   const [pwChecker, setPwChecker] = useState({
@@ -161,7 +163,7 @@ const ResetPW = ({ receivedAccessToken }) => {
             비밀번호가 변경되었습니다.
           </h5>
         </InnerBox>
-        <BottomBtn onClick={() => navigate("/signin")}>
+        <BottomBtn onClick={() => navigate(`${prefix}/signin`)}>
           로그인하러 가기
         </BottomBtn>
       </div>

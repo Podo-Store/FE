@@ -44,7 +44,7 @@ const ScriptManage = () => {
       <FloatingBtn />
 
       <div className="myPage-contents-default-wrap">
-        <MyPageMenu nickname={userNickname} currentPage="1" />
+        <MyPageMenu nickname={userNickname} currentPage="1" type="author" />
         <div className="content-side">
           <h1>등록한 작품들을 관리할 수 있어요!</h1>
 

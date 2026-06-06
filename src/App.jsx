@@ -3,6 +3,7 @@ import { Suspense, lazy } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import DefaultLayout from "./layouts/DefaultLayout";
+import AuthorLayout from "./layouts/AuthorLayout";
 import MarginLayout from "./layouts/MarginLayout";
 
 import MainVer1 from "./pages/MainVer1";
@@ -74,18 +75,40 @@ function App() {
       <Routes location={state?.background ?? location}>
         <Route path="/company" element={<CompanyProfile />} />
 
+        <Route path="/author" element={<AuthorLayout />}>
+          <Route index element={<MainVer2 />} />
+          <Route path="post" element={<PostWork />} />
+
+          {/* 작가 마이페이지 */}
+          <Route path="mypage/scriptmanage" element={<ProtectedRoute><ScriptManage /></ProtectedRoute>} />
+          <Route path="mypage/scriptmanage/detail/:scriptId" element={<ProtectedRoute><ScriptManageDetail /></ProtectedRoute>} />
+          <Route path="mypage/scriptmanage/askedperform/:id" element={<ProtectedRoute><AskedPerformManage /></ProtectedRoute>} />
+
+          {/* 공용 - 회원정보 */}
+          <Route path="mypage/info" element={<ProtectedRoute><AccountInfo /></ProtectedRoute>} />
+          <Route path="mypage/delete" element={<ProtectedRoute><AccountDeleteWrapper /></ProtectedRoute>} />
+          <Route path="mypage/info/nickname" element={<ProtectedRoute><AccountInfoChangeWrapper type="nickname" /></ProtectedRoute>} />
+          <Route path="mypage/info/password" element={<ProtectedRoute><AccountInfoChangeWrapper type="" /></ProtectedRoute>} />
+          <Route path="mypage/infochange" element={<AccountInfoChange />} />
+
+          {/* 공용 - 인증 */}
+          <Route path="signup" element={<SignUpDefault />} />
+          <Route path="signup/success" element={<SignUpSuccess />} />
+          <Route path="signin" element={<SignIn />} />
+          <Route path="signin/find/:id" element={<FindBar />} />
+          <Route path="auth/callback" element={<OAuthCallback />} />
+
+          {/* 공용 - 약관 */}
+          <Route path="policy/:id" element={<PolicyBar />} />
+        </Route>
+
         <Route path="/" element={<DefaultLayout />}>
           <Route path="admin/scriptManage" element={<AdminSwitch page={0} />} />
           <Route path="admin/orderManage" element={<AdminSwitch page={1} />} />
-          <Route
-            path="admin/statisticManage"
-            element={<AdminSwitch page={2} />}
-          />
+          <Route path="admin/statisticManage" element={<AdminSwitch page={2} />} />
 
-          <Route index element={<MainVer2 />} />
+          <Route index element={<PostGallery />} />
           <Route path="v1" element={<MainVer1 />} />
-
-          {/* <Route path="list" element={<List />} /> */}
 
           <Route path="signup" element={<SignUpDefault />} />
           <Route path="signup/success" element={<SignUpSuccess />} />
@@ -94,10 +117,8 @@ function App() {
           <Route path="signin/find/:id" element={<FindBar />} />
           <Route path="auth/callback" element={<OAuthCallback />} />
 
-          <Route path="list" element={<PostGallery />} />
-
           <Route
-            path="list/detail/:id"
+            path="detail/:id"
             element={
               <Suspense fallback={<Loading />}>
                 <Detail />
@@ -105,14 +126,14 @@ function App() {
             }
           />
           <Route
-            path="list/view/:id"
+            path="view/:id"
             element={
               <Suspense fallback={<Loading />}>
                 <PostView />
               </Suspense>
             }
           />
-          <Route path="list/review/:id" element={<ReviewWrite />} />
+          <Route path="review/:id" element={<ReviewWrite />} />
           <Route
             path="purchase/:id"
             element={
@@ -135,14 +156,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <PurchasedScript />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="mypage/scriptmanage"
-            element={
-              <ProtectedRoute>
-                <ScriptManage />
               </ProtectedRoute>
             }
           />
@@ -199,7 +212,6 @@ function App() {
           <Route element={<MarginLayout />}>
             <Route path="policy/:id" element={<PolicyBar />} />
 
-            <Route path="post" element={<PostWork />} />
             <Route
               path="purchase/success"
               element={
@@ -216,33 +228,19 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route
-              path="mypage/scriptmanage/detail/:scriptId"
-              element={
-                <ProtectedRoute>
-                  <ScriptManageDetail />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="mypage/scriptmanage/askedperform/:id"
-              element={
-                <ProtectedRoute>
-                  <AskedPerformManage />
-                </ProtectedRoute>
-              }
-            />
-
             <Route path="mypage/infochange" element={<AccountInfoChange />} />
             <Route path="/performanceNews" element={<PerformanceNews />} />
 
-            <Route path="/performanceNews/edit/:id"
+            <Route
+              path="/performanceNews/edit/:id"
               element={
                 <ProtectedRoute>
                   <AddPerformanceNews mode="edit" />
                 </ProtectedRoute>
-              } />
-            <Route path="/performanceNews/register"
+              }
+            />
+            <Route
+              path="/performanceNews/register"
               element={
                 <ProtectedRoute>
                   <AddPerformanceNews mode="create" />
@@ -264,6 +262,7 @@ function App() {
       {state?.background && (
         <Routes>
           <Route path="/signin" element={<SignInDialog />} />
+          <Route path="/author/signin" element={<SignInDialog />} />
         </Routes>
       )}
     </div>

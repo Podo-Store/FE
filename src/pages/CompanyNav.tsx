@@ -56,24 +56,13 @@ function CompanyNav() {
           <ul className="navbar_menu ">
             <li>
               <Link
-                to="/list"
+                to="/"
                 className="h5-regular !text-[#F2F2F2] hover:!text-[#a6a8cb]"
                 onClick={(event) => {
-                  navigateWithRefresh(event, "/list");
+                  navigateWithRefresh(event, "/");
                 }}
               >
                 작품 둘러보기
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/post"
-                className="h5-regular !text-[#F2F2F2] hover:!text-[#a6a8cb]"
-                onClick={(event) => {
-                  navigateWithRefresh(event, "/post");
-                }}
-              >
-                작품 등록하기
               </Link>
             </li>
             <li>
@@ -99,13 +88,13 @@ function CompanyNav() {
               </Link>
             </li>
           </ul>
-          {!isAuthenticated ? (
-            <div className="navbar_login">
-              <RoundBtnV2
+          <div className="navbar_login">
+            {!isAuthenticated ? (
+              <button
+                className="signin_btn"
                 onClick={() => {
                   navigate("/signin", {
                     state: {
-                      // Avoid passing full location.state to prevent DataCloneError
                       background: {
                         pathname: location.pathname,
                         search: location.search,
@@ -116,39 +105,42 @@ function CompanyNav() {
                     },
                   });
                 }}
-                className="signin_btn p-large-regular w-[150px] h-[44px] rounded-[30px]"
-                color="dark_mode"
               >
                 로그인
-              </RoundBtnV2>
-            </div>
-          ) : (
-            <div className="navbar_login">
-              {/*<img src={cart} alt="cart" />*/}
-              <button
-                onClick={(event) => {
-                  navigateWithRefresh(event, "/mypage/liked");
-                }}
-              >
-                <PersonIcon
-                  className={clsx(
-                    " my-page-button w-[20px] h-[22px] sm:w-[26px] sm:h-[28px]",
-                    isCompanyPage ? "text-white" : "text-black"
-                  )}
-                />
               </button>
-              <RoundBtnV2
-                onClick={() => {
-                  logout();
-                  navigate("/");
-                }}
-                className="signin_btn p-large-regular w-[150px] h-[44px] rounded-[30px]"
-                color="dark_mode"
-              >
-                로그아웃
-              </RoundBtnV2>
-            </div>
-          )}
+            ) : (
+              <>
+                <button
+                  onClick={(event) => {
+                    navigateWithRefresh(event, "/mypage/liked");
+                  }}
+                >
+                  <PersonIcon
+                    className={clsx(
+                      "my-page-button w-[20px] h-[22px] sm:w-[26px] sm:h-[28px]",
+                      isCompanyPage ? "text-white" : "text-black"
+                    )}
+                  />
+                </button>
+                <button
+                  className="signin_btn"
+                  onClick={() => {
+                    logout();
+                    navigate("/");
+                  }}
+                >
+                  로그아웃
+                </button>
+              </>
+            )}
+            <RoundBtnV2
+              onClick={() => navigate("/author")}
+              className="rounded-[9px] w-[110px] ml-5 md:ml-10"
+              color="dark_mode"
+            >
+              작가 공간
+            </RoundBtnV2>
+          </div>
         </nav>
       </div>
     </>

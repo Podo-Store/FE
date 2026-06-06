@@ -155,7 +155,7 @@ const PostManageDetail: React.FC = () => {
 
       if (success) {
         toastAlert("작품 수정이 완료되었습니다.", "success");
-        navigate("/mypage/scriptmanage");
+        navigate("/author/mypage/scriptmanage");
       }
     } catch (error: any) {
       alert(error.message);
@@ -169,7 +169,7 @@ const PostManageDetail: React.FC = () => {
       const result = await deleteWorkDetail(scriptId);
       if (result === true) {
         alert("작품이 삭제되었습니다.");
-        navigate("/mypage/scriptmanage");
+        navigate("/author/mypage/scriptmanage");
       }
     } catch (error: any) {
       alert(error.message); // "작가가 아님" 또는 "심사 중"
@@ -241,7 +241,7 @@ const PostManageDetail: React.FC = () => {
       {/* main */}
       <div className=" main">
         <HeaderWithBack
-          backUrl="/mypage/scriptmanage"
+          backUrl="/author/mypage/scriptmanage"
           headerTitle="등록한 작품들을 관리할 수 있어요!"
           headerFont={isSmallMobile ? "p-medium-bold" : `h4-bold `}
         />
@@ -963,7 +963,7 @@ const PostManageDetail: React.FC = () => {
 
             {/* 버튼 */}
             <div className="flex flex-row mt-[40px] justify-end gap-[2.38%]">
-              <SmallOnOffBtn color="white" onClick={() => navigate("/mypage/scriptmanage")}>
+              <SmallOnOffBtn color="white" onClick={() => navigate("/author/mypage/scriptmanage")}>
                 취소하기
               </SmallOnOffBtn>
               <SmallOnOffBtn color="purple" disabled={!isFormValid()} onClick={onClickModifyBtn}>

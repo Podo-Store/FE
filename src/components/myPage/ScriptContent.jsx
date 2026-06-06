@@ -111,7 +111,7 @@ const ScriptContent = ({
                         className="absolute top-0 cursor-pointer size-full"
                         style={{ top: 0 }}
                         onClick={() => {
-                          navigate(`/list/detail/${script.id}`);
+                          navigate(`/detail/${script.id}`);
                         }}
                       ></button>
                     )}

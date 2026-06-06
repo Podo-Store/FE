@@ -154,7 +154,7 @@ const List = () => {
         scriptPrice={play.scriptPrice}
         performPrice={play.performancePrice}
         onClick={() => {
-          navigate(`/list/detail/${play.id}`);
+          navigate(`/detail/${play.id}`);
         }}
       />
     ));

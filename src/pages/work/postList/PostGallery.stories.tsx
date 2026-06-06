@@ -10,7 +10,7 @@ const makeDecorator = (initialEntry: string) => {
     <QueryClientProvider client={qc}>
       <MemoryRouter initialEntries={[initialEntry]}>
         <Routes>
-          <Route path="/list" element={<Story />} />
+          <Route path="/" element={<Story />} />
         </Routes>
       </MemoryRouter>
     </QueryClientProvider>
@@ -30,13 +30,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const 전체보기: Story = {
-  decorators: [makeDecorator("/list?stage=포도밭&category=전체")],
+  decorators: [makeDecorator("/?stage=포도밭&category=전체")],
 };
 
 export const 장편탭: Story = {
-  decorators: [makeDecorator("/list?stage=포도밭&category=장편")],
+  decorators: [makeDecorator("/?stage=포도밭&category=장편")],
 };
 
 export const 단편탭: Story = {
-  decorators: [makeDecorator("/list?stage=포도밭&category=단편")],
+  decorators: [makeDecorator("/?stage=포도밭&category=단편")],
 };

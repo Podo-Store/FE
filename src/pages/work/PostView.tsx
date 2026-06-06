@@ -465,7 +465,7 @@ const PostView: React.FC = () => {
               <button
                 className={`no-drag transition-all duration-100 hover:scale-[1.1] `}
                 onClick={() => {
-                  navigate(`/list/review/${id}`);
+                  navigate(`/review/${id}`);
                 }}
               >
                 <img

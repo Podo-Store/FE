@@ -29,7 +29,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
   };
 
   const handleCardClick = () => {
-    navigate(`/list/detail/${posts.id}`);
+    navigate(`/detail/${posts.id}`);
   };
 
   return (

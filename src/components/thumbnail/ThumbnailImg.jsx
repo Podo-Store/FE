@@ -36,7 +36,7 @@ const ThumbnailImg = ({
           className="absolute top-0 size-full cursor-pointer"
           style={{ top: 0 }} // 그러니까 왜 tailwind 안먹음..?
           onClick={() => {
-            navigate(`/list/detail/${id}`);
+            navigate(`/detail/${id}`);
           }}
         ></button>
       )}

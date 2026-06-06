@@ -347,7 +347,7 @@ const Detail = () => {
       return;
     }
 
-    navigate(`/list/view/${id}`, {
+    navigate(`/view/${id}`, {
       state: { script },
     });
   };
@@ -413,7 +413,7 @@ const Detail = () => {
             navigate("/signin");
             return;
           }
-          navigate(`/list/review/${id}`);
+          navigate(`/review/${id}`);
         }}
       >
         후기 작성하기 <img src={rightArrow} alt=">"></img>

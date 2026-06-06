@@ -42,7 +42,7 @@ const PurchasedScriptBtn = ({ script, id, title, productId, buyPerformance, styl
 
       <Button
         onClick={() => {
-          navigate(`/list/view/${productId}`, {
+          navigate(`/view/${productId}`, {
             state: {
               script,
             },

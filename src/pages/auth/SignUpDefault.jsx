@@ -2,6 +2,7 @@ import { api } from "@/api/api";
 import clsx from "clsx";
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import AuthContext from "../../contexts/AuthContext";
 import Loading from "../Loading";
 
@@ -23,6 +24,7 @@ import "../../styles/text.css";
 import "../../styles/utilities.css";
 
 const SignUpDefault = () => {
+  const prefix = useRoutePrefix();
   const [step, setStep] = useState(1);
   const [userInfo, setUserInfo] = useState({
     id: "",
@@ -70,7 +72,7 @@ const SignUpDefault = () => {
         login(data.accessToken, data.refreshToken, data.nickname);
       }
 
-      navigate("/", {
+      navigate(prefix || "/", {
         replace: true,
         state: {
           toastMessage: data.nickname,

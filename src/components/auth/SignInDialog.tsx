@@ -2,6 +2,7 @@ import { api } from "@/api/api";
 import clsx from "clsx";
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import Loading from "../../pages/Loading";
 
@@ -35,6 +36,7 @@ function SignInDialog() {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const prefix = useRoutePrefix();
 
   const { isMobile, isSmallMobile } = useWindowDimensions().widthConditions;
 
@@ -188,7 +190,7 @@ function SignInDialog() {
                 !isSmallMobile ? "p-small-regular" : "p-xs-regular"
               )}
               onClick={() => {
-                navigate("/signin/find/0");
+                navigate(`${prefix}/signin/find/0`);
               }}
             >
               아이디/비밀번호 찾기
@@ -201,7 +203,7 @@ function SignInDialog() {
               !isSmallMobile ? "p-small-regular" : "p-xs-regular"
             )}
             onClick={() => {
-              navigate("/signup");
+              navigate(`${prefix}/signup`);
             }}
           >
             회원가입

@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import { twJoin } from "tailwind-merge";
 import { api } from "@/api/api";
 import { MyPageMenu } from "@/components/myPage";
@@ -15,6 +16,7 @@ import "./AccountInfoChange.css";
 
 const AccountInfo = () => {
   const { userNickname, logout } = useContext(AuthContext);
+  const prefix = useRoutePrefix();
 
   const [id, setId] = useState("");
   const [socialLoginType, setSocialLoginType] = useState<null | "GOOGLE" | "KAKAO" | "NAVER">(null);
@@ -101,7 +103,7 @@ const AccountInfo = () => {
                 <p className="p-xs-regular sm:p-small-regular">닉네임</p>
                 <button
                   className="flex items-center gap-[15px] cursor-pointer"
-                  onClick={() => navigate("/mypage/info/nickname")}
+                  onClick={() => navigate(`${prefix}/mypage/info/nickname`)}
                 >
                   {nickname ? (
                     <p className="p-xs-regular sm:p-medium-regular">{nickname}</p>
@@ -126,7 +128,7 @@ const AccountInfo = () => {
                 </p>
                 <button
                   className={socialLoginType ? "cursor-default" : "cursor-pointer"}
-                  onClick={() => navigate("/mypage/info/password")}
+                  onClick={() => navigate(`${prefix}/mypage/info/password`)}
                 >
                   <img
                     className="w-[12px] h-[7px] sm:w-[16px] sm:h-[10px]"
@@ -151,7 +153,7 @@ const AccountInfo = () => {
             <div className="w-[1.5px] h-[20px] bg-grey-4" />
             <button
               className="cursor-pointer p-small-regular"
-              onClick={() => navigate("/mypage/delete")}
+              onClick={() => navigate(`${prefix}/mypage/delete`)}
             >
               계정 삭제
             </button>

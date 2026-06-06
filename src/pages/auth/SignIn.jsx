@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 
 import Loading from "../Loading";
 
@@ -20,6 +21,7 @@ import clsx from "clsx";
 import OAuthDiv from "@/components/auth/OAuthDiv";
 
 function SignIn() {
+  const prefix = useRoutePrefix();
   const { login } = useContext(AuthContext);
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
@@ -170,7 +172,7 @@ function SignIn() {
                     !isSmallMobile ? "p-small-regular" : "p-xs-regular"
                   )}
                   onClick={() => {
-                    navigate("/signin/find/0");
+                    navigate(`${prefix}/signin/find/0`);
                   }}
                 >
                   아이디/비밀번호 찾기
@@ -183,7 +185,7 @@ function SignIn() {
                   !isSmallMobile ? "p-small-regular" : "p-xs-regular"
                 )}
                 onClick={() => {
-                  navigate("/signup");
+                  navigate(`${prefix}/signup`);
                 }}
               >
                 회원가입

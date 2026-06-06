@@ -1,6 +1,7 @@
 import { api } from "@/api/api";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import { AuthPwInputField } from "@/components/inputField";
 import EnterForm from "@/components/EnterForm";
 import PartialLoading from "@/components/loading/PartialLoading";
@@ -16,6 +17,7 @@ import {
 import "./ChangePassword.scss";
 
 const AccountInfoChangePassword = () => {
+  const prefix = useRoutePrefix();
   const [pw, setPw] = useState("");
   const [pwChecker, setPwChecker] = useState({
     show: false,
@@ -117,7 +119,7 @@ const AccountInfoChangePassword = () => {
       });
 
       alert("회원 정보 수정이 완료되었습니다.");
-      navigate("/mypage/info");
+      navigate(`${prefix}/mypage/info`);
     } catch (error) {
       if (error.response.data.error === "비밀번호 변경 실패") {
         alert("비밀번호 변경 실패");
@@ -186,9 +188,7 @@ const AccountInfoChangePassword = () => {
 
         <div className="j-content-end" id="btn-wrap">
           <SmallOnOffBtn
-            onClick={() => {
-              window.location.reload();
-            }}
+            onClick={() => navigate(`${prefix}/mypage/info`)}
             color="white"
           >
             취소

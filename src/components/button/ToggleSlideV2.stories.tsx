@@ -23,6 +23,7 @@ export const 공연권선택: Story = {
 };
 
 export const 인터랙티브: Story = {
+  args: { toggle: false },
   render: () => {
     const [toggle, setToggle] = useState(false);
     return <ToggleSlideV2 toggle={toggle} onChangeToggle={() => setToggle((v) => !v)} />;

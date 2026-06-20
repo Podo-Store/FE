@@ -208,7 +208,7 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           <>
             <SideDialogBtn
               onClick={(event: React.MouseEvent) => {
-                navigateWithRefreshAndClose(event, "/mypage/info");
+                navigateWithRefreshAndClose(event, isAuthor ? "/author/mypage/info" : "/mypage/info");
               }}
             >
               회원 정보 수정

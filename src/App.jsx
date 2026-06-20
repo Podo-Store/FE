@@ -58,6 +58,7 @@ import "./styles/colors.css";
 // import "./styles/text.css";
 import "./styles/utilities.css";
 import AccountInfo from "./pages/myPage/AccountInfo/AccountInfo";
+import AuthorAccountInfo from "./pages/myPage/AccountInfo/AuthorAccountInfo";
 import AccountDeleteWrapper from "./pages/myPage/AccountInfo/AccountDelete/AccountDeleteWrapper";
 import AccountInfoChangeWrapper from "./pages/myPage/AccountInfo/AccountInfoChange/ChangeWrapper";
 
@@ -85,7 +86,7 @@ function App() {
           <Route path="mypage/scriptmanage/askedperform/:id" element={<ProtectedRoute><AskedPerformManage /></ProtectedRoute>} />
 
           {/* 공용 - 회원정보 */}
-          <Route path="mypage/info" element={<ProtectedRoute><AccountInfo /></ProtectedRoute>} />
+          <Route path="mypage/info" element={<ProtectedRoute><AuthorAccountInfo /></ProtectedRoute>} />
           <Route path="mypage/delete" element={<ProtectedRoute><AccountDeleteWrapper /></ProtectedRoute>} />
           <Route path="mypage/info/nickname" element={<ProtectedRoute><AccountInfoChangeWrapper type="nickname" /></ProtectedRoute>} />
           <Route path="mypage/info/password" element={<ProtectedRoute><AccountInfoChangeWrapper type="" /></ProtectedRoute>} />

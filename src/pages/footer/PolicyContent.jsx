@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Document, Page } from "react-pdf";
+import { Document, Page, pdfjs } from "react-pdf";
 
 import FloatingBtn from "@/components/button/FloatingBtn";
 import PartialLoading from "../../components/loading/PartialLoading";
@@ -11,6 +11,9 @@ import termsOfService from "./../../assets/pdf/termsOfService.pdf";
 
 import "./PolicyBar.scss";
 import "./../../styles/utilities.css";
+
+// THX TO 'pxFIN' (https://github.com/wojtekmaj/react-pdf/issues/321)
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 /**
  *

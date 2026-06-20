@@ -36,6 +36,10 @@
   width: 520px;
 
   z-index: 10;
+  @include r.media-desktop {
+    // left-side(520px) + gap(211px) + right-side img(796px) = 1527px를 중앙 정렬
+    margin-left: calc((100vw - 1527px) / 2);
+  }
   @include r.media-laptop {
     margin-left: 90px;
   }
@@ -56,6 +60,10 @@
 
   position: absolute;
   right: 0;
+  @include r.media-desktop {
+    top: 75px;
+    right: calc((100vw - 1527px) / 2);
+  }
   @include r.media-laptop {
     top: 75px;
   }

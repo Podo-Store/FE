@@ -17,16 +17,27 @@ export interface ScriptItem {
   viewCount: number;
 }
 
+interface PageResponse<T> {
+  content: T[];
+  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+  numberOfElements: number;
+  empty: boolean;
+}
+
 export const getExploreScripts = async (
   page: number = 0,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
 ): Promise<ScriptItem[]> => {
   try {
-    const response = await api.get<ScriptItem[]>(`/scripts/v2`, {
+    const response = await api.get<PageResponse<ScriptItem>>(`/scripts/v2`, {
       params: { page, sortType },
     });
 
-    return response.data;
+    return response.data.content;
   } catch (error) {
     console.error("Error fetching long works:", error);
     throw new Error(` 작품 전체 API 호출 실패: ${(error as Error).message}`);

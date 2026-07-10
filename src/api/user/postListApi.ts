@@ -17,31 +17,19 @@ export interface ScriptItem {
   viewCount: number;
 }
 
-export interface ExploreScriptsResponse {
-  longPlay: ScriptItem[];
-  shortPlay: ScriptItem[];
-}
-
-export const fetchExploreScripts = async (
+export const getExploreScripts = async (
+  page: number = 0,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
-): Promise<ExploreScriptsResponse> => {
+): Promise<ScriptItem[]> => {
   try {
-    const response = await api.get<ExploreScriptsResponse>("/scripts", {
-      withCredentials: true,
-      params: {
-        sortType,
-      },
+    const response = await api.get<ScriptItem[]>(`/scripts/v2`, {
+      params: { page, sortType },
     });
 
-    const { longPlay, shortPlay } = response.data;
-
-    return {
-      longPlay: Array.isArray(longPlay) ? longPlay : [],
-      shortPlay: Array.isArray(shortPlay) ? shortPlay : [],
-    };
+    return response.data;
   } catch (error) {
-    console.error("Error fetchExploreScripts:", error);
-    throw new Error(`작품 둘러보기 API 호출 실패: ${(error as Error).message}`);
+    console.error("Error fetching long works:", error);
+    throw new Error(` 작품 전체 API 호출 실패: ${(error as Error).message}`);
   }
 };
 
@@ -77,9 +65,7 @@ export const getShortWorks = async (
   }
 };
 
-export const toggleLikeScript = async (
-  id: string
-): Promise<"like" | "cancel like"> => {
+export const toggleLikeScript = async (id: string): Promise<"like" | "cancel like"> => {
   try {
     const response = await api.post<{ message: "like" | "cancel like" }>(
       `/scripts/like/${id}`,
@@ -104,8 +90,7 @@ export const getPostView = async (scriptId: string): Promise<Blob> => {
     return data;
   } catch (error: any) {
     const err = error as AxiosError<{ error: string }>;
-    const errorMessage =
-      err.response?.data?.error ?? "대본을 불러오는데 실패했습니다.";
+    const errorMessage = err.response?.data?.error ?? "대본을 불러오는데 실패했습니다.";
     throw new Error(errorMessage);
   }
 };

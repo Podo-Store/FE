@@ -4,16 +4,9 @@ import { useInView } from "react-intersection-observer";
 
 import AuthContext from "@/contexts/AuthContext";
 
-import {
-  fetchExploreScripts,
-  getLongWorks,
-  getShortWorks,
-  ScriptItem,
-  ExploreScriptsResponse,
-} from "@/api/user/postListApi";
+import { getExploreScripts, getLongWorks, getShortWorks, ScriptItem } from "@/api/user/postListApi";
 
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
-import SectionBlock from "@/components/post/SectionBlock";
 import { AllPostCard } from "@/components/post/PostList.js";
 import PostHeaderControl from "@/components/post/PostHeaderControl";
 
@@ -24,11 +17,13 @@ import { StageType } from "@/types/stage";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
 type PostGalleryCache = {
-  explore: ExploreScriptsResponse | null;
+  explore: ScriptItem[];
   longPlays: ScriptItem[];
   shortPlays: ScriptItem[];
+  explorePage: number;
   longPlayPage: number;
   shortPlayPage: number;
+  hasMoreExplore: boolean;
   hasMoreLongPlays: boolean;
   hasMoreShortPlays: boolean;
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST";
@@ -50,15 +45,9 @@ const ScrollObserver = ({ inViewRef, id }: ScrollObserverProps) => (
 const syncLikeEverywhere = (
   postId: string,
   updater: (list: ScriptItem[]) => ScriptItem[],
-  explore: ExploreScriptsResponse | null
-): ExploreScriptsResponse | null => {
-  if (!explore) return explore;
-
-  return {
-    ...explore,
-    longPlay: updater(explore.longPlay),
-    shortPlay: updater(explore.shortPlay),
-  };
+  explore: ScriptItem[]
+): ScriptItem[] => {
+  return updater(explore);
 };
 
 const PostGallery = () => {
@@ -67,12 +56,14 @@ const PostGallery = () => {
   const activeCategory = searchParams.get("category") || "전체";
 
   // STATES
-  const [explore, setExplore] = useState<ExploreScriptsResponse | null>(null);
+  const [explore, setExplore] = useState<ScriptItem[]>([]);
   const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
   const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
+  const [explorePage, setExplorePage] = useState(0);
   const [longPlayPage, setLongPlayPage] = useState(0);
   const [shortPlayPage, setShortPlayPage] = useState(0);
 
+  const [hasMoreExplore, setHasMoreExplore] = useState(true);
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
   const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
 
@@ -117,8 +108,10 @@ const PostGallery = () => {
       setExplore(postGalleryCache.explore);
       setLongPlays(postGalleryCache.longPlays);
       setShortPlays(postGalleryCache.shortPlays);
+      setExplorePage(postGalleryCache.explorePage);
       setLongPlayPage(postGalleryCache.longPlayPage);
       setShortPlayPage(postGalleryCache.shortPlayPage);
+      setHasMoreExplore(postGalleryCache.hasMoreExplore);
       setHasMoreLongPlays(postGalleryCache.hasMoreLongPlays);
       setHasMoreShortPlays(postGalleryCache.hasMoreShortPlays);
 
@@ -131,7 +124,7 @@ const PostGallery = () => {
     (async () => {
       setIsLoading(true);
 
-      const exploreData = await fetchExploreScripts(sortType);
+      const exploreData = await getExploreScripts(0, sortType);
       const longData = await getLongWorks(0, sortType);
       const shortData = await getShortWorks(0, sortType);
 
@@ -139,16 +132,20 @@ const PostGallery = () => {
       setLongPlays(longData);
       setShortPlays(shortData);
 
+      setExplorePage(1);
       setLongPlayPage(1);
       setShortPlayPage(1);
+      setHasMoreExplore(true);
 
       // 캐시 저장
       postGalleryCache = {
         explore: exploreData,
         longPlays: longData,
         shortPlays: shortData,
+        explorePage: 1,
         longPlayPage: 1,
         shortPlayPage: 1,
+        hasMoreExplore: true,
         hasMoreLongPlays: true,
         hasMoreShortPlays: true,
         sortType,
@@ -169,7 +166,7 @@ const PostGallery = () => {
       setIsLoading(true);
 
       // explore 갱신
-      const exploreData = await fetchExploreScripts(sortType);
+      const exploreData = await getExploreScripts(0, sortType);
       setExplore(exploreData);
 
       // 장편/단편은 현재 페이지 기준으로 다시 가져오게 함
@@ -179,16 +176,20 @@ const PostGallery = () => {
       setLongPlays(longData);
       setShortPlays(shortData);
 
+      setExplorePage(1);
       setLongPlayPage(1);
       setShortPlayPage(1);
+      setHasMoreExplore(true);
 
       // 캐시 갱신
       postGalleryCache = {
         explore: exploreData,
         longPlays: longData,
         shortPlays: shortData,
+        explorePage: 1,
         longPlayPage: 1,
         shortPlayPage: 1,
+        hasMoreExplore: true,
         hasMoreLongPlays: true,
         hasMoreShortPlays: true,
         activeCategory,
@@ -206,6 +207,16 @@ const PostGallery = () => {
     if (!inView || isLoading) return;
 
     (async () => {
+      if (activeCategory === "전체" && hasMoreExplore) {
+        const data = await getExploreScripts(explorePage, sortType);
+        if (data.length === 0) {
+          setHasMoreExplore(false);
+          return;
+        }
+        setExplore((prev) => [...prev, ...data]);
+        setExplorePage((p) => p + 1);
+      }
+
       if (activeCategory === "장편" && hasMoreLongPlays) {
         const data = await getLongWorks(longPlayPage, sortType);
         if (data.length === 0) {
@@ -321,7 +332,7 @@ const PostGallery = () => {
               <div className="h-[120px] sm:h-[197px] w-full rounded-2xl bg-gray-200" />
 
               {/* 텍스트 영역 */}
-              <div className="flex flex-col  mt-3 px-2">
+              <div className="flex flex-col px-2 mt-3">
                 <div className="h-4 sm:h-[20px] w-full mb-1 rounded bg-gray-200" />
                 <div className="h-3 sm:h-[16px] w-full mb-2 rounded bg-gray-200" />
                 <div className="h-3 sm:h-[14px] w-full rounded bg-gray-200" />
@@ -333,31 +344,30 @@ const PostGallery = () => {
 
       {/* ----- 전체 보기 ----- */}
       {!isLoading && activeCategory === "전체" && explore && (
-        <>
-          <div className="px-[9.375%] sm:px-0">
-            <SectionBlock
-              title="단편"
-              posts={explore.shortPlay}
-              colNum={colNum}
-              postNum={10}
-              viewType={viewType}
-              onMoreClick={() => handleChangeCategory("단편", "category")}
-              onToggleLike={handleLikeShort}
-            />
-          </div>
+        <section className="px-[9.375%] sm:px-0">
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoading && explore.length === 0
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
+            }`}
+          >
+            {explore.length > 0 ? (
+              <>
+                <AllPostCard
+                  posts={explore}
+                  colNum={colNum}
+                  viewType={viewType}
+                  onToggleLike={handleLikeLong}
+                />
 
-          <div className="mt-[78px] px-[9.375%] sm:px-0">
-            <SectionBlock
-              title="장편"
-              posts={explore.longPlay}
-              colNum={colNum}
-              postNum={10}
-              viewType={viewType}
-              onMoreClick={() => handleChangeCategory("장편", "category")}
-              onToggleLike={handleLikeLong}
-            />
+                <ScrollObserver inViewRef={inViewRef} id={`explore-${sortType}-${explorePage}`} />
+              </>
+            ) : (
+              <p className="m-auto w-fit p-large-bold mt-[80px]">등록된 작품이 없습니다.</p>
+            )}
           </div>
-        </>
+        </section>
       )}
 
       {/* ----- 장편 탭 ----- */}

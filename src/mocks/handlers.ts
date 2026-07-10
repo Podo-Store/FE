@@ -1,5 +1,5 @@
 import { http, HttpResponse } from "msw";
-import type { ScriptItem, ExploreScriptsResponse } from "@/api/user/postListApi";
+import type { ScriptItem } from "@/api/user/postListApi";
 
 const BASE = "http://localhost:8080";
 
@@ -90,14 +90,14 @@ const sortList = (list: ScriptItem[], sortType: string) =>
   });
 
 export const handlers = [
-  // 전체 작품 조회
-  http.get(`${BASE}/scripts`, ({ request }) => {
-    const sortType = new URL(request.url).searchParams.get("sortType") ?? "POPULAR";
-    const body: ExploreScriptsResponse = {
-      longPlay: sortList(longPlays, sortType),
-      shortPlay: sortList(shortPlays, sortType),
-    };
-    return HttpResponse.json(body);
+  // 전체 작품 조회 (페이지네이션)
+  http.get(`${BASE}/scripts/v2`, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? 0);
+    const sortType = url.searchParams.get("sortType") ?? "POPULAR";
+    const all = sortList([...longPlays, ...shortPlays], sortType);
+    const paged = all.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+    return HttpResponse.json(paged);
   }),
 
   // 장편 페이지네이션

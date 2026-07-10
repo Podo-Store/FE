@@ -1,10 +1,15 @@
 import { api } from "@/api/api";
-import { ScriptItem, ExploreScriptsResponse } from "@/api/user/postListApi";
+import { ScriptItem } from "@/api/user/postListApi";
+
+export interface LikedScriptsResponse {
+  longPlay: ScriptItem[];
+  shortPlay: ScriptItem[];
+}
 
 // 좋아한 작품
-export const fetchLikedPost = async (): Promise<ExploreScriptsResponse> => {
+export const fetchLikedPost = async (): Promise<LikedScriptsResponse> => {
   try {
-    const response = await api.get<ExploreScriptsResponse>("/profile/like", {
+    const response = await api.get<LikedScriptsResponse>("/profile/like", {
       withCredentials: true, // 쿠키 인증 시 필요
     });
 

@@ -1,11 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useNavigationType } from "react-router-dom";
 import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import { twJoin } from "tailwind-merge";
 import { fetchProfileAccount, type SocialLoginType } from "@/api/user/profile/accountApi";
 import { maskAccountNumber } from "@/utils/maskAccountNumber";
 import { MyPageMenu } from "@/components/myPage";
 import AuthContext from "@/contexts/AuthContext";
+import Toast from "@/components/auth/signUp/Toast";
 import ic_arrow_right from "@/assets/image/myPage/account_info/ic_arrow_right.svg";
 import ic_arrow_right_grey from "@/assets/image/myPage/account_info/ic_arrow_right_grey.svg";
 import googleBtn from "@/assets/image/auth/googleBtn.svg";
@@ -24,8 +25,11 @@ const AuthorAccountInfo = () => {
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState(userNickname);
   const [accountNumber, setAccountNumber] = useState<string | null>(null);
+  const [toastMessage, setToastMessage] = useState("");
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const navType = useNavigationType();
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -43,6 +47,17 @@ const AuthorAccountInfo = () => {
     getUserInfo();
   }, []);
 
+  useEffect(() => {
+    const message = (location.state as { toastMessage?: string } | null)?.toastMessage;
+
+    if (message) {
+      setToastMessage(message);
+      if (navType === "PUSH" || navType === "REPLACE") {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    }
+  }, [location.state, navType]);
+
   const socialTypeIcon = () => {
     switch (socialLoginType) {
       case "GOOGLE":
@@ -58,6 +73,9 @@ const AuthorAccountInfo = () => {
 
   return (
     <main className="myPage-contents-default account-info-change">
+      {toastMessage && (
+        <Toast message={toastMessage} duration={2000} onClose={() => setToastMessage("")} />
+      )}
       <div className="myPage-contents-default-wrap account-info-change-wrap">
         <MyPageMenu nickname={userNickname} currentPage="2" />
         <div className="content-side flex flex-col gap-[50px]">

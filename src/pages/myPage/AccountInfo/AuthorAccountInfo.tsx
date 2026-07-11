@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRoutePrefix } from "@/hooks/useRoutePrefix";
 import { twJoin } from "tailwind-merge";
-import { api } from "@/api/api";
+import { fetchProfileAccount, type SocialLoginType } from "@/api/user/profile/accountApi";
+import { maskAccountNumber } from "@/utils/maskAccountNumber";
 import { MyPageMenu } from "@/components/myPage";
 import AuthContext from "@/contexts/AuthContext";
 import ic_arrow_right from "@/assets/image/myPage/account_info/ic_arrow_right.svg";
@@ -19,25 +20,27 @@ const AuthorAccountInfo = () => {
   const prefix = useRoutePrefix();
 
   const [id, setId] = useState("");
-  const [socialLoginType, setSocialLoginType] = useState<null | "GOOGLE" | "KAKAO" | "NAVER">(null);
+  const [socialLoginType, setSocialLoginType] = useState<null | SocialLoginType>(null);
   const [email, setEmail] = useState("");
   const [nickname, setNickname] = useState(userNickname);
+  const [accountNumber, setAccountNumber] = useState<string | null>(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      const getUserInfo = async () => {
-        const { data } = await api.get("/profile/account");
+    const getUserInfo = async () => {
+      try {
+        const data = await fetchProfileAccount();
         setId(data.userId);
         setSocialLoginType(data.socialLoginType);
         setEmail(data.email);
         setNickname(data.nickname);
-      };
-      getUserInfo();
-    } catch (error) {
-      console.error("Error fetching user info:", error);
-    }
+        setAccountNumber(data.accountNumber);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+    getUserInfo();
   }, []);
 
   const socialTypeIcon = () => {
@@ -144,10 +147,10 @@ const AuthorAccountInfo = () => {
                     "flex items-center gap-[6px] sm:gap-[8px] md:gap-[15px]",
                     socialLoginType ? "cursor-default" : "cursor-pointer"
                   )}
-                  onClick={() => navigate(`${prefix}/mypage/info/password`)}
+                  onClick={() => navigate(`${prefix}/mypage/info/account`)}
                 >
                   <p className={twJoin("p-xs-regular sm:p-small-regular md:p-medium-regular")}>
-                    계좌번호를 입력해주세요
+                    {accountNumber ? maskAccountNumber(accountNumber) : "계좌번호를 입력해주세요"}
                   </p>
                   <img
                     className="w-[12px] h-[7px] sm:w-[16px] sm:h-[10px]"

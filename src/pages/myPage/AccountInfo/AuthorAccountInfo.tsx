@@ -137,6 +137,25 @@ const AuthorAccountInfo = () => {
                   />
                 </button>
               </div>
+              <div className="flex items-center justify-between">
+                <p className={twJoin("p-xs-regular sm:p-small-regular")}>정산 계좌</p>
+                <button
+                  className={twJoin(
+                    "flex items-center gap-[6px] sm:gap-[8px] md:gap-[15px]",
+                    socialLoginType ? "cursor-default" : "cursor-pointer"
+                  )}
+                  onClick={() => navigate(`${prefix}/mypage/info/password`)}
+                >
+                  <p className={twJoin("p-xs-regular sm:p-small-regular md:p-medium-regular")}>
+                    계좌번호를 입력해주세요
+                  </p>
+                  <img
+                    className="w-[12px] h-[7px] sm:w-[16px] sm:h-[10px]"
+                    src={ic_arrow_right}
+                    alt=">"
+                  />
+                </button>
+              </div>
             </section>
           </section>
 

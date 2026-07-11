@@ -46,8 +46,9 @@ const AccountInfoChangeAccount = () => {
         accountHolderName: name,
       });
 
-      alert("정산 계좌 등록이 완료되었습니다.");
-      navigate(`${prefix}/mypage/info`);
+      navigate(`${prefix}/mypage/info`, {
+        state: { toastMessage: "계좌정보가 성공적으로 입력되었습니다." },
+      });
     } catch (error) {
       alert(error instanceof Error ? error.message : "오류가 발생했습니다.");
     }

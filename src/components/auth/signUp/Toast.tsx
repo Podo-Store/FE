@@ -2,12 +2,13 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useEffect } from "react";
 
 type ToastProps = {
-  name: string;
+  name?: string;
+  message?: string;
   duration?: number; // ms
   onClose: () => void;
 };
 
-export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
+export default function Toast({ name, message, duration = 1000, onClose }: ToastProps) {
   useEffect(() => {
     const t = setTimeout(onClose, duration);
     return () => clearTimeout(t);
@@ -47,8 +48,14 @@ export default function Toast({ name, duration = 1000, onClose }: ToastProps) {
         </svg>
       </span>
       <span className="whitespace-nowrap flex flex-col md:flex-row items-center">
-        <p>{name}님,</p>
-        <p>회원가입을 완료하였습니다!</p>
+        {message ? (
+          <p>{message}</p>
+        ) : (
+          <>
+            <p>{name}님,</p>
+            <p>회원가입을 완료하였습니다!</p>
+          </>
+        )}
       </span>
     </div>
   );

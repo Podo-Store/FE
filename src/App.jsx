@@ -90,6 +90,7 @@ function App() {
           <Route path="mypage/delete" element={<ProtectedRoute><AccountDeleteWrapper /></ProtectedRoute>} />
           <Route path="mypage/info/nickname" element={<ProtectedRoute><AccountInfoChangeWrapper type="nickname" /></ProtectedRoute>} />
           <Route path="mypage/info/password" element={<ProtectedRoute><AccountInfoChangeWrapper type="" /></ProtectedRoute>} />
+          <Route path="mypage/info/account" element={<ProtectedRoute><AccountInfoChangeWrapper type="account" /></ProtectedRoute>} />
           <Route path="mypage/infochange" element={<AccountInfoChange />} />
 
           {/* 공용 - 인증 */}

@@ -54,17 +54,15 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
             fontMode === "default"
               ? "p-small-regular"
               : fontMode === "12"
-              ? "p-12-400"
-              : fontMode === "xs"
-              ? "p-xs-regular"
-              : "p-small-regular"
+                ? "p-12-400"
+                : fontMode === "xs"
+                  ? "p-xs-regular"
+                  : "p-small-regular"
           )}
           readOnly={readOnly || disabledMode}
           tabIndex={disabledMode ? -1 : props.tabIndex}
           style={{
-            ...(readOnly || disabledMode
-              ? { border: "1px solid #000000" }
-              : {}),
+            ...(readOnly || disabledMode ? { border: "1px solid #000000" } : {}),
             ...(disabledMode ? { pointerEvents: "none" } : {}),
             ...(rightElement && (fontMode === "12" || fontMode === "xs")
               ? { paddingRight: "60px" }
@@ -79,9 +77,7 @@ const AuthInputField: React.FC<AuthInputFieldProps> = ({
           </div>
         ) : null}
         {rightButton ? (
-          <div className="right-element right-[8px] sm:right-[10px] ">
-            {rightButton}
-          </div>
+          <div className="right-element right-[8px] sm:right-[10px] ">{rightButton}</div>
         ) : null}
       </div>
 

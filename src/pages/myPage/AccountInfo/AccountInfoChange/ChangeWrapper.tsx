@@ -4,9 +4,10 @@ import AuthContext from "@/contexts/AuthContext";
 import ChangeNickname from "./ChangeNickname";
 import ChangeEnter from "./ChangeEnter";
 import ChangePassword from "./ChangePassword";
+import ChangeAccount from "./ChangeAccount";
 
 interface AccountInfoChangeWrapperProps {
-  type: "nickname" | "password";
+  type: "nickname" | "password" | "account";
 }
 
 const AccountInfoChangeWrapper = ({ type }: AccountInfoChangeWrapperProps) => {
@@ -22,6 +23,8 @@ const AccountInfoChangeWrapper = ({ type }: AccountInfoChangeWrapperProps) => {
           <div className="content-side-inside">
             {type === "nickname" ? (
               <ChangeNickname />
+            ) : type === "account" ? (
+              <ChangeAccount />
             ) : !changeShowPermission ? (
               <ChangeEnter setChangeShowPermission={setChangeShowPermission} />
             ) : (

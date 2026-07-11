@@ -23,6 +23,19 @@ const makeScript = (overrides: Partial<ScriptItem> & { id: string }): ScriptItem
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86400000).toISOString();
 
+const base64UrlEncode = (obj: object) =>
+  btoa(
+    encodeURIComponent(JSON.stringify(obj)).replace(/%([0-9A-F]{2})/g, (_, hex) =>
+      String.fromCharCode(parseInt(hex, 16))
+    )
+  )
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+
+const makeFakeJwt = (payload: object) =>
+  `${base64UrlEncode({ alg: "none", typ: "JWT" })}.${base64UrlEncode(payload)}.mock-signature`;
+
 const longPlays: ScriptItem[] = [
   makeScript({
     id: "1",
@@ -588,6 +601,25 @@ const sortList = (list: ScriptItem[], sortType: string) =>
   });
 
 export const handlers = [
+  // 로그인 (조건 없이 항상 성공)
+  http.post(`${BASE}/auth/signin`, async ({ request }) => {
+    const body = (await request.json()) as { userId?: string; password?: string };
+    const mockUserId = body?.userId || "mockuser";
+
+    return HttpResponse.json({
+      accessToken: makeFakeJwt({ id: mockUserId, sub: mockUserId, auth: false }),
+      refreshToken: makeFakeJwt({ id: mockUserId, sub: mockUserId, type: "refresh" }),
+      nickname: mockUserId,
+    });
+  }),
+
+  // 토큰 재발급 (조건 없이 항상 성공)
+  http.post(`${BASE}/auth/newToken`, () => {
+    return HttpResponse.json({
+      accessToken: makeFakeJwt({ id: "mockuser", sub: "mockuser", auth: false }),
+    });
+  }),
+
   // 전체 작품 조회 (페이지네이션, Spring Page 응답 형태)
   http.get(`${BASE}/scripts/v2`, ({ request }) => {
     const url = new URL(request.url);

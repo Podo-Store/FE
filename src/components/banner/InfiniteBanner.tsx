@@ -41,7 +41,7 @@ const InfiniteBanner = ({
         md: PurchaseBanner768,
         lg: PurchaseBanner1280,
       },
-      link: "https://www.podo-store.com/post",
+      link: "https://www.podo-store.com/author/post",
     },
     {
       image: {

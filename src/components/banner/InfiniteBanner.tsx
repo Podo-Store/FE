@@ -44,7 +44,7 @@ const InfiniteBanner = ({
         md: PlayContestBanner768,
         lg: PlayContestBanner1280,
       },
-      link: "https://www.podo-store.com/author/post",
+      link: "https://www.instagram.com/p/DbGLuaTvS4U/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
     },
 
     {

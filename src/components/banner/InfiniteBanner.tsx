@@ -7,6 +7,9 @@ import "./infiniteBanner.scss";
 import PodoalBanner1280 from "@/assets/image/banner/podoal_banner_1280.png";
 import PodoalBannerDefault from "@/assets/image/postList_banner.png";
 import PodoalBanner768 from "@/assets/image/banner/podoal_banner_768.png";
+import PlayContestBanner1280 from "@/assets/image/banner/oneActPlayContest/banner_playContest_1280.png";
+import PlayContestBanner768 from "@/assets/image/banner/oneActPlayContest/banner_playContest_768.png";
+import PlayContestBannerDefault from "@/assets/image/banner/oneActPlayContest/banner_playContest_default.png";
 import JunhyukBanner1280 from "@/assets/image/banner/banner_jh_1280.png";
 import JunhyukBannerDefault from "@/assets/image/banner/banner_jh_default.png";
 import JunhyukBanner768 from "@/assets/image/banner/banner_jh_768.png";
@@ -35,6 +38,15 @@ interface InfiniteBannerProps {
 
 const InfiniteBanner = ({
   banners = [
+    {
+      image: {
+        default: PlayContestBannerDefault,
+        md: PlayContestBanner768,
+        lg: PlayContestBanner1280,
+      },
+      link: "https://www.podo-store.com/author/post",
+    },
+
     {
       image: {
         default: PurchaseBannerDefault,

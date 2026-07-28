@@ -44,6 +44,22 @@ export const getExploreScripts = async (
   }
 };
 
+export const getContestScripts = async (
+  page: number = 0,
+  sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"
+): Promise<ScriptItem[]> => {
+  try {
+    const response = await api.get<PageResponse<ScriptItem>>(`/scripts/contest`, {
+      params: { page, sortType },
+    });
+
+    return response.data.content;
+  } catch (error) {
+    console.error("Error fetching contest scripts:", error);
+    throw new Error(`공모전 작품 API 호출 실패: ${(error as Error).message}`);
+  }
+};
+
 export const getLongWorks = async (
   page: number = 0,
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST" = "POPULAR"

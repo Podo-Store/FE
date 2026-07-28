@@ -651,6 +651,37 @@ export const handlers = [
     });
   }),
 
+  // 공모전 작품 둘러보기 (페이지네이션, Spring Page 응답 형태)
+  http.get(`${BASE}/scripts/contest`, ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? 0);
+    const sortType = url.searchParams.get("sortType") ?? "POPULAR";
+    const all = sortList([...longPlays, ...shortPlays], sortType);
+    const totalPages = Math.ceil(all.length / PAGE_SIZE);
+    const content = all.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+    return HttpResponse.json({
+      content,
+      pageable: {
+        pageNumber: page,
+        pageSize: PAGE_SIZE,
+        sort: { empty: false, sorted: true, unsorted: false },
+        offset: page * PAGE_SIZE,
+        paged: true,
+        unpaged: false,
+      },
+      last: page >= totalPages - 1,
+      totalElements: all.length,
+      totalPages,
+      first: page === 0,
+      size: PAGE_SIZE,
+      number: page,
+      sort: { empty: false, sorted: true, unsorted: false },
+      numberOfElements: content.length,
+      empty: content.length === 0,
+    });
+  }),
+
   // 장편 페이지네이션
   http.get(`${BASE}/scripts/long`, ({ request }) => {
     const url = new URL(request.url);

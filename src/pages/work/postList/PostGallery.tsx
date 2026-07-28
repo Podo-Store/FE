@@ -4,7 +4,13 @@ import { useInView } from "react-intersection-observer";
 
 import AuthContext from "@/contexts/AuthContext";
 
-import { getExploreScripts, getLongWorks, getShortWorks, ScriptItem } from "@/api/user/postListApi";
+import {
+  getExploreScripts,
+  getLongWorks,
+  getShortWorks,
+  getContestScripts,
+  ScriptItem,
+} from "@/api/user/postListApi";
 
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
 import { AllPostCard } from "@/components/post/PostList.js";
@@ -20,12 +26,15 @@ type PostGalleryCache = {
   explore: ScriptItem[];
   longPlays: ScriptItem[];
   shortPlays: ScriptItem[];
+  contestWorks: ScriptItem[];
   explorePage: number;
   longPlayPage: number;
   shortPlayPage: number;
+  contestPage: number;
   hasMoreExplore: boolean;
   hasMoreLongPlays: boolean;
   hasMoreShortPlays: boolean;
+  hasMoreContest: boolean;
   sortType: "POPULAR" | "LIKE_COUNT" | "LATEST";
   activeCategory: string;
 };
@@ -59,13 +68,16 @@ const PostGallery = () => {
   const [explore, setExplore] = useState<ScriptItem[]>([]);
   const [longPlays, setLongPlays] = useState<ScriptItem[]>([]);
   const [shortPlays, setShortPlays] = useState<ScriptItem[]>([]);
+  const [contestWorks, setContestWorks] = useState<ScriptItem[]>([]);
   const [explorePage, setExplorePage] = useState(0);
   const [longPlayPage, setLongPlayPage] = useState(0);
   const [shortPlayPage, setShortPlayPage] = useState(0);
+  const [contestPage, setContestPage] = useState(0);
 
   const [hasMoreExplore, setHasMoreExplore] = useState(true);
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
   const [hasMoreShortPlays, setHasMoreShortPlays] = useState(true);
+  const [hasMoreContest, setHasMoreContest] = useState(true);
 
   const [isLoading, setIsLoading] = useState(true);
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
@@ -108,12 +120,15 @@ const PostGallery = () => {
       setExplore(postGalleryCache.explore);
       setLongPlays(postGalleryCache.longPlays);
       setShortPlays(postGalleryCache.shortPlays);
+      setContestWorks(postGalleryCache.contestWorks);
       setExplorePage(postGalleryCache.explorePage);
       setLongPlayPage(postGalleryCache.longPlayPage);
       setShortPlayPage(postGalleryCache.shortPlayPage);
+      setContestPage(postGalleryCache.contestPage);
       setHasMoreExplore(postGalleryCache.hasMoreExplore);
       setHasMoreLongPlays(postGalleryCache.hasMoreLongPlays);
       setHasMoreShortPlays(postGalleryCache.hasMoreShortPlays);
+      setHasMoreContest(postGalleryCache.hasMoreContest);
 
       skipRef.current = true;
       setIsLoading(false);
@@ -127,14 +142,17 @@ const PostGallery = () => {
       const exploreData = await getExploreScripts(0, sortType);
       const longData = await getLongWorks(0, sortType);
       const shortData = await getShortWorks(0, sortType);
+      const contestData = await getContestScripts(0, sortType);
 
       setExplore(exploreData);
       setLongPlays(longData);
       setShortPlays(shortData);
+      setContestWorks(contestData);
 
       setExplorePage(1);
       setLongPlayPage(1);
       setShortPlayPage(1);
+      setContestPage(1);
       setHasMoreExplore(true);
 
       // 캐시 저장
@@ -142,12 +160,15 @@ const PostGallery = () => {
         explore: exploreData,
         longPlays: longData,
         shortPlays: shortData,
+        contestWorks: contestData,
         explorePage: 1,
         longPlayPage: 1,
         shortPlayPage: 1,
+        contestPage: 1,
         hasMoreExplore: true,
         hasMoreLongPlays: true,
         hasMoreShortPlays: true,
+        hasMoreContest: true,
         sortType,
         activeCategory,
       };
@@ -169,16 +190,19 @@ const PostGallery = () => {
       const exploreData = await getExploreScripts(0, sortType);
       setExplore(exploreData);
 
-      // 장편/단편은 현재 페이지 기준으로 다시 가져오게 함
+      // 장편/단편/공모는 현재 페이지 기준으로 다시 가져오게 함
       const longData = await getLongWorks(0, sortType);
       const shortData = await getShortWorks(0, sortType);
+      const contestData = await getContestScripts(0, sortType);
 
       setLongPlays(longData);
       setShortPlays(shortData);
+      setContestWorks(contestData);
 
       setExplorePage(1);
       setLongPlayPage(1);
       setShortPlayPage(1);
+      setContestPage(1);
       setHasMoreExplore(true);
 
       // 캐시 갱신
@@ -186,12 +210,15 @@ const PostGallery = () => {
         explore: exploreData,
         longPlays: longData,
         shortPlays: shortData,
+        contestWorks: contestData,
         explorePage: 1,
         longPlayPage: 1,
         shortPlayPage: 1,
+        contestPage: 1,
         hasMoreExplore: true,
         hasMoreLongPlays: true,
         hasMoreShortPlays: true,
+        hasMoreContest: true,
         activeCategory,
         sortType,
       };
@@ -236,6 +263,16 @@ const PostGallery = () => {
         setShortPlays((prev) => [...prev, ...data]);
         setShortPlayPage((p) => p + 1);
       }
+
+      if (activeCategory === "공모" && hasMoreContest) {
+        const data = await getContestScripts(contestPage, sortType);
+        if (data.length === 0) {
+          setHasMoreContest(false);
+          return;
+        }
+        setContestWorks((prev) => [...prev, ...data]);
+        setContestPage((p) => p + 1);
+      }
     })();
   }, [inView]);
 
@@ -245,6 +282,7 @@ const PostGallery = () => {
   // 좋아요 toggle 함수 (모든 곳 업데이트용)
   const rawToggleLikeLong = useToggleLike(setLongPlays);
   const rawToggleLikeShort = useToggleLike(setShortPlays);
+  const rawToggleLikeContest = useToggleLike(setContestWorks);
 
   const toggleLikeAll = (postId: string) => {
     const updateList = (list: ScriptItem[]) =>
@@ -272,6 +310,9 @@ const PostGallery = () => {
         if (postGalleryCache.shortPlays) {
           postGalleryCache.shortPlays = updateList(postGalleryCache.shortPlays);
         }
+        if (postGalleryCache.contestWorks) {
+          postGalleryCache.contestWorks = updateList(postGalleryCache.contestWorks);
+        }
       }
 
       return updatedExplore;
@@ -288,6 +329,12 @@ const PostGallery = () => {
   const handleLikeShort = (postId: string) => {
     if (!isAuthenticated) return alert("로그인이 필요합니다.");
     rawToggleLikeShort(postId);
+    toggleLikeAll(postId);
+  };
+
+  const handleLikeContest = (postId: string) => {
+    if (!isAuthenticated) return alert("로그인이 필요합니다.");
+    rawToggleLikeContest(postId);
     toggleLikeAll(postId);
   };
 
@@ -425,6 +472,37 @@ const PostGallery = () => {
                 />
 
                 <ScrollObserver inViewRef={inViewRef} id={`short-${sortType}-${shortPlayPage}`} />
+              </>
+            ) : (
+              <p className="m-auto w-fit p-large-bold mt-[80px]">등록된 작품이 없습니다.</p>
+            )}
+          </div>
+        </section>
+      )}
+
+      {/* ----- 공모 탭 ----- */}
+      {!isLoading && activeCategory === "공모" && (
+        <section className="px-[9.375%] sm:px-0">
+          <div className="mb-[24px]">
+            <p className="p-small-medium sm:h5-medium">공모전 작품</p>
+          </div>
+          <div
+            className={`transition-opacity duration-300 ${
+              isLoading && contestWorks.length === 0
+                ? "opacity-0 pointer-events-none invisible"
+                : "opacity-100 visible"
+            }`}
+          >
+            {contestWorks.length > 0 ? (
+              <>
+                <AllPostCard
+                  posts={contestWorks}
+                  colNum={colNum}
+                  viewType={viewType}
+                  onToggleLike={handleLikeContest}
+                />
+
+                <ScrollObserver inViewRef={inViewRef} id={`contest-${sortType}-${contestPage}`} />
               </>
             ) : (
               <p className="m-auto w-fit p-large-bold mt-[80px]">등록된 작품이 없습니다.</p>

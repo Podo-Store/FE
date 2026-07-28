@@ -6,18 +6,14 @@ interface Props {
   setActiveStoryLength: (value: string) => void;
 }
 
-const storyLength = ["전체", "단편", "장편"];
+const storyLength = ["전체", "단편", "장편", "공모"];
 
 const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
   const { widthConditions } = useWindowDimensions();
-  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
-    widthConditions;
+  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } = widthConditions;
 
   return (
-    <ul
-      className="flex list-none story-length"
-      style={{ padding: 0, margin: 0 }}
-    >
+    <ul className="flex list-none story-length" style={{ padding: 0, margin: 0 }}>
       {storyLength.map((length) => {
         const isActive = activeStoryLength === length;
         return (
@@ -31,9 +27,7 @@ const StoryLengthTeb = ({ activeStoryLength, setActiveStoryLength }: Props) => {
             className={`cursor-pointer z-10  whitespace-nowrap ${
               isSmallMobile ? "p-small-medium" : " h5-medium"
             } hover:text-[#6A39C0] ${
-              isActive
-                ? "border-b-2 border-[#6A39C0] rounded-[1px] "
-                : "text-black"
+              isActive ? "border-b-2 border-[#6A39C0] rounded-[1px] " : "text-black"
             }`}
           >
             {length}

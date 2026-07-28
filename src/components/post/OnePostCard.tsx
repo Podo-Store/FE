@@ -46,7 +46,7 @@ export const OnePostCard = ({
     >
       {/* 이미지 */}
       <div
-        className={`flex relative rounded-[20px] bg-white mb-[7px]  w-full border border-[var(--grey3)] `}
+        className={`flex relative overflow-hidden rounded-[20px] bg-white mb-[7px] w-full border border-[var(--grey3)] transition-transform duration-200 ease-out motion-reduce:transition-none hover:scale-[1.04] `}
       >
         <img
           src={posts.imagePath === "" ? defaultImg_noneBorder : posts.imagePath}
@@ -54,7 +54,7 @@ export const OnePostCard = ({
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           decoding="async"
-          className="object-contain w-full h-auto shrink-0 rounded-[20px]  aspect-square "
+          className="object-contain w-full h-auto shrink-0 rounded-[20px] aspect-square"
           onError={(event) => {
             event.currentTarget.src = defaultImg_noneBorder;
           }}

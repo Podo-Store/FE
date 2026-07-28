@@ -1,4 +1,4 @@
-import { http, HttpResponse } from "msw";
+import { delay, http, HttpResponse } from "msw";
 import type { ScriptItem } from "@/api/user/postListApi";
 
 const BASE = "http://localhost:8080";
@@ -600,6 +600,9 @@ const sortList = (list: ScriptItem[], sortType: string) =>
     return b.viewCount - a.viewCount; // POPULAR
   });
 
+const getLikedLongPlays = () => longPlays.filter((script) => script.like);
+const getLikedShortPlays = () => shortPlays.filter((script) => script.like);
+
 export const handlers = [
   // 로그인 (조건 없이 항상 성공)
   http.post(`${BASE}/auth/signin`, async ({ request }) => {
@@ -618,6 +621,37 @@ export const handlers = [
     return HttpResponse.json({
       accessToken: makeFakeJwt({ id: "mockuser", sub: "mockuser", auth: false }),
     });
+  }),
+
+  // 좋아요한 작품 조회
+  http.get(`${BASE}/profile/like`, async () => {
+    await delay(350);
+    return HttpResponse.json({
+      longPlay: getLikedLongPlays(),
+      shortPlay: getLikedShortPlays(),
+    });
+  }),
+
+  // 좋아요한 장편 작품 페이지네이션
+  http.get(`${BASE}/profile/like/long`, async ({ request }) => {
+    await delay(350);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? 0);
+    const likedLongPlays = getLikedLongPlays();
+    return HttpResponse.json(
+      likedLongPlays.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+    );
+  }),
+
+  // 좋아요한 단편 작품 페이지네이션
+  http.get(`${BASE}/profile/like/short`, async ({ request }) => {
+    await delay(350);
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? 0);
+    const likedShortPlays = getLikedShortPlays();
+    return HttpResponse.json(
+      likedShortPlays.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
+    );
   }),
 
   // 전체 작품 조회 (페이지네이션, Spring Page 응답 형태)

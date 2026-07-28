@@ -8,7 +8,6 @@ import { MyPageMenu } from "@/components/myPage";
 import NullScriptContent from "@/components/myPage/NullScriptContent";
 import PostHeaderControl from "@/components/post/PostHeaderControl";
 import { AllPostCard } from "@/components/post/PostList.js";
-import PartialLoading from "@/components/loading/PartialLoading";
 import { useInView } from "react-intersection-observer";
 import { useToggleLike } from "@/hooks/useToggleLike";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
@@ -28,6 +27,26 @@ const ScrollObserver: React.FC<{
 }> = ({ inViewRef, id }) => {
   return <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />;
 };
+
+const LikedWorksSkeleton = () => (
+  <div
+    className="grid grid-cols-2 gap-x-[24px] gap-y-[32px] md:grid-cols-3 xl:grid-cols-4"
+    role="status"
+    aria-label="좋아한 작품을 불러오는 중"
+  >
+    {Array.from({ length: 8 }, (_, index) => (
+      <div
+        key={index}
+        className="w-full max-w-[197px] animate-pulse motion-reduce:animate-none"
+      >
+        <div className="aspect-square w-full rounded-[20px] bg-[#f0f0f0]" />
+        <div className="mt-[10px] h-[18px] w-3/4 rounded bg-[#f0f0f0]" />
+        <div className="mt-[7px] h-[14px] w-1/2 rounded bg-[#f0f0f0]" />
+        <div className="mt-[14px] h-[14px] w-2/3 rounded bg-[#f0f0f0]" />
+      </div>
+    ))}
+  </div>
+);
 
 const LikedWorks = () => {
   const { userNickname } = useContext(AuthContext);
@@ -222,30 +241,25 @@ const LikedWorks = () => {
             </h4>
           </div>
 
+          <PostHeaderControl
+            activeStage={activeStage}
+            setActiveStage={(value) => handleChange(value, "stage")}
+            activeStoryLength={activeCategory}
+            setActiveStoryLength={(value) => handleChange(value, "category")}
+            viewType={viewType}
+            setViewType={setViewType}
+            isSorted={false}
+            stageBottomBorderWidth="w-full"
+            stageIcon={false}
+          />
+
           {isLoading ? (
-            <div className="m-auto" style={{ height: "600px" }}>
-              <PartialLoading />
-            </div>
+            <LikedWorksSkeleton />
           ) : activeCategory === "전체" &&
             longPlays.length + shortPlays.length === 0 ? (
             <NullScriptContent currentPage={2} />
           ) : (
             <>
-              {/*----- 스테이지 메뉴 -----*/}
-              <PostHeaderControl
-                activeStage={activeStage}
-                setActiveStage={(value) => handleChange(value, "stage")}
-                activeStoryLength={activeCategory}
-                setActiveStoryLength={(value) =>
-                  handleChange(value, "category")
-                }
-                viewType={viewType}
-                setViewType={setViewType}
-                isSorted={false}
-                stageBottomBorderWidth="w-full"
-                stageIcon={false}
-              />
-
               {/*----- post list -----*/}
 
               {activeCategory === "전체" ? (

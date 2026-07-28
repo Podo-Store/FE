@@ -1,7 +1,8 @@
 import BannerImage from "@/assets/image/company/company_info_banner.png";
 import DownArrow from "@/assets/image/company/ic_down_arrow.svg?react";
 import { useUserStatistics } from "@/hooks/useUserStatistics";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { YearTabs } from "@/components/tab/YearTabs";
 import newsThumbnail from "@/assets/image/company/news_thumbnail.png";
 import CompanyNav from "../CompanyNav";
@@ -15,8 +16,7 @@ const timelineData = [
       { month: "07", title: "[포도상점] 베타버전 출시" },
       {
         month: "07",
-        title:
-          "제2회 대학 연합 무대 컨퍼런스 개최 \n (총 120명, 26개 공연 단체 참여)",
+        title: "제2회 대학 연합 무대 컨퍼런스 개최 \n (총 120명, 26개 공연 단체 참여)",
       },
       { month: "07", title: "작가 워크숍 ‘포도 창작소 1기’ 운영" },
       {
@@ -30,8 +30,7 @@ const timelineData = [
       { month: "04", title: "광운대학교 캠퍼스타운 입주기업 선정" },
       {
         month: "01",
-        title:
-          "제1회 대학 연합 무대 컨퍼런스 개최 \n(총 24명, 5개 공연 단체 참여)",
+        title: "제1회 대학 연합 무대 컨퍼런스 개최 \n(총 24명, 5개 공연 단체 참여)",
       },
     ],
   },
@@ -78,8 +77,7 @@ const mediaData = [
   },
   {
     image: newsThumbnail,
-    title:
-      "누구나 스토리를 자유롭게 거래하는 ‘포도상점’, 신규 작가에 도전하세요!",
+    title: "누구나 스토리를 자유롭게 거래하는 ‘포도상점’, 신규 작가에 도전하세요!",
     content:
       "누구나 나만의 스토리를 자유롭게 등록하고, 판매할 수 있는 새로운 ‘콘텐츠 거래 플랫폼’이 열렸다. 창작 스토리 거래 플랫폼 ‘포도상점’은 역량 있는 신진 작가를 발굴하고, 창작 콘텐츠의 거래를 활성화하기 위해 ‘신규 입점 작가’를 모집한다고 밝혔다. 포도상점은 소규모 공연단체를 위한 대본 및 공연권 거래 플랫폼으로, 희곡 작가라면 누구나 간단하게 작가 등록 후 바로 활동할 수 있다. 특히, 창작 과정부터 피드백은 물론 공연 단체, 출판사 등과의 라이선스 계약을 통한 수익화까지 가능해 신진 희곡 작가들을 위한 등단 기회로 주목받고 있다.",
     date: "2025.08.20",
@@ -97,9 +95,18 @@ const mediaData = [
 
 const years = timelineData.map((s) => s.year);
 
+const timelineYearProgress = [0.02, 0.61];
+const timelineYearEndProgress = [0.58, 0.98];
+
+const getEventProgress = (yearIndex: number, eventIndex: number, eventCount: number) => {
+  const start = timelineYearProgress[yearIndex];
+  const end = timelineYearEndProgress[yearIndex];
+
+  return start + ((end - start) * eventIndex) / eventCount;
+};
+
 const CompanyProfile = () => {
-  const { data, isLoading, isError, error, refetch, isFetching } =
-    useUserStatistics();
+  const { data, isLoading, isError, error, refetch, isFetching } = useUserStatistics();
 
   const [activeYear, setActiveYear] = useState<number>(years[0]); // 2025부터 시작
 
@@ -108,34 +115,80 @@ const CompanyProfile = () => {
     [activeYear]
   );
 
+  const { ref: storyRef, inView: isStoryVisible } = useInView({
+    triggerOnce: true,
+    threshold: 0.18,
+  });
+  const { ref: journeyRef, inView: isJourneyVisible } = useInView({
+    triggerOnce: true,
+    threshold: 0.14,
+  });
+  const { ref: mediaRef, inView: isMediaVisible } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const [timelineProgress, setTimelineProgress] = useState(0);
+
+  useEffect(() => {
+    const updateTimelineProgress = () => {
+      const timeline = timelineRef.current;
+      if (!timeline || window.innerWidth < 1280) return;
+
+      const { top, height } = timeline.getBoundingClientRect();
+      const start = window.innerHeight * 0.82;
+      const scrollDistance = height;
+      const nextProgress = Math.min(1, Math.max(0, (start - top) / scrollDistance));
+
+      setTimelineProgress(nextProgress);
+    };
+
+    updateTimelineProgress();
+    window.addEventListener("scroll", updateTimelineProgress, { passive: true });
+    window.addEventListener("resize", updateTimelineProgress);
+
+    return () => {
+      window.removeEventListener("scroll", updateTimelineProgress);
+      window.removeEventListener("resize", updateTimelineProgress);
+    };
+  }, []);
+
   return (
     <div className="w-full min-h-screen">
       <CompanyNav />
-      <div className="bg-[#1A1004] pb-[300px]">
+      <div className="overflow-hidden bg-[#1A1004] pb-[300px]">
         {/* 배너 */}
-        <div className="relative w-full h-screen max-h-[552px] sm:max-h-[830px] md:max-h-[1080px]">
+        <div className="relative w-full h-screen max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] overflow-hidden">
           <img
             src={BannerImage}
             alt="Banner"
-            className="w-full h-full max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] object-cover "
+            className="w-full h-full max-h-[552px] sm:max-h-[830px] md:max-h-[1080px] object-cover transition-transform duration-1000 ease-out hover:scale-105 motion-reduce:transition-none"
           />
-          <span className="absolute top-[71.6%] left-[50%] translate-x-[-50%] text-[#F2F2F2]/90 text-center ">
-            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+          <div
+            className="absolute z-10 top-[56%] left-1/2 aspect-square w-[min(70vw,900px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(158,48,244,0.3),transparent_68%)] blur-xl mix-blend-screen motion-safe:animate-pulse"
+            aria-hidden="true"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#1A1004]/55" />
+          <span className="absolute z-20 top-[71.6%] left-[50%] translate-x-[-50%] text-[#F2F2F2]/90 text-center">
+            <p className="translate-y-0 p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap transition-transform duration-700 ease-out motion-safe:animate-pulse">
               스토리를 세상과 연결하는 플랫폼을
             </p>
-            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
+            <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap transition-transform duration-700 delay-150 ease-out motion-safe:animate-pulse">
               만들고 있습니다.
             </p>
           </span>
-          <div className="absolute bottom-[7.4%] left-1/2 -translate-x-1/2">
-            <DownArrow className="w-[40px] h-[13px] animate-float " />
+          <div className="absolute z-20 bottom-[7.4%] left-1/2 -translate-x-1/2 motion-safe:animate-bounce motion-reduce:animate-none">
+            <DownArrow className="w-[40px] h-[13px]" />
           </div>
         </div>
 
         {/* 본문 */}
         <div className="flex w-full flex-col items-center gap-[200px] px-[9.4vw] 2xl:px-[320px] xl:px-[85px] md:px-[50px] sm:px-[40px]">
-          <div className="flex flex-col w-full mt-[100px] gap-[50px] sm:gap-[80px] md:gap-[100px]">
-            <span className="text-[#F2F2F2]/90 ">
+          <div
+            ref={storyRef}
+            className={`flex w-full flex-col gap-[50px] mt-[100px] transition-all duration-700 ease-out motion-reduce:transition-none sm:gap-[80px] md:gap-[100px] ${isStoryVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+          >
+            <span className="text-[#F2F2F2]/90">
               <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
                 이야기를 나누고 싶은 사람들이 모여
               </p>
@@ -146,33 +199,27 @@ const CompanyProfile = () => {
             {/* xl :1280px */}
             <div className=" flex-col gap-[50px] items-center hidden xl:flex">
               <div className="flex gap-[160px]">
-                <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                  <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.userCnt} 명+
-                  </span>
+                <div className="relative flex h-[260px] w-[260px] flex-col items-center justify-center overflow-hidden rounded-full bg-[var(--c-Main)] text-[#F2F2F2]/90 shadow-[0_20px_55px_rgba(106,57,192,0.2)] motion-safe:animate-bounce motion-safe:[animation-duration:3s]">
+                  <span className="company-title-large text-[#F2F2F2]/90">{data?.userCnt} 명+</span>
                   <span className="h4-bold text-[#BABABA]">사용자 수</span>
                 </div>
-                <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                  <span className="company-title-large text-[#F2F2F2]/90">
-                    34 건+
-                  </span>
+                <div className="relative flex h-[260px] w-[260px] flex-col items-center justify-center overflow-hidden rounded-full bg-[var(--c-Main)] text-[#F2F2F2]/90 shadow-[0_20px_55px_rgba(106,57,192,0.2)] motion-safe:animate-bounce motion-safe:[animation-delay:-1s] motion-safe:[animation-duration:3s]">
+                  <span className="company-title-large text-[#F2F2F2]/90">34 건+</span>
                   <span className="h4-bold text-[#BABABA]">총 매칭 건수</span>
                 </div>
               </div>
               <div className="flex gap-[160px]">
-                <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                <div className="relative flex h-[260px] w-[260px] flex-col items-center justify-center overflow-hidden rounded-full bg-[var(--c-Main)] text-[#F2F2F2]/90 shadow-[0_20px_55px_rgba(106,57,192,0.2)] motion-safe:animate-bounce motion-safe:[animation-delay:-2s] motion-safe:[animation-duration:3s]">
                   <span className="company-title-large text-[#F2F2F2]/90">
                     {data?.scriptCnt} 개+
                   </span>
                   <span className="h4-bold text-[#BABABA]">등록 작품 수</span>
                 </div>
-                <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
-                  <span className="company-title-large text-[#F2F2F2]/90">
-                    {data?.viewCnt} 회+
-                  </span>
+                <div className="relative flex h-[260px] w-[260px] flex-col items-center justify-center overflow-hidden rounded-full bg-[var(--c-Main)] text-[#F2F2F2]/90 shadow-[0_20px_55px_rgba(106,57,192,0.2)] motion-safe:animate-bounce motion-safe:[animation-delay:-.5s] motion-safe:[animation-duration:3s]">
+                  <span className="company-title-large text-[#F2F2F2]/90">{data?.viewCnt} 회+</span>
                   <span className="h4-bold text-[#BABABA]">총 열람 수</span>
                 </div>
-                <div className="text-[#F2F2F2]/90 bg-[var(--c-Main)] w-[260px] h-[260px] rounded-full flex flex-col items-center justify-center">
+                <div className="relative flex h-[260px] w-[260px] flex-col items-center justify-center overflow-hidden rounded-full bg-[var(--c-Main)] text-[#F2F2F2]/90 shadow-[0_20px_55px_rgba(106,57,192,0.2)] motion-safe:animate-bounce motion-safe:[animation-delay:-1.5s] motion-safe:[animation-duration:3s]">
                   <span className="company-title-large text-[#F2F2F2]/90">
                     {data?.reviewCnt} 개+
                   </span>
@@ -242,8 +289,11 @@ const CompanyProfile = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
-            <span className="text-[#F2F2F2]/90 ">
+          <div
+            ref={journeyRef}
+            className={`flex w-full flex-col gap-[50px] transition-all duration-700 ease-out motion-reduce:transition-none sm:gap-[80px] md:gap-[100px] ${isJourneyVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+          >
+            <span className="text-[#F2F2F2]/90">
               <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
                 당신의 이야기가 세상에서 빛나도록
               </p>
@@ -254,28 +304,26 @@ const CompanyProfile = () => {
 
             {/* lg */}
             <div className=" items-center w-fit flex-col 2xl:px-[101px] xl:px-[60px] hidden xl:flex ">
-              <div className="relative">
+              <div ref={timelineRef} className="relative">
                 <div className="absolute left-[161px] translate-y-[20px]">
-                  <VerticalTimelineSVG yearDots={[10, 630, 1025]} />
+                  <VerticalTimelineSVG progress={timelineProgress} yearDots={[10, 630, 1025]} />
                 </div>
-                {timelineData.map((item, index) => (
+                {timelineData.map((item, yearIndex) => (
                   <div
-                    key={index}
-                    className="grid grid-cols-[121px_1fr] gap-[80px] "
+                    key={yearIndex}
+                    className={`grid grid-cols-[121px_1fr] gap-[80px] transition-all duration-300 ease-out motion-reduce:translate-x-0 motion-reduce:opacity-100 ${timelineProgress >= timelineYearProgress[yearIndex] ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"}`}
                   >
                     <h2 className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large text-[#F2F2F2]/90">
                       {item.year}
                     </h2>
 
                     <ul className="flex flex-col gap-[50px] mb-[50px] translate-y-[15px] ">
-                      {item.events.map((event, index) => (
+                      {item.events.map((event, eventIndex) => (
                         <li
-                          key={index}
-                          className="h5-bold text-[#F2F2F2]/90"
+                          key={eventIndex}
+                          className={`h5-bold text-[#F2F2F2]/90 transition-all duration-300 ease-out motion-reduce:translate-x-0 motion-reduce:opacity-100 ${timelineProgress >= getEventProgress(yearIndex, eventIndex, item.events.length) ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"}`}
                         >
-                          <span className="text-[#BABABA] h5-bold mr-[15px] ">
-                            {event.month}.
-                          </span>
+                          <span className="text-[#BABABA] h5-bold mr-[15px] ">{event.month}.</span>
                           {event.title}
                         </li>
                       ))}
@@ -288,11 +336,7 @@ const CompanyProfile = () => {
             {/* md */}
 
             <div className="xl:hidden">
-              <YearTabs
-                years={years}
-                active={activeYear}
-                onChange={setActiveYear}
-              />
+              <YearTabs years={years} active={activeYear} onChange={setActiveYear} />
 
               {/* 타임라인 본문 */}
               <div className=" sm:px-[15px] md:px-[20px] mt-[30px] md:mt-[50px]">
@@ -306,9 +350,7 @@ const CompanyProfile = () => {
                         <span className="text-[#BABABA] p-xs-bold sm:p-medium-bold md:h5-bold text-right tabular-nums">
                           {event.month}.
                         </span>
-                        <span className="whitespace-pre-line">
-                          {event.title}
-                        </span>
+                        <span className="whitespace-pre-line">{event.title}</span>
                       </div>
                     </li>
                   ))}
@@ -316,8 +358,11 @@ const CompanyProfile = () => {
               </div>
             </div>
           </div>
-          <div className="flex flex-col w-full gap-[50px] sm:gap-[80px] md:gap-[100px]">
-            <span className="text-[#F2F2F2]/90 ">
+          <div
+            ref={mediaRef}
+            className={`flex w-full flex-col gap-[50px] transition-all duration-700 ease-out motion-reduce:transition-none sm:gap-[80px] md:gap-[100px] ${isMediaVisible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"}`}
+          >
+            <span className="text-[#F2F2F2]/90">
               <p className="p-medium-bold sm:h4-bold md:company-title-medium xl:company-title-large whitespace-nowrap">
                 언론 속 포도상점
               </p>
@@ -326,13 +371,13 @@ const CompanyProfile = () => {
               {mediaData.map((item, index) => (
                 <div
                   key={index}
-                  className="flex sm:grid sm:grid-cols-[164px_1fr] md:grid-cols-[219px_1fr] xl:grid-cols-[360px_1fr] sm:gap-[15px] xl:gap-[60px] md:gap-[20px] border-b border-[#BABABA] py-[20px] sm:py-[30px] md:py-[40px] xl:py-[50px]"
+                  className="group flex border-b border-[#BABABA] py-[20px] transition-all duration-300 hover:translate-x-3 hover:border-[#9E30F4] hover:bg-[#9E30F4]/10 motion-reduce:transition-none sm:grid sm:grid-cols-[164px_1fr] sm:gap-[15px] sm:py-[30px] md:grid-cols-[219px_1fr] md:gap-[20px] md:py-[40px] xl:grid-cols-[360px_1fr] xl:gap-[60px] xl:py-[50px]"
                   onClick={() => window.open(item.url, "_blank")}
                 >
                   <img
                     src={item.image}
                     alt={item.title}
-                    className=" hidden sm:block"
+                    className="hidden transition-transform duration-500 group-hover:scale-[1.035] sm:block"
                   />
                   <div className="flex flex-col gap-[25px] md:gap-[15px] xl:gap-[20px] justify-center  w-full min-w-0 ">
                     <span className="p-medium-bold text-[#F2F2F2]/90 xl:h1-bold md:h4-bold sm:p-large-bold sm:whitespace-normal md:truncate">
@@ -364,6 +409,7 @@ type Props = {
   lineTop?: number;
   lineBottom?: number;
   yearDots: number[]; // 섹션 시작 y들 (큰 점)
+  progress: number;
 };
 
 function VerticalTimelineSVG({
@@ -372,24 +418,37 @@ function VerticalTimelineSVG({
   lineTop = 0,
   lineBottom = height,
   yearDots,
+  progress,
 }: Props) {
+  const lineOffset = height * (1 - progress);
+
   return (
     <svg
+      className="overflow-visible"
       width="20"
       height={height}
       viewBox={`0 0 20 ${height}`}
       xmlns="http://www.w3.org/2000/svg"
     >
       <line
+        className="[stroke-dasharray:1035]"
         x1={x}
         y1={lineTop}
         x2={x}
         y2={lineBottom}
         stroke="#6A39C0"
         strokeWidth="5"
+        style={{ strokeDashoffset: lineOffset }}
       />
       {yearDots.map((y, i) => (
-        <circle key={`Y-${i}`} cx={x} cy={y} r={10} fill="#6A39C0" />
+        <circle
+          key={`Y-${i}`}
+          className={`origin-center transition-all duration-200 ${progress >= y / height ? "scale-100 opacity-100" : "scale-0 opacity-0"}`}
+          cx={x}
+          cy={y}
+          r={10}
+          fill="#6A39C0"
+        />
       ))}
     </svg>
   );

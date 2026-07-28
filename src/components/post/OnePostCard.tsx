@@ -16,9 +16,15 @@ interface Props {
   posts: ScriptItem;
   viewType: "grid" | "card";
   onToggleLike: (postId: string) => void;
+  priority?: boolean;
 }
 
-export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
+export const OnePostCard = ({
+  posts,
+  viewType,
+  onToggleLike,
+  priority = false,
+}: Props) => {
   const navigate = useNavigate();
   const { widthConditions } = useWindowDimensions();
   const { isSmallMobile } = widthConditions;
@@ -45,7 +51,13 @@ export const OnePostCard = ({ posts, viewType, onToggleLike }: Props) => {
         <img
           src={posts.imagePath === "" ? defaultImg_noneBorder : posts.imagePath}
           alt={posts.title}
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          decoding="async"
           className="object-contain w-full h-auto shrink-0 rounded-[20px]  aspect-square "
+          onError={(event) => {
+            event.currentTarget.src = defaultImg_noneBorder;
+          }}
         />
         <div className="absolute heart aspect-square">
           <button onClick={handleLikeClick}>

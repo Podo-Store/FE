@@ -45,6 +45,7 @@ export const AllPostCard = ({
             posts={post}
             viewType={viewType}
             onToggleLike={onToggleLike}
+            priority={index < colNum}
           />
         </div>
       ))}
@@ -80,6 +81,7 @@ export const PostCardPreview = ({
             posts={post}
             viewType={viewType}
             onToggleLike={onToggleLike}
+            priority={index < colNum}
           />
         </div>
       ))}

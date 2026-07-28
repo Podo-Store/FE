@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import defaultThumbnail from "./../../assets/image/defaultThumbnail.svg";
 
@@ -17,9 +18,20 @@ const ThumbnailImg = ({
   imagePath,
   isRoute = false,
   id,
+  loading = "lazy",
+  fetchPriority = "auto",
+  alt = "작품 썸네일",
+  children,
   ...props
 }) => {
   const navigate = useNavigate();
+  const [hasLoadError, setHasLoadError] = useState(false);
+
+  useEffect(() => {
+    setHasLoadError(false);
+  }, [imagePath]);
+
+  const imageSource = hasLoadError ? defaultThumbnail : imagePath || defaultThumbnail;
 
   return (
     <div className="relative">
@@ -27,10 +39,21 @@ const ThumbnailImg = ({
         className={`__thumbnail-img ${className}`}
         style={{
           ...style,
-          backgroundImage: `url(${imagePath || defaultThumbnail})`,
         }}
         {...props}
-      ></div>
+      >
+        <img
+          key={imageSource}
+          src={imageSource}
+          alt={alt}
+          loading={loading}
+          fetchPriority={fetchPriority}
+          decoding="async"
+          className="__thumbnail-img__image"
+          onError={() => setHasLoadError(true)}
+        />
+        {children}
+      </div>
       {isRoute && (
         <button
           className="absolute top-0 size-full cursor-pointer"

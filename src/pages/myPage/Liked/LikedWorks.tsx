@@ -16,6 +16,7 @@ import {
   fetchLikedPost,
   getLikedShortWorks,
   getLikedLongWorks,
+  type LikedScriptsResponse,
 } from "@/api/user/profile/likeApi";
 
 import AuthContext from "@/contexts/AuthContext";
@@ -26,6 +27,16 @@ const ScrollObserver: React.FC<{
   id: string;
 }> = ({ inViewRef, id }) => {
   return <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />;
+};
+
+const likedWorksCache: {
+  all: LikedScriptsResponse | null;
+  longPages: Map<number, ScriptItem[]>;
+  shortPages: Map<number, ScriptItem[]>;
+} = {
+  all: null,
+  longPages: new Map(),
+  shortPages: new Map(),
 };
 
 const LikedWorksSkeleton = () => (
@@ -67,7 +78,6 @@ const LikedWorks = () => {
   const [shortPlayPage, setShortPlayPage] = useState(0);
   const [hasMoreLongPlays, setHasMoreLongPlays] = useState(true);
   const [longPlayPage, setLongPlayPage] = useState(0);
-  const [resetFlag, setResetFlag] = useState(false);
   const [colNum, setColNum] = useState(4);
   const [postNum, setPostNum] = useState(4);
   const rawToggleLikeLong = useToggleLike(setLongPlays);
@@ -93,6 +103,18 @@ const LikedWorks = () => {
     if (menu === "stage") {
       updated.set("category", "전체");
     }
+
+    const nextCategory = menu === "stage" ? "전체" : newStage;
+    if (nextCategory !== activeCategory) {
+      setIsLoading(true);
+      setLongPlays([]);
+      setShortPlays([]);
+      setLongPlayPage(0);
+      setShortPlayPage(0);
+      setHasMoreLongPlays(true);
+      setHasMoreShortPlays(true);
+    }
+
     setSearchParams(updated);
   };
 
@@ -121,64 +143,68 @@ const LikedWorks = () => {
   }, []);
 
   useEffect(() => {
+    let isCancelled = false;
+
     setIsLoading(true);
     const loadScripts = async () => {
       try {
         if (activeCategory === "장편") {
-          const longData = await getLikedLongWorks(longPlayPage);
+          const longData =
+            likedWorksCache.longPages.get(longPlayPage) ??
+            (await getLikedLongWorks(longPlayPage));
+
+          likedWorksCache.longPages.set(longPlayPage, longData);
+          if (isCancelled) return;
+
           if (longData.length === 0) {
             setHasMoreLongPlays(false);
             return;
           }
 
-          setTimeout(() => {
-            setLongPlays((prev) =>
-              Array.from(
-                new Map(
-                  [...prev, ...longData].map((post) => [post.id, post])
-                ).values()
-              )
-            );
-            requestAnimationFrame(() => {
-              setIsLoading(false);
-            });
-          }, 150);
+          setLongPlays((prev) =>
+            Array.from(
+              new Map([...prev, ...longData].map((post) => [post.id, post])).values()
+            )
+          );
         } else if (activeCategory === "단편") {
-          const shortData = await getLikedShortWorks(shortPlayPage);
+          const shortData =
+            likedWorksCache.shortPages.get(shortPlayPage) ??
+            (await getLikedShortWorks(shortPlayPage));
+
+          likedWorksCache.shortPages.set(shortPlayPage, shortData);
+          if (isCancelled) return;
+
           if (shortData.length === 0) {
             setHasMoreShortPlays(false);
             return;
           }
 
-          setTimeout(() => {
-            setShortPlays((prev) =>
-              Array.from(
-                new Map(
-                  [...prev, ...shortData].map((post) => [post.id, post])
-                ).values()
-              )
-            );
-            requestAnimationFrame(() => {
-              setIsLoading(false);
-            });
-          }, 150);
+          setShortPlays((prev) =>
+            Array.from(
+              new Map([...prev, ...shortData].map((post) => [post.id, post])).values()
+            )
+          );
         } else {
-          //전체
-          const allData = await fetchLikedPost();
+          const allData = likedWorksCache.all ?? (await fetchLikedPost());
+          likedWorksCache.all = allData;
+          if (isCancelled) return;
 
           setLongPlays(Array.isArray(allData.longPlay) ? allData.longPlay : []);
           setShortPlays(
             Array.isArray(allData.shortPlay) ? allData.shortPlay : []
           );
-          setIsLoading(false);
         }
       } catch (error) {
-        console.error("작품 목록 불러오기 실패:", error);
+        if (!isCancelled) console.error("작품 목록 불러오기 실패:", error);
       } finally {
-        setIsLoading(false);
+        if (!isCancelled) setIsLoading(false);
       }
     };
     loadScripts();
+
+    return () => {
+      isCancelled = true;
+    };
   }, [activeCategory, longPlayPage, shortPlayPage]);
 
   const makeToggleHandler = (rawToggleFn: (postId: string) => void) => {
@@ -187,6 +213,9 @@ const LikedWorks = () => {
         alert("로그인이 필요합니다.");
         return;
       }
+      likedWorksCache.all = null;
+      likedWorksCache.longPages.clear();
+      likedWorksCache.shortPages.clear();
       rawToggleFn(postId);
     };
   };
@@ -207,21 +236,6 @@ const LikedWorks = () => {
       setShortPlayPage((prev) => prev + 1);
     }
   }, [inView, isLoading, activeCategory, hasMoreLongPlays, hasMoreShortPlays]);
-
-  useEffect(() => {
-    setResetFlag(true);
-    setLongPlays([]);
-    setShortPlays([]);
-    setLongPlayPage(0);
-    setShortPlayPage(0);
-    setHasMoreLongPlays(true);
-    setHasMoreShortPlays(true);
-  }, [activeCategory]);
-
-  useEffect(() => {
-    if (!resetFlag) return;
-    setResetFlag(false);
-  }, [resetFlag]);
 
   return (
     <div className=" purchased-script myPage-contents-default">

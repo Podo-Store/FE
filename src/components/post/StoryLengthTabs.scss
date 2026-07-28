@@ -6,3 +6,22 @@
     padding: 10px 17px 6px;
   }
 }
+
+.story-length .story-length-indicator {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #6a39c0;
+  border-radius: 1px;
+  pointer-events: none;
+  transition:
+    left 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    width 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: left, width;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-length .story-length-indicator {
+    transition: none;
+  }
+}

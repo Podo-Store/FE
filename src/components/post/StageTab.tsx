@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import "./StageTab.scss";
 import { StageType } from "@/types/stage";
@@ -13,8 +13,32 @@ const availableStages = ["포도밭", "포도알"];
 
 const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
   const { widthConditions } = useWindowDimensions();
-  const { isSmallMobile, isMobile, isTablet, isLaptop, isDesktop } =
-    widthConditions;
+  const { isSmallMobile } = widthConditions;
+  const tabListRef = useRef<HTMLUListElement>(null);
+  const tabRefs = useRef<Record<string, HTMLLIElement | null>>({});
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+
+  const recalculateIndicator = () => {
+    const tabList = tabListRef.current;
+    const activeTab = tabRefs.current[activeStage];
+    if (!tabList || !activeTab) return;
+
+    const listRect = tabList.getBoundingClientRect();
+    const tabRect = activeTab.getBoundingClientRect();
+    setIndicatorStyle({
+      left: tabRect.left - listRect.left,
+      width: tabRect.width,
+    });
+  };
+
+  useLayoutEffect(recalculateIndicator, [activeStage]);
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(recalculateIndicator);
+    if (tabListRef.current) resizeObserver.observe(tabListRef.current);
+
+    return () => resizeObserver.disconnect();
+  }, [activeStage]);
 
   const STAGE_ICONS: Record<string, ReactNode> = {
     포도밭: (
@@ -114,7 +138,9 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
   return (
     <>
       <ul
+        ref={tabListRef}
         className="flex relative list-none mt-[10px] mb-[-4px] stage-tab"
+        role="tablist"
         style={{ padding: 0 }}
       >
         {stages.map((stage) => {
@@ -124,12 +150,13 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
           return (
             <li
               key={stage}
+              ref={(element) => {
+                tabRefs.current[stage] = element;
+              }}
+              role="tab"
+              aria-selected={isActive}
               className={`flex flex-row gap-[7px] items-center stage-tab-li z-10 whitespace-nowrap 
-              ${
-                isActive
-                  ? " border-b-4 border-[#6A39C0] rounded-[1px]"
-                  : "text-[var(--grey6)]"
-              }
+              ${isActive ? "text-[#6A39C0]" : "text-[var(--grey6)]"}
                ${
                  isAvailable
                    ? "cursor-pointer text-black hover:text-[#6A39C0]"
@@ -140,7 +167,6 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
               onClick={() => {
                 if (isAvailable) {
                   handleStageClick(stage);
-                  setActiveStage(stage);
                 }
               }}
             >
@@ -159,6 +185,7 @@ const StageTab = ({ activeStage, setActiveStage, stageIcon = true }: Props) => {
             </li>
           );
         })}
+        <span className="stage-tab-indicator" aria-hidden="true" style={indicatorStyle} />
       </ul>
       {/* <span className=" w-full h-[1px] block bg-[#E2E2E2] z-0 "></span> */}
     </>

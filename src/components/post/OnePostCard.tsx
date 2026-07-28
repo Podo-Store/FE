@@ -1,5 +1,5 @@
 // src/components/PostCardList.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 import LikeViewCount from "@/components/list/LikeViewCount";
@@ -10,7 +10,6 @@ import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import { ScriptItem } from "@/api/user/postListApi";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-import "./OnePostCard.scss";
 
 interface Props {
   posts: ScriptItem;
@@ -28,6 +27,11 @@ export const OnePostCard = ({
   const navigate = useNavigate();
   const { widthConditions } = useWindowDimensions();
   const { isSmallMobile } = widthConditions;
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsImageLoaded(false);
+  }, [posts.imagePath]);
 
   const handleLikeClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // 좋아요 클릭 시 navigate 막기
@@ -41,25 +45,34 @@ export const OnePostCard = ({
   return (
     <div
       key={posts.id}
-      className="flex flex-col items-center cursor-pointer one-post-card"
+      className="flex w-full max-w-[197px] max-[479px]:w-[120px] flex-col items-center cursor-pointer"
       onClick={handleCardClick}
     >
       {/* 이미지 */}
       <div
-        className={`flex relative overflow-hidden rounded-[20px] bg-white mb-[7px] w-full border border-[var(--grey3)] transition-transform duration-200 ease-out motion-reduce:transition-none hover:scale-[1.04] `}
+        className="flex relative overflow-hidden rounded-[20px] bg-white mb-[7px] w-full border border-[var(--grey3)] transition-transform duration-200 ease-out motion-reduce:transition-none hover:scale-[1.04]"
       >
+        {!isImageLoaded && (
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 animate-pulse bg-[#f0f0f0] motion-reduce:animate-none"
+          />
+        )}
         <img
           src={posts.imagePath === "" ? defaultImg_noneBorder : posts.imagePath}
           alt={posts.title}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           decoding="async"
-          className="object-contain w-full h-auto shrink-0 rounded-[20px] aspect-square"
+          className={`object-contain w-full h-auto shrink-0 rounded-[20px] aspect-square transition-opacity duration-200 ${
+            isImageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          onLoad={() => setIsImageLoaded(true)}
           onError={(event) => {
             event.currentTarget.src = defaultImg_noneBorder;
           }}
         />
-        <div className="absolute heart aspect-square">
+        <div className="absolute bottom-[8px] right-[10px] aspect-square w-[35px] max-[479px]:bottom-[6px] max-[479px]:right-[7px] max-[479px]:w-[27px]">
           <button onClick={handleLikeClick}>
             <img
               className=" transition-all duration-100 hover:scale-[1.2] w-full "

@@ -41,6 +41,11 @@ type PostGalleryCache = {
 
 let postGalleryCache: PostGalleryCache | null = null;
 
+type SortType = "POPULAR" | "LIKE_COUNT" | "LATEST";
+
+const isSortType = (value: string | null): value is SortType =>
+  value === "POPULAR" || value === "LIKE_COUNT" || value === "LATEST";
+
 // ---- Scroll Observer ----
 type ScrollObserverProps = {
   inViewRef: (node?: Element | null) => void;
@@ -63,6 +68,7 @@ const PostGallery = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeStage = (searchParams.get("stage") as StageType) || "포도밭";
   const activeCategory = searchParams.get("category") || "전체";
+  const selectedSortType = searchParams.get("sortType");
 
   // STATES
   const [explore, setExplore] = useState<ScriptItem[]>([]);
@@ -81,7 +87,9 @@ const PostGallery = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
-  const [sortType, setSortType] = useState<"POPULAR" | "LIKE_COUNT" | "LATEST">("POPULAR");
+  const [sortType, setSortType] = useState<SortType>(() =>
+    isSortType(selectedSortType) ? selectedSortType : "POPULAR"
+  );
 
   const skipRef = useRef(false);
   const isAuthenticated = useContext(AuthContext);
@@ -106,6 +114,17 @@ const PostGallery = () => {
       const next = new URLSearchParams(searchParams.toString());
       next.set(type, value);
       if (type === "stage") next.set("category", "전체");
+      setSearchParams(next);
+    },
+    [searchParams, setSearchParams]
+  );
+
+  const handleChangeSortType = useCallback(
+    (value: SortType) => {
+      setSortType(value);
+
+      const next = new URLSearchParams(searchParams.toString());
+      next.set("sortType", value);
       setSearchParams(next);
     },
     [searchParams, setSearchParams]
@@ -362,7 +381,7 @@ const PostGallery = () => {
         setViewType={setViewType}
         isSorted={true}
         sortType={sortType}
-        setSortType={setSortType}
+        setSortType={handleChangeSortType}
         stageBottomBorderWidth={"w-[100vw]"}
         stageBelt={true}
       />

@@ -107,7 +107,7 @@ function AuthorNav() {
           )}
           <RoundBtnV2
             onClick={() => navigate("/")}
-            className="rounded-[9px] w-[100px] ml-5 md:ml-10"
+            className="navbar_space-switch rounded-[9px] w-[100px] ml-5 md:ml-10"
             color="purple"
           >
             상점 가기

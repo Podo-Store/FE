@@ -27,3 +27,31 @@
   margin-top: 30px;
   margin-bottom: 10px;
 }
+
+.side-menu-dialog .side-menu-space-switch {
+  position: absolute;
+  right: 50px;
+  bottom: 30px;
+  width: 200px;
+  height: 48px;
+  padding: 3px 34px;
+  gap: 10px;
+  border-radius: 30px;
+  background: var(--Main, #6a39c0);
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+  .side-menu-dialog .side-menu-space-switch {
+    width: 186px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 479px) {
+  .side-menu-dialog .side-menu-space-switch {
+    right: 20px;
+    bottom: 20px;
+    width: 158px;
+    height: 32px;
+  }
+}

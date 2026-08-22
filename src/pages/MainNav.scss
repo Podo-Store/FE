@@ -108,3 +108,9 @@
     display: none;
   }
 }
+
+.navbar .navbar_space-switch {
+  @include r.media-tablet {
+    display: none;
+  }
+}

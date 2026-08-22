@@ -658,18 +658,35 @@ export const handlers = [
   http.get(`${BASE}/scripts/v2`, ({ request }) => {
     const url = new URL(request.url);
     const page = Number(url.searchParams.get("page") ?? 0);
+    const size = Number(url.searchParams.get("size") ?? 40);
     const sortType = url.searchParams.get("sortType") ?? "POPULAR";
-    const all = sortList([...longPlays, ...shortPlays], sortType);
-    const totalPages = Math.ceil(all.length / PAGE_SIZE);
-    const content = all.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+    const playType = url.searchParams.get("playType");
+    const search = (url.searchParams.get("search") ?? "").trim().toLowerCase();
+    const works =
+      playType === "LONG"
+        ? longPlays
+        : playType === "SHORT"
+          ? shortPlays
+          : [...longPlays, ...shortPlays];
+    const all = sortList(
+      search
+        ? works.filter(
+            ({ title, writer }) =>
+              title.toLowerCase().includes(search) || writer.toLowerCase().includes(search)
+          )
+        : works,
+      sortType
+    );
+    const totalPages = Math.ceil(all.length / size);
+    const content = all.slice(page * size, (page + 1) * size);
 
     return HttpResponse.json({
       content,
       pageable: {
         pageNumber: page,
-        pageSize: PAGE_SIZE,
+        pageSize: size,
         sort: { empty: false, sorted: true, unsorted: false },
-        offset: page * PAGE_SIZE,
+        offset: page * size,
         paged: true,
         unpaged: false,
       },
@@ -677,7 +694,7 @@ export const handlers = [
       totalElements: all.length,
       totalPages,
       first: page === 0,
-      size: PAGE_SIZE,
+      size,
       number: page,
       sort: { empty: false, sorted: true, unsorted: false },
       numberOfElements: content.length,

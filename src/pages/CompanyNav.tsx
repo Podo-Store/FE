@@ -135,7 +135,7 @@ function CompanyNav() {
             )}
             <RoundBtnV2
               onClick={() => navigate("/author")}
-              className="rounded-[9px] w-[110px] ml-5 md:ml-10"
+              className="navbar_space-switch rounded-[9px] w-[110px] ml-5 md:ml-10"
               color="dark_mode"
             >
               작가 공간

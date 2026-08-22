@@ -1,15 +1,18 @@
 import { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useInView } from "react-intersection-observer";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ErrorOutlineRoundedIcon from "@mui/icons-material/ErrorOutlineRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 import AuthContext from "@/contexts/AuthContext";
 
 import {
   getExploreScripts,
-  getLongWorks,
-  getShortWorks,
   getContestScripts,
   ScriptItem,
+  PlayType,
+  SortType,
 } from "@/api/user/postListApi";
 
 import InfiniteBanner from "@/components/banner/InfiniteBanner.js";
@@ -22,29 +25,22 @@ import "./postGallery.scss";
 import { StageType } from "@/types/stage";
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 
-type PostGalleryCache = {
-  explore: ScriptItem[];
-  longPlays: ScriptItem[];
-  shortPlays: ScriptItem[];
-  contestWorks: ScriptItem[];
-  explorePage: number;
-  longPlayPage: number;
-  shortPlayPage: number;
-  contestPage: number;
-  hasMoreExplore: boolean;
-  hasMoreLongPlays: boolean;
-  hasMoreShortPlays: boolean;
-  hasMoreContest: boolean;
-  sortType: "POPULAR" | "LIKE_COUNT" | "LATEST";
-  activeCategory: string;
-};
-
-let postGalleryCache: PostGalleryCache | null = null;
-
-type SortType = "POPULAR" | "LIKE_COUNT" | "LATEST";
-
 const isSortType = (value: string | null): value is SortType =>
   value === "POPULAR" || value === "LIKE_COUNT" || value === "LATEST";
+
+const RECENT_SEARCHES_KEY = "podo-recent-searches";
+const MAX_RECENT_SEARCHES = 10;
+
+const getRecentSearches = (): string[] => {
+  try {
+    const stored = JSON.parse(localStorage.getItem(RECENT_SEARCHES_KEY) ?? "[]");
+    return Array.isArray(stored)
+      ? stored.filter((keyword): keyword is string => typeof keyword === "string")
+      : [];
+  } catch {
+    return [];
+  }
+};
 
 // ---- Scroll Observer ----
 type ScrollObserverProps = {
@@ -55,14 +51,6 @@ type ScrollObserverProps = {
 const ScrollObserver = ({ inViewRef, id }: ScrollObserverProps) => (
   <div ref={inViewRef} key={id} className="h-[1px] mt-[100px]" />
 );
-
-const syncLikeEverywhere = (
-  postId: string,
-  updater: (list: ScriptItem[]) => ScriptItem[],
-  explore: ScriptItem[]
-): ScriptItem[] => {
-  return updater(explore);
-};
 
 const PostGallery = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -87,11 +75,15 @@ const PostGallery = () => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [viewType, setViewType] = useState<"grid" | "card">("grid");
+  const [searchKeyword, setSearchKeyword] = useState("");
+  const [submittedSearch, setSubmittedSearch] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [recentSearches, setRecentSearches] = useState<string[]>(getRecentSearches);
   const [sortType, setSortType] = useState<SortType>(() =>
     isSortType(selectedSortType) ? selectedSortType : "POPULAR"
   );
 
-  const skipRef = useRef(false);
+  const isLoadingMoreRef = useRef(false);
   const isAuthenticated = useContext(AuthContext);
 
   const { ref: inViewRef, inView } = useInView({
@@ -130,170 +122,170 @@ const PostGallery = () => {
     [searchParams, setSearchParams]
   );
 
-  // ----------------------------
-  // 1) /list 입장 시 최초로 explore / long / short 전부 로드 + 캐싱
-  // ----------------------------
+  const saveRecentSearch = (keyword: string) => {
+    const next = [keyword, ...recentSearches.filter((item) => item !== keyword)].slice(
+      0,
+      MAX_RECENT_SEARCHES
+    );
+    setRecentSearches(next);
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next));
+  };
+
+  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const keyword = searchKeyword.trim();
+    if (!keyword) return;
+
+    saveRecentSearch(keyword);
+    setSubmittedSearch(keyword);
+    setIsSearchFocused(false);
+  };
+
+  const handleRecentSearchClick = (keyword: string) => {
+    setSearchKeyword(keyword);
+    setSubmittedSearch(keyword);
+    setIsSearchFocused(false);
+  };
+
+  const removeRecentSearch = (keyword: string) => {
+    const next = recentSearches.filter((item) => item !== keyword);
+    setRecentSearches(next);
+    localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(next));
+  };
+
+  const clearRecentSearches = () => {
+    setRecentSearches([]);
+    localStorage.removeItem(RECENT_SEARCHES_KEY);
+  };
+
+  const getPlayType = (): PlayType | undefined => {
+    if (activeCategory === "장편") return "LONG";
+    if (activeCategory === "단편") return "SHORT";
+    return undefined;
+  };
+
+  // 선택한 탭과 검색어에 해당하는 첫 페이지를 불러옵니다.
   useEffect(() => {
-    if (postGalleryCache && activeCategory !== "전체") {
-      // 전체 보기에서 바뀐 경우 캐시값 그대로 사용
-      setExplore(postGalleryCache.explore);
-      setLongPlays(postGalleryCache.longPlays);
-      setShortPlays(postGalleryCache.shortPlays);
-      setContestWorks(postGalleryCache.contestWorks);
-      setExplorePage(postGalleryCache.explorePage);
-      setLongPlayPage(postGalleryCache.longPlayPage);
-      setShortPlayPage(postGalleryCache.shortPlayPage);
-      setContestPage(postGalleryCache.contestPage);
-      setHasMoreExplore(postGalleryCache.hasMoreExplore);
-      setHasMoreLongPlays(postGalleryCache.hasMoreLongPlays);
-      setHasMoreShortPlays(postGalleryCache.hasMoreShortPlays);
-      setHasMoreContest(postGalleryCache.hasMoreContest);
-
-      skipRef.current = true;
-      setIsLoading(false);
-      return;
-    }
-
-    // 최초 로드
-    (async () => {
-      setIsLoading(true);
-
-      const exploreData = await getExploreScripts(0, sortType);
-      const longData = await getLongWorks(0, sortType);
-      const shortData = await getShortWorks(0, sortType);
-      const contestData = await getContestScripts(0, sortType);
-
-      setExplore(exploreData);
-      setLongPlays(longData);
-      setShortPlays(shortData);
-      setContestWorks(contestData);
-
-      setExplorePage(1);
-      setLongPlayPage(1);
-      setShortPlayPage(1);
-      setContestPage(1);
-      setHasMoreExplore(true);
-
-      // 캐시 저장
-      postGalleryCache = {
-        explore: exploreData,
-        longPlays: longData,
-        shortPlays: shortData,
-        contestWorks: contestData,
-        explorePage: 1,
-        longPlayPage: 1,
-        shortPlayPage: 1,
-        contestPage: 1,
-        hasMoreExplore: true,
-        hasMoreLongPlays: true,
-        hasMoreShortPlays: true,
-        hasMoreContest: true,
-        sortType,
-        activeCategory,
-      };
-
-      setIsLoading(false);
-    })();
-  }, []);
-
-  // ----------------------------
-  // 2) 정렬 바뀌면 해당 API만 다시 호출
-  // ----------------------------
-  useEffect(() => {
-    if (!explore) return;
+    let isCurrent = true;
 
     (async () => {
       setIsLoading(true);
+      try {
+        if (activeCategory === "공모") {
+          const data = await getContestScripts(0, sortType);
+          if (!isCurrent) return;
+          setContestWorks(data);
+          setContestPage(1);
+          setHasMoreContest(data.length > 0);
+          return;
+        }
 
-      // explore 갱신
-      const exploreData = await getExploreScripts(0, sortType);
-      setExplore(exploreData);
+        const data = await getExploreScripts({
+          page: 0,
+          size: 40,
+          sortType,
+          playType: getPlayType(),
+          search: submittedSearch,
+        });
+        if (!isCurrent) return;
 
-      // 장편/단편/공모는 현재 페이지 기준으로 다시 가져오게 함
-      const longData = await getLongWorks(0, sortType);
-      const shortData = await getShortWorks(0, sortType);
-      const contestData = await getContestScripts(0, sortType);
-
-      setLongPlays(longData);
-      setShortPlays(shortData);
-      setContestWorks(contestData);
-
-      setExplorePage(1);
-      setLongPlayPage(1);
-      setShortPlayPage(1);
-      setContestPage(1);
-      setHasMoreExplore(true);
-
-      // 캐시 갱신
-      postGalleryCache = {
-        explore: exploreData,
-        longPlays: longData,
-        shortPlays: shortData,
-        contestWorks: contestData,
-        explorePage: 1,
-        longPlayPage: 1,
-        shortPlayPage: 1,
-        contestPage: 1,
-        hasMoreExplore: true,
-        hasMoreLongPlays: true,
-        hasMoreShortPlays: true,
-        hasMoreContest: true,
-        activeCategory,
-        sortType,
-      };
-
-      setIsLoading(false);
+        if (activeCategory === "장편") {
+          setLongPlays(data.content);
+          setLongPlayPage(1);
+          setHasMoreLongPlays(!data.last);
+        } else if (activeCategory === "단편") {
+          setShortPlays(data.content);
+          setShortPlayPage(1);
+          setHasMoreShortPlays(!data.last);
+        } else {
+          setExplore(data.content);
+          setExplorePage(1);
+          setHasMoreExplore(!data.last);
+        }
+      } catch (error) {
+        console.error("작품 목록을 불러오지 못했습니다.", error);
+      } finally {
+        if (isCurrent) setIsLoading(false);
+      }
     })();
-  }, [sortType]);
+    return () => {
+      isCurrent = false;
+    };
+  }, [activeCategory, sortType, submittedSearch]);
 
   // ----------------------------
   // 3) 무한스크롤 페치
   // ----------------------------
   useEffect(() => {
-    if (!inView || isLoading) return;
+    if (!inView || isLoading || isLoadingMoreRef.current) return;
 
     (async () => {
-      if (activeCategory === "전체" && hasMoreExplore) {
-        const data = await getExploreScripts(explorePage, sortType);
-        if (data.length === 0) {
-          setHasMoreExplore(false);
+      isLoadingMoreRef.current = true;
+      try {
+        if (activeCategory === "공모" && hasMoreContest) {
+          const data = await getContestScripts(contestPage, sortType);
+          setContestWorks((prev) => [...prev, ...data]);
+          setContestPage((page) => page + 1);
+          setHasMoreContest(data.length > 0);
           return;
         }
-        setExplore((prev) => [...prev, ...data]);
-        setExplorePage((p) => p + 1);
-      }
 
-      if (activeCategory === "장편" && hasMoreLongPlays) {
-        const data = await getLongWorks(longPlayPage, sortType);
-        if (data.length === 0) {
-          setHasMoreLongPlays(false);
-          return;
-        }
-        setLongPlays((prev) => [...prev, ...data]);
-        setLongPlayPage((p) => p + 1);
-      }
+        const page =
+          activeCategory === "장편"
+            ? longPlayPage
+            : activeCategory === "단편"
+              ? shortPlayPage
+              : explorePage;
+        const hasMore =
+          activeCategory === "장편"
+            ? hasMoreLongPlays
+            : activeCategory === "단편"
+              ? hasMoreShortPlays
+              : hasMoreExplore;
+        if (!hasMore) return;
 
-      if (activeCategory === "단편" && hasMoreShortPlays) {
-        const data = await getShortWorks(shortPlayPage, sortType);
-        if (data.length === 0) {
-          setHasMoreShortPlays(false);
-          return;
-        }
-        setShortPlays((prev) => [...prev, ...data]);
-        setShortPlayPage((p) => p + 1);
-      }
+        const data = await getExploreScripts({
+          page,
+          size: 40,
+          sortType,
+          playType: getPlayType(),
+          search: submittedSearch,
+        });
 
-      if (activeCategory === "공모" && hasMoreContest) {
-        const data = await getContestScripts(contestPage, sortType);
-        if (data.length === 0) {
-          setHasMoreContest(false);
-          return;
+        if (activeCategory === "장편") {
+          setLongPlays((prev) => [...prev, ...data.content]);
+          setLongPlayPage((currentPage) => currentPage + 1);
+          setHasMoreLongPlays(!data.last);
+        } else if (activeCategory === "단편") {
+          setShortPlays((prev) => [...prev, ...data.content]);
+          setShortPlayPage((currentPage) => currentPage + 1);
+          setHasMoreShortPlays(!data.last);
+        } else {
+          setExplore((prev) => [...prev, ...data.content]);
+          setExplorePage((currentPage) => currentPage + 1);
+          setHasMoreExplore(!data.last);
         }
-        setContestWorks((prev) => [...prev, ...data]);
-        setContestPage((p) => p + 1);
+      } catch (error) {
+        console.error("추가 작품을 불러오지 못했습니다.", error);
+      } finally {
+        isLoadingMoreRef.current = false;
       }
     })();
-  }, [inView]);
+  }, [
+    activeCategory,
+    contestPage,
+    explorePage,
+    hasMoreContest,
+    hasMoreExplore,
+    hasMoreLongPlays,
+    hasMoreShortPlays,
+    inView,
+    isLoading,
+    longPlayPage,
+    shortPlayPage,
+    sortType,
+    submittedSearch,
+  ]);
 
   // -------------------------------------
   // 4) Toggle Like
@@ -315,26 +307,8 @@ const PostGallery = () => {
           : p
       );
 
-    // ✅ 이제 explore(전체보기용)만 업데이트
     setExplore((prev) => {
-      const updatedExplore = syncLikeEverywhere(postId, updateList, prev);
-
-      // 캐시도 맞춰주고 싶으면 여기서만 캐시 수정
-      if (postGalleryCache) {
-        postGalleryCache.explore = updatedExplore;
-        // 필요하면 캐시 안의 longPlays/shortPlays만 업데이트
-        if (postGalleryCache.longPlays) {
-          postGalleryCache.longPlays = updateList(postGalleryCache.longPlays);
-        }
-        if (postGalleryCache.shortPlays) {
-          postGalleryCache.shortPlays = updateList(postGalleryCache.shortPlays);
-        }
-        if (postGalleryCache.contestWorks) {
-          postGalleryCache.contestWorks = updateList(postGalleryCache.contestWorks);
-        }
-      }
-
-      return updatedExplore;
+      return updateList(prev);
     });
   };
 
@@ -365,7 +339,86 @@ const PostGallery = () => {
   return (
     <div className="flex flex-col m-auto list-wrap-wrap py-[72px]  ">
       {/*------ 작품 둘러보기 ------*/}
-      <p className="sm:h5-bold p-medium-bold mb-[30px] pl-[25px] sm:pl-0">작품 둘러보기</p>
+      <div className="mb-5 flex w-full flex-col items-center gap-4 md:mb-[30px] md:flex-row md:items-start md:justify-between md:gap-0">
+        <p className="m-0 self-start pl-[25px] p-medium-bold md:pt-[10px] md:pl-0 sm:h5-bold">
+          작품 둘러보기
+        </p>
+
+        <div className="relative z-50 w-[calc(100%_-_50px)] max-w-[440px] md:w-[500px] md:max-w-none">
+          <form
+            className="flex h-10 w-full items-center overflow-hidden rounded-[30px] border border-[#BABABA] bg-[#FBFBFB] max-[479px]:h-9 md:h-12"
+            onSubmit={handleSearchSubmit}
+          >
+            <input
+              aria-label="작품 검색"
+              className="h-full min-w-0 flex-1 border-0 bg-transparent py-0 pl-5 pr-2 text-sm text-[#222] outline-none placeholder:text-[#858585] max-[479px]:text-[13px]"
+              placeholder="작가명, 작품명으로 검색해보세요!"
+              value={searchKeyword}
+              onChange={(event) => setSearchKeyword(event.target.value)}
+              onFocus={() => setIsSearchFocused(true)}
+              onBlur={() => setIsSearchFocused(false)}
+            />
+            <button
+              className="grid h-full w-11 flex-[0_0_44px] place-items-center border-0 bg-transparent text-[#111] cursor-pointer max-[479px]:w-10 max-[479px]:basis-10"
+              type="submit"
+              aria-label="검색"
+            >
+              <SearchRoundedIcon className="h-[21px] w-[21px]" />
+            </button>
+          </form>
+
+          {isSearchFocused && (
+            <div
+              className="absolute top-[calc(100%_+_8px)] right-0 box-border min-h-[112px] max-h-[270px] w-full rounded-[24px] border border-[#BABABA] bg-white p-4 px-5"
+              aria-live="polite"
+            >
+              <div className="flex items-center justify-between">
+                <p className="m-0 text-sm font-semibold text-[#222]">최근 검색어</p>
+                {recentSearches.length > 0 && (
+                  <button
+                    className="cursor-pointer border-0 bg-transparent p-0 text-xs text-[#858585]"
+                    type="button"
+                    onMouseDown={(event) => event.preventDefault()}
+                    onClick={clearRecentSearches}
+                  >
+                    전체 삭제
+                  </button>
+                )}
+              </div>
+              {recentSearches.length > 0 ? (
+                <ul className="mt-[10px] flex max-h-[205px] list-none flex-col overflow-y-auto p-0">
+                  {recentSearches.map((keyword) => (
+                    <li key={keyword} className="flex min-h-7 items-center justify-between gap-3">
+                      <button
+                        type="button"
+                        className="flex-1 overflow-hidden border-0 bg-transparent p-0 text-left text-[13px] text-[#4D4D4D] text-ellipsis whitespace-nowrap cursor-pointer"
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => handleRecentSearchClick(keyword)}
+                      >
+                        {keyword}
+                      </button>
+                      <button
+                        type="button"
+                        className="grid h-5 w-5 flex-[0_0_20px] place-items-center border-0 bg-transparent p-0 text-[#858585] cursor-pointer"
+                        aria-label={`${keyword} 삭제`}
+                        onMouseDown={(event) => event.preventDefault()}
+                        onClick={() => removeRecentSearch(keyword)}
+                      >
+                        <CloseRoundedIcon className="h-4 w-4" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="flex h-[62px] flex-col items-center justify-center gap-[5px] text-[10px] text-[#858585]">
+                  <ErrorOutlineRoundedIcon className="h-5 w-5" />
+                  <span>최근 검색어가 없습니다.</span>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </div>
 
       {/*------ 배너 ------*/}
       <InfiniteBanner />

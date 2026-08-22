@@ -5,6 +5,7 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 
 import ImageBtn from "@/components/button/ImageBtn";
+import RoundBtnV2 from "@/components/button/round_btn/RoundBtnV2";
 import SideDialogBtn from "@/components/navBar/SideDialogBtn";
 
 import AuthContext from "@/contexts/AuthContext";
@@ -249,6 +250,15 @@ const SideMenuDialog: React.FC<SideMenuDialogProps> = ({ open, onClose }) => {
           </>
         )}
       </div>
+      <RoundBtnV2
+        className="side-menu-space-switch p-small-bold sm:p-medium-bold md:p-large-bold text-center whitespace-nowrap"
+        color="purple"
+        onClick={(event: React.MouseEvent) => {
+          navigateWithRefreshAndClose(event, isAuthor ? "/" : "/author");
+        }}
+      >
+        {isAuthor ? "상점으로 돌아가기" : "작가 공간으로 이동하기"}
+      </RoundBtnV2>
     </Dialog>
   );
 };

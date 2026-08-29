@@ -33,19 +33,11 @@ function Footer() {
     <>
       <MyPageInterceptor footerRef={footerRef}></MyPageInterceptor>
       <div
-        className={clsx(
-          "footer h-[298px] h-max-[300px]",
-          isCompanyPage && "bg-[#1A1004] h-full"
-        )}
+        className={clsx("footer h-[298px] h-max-[300px]", isCompanyPage && "bg-[#1A1004] h-full")}
         ref={footerRef}
       >
-        <div className="footer-inner h-fit my-auto">
-          <div
-            className={clsx(
-              "footer-upper text-[#333]",
-              isCompanyPage && "text-[#F2F2F2]/90"
-            )}
-          >
+        <div className="my-auto footer-inner h-fit">
+          <div className={clsx("footer-upper text-[#333]", isCompanyPage && "text-[#F2F2F2]/90")}>
             <img src={logo} alt="navLogo" />
             <div style={{ height: "10px" }}></div>
             <p>포도상점은 저작권의 당사자가 아닌 대리중개업체입니다.</p>
@@ -67,41 +59,66 @@ function Footer() {
                 <span class="inline-block w-[25px]">주소 :</span>
                 서울특별시 노원구 석계로 98-2, 3층 A-2호
                 <br />
-                <span class="inline-block w-[25px]"></span>(월계동,
-                스타트업스테이션)
+                <span class="inline-block w-[25px]"></span>(월계동, 스타트업스테이션)
               </p>
 
               <p>연락처 : 010-5251-5830</p>
             </div>
 
-            <div
-              className={clsx("sitemap", isCompanyPage && "text-[#F2F2F2]/90")}
-            >
+            <div className={clsx("sitemap", isCompanyPage && "text-[#F2F2F2]/90")}>
               <div id="left" className="sitemap-section">
                 <>
-                  <hr
-                    className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
-                  />
+                  <hr className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")} />
 
                   <ul id="menu">
                     {isAuthor ? (
                       <>
-                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/author/post"); scrollToTop(); }}>
+                        <li
+                          className="p-xs-bold c-pointer"
+                          onClick={() => {
+                            navigate("/author/post");
+                            scrollToTop();
+                          }}
+                        >
                           작품 등록하기
                         </li>
-                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/author/mypage/scriptmanage"); scrollToTop(); }}>
+                        <li
+                          className="p-xs-bold c-pointer"
+                          onClick={() => {
+                            navigate("/author/mypage/scriptmanage");
+                            scrollToTop();
+                          }}
+                        >
                           작품 관리하기
                         </li>
                       </>
                     ) : (
                       <>
-                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/"); scrollToTop(); }}>
+                        <li
+                          className="p-xs-bold c-pointer"
+                          onClick={() => {
+                            navigate("/");
+                            scrollToTop();
+                          }}
+                        >
                           작품 둘러보기
                         </li>
-                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/performanceNews"); scrollToTop(); }}>
+                        <li
+                          className="p-xs-bold c-pointer"
+                          onClick={() => {
+                            navigate("/performanceNews");
+                            scrollToTop();
+                          }}
+                        >
                           공연 소식
                         </li>
-                        <li className="p-xs-bold c-pointer" onClick={() => { navigate("/company"); scrollToTop(); }}>
+                        <li
+                          className="p-xs-bold c-pointer"
+                          onClick={() => {
+                            navigate("/company");
+                            scrollToTop();
+                          }}
+                        >
                           회사 소개
                         </li>
                       </>
@@ -113,24 +130,39 @@ function Footer() {
                 <ul id="question">
                   <li
                     className="p-xs-regular"
-                    onClick={() => { navigate(`${prefix}/policy/0`); scrollToTop(); }}
+                    onClick={() => {
+                      navigate(`${prefix}/policy/0`);
+                      scrollToTop();
+                    }}
                   >
                     개인정보처리방침
                   </li>
                   <li
                     className="p-xs-regular t-align-right"
-                    onClick={() => { navigate(`${prefix}/policy/1`); scrollToTop(); }}
+                    onClick={() => {
+                      navigate(`${prefix}/policy/1`);
+                      scrollToTop();
+                    }}
                   >
                     이용약관
+                  </li>
+                  <li
+                    className="p-xs-regular t-align-right"
+                    onClick={() => {
+                      window.open(
+                        "https://tulip-femur-85b.notion.site/FAQ-7375d20cc4928278a06b016e7e4a6d77?source=copy_link",
+                        "_blank",
+                        "noopener,noreferrer"
+                      );
+                    }}
+                  >
+                    FAQ
                   </li>
                   {/*<li>
                   <button>문의하기</button>
                 </li>*/}
                 </ul>
-                <hr
-                  id="right"
-                  className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")}
-                />
+                <hr id="right" className={clsx(isCompanyPage && "!border-[#F2F2F2]/90")} />
 
                 <ul id="us">
                   <div className="f-dir-column">
@@ -142,17 +174,9 @@ function Footer() {
                         rel="noopener noreferrer"
                       >
                         <InstagramIcon
-                          className={clsx(
-                            "text-[#000]",
-                            isCompanyPage && "text-[#F2F2F2]/90"
-                          )}
+                          className={clsx("text-[#000]", isCompanyPage && "text-[#F2F2F2]/90")}
                         />
-                        <p
-                          className={clsx(
-                            "p-xs-regular",
-                            isCompanyPage && "text-[#F2F2F2]/90"
-                          )}
-                        >
+                        <p className={clsx("p-xs-regular", isCompanyPage && "text-[#F2F2F2]/90")}>
                           @podosangjeom
                         </p>
                       </a>
@@ -163,17 +187,9 @@ function Footer() {
                     <li className="p-xs-regular">각색 및 굿즈 제작 문의</li>
                     <li className="a-items-center" id="contact">
                       <MailIcon
-                        className={clsx(
-                          "text-[#000]",
-                          isCompanyPage && "text-[#F2F2F2]/90"
-                        )}
+                        className={clsx("text-[#000]", isCompanyPage && "text-[#F2F2F2]/90")}
                       />
-                      <p
-                        className={clsx(
-                          "p-xs-regular",
-                          isCompanyPage && "text-[#F2F2F2]/90"
-                        )}
-                      >
+                      <p className={clsx("p-xs-regular", isCompanyPage && "text-[#F2F2F2]/90")}>
                         podostore1111@gmail.com
                       </p>
                     </li>

@@ -11,7 +11,6 @@ const makeScript = (overrides: Partial<ScriptItem> & { id: string }): ScriptItem
   writer: "작가명",
   imagePath: makePlaceholderImage(Number(overrides.id)),
   script: false,
-  scriptPrice: 0,
   performance: false,
   performancePrice: 0,
   checked: "PASS",
@@ -20,6 +19,8 @@ const makeScript = (overrides: Partial<ScriptItem> & { id: string }): ScriptItem
   likeCount: 0,
   viewCount: 0,
   ...overrides,
+  // 현재 mock 작품은 포도알 스테이지 데이터이므로 대본 가격은 무료로 고정합니다.
+  scriptPrice: 0,
 });
 
 const daysAgo = (n: number) => new Date(Date.now() - n * 86400000).toISOString();
@@ -639,7 +640,7 @@ let managedWorks: ManagedWork[] = [
     writer: "테스트작가",
     imagePath: makePlaceholderImage(101),
     script: true,
-    scriptPrice: 5000,
+    scriptPrice: 0,
     performance: true,
     performancePrice: 30000,
     checked: "PASS",
@@ -663,7 +664,7 @@ let managedWorks: ManagedWork[] = [
     writer: "테스트작가",
     imagePath: makePlaceholderImage(102),
     script: true,
-    scriptPrice: 3500,
+    scriptPrice: 0,
     performance: false,
     performancePrice: 0,
     checked: "PASS",
@@ -687,7 +688,7 @@ let managedWorks: ManagedWork[] = [
     writer: "테스트작가",
     imagePath: makePlaceholderImage(103),
     script: false,
-    scriptPrice: 4500,
+    scriptPrice: 0,
     performance: true,
     performancePrice: 18000,
     checked: "RE_WAIT",
@@ -735,7 +736,7 @@ let managedWorks: ManagedWork[] = [
     writer: "테스트작가",
     imagePath: makePlaceholderImage(105),
     script: true,
-    scriptPrice: 6000,
+    scriptPrice: 0,
     performance: true,
     performancePrice: 25000,
     checked: "RE_PASS",
@@ -965,7 +966,8 @@ export const handlers = [
       intention: String(form.get("intention") ?? current.intention),
       script: form.get("script") === "true",
       performance: form.get("performance") === "true",
-      scriptPrice: Number(form.get("scriptPrice") ?? current.scriptPrice),
+      // 포도알 스테이지에서는 대본 가격을 변경할 수 없습니다.
+      scriptPrice: 0,
       performancePrice: Number(form.get("performancePrice") ?? current.performancePrice),
       any: Number(form.get("any") ?? current.any),
       male: Number(form.get("male") ?? current.male),

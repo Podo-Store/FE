@@ -758,9 +758,7 @@ const Detail = () => {
                   .filter(Boolean)
                   .join(" / ")}
               />
-              <InfoItem label="무대" value={`${script?.stageComment}`} />
               <InfoItem label="공연 시간" value={`약 ${script?.runningTime}분`} />
-              <InfoItem label="막과 장" value={`${script?.act}막 ${script?.scene}장`} />
             </div>
           </div>
 

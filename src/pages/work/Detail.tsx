@@ -2,7 +2,7 @@ import { authApi, api } from "@/api/api";
 import Cookies from "js-cookie";
 import { useEffect, useState, useRef, useContext, lazy, Suspense } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Loading from "../Loading";
 import AuthContext from "@/contexts/AuthContext";
 import defaultImg from "../../assets/image/post/list/defaultProfile_noneBorder.png";
@@ -112,6 +112,7 @@ const Detail = () => {
 
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [sort, setSort] = useState<"LIKE_COUNT" | "LATEST">("LIKE_COUNT");
   const [openSort, setOpenSort] = useState(false);
@@ -129,8 +130,14 @@ const Detail = () => {
 
   const inflightRef = useRef<Map<string, boolean>>(new Map());
 
-  // 옵션이 하나라도 담겨있으면 구매 가능
-  const isOptionSelected = isScriptSelected || performAmount > 0;
+  // 무료 대본은 열람 버튼으로만 제공하고 구매 옵션에는 포함하지 않음
+  const canPurchaseScript = Boolean(
+    script?.script && script.scriptPrice > 0 && script.buyOptions?.includes("SCRIPT")
+  );
+  const isPaidScriptSelected = canPurchaseScript && isScriptSelected;
+
+  // 구매 가능한 옵션이 하나라도 담겨있으면 구매 가능
+  const isOptionSelected = isPaidScriptSelected || performAmount > 0;
 
   // 작품 상세 + 설명 병렬 호출
   useEffect(() => {
@@ -233,7 +240,9 @@ const Detail = () => {
     if (!value || !script) return;
 
     if (value === "script") {
-      if (isScriptSelected) {
+      if (!canPurchaseScript) {
+        alert("무료 대본은 구매 항목에 포함되지 않습니다.");
+      } else if (isScriptSelected) {
         alert("대본은 이미 선택되어 있습니다.");
       } else {
         setIsScriptSelected(true);
@@ -269,11 +278,11 @@ const Detail = () => {
     }
 
     const total =
-      (isScriptSelected ? script.scriptPrice : 0) +
+      (isPaidScriptSelected ? script.scriptPrice : 0) +
       (performAmount > 0 ? performAmount * script.performancePrice : 0);
 
     setTotalPrice(formatPrice(total));
-  }, [script, isScriptSelected, performAmount]);
+  }, [script, isPaidScriptSelected, performAmount]);
 
   const pdfContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -333,7 +342,7 @@ const Detail = () => {
   const onClickPurchase = () => {
     navigate(`/purchase/${id}`, {
       state: {
-        isScriptSelected,
+        isScriptSelected: isPaidScriptSelected,
         isPerformSelected: performAmount > 0,
         purchasePerformAmount: performAmount > 0 ? performAmount : 1,
       },
@@ -342,8 +351,12 @@ const Detail = () => {
 
   const onClickScriptView = () => {
     if (!accessToken) {
-      alert("대본열람은 로그인 후 가능합니다.");
-      navigate("/signin");
+      navigate("/signin", {
+        state: {
+          background: location,
+          from: location,
+        },
+      });
       return;
     }
 
@@ -552,7 +565,7 @@ const Detail = () => {
                   >
                     <option value="">옵션 선택</option>
 
-                    {script?.script && script?.buyOptions.includes("SCRIPT") ? (
+                    {canPurchaseScript ? (
                       <option value="script">대본</option>
                     ) : null}
 
@@ -604,7 +617,7 @@ const Detail = () => {
                             buttonId="info-btn"
                             message2={
                               // 둘 다 담겨있으면 두 번째 메시지로 공연권 안내 추가
-                              isScriptSelected && performAmount > 0
+                              isPaidScriptSelected && performAmount > 0
                                 ? DETAIL_PERFORM_TEXT
                                 : undefined
                             }
@@ -615,7 +628,7 @@ const Detail = () => {
 
                     <div id="detail-amount-wrap">
                       {/* 대본 항목 */}
-                      {isScriptSelected ? (
+                      {isPaidScriptSelected ? (
                         <div
                           className="relative flex items-center justify-between"
                           id="detail-amount"
@@ -659,7 +672,9 @@ const Detail = () => {
                       ) : null}
 
                       {/* 둘 다 담겨있으면 구분선 */}
-                      {isScriptSelected && performAmount > 0 ? <hr id="detail-hr-3"></hr> : null}
+                      {isPaidScriptSelected && performAmount > 0 ? (
+                        <hr id="detail-hr-3"></hr>
+                      ) : null}
 
                       {/* 공연권 항목 */}
                       {performAmount > 0 ? (
@@ -728,9 +743,8 @@ const Detail = () => {
                   <button
                     id="purchase-btn"
                     onClick={onClickScriptView}
-                    disabled={script?.buyOptions?.includes("SCRIPT")}
                   >
-                    대본 열람하기
+                    대본 무료 열람하기
                   </button>
                   <button id="purchase-btn" onClick={onClickPurchase} disabled={!isOptionSelected}>
                     구매하기
@@ -758,9 +772,7 @@ const Detail = () => {
                   .filter(Boolean)
                   .join(" / ")}
               />
-              <InfoItem label="무대" value={`${script?.stageComment}`} />
               <InfoItem label="공연 시간" value={`약 ${script?.runningTime}분`} />
-              <InfoItem label="막과 장" value={`${script?.act}막 ${script?.scene}장`} />
             </div>
           </div>
 

@@ -21,7 +21,7 @@ import useWindowDimensions from "@/hooks/useWindowDimensions";
 import grayCheckIcon from "@/assets/image/myPage/ic_gray_check.svg";
 import puppleCheckIcon from "@/assets/image/myPage/ic_pupple_check.svg";
 import stickIcon from "@/assets/image/myPage/ic_stick.svg";
-import puppleLine from "@/assets/image/myPage/pupple_line.svg";
+import puppleLine from "@/assets/image/myPage/pupple_dot_line.svg";
 import circleInfoBtn from "@/assets/image/button/circleInfoBtn.svg";
 import Cookies from "js-cookie";
 
@@ -279,7 +279,7 @@ const PostManageDetail: React.FC = () => {
                   isSmallMobile ? "p-small-bold mb-[8px]" : "p-medium-bold mb-[10px]"
                 }`}
               >
-                작품 정보
+                <span className="text-main p-medium-bold">*</span>작품 정보
               </p>
 
               <div className={`f-dir-column ${isSmallMobile ? "gap-[8px]" : "gap-[10px]"}`}>
@@ -335,13 +335,13 @@ const PostManageDetail: React.FC = () => {
           <div className="flex flex-col ">
             {/* --- 개요 --- */}
             <div className="flex flex-col mt-[15px] mb-[11px]">
-              <h2 className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>개요</h2>
+              <h2 className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>
+                <span className="text-main p-medium-bold">*</span>개요
+              </h2>
               <div className="box-border relative outline1">
                 {/* 등장인물 */}
-                <div className=" characters">
-                  <div
-                    className={`box-border flex flex-row  ${isSmallMobile ? "" : "items-center"}`}
-                  >
+                <div className="characters">
+                  <div className="box-border flex flex-row items-center">
                     {" "}
                     <img
                       src={hasActors ? puppleCheckIcon : grayCheckIcon}
@@ -349,7 +349,7 @@ const PostManageDetail: React.FC = () => {
                       alt="입력 체크"
                     />
                     <span
-                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                      className={` whitespace-nowrap flex-grow ${
                         isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
@@ -360,7 +360,7 @@ const PostManageDetail: React.FC = () => {
                   <img src={stickIcon} className={`${isSmallMobile ? "h-[16px]" : "h-[20px]"}`} />
 
                   <div
-                    className={`flex whitespace-nowrap translate-y-[-2px]  ${
+                    className={`flex whitespace-nowrap ${
                       isSmallMobile ? "p-12-regular flex-col " : "p-small-regular  flex-row"
                     }`}
                   >
@@ -545,7 +545,7 @@ const PostManageDetail: React.FC = () => {
                       alt="입력 체크"
                     />
                     <span
-                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
+                      className={` whitespace-nowrap flex-grow ${
                         isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
                       }`}
                     >
@@ -609,132 +609,6 @@ const PostManageDetail: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                {/* 무대 */}
-                <div className="stage ">
-                  <div className="box-border flex flex-row items-center ">
-                    {" "}
-                    <img
-                      src={hasValidStageComment ? puppleCheckIcon : grayCheckIcon}
-                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
-                      alt="입력 체크"
-                    />
-                    <span
-                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
-                      }`}
-                    >
-                      무대
-                    </span>
-                  </div>
-                  <img
-                    className={` my-auto ${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
-                    src={stickIcon}
-                    alt="구분선"
-                  />
-                  <textarea
-                    className={`h-full focus:outline-none  focus:border-[0.5px] py-[8px] focus:border-[#caabff] p-xs-regular resize-none   rounded-[5px] border-[0.5px] border-[#BABABA] bg-[#FFF]   placeholder:text-[rgba(0,0,0,0.17)] box-border ${
-                      isSmallMobile ? "px-[3.125vw]   " : "px-[10px] w-[260px] "
-                    }`}
-                    placeholder="시기, 장소 등을 자유롭게 적어주세요."
-                    value={form.stageComment ?? ""}
-                    onChange={(e) => {
-                      const value = e.target.value;
-                      if (value.length <= 30) {
-                        setForm((prev) => ({ ...prev, stageComment: value }));
-                      }
-                    }}
-                  />
-                </div>
-                {/* 장과 막 */}
-                <div className="scene-act">
-                  <div className="box-border flex flex-row items-center ">
-                    {" "}
-                    <img
-                      src={hasSceneOrAct ? puppleCheckIcon : grayCheckIcon}
-                      className={`aspect-square ${isSmallMobile ? "w-[5vw]" : "w-[20px]"}`}
-                      alt="입력 체크"
-                    />
-                    <span
-                      className={` whitespace-nowrap translate-y-[1px] flex-grow ${
-                        isSmallMobile ? "p-12-bold  ml-[1.56vw]" : " p-small-medium ml-[6px]"
-                      }`}
-                    >
-                      막과 장
-                    </span>
-                  </div>
-                  <img
-                    src={stickIcon}
-                    className={` my-auto ${isSmallMobile ? "h-[16px]" : "h-[20px]"}`}
-                  />
-                  <div className="flex flex-row items-center whitespace-nowrap">
-                    <input
-                      type="text"
-                      placeholder="00"
-                      id="act"
-                      value={form.act === 0 && !isTouched.act ? "" : String(form.act ?? "")}
-                      className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
-                        isSmallMobile
-                          ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
-                          : "ml-[5px] mr-[2px] w-[27px] p-small-regular "
-                      }`}
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        setIsTouched((prev) => ({ ...prev, act: true }));
-
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, act: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            act: Number(value),
-                          }));
-                        }
-                      }}
-                    />
-                    <span
-                      className={`whitespace-nowrap  ${
-                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
-                      }`}
-                    >
-                      막
-                    </span>
-                    <input
-                      type="text"
-                      placeholder="00"
-                      id="scene"
-                      value={form.scene === 0 && !isTouched.scene ? "" : String(form.scene ?? "")}
-                      className={`box-border focus:outline-none focus:border-[0.5px] focus:border-[#caabff] text-center  placeholder-[rgba(0,0,0,0.17)] border-[#BABABA] rounded-[5px] border-[0.5px] ${
-                        isSmallMobile
-                          ? "ml-[1.56vw] mr-[0.94vw] w-[7.81vw] p-12-regular "
-                          : "ml-[5px] mr-[2px] w-[27px] p-small-regular "
-                      }`}
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        setIsTouched((prev) => ({ ...prev, scene: true }));
-
-                        // 빈 문자열 입력 시 → 상태를 빈 문자열로 유지
-                        if (value === "") {
-                          setForm((prev) => ({ ...prev, scene: undefined })); // 또는 null
-                        } else if (/^\d{0,2}$/.test(value)) {
-                          setForm((prev) => ({
-                            ...prev,
-                            scene: Number(value),
-                          }));
-                        }
-                      }}
-                    />
-                    <span
-                      className={`whitespace-nowrap  ${
-                        isSmallMobile ? "p-12-regular  " : "p-small-regular  "
-                      }`}
-                    >
-                      장
-                    </span>
-                  </div>
-                </div>
 
                 <img src={puppleLine} className="absolute left-[376px] pupple-contour"></img>
               </div>
@@ -742,7 +616,7 @@ const PostManageDetail: React.FC = () => {
 
             <div className="flex flex-col gap-[9px] mb-[15px]">
               <span className={`${isSmallMobile ? "p-small-bold" : "p-medium-bold "}`}>
-                작가 의도{" "}
+                <span className="text-main p-medium-bold">*</span>작가 의도{" "}
               </span>
               <div className="intention-div relative  focus-within:outline-none focus-within:border-[0.5px]  focus-within:border-[#caabff] rounded-[5px] border-[0.5px] border-[#BABABA] ">
                 <textarea

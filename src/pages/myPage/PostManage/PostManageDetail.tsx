@@ -207,9 +207,8 @@ const PostManageDetail: React.FC = () => {
 
   // 활성화 조건
   const totalActors = Number(form.male ?? 0) + Number(form.female ?? 0) + Number(form.any ?? 0);
-  const hasValidTitle = form.title?.trim() !== "" && form.title !== null;
-  const hasValidPlot = form.plot?.trim() !== "" && form.plot !== null;
-  const hasValidStageComment = form.stageComment?.trim() !== "" && form.stageComment !== null;
+  const hasValidTitle = Boolean(form.title?.trim());
+  const hasValidPlot = Boolean(form.plot?.trim());
   const hasActors = totalActors > 0;
   const hasRunningTime = (form.runningTime ?? 0) > 0;
   // const hasValidPerformancePrice =
@@ -221,7 +220,6 @@ const PostManageDetail: React.FC = () => {
     return (
       hasValidTitle &&
       hasValidPlot &&
-      hasValidStageComment &&
       hasActors &&
       hasRunningTime
       // hasValidPerformancePrice

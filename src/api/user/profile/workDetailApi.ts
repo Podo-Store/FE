@@ -21,8 +21,8 @@ export interface WorkDetailResponse {
   female: number;
   stageComment: string;
   runningTime: number;
-  scene: number; // 장
-  act: number; // 막
+  scene?: number; // 장: 서버 응답에서 생략될 수 있음
+  act?: number; // 막: 서버 응답에서 생략될 수 있음
   intention: string;
 }
 

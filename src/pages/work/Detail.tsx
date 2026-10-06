@@ -70,8 +70,6 @@ export interface PostDetail {
   female: number;
   stageComment: string;
   runningTime: number;
-  scene: number;
-  act: number;
   isMine: boolean;
   isReviewWritten: boolean;
   reviewStatistics: ReviewStatistics;
@@ -181,8 +179,6 @@ const Detail = () => {
           female: response.data.female,
           stageComment: response.data.stageComment,
           runningTime: response.data.runningTime,
-          scene: response.data.scene,
-          act: response.data.act,
           isMine: response.data.isMine,
           isReviewWritten: response.data.isReviewWritten,
           reviewStatistics: response.data.reviewStatistics,

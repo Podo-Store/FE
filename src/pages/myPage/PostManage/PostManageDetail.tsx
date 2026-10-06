@@ -90,8 +90,6 @@ const PostManageDetail: React.FC = () => {
     male: false,
     female: false,
     runningTime: false,
-    scene: false,
-    act: false,
   });
 
   //  이미지
@@ -192,6 +190,8 @@ const PostManageDetail: React.FC = () => {
         setForm({
           ...data,
           title: trimmedTitle,
+          scene: data.scene ?? 0,
+          act: data.act ?? 0,
           intention: normalizeLineBreaks(data.intention),
           plot: normalizeLineBreaks(data.plot),
         });
@@ -212,7 +212,6 @@ const PostManageDetail: React.FC = () => {
   const hasValidStageComment = form.stageComment?.trim() !== "" && form.stageComment !== null;
   const hasActors = totalActors > 0;
   const hasRunningTime = (form.runningTime ?? 0) > 0;
-  const hasSceneOrAct = (form.scene ?? 0) + (form.act ?? 0) > 0;
   // const hasValidPerformancePrice =
   //   form.script && form.performance
   //     ? (form.performancePrice ?? -1) <= 50000
@@ -224,8 +223,7 @@ const PostManageDetail: React.FC = () => {
       hasValidPlot &&
       hasValidStageComment &&
       hasActors &&
-      hasRunningTime &&
-      hasSceneOrAct
+      hasRunningTime
       // hasValidPerformancePrice
     );
   };

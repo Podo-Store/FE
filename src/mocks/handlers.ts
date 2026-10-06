@@ -628,8 +628,8 @@ interface ManagedWork {
   female: number;
   stageComment: string;
   runningTime: number;
-  scene: number;
-  act: number;
+  scene?: number;
+  act?: number;
 }
 
 // 작품 관리 화면에서 심사/판매 상태별 UI를 한 번에 확인하기 위한 개발용 데이터입니다.
@@ -974,8 +974,8 @@ export const handlers = [
       female: Number(form.get("female") ?? current.female),
       stageComment: String(form.get("stageComment") ?? current.stageComment),
       runningTime: Number(form.get("runningTime") ?? current.runningTime),
-      scene: Number(form.get("scene") ?? current.scene),
-      act: Number(form.get("act") ?? current.act),
+      scene: Number(form.get("scene") ?? current.scene ?? 0),
+      act: Number(form.get("act") ?? current.act ?? 0),
     };
     return HttpResponse.json(true);
   }),

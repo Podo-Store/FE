@@ -4,6 +4,9 @@ import React, { useState, useEffect, useRef } from "react";
 import leftBtn from "../../assets/image/post/list/leftBtn.svg";
 import rightBtn from "../../assets/image/post/list/rightBtn.svg";
 import "./infiniteBanner.scss";
+import ContestWinnersBannerDefault from "@/assets/image/banner/contestWinners/banner_contestWinners_default.png";
+import ContestWinnersBanner1280 from "@/assets/image/banner/contestWinners/banner_contestWinners_1280.png";
+import ContestWinnersBanner768 from "@/assets/image/banner/contestWinners/banner_contestWinners_768.png";
 import PodoalBanner1280 from "@/assets/image/banner/podoal_banner_1280.png";
 import PodoalBannerDefault from "@/assets/image/postList_banner.png";
 import PodoalBanner768 from "@/assets/image/banner/podoal_banner_768.png";
@@ -38,6 +41,14 @@ interface InfiniteBannerProps {
 
 const InfiniteBanner = ({
   banners = [
+    {
+      image: {
+        default: ContestWinnersBannerDefault,
+        md: ContestWinnersBanner768,
+        lg: ContestWinnersBanner1280,
+      },
+      link: "https://brunch.co.kr/@651b8cc89832412",
+    },
     {
       image: {
         default: PlayContestBannerDefault,

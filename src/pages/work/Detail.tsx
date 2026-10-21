@@ -127,6 +127,17 @@ const Detail = () => {
   const accessToken = Cookies.get("accessToken");
 
   const inflightRef = useRef<Map<string, boolean>>(new Map());
+  const lastTrackedScriptId = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!id || script?.id !== id || !script.title || lastTrackedScriptId.current === id) return;
+    lastTrackedScriptId.current = id;
+    const fbq = (window as Window & { fbq?: (...args: unknown[]) => void }).fbq;
+    fbq?.("track", "ViewContent", {
+      content_name: script.title,
+      content_category: "script_view",
+    });
+  }, [id, script]);
 
   // 무료 대본은 열람 버튼으로만 제공하고 구매 옵션에는 포함하지 않음
   const canPurchaseScript = Boolean(

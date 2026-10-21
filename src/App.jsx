@@ -1,5 +1,5 @@
 // App.jsx
-import { Suspense, lazy } from "react";
+import { Suspense, lazy, useEffect, useRef } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import DefaultLayout from "./layouts/DefaultLayout";
@@ -68,6 +68,14 @@ const PostView = lazy(() => import("./pages/work/PostView"));
 function App() {
   const location = useLocation();
   const { state } = location;
+  const pageUrl = `${location.pathname}${location.search}`;
+  const previousPageUrl = useRef(pageUrl);
+
+  useEffect(() => {
+    if (previousPageUrl.current === pageUrl) return;
+    previousPageUrl.current = pageUrl;
+    window.fbq?.("track", "PageView");
+  }, [pageUrl]);
 
   return (
     <div className="App">

@@ -3,20 +3,14 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PriceTextsHorizontal from "../price/PriceTextsHorizontal";
 import LikeViewCount from "@/components/list/LikeViewCount";
+import { ContestWinnerBadge } from "./ContestWinnerBadge";
 
 import defaultImg_noneBorder from "../../assets/image/post/list/defaultProfile_noneBorder.png";
-import contestWinnerBadge from "../../assets/image/post/list/contestWinnerBadge.svg";
 import heartIcon from "../../assets/image/post/ic_heart.svg";
 import redHeartIcon from "../../assets/image/post/ic_red_heart.svg";
 import { ScriptItem } from "@/api/user/postListApi";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
-
-const contestWinnerIds = new Set([
-  "8160b27e-27c4-4e2b-b8f6-276f07777e8a", // 내 삶은 이곳으로
-  "9fe41c1e-e0b8-4630-bd3d-523de35c1725", // 영웅은 죽어야만 한다
-  "f7ac34ef-5d4a-42d0-a409-61be86b5b8e8", // 코넬리우스
-]);
 
 interface Props {
   posts: ScriptItem;
@@ -72,17 +66,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike, priority = false }:
             event.currentTarget.src = defaultImg_noneBorder;
           }}
         />
-        {contestWinnerIds.has(posts.id) && (
-          <span className="pointer-events-none absolute left-[10px] top-[10px] z-10 flex h-[22px] w-[67px] items-center justify-center whitespace-nowrap p-xs-medium text-[var(--purple4)]">
-            <img
-              src={contestWinnerBadge}
-              alt=""
-              aria-hidden="true"
-              className="absolute inset-0 h-full w-full"
-            />
-            <span className="relative">공모전 당선작</span>
-          </span>
-        )}
+        <ContestWinnerBadge scriptId={posts.id} />
         <div className="absolute bottom-[8px] right-[10px] aspect-square w-[35px] max-[479px]:bottom-[6px] max-[479px]:right-[7px] max-[479px]:w-[27px]">
           <button onClick={handleLikeClick}>
             <img

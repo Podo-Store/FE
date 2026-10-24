@@ -16,6 +16,7 @@ import Select from "../../components/select/Select";
 import InfoItem from "@/components/detail/InfoItem";
 import ReviewSummary from "@/components/detail/ReviewSummary";
 import LikeViewCount from "@/components/list/LikeViewCount";
+import { ContestWinnerBadge } from "@/components/post/ContestWinnerBadge";
 
 import useWindowDimensions from "@/hooks/useWindowDimensions";
 import { useSingleToggleLike } from "@/hooks/useToggleLike";
@@ -454,6 +455,7 @@ const Detail = () => {
                 alt={script?.title}
                 className="object-contain w-full h-full thumbnail"
               />
+              <ContestWinnerBadge scriptId={script?.id === id ? id : undefined} variant="detail" />
               <div className="absolute right-[7px] bottom-[6px] sm:right-[14px] sm:bottom-[14px] md:right-[20px] md:bottom-[20px] lg:right-[30px] lg:bottom-[30px] transition-all duration-100 hover:scale-[1.2]">
                 <button
                   onClick={() => {

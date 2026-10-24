@@ -7,12 +7,33 @@ interface WarningModalProps {
 }
 
 const WarningModal = ({ onClose }: WarningModalProps) => {
-  //   useEffect(() => {
-  //     document.body.style.overflow = "hidden"; // 스크롤 잠금
-  //     return () => {
-  //       document.body.style.overflow = "auto"; // 모달 닫히면 복구
-  //     };
-  //   }, []);
+  useEffect(() => {
+    const scrollY = window.scrollY;
+    const body = document.body;
+    const root = document.documentElement;
+    const previous = {
+      bodyOverflow: body.style.overflow,
+      bodyPosition: body.style.position,
+      bodyTop: body.style.top,
+      bodyWidth: body.style.width,
+      rootOverflow: root.style.overflow,
+    };
+
+    root.style.overflow = "hidden";
+    body.style.overflow = "hidden";
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.width = "100%";
+
+    return () => {
+      root.style.overflow = previous.rootOverflow;
+      body.style.overflow = previous.bodyOverflow;
+      body.style.position = previous.bodyPosition;
+      body.style.top = previous.bodyTop;
+      body.style.width = previous.bodyWidth;
+      window.scrollTo(0, scrollY);
+    };
+  }, []);
 
   const { widthConditions } = useWindowDimensions();
   const { isSmallMobile } = widthConditions;

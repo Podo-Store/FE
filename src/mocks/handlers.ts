@@ -1085,6 +1085,27 @@ export const handlers = [
     });
   }),
 
+  // 대본 열람: 실제 화면과 스토리북에서 동일한 테스트 PDF를 사용합니다.
+  http.get(`${BASE}/scripts/view`, async ({ request }) => {
+    const id = new URL(request.url).searchParams.get("script") ?? "";
+    const work = findDetailWork(id);
+    if (!work) return HttpResponse.json({ error: "상품을 찾을 수 없습니다." }, { status: 404 });
+
+    const pdf = await getPdfResponse();
+    return new HttpResponse(pdf, {
+      headers: { "Content-Type": "application/pdf" },
+    });
+  }),
+
+  http.get(`${BASE}/scripts/likeStatus/:id`, ({ params }) => {
+    const id = String(params.id);
+    const work = findDetailWork(id);
+    if (!work) return HttpResponse.json({ error: "상품을 찾을 수 없습니다." }, { status: 404 });
+
+    const listed = [...longPlays, ...shortPlays].find((script) => script.id === id);
+    return HttpResponse.json(detailEngagement.get(id)?.like ?? listed?.like ?? false);
+  }),
+
   http.post(`${BASE}/scripts/review/like/:id`, ({ params }) => {
     const review = detailReviews.find((item) => item.id === params.id);
     if (!review) return HttpResponse.json({ error: "후기를 찾을 수 없습니다." }, { status: 404 });

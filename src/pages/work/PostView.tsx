@@ -243,6 +243,8 @@ const PostView: React.FC = () => {
   }, [numPages, pdfBlobUrl]);
 
   const handlePageChange = (page: number) => {
+    if (showWarningModal) return;
+
     const target = document.getElementById(`page-${page}`);
     if (target) {
       isProgrammaticScroll.current = true;
@@ -346,7 +348,7 @@ const PostView: React.FC = () => {
                 >
                   {Array.from(new Array(numPages), (_, index) => (
                     <div
-                      className="z-0"
+                      className="relative"
                       id={`page-${index + 1}`}
                       key={`page-${index + 1}`}
                     >
@@ -356,6 +358,12 @@ const PostView: React.FC = () => {
                         renderTextLayer={false}
                         renderAnnotationLayer={false}
                       />
+                      {index === 0 && showWarningModal && (
+                        <div
+                          className="absolute inset-0 z-[1] bg-[#535353]"
+                          aria-hidden="true"
+                        />
+                      )}
                     </div>
                   ))}
                 </PdfDocument>
@@ -482,6 +490,7 @@ const PostView: React.FC = () => {
                   min={1}
                   max={numPages ?? 1}
                   value={currentPage}
+                  disabled={showWarningModal}
                   onChange={(e) => handlePageChange(Number(e.target.value))}
                   className="w-full accent-[#6A39C0] h-[3px]"
                 />

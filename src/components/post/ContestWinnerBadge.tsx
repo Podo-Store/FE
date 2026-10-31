@@ -19,6 +19,7 @@ export const ContestWinnerBadge = ({ scriptId, variant = "card" }: Props) => {
     <span
       className={clsx(
         "pointer-events-none absolute left-[10px] top-[10px] z-10 flex h-[22px] w-[67px] items-center justify-center whitespace-nowrap p-xs-medium text-[var(--purple4)]",
+        variant === "card" && "group-hover:hidden",
         variant === "detail" &&
           "md:left-[16px] md:top-[16px] md:h-[33px] md:w-[100px] md:text-[14px] md:leading-[20px]"
       )}

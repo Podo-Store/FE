@@ -41,7 +41,7 @@ export const OnePostCard = ({ posts, viewType, onToggleLike, priority = false }:
   return (
     <div
       key={posts.id}
-      className="flex w-full max-w-[197px] max-[479px]:w-[120px] flex-col items-center cursor-pointer"
+      className="group flex w-full max-w-[197px] max-[479px]:w-[120px] flex-col items-center cursor-pointer"
       onClick={handleCardClick}
     >
       {/* 이미지 */}

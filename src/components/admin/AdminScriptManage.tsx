@@ -242,7 +242,6 @@ const AdminScriptManage = () => {
     PASS: "수락",
     RE_PASS: "재심사 수락",
     REJECT: "거절",
-    RE_REJECT: "재심사 거절",
   };
 
   return (
@@ -295,24 +294,6 @@ const AdminScriptManage = () => {
               onClick={() => setFilterStatus("REJECT")}
             >
               등록 거절
-            </Button>
-            <Button
-              variant={filterStatus === "RE_PASS" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("RE_PASS")}
-            >
-              재심사 수락
-            </Button>
-            <Button
-              variant={filterStatus === "RE_WAIT" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("RE_WAIT")}
-            >
-              재심사 대기
-            </Button>
-            <Button
-              variant={filterStatus === "RE_REJECT" ? "contained" : "outlined"}
-              onClick={() => setFilterStatus("RE_REJECT")}
-            >
-              재심사 거절
             </Button>
           </span>
         </div>
@@ -385,7 +366,7 @@ const AdminScriptManage = () => {
                         backgroundColor:
                           item.checked === "PASS" || item.checked === "RE_PASS"
                             ? "#C8E6C9"
-                            : item.checked === "REJECT" || item.checked === "RE_REJECT"
+                            : item.checked === "REJECT"
                             ? "#FFCDD2"
                             : "#E2E2E2",
                       }}
@@ -450,7 +431,7 @@ const AdminScriptManage = () => {
                             <DenySvg
                               className="cursor-pointer"
                               onClick={() => {
-                                onChangePermission(item.id, "RE_REJECT");
+                                onChangePermission(item.id, "REJECT");
                               }}
                             />
                           </>
@@ -487,25 +468,7 @@ const AdminScriptManage = () => {
                               fill="#bababa"
                               className="cursor-pointer"
                               onClick={() => {
-                                onChangePermission(item.id, "RE_REJECT");
-                              }}
-                            />
-                          </>
-                        ) : item.checked === "RE_REJECT" ? (
-                          <>
-                            <AcceptSvg
-                              fill="#bababa"
-                              className="cursor-pointer"
-                              onClick={() => {
-                                onChangePermission(item.id, "PASS");
-                              }}
-                            />
-                            <DenySvg
-                              fill="#6A39C0"
-                              opacity="0.5"
-                              className="cursor-pointer"
-                              onClick={() => {
-                                onChangePermission(item.id, "RE_WAIT");
+                                onChangePermission(item.id, "REJECT");
                               }}
                             />
                           </>

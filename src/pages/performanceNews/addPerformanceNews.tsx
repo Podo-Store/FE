@@ -8,6 +8,7 @@ import defaultThumbnail from "@/assets/image/defaultThumbnail.png";
 import { useRegisterPerformance } from "@/feature/performanceNews/performanceRegister/queries";
 import { usePerformanceDetail } from "@/feature/performanceNews/performanceDetail/queries";
 import { useUpdatePerformanceNews } from "@/feature/performanceNews/performanceEdit/queries";
+import { resizeImage } from "@/utils/resizeImage";
 
 const AddPerformanceNews = ({ mode }: { mode: "create" | "edit" }) => {
   const navigate = useNavigate();
@@ -213,9 +214,11 @@ const AddPerformanceNews = ({ mode }: { mode: "create" | "edit" }) => {
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files?.[0] ?? null;
-                  setPosterFile(file);
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = ""; // 같은 파일을 다시 선택해도 onChange가 동작하도록
+                  if (!file) return;
+                  setPosterFile(await resizeImage(file, 2000));
                 }}
               />
             </DefaultThumbnail>

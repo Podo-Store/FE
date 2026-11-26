@@ -1,17 +1,16 @@
-const SKIP_TYPES = ["image/gif", "image/svg+xml"];
-const KEEP_TYPES = ["image/png", "image/webp"];
-const EXTENSIONS: Record<string, string> = {
-  "image/jpeg": ".jpg",
-  "image/png": ".png",
-  "image/webp": ".webp",
-};
+// 백엔드는 JPEG·PNG만 받으므로 그 외 형식(WebP·HEIC·GIF 등)은 JPEG로 변환한다.
+const ALLOWED_TYPES = ["image/jpeg", "image/png"];
 
 /**
- * 이미지의 긴 변이 maxSize(px)를 넘으면 비율을 유지한 채 축소한다.
- * maxSize 이하이거나 축소할 수 없는 형식이면 원본 파일을 그대로 반환한다.
+ * 업로드용 이미지를 준비한다.
+ * - 긴 변이 maxSize(px)를 넘으면 비율을 유지한 채 축소한다.
+ * - JPEG·PNG가 아니면 크기와 상관없이 JPEG로 변환한다.
+ * - JPEG·PNG이면서 maxSize 이하이면 원본을 그대로 반환한다.
  */
 export async function resizeImage(file: File, maxSize = 2000, quality = 0.9): Promise<File> {
-  if (!file.type.startsWith("image/") || SKIP_TYPES.includes(file.type)) return file;
+  if (!file.type.startsWith("image/")) return file;
+
+  const isAllowedType = ALLOWED_TYPES.includes(file.type);
 
   let bitmap: ImageBitmap;
   try {
@@ -21,12 +20,13 @@ export async function resizeImage(file: File, maxSize = 2000, quality = 0.9): Pr
   }
 
   const { width, height } = bitmap;
-  if (Math.max(width, height) <= maxSize) {
+  const needsResize = Math.max(width, height) > maxSize;
+  if (!needsResize && isAllowedType) {
     bitmap.close();
     return file;
   }
 
-  const scale = maxSize / Math.max(width, height);
+  const scale = needsResize ? maxSize / Math.max(width, height) : 1;
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(width * scale);
   canvas.height = Math.round(height * scale);
@@ -36,17 +36,19 @@ export async function resizeImage(file: File, maxSize = 2000, quality = 0.9): Pr
     bitmap.close();
     return file;
   }
+
+  const type = file.type === "image/png" ? "image/png" : "image/jpeg";
+  if (type === "image/jpeg") {
+    // 투명 배경이 검게 나오지 않도록 흰 배경을 깐다.
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  }
   ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
   bitmap.close();
 
-  // PNG·WebP는 형식을 유지하고, 그 외(HEIC 등)는 JPEG로 변환한다.
-  const type = KEEP_TYPES.includes(file.type) ? file.type : "image/jpeg";
   const blob = await new Promise<Blob | null>((resolve) => canvas.toBlob(resolve, type, quality));
   if (!blob) return file;
 
-  // WebP 인코딩을 지원하지 않는 브라우저는 PNG로 돌려주므로 실제 blob 형식 기준으로 확장자를 맞춘다.
-  const outType = blob.type || type;
-  const ext = EXTENSIONS[outType];
-  const name = file.type === outType || !ext ? file.name : file.name.replace(/\.[^.]+$/, "") + ext;
-  return new File([blob], name, { type: outType });
+  const name = file.type === type ? file.name : file.name.replace(/\.[^.]+$/, "") + ".jpg";
+  return new File([blob], name, { type });
 }
